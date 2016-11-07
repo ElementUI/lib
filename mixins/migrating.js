@@ -1,5 +1,3 @@
-'use strict';
-
 exports.__esModule = true;
 /**
  * Show migrating guide in browser console.

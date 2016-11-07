@@ -1,5 +1,3 @@
-'use strict';
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 /**
@@ -1133,13 +1131,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      */
     function getBoundingClientRect(element) {
         var rect = element.getBoundingClientRect();
+
+        // whether the IE version is lower than 11
+        var isIE = navigator.userAgent.indexOf("MSIE") != -1;
+
+        // fix ie document bouding top always 0 bug
+        var rectTop = isIE && element.tagName === 'HTML' ? -element.scrollTop : rect.top;
+
         return {
             left: rect.left,
-            top: rect.top,
+            top: rectTop,
             right: rect.right,
             bottom: rect.bottom,
             width: rect.right - rect.left,
-            height: rect.bottom - rect.top
+            height: rect.bottom - rectTop
         };
     }
 

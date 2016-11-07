@@ -1,5 +1,3 @@
-'use strict';
-
 exports.__esModule = true;
 
 var _locale = require('element-ui/lib/locale');

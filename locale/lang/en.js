@@ -1,5 +1,3 @@
-'use strict';
-
 exports.__esModule = true;
 exports.default = {
   el: {
@@ -7,7 +5,7 @@ exports.default = {
       now: 'Now',
       today: 'Today',
       cancel: 'Cancel',
-      // clear: 'Clear',
+      clear: 'Clear',
       confirm: 'OK',
       selectDate: 'Select date',
       selectTime: 'Select time',

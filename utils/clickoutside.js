@@ -1,5 +1,3 @@
-'use strict';
-
 exports.__esModule = true;
 
 var _event = require('wind-dom/src/event');
@@ -49,7 +47,6 @@ exports.default = {
     for (var i = 0; i < len; i++) {
       if (nodeList[i][ctx].id === el[ctx].id) {
         nodeList.splice(i, 1);
-        delete el[ctx];
         break;
       }
     }
