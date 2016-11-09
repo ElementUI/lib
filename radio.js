@@ -46,36 +46,42 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(183);
+	module.exports = __webpack_require__(185);
 
 
 /***/ },
 
-/***/ 183:
+/***/ 185:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElRadio = __webpack_require__(184);
+	exports.__esModule = true;
+
+	var _radio = __webpack_require__(186);
+
+	var _radio2 = _interopRequireDefault(_radio);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElRadio.install = function (Vue) {
-	  Vue.component('el-radio', ElRadio);
+	_radio2.default.install = function (Vue) {
+	  Vue.component('el-radio', _radio2.default);
 	};
 
-	module.exports = ElRadio;
+	exports.default = _radio2.default;
 
 /***/ },
 
-/***/ 184:
+/***/ 186:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(185)
+	__vue_exports__ = __webpack_require__(187)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(186)
+	var __vue_template__ = __webpack_require__(188)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -95,7 +101,7 @@ module.exports =
 
 /***/ },
 
-/***/ 185:
+/***/ 187:
 /***/ function(module, exports) {
 
 	exports.__esModule = true;
@@ -161,7 +167,7 @@ module.exports =
 
 /***/ },
 
-/***/ 186:
+/***/ 188:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {

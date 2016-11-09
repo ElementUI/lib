@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(203);
+	module.exports = __webpack_require__(205);
 
 
 /***/ },
@@ -155,38 +155,44 @@ module.exports =
 
 /***/ },
 
-/***/ 147:
+/***/ 149:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 203:
+/***/ 205:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElSelect = __webpack_require__(204);
+	exports.__esModule = true;
+
+	var _select = __webpack_require__(206);
+
+	var _select2 = _interopRequireDefault(_select);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElSelect.install = function (Vue) {
-	  Vue.component(ElSelect.name, ElSelect);
+	_select2.default.install = function (Vue) {
+	  Vue.component(_select2.default.name, _select2.default);
 	};
 
-	module.exports = ElSelect;
+	exports.default = _select2.default;
 
 /***/ },
 
-/***/ 204:
+/***/ 206:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(205)
+	__vue_exports__ = __webpack_require__(207)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(213)
+	var __vue_template__ = __webpack_require__(215)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -206,7 +212,7 @@ module.exports =
 
 /***/ },
 
-/***/ 205:
+/***/ 207:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -223,15 +229,15 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _selectDropdown = __webpack_require__(206);
+	var _selectDropdown = __webpack_require__(208);
 
 	var _selectDropdown2 = _interopRequireDefault(_selectDropdown);
 
-	var _tag = __webpack_require__(209);
+	var _tag = __webpack_require__(211);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _debounce = __webpack_require__(210);
+	var _debounce = __webpack_require__(212);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -241,9 +247,9 @@ module.exports =
 
 	var _class = __webpack_require__(68);
 
-	var _resizeEvent = __webpack_require__(212);
+	var _resizeEvent = __webpack_require__(214);
 
-	var _locale3 = __webpack_require__(147);
+	var _locale3 = __webpack_require__(149);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -345,17 +351,17 @@ module.exports =
 	    },
 	    emptyText: function emptyText() {
 	      if (this.loading) {
-	        return this.$t('el.select.loading');
+	        return this.t('el.select.loading');
 	      } else {
 	        if (this.voidRemoteQuery) {
 	          this.voidRemoteQuery = false;
 	          return false;
 	        }
 	        if (this.filterable && this.filteredOptionsCount === 0) {
-	          return this.$t('el.select.noMatch');
+	          return this.t('el.select.noMatch');
 	        }
 	        if (this.options.length === 0) {
-	          return this.$t('el.select.noData');
+	          return this.t('el.select.noData');
 	        }
 	      }
 	      return null;
@@ -384,7 +390,7 @@ module.exports =
 	    multiple: Boolean,
 	    placeholder: {
 	      type: String,
-	      default: (0, _locale3.$t)('el.select.placeholder')
+	      default: (0, _locale3.t)('el.select.placeholder')
 	    }
 	  },
 
@@ -796,17 +802,17 @@ module.exports =
 
 /***/ },
 
-/***/ 206:
+/***/ 208:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(207)
+	__vue_exports__ = __webpack_require__(209)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(208)
+	var __vue_template__ = __webpack_require__(210)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -826,7 +832,7 @@ module.exports =
 
 /***/ },
 
-/***/ 207:
+/***/ 209:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -894,7 +900,7 @@ module.exports =
 
 /***/ },
 
-/***/ 208:
+/***/ 210:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {
@@ -911,19 +917,19 @@ module.exports =
 
 /***/ },
 
-/***/ 209:
+/***/ 211:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 210:
+/***/ 212:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* eslint-disable no-undefined */
 
-	var throttle = __webpack_require__(211);
+	var throttle = __webpack_require__(213);
 
 	/**
 	 * Debounce execution of a function. Debouncing, unlike throttling,
@@ -946,7 +952,7 @@ module.exports =
 
 /***/ },
 
-/***/ 211:
+/***/ 213:
 /***/ function(module, exports) {
 
 	/* eslint-disable no-undefined,no-param-reassign,no-shadow */
@@ -1044,14 +1050,14 @@ module.exports =
 
 /***/ },
 
-/***/ 212:
+/***/ 214:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ },
 
-/***/ 213:
+/***/ 215:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {

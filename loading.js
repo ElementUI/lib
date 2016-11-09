@@ -51,90 +51,38 @@ module.exports =
 
 /***/ },
 
-/***/ 68:
+/***/ 52:
 /***/ function(module, exports) {
 
-	var trim = function (string) {
-	  return (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
-	};
-
-	var hasClass = function (el, cls) {
-	  if (!el || !cls) return false;
-	  if (cls.indexOf(' ') != -1) throw new Error('className should not contain space.');
-	  if (el.classList) {
-	    return el.classList.contains(cls);
-	  } else {
-	    return (' ' + el.className + ' ').indexOf(' ' + cls + ' ') > -1;
-	  }
-	};
-
-	var addClass = function (el, cls) {
-	  if (!el) return;
-	  var curClass = el.className;
-	  var classes = (cls || '').split(' ');
-
-	  for (var i = 0, j = classes.length; i < j; i++) {
-	    var clsName = classes[i];
-	    if (!clsName) continue;
-
-	    if (el.classList) {
-	      el.classList.add(clsName);
-	    } else {
-	      if (!hasClass(el, clsName)) {
-	        curClass += ' ' + clsName;
-	      }
-	    }
-	  }
-	  if (!el.classList) {
-	    el.className = curClass;
-	  }
-	};
-
-	var removeClass = function (el, cls) {
-	  if (!el || !cls) return;
-	  var classes = cls.split(' ');
-	  var curClass = ' ' + el.className + ' ';
-
-	  for (var i = 0, j = classes.length; i < j; i++) {
-	    var clsName = classes[i];
-	    if (!clsName) continue;
-
-	    if (el.classList) {
-	      el.classList.remove(clsName);
-	    } else {
-	      if (hasClass(el, clsName)) {
-	        curClass = curClass.replace(' ' + clsName + ' ', ' ');
-	      }
-	    }
-	  }
-	  if (!el.classList) {
-	    el.className = trim(curClass);
-	  }
-	};
-
-	module.exports = {
-	  hasClass: hasClass,
-	  addClass: addClass,
-	  removeClass: removeClass
-	};
+	module.exports = require("vue");
 
 /***/ },
 
 /***/ 119:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(120);
+	exports.__esModule = true;
+
+	var _directive = __webpack_require__(120);
+
+	var _directive2 = _interopRequireDefault(_directive);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _directive2.default;
 
 /***/ },
 
 /***/ 120:
 /***/ function(module, exports, __webpack_require__) {
 
-	var _spinner = __webpack_require__(121);
+	var _vue = __webpack_require__(52);
 
-	var _spinner2 = _interopRequireDefault(_spinner);
+	var _vue2 = _interopRequireDefault(_vue);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Spinner = _vue2.default.extend(__webpack_require__(121));
 
 	exports.install = function (Vue) {
 	  var toggleLoading = function toggleLoading(el, binding) {
@@ -225,11 +173,18 @@ module.exports =
 	      el.maskStyle = {
 	        position: 'absolute',
 	        zIndex: '10000',
-	        backgroundColor: 'rgba(0, 0, 0, .65)',
+	        backgroundColor: 'rgba(255, 255, 255, .9)',
 	        margin: '0'
 	      };
 
-	      el.spinner = new _spinner2.default().el;
+	      var spinner = new Spinner({
+	        data: {
+	          text: el.getAttribute('element-loading-text'),
+	          fullScreen: !!binding.modifiers.fullscreen
+	        }
+	      });
+	      spinner.$mount(el.mask);
+	      el.spinner = spinner.$el;
 	      el.spinnerStyle = {
 	        position: 'absolute'
 	      };
@@ -261,26 +216,86 @@ module.exports =
 /***/ 121:
 /***/ function(module, exports, __webpack_require__) {
 
+	var __vue_exports__, __vue_options__
+	var __vue_styles__ = {}
+
+	/* script */
+	__vue_exports__ = __webpack_require__(122)
+
+	/* template */
+	var __vue_template__ = __webpack_require__(123)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+	module.exports = __vue_exports__
+
+
+/***/ },
+
+/***/ 122:
+/***/ function(module, exports) {
+
 	exports.__esModule = true;
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
-	var _class = __webpack_require__(68);
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var Spinner = function Spinner() {
-	  _classCallCheck(this, Spinner);
-
-	  var spinner = document.createElement('div');
-	  (0, _class.addClass)(spinner, 'el-loading-spinner');
-	  [1, 2, 3].forEach(function (index) {
-	    var bubble = document.createElement('div');
-	    (0, _class.addClass)(bubble, 'el-loading-bubble bubble' + index);
-	    spinner.appendChild(bubble);
-	  });
-	  this.el = spinner;
+	exports.default = {
+	  data: function data() {
+	    return {
+	      text: null,
+	      fullScreen: false
+	    };
+	  }
 	};
 
-	exports.default = Spinner;
+/***/ },
+
+/***/ 123:
+/***/ function(module, exports) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('div', {
+	    staticClass: "el-loading-spinner",
+	    class: {
+	      'is-full-screen': fullScreen
+	    }
+	  }, [_h('svg', {
+	    staticClass: "circular",
+	    attrs: {
+	      "viewBox": "25 25 50 50"
+	    }
+	  }, [_h('circle', {
+	    staticClass: "path",
+	    attrs: {
+	      "cx": "50",
+	      "cy": "50",
+	      "r": "20",
+	      "fill": "none"
+	    }
+	  })]), (text) ? _h('p', {
+	    staticClass: "el-loading-text"
+	  }, [_s(text)]) : _e()])
+	}},staticRenderFns: []}
 
 /***/ }
 

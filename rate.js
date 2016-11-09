@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(195);
+	module.exports = __webpack_require__(197);
 
 
 /***/ },
@@ -120,31 +120,37 @@ module.exports =
 
 /***/ },
 
-/***/ 195:
+/***/ 197:
 /***/ function(module, exports, __webpack_require__) {
 
-	var Rate = __webpack_require__(196);
+	exports.__esModule = true;
+
+	var _main = __webpack_require__(198);
+
+	var _main2 = _interopRequireDefault(_main);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	Rate.install = function (Vue) {
-	  Vue.component(Rate.name, Rate);
+	_main2.default.install = function (Vue) {
+	  Vue.component(_main2.default.name, _main2.default);
 	};
 
-	module.exports = Rate;
+	exports.default = _main2.default;
 
 /***/ },
 
-/***/ 196:
+/***/ 198:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(197)
+	__vue_exports__ = __webpack_require__(199)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(198)
+	var __vue_template__ = __webpack_require__(200)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -164,7 +170,7 @@ module.exports =
 
 /***/ },
 
-/***/ 197:
+/***/ 199:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -434,7 +440,7 @@ module.exports =
 
 /***/ },
 
-/***/ 198:
+/***/ 200:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {

@@ -54,14 +54,20 @@ module.exports =
 /***/ 31:
 /***/ function(module, exports, __webpack_require__) {
 
-	var Card = __webpack_require__(32);
+	exports.__esModule = true;
+
+	var _main = __webpack_require__(32);
+
+	var _main2 = _interopRequireDefault(_main);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	Card.install = function (Vue) {
-	  Vue.component(Card.name, Card);
+	_main2.default.install = function (Vue) {
+	  Vue.component(_main2.default.name, _main2.default);
 	};
 
-	module.exports = Card;
+	exports.default = _main2.default;
 
 /***/ },
 

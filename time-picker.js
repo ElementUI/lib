@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(269);
+	module.exports = __webpack_require__(271);
 
 
 /***/ },
@@ -1337,7 +1337,7 @@ module.exports =
 	    on: {
 	      "click": handleCancel
 	    }
-	  }, [_s($t('el.datepicker.cancel'))]), _h('button', {
+	  }, [_s(t('el.datepicker.cancel'))]), _h('button', {
 	    staticClass: "el-time-panel__btn confirm",
 	    attrs: {
 	      "type": "button"
@@ -1347,26 +1347,32 @@ module.exports =
 	        handleConfirm()
 	      }
 	    }
-	  }, [_s($t('el.datepicker.confirm'))])])])])
+	  }, [_s(t('el.datepicker.confirm'))])])])])
 	}},staticRenderFns: []}
 
 /***/ },
 
-/***/ 269:
+/***/ 271:
 /***/ function(module, exports, __webpack_require__) {
 
-	var TimePicker = __webpack_require__(270);
+	exports.__esModule = true;
+
+	var _timePicker = __webpack_require__(272);
+
+	var _timePicker2 = _interopRequireDefault(_timePicker);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	TimePicker.install = function (Vue) {
-	  Vue.component(TimePicker.name, TimePicker);
+	_timePicker2.default.install = function (Vue) {
+	  Vue.component(_timePicker2.default.name, _timePicker2.default);
 	};
 
-	module.exports = TimePicker;
+	exports.default = _timePicker2.default;
 
 /***/ },
 
-/***/ 270:
+/***/ 272:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -1379,7 +1385,7 @@ module.exports =
 
 	var _time2 = _interopRequireDefault(_time);
 
-	var _timeRange = __webpack_require__(271);
+	var _timeRange = __webpack_require__(273);
 
 	var _timeRange2 = _interopRequireDefault(_timeRange);
 
@@ -1402,17 +1408,17 @@ module.exports =
 
 /***/ },
 
-/***/ 271:
+/***/ 273:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(272)
+	__vue_exports__ = __webpack_require__(274)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(273)
+	var __vue_template__ = __webpack_require__(275)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -1432,7 +1438,7 @@ module.exports =
 
 /***/ },
 
-/***/ 272:
+/***/ 274:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -1576,6 +1582,7 @@ module.exports =
 	      this.$emit('pick');
 	    },
 	    handleChange: function handleChange() {
+	      if (this.minTime > this.maxTime) return;
 	      this.$refs.minSpinner.selectableRange = [[MIN_TIME, this.maxTime]];
 	      this.$refs.maxSpinner.selectableRange = [[this.minTime, MAX_TIME]];
 	      this.handleConfirm(true);
@@ -1647,7 +1654,7 @@ module.exports =
 
 /***/ },
 
-/***/ 273:
+/***/ 275:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {
@@ -1677,7 +1684,7 @@ module.exports =
 	    staticClass: "el-time-range-picker__cell"
 	  }, [_h('div', {
 	    staticClass: "el-time-range-picker__header"
-	  }, [_s($t('el.datepicker.startTime'))]), _h('div', {
+	  }, [_s(t('el.datepicker.startTime'))]), _h('div', {
 	    staticClass: "el-time-range-picker__body el-time-panel__content"
 	  }, [_h('time-spinner', {
 	    ref: "minSpinner",
@@ -1695,7 +1702,7 @@ module.exports =
 	    staticClass: "el-time-range-picker__cell"
 	  }, [_h('div', {
 	    staticClass: "el-time-range-picker__header"
-	  }, [_s($t('el.datepicker.endTime'))]), _h('div', {
+	  }, [_s(t('el.datepicker.endTime'))]), _h('div', {
 	    staticClass: "el-time-range-picker__body el-time-panel__content"
 	  }, [_h('time-spinner', {
 	    ref: "maxSpinner",
@@ -1721,7 +1728,7 @@ module.exports =
 	        handleCancel()
 	      }
 	    }
-	  }, [_s($t('el.datepicker.cancel'))]), _h('button', {
+	  }, [_s(t('el.datepicker.cancel'))]), _h('button', {
 	    staticClass: "el-time-panel__btn confirm",
 	    attrs: {
 	      "type": "button",
@@ -1732,7 +1739,7 @@ module.exports =
 	        handleConfirm()
 	      }
 	    }
-	  }, [_s($t('el.datepicker.confirm'))])])])])
+	  }, [_s(t('el.datepicker.confirm'))])])])])
 	}},staticRenderFns: []}
 
 /***/ }

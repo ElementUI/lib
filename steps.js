@@ -46,36 +46,42 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(229);
+	module.exports = __webpack_require__(231);
 
 
 /***/ },
 
-/***/ 229:
+/***/ 231:
 /***/ function(module, exports, __webpack_require__) {
 
-	var Steps = __webpack_require__(230);
+	exports.__esModule = true;
+
+	var _steps = __webpack_require__(232);
+
+	var _steps2 = _interopRequireDefault(_steps);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	Steps.install = function (Vue) {
-	  Vue.component(Steps.name, Steps);
+	_steps2.default.install = function (Vue) {
+	  Vue.component(_steps2.default.name, _steps2.default);
 	};
 
-	module.exports = Steps;
+	exports.default = _steps2.default;
 
 /***/ },
 
-/***/ 230:
+/***/ 232:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(231)
+	__vue_exports__ = __webpack_require__(233)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(232)
+	var __vue_template__ = __webpack_require__(234)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -95,7 +101,7 @@ module.exports =
 
 /***/ },
 
-/***/ 231:
+/***/ 233:
 /***/ function(module, exports) {
 
 	exports.__esModule = true;
@@ -146,7 +152,7 @@ module.exports =
 
 /***/ },
 
-/***/ 232:
+/***/ 234:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {

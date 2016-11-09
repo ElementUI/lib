@@ -61,14 +61,20 @@ module.exports =
 /***/ 100:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElFormItem = __webpack_require__(101);
+	exports.__esModule = true;
+
+	var _formItem = __webpack_require__(101);
+
+	var _formItem2 = _interopRequireDefault(_formItem);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElFormItem.install = function (Vue) {
-	  Vue.component(ElFormItem.name, ElFormItem);
+	_formItem2.default.install = function (Vue) {
+	  Vue.component(_formItem2.default.name, _formItem2.default);
 	};
 
-	module.exports = ElFormItem;
+	exports.default = _formItem2.default;
 
 /***/ },
 

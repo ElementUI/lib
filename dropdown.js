@@ -68,14 +68,20 @@ module.exports =
 /***/ 85:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElDropdown = __webpack_require__(86);
+	exports.__esModule = true;
+
+	var _dropdown = __webpack_require__(86);
+
+	var _dropdown2 = _interopRequireDefault(_dropdown);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElDropdown.install = function (Vue) {
-	  Vue.component(ElDropdown.name, ElDropdown);
+	_dropdown2.default.install = function (Vue) {
+	  Vue.component(_dropdown2.default.name, _dropdown2.default);
 	};
 
-	module.exports = ElDropdown;
+	exports.default = _dropdown2.default;
 
 /***/ },
 

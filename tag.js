@@ -46,36 +46,42 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(265);
+	module.exports = __webpack_require__(267);
 
 
 /***/ },
 
-/***/ 265:
+/***/ 267:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElTag = __webpack_require__(266);
+	exports.__esModule = true;
+
+	var _tag = __webpack_require__(268);
+
+	var _tag2 = _interopRequireDefault(_tag);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElTag.install = function (Vue) {
-	  Vue.component(ElTag.name, ElTag);
+	_tag2.default.install = function (Vue) {
+	  Vue.component(_tag2.default.name, _tag2.default);
 	};
 
-	module.exports = ElTag;
+	exports.default = _tag2.default;
 
 /***/ },
 
-/***/ 266:
+/***/ 268:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(267)
+	__vue_exports__ = __webpack_require__(269)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(268)
+	var __vue_template__ = __webpack_require__(270)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -95,7 +101,7 @@ module.exports =
 
 /***/ },
 
-/***/ 267:
+/***/ 269:
 /***/ function(module, exports) {
 
 	exports.__esModule = true;
@@ -130,7 +136,7 @@ module.exports =
 
 /***/ },
 
-/***/ 268:
+/***/ 270:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {

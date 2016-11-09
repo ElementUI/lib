@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(245);
+	module.exports = __webpack_require__(247);
 
 
 /***/ },
@@ -79,33 +79,33 @@ module.exports =
 
 /***/ },
 
-/***/ 147:
+/***/ 149:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 173:
+/***/ 175:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ },
 
-/***/ 209:
+/***/ 211:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 210:
+/***/ 212:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* eslint-disable no-undefined */
 
-	var throttle = __webpack_require__(211);
+	var throttle = __webpack_require__(213);
 
 	/**
 	 * Debounce execution of a function. Debouncing, unlike throttling,
@@ -128,7 +128,7 @@ module.exports =
 
 /***/ },
 
-/***/ 211:
+/***/ 213:
 /***/ function(module, exports) {
 
 	/* eslint-disable no-undefined,no-param-reassign,no-shadow */
@@ -226,38 +226,44 @@ module.exports =
 
 /***/ },
 
-/***/ 212:
+/***/ 214:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ },
 
-/***/ 245:
+/***/ 247:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElTable = __webpack_require__(246);
+	exports.__esModule = true;
+
+	var _table = __webpack_require__(248);
+
+	var _table2 = _interopRequireDefault(_table);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElTable.install = function (Vue) {
-	  Vue.component(ElTable.name, ElTable);
+	_table2.default.install = function (Vue) {
+	  Vue.component(_table2.default.name, _table2.default);
 	};
 
-	module.exports = ElTable;
+	exports.default = _table2.default;
 
 /***/ },
 
-/***/ 246:
+/***/ 248:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(247)
+	__vue_exports__ = __webpack_require__(249)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(259)
+	var __vue_template__ = __webpack_require__(261)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -277,44 +283,44 @@ module.exports =
 
 /***/ },
 
-/***/ 247:
+/***/ 249:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
 
-	var _migrating = __webpack_require__(173);
+	var _migrating = __webpack_require__(175);
 
 	var _migrating2 = _interopRequireDefault(_migrating);
 
-	var _throttle = __webpack_require__(211);
+	var _throttle = __webpack_require__(213);
 
 	var _throttle2 = _interopRequireDefault(_throttle);
 
-	var _debounce = __webpack_require__(210);
+	var _debounce = __webpack_require__(212);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _resizeEvent = __webpack_require__(212);
+	var _resizeEvent = __webpack_require__(214);
 
-	var _locale = __webpack_require__(147);
+	var _locale = __webpack_require__(149);
 
-	var _tableStore = __webpack_require__(248);
+	var _tableStore = __webpack_require__(250);
 
 	var _tableStore2 = _interopRequireDefault(_tableStore);
 
-	var _tableLayout = __webpack_require__(250);
+	var _tableLayout = __webpack_require__(252);
 
 	var _tableLayout2 = _interopRequireDefault(_tableLayout);
 
-	var _tableBody = __webpack_require__(251);
+	var _tableBody = __webpack_require__(253);
 
 	var _tableBody2 = _interopRequireDefault(_tableBody);
 
-	var _tableHeader = __webpack_require__(252);
+	var _tableHeader = __webpack_require__(254);
 
 	var _tableHeader2 = _interopRequireDefault(_tableHeader);
 
-	var _util = __webpack_require__(249);
+	var _util = __webpack_require__(251);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -446,7 +452,7 @@ module.exports =
 
 	    emptyText: {
 	      type: String,
-	      default: (0, _locale.$t)('el.table.emptyText')
+	      default: (0, _locale.t)('el.table.emptyText')
 	    }
 	  },
 
@@ -606,7 +612,7 @@ module.exports =
 
 /***/ },
 
-/***/ 248:
+/***/ 250:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -615,11 +621,11 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _debounce = __webpack_require__(210);
+	var _debounce = __webpack_require__(212);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _util = __webpack_require__(249);
+	var _util = __webpack_require__(251);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -640,12 +646,12 @@ module.exports =
 	  return (0, _util.orderBy)(data, states.sortProp, states.sortOrder, sortingColumn.sortMethod);
 	};
 
-	var getSelectedMap = function getSelectedMap(states, rowKey) {
-	  var selectionMap = {};
-	  states.selection.forEach(function (row, index) {
-	    selectionMap[getRowIdentity(row, rowKey)] = { row: row, index: index };
+	var getKeysMap = function getKeysMap(array, rowKey) {
+	  var arrayMap = {};
+	  (array || []).forEach(function (row, index) {
+	    arrayMap[getRowIdentity(row, rowKey)] = { row: row, index: index };
 	  });
-	  return selectionMap;
+	  return arrayMap;
 	};
 
 	var toggleRowSelection = function toggleRowSelection(states, row, selected) {
@@ -713,21 +719,26 @@ module.exports =
 	  setData: function setData(states, data) {
 	    var _this = this;
 
+	    var dataInstanceChanged = states._data !== data;
 	    states._data = data;
 	    states.data = sortData(data || [], states);
 
 	    this.updateCurrentRow();
 
-	    var selection = states.selection;
-
 	    if (!states.reserveSelection) {
-	      this.clearSelection();
+	      if (dataInstanceChanged) {
+	        this.clearSelection();
+	      } else {
+	        this.cleanSelection();
+	      }
+	      this.updateAllSelected();
 	    } else {
 	      (function () {
 	        var rowKey = states.rowKey;
 	        if (rowKey) {
 	          (function () {
-	            var selectedMap = getSelectedMap(states, rowKey);
+	            var selection = states.selection;
+	            var selectedMap = getKeysMap(selection, rowKey);
 
 	            states.data.forEach(function (row) {
 	              var rowId = getRowIdentity(row, rowKey);
@@ -909,6 +920,35 @@ module.exports =
 	  toggleRowSelection(this.states, row, selected);
 	};
 
+	TableStore.prototype.cleanSelection = function () {
+	  var selection = this.states.selection || [];
+	  var data = this.states.data;
+	  var rowKey = this.states.rowKey;
+	  var deleted = void 0;
+	  if (rowKey) {
+	    deleted = [];
+	    var selectedMap = getKeysMap(selection, rowKey);
+	    var dataMap = getKeysMap(data, rowKey);
+	    for (var key in selectedMap) {
+	      if (selectedMap.hasOwnProperty(key) && !dataMap[key]) {
+	        deleted.push(selectedMap[key].row);
+	      }
+	    }
+	  } else {
+	    deleted = selection.filter(function (item) {
+	      return data.indexOf(item) === -1;
+	    });
+	  }
+
+	  deleted.forEach(function (deletedItem) {
+	    selection.splice(selection.indexOf(deletedItem), 1);
+	  });
+
+	  if (deleted.length) {
+	    this.table.$emit('selection-change', selection);
+	  }
+	};
+
 	TableStore.prototype.updateAllSelected = function () {
 	  var states = this.states;
 	  var selection = states.selection;
@@ -923,7 +963,7 @@ module.exports =
 
 	  var selectedMap = void 0;
 	  if (rowKey) {
-	    selectedMap = getSelectedMap(states, rowKey);
+	    selectedMap = getKeysMap(states.selection, rowKey);
 	  }
 
 	  var isSelected = function isSelected(row) {
@@ -987,7 +1027,7 @@ module.exports =
 
 /***/ },
 
-/***/ 249:
+/***/ 251:
 /***/ function(module, exports) {
 
 	exports.__esModule = true;
@@ -1105,12 +1145,12 @@ module.exports =
 
 /***/ },
 
-/***/ 250:
+/***/ 252:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(249);
+	var _util = __webpack_require__(251);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1293,12 +1333,12 @@ module.exports =
 
 /***/ },
 
-/***/ 251:
+/***/ 253:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(249);
+	var _util = __webpack_require__(251);
 
 	exports.default = {
 	  props: {
@@ -1499,16 +1539,16 @@ module.exports =
 
 /***/ },
 
-/***/ 252:
+/***/ 254:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(253);
+	var _checkbox = __webpack_require__(255);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(209);
+	var _tag = __webpack_require__(211);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
@@ -1516,7 +1556,7 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _filterPanel = __webpack_require__(254);
+	var _filterPanel = __webpack_require__(256);
 
 	var _filterPanel2 = _interopRequireDefault(_filterPanel);
 
@@ -1860,24 +1900,24 @@ module.exports =
 
 /***/ },
 
-/***/ 253:
+/***/ 255:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 254:
+/***/ 256:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(255)
+	__vue_exports__ = __webpack_require__(257)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(258)
+	var __vue_template__ = __webpack_require__(260)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -1897,7 +1937,7 @@ module.exports =
 
 /***/ },
 
-/***/ 255:
+/***/ 257:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -1914,15 +1954,15 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _dropdown = __webpack_require__(256);
+	var _dropdown = __webpack_require__(258);
 
 	var _dropdown2 = _interopRequireDefault(_dropdown);
 
-	var _checkbox = __webpack_require__(253);
+	var _checkbox = __webpack_require__(255);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _checkboxGroup = __webpack_require__(257);
+	var _checkboxGroup = __webpack_require__(259);
 
 	var _checkboxGroup2 = _interopRequireDefault(_checkboxGroup);
 
@@ -2000,7 +2040,7 @@ module.exports =
 	              click: this.handleConfirm
 	            }
 	          },
-	          [this.$t('el.table.confirmFilter')]
+	          [this.t('el.table.confirmFilter')]
 	        ), h(
 	          'button',
 	          {
@@ -2008,7 +2048,7 @@ module.exports =
 	              click: this.handleReset
 	            }
 	          },
-	          [this.$t('el.table.resetFilter')]
+	          [this.t('el.table.resetFilter')]
 	        )]
 	      )]
 	    );
@@ -2124,7 +2164,7 @@ module.exports =
 
 /***/ },
 
-/***/ 256:
+/***/ 258:
 /***/ function(module, exports) {
 
 	exports.__esModule = true;
@@ -2157,14 +2197,14 @@ module.exports =
 
 /***/ },
 
-/***/ 257:
+/***/ 259:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox-group");
 
 /***/ },
 
-/***/ 258:
+/***/ 260:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {
@@ -2216,11 +2256,11 @@ module.exports =
 	    on: {
 	      "click": handleConfirm
 	    }
-	  }, [_s($t('el.table.confirmFilter'))]), _h('button', {
+	  }, [_s(t('el.table.confirmFilter'))]), _h('button', {
 	    on: {
 	      "click": handleReset
 	    }
-	  }, [_s($t('el.table.resetFilter'))])])]) : _h('div', {
+	  }, [_s(t('el.table.resetFilter'))])])]) : _h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -2240,7 +2280,7 @@ module.exports =
 	        handleSelect(null)
 	      }
 	    }
-	  }, [_s($t('el.table.clearFilter'))]), _l((filters), function(filter) {
+	  }, [_s(t('el.table.clearFilter'))]), _l((filters), function(filter) {
 	    return _h('li', {
 	      staticClass: "el-table-filter__list-item",
 	      class: {
@@ -2260,7 +2300,7 @@ module.exports =
 
 /***/ },
 
-/***/ 259:
+/***/ 261:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {

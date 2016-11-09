@@ -54,14 +54,20 @@ module.exports =
 /***/ 15:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElBreadcrumb = __webpack_require__(16);
+	exports.__esModule = true;
+
+	var _breadcrumb = __webpack_require__(16);
+
+	var _breadcrumb2 = _interopRequireDefault(_breadcrumb);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElBreadcrumb.install = function (Vue) {
-	  Vue.component(ElBreadcrumb.name, ElBreadcrumb);
+	_breadcrumb2.default.install = function (Vue) {
+	  Vue.component(_breadcrumb2.default.name, _breadcrumb2.default);
 	};
 
-	module.exports = ElBreadcrumb;
+	exports.default = _breadcrumb2.default;
 
 /***/ },
 

@@ -61,14 +61,20 @@ module.exports =
 /***/ 88:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElDropdownItem = __webpack_require__(89);
+	exports.__esModule = true;
+
+	var _dropdownItem = __webpack_require__(89);
+
+	var _dropdownItem2 = _interopRequireDefault(_dropdownItem);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElDropdownItem.install = function (Vue) {
-	  Vue.component(ElDropdownItem.name, ElDropdownItem);
+	_dropdownItem2.default.install = function (Vue) {
+	  Vue.component(_dropdownItem2.default.name, _dropdownItem2.default);
 	};
 
-	module.exports = ElDropdownItem;
+	exports.default = _dropdownItem2.default;
 
 /***/ },
 

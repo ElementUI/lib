@@ -46,36 +46,42 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(179);
+	module.exports = __webpack_require__(181);
 
 
 /***/ },
 
-/***/ 179:
+/***/ 181:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElProgress = __webpack_require__(180);
+	exports.__esModule = true;
+
+	var _progress = __webpack_require__(182);
+
+	var _progress2 = _interopRequireDefault(_progress);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElProgress.install = function (Vue) {
-	  Vue.component(ElProgress.name, ElProgress);
+	_progress2.default.install = function (Vue) {
+	  Vue.component(_progress2.default.name, _progress2.default);
 	};
 
-	module.exports = ElProgress;
+	exports.default = _progress2.default;
 
 /***/ },
 
-/***/ 180:
+/***/ 182:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(181)
+	__vue_exports__ = __webpack_require__(183)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(182)
+	var __vue_template__ = __webpack_require__(184)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -95,7 +101,7 @@ module.exports =
 
 /***/ },
 
-/***/ 181:
+/***/ 183:
 /***/ function(module, exports) {
 
 	exports.__esModule = true;
@@ -228,7 +234,7 @@ module.exports =
 
 /***/ },
 
-/***/ 182:
+/***/ 184:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {

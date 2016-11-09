@@ -62,14 +62,20 @@ module.exports =
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Badge = __webpack_require__(12);
+	exports.__esModule = true;
+
+	var _main = __webpack_require__(12);
+
+	var _main2 = _interopRequireDefault(_main);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	Badge.install = function (Vue) {
-	  Vue.component(Badge.name, Badge);
+	_main2.default.install = function (Vue) {
+	  Vue.component(_main2.default.name, _main2.default);
 	};
 
-	module.exports = Badge;
+	exports.default = _main2.default;
 
 /***/ },
 /* 12 */

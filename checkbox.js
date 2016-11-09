@@ -54,14 +54,20 @@ module.exports =
 /***/ 35:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElCheckbox = __webpack_require__(36);
+	exports.__esModule = true;
+
+	var _checkbox = __webpack_require__(36);
+
+	var _checkbox2 = _interopRequireDefault(_checkbox);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElCheckbox.install = function (Vue) {
-	  Vue.component(ElCheckbox.name, ElCheckbox);
+	_checkbox2.default.install = function (Vue) {
+	  Vue.component(_checkbox2.default.name, _checkbox2.default);
 	};
 
-	module.exports = ElCheckbox;
+	exports.default = _checkbox2.default;
 
 /***/ },
 

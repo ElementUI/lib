@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(153);
+	module.exports = __webpack_require__(155);
 
 
 /***/ },
@@ -65,14 +65,22 @@ module.exports =
 
 /***/ },
 
-/***/ 153:
+/***/ 155:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(154);
+	exports.__esModule = true;
+
+	var _main = __webpack_require__(156);
+
+	var _main2 = _interopRequireDefault(_main);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _main2.default;
 
 /***/ },
 
-/***/ 154:
+/***/ 156:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -85,7 +93,7 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var NotificationConstructor = _vue2.default.extend(__webpack_require__(155));
+	var NotificationConstructor = _vue2.default.extend(__webpack_require__(157));
 
 	var instance = void 0;
 	var instances = [];
@@ -157,17 +165,17 @@ module.exports =
 
 /***/ },
 
-/***/ 155:
+/***/ 157:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(156)
+	__vue_exports__ = __webpack_require__(158)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(157)
+	var __vue_template__ = __webpack_require__(159)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -187,7 +195,7 @@ module.exports =
 
 /***/ },
 
-/***/ 156:
+/***/ 158:
 /***/ function(module, exports) {
 
 	exports.__esModule = true;
@@ -286,7 +294,7 @@ module.exports =
 
 /***/ },
 
-/***/ 157:
+/***/ 159:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {

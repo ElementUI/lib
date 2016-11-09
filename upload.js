@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(293);
+	module.exports = __webpack_require__(295);
 
 
 /***/ },
@@ -58,28 +58,34 @@ module.exports =
 
 /***/ },
 
-/***/ 293:
+/***/ 295:
 /***/ function(module, exports, __webpack_require__) {
 
-	var Upload = __webpack_require__(294);
+	exports.__esModule = true;
+
+	var _src = __webpack_require__(296);
+
+	var _src2 = _interopRequireDefault(_src);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	Upload.install = function (Vue) {
-	  Vue.component(Upload.name, Upload);
+	_src2.default.install = function (Vue) {
+	  Vue.component(_src2.default.name, _src2.default);
 	};
 
-	module.exports = Upload;
+	exports.default = _src2.default;
 
 /***/ },
 
-/***/ 294:
+/***/ 296:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(295)
+	__vue_exports__ = __webpack_require__(297)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -97,24 +103,24 @@ module.exports =
 
 /***/ },
 
-/***/ 295:
+/***/ 297:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
 
-	var _uploadList = __webpack_require__(296);
+	var _uploadList = __webpack_require__(298);
 
 	var _uploadList2 = _interopRequireDefault(_uploadList);
 
-	var _upload = __webpack_require__(299);
+	var _upload = __webpack_require__(301);
 
 	var _upload2 = _interopRequireDefault(_upload);
 
-	var _iframeUpload = __webpack_require__(306);
+	var _iframeUpload = __webpack_require__(308);
 
 	var _iframeUpload2 = _interopRequireDefault(_iframeUpload);
 
-	var _progress = __webpack_require__(308);
+	var _progress = __webpack_require__(310);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -338,17 +344,17 @@ module.exports =
 
 /***/ },
 
-/***/ 296:
+/***/ 298:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(297)
+	__vue_exports__ = __webpack_require__(299)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(298)
+	var __vue_template__ = __webpack_require__(300)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -368,7 +374,7 @@ module.exports =
 
 /***/ },
 
-/***/ 297:
+/***/ 299:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -421,7 +427,7 @@ module.exports =
 
 /***/ },
 
-/***/ 298:
+/***/ 300:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {
@@ -463,7 +469,7 @@ module.exports =
 	          $emit('remove', file)
 	        }
 	      }
-	    }, [_s($t('el.upload.delete'))]), (file.showProgress) ? _h('el-progress', {
+	    }, [_s(t('el.upload.delete'))]), (file.showProgress) ? _h('el-progress', {
 	      attrs: {
 	        "stroke-width": 2,
 	        "percentage": parsePercentage(file.percentage),
@@ -479,17 +485,17 @@ module.exports =
 
 /***/ },
 
-/***/ 299:
+/***/ 301:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(300)
+	__vue_exports__ = __webpack_require__(302)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(305)
+	var __vue_template__ = __webpack_require__(307)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -509,16 +515,16 @@ module.exports =
 
 /***/ },
 
-/***/ 300:
+/***/ 302:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
 
-	var _ajax = __webpack_require__(301);
+	var _ajax = __webpack_require__(303);
 
 	var _ajax2 = _interopRequireDefault(_ajax);
 
-	var _cover = __webpack_require__(302);
+	var _cover = __webpack_require__(304);
 
 	var _cover2 = _interopRequireDefault(_cover);
 
@@ -694,7 +700,7 @@ module.exports =
 
 /***/ },
 
-/***/ 301:
+/***/ 303:
 /***/ function(module, exports) {
 
 	exports.__esModule = true;
@@ -782,17 +788,17 @@ module.exports =
 
 /***/ },
 
-/***/ 302:
+/***/ 304:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(303)
+	__vue_exports__ = __webpack_require__(305)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(304)
+	var __vue_template__ = __webpack_require__(306)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -812,7 +818,7 @@ module.exports =
 
 /***/ },
 
-/***/ 303:
+/***/ 305:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -878,7 +884,7 @@ module.exports =
 
 /***/ },
 
-/***/ 304:
+/***/ 306:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {
@@ -935,21 +941,21 @@ module.exports =
 	        $parent.handleClick()
 	      }
 	    }
-	  }, [_m(0), _h('span', [_s($t('el.upload.continue'))])]), _h('span', {
+	  }, [_m(0), _h('span', [_s(t('el.upload.continue'))])]), _h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
 	        onPreview(image)
 	      }
 	    }
-	  }, [_m(1), _h('span', [_s($t('el.upload.preview'))])]), _h('span', {
+	  }, [_m(1), _h('span', [_s(t('el.upload.preview'))])]), _h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
 	        onRemove(image)
 	      }
 	    }
-	  }, [_m(2), _h('span', [_s($t('el.upload.delete'))])])])])]), _h('transition', {
+	  }, [_m(2), _h('span', [_s(t('el.upload.delete'))])])])])]), _h('transition', {
 	    attrs: {
 	      "name": "md-fade-top"
 	    }
@@ -978,7 +984,7 @@ module.exports =
 
 /***/ },
 
-/***/ 305:
+/***/ 307:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {
@@ -1026,14 +1032,14 @@ module.exports =
 
 /***/ },
 
-/***/ 306:
+/***/ 308:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(307)
+	__vue_exports__ = __webpack_require__(309)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -1051,12 +1057,12 @@ module.exports =
 
 /***/ },
 
-/***/ 307:
+/***/ 309:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
 
-	var _cover = __webpack_require__(302);
+	var _cover = __webpack_require__(304);
 
 	var _cover2 = _interopRequireDefault(_cover);
 
@@ -1265,7 +1271,7 @@ module.exports =
 
 /***/ },
 
-/***/ 308:
+/***/ 310:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/progress");

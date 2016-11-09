@@ -54,14 +54,20 @@ module.exports =
 /***/ 44:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElCol = __webpack_require__(45);
+	exports.__esModule = true;
+
+	var _col = __webpack_require__(45);
+
+	var _col2 = _interopRequireDefault(_col);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElCol.install = function (Vue) {
-	  Vue.component(ElCol.name, ElCol);
+	_col2.default.install = function (Vue) {
+	  Vue.component(_col2.default.name, _col2.default);
 	};
 
-	module.exports = ElCol;
+	exports.default = _col2.default;
 
 /***/ },
 

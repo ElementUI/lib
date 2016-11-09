@@ -61,14 +61,20 @@ module.exports =
 /***/ 109:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElInput = __webpack_require__(110);
+	exports.__esModule = true;
+
+	var _input = __webpack_require__(110);
+
+	var _input2 = _interopRequireDefault(_input);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElInput.install = function (Vue) {
-	  Vue.component(ElInput.name, ElInput);
+	_input2.default.install = function (Vue) {
+	  Vue.component(_input2.default.name, _input2.default);
 	};
 
-	module.exports = ElInput;
+	exports.default = _input2.default;
 
 /***/ },
 
@@ -178,6 +184,8 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElInput',
@@ -211,12 +219,14 @@ module.exports =
 	    },
 	    form: String,
 	    maxlength: Number,
-	    minlength: Number
+	    minlength: Number,
+	    max: {},
+	    min: {}
 	  },
 
 	  methods: {
 	    handleBlur: function handleBlur(event) {
-	      this.$emit('blur', this.currentValue);
+	      this.$emit('blur', event);
 	      this.dispatch('form-item', 'el.form.blur', [this.currentValue]);
 	    },
 	    inputSelect: function inputSelect() {
@@ -234,14 +244,14 @@ module.exports =
 
 	      this.textareaStyle = (0, _calcTextareaHeight2.default)(this.$refs.textarea, minRows, maxRows);
 	    },
-	    handleFocus: function handleFocus(ev) {
-	      this.$emit('focus', ev);
+	    handleFocus: function handleFocus(event) {
+	      this.$emit('focus', event);
 	    },
-	    handleInput: function handleInput(ev) {
-	      this.currentValue = ev.target.value;
+	    handleInput: function handleInput(event) {
+	      this.currentValue = event.target.value;
 	    },
-	    handleIconClick: function handleIconClick(ev) {
-	      this.$emit('click', ev);
+	    handleIconClick: function handleIconClick(event) {
+	      this.$emit('click', event);
 	    }
 	  },
 
@@ -395,6 +405,8 @@ module.exports =
 	      "minlength": minlength,
 	      "autocomplete": autoComplete,
 	      "autofocus": autofocus,
+	      "min": min,
+	      "max": max,
 	      "form": form
 	    },
 	    domProps: {

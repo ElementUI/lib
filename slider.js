@@ -46,36 +46,42 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(214);
+	module.exports = __webpack_require__(216);
 
 
 /***/ },
 
-/***/ 214:
+/***/ 216:
 /***/ function(module, exports, __webpack_require__) {
 
-	var Slider = __webpack_require__(215);
+	exports.__esModule = true;
+
+	var _main = __webpack_require__(217);
+
+	var _main2 = _interopRequireDefault(_main);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	Slider.install = function (Vue) {
-	  Vue.component(Slider.name, Slider);
+	_main2.default.install = function (Vue) {
+	  Vue.component(_main2.default.name, _main2.default);
 	};
 
-	module.exports = Slider;
+	exports.default = _main2.default;
 
 /***/ },
 
-/***/ 215:
+/***/ 217:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(216)
+	__vue_exports__ = __webpack_require__(218)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(220)
+	var __vue_template__ = __webpack_require__(222)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -95,20 +101,20 @@ module.exports =
 
 /***/ },
 
-/***/ 216:
+/***/ 218:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
 
-	var _inputNumber = __webpack_require__(217);
+	var _inputNumber = __webpack_require__(219);
 
 	var _inputNumber2 = _interopRequireDefault(_inputNumber);
 
-	var _tooltip = __webpack_require__(218);
+	var _tooltip = __webpack_require__(220);
 
 	var _tooltip2 = _interopRequireDefault(_tooltip);
 
-	var _style = __webpack_require__(219);
+	var _style = __webpack_require__(221);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -329,21 +335,21 @@ module.exports =
 
 /***/ },
 
-/***/ 217:
+/***/ 219:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input-number");
 
 /***/ },
 
-/***/ 218:
+/***/ 220:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tooltip");
 
 /***/ },
 
-/***/ 219:
+/***/ 221:
 /***/ function(module, exports) {
 
 	var SPECIAL_CHARS_REGEXP = /([\:\-\_]+(.))/g;
@@ -420,7 +426,7 @@ module.exports =
 
 /***/ },
 
-/***/ 220:
+/***/ 222:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {

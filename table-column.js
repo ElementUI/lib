@@ -46,60 +46,66 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(260);
+	module.exports = __webpack_require__(262);
 
 
 /***/ },
 
-/***/ 152:
+/***/ 154:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 209:
+/***/ 211:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 253:
+/***/ 255:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 260:
-/***/ function(module, exports, __webpack_require__) {
-
-	var ElTableColumn = __webpack_require__(261);
-
-	/* istanbul ignore next */
-	ElTableColumn.install = function (Vue) {
-	  Vue.component(ElTableColumn.name, ElTableColumn);
-	};
-
-	module.exports = ElTableColumn;
-
-/***/ },
-
-/***/ 261:
+/***/ 262:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(253);
+	var _tableColumn = __webpack_require__(263);
+
+	var _tableColumn2 = _interopRequireDefault(_tableColumn);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/* istanbul ignore next */
+	_tableColumn2.default.install = function (Vue) {
+	  Vue.component(_tableColumn2.default.name, _tableColumn2.default);
+	};
+
+	exports.default = _tableColumn2.default;
+
+/***/ },
+
+/***/ 263:
+/***/ function(module, exports, __webpack_require__) {
+
+	exports.__esModule = true;
+
+	var _checkbox = __webpack_require__(255);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(209);
+	var _tag = __webpack_require__(211);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _merge = __webpack_require__(152);
+	var _merge = __webpack_require__(154);
 
 	var _merge2 = _interopRequireDefault(_merge);
 

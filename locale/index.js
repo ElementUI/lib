@@ -1,9 +1,9 @@
 exports.__esModule = true;
-exports.use = exports.$t = undefined;
+exports.use = exports.t = undefined;
 
-var _zhCn = require('element-ui/lib/locale/lang/zh-cn');
+var _zhCN = require('element-ui/lib/locale/lang/zh-CN');
 
-var _zhCn2 = _interopRequireDefault(_zhCn);
+var _zhCN2 = _interopRequireDefault(_zhCN);
 
 var _vue = require('vue');
 
@@ -20,10 +20,10 @@ var _format2 = _interopRequireDefault(_format);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var format = (0, _format2.default)(_vue2.default);
-var lang = _zhCn2.default;
+var lang = _zhCN2.default;
 var merged = false;
 
-var $t = exports.$t = function $t(path, options) {
+var t = exports.t = function t(path, options) {
   var vuei18n = Object.getPrototypeOf(this || _vue2.default).$t;
   if (typeof vuei18n === 'function') {
     if (!merged) {
@@ -48,4 +48,4 @@ var $t = exports.$t = function $t(path, options) {
 var use = exports.use = function use(l) {
   lang = l || lang;
 };
-exports.default = { use: use, $t: $t };
+exports.default = { use: use, t: t };

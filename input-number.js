@@ -61,14 +61,20 @@ module.exports =
 /***/ 114:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElInputNumber = __webpack_require__(115);
+	exports.__esModule = true;
+
+	var _inputNumber = __webpack_require__(115);
+
+	var _inputNumber2 = _interopRequireDefault(_inputNumber);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElInputNumber.install = function (Vue) {
-	  Vue.component(ElInputNumber.name, ElInputNumber);
+	_inputNumber2.default.install = function (Vue) {
+	  Vue.component(_inputNumber2.default.name, _inputNumber2.default);
 	};
 
-	module.exports = ElInputNumber;
+	exports.default = _inputNumber2.default;
 
 /***/ },
 

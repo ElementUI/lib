@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(274);
+	module.exports = __webpack_require__(276);
 
 
 /***/ },
@@ -801,21 +801,27 @@ module.exports =
 
 /***/ },
 
-/***/ 274:
+/***/ 276:
 /***/ function(module, exports, __webpack_require__) {
 
-	var TimeSelect = __webpack_require__(275);
+	exports.__esModule = true;
+
+	var _timeSelect = __webpack_require__(277);
+
+	var _timeSelect2 = _interopRequireDefault(_timeSelect);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	TimeSelect.install = function (Vue) {
-	  Vue.component(TimeSelect.name, TimeSelect);
+	_timeSelect2.default.install = function (Vue) {
+	  Vue.component(_timeSelect2.default.name, _timeSelect2.default);
 	};
 
-	module.exports = TimeSelect;
+	exports.default = _timeSelect2.default;
 
 /***/ },
 
-/***/ 275:
+/***/ 277:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -824,7 +830,7 @@ module.exports =
 
 	var _picker2 = _interopRequireDefault(_picker);
 
-	var _timeSelect = __webpack_require__(276);
+	var _timeSelect = __webpack_require__(278);
 
 	var _timeSelect2 = _interopRequireDefault(_timeSelect);
 
@@ -843,17 +849,17 @@ module.exports =
 
 /***/ },
 
-/***/ 276:
+/***/ 278:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(277)
+	__vue_exports__ = __webpack_require__(279)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(278)
+	var __vue_template__ = __webpack_require__(280)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -873,7 +879,7 @@ module.exports =
 
 /***/ },
 
-/***/ 277:
+/***/ 279:
 /***/ function(module, exports) {
 
 	exports.__esModule = true;
@@ -1002,7 +1008,7 @@ module.exports =
 
 /***/ },
 
-/***/ 278:
+/***/ 280:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {

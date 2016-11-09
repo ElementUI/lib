@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(30);
+	module.exports = __webpack_require__(27);
 
 
 /***/ },
@@ -54,14 +54,34 @@ module.exports =
 /***/ 27:
 /***/ function(module, exports, __webpack_require__) {
 
+	exports.__esModule = true;
+
+	var _buttonGroup = __webpack_require__(28);
+
+	var _buttonGroup2 = _interopRequireDefault(_buttonGroup);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/* istanbul ignore next */
+	_buttonGroup2.default.install = function (Vue) {
+	  Vue.component(_buttonGroup2.default.name, _buttonGroup2.default);
+	};
+
+	exports.default = _buttonGroup2.default;
+
+/***/ },
+
+/***/ 28:
+/***/ function(module, exports, __webpack_require__) {
+
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(28)
+	__vue_exports__ = __webpack_require__(29)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(29)
+	var __vue_template__ = __webpack_require__(30)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -81,7 +101,7 @@ module.exports =
 
 /***/ },
 
-/***/ 28:
+/***/ 29:
 /***/ function(module, exports) {
 
 	exports.__esModule = true;
@@ -103,7 +123,7 @@ module.exports =
 
 /***/ },
 
-/***/ 29:
+/***/ 30:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {
@@ -111,20 +131,6 @@ module.exports =
 	    staticClass: "el-button-group"
 	  }, [_t("default")])
 	}},staticRenderFns: []}
-
-/***/ },
-
-/***/ 30:
-/***/ function(module, exports, __webpack_require__) {
-
-	var ElButtonGroup = __webpack_require__(27);
-
-	/* istanbul ignore next */
-	ElButtonGroup.install = function (Vue) {
-	  Vue.component(ElButtonGroup.name, ElButtonGroup);
-	};
-
-	module.exports = ElButtonGroup;
 
 /***/ }
 

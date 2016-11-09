@@ -54,14 +54,20 @@ module.exports =
 /***/ 105:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElIcon = __webpack_require__(106);
+	exports.__esModule = true;
+
+	var _icon = __webpack_require__(106);
+
+	var _icon2 = _interopRequireDefault(_icon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElIcon.install = function (Vue) {
-	  Vue.component(ElIcon.name, ElIcon);
+	_icon2.default.install = function (Vue) {
+	  Vue.component(_icon2.default.name, _icon2.default);
 	};
 
-	module.exports = ElIcon;
+	exports.default = _icon2.default;
 
 /***/ },
 

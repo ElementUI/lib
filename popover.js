@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(174);
+	module.exports = __webpack_require__(176);
 
 
 /***/ },
@@ -118,37 +118,49 @@ module.exports =
 
 /***/ },
 
-/***/ 174:
+/***/ 176:
 /***/ function(module, exports, __webpack_require__) {
 
-	var Popover = __webpack_require__(175);
-	var directive = __webpack_require__(178).default;
-	var Vue = __webpack_require__(52);
+	exports.__esModule = true;
 
-	Vue.directive('popover', directive);
+	var _main = __webpack_require__(177);
+
+	var _main2 = _interopRequireDefault(_main);
+
+	var _directive = __webpack_require__(180);
+
+	var _directive2 = _interopRequireDefault(_directive);
+
+	var _vue = __webpack_require__(52);
+
+	var _vue2 = _interopRequireDefault(_vue);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	_vue2.default.directive('popover', _directive2.default);
 
 	/* istanbul ignore next */
-	Popover.install = function (Vue) {
-	  Vue.directive('popover', directive);
-	  Vue.component(Popover.name, Popover);
+	_main2.default.install = function (Vue) {
+	  Vue.directive('popover', _directive2.default);
+	  Vue.component(_main2.default.name, _main2.default);
 	};
-	Popover.directive = directive;
+	_main2.default.directive = _directive2.default;
 
-	module.exports = Popover;
+	exports.default = _main2.default;
 
 /***/ },
 
-/***/ 175:
+/***/ 177:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(176)
+	__vue_exports__ = __webpack_require__(178)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(177)
+	var __vue_template__ = __webpack_require__(179)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -168,7 +180,7 @@ module.exports =
 
 /***/ },
 
-/***/ 176:
+/***/ 178:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -315,7 +327,7 @@ module.exports =
 
 /***/ },
 
-/***/ 177:
+/***/ 179:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {
@@ -349,7 +361,7 @@ module.exports =
 
 /***/ },
 
-/***/ 178:
+/***/ 180:
 /***/ function(module, exports) {
 
 	exports.__esModule = true;

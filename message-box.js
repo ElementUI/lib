@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(145);
+	module.exports = __webpack_require__(147);
 
 
 /***/ },
@@ -141,14 +141,22 @@ module.exports =
 
 /***/ },
 
-/***/ 145:
+/***/ 147:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(146);
+	exports.__esModule = true;
+
+	var _main = __webpack_require__(148);
+
+	var _main2 = _interopRequireDefault(_main);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _main2.default;
 
 /***/ },
 
-/***/ 146:
+/***/ 148:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -156,24 +164,24 @@ module.exports =
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var _locale = __webpack_require__(147);
+	var _locale = __webpack_require__(149);
 
 	var _vue = __webpack_require__(52);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _main = __webpack_require__(148);
+	var _main = __webpack_require__(150);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _merge = __webpack_require__(152);
+	var _merge = __webpack_require__(154);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var CONFIRM_TEXT = (0, _locale.$t)('el.messagebox.confirm');
-	var CANCEL_TEXT = (0, _locale.$t)('el.messagebox.cancel');
+	var CONFIRM_TEXT = (0, _locale.t)('el.messagebox.confirm');
+	var CANCEL_TEXT = (0, _locale.t)('el.messagebox.cancel');
 
 	var defaults = {
 	  title: '提示',
@@ -368,24 +376,24 @@ module.exports =
 
 /***/ },
 
-/***/ 147:
+/***/ 149:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 148:
+/***/ 150:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(149)
+	__vue_exports__ = __webpack_require__(151)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(151)
+	var __vue_template__ = __webpack_require__(153)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -405,7 +413,7 @@ module.exports =
 
 /***/ },
 
-/***/ 149:
+/***/ 151:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -418,13 +426,13 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _button = __webpack_require__(150);
+	var _button = __webpack_require__(152);
 
 	var _button2 = _interopRequireDefault(_button);
 
 	var _class = __webpack_require__(68);
 
-	var _locale = __webpack_require__(147);
+	var _locale = __webpack_require__(149);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -540,7 +548,7 @@ module.exports =
 	      if (this.$type === 'prompt') {
 	        var inputPattern = this.inputPattern;
 	        if (inputPattern && !inputPattern.test(this.inputValue || '')) {
-	          this.editorErrorMessage = this.inputErrorMessage || (0, _locale.$t)('el.messagebox.error');
+	          this.editorErrorMessage = this.inputErrorMessage || (0, _locale.t)('el.messagebox.error');
 	          (0, _class.addClass)(this.$refs.input.$el.querySelector('input'), 'invalid');
 	          return false;
 	        }
@@ -548,7 +556,7 @@ module.exports =
 	        if (typeof inputValidator === 'function') {
 	          var validateResult = inputValidator(this.inputValue);
 	          if (validateResult === false) {
-	            this.editorErrorMessage = this.inputErrorMessage || (0, _locale.$t)('el.messagebox.error');
+	            this.editorErrorMessage = this.inputErrorMessage || (0, _locale.t)('el.messagebox.error');
 	            (0, _class.addClass)(this.$refs.input.$el.querySelector('input'), 'invalid');
 	            return false;
 	          }
@@ -605,8 +613,8 @@ module.exports =
 	      inputErrorMessage: '',
 	      showConfirmButton: true,
 	      showCancelButton: false,
-	      confirmButtonText: (0, _locale.$t)('el.messagebox.confirm'),
-	      cancelButtonText: (0, _locale.$t)('el.messagebox.cancel'),
+	      confirmButtonText: (0, _locale.t)('el.messagebox.confirm'),
+	      cancelButtonText: (0, _locale.t)('el.messagebox.cancel'),
 	      confirmButtonClass: '',
 	      confirmButtonDisabled: false,
 	      cancelButtonClass: '',
@@ -619,14 +627,14 @@ module.exports =
 
 /***/ },
 
-/***/ 150:
+/***/ 152:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/button");
 
 /***/ },
 
-/***/ 151:
+/***/ 153:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {
@@ -737,7 +745,7 @@ module.exports =
 
 /***/ },
 
-/***/ 152:
+/***/ 154:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");

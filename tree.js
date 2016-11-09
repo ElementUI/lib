@@ -46,43 +46,49 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(283);
+	module.exports = __webpack_require__(285);
 
 
 /***/ },
 
-/***/ 152:
+/***/ 154:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 283:
+/***/ 285:
 /***/ function(module, exports, __webpack_require__) {
 
-	var Tree = __webpack_require__(284);
+	exports.__esModule = true;
+
+	var _tree = __webpack_require__(286);
+
+	var _tree2 = _interopRequireDefault(_tree);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	Tree.install = function (Vue) {
-	  Vue.component(Tree.name, Tree);
+	_tree2.default.install = function (Vue) {
+	  Vue.component(_tree2.default.name, _tree2.default);
 	};
 
-	module.exports = Tree;
+	exports.default = _tree2.default;
 
 /***/ },
 
-/***/ 284:
+/***/ 286:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(285)
+	__vue_exports__ = __webpack_require__(287)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(292)
+	var __vue_template__ = __webpack_require__(294)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -102,12 +108,12 @@ module.exports =
 
 /***/ },
 
-/***/ 285:
+/***/ 287:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
 
-	var _tree = __webpack_require__(286);
+	var _tree = __webpack_require__(288);
 
 	var _tree2 = _interopRequireDefault(_tree);
 
@@ -163,7 +169,7 @@ module.exports =
 
 
 	  components: {
-	    ElTreeNode: __webpack_require__(288)
+	    ElTreeNode: __webpack_require__(290)
 	  },
 
 	  computed: {
@@ -202,12 +208,12 @@ module.exports =
 
 /***/ },
 
-/***/ 286:
+/***/ 288:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
 
-	var _node = __webpack_require__(287);
+	var _node = __webpack_require__(289);
 
 	var _node2 = _interopRequireDefault(_node);
 
@@ -269,14 +275,14 @@ module.exports =
 
 /***/ },
 
-/***/ 287:
+/***/ 289:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _merge = __webpack_require__(152);
+	var _merge = __webpack_require__(154);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
@@ -603,17 +609,17 @@ module.exports =
 
 /***/ },
 
-/***/ 288:
+/***/ 290:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(289)
+	__vue_exports__ = __webpack_require__(291)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(291)
+	var __vue_template__ = __webpack_require__(293)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -633,12 +639,12 @@ module.exports =
 
 /***/ },
 
-/***/ 289:
+/***/ 291:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
 
-	var _transition = __webpack_require__(290);
+	var _transition = __webpack_require__(292);
 
 	var _transition2 = _interopRequireDefault(_transition);
 
@@ -802,7 +808,7 @@ module.exports =
 
 /***/ },
 
-/***/ 290:
+/***/ 292:
 /***/ function(module, exports) {
 
 	exports.__esModule = true;
@@ -897,7 +903,7 @@ module.exports =
 
 /***/ },
 
-/***/ 291:
+/***/ 293:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {
@@ -975,7 +981,7 @@ module.exports =
 
 /***/ },
 
-/***/ 292:
+/***/ 294:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {

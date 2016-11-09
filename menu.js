@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(122);
+	module.exports = __webpack_require__(124);
 
 
 /***/ },
@@ -58,31 +58,37 @@ module.exports =
 
 /***/ },
 
-/***/ 122:
+/***/ 124:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElMenu = __webpack_require__(123);
+	exports.__esModule = true;
+
+	var _menu = __webpack_require__(125);
+
+	var _menu2 = _interopRequireDefault(_menu);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElMenu.install = function (Vue) {
-	  Vue.component(ElMenu.name, ElMenu);
+	_menu2.default.install = function (Vue) {
+	  Vue.component(_menu2.default.name, _menu2.default);
 	};
 
-	module.exports = ElMenu;
+	exports.default = _menu2.default;
 
 /***/ },
 
-/***/ 123:
+/***/ 125:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(124)
+	__vue_exports__ = __webpack_require__(126)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(125)
+	var __vue_template__ = __webpack_require__(127)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -102,7 +108,7 @@ module.exports =
 
 /***/ },
 
-/***/ 124:
+/***/ 126:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -240,7 +246,7 @@ module.exports =
 
 /***/ },
 
-/***/ 125:
+/***/ 127:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {

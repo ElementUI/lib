@@ -52,14 +52,20 @@ module.exports =
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Alert = __webpack_require__(2);
+	exports.__esModule = true;
+
+	var _main = __webpack_require__(2);
+
+	var _main2 = _interopRequireDefault(_main);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	Alert.install = function (Vue) {
-	  Vue.component(Alert.name, Alert);
+	_main2.default.install = function (Vue) {
+	  Vue.component(_main2.default.name, _main2.default);
 	};
 
-	module.exports = Alert;
+	exports.default = _main2.default;
 
 /***/ },
 /* 2 */

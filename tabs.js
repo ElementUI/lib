@@ -46,33 +46,39 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(262);
+	module.exports = __webpack_require__(264);
 
 
 /***/ },
 
-/***/ 262:
+/***/ 264:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElTabs = __webpack_require__(263);
+	exports.__esModule = true;
+
+	var _tabs = __webpack_require__(265);
+
+	var _tabs2 = _interopRequireDefault(_tabs);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElTabs.install = function (Vue) {
-	  Vue.component(ElTabs.name, ElTabs);
+	_tabs2.default.install = function (Vue) {
+	  Vue.component(_tabs2.default.name, _tabs2.default);
 	};
 
-	module.exports = ElTabs;
+	exports.default = _tabs2.default;
 
 /***/ },
 
-/***/ 263:
+/***/ 265:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(264)
+	__vue_exports__ = __webpack_require__(266)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -90,7 +96,7 @@ module.exports =
 
 /***/ },
 
-/***/ 264:
+/***/ 266:
 /***/ function(module, exports) {
 
 	

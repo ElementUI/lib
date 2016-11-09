@@ -41,52 +41,37 @@ module.exports =
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__(23);
 
 
 /***/ },
-/* 1 */,
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */,
-/* 21 */,
-/* 22 */,
-/* 23 */
+
+/***/ 23:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElButton = __webpack_require__(24);
-	var ElButtonGroup = __webpack_require__(27);
+	exports.__esModule = true;
+
+	var _button = __webpack_require__(24);
+
+	var _button2 = _interopRequireDefault(_button);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElButton.install = function (Vue) {
-	  Vue.component(ElButton.name, ElButton);
-	  Vue.component(ElButtonGroup.name, ElButtonGroup);
+	_button2.default.install = function (Vue) {
+	  Vue.component(_button2.default.name, _button2.default);
 	};
 
-	module.exports = ElButton;
+	exports.default = _button2.default;
 
 /***/ },
-/* 24 */
+
+/***/ 24:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
@@ -115,7 +100,8 @@ module.exports =
 
 
 /***/ },
-/* 25 */
+
+/***/ 25:
 /***/ function(module, exports) {
 
 	exports.__esModule = true;
@@ -171,7 +157,8 @@ module.exports =
 	};
 
 /***/ },
-/* 26 */
+
+/***/ 26:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {
@@ -200,65 +187,6 @@ module.exports =
 	  }) : _e(), ($slots.default) ? _h('span', [_t("default")]) : _e()])
 	}},staticRenderFns: []}
 
-/***/ },
-/* 27 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
-
-	/* script */
-	__vue_exports__ = __webpack_require__(28)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(29)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
-
-
-/***/ },
-/* 28 */
-/***/ function(module, exports) {
-
-	exports.__esModule = true;
-	//
-	//
-	//
-	//
-	//
-
-	/**
-	 * button
-	 * @module components/basic/menu
-	 * @desc 用于按钮组
-	 * @param {string} label - 名称
-	 */
-	exports.default = {
-	  name: 'ElButtonGroup'
-	};
-
-/***/ },
-/* 29 */
-/***/ function(module, exports) {
-
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
-	    staticClass: "el-button-group"
-	  }, [_t("default")])
-	}},staticRenderFns: []}
-
 /***/ }
-/******/ ]);
+
+/******/ });

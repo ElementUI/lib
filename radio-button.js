@@ -46,36 +46,42 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(187);
+	module.exports = __webpack_require__(189);
 
 
 /***/ },
 
-/***/ 187:
+/***/ 189:
 /***/ function(module, exports, __webpack_require__) {
 
-	var RadioButton = __webpack_require__(188);
+	exports.__esModule = true;
+
+	var _radioButton = __webpack_require__(190);
+
+	var _radioButton2 = _interopRequireDefault(_radioButton);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	RadioButton.install = function (Vue) {
-	  Vue.component(RadioButton.name, RadioButton);
+	_radioButton2.default.install = function (Vue) {
+	  Vue.component(_radioButton2.default.name, _radioButton2.default);
 	};
 
-	module.exports = RadioButton;
+	exports.default = _radioButton2.default;
 
 /***/ },
 
-/***/ 188:
+/***/ 190:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(189)
+	__vue_exports__ = __webpack_require__(191)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(190)
+	var __vue_template__ = __webpack_require__(192)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -95,7 +101,7 @@ module.exports =
 
 /***/ },
 
-/***/ 189:
+/***/ 191:
 /***/ function(module, exports) {
 
 	exports.__esModule = true;
@@ -130,7 +136,7 @@ module.exports =
 
 /***/ },
 
-/***/ 190:
+/***/ 192:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {

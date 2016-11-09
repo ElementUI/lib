@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(279);
+	module.exports = __webpack_require__(281);
 
 
 /***/ },
@@ -58,31 +58,37 @@ module.exports =
 
 /***/ },
 
-/***/ 279:
+/***/ 281:
 /***/ function(module, exports, __webpack_require__) {
 
-	var Tooltip = __webpack_require__(280);
+	exports.__esModule = true;
+
+	var _main = __webpack_require__(282);
+
+	var _main2 = _interopRequireDefault(_main);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	Tooltip.install = function (Vue) {
-	  Vue.component(Tooltip.name, Tooltip);
+	_main2.default.install = function (Vue) {
+	  Vue.component(_main2.default.name, _main2.default);
 	};
 
-	module.exports = Tooltip;
+	exports.default = _main2.default;
 
 /***/ },
 
-/***/ 280:
+/***/ 282:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(281)
+	__vue_exports__ = __webpack_require__(283)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(282)
+	var __vue_template__ = __webpack_require__(284)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -102,7 +108,7 @@ module.exports =
 
 /***/ },
 
-/***/ 281:
+/***/ 283:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
@@ -186,7 +192,7 @@ module.exports =
 
 /***/ },
 
-/***/ 282:
+/***/ 284:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {

@@ -46,54 +46,60 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(166);
+	module.exports = __webpack_require__(168);
 
 
 /***/ },
 
-/***/ 147:
+/***/ 149:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 166:
-/***/ function(module, exports, __webpack_require__) {
-
-	var Pagination = __webpack_require__(167);
-
-	/* istanbul ignore next */
-	Pagination.install = function (Vue) {
-	  Vue.component(Pagination.name, Pagination);
-	};
-
-	module.exports = Pagination;
-
-/***/ },
-
-/***/ 167:
+/***/ 168:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.__esModule = true;
 
-	var _pager = __webpack_require__(168);
+	var _pagination = __webpack_require__(169);
+
+	var _pagination2 = _interopRequireDefault(_pagination);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/* istanbul ignore next */
+	_pagination2.default.install = function (Vue) {
+	  Vue.component(_pagination2.default.name, _pagination2.default);
+	};
+
+	exports.default = _pagination2.default;
+
+/***/ },
+
+/***/ 169:
+/***/ function(module, exports, __webpack_require__) {
+
+	exports.__esModule = true;
+
+	var _pager = __webpack_require__(170);
 
 	var _pager2 = _interopRequireDefault(_pager);
 
-	var _select = __webpack_require__(171);
+	var _select = __webpack_require__(173);
 
 	var _select2 = _interopRequireDefault(_select);
 
-	var _option = __webpack_require__(172);
+	var _option = __webpack_require__(174);
 
 	var _option2 = _interopRequireDefault(_option);
 
-	var _migrating = __webpack_require__(173);
+	var _migrating = __webpack_require__(175);
 
 	var _migrating2 = _interopRequireDefault(_migrating);
 
-	var _locale = __webpack_require__(147);
+	var _locale = __webpack_require__(149);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -289,7 +295,7 @@ module.exports =
 	                {
 	                  attrs: {
 	                    value: item,
-	                    label: item + ' ' + (0, _locale.$t)('el.pagination.pagesize') }
+	                    label: item + ' ' + (0, _locale.t)('el.pagination.pagesize') }
 	                },
 	                []
 	              );
@@ -339,7 +345,7 @@ module.exports =
 	        return h(
 	          'span',
 	          { 'class': 'el-pagination__jump' },
-	          [(0, _locale.$t)('el.pagination.goto'), h(
+	          [(0, _locale.t)('el.pagination.goto'), h(
 	            'input',
 	            {
 	              'class': 'el-pagination__editor',
@@ -358,7 +364,7 @@ module.exports =
 
 	              style: { width: '30px' } },
 	            []
-	          ), (0, _locale.$t)('el.pagination.pageClassifier')]
+	          ), (0, _locale.t)('el.pagination.pageClassifier')]
 	        );
 	      }
 	    },
@@ -368,7 +374,7 @@ module.exports =
 	        return typeof this.$parent.total === 'number' ? h(
 	          'span',
 	          { 'class': 'el-pagination__total' },
-	          [(0, _locale.$t)('el.pagination.total', { total: this.$parent.total })]
+	          [(0, _locale.t)('el.pagination.total', { total: this.$parent.total })]
 	        ) : '';
 	      }
 	    },
@@ -452,8 +458,8 @@ module.exports =
 	        this.internalCurrentPage = 1;
 	        this.$emit('current-change', 1);
 	      } else if (this.internalCurrentPage > newVal) {
-	        this.internalCurrentPage = newVal;
-	        this.$emit('current-change', newVal);
+	        this.internalCurrentPage = newVal === 0 ? 1 : newVal;
+	        this.$emit('current-change', this.internalCurrentPage);
 	      }
 	    },
 
@@ -495,17 +501,17 @@ module.exports =
 
 /***/ },
 
-/***/ 168:
+/***/ 170:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(169)
+	__vue_exports__ = __webpack_require__(171)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(170)
+	var __vue_template__ = __webpack_require__(172)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -525,7 +531,7 @@ module.exports =
 
 /***/ },
 
-/***/ 169:
+/***/ 171:
 /***/ function(module, exports) {
 
 	exports.__esModule = true;
@@ -677,7 +683,7 @@ module.exports =
 
 /***/ },
 
-/***/ 170:
+/***/ 172:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {
@@ -730,21 +736,21 @@ module.exports =
 
 /***/ },
 
-/***/ 171:
+/***/ 173:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/select");
 
 /***/ },
 
-/***/ 172:
+/***/ 174:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/option");
 
 /***/ },
 
-/***/ 173:
+/***/ 175:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/migrating");

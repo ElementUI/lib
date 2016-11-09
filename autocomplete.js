@@ -56,14 +56,20 @@ module.exports =
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElAutocomplete = __webpack_require__(6);
+	exports.__esModule = true;
+
+	var _autocomplete = __webpack_require__(6);
+
+	var _autocomplete2 = _interopRequireDefault(_autocomplete);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElAutocomplete.install = function (Vue) {
-	  Vue.component(ElAutocomplete.name, ElAutocomplete);
+	_autocomplete2.default.install = function (Vue) {
+	  Vue.component(_autocomplete2.default.name, _autocomplete2.default);
 	};
 
-	module.exports = ElAutocomplete;
+	exports.default = _autocomplete2.default;
 
 /***/ },
 /* 6 */

@@ -109,6 +109,8 @@ module.exports =
 /* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
+	exports.__esModule = true;
+
 	var _datePicker = __webpack_require__(49);
 
 	var _datePicker2 = _interopRequireDefault(_datePicker);
@@ -120,7 +122,7 @@ module.exports =
 	  Vue.component(_datePicker2.default.name, _datePicker2.default);
 	};
 
-	module.exports = _datePicker2.default;
+	exports.default = _datePicker2.default;
 
 /***/ },
 /* 49 */
@@ -1345,7 +1347,7 @@ module.exports =
 	    yearLabel: function yearLabel() {
 	      var year = this.year;
 	      if (!year) return '';
-	      var yearTranslation = this.$t('el.datepicker.year');
+	      var yearTranslation = this.t('el.datepicker.year');
 	      if (this.currentView === 'year') {
 	        var startYear = Math.floor(year / 10) * 10;
 	        return startYear + ' ' + yearTranslation + '-' + (startYear + 9) + ' ' + yearTranslation;
@@ -1886,7 +1888,7 @@ module.exports =
 	    on: {
 	      "click": handleCancel
 	    }
-	  }, [_s($t('el.datepicker.cancel'))]), _h('button', {
+	  }, [_s(t('el.datepicker.cancel'))]), _h('button', {
 	    staticClass: "el-time-panel__btn confirm",
 	    attrs: {
 	      "type": "button"
@@ -1896,7 +1898,7 @@ module.exports =
 	        handleConfirm()
 	      }
 	    }
-	  }, [_s($t('el.datepicker.confirm'))])])])])
+	  }, [_s(t('el.datepicker.confirm'))])])])])
 	}},staticRenderFns: []}
 
 /***/ },
@@ -2298,51 +2300,51 @@ module.exports =
 	    class: getCellStyle(0)
 	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_s($t('el.datepicker.months.jan'))])]), _h('td', {
+	  }, [_s(t('el.datepicker.months.jan'))])]), _h('td', {
 	    class: getCellStyle(1)
 	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_s($t('el.datepicker.months.feb'))])]), _h('td', {
+	  }, [_s(t('el.datepicker.months.feb'))])]), _h('td', {
 	    class: getCellStyle(2)
 	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_s($t('el.datepicker.months.mar'))])]), _h('td', {
+	  }, [_s(t('el.datepicker.months.mar'))])]), _h('td', {
 	    class: getCellStyle(3)
 	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_s($t('el.datepicker.months.apr'))])])]), _h('tr', [_h('td', {
+	  }, [_s(t('el.datepicker.months.apr'))])])]), _h('tr', [_h('td', {
 	    class: getCellStyle(4)
 	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_s($t('el.datepicker.months.may'))])]), _h('td', {
+	  }, [_s(t('el.datepicker.months.may'))])]), _h('td', {
 	    class: getCellStyle(5)
 	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_s($t('el.datepicker.months.jun'))])]), _h('td', {
+	  }, [_s(t('el.datepicker.months.jun'))])]), _h('td', {
 	    class: getCellStyle(6)
 	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_s($t('el.datepicker.months.jul'))])]), _h('td', {
+	  }, [_s(t('el.datepicker.months.jul'))])]), _h('td', {
 	    class: getCellStyle(7)
 	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_s($t('el.datepicker.months.aug'))])])]), _h('tr', [_h('td', {
+	  }, [_s(t('el.datepicker.months.aug'))])])]), _h('tr', [_h('td', {
 	    class: getCellStyle(8)
 	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_s($t('el.datepicker.months.sep'))])]), _h('td', {
+	  }, [_s(t('el.datepicker.months.sep'))])]), _h('td', {
 	    class: getCellStyle(9)
 	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_s($t('el.datepicker.months.oct'))])]), _h('td', {
+	  }, [_s(t('el.datepicker.months.oct'))])]), _h('td', {
 	    class: getCellStyle(10)
 	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_s($t('el.datepicker.months.nov'))])]), _h('td', {
+	  }, [_s(t('el.datepicker.months.nov'))])]), _h('td', {
 	    class: getCellStyle(11)
 	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_s($t('el.datepicker.months.dec'))])])])])])
+	  }, [_s(t('el.datepicker.months.dec'))])])])])])
 	}},staticRenderFns: []}
 
 /***/ },
@@ -2835,7 +2837,7 @@ module.exports =
 	      "click": handleClick,
 	      "mousemove": handleMouseMove
 	    }
-	  }, [_h('tbody', [_h('tr', [(showWeekNumber) ? _h('th', [_s($t('el.datepicker.week'))]) : _e(), _h('th', [_s($t('el.datepicker.weeks.sun'))]), _h('th', [_s($t('el.datepicker.weeks.mon'))]), _h('th', [_s($t('el.datepicker.weeks.tue'))]), _h('th', [_s($t('el.datepicker.weeks.wed'))]), _h('th', [_s($t('el.datepicker.weeks.thu'))]), _h('th', [_s($t('el.datepicker.weeks.fri'))]), _h('th', [_s($t('el.datepicker.weeks.sat'))])]), _l((rows), function(row) {
+	  }, [_h('tbody', [_h('tr', [(showWeekNumber) ? _h('th', [_s(t('el.datepicker.week'))]) : _e(), _h('th', [_s(t('el.datepicker.weeks.sun'))]), _h('th', [_s(t('el.datepicker.weeks.mon'))]), _h('th', [_s(t('el.datepicker.weeks.tue'))]), _h('th', [_s(t('el.datepicker.weeks.wed'))]), _h('th', [_s(t('el.datepicker.weeks.thu'))]), _h('th', [_s(t('el.datepicker.weeks.fri'))]), _h('th', [_s(t('el.datepicker.weeks.sat'))])]), _l((rows), function(row) {
 	    return _h('tr', {
 	      staticClass: "el-date-table__row",
 	      class: {
@@ -2845,7 +2847,7 @@ module.exports =
 	      return _h('td', {
 	        class: getCellClasses(cell),
 	        domProps: {
-	          "textContent": _s(cell.type === 'today' ? $t('el.datepicker.today') : cell.text)
+	          "textContent": _s(cell.type === 'today' ? t('el.datepicker.today') : cell.text)
 	        }
 	      })
 	    })])
@@ -2915,7 +2917,7 @@ module.exports =
 	    }],
 	    staticClass: "el-date-picker__editor",
 	    attrs: {
-	      "placehoder": $t('el.datepicker.selectDate'),
+	      "placehoder": t('el.datepicker.selectDate'),
 	      "type": "text"
 	    },
 	    domProps: {
@@ -2941,7 +2943,7 @@ module.exports =
 	    ref: "input",
 	    staticClass: "el-date-picker__editor",
 	    attrs: {
-	      "placehoder": $t('el.datepicker.selectTime'),
+	      "placehoder": t('el.datepicker.selectTime'),
 	      "type": "text"
 	    },
 	    domProps: {
@@ -3014,7 +3016,7 @@ module.exports =
 	    on: {
 	      "click": showMonthPicker
 	    }
-	  }, [_s($t(("el.datepicker.month" + (month + 1))))]), _h('button', {
+	  }, [_s(t(("el.datepicker.month" + (month + 1))))]), _h('button', {
 	    staticClass: "el-picker-panel__icon-btn el-date-picker__next-btn el-icon-d-arrow-right",
 	    attrs: {
 	      "type": "button"
@@ -3106,7 +3108,7 @@ module.exports =
 	    on: {
 	      "click": changeToNow
 	    }
-	  }, [_s($t('el.datepicker.now'))]), _h('button', {
+	  }, [_s(t('el.datepicker.now'))]), _h('button', {
 	    staticClass: "el-picker-panel__btn",
 	    attrs: {
 	      "type": "button"
@@ -3114,7 +3116,7 @@ module.exports =
 	    on: {
 	      "click": confirm
 	    }
-	  }, [_s($t('el.datepicker.confirm'))])])])])
+	  }, [_s(t('el.datepicker.confirm'))])])])])
 	}},staticRenderFns: []}
 
 /***/ },
@@ -3310,10 +3312,10 @@ module.exports =
 	      return !(this.minDate && this.maxDate && !this.selecting);
 	    },
 	    leftLabel: function leftLabel() {
-	      return this.date.getFullYear() + ' ' + this.$t('el.datepicker.year') + ' ' + this.$t('el.datepicker.month' + (this.date.getMonth() + 1));
+	      return this.date.getFullYear() + ' ' + this.t('el.datepicker.year') + ' ' + this.t('el.datepicker.month' + (this.date.getMonth() + 1));
 	    },
 	    rightLabel: function rightLabel() {
-	      return this.rightDate.getFullYear() + ' ' + this.$t('el.datepicker.year') + ' ' + this.$t('el.datepicker.month' + (this.rightDate.getMonth() + 1));
+	      return this.rightDate.getFullYear() + ' ' + this.t('el.datepicker.year') + ' ' + this.t('el.datepicker.month' + (this.rightDate.getMonth() + 1));
 	    },
 	    leftYear: function leftYear() {
 	      return this.date.getFullYear();
@@ -3653,7 +3655,7 @@ module.exports =
 	  }, [_h('input', {
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
-	      "placeholder": $t('el.datepicker.startDate')
+	      "placeholder": t('el.datepicker.startDate')
 	    },
 	    domProps: {
 	      "value": minVisibleDate
@@ -3671,7 +3673,7 @@ module.exports =
 	  }, [_h('input', {
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
-	      "placeholder": $t('el.datepicker.startTime')
+	      "placeholder": t('el.datepicker.startTime')
 	    },
 	    domProps: {
 	      "value": minVisibleTime
@@ -3702,7 +3704,7 @@ module.exports =
 	    ref: "minInput",
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
-	      "placeholder": $t('el.datepicker.endDate'),
+	      "placeholder": t('el.datepicker.endDate'),
 	      "readonly": !minDate
 	    },
 	    domProps: {
@@ -3722,7 +3724,7 @@ module.exports =
 	    ref: "maxInput",
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
-	      "placeholder": $t('el.datepicker.endTime'),
+	      "placeholder": t('el.datepicker.endTime'),
 	      "readonly": !minDate
 	    },
 	    domProps: {
@@ -3823,7 +3825,7 @@ module.exports =
 	    on: {
 	      "click": handleClear
 	    }
-	  }, [_s($t('el.datepicker.clear'))]), _h('button', {
+	  }, [_s(t('el.datepicker.clear'))]), _h('button', {
 	    staticClass: "el-picker-panel__btn",
 	    attrs: {
 	      "type": "button",
@@ -3832,7 +3834,7 @@ module.exports =
 	    on: {
 	      "click": handleConfirm
 	    }
-	  }, [_s($t('el.datepicker.confirm'))])]) : _e()])])
+	  }, [_s(t('el.datepicker.confirm'))])]) : _e()])])
 	}},staticRenderFns: [function (){with(this) {
 	  return _h('span', {
 	    staticClass: "el-icon-arrow-right"

@@ -54,14 +54,20 @@ module.exports =
 /***/ 80:
 /***/ function(module, exports, __webpack_require__) {
 
-	var ElDialog = __webpack_require__(81);
+	exports.__esModule = true;
+
+	var _component = __webpack_require__(81);
+
+	var _component2 = _interopRequireDefault(_component);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	ElDialog.install = function (Vue) {
-	  Vue.component(ElDialog.name, ElDialog);
+	_component2.default.install = function (Vue) {
+	  Vue.component(_component2.default.name, _component2.default);
 	};
 
-	module.exports = ElDialog;
+	exports.default = _component2.default;
 
 /***/ },
 

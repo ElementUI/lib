@@ -46,36 +46,42 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(241);
+	module.exports = __webpack_require__(243);
 
 
 /***/ },
 
-/***/ 241:
+/***/ 243:
 /***/ function(module, exports, __webpack_require__) {
 
-	var TabPane = __webpack_require__(242);
+	exports.__esModule = true;
+
+	var _tabPane = __webpack_require__(244);
+
+	var _tabPane2 = _interopRequireDefault(_tabPane);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	TabPane.install = function (Vue) {
-	  Vue.component(TabPane.name, TabPane);
+	_tabPane2.default.install = function (Vue) {
+	  Vue.component(_tabPane2.default.name, _tabPane2.default);
 	};
 
-	module.exports = TabPane;
+	exports.default = _tabPane2.default;
 
 /***/ },
 
-/***/ 242:
+/***/ 244:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(243)
+	__vue_exports__ = __webpack_require__(245)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(244)
+	var __vue_template__ = __webpack_require__(246)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -95,7 +101,7 @@ module.exports =
 
 /***/ },
 
-/***/ 243:
+/***/ 245:
 /***/ function(module, exports) {
 
 	
@@ -135,7 +141,7 @@ module.exports =
 
 	  destroyed: function destroyed() {
 	    if (this.$el) {
-	      this.$el.remove();
+	      this.$el.parentNode.removeChild(this.$el);
 	    }
 	  },
 
@@ -160,7 +166,7 @@ module.exports =
 
 /***/ },
 
-/***/ 244:
+/***/ 246:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){with(this) {
