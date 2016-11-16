@@ -54,6 +54,8 @@ module.exports =
 /***/ 44:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _col = __webpack_require__(45);
@@ -72,53 +74,13 @@ module.exports =
 /***/ },
 
 /***/ 45:
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
-
-	/* script */
-	__vue_exports__ = __webpack_require__(46)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(47)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
-
-
-/***/ },
-
-/***/ 46:
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	exports.default = {
 	  name: 'ElCol',
@@ -126,11 +88,15 @@ module.exports =
 	  props: {
 	    span: {
 	      type: Number,
-	      required: true
+	      default: 24
 	    },
 	    offset: Number,
 	    pull: Number,
-	    push: Number
+	    push: Number,
+	    xs: [Number, Object],
+	    sm: [Number, Object],
+	    md: [Number, Object],
+	    lg: [Number, Object]
 	  },
 
 	  computed: {
@@ -147,26 +113,42 @@ module.exports =
 
 	      return ret;
 	    }
+	  },
+	  render: function render(h) {
+	    var _this = this;
+
+	    var style = this.style;
+
+	    var classList = [];
+
+	    ['span', 'offset', 'pull', 'push'].forEach(function (prop) {
+	      if (_this[prop]) {
+	        classList.push(prop !== 'span' ? 'el-col-' + prop + '-' + _this[prop] : 'el-col-' + _this[prop]);
+	      }
+	    });
+
+	    ['xs', 'sm', 'md', 'lg'].forEach(function (size) {
+	      if (typeof _this[size] === 'number') {
+	        classList.push('el-col-' + size + '-' + _this[size]);
+	      } else if (_typeof(_this[size]) === 'object') {
+	        (function () {
+	          var props = _this[size];
+	          Object.keys(props).forEach(function (prop) {
+	            classList.push(prop !== 'span' ? 'el-col-' + size + '-' + prop + '-' + props[prop] : 'el-col-' + size + '-' + props[prop]);
+	          });
+	        })();
+	      }
+	    });
+
+	    return h(
+	      'div',
+	      {
+	        'class': ['el-col', classList],
+	        style: style },
+	      [this.$slots.default]
+	    );
 	  }
 	};
-
-/***/ },
-
-/***/ 47:
-/***/ function(module, exports) {
-
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
-	    staticClass: "el-col",
-	    class: [
-	      'el-col-' + span,
-	      offset ? 'el-col-offset-' + offset : '',
-	      pull ? 'el-col-pull-' + pull : '',
-	      push ? 'el-col-push-' + push : ''
-	    ],
-	    style: (style)
-	  }, [_t("default")])
-	}},staticRenderFns: []}
 
 /***/ }
 

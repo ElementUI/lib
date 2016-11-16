@@ -46,13 +46,15 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(235);
+	module.exports = __webpack_require__(233);
 
 
 /***/ },
 
 /***/ 131:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	module.exports = {
 	  computed: {
@@ -79,12 +81,14 @@ module.exports =
 
 /***/ },
 
-/***/ 235:
+/***/ 233:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _submenu = __webpack_require__(236);
+	var _submenu = __webpack_require__(234);
 
 	var _submenu2 = _interopRequireDefault(_submenu);
 
@@ -99,17 +103,17 @@ module.exports =
 
 /***/ },
 
-/***/ 236:
+/***/ 234:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(237)
+	__vue_exports__ = __webpack_require__(235)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(238)
+	var __vue_template__ = __webpack_require__(236)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -129,8 +133,10 @@ module.exports =
 
 /***/ },
 
-/***/ 237:
+/***/ 235:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	var _menuMixin = __webpack_require__(131);
 
@@ -238,39 +244,39 @@ module.exports =
 
 /***/ },
 
-/***/ 238:
+/***/ 236:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('li', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('li', {
 	    class: {
 	      'el-submenu': true,
-	      'is-active': active,
-	      'is-opened': opened
+	      'is-active': _vm.active,
+	      'is-opened': _vm.opened
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    ref: "submenu-title",
 	    staticClass: "el-submenu__title"
-	  }, [_t("title"), _h('i', {
+	  }, [_vm._t("title"), _vm._h('i', {
 	    class: {
 	      'el-submenu__icon-arrow': true,
-	      'el-icon-arrow-down': rootMenu.mode === 'vertical',
-	        'el-icon-caret-bottom': rootMenu.mode === 'horizontal'
+	      'el-icon-arrow-down': _vm.rootMenu.mode === 'vertical',
+	        'el-icon-caret-bottom': _vm.rootMenu.mode === 'horizontal'
 	    }
-	  })]), _h('transition', {
+	  })]), _vm._h('transition', {
 	    attrs: {
-	      "name": rootMenu.mode === 'horizontal' ? 'md-fade-bottom' : ''
+	      "name": _vm.rootMenu.mode === 'horizontal' ? 'md-fade-bottom' : ''
 	    }
-	  }, [_h('ul', {
+	  }, [_vm._h('ul', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (opened),
+	      value: (_vm.opened),
 	      expression: "opened"
 	    }],
 	    staticClass: "el-menu"
-	  }, [_t("default")])])])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])])])
+	},staticRenderFns: []}
 
 /***/ }
 

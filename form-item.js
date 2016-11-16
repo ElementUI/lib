@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(100);
+	module.exports = __webpack_require__(98);
 
 
 /***/ },
@@ -58,12 +58,14 @@ module.exports =
 
 /***/ },
 
-/***/ 100:
+/***/ 98:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _formItem = __webpack_require__(101);
+	var _formItem = __webpack_require__(99);
 
 	var _formItem2 = _interopRequireDefault(_formItem);
 
@@ -78,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 101:
+/***/ 99:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(102)
+	__vue_exports__ = __webpack_require__(100)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(104)
+	var __vue_template__ = __webpack_require__(102)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -108,12 +110,14 @@ module.exports =
 
 /***/ },
 
-/***/ 102:
+/***/ 100:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _asyncValidator = __webpack_require__(103);
+	var _asyncValidator = __webpack_require__(101);
 
 	var _asyncValidator2 = _interopRequireDefault(_asyncValidator);
 
@@ -201,8 +205,7 @@ module.exports =
 	      validateDisabled: false,
 	      validating: false,
 	      validator: {},
-	      isRequired: false,
-	      initialValue: null
+	      isRequired: false
 	    };
 	  },
 
@@ -274,14 +277,6 @@ module.exports =
 	      }
 
 	      this.validate('change');
-	    },
-	    getInitialValue: function getInitialValue() {
-	      var value = this.form.model[this.prop];
-	      if (value === undefined) {
-	        return value;
-	      } else {
-	        return JSON.parse(JSON.stringify(value));
-	      }
 	    }
 	  },
 	  mounted: function mounted() {
@@ -290,7 +285,9 @@ module.exports =
 	    if (this.prop) {
 	      this.dispatch('form', 'el.form.addField', [this]);
 
-	      this.initialValue = this.getInitialValue();
+	      Object.defineProperty(this, 'initialValue', {
+	        value: this.form.model[this.prop]
+	      });
 
 	      var rules = this.getRules();
 
@@ -313,38 +310,38 @@ module.exports =
 
 /***/ },
 
-/***/ 103:
+/***/ 101:
 /***/ function(module, exports) {
 
 	module.exports = require("async-validator");
 
 /***/ },
 
-/***/ 104:
+/***/ 102:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-form-item",
 	    class: {
-	      'is-error': error !== '',
-	        'is-validating': validating,
-	        'is-required': isRequired || required
+	      'is-error': _vm.error !== '',
+	        'is-validating': _vm.validating,
+	        'is-required': _vm.isRequired || _vm.required
 	    }
-	  }, [(label) ? _h('label', {
+	  }, [(_vm.label) ? _vm._h('label', {
 	    staticClass: "el-form-item__label",
-	    style: (labelStyle)
-	  }, ["\n    " + _s(label + form.labelSuffix) + "\n  "]) : _e(), _h('div', {
+	    style: (_vm.labelStyle)
+	  }, ["\n    " + _vm._s(_vm.label + _vm.form.labelSuffix) + "\n  "]) : _vm._e(), _vm._h('div', {
 	    staticClass: "el-form-item__content",
-	    style: (contentStyle)
-	  }, [_t("default"), _h('transition', {
+	    style: (_vm.contentStyle)
+	  }, [_vm._t("default"), _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    }
-	  }, [(error !== '') ? _h('div', {
+	  }, [(_vm.error !== '') ? _vm._h('div', {
 	    staticClass: "el-form-item__error"
-	  }, [_s(error)]) : _e()])])])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.error)]) : _vm._e()])])])
+	},staticRenderFns: []}
 
 /***/ }
 

@@ -46,92 +46,48 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(176);
+	module.exports = __webpack_require__(175);
 
 
 /***/ },
 
-/***/ 52:
+/***/ 50:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 55:
+/***/ 53:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 
-/***/ 117:
+/***/ 115:
 /***/ function(module, exports) {
 
-	var bindEvent = (function() {
-	  if(document.addEventListener) {
-	    return function(element, event, handler) {
-	      if (element && event && handler) {
-	        element.addEventListener(event, handler, false);
-	      }
-	    };
-	  } else {
-	    return function(element, event, handler) {
-	      if (element && event && handler) {
-	        element.attachEvent('on' + event, handler);
-	      }
-	    };
-	  }
-	})();
-
-	var unbindEvent = (function() {
-	  if(document.removeEventListener) {
-	    return function(element, event, handler) {
-	      if (element && event) {
-	        element.removeEventListener(event, handler, false);
-	      }
-	    };
-	  } else {
-	    return function(element, event, handler) {
-	      if (element && event) {
-	        element.detachEvent('on' + event, handler);
-	      }
-	    };
-	  }
-	})();
-
-	var bindOnce = function(el, event, fn) {
-	  var listener = function() {
-	    if (fn) {
-	      fn.apply(this, arguments);
-	    }
-	    unbindEvent(el, event, listener);
-	  };
-	  bindEvent(el, event, listener);
-	};
-
-	module.exports = {
-	  on: bindEvent,
-	  off: unbindEvent,
-	  once: bindOnce
-	};
+	module.exports = require("wind-dom/src/event");
 
 /***/ },
 
-/***/ 176:
+/***/ 175:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(177);
+	var _main = __webpack_require__(176);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _directive = __webpack_require__(180);
+	var _directive = __webpack_require__(179);
 
 	var _directive2 = _interopRequireDefault(_directive);
 
-	var _vue = __webpack_require__(52);
+	var _vue = __webpack_require__(50);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -150,17 +106,17 @@ module.exports =
 
 /***/ },
 
-/***/ 177:
+/***/ 176:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(178)
+	__vue_exports__ = __webpack_require__(177)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(179)
+	var __vue_template__ = __webpack_require__(178)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -180,16 +136,18 @@ module.exports =
 
 /***/ },
 
-/***/ 178:
+/***/ 177:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(55);
+	var _vuePopper = __webpack_require__(53);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _event = __webpack_require__(117);
+	var _event = __webpack_require__(115);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -221,7 +179,7 @@ module.exports =
 	      type: String,
 	      default: 'click',
 	      validator: function validator(value) {
-	        return ['click', 'focus', 'hover'].indexOf(value) > -1;
+	        return ['click', 'focus', 'hover', 'manual'].indexOf(value) > -1;
 	      }
 	    },
 	    title: String,
@@ -260,7 +218,7 @@ module.exports =
 	      (0, _event.on)(popper, 'mouseenter', this.handleMouseEnter);
 	      (0, _event.on)(reference, 'mouseleave', this.handleMouseLeave);
 	      (0, _event.on)(popper, 'mouseleave', this.handleMouseLeave);
-	    } else {
+	    } else if (this.trigger === 'focus') {
 	      var found = false;
 
 	      if ([].slice.call(reference.children).length) {
@@ -327,42 +285,44 @@ module.exports =
 
 /***/ },
 
-/***/ 179:
+/***/ 178:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('span', [_h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('span', [_vm._h('transition', {
 	    attrs: {
-	      "name": transition
+	      "name": _vm.transition
 	    },
 	    on: {
-	      "after-leave": doDestroy
+	      "after-leave": _vm.doDestroy
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (showPopper),
+	      value: (_vm.showPopper),
 	      expression: "showPopper"
 	    }],
 	    ref: "popper",
 	    staticClass: "el-popover",
-	    class: [popperClass],
+	    class: [_vm.popperClass],
 	    style: ({
-	      width: width + 'px'
+	      width: _vm.width + 'px'
 	    })
-	  }, [(title) ? _h('div', {
+	  }, [(_vm.title) ? _vm._h('div', {
 	    staticClass: "el-popover__title",
 	    domProps: {
-	      "textContent": _s(title)
+	      "textContent": _vm._s(_vm.title)
 	    }
-	  }) : _e(), _t("default", [_s(content)])])]), _t("reference")])
-	}},staticRenderFns: []}
+	  }) : _vm._e(), _vm._t("default", [_vm._s(_vm.content)])])]), _vm._t("reference")])
+	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 180:
+/***/ 179:
 /***/ function(module, exports) {
+
+	"use strict";
 
 	exports.__esModule = true;
 	exports.default = {

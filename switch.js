@@ -46,17 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(239);
+	module.exports = __webpack_require__(237);
 
 
 /***/ },
 
-/***/ 239:
+/***/ 237:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _component = __webpack_require__(240);
+	var _component = __webpack_require__(238);
 
 	var _component2 = _interopRequireDefault(_component);
 
@@ -71,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 240:
+/***/ 238:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(241)
+	__vue_exports__ = __webpack_require__(239)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(242)
+	var __vue_template__ = __webpack_require__(240)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -101,10 +103,16 @@ module.exports =
 
 /***/ },
 
-/***/ 241:
+/***/ 239:
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -182,8 +190,11 @@ module.exports =
 	  },
 	  data: function data() {
 	    return {
+	      currentValue: this.value,
 	      coreWidth: this.width,
-	      buttonStyle: {}
+	      buttonStyle: {
+	        transform: ''
+	      }
 	    };
 	  },
 
@@ -195,18 +206,19 @@ module.exports =
 	  },
 	  watch: {
 	    value: function value(val) {
+	      this.currentValue = val;
 	      if (this.onColor || this.offColor) {
 	        this.handleCoreColor();
 	      }
 	      this.handleButtonTransform();
-	      this.$emit('change', val);
+	    },
+	    currentValue: function currentValue(val) {
+	      this.$emit('input', val);
 	    }
 	  },
 	  methods: {
-	    handleMiscClick: function handleMiscClick() {
-	      if (!this.disabled) {
-	        this.$emit('input', !this.value);
-	      }
+	    handleChange: function handleChange(event) {
+	      this.$emit('change', event.currentTarget.checked);
 	    },
 	    handleButtonTransform: function handleButtonTransform() {
 	      this.buttonStyle.transform = this.value ? 'translate(' + (this.coreWidth - 20) + 'px, 2px)' : 'translate(2px, 2px)';
@@ -230,88 +242,102 @@ module.exports =
 
 /***/ },
 
-/***/ 242:
+/***/ 240:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('label', {
 	    staticClass: "el-switch",
 	    class: {
-	      'is-disabled': disabled, 'el-switch--wide': hasText
+	      'is-disabled': _vm.disabled, 'el-switch--wide': _vm.hasText
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (disabled),
+	      value: (_vm.disabled),
 	      expression: "disabled"
 	    }],
 	    staticClass: "el-switch__mask"
-	  }), _h('input', {
+	  }), _vm._h('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.currentValue),
+	      expression: "currentValue"
+	    }],
 	    staticClass: "el-switch__input",
 	    attrs: {
 	      "type": "checkbox",
-	      "name": name,
-	      "disabled": disabled,
-	      "style": "display: none;"
+	      "name": _vm.name,
+	      "disabled": _vm.disabled
 	    },
 	    domProps: {
-	      "checked": value
+	      "checked": Array.isArray(_vm.currentValue) ? _vm._i(_vm.currentValue, null) > -1 : _vm._q(_vm.currentValue, true)
+	    },
+	    on: {
+	      "change": [function($event) {
+	        var $$a = _vm.currentValue,
+	          $$el = $event.target,
+	          $$c = $$el.checked ? (true) : (false);
+	        if (Array.isArray($$a)) {
+	          var $$v = null,
+	            $$i = _vm._i($$a, $$v);
+	          if ($$c) {
+	            $$i < 0 && (_vm.currentValue = $$a.concat($$v))
+	          } else {
+	            $$i > -1 && (_vm.currentValue = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	          }
+	        } else {
+	          _vm.currentValue = $$c
+	        }
+	      }, _vm.handleChange]
 	    }
-	  }), _h('span', {
+	  }), _vm._h('span', {
 	    ref: "core",
 	    staticClass: "el-switch__core",
 	    style: ({
-	      'width': coreWidth + 'px'
-	    }),
-	    on: {
-	      "click": handleMiscClick
-	    }
-	  }, [_h('span', {
+	      'width': _vm.coreWidth + 'px'
+	    })
+	  }, [_vm._h('span', {
 	    staticClass: "el-switch__button",
-	    style: (buttonStyle)
-	  })]), _h('transition', {
+	    style: (_vm.buttonStyle)
+	  })]), _vm._h('transition', {
 	    attrs: {
 	      "name": "label-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (value),
+	      value: (_vm.value),
 	      expression: "value"
 	    }],
 	    staticClass: "el-switch__label el-switch__label--left",
 	    style: ({
-	      'width': coreWidth + 'px'
-	    }),
-	    on: {
-	      "click": handleMiscClick
-	    }
-	  }, [(onIconClass) ? _h('i', {
-	    class: [onIconClass]
-	  }) : _e(), (!onIconClass && onText) ? _h('span', [_s(onText)]) : _e()])]), _h('transition', {
+	      'width': _vm.coreWidth + 'px'
+	    })
+	  }, [(_vm.onIconClass) ? _vm._h('i', {
+	    class: [_vm.onIconClass]
+	  }) : _vm._e(), (!_vm.onIconClass && _vm.onText) ? _vm._h('span', [_vm._s(_vm.onText)]) : _vm._e()])]), _vm._h('transition', {
 	    attrs: {
 	      "name": "label-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (!value),
+	      value: (!_vm.value),
 	      expression: "!value"
 	    }],
 	    staticClass: "el-switch__label el-switch__label--right",
 	    style: ({
-	      'width': coreWidth + 'px'
-	    }),
-	    on: {
-	      "click": handleMiscClick
-	    }
-	  }, [(offIconClass) ? _h('i', {
-	    class: [offIconClass]
-	  }) : _e(), (!offIconClass && offText) ? _h('span', [_s(offText)]) : _e()])])])
-	}},staticRenderFns: []}
+	      'width': _vm.coreWidth + 'px'
+	    })
+	  }, [(_vm.offIconClass) ? _vm._h('i', {
+	    class: [_vm.offIconClass]
+	  }) : _vm._e(), (!_vm.offIconClass && _vm.offText) ? _vm._h('span', [_vm._s(_vm.offText)]) : _vm._e()])])])
+	},staticRenderFns: []}
 
 /***/ }
 

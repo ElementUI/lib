@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(160);
+	module.exports = __webpack_require__(159);
 
 
 /***/ },
@@ -58,12 +58,14 @@ module.exports =
 
 /***/ },
 
-/***/ 160:
+/***/ 159:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _option = __webpack_require__(161);
+	var _option = __webpack_require__(160);
 
 	var _option2 = _interopRequireDefault(_option);
 
@@ -78,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 161:
+/***/ 160:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(162)
+	__vue_exports__ = __webpack_require__(161)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(163)
+	var __vue_template__ = __webpack_require__(162)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -108,8 +110,10 @@ module.exports =
 
 /***/ },
 
-/***/ 162:
+/***/ 161:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -246,30 +250,30 @@ module.exports =
 
 /***/ },
 
-/***/ 163:
+/***/ 162:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('li', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('li', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (visible),
+	      value: (_vm.visible),
 	      expression: "visible"
 	    }],
 	    staticClass: "el-select-dropdown__item",
 	    class: {
-	      'selected': itemSelected, 'is-disabled': disabled || groupDisabled, 'hover': parent.hoverIndex === index
+	      'selected': _vm.itemSelected, 'is-disabled': _vm.disabled || _vm.groupDisabled, 'hover': _vm.parent.hoverIndex === _vm.index
 	    },
 	    on: {
-	      "mouseenter": hoverItem,
+	      "mouseenter": _vm.hoverItem,
 	      "click": function($event) {
 	        $event.stopPropagation();
-	        selectOptionClick($event)
+	        _vm.selectOptionClick($event)
 	      }
 	    }
-	  }, [_t("default", [_h('span', [_s(currentLabel)])])])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default", [_vm._h('span', [_vm._s(_vm.currentLabel)])])])
+	},staticRenderFns: []}
 
 /***/ }
 

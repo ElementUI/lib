@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(205);
+	module.exports = __webpack_require__(204);
 
 
 /***/ },
@@ -72,86 +72,24 @@ module.exports =
 
 /***/ },
 
-/***/ 55:
+/***/ 53:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 
-/***/ 59:
+/***/ 57:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 68:
+/***/ 66:
 /***/ function(module, exports) {
 
-	var trim = function (string) {
-	  return (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
-	};
-
-	var hasClass = function (el, cls) {
-	  if (!el || !cls) return false;
-	  if (cls.indexOf(' ') != -1) throw new Error('className should not contain space.');
-	  if (el.classList) {
-	    return el.classList.contains(cls);
-	  } else {
-	    return (' ' + el.className + ' ').indexOf(' ' + cls + ' ') > -1;
-	  }
-	};
-
-	var addClass = function (el, cls) {
-	  if (!el) return;
-	  var curClass = el.className;
-	  var classes = (cls || '').split(' ');
-
-	  for (var i = 0, j = classes.length; i < j; i++) {
-	    var clsName = classes[i];
-	    if (!clsName) continue;
-
-	    if (el.classList) {
-	      el.classList.add(clsName);
-	    } else {
-	      if (!hasClass(el, clsName)) {
-	        curClass += ' ' + clsName;
-	      }
-	    }
-	  }
-	  if (!el.classList) {
-	    el.className = curClass;
-	  }
-	};
-
-	var removeClass = function (el, cls) {
-	  if (!el || !cls) return;
-	  var classes = cls.split(' ');
-	  var curClass = ' ' + el.className + ' ';
-
-	  for (var i = 0, j = classes.length; i < j; i++) {
-	    var clsName = classes[i];
-	    if (!clsName) continue;
-
-	    if (el.classList) {
-	      el.classList.remove(clsName);
-	    } else {
-	      if (hasClass(el, clsName)) {
-	        curClass = curClass.replace(' ' + clsName + ' ', ' ');
-	      }
-	    }
-	  }
-	  if (!el.classList) {
-	    el.className = trim(curClass);
-	  }
-	};
-
-	module.exports = {
-	  hasClass: hasClass,
-	  addClass: addClass,
-	  removeClass: removeClass
-	};
+	module.exports = require("wind-dom/src/class");
 
 /***/ },
 
@@ -162,12 +100,14 @@ module.exports =
 
 /***/ },
 
-/***/ 205:
+/***/ 204:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _select = __webpack_require__(206);
+	var _select = __webpack_require__(205);
 
 	var _select2 = _interopRequireDefault(_select);
 
@@ -182,17 +122,17 @@ module.exports =
 
 /***/ },
 
-/***/ 206:
+/***/ 205:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(207)
+	__vue_exports__ = __webpack_require__(206)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(215)
+	var __vue_template__ = __webpack_require__(213)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -212,8 +152,10 @@ module.exports =
 
 /***/ },
 
-/***/ 207:
+/***/ 206:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -221,7 +163,7 @@ module.exports =
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _locale = __webpack_require__(59);
+	var _locale = __webpack_require__(57);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -229,15 +171,15 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _selectDropdown = __webpack_require__(208);
+	var _selectDropdown = __webpack_require__(207);
 
 	var _selectDropdown2 = _interopRequireDefault(_selectDropdown);
 
-	var _tag = __webpack_require__(211);
+	var _tag = __webpack_require__(210);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _debounce = __webpack_require__(212);
+	var _debounce = __webpack_require__(211);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -245,9 +187,9 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _class = __webpack_require__(68);
+	var _class = __webpack_require__(66);
 
-	var _resizeEvent = __webpack_require__(214);
+	var _resizeEvent = __webpack_require__(212);
 
 	var _locale3 = __webpack_require__(149);
 
@@ -462,7 +404,7 @@ module.exports =
 	        _this.resetHoverIndex();
 	      });
 	    },
-	    selected: function selected(val) {
+	    selected: function selected(val, oldVal) {
 	      var _this2 = this;
 
 	      if (this.multiple) {
@@ -497,7 +439,7 @@ module.exports =
 	          this.selectedInit = false;
 	          return;
 	        }
-	        this.valueChangeBySelected = true;
+	        if (val.value === oldVal.value) return;
 	        this.$emit('input', val.value);
 	        this.$emit('change', val.value);
 	      }
@@ -802,17 +744,17 @@ module.exports =
 
 /***/ },
 
-/***/ 208:
+/***/ 207:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(209)
+	__vue_exports__ = __webpack_require__(208)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(210)
+	var __vue_template__ = __webpack_require__(209)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -832,12 +774,14 @@ module.exports =
 
 /***/ },
 
-/***/ 209:
+/***/ 208:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(55);
+	var _vuePopper = __webpack_require__(53);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -900,196 +844,77 @@ module.exports =
 
 /***/ },
 
-/***/ 210:
+/***/ 209:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-select-dropdown",
 	    class: {
-	      'is-multiple': $parent.multiple
+	      'is-multiple': _vm.$parent.multiple
 	    },
 	    style: ({
-	      minWidth: minWidth
+	      minWidth: _vm.minWidth
 	    })
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 211:
+/***/ 210:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 212:
-/***/ function(module, exports, __webpack_require__) {
-
-	/* eslint-disable no-undefined */
-
-	var throttle = __webpack_require__(213);
-
-	/**
-	 * Debounce execution of a function. Debouncing, unlike throttling,
-	 * guarantees that a function is only executed a single time, either at the
-	 * very beginning of a series of calls, or at the very end.
-	 *
-	 * @param  {Number}   delay         A zero-or-greater delay in milliseconds. For event callbacks, values around 100 or 250 (or even higher) are most useful.
-	 * @param  {Boolean}  atBegin       Optional, defaults to false. If atBegin is false or unspecified, callback will only be executed `delay` milliseconds
-	 *                                  after the last debounced-function call. If atBegin is true, callback will be executed only at the first debounced-function call.
-	 *                                  (After the throttled-function has not been called for `delay` milliseconds, the internal counter is reset).
-	 * @param  {Function} callback      A function to be executed after delay milliseconds. The `this` context and all arguments are passed through, as-is,
-	 *                                  to `callback` when the debounced-function is executed.
-	 *
-	 * @return {Function} A new, debounced function.
-	 */
-	module.exports = function ( delay, atBegin, callback ) {
-		return callback === undefined ? throttle(delay, atBegin, false) : throttle(delay, callback, atBegin !== false);
-	};
-
-
-/***/ },
-
-/***/ 213:
+/***/ 211:
 /***/ function(module, exports) {
 
-	/* eslint-disable no-undefined,no-param-reassign,no-shadow */
-
-	/**
-	 * Throttle execution of a function. Especially useful for rate limiting
-	 * execution of handlers on events like resize and scroll.
-	 *
-	 * @param  {Number}    delay          A zero-or-greater delay in milliseconds. For event callbacks, values around 100 or 250 (or even higher) are most useful.
-	 * @param  {Boolean}   noTrailing     Optional, defaults to false. If noTrailing is true, callback will only execute every `delay` milliseconds while the
-	 *                                    throttled-function is being called. If noTrailing is false or unspecified, callback will be executed one final time
-	 *                                    after the last throttled-function call. (After the throttled-function has not been called for `delay` milliseconds,
-	 *                                    the internal counter is reset)
-	 * @param  {Function}  callback       A function to be executed after delay milliseconds. The `this` context and all arguments are passed through, as-is,
-	 *                                    to `callback` when the throttled-function is executed.
-	 * @param  {Boolean}   debounceMode   If `debounceMode` is true (at begin), schedule `clear` to execute after `delay` ms. If `debounceMode` is false (at end),
-	 *                                    schedule `callback` to execute after `delay` ms.
-	 *
-	 * @return {Function}  A new, throttled, function.
-	 */
-	module.exports = function ( delay, noTrailing, callback, debounceMode ) {
-
-		// After wrapper has stopped being called, this timeout ensures that
-		// `callback` is executed at the proper times in `throttle` and `end`
-		// debounce modes.
-		var timeoutID;
-
-		// Keep track of the last time `callback` was executed.
-		var lastExec = 0;
-
-		// `noTrailing` defaults to falsy.
-		if ( typeof noTrailing !== 'boolean' ) {
-			debounceMode = callback;
-			callback = noTrailing;
-			noTrailing = undefined;
-		}
-
-		// The `wrapper` function encapsulates all of the throttling / debouncing
-		// functionality and when executed will limit the rate at which `callback`
-		// is executed.
-		function wrapper () {
-
-			var self = this;
-			var elapsed = Number(new Date()) - lastExec;
-			var args = arguments;
-
-			// Execute `callback` and update the `lastExec` timestamp.
-			function exec () {
-				lastExec = Number(new Date());
-				callback.apply(self, args);
-			}
-
-			// If `debounceMode` is true (at begin) this is used to clear the flag
-			// to allow future `callback` executions.
-			function clear () {
-				timeoutID = undefined;
-			}
-
-			if ( debounceMode && !timeoutID ) {
-				// Since `wrapper` is being called for the first time and
-				// `debounceMode` is true (at begin), execute `callback`.
-				exec();
-			}
-
-			// Clear any existing timeout.
-			if ( timeoutID ) {
-				clearTimeout(timeoutID);
-			}
-
-			if ( debounceMode === undefined && elapsed > delay ) {
-				// In throttle mode, if `delay` time has been exceeded, execute
-				// `callback`.
-				exec();
-
-			} else if ( noTrailing !== true ) {
-				// In trailing throttle mode, since `delay` time has not been
-				// exceeded, schedule `callback` to execute `delay` ms after most
-				// recent execution.
-				//
-				// If `debounceMode` is true (at begin), schedule `clear` to execute
-				// after `delay` ms.
-				//
-				// If `debounceMode` is false (at end), schedule `callback` to
-				// execute after `delay` ms.
-				timeoutID = setTimeout(debounceMode ? clear : exec, debounceMode === undefined ? delay - elapsed : delay);
-			}
-
-		}
-
-		// Return the wrapper function.
-		return wrapper;
-
-	};
-
+	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
 
-/***/ 214:
+/***/ 212:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ },
 
-/***/ 215:
+/***/ 213:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
-	      value: (handleClose),
+	      value: (_vm.handleClose),
 	      expression: "handleClose"
 	    }],
 	    staticClass: "el-select",
 	    class: {
-	      'is-multiple': multiple, 'is-small': size === 'small'
+	      'is-multiple': _vm.multiple, 'is-small': _vm.size === 'small'
 	    }
-	  }, [(multiple) ? _h('div', {
+	  }, [(_vm.multiple) ? _vm._h('div', {
 	    ref: "tags",
 	    staticClass: "el-select__tags",
 	    style: ({
-	      'max-width': inputWidth - 32 + 'px'
+	      'max-width': _vm.inputWidth - 32 + 'px'
 	    }),
 	    on: {
 	      "click": function($event) {
 	        $event.stopPropagation();
-	        toggleMenu($event)
+	        _vm.toggleMenu($event)
 	      }
 	    }
-	  }, [_h('transition-group', {
+	  }, [_vm._h('transition-group', {
 	    on: {
-	      "after-leave": resetInputHeight
+	      "after-leave": _vm.resetInputHeight
 	    }
-	  }, [_l((selected), function(item) {
-	    return _h('el-tag', {
+	  }, [_vm._l((_vm.selected), function(item) {
+	    return _vm._h('el-tag', {
 	      key: item,
 	      attrs: {
 	        "closable": "",
@@ -1099,145 +924,145 @@ module.exports =
 	      },
 	      on: {
 	        "close": function($event) {
-	          deleteTag($event, item)
+	          _vm.deleteTag($event, item)
 	        }
 	      }
-	    }, [_s(item.currentLabel)])
-	  })]), (filterable) ? _h('input', {
+	    }, [_vm._s(item.currentLabel)])
+	  })]), (_vm.filterable) ? _vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (query),
+	      value: (_vm.query),
 	      expression: "query"
 	    }],
 	    ref: "input",
 	    staticClass: "el-select__input",
 	    style: ({
-	      width: inputLength + 'px',
-	      'max-width': inputWidth - 42 + 'px'
+	      width: _vm.inputLength + 'px',
+	      'max-width': _vm.inputWidth - 42 + 'px'
 	    }),
 	    attrs: {
 	      "type": "text",
-	      "debounce": remote ? 300 : 0
+	      "debounce": _vm.remote ? 300 : 0
 	    },
 	    domProps: {
-	      "value": _s(query)
+	      "value": _vm._s(_vm.query)
 	    },
 	    on: {
 	      "focus": function($event) {
-	        visible = true
+	        _vm.visible = true
 	      },
-	      "keyup": managePlaceholder,
-	      "keydown": [resetInputState, function($event) {
-	        if ($event.keyCode !== 40) return;
+	      "keyup": _vm.managePlaceholder,
+	      "keydown": [_vm.resetInputState, function($event) {
+	        if ($event.keyCode !== 40) { return; }
 	        $event.preventDefault();
-	        navigateOptions('next')
+	        _vm.navigateOptions('next')
 	      }, function($event) {
-	        if ($event.keyCode !== 38) return;
+	        if ($event.keyCode !== 38) { return; }
 	        $event.preventDefault();
-	        navigateOptions('prev')
+	        _vm.navigateOptions('prev')
 	      }, function($event) {
-	        if ($event.keyCode !== 13) return;
+	        if ($event.keyCode !== 13) { return; }
 	        $event.preventDefault();
-	        selectOption($event)
+	        _vm.selectOption($event)
 	      }, function($event) {
-	        if ($event.keyCode !== 27) return;
+	        if ($event.keyCode !== 27) { return; }
 	        $event.preventDefault();
-	        visible = false
+	        _vm.visible = false
 	      }, function($event) {
-	        if ($event.keyCode !== 8 && $event.keyCode !== 46) return;
-	        deletePrevTag($event)
+	        if ($event.keyCode !== 8 && $event.keyCode !== 46) { return; }
+	        _vm.deletePrevTag($event)
 	      }],
 	      "input": function($event) {
-	        if ($event.target.composing) return;
-	        query = $event.target.value
+	        if ($event.target.composing) { return; }
+	        _vm.query = $event.target.value
 	      }
 	    }
-	  }) : _e()]) : _e(), _h('el-input', {
+	  }) : _vm._e()]) : _vm._e(), _vm._h('el-input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (selectedLabel),
+	      value: (_vm.selectedLabel),
 	      expression: "selectedLabel"
 	    }],
 	    ref: "reference",
 	    attrs: {
 	      "type": "text",
-	      "placeholder": currentPlaceholder,
-	      "name": name,
-	      "disabled": disabled,
-	      "readonly": !filterable || multiple,
-	      "icon": iconClass
+	      "placeholder": _vm.currentPlaceholder,
+	      "name": _vm.name,
+	      "disabled": _vm.disabled,
+	      "readonly": !_vm.filterable || _vm.multiple,
+	      "icon": _vm.iconClass
 	    },
 	    domProps: {
-	      "value": (selectedLabel)
+	      "value": (_vm.selectedLabel)
 	    },
 	    on: {
 	      "input": function($event) {
-	        selectedLabel = $event
+	        _vm.selectedLabel = $event
 	      }
 	    },
 	    nativeOn: {
 	      "click": function($event) {
-	        toggleMenu($event)
+	        _vm.toggleMenu($event)
 	      },
 	      "keyup": function($event) {
-	        debouncedOnInputChange($event)
+	        _vm.debouncedOnInputChange($event)
 	      },
 	      "keydown": [function($event) {
-	        if ($event.keyCode !== 40) return;
+	        if ($event.keyCode !== 40) { return; }
 	        $event.preventDefault();
-	        navigateOptions('next')
+	        _vm.navigateOptions('next')
 	      }, function($event) {
-	        if ($event.keyCode !== 38) return;
+	        if ($event.keyCode !== 38) { return; }
 	        $event.preventDefault();
-	        navigateOptions('prev')
+	        _vm.navigateOptions('prev')
 	      }, function($event) {
-	        if ($event.keyCode !== 13) return;
+	        if ($event.keyCode !== 13) { return; }
 	        $event.preventDefault();
-	        selectOption($event)
+	        _vm.selectOption($event)
 	      }, function($event) {
-	        if ($event.keyCode !== 27) return;
+	        if ($event.keyCode !== 27) { return; }
 	        $event.preventDefault();
-	        visible = false
+	        _vm.visible = false
 	      }, function($event) {
-	        if ($event.keyCode !== 9) return;
-	        visible = false
+	        if ($event.keyCode !== 9) { return; }
+	        _vm.visible = false
 	      }],
 	      "mouseenter": function($event) {
-	        inputHovering = true
+	        _vm.inputHovering = true
 	      },
 	      "mouseleave": function($event) {
-	        inputHovering = false
+	        _vm.inputHovering = false
 	      }
 	    }
-	  }), _h('transition', {
+	  }), _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    },
 	    on: {
-	      "after-leave": doDestroy
+	      "after-leave": _vm.doDestroy
 	    }
-	  }, [_h('el-select-menu', {
+	  }, [_vm._h('el-select-menu', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (visible && emptyText !== false),
+	      value: (_vm.visible && _vm.emptyText !== false),
 	      expression: "visible && emptyText !== false"
 	    }],
 	    ref: "popper"
-	  }, [_h('ul', {
+	  }, [_vm._h('ul', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (options.length > 0 && filteredOptionsCount > 0 && !loading),
+	      value: (_vm.options.length > 0 && _vm.filteredOptionsCount > 0 && !_vm.loading),
 	      expression: "options.length > 0 && filteredOptionsCount > 0 && !loading"
 	    }],
 	    staticClass: "el-select-dropdown__list"
-	  }, [_t("default")]), (emptyText) ? _h('p', {
+	  }, [_vm._t("default")]), (_vm.emptyText) ? _vm._h('p', {
 	    staticClass: "el-select-dropdown__empty"
-	  }, [_s(emptyText)]) : _e()])])])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.emptyText)]) : _vm._e()])])])
+	},staticRenderFns: []}
 
 /***/ }
 

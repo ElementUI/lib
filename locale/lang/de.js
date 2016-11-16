@@ -1,3 +1,5 @@
+'use strict';
+
 exports.__esModule = true;
 exports.default = {
   el: {
@@ -78,6 +80,9 @@ exports.default = {
       confirmFilter: 'filtern',
       resetFilter: 'rücksetzen',
       clearFilter: 'alles'
+    },
+    tree: {
+      emptyText: 'keine Daten'
     }
   }
 };

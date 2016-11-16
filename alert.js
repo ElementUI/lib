@@ -52,6 +52,8 @@ module.exports =
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _main = __webpack_require__(2);
@@ -99,6 +101,8 @@ module.exports =
 /***/ },
 /* 3 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -185,48 +189,48 @@ module.exports =
 /* 4 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "el-alert-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (visible),
+	      value: (_vm.visible),
 	      expression: "visible"
 	    }],
 	    staticClass: "el-alert",
-	    class: [typeClass]
-	  }, [(showIcon) ? _h('i', {
+	    class: [_vm.typeClass]
+	  }, [(_vm.showIcon) ? _vm._h('i', {
 	    staticClass: "el-alert__icon",
-	    class: [iconClass, isBigIcon]
-	  }) : _e(), _h('div', {
+	    class: [_vm.iconClass, _vm.isBigIcon]
+	  }) : _vm._e(), _vm._h('div', {
 	    staticClass: "el-alert__content"
-	  }, [(title) ? _h('span', {
+	  }, [(_vm.title) ? _vm._h('span', {
 	    staticClass: "el-alert__title",
-	    class: [isBoldTitle]
-	  }, [_s(title)]) : _e(), (description) ? _h('p', {
+	    class: [_vm.isBoldTitle]
+	  }, [_vm._s(_vm.title)]) : _vm._e(), (_vm.description) ? _vm._h('p', {
 	    staticClass: "el-alert__description"
-	  }, [_s(description)]) : _e(), _h('i', {
+	  }, [_vm._s(_vm.description)]) : _vm._e(), _vm._h('i', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (closable),
+	      value: (_vm.closable),
 	      expression: "closable"
 	    }],
 	    staticClass: "el-alert__closebtn",
 	    class: {
-	      'is-customed': closeText !== '', 'el-icon-close': closeText === ''
+	      'is-customed': _vm.closeText !== '', 'el-icon-close': _vm.closeText === ''
 	    },
 	    on: {
 	      "click": function($event) {
-	        close()
+	        _vm.close()
 	      }
 	    }
-	  }, [_s(closeText)])])])])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.closeText)])])])])
+	},staticRenderFns: []}
 
 /***/ }
 /******/ ]);

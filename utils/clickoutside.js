@@ -1,3 +1,5 @@
+'use strict';
+
 exports.__esModule = true;
 
 var _event = require('wind-dom/src/event');

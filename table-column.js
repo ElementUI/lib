@@ -46,38 +46,40 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(262);
+	module.exports = __webpack_require__(261);
 
 
 /***/ },
 
-/***/ 154:
+/***/ 123:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 211:
+/***/ 210:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 255:
+/***/ 254:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 262:
+/***/ 261:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _tableColumn = __webpack_require__(263);
+	var _tableColumn = __webpack_require__(262);
 
 	var _tableColumn2 = _interopRequireDefault(_tableColumn);
 
@@ -92,20 +94,22 @@ module.exports =
 
 /***/ },
 
-/***/ 263:
+/***/ 262:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(255);
+	var _checkbox = __webpack_require__(254);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(211);
+	var _tag = __webpack_require__(210);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _merge = __webpack_require__(154);
+	var _merge = __webpack_require__(123);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
@@ -220,11 +224,7 @@ module.exports =
 	  var row = _ref4.row;
 	  var column = _ref4.column;
 
-	  return h(
-	    'span',
-	    null,
-	    [parent.getCellContent(row, column.property, column.id)]
-	  );
+	  return parent.getCellContent(row, column.property, column);
 	};
 
 	exports.default = {
@@ -236,6 +236,7 @@ module.exports =
 	      default: 'default'
 	    },
 	    label: String,
+	    className: String,
 	    property: String,
 	    prop: String,
 	    width: {},
@@ -329,6 +330,7 @@ module.exports =
 	    var column = getDefaultColumn(type, {
 	      id: columnId,
 	      label: this.label,
+	      className: this.className,
 	      property: this.prop || this.property,
 	      type: type,
 	      renderCell: DEFAULT_RENDER_CELL,
@@ -361,12 +363,13 @@ module.exports =
 	    column.renderCell = function (h, data) {
 	      if (_self.$vnode.data.inlineTemplate) {
 	        renderCell = function renderCell() {
-	          data._staticTrees = _self._staticTrees;
-	          data.$options = {};
-	          data.$options.staticRenderFns = _self.$options.staticRenderFns;
-	          data._renderProxy = _self._renderProxy;
-	          data._m = _self._m;
-
+	          if (Object.prototype.toString.call(data._self) === '[object Object]') {
+	            for (var prop in data._self) {
+	              if (!data.hasOwnProperty(prop)) {
+	                data[prop] = data._self[prop];
+	              }
+	            }
+	          }
 	          return _self.customRender.call(data);
 	        };
 	      }

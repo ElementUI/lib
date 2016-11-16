@@ -46,17 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(264);
+	module.exports = __webpack_require__(263);
 
 
 /***/ },
 
-/***/ 264:
+/***/ 263:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _tabs = __webpack_require__(265);
+	var _tabs = __webpack_require__(264);
 
 	var _tabs2 = _interopRequireDefault(_tabs);
 
@@ -71,14 +73,14 @@ module.exports =
 
 /***/ },
 
-/***/ 265:
+/***/ 264:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(266)
+	__vue_exports__ = __webpack_require__(265)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -96,10 +98,11 @@ module.exports =
 
 /***/ },
 
-/***/ 266:
+/***/ 265:
 /***/ function(module, exports) {
 
-	
+	'use strict';
+
 	module.exports = {
 	  name: 'el-tabs',
 
@@ -180,8 +183,9 @@ module.exports =
 	  mounted: function mounted() {
 	    var _this2 = this;
 
+	    this.currentName = this.activeName || this.$children[0].index || '1';
 	    this.$nextTick(function () {
-	      _this2.currentName = _this2.activeName || _this2.$children[0].index || '1';
+	      _this2.$forceUpdate();
 	    });
 	  },
 	  render: function render(h) {

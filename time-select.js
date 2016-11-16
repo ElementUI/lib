@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(276);
+	module.exports = __webpack_require__(275);
 
 
 /***/ },
@@ -65,17 +65,17 @@ module.exports =
 
 /***/ },
 
-/***/ 50:
+/***/ 48:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(51)
+	__vue_exports__ = __webpack_require__(49)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(56)
+	var __vue_template__ = __webpack_require__(54)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -95,12 +95,14 @@ module.exports =
 
 /***/ },
 
-/***/ 51:
+/***/ 49:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(52);
+	var _vue = __webpack_require__(50);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -108,9 +110,9 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _util = __webpack_require__(53);
+	var _util = __webpack_require__(51);
 
-	var _vuePopper = __webpack_require__(55);
+	var _vuePopper = __webpack_require__(53);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -130,6 +132,10 @@ module.exports =
 	  data: _vuePopper2.default.data,
 	  beforeDestroy: _vuePopper2.default.beforeDestroy
 	}; //
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -308,6 +314,11 @@ module.exports =
 	    format: String,
 	    readonly: Boolean,
 	    placeholder: String,
+	    disabled: Boolean,
+	    editable: {
+	      type: Boolean,
+	      default: true
+	    },
 	    align: {
 	      type: String,
 	      default: 'left'
@@ -321,29 +332,51 @@ module.exports =
 
 	  data: function data() {
 	    return {
-	      pickerVisible: false
+	      pickerVisible: false,
+	      showClose: false,
+	      internalValue: ''
 	    };
 	  },
 
 
 	  watch: {
 	    pickerVisible: function pickerVisible(val) {
+	      if (this.readonly || this.disabled) return;
 	      val ? this.showPicker() : this.hidePicker();
 	    },
-	    value: function value(val) {
+	    internalValue: function internalValue(val) {
 	      if (!val && this.picker && typeof this.picker.handleClear === 'function') {
 	        this.picker.handleClear();
 	      }
 	      this.dispatch('form-item', 'el.form.change');
+	    },
+
+	    value: {
+	      immediate: true,
+	      handler: function handler(val) {
+	        this.internalValue = val;
+	      }
 	    }
 	  },
 
 	  computed: {
+	    valueIsEmpty: function valueIsEmpty() {
+	      var val = this.internalValue;
+	      if (Array.isArray(val)) {
+	        for (var i = 0, j = val.length; i < j; i++) {
+	          if (val[i]) {
+	            return false;
+	          }
+	        }
+	      } else {
+	        if (val) {
+	          return false;
+	        }
+	      }
+	      return true;
+	    },
 	    triggerClass: function triggerClass() {
 	      return this.type.indexOf('time') !== -1 ? 'el-icon-time' : 'el-icon-date';
-	    },
-	    editable: function editable() {
-	      return this.type.indexOf('range') === -1;
 	    },
 	    selectionMode: function selectionMode() {
 	      if (this.type === 'week') {
@@ -366,7 +399,7 @@ module.exports =
 
 	    visualValue: {
 	      get: function get() {
-	        var value = this.value;
+	        var value = this.internalValue;
 	        var formatter = (TYPE_VALUE_RESOLVER_MAP[this.type] || TYPE_VALUE_RESOLVER_MAP['default']).formatter;
 	        var format = DEFAULT_FORMATS[this.type];
 
@@ -399,6 +432,18 @@ module.exports =
 
 
 	  methods: {
+	    handleMouseEnterIcon: function handleMouseEnterIcon() {
+	      if (!this.valueIsEmpty) {
+	        this.showClose = true;
+	      }
+	    },
+	    handleClickIcon: function handleClickIcon() {
+	      if (this.valueIsEmpty) {
+	        this.pickerVisible = !this.pickerVisible;
+	      } else {
+	        this.internalValue = '';
+	      }
+	    },
 	    handleClose: function handleClose() {
 	      this.pickerVisible = false;
 	    },
@@ -465,7 +510,7 @@ module.exports =
 	      var _this = this;
 
 	      if (!this.picker) {
-	        this.panel.defaultValue = this.value;
+	        this.panel.defaultValue = this.internalValue;
 	        this.picker = new _vue2.default(this.panel).$mount(document.createElement('div'));
 	        this.popperElm = this.picker.$el;
 	        this.picker.width = this.$refs.reference.getBoundingClientRect().width;
@@ -513,10 +558,7 @@ module.exports =
 	          var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 	          _this.$emit('input', date);
-
-	          if (!visible) {
-	            _this.pickerVisible = _this.picker.visible = !_this.picker.visible;
-	          }
+	          _this.pickerVisible = _this.picker.visible = visible;
 	          _this.picker.resetView && _this.picker.resetView();
 	        });
 
@@ -532,11 +574,11 @@ module.exports =
 
 	      this.updatePopper();
 
-	      if (this.value instanceof Date) {
-	        this.picker.date = new Date(this.value.getTime());
+	      if (this.internalValue instanceof Date) {
+	        this.picker.date = new Date(this.internalValue.getTime());
 	        this.picker.resetView && this.picker.resetView();
 	      } else {
-	        this.picker.value = this.value;
+	        this.picker.value = this.internalValue;
 	      }
 
 	      this.$nextTick(function () {
@@ -548,20 +590,22 @@ module.exports =
 
 /***/ },
 
-/***/ 52:
+/***/ 50:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 53:
+/***/ 51:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.toDate = undefined;
 
-	var _date = __webpack_require__(54);
+	var _date = __webpack_require__(52);
 
 	var _date2 = _interopRequireDefault(_date);
 
@@ -729,42 +773,42 @@ module.exports =
 
 /***/ },
 
-/***/ 54:
+/***/ 52:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/date");
 
 /***/ },
 
-/***/ 55:
+/***/ 53:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 
-/***/ 56:
+/***/ 54:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('span', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('span', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
-	      value: (handleClose),
+	      value: (_vm.handleClose),
 	      expression: "handleClose"
 	    }],
 	    staticClass: "el-date-editor",
 	    class: {
-	      'is-have-trigger': haveTrigger,
-	      'is-active': pickerVisible,
-	      'is-filled': !!this.value
+	      'is-have-trigger': _vm.haveTrigger,
+	      'is-active': _vm.pickerVisible,
+	      'is-filled': !!this.internalValue
 	    }
-	  }, [_h('input', {
+	  }, [_vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model.lazy",
-	      value: (visualValue),
+	      value: (_vm.visualValue),
 	      expression: "visualValue",
 	      modifiers: {
 	        "lazy": true
@@ -772,41 +816,52 @@ module.exports =
 	    }],
 	    ref: "reference",
 	    staticClass: "el-date-editor__editor",
+	    class: {
+	      'is-disabled': _vm.disabled
+	    },
 	    attrs: {
-	      "readonly": readonly,
+	      "readonly": !_vm.editable || _vm.readonly,
+	      "disabled": _vm.disabled,
 	      "type": "text",
-	      "placeholder": placeholder
+	      "placeholder": _vm.placeholder
 	    },
 	    domProps: {
-	      "value": _s(visualValue)
+	      "value": _vm._s(_vm.visualValue)
 	    },
 	    on: {
-	      "focus": handleFocus,
-	      "blur": handleBlur,
-	      "keydown": handleKeydown,
+	      "focus": _vm.handleFocus,
+	      "blur": _vm.handleBlur,
+	      "keydown": _vm.handleKeydown,
 	      "change": function($event) {
-	        visualValue = $event.target.value
+	        _vm.visualValue = $event.target.value
 	      }
 	    }
-	  }), (haveTrigger) ? _h('span', {
+	  }), (_vm.haveTrigger) ? _vm._h('span', {
 	    staticClass: "el-date-editor__trigger el-icon",
-	    class: [triggerClass],
+	    class: [_vm.showClose ? 'el-icon-close' : _vm.triggerClass],
 	    on: {
 	      "click": function($event) {
-	        pickerVisible = !pickerVisible
+	        $event.stopPropagation();
+	        _vm.handleClickIcon($event)
+	      },
+	      "mouseenter": _vm.handleMouseEnterIcon,
+	      "mouseleave": function($event) {
+	        _vm.showClose = false
 	      }
 	    }
-	  }) : _e()])
-	}},staticRenderFns: []}
+	  }) : _vm._e()])
+	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 276:
+/***/ 275:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _timeSelect = __webpack_require__(277);
+	var _timeSelect = __webpack_require__(276);
 
 	var _timeSelect2 = _interopRequireDefault(_timeSelect);
 
@@ -821,16 +876,18 @@ module.exports =
 
 /***/ },
 
-/***/ 277:
+/***/ 276:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _picker = __webpack_require__(50);
+	var _picker = __webpack_require__(48);
 
 	var _picker2 = _interopRequireDefault(_picker);
 
-	var _timeSelect = __webpack_require__(278);
+	var _timeSelect = __webpack_require__(277);
 
 	var _timeSelect2 = _interopRequireDefault(_timeSelect);
 
@@ -849,17 +906,17 @@ module.exports =
 
 /***/ },
 
-/***/ 278:
+/***/ 277:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(279)
+	__vue_exports__ = __webpack_require__(278)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(280)
+	var __vue_template__ = __webpack_require__(279)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -879,8 +936,10 @@ module.exports =
 
 /***/ },
 
-/***/ 279:
+/***/ 278:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -966,6 +1025,9 @@ module.exports =
 	      if (!item.disabled) {
 	        this.$emit('pick', item.value);
 	      }
+	    },
+	    handleClear: function handleClear() {
+	      this.$emit('pick');
 	    }
 	  },
 
@@ -1008,49 +1070,49 @@ module.exports =
 
 /***/ },
 
-/***/ 280:
+/***/ 279:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    },
 	    on: {
 	      "after-leave": function($event) {
-	        $emit('dodestroy')
+	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (visible),
+	      value: (_vm.visible),
 	      expression: "visible"
 	    }],
 	    staticClass: "el-picker-panel time-select",
 	    style: ({
-	      width: width + 'px'
+	      width: _vm.width + 'px'
 	    })
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-picker-panel__content"
-	  }, [_l((items), function(item) {
-	    return _h('div', {
+	  }, [_vm._l((_vm.items), function(item) {
+	    return _vm._h('div', {
 	      staticClass: "time-select-item",
 	      class: {
-	        selected: value === item.value, disabled: item.disabled
+	        selected: _vm.value === item.value, disabled: item.disabled
 	      },
 	      attrs: {
 	        "disabled": item.disabled
 	      },
 	      on: {
 	        "click": function($event) {
-	          handleClick(item)
+	          _vm.handleClick(item)
 	        }
 	      }
-	    }, [_s(item.value)])
+	    }, [_vm._s(item.value)])
 	  })])])])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ }
 

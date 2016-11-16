@@ -46,17 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(80);
+	module.exports = __webpack_require__(78);
 
 
 /***/ },
 
-/***/ 80:
+/***/ 78:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _component = __webpack_require__(81);
+	var _component = __webpack_require__(79);
 
 	var _component2 = _interopRequireDefault(_component);
 
@@ -71,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 81:
+/***/ 79:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(82)
+	__vue_exports__ = __webpack_require__(80)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(84)
+	var __vue_template__ = __webpack_require__(82)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -101,12 +103,14 @@ module.exports =
 
 /***/ },
 
-/***/ 82:
+/***/ 80:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopup = __webpack_require__(83);
+	var _vuePopup = __webpack_require__(81);
 
 	var _vuePopup2 = _interopRequireDefault(_vuePopup);
 
@@ -143,6 +147,11 @@ module.exports =
 	      default: true
 	    },
 
+	    showClose: {
+	      type: Boolean,
+	      default: true
+	    },
+
 	    size: {
 	      type: String,
 	      default: 'small'
@@ -158,11 +167,21 @@ module.exports =
 	      default: '15%'
 	    }
 	  },
+	  data: function data() {
+	    return {
+	      visible: false
+	    };
+	  },
+
 
 	  watch: {
 	    value: function value(val) {
+	      this.visible = val;
+	    },
+	    visible: function visible(val) {
 	      var _this = this;
 
+	      this.$emit('input', val);
 	      if (val) {
 	        this.$emit('open');
 	        this.$nextTick(function () {
@@ -186,7 +205,7 @@ module.exports =
 	  methods: {
 	    handleWrapperClick: function handleWrapperClick() {
 	      if (this.closeOnClickModal) {
-	        this.$emit('input', false);
+	        this.close();
 	      }
 	    }
 	  },
@@ -223,59 +242,59 @@ module.exports =
 
 /***/ },
 
-/***/ 83:
+/***/ 81:
 /***/ function(module, exports) {
 
 	module.exports = require("vue-popup");
 
 /***/ },
 
-/***/ 84:
+/***/ 82:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "dialog-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (value),
-	      expression: "value"
+	      value: (_vm.visible),
+	      expression: "visible"
 	    }],
 	    staticClass: "el-dialog__wrapper",
 	    on: {
 	      "click": function($event) {
-	        if ($event.target !== $event.currentTarget) return;
-	        handleWrapperClick($event)
+	        if ($event.target !== $event.currentTarget) { return; }
+	        _vm.handleWrapperClick($event)
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    ref: "dialog",
 	    staticClass: "el-dialog",
-	    class: [sizeClass, customClass],
-	    style: (style)
-	  }, [_h('div', {
+	    class: [_vm.sizeClass, _vm.customClass],
+	    style: (_vm.style)
+	  }, [_vm._h('div', {
 	    staticClass: "el-dialog__header"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-dialog__title"
-	  }, [_s(title)]), _h('div', {
+	  }, [_vm._s(_vm.title)]), _vm._h('div', {
 	    staticClass: "el-dialog__headerbtn"
-	  }, [_h('i', {
+	  }, [(_vm.showClose) ? _vm._h('i', {
 	    staticClass: "el-dialog__close el-icon el-icon-close",
 	    on: {
 	      "click": function($event) {
-	        close()
+	        _vm.close()
 	      }
 	    }
-	  })])]), (rendered) ? _h('div', {
+	  }) : _vm._e()])]), (_vm.rendered) ? _vm._h('div', {
 	    staticClass: "el-dialog__body"
-	  }, [_t("default")]) : _e(), ($slots.footer) ? _h('div', {
+	  }, [_vm._t("default")]) : _vm._e(), (_vm.$slots.footer) ? _vm._h('div', {
 	    staticClass: "el-dialog__footer"
-	  }, [_t("footer")]) : _e()])])])
-	}},staticRenderFns: []}
+	  }, [_vm._t("footer")]) : _vm._e()])])])
+	},staticRenderFns: []}
 
 /***/ }
 

@@ -46,86 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(197);
+	module.exports = __webpack_require__(196);
 
 
 /***/ },
 
-/***/ 68:
+/***/ 66:
 /***/ function(module, exports) {
 
-	var trim = function (string) {
-	  return (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
-	};
-
-	var hasClass = function (el, cls) {
-	  if (!el || !cls) return false;
-	  if (cls.indexOf(' ') != -1) throw new Error('className should not contain space.');
-	  if (el.classList) {
-	    return el.classList.contains(cls);
-	  } else {
-	    return (' ' + el.className + ' ').indexOf(' ' + cls + ' ') > -1;
-	  }
-	};
-
-	var addClass = function (el, cls) {
-	  if (!el) return;
-	  var curClass = el.className;
-	  var classes = (cls || '').split(' ');
-
-	  for (var i = 0, j = classes.length; i < j; i++) {
-	    var clsName = classes[i];
-	    if (!clsName) continue;
-
-	    if (el.classList) {
-	      el.classList.add(clsName);
-	    } else {
-	      if (!hasClass(el, clsName)) {
-	        curClass += ' ' + clsName;
-	      }
-	    }
-	  }
-	  if (!el.classList) {
-	    el.className = curClass;
-	  }
-	};
-
-	var removeClass = function (el, cls) {
-	  if (!el || !cls) return;
-	  var classes = cls.split(' ');
-	  var curClass = ' ' + el.className + ' ';
-
-	  for (var i = 0, j = classes.length; i < j; i++) {
-	    var clsName = classes[i];
-	    if (!clsName) continue;
-
-	    if (el.classList) {
-	      el.classList.remove(clsName);
-	    } else {
-	      if (hasClass(el, clsName)) {
-	        curClass = curClass.replace(' ' + clsName + ' ', ' ');
-	      }
-	    }
-	  }
-	  if (!el.classList) {
-	    el.className = trim(curClass);
-	  }
-	};
-
-	module.exports = {
-	  hasClass: hasClass,
-	  addClass: addClass,
-	  removeClass: removeClass
-	};
+	module.exports = require("wind-dom/src/class");
 
 /***/ },
 
-/***/ 197:
+/***/ 196:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(198);
+	var _main = __webpack_require__(197);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -140,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 198:
+/***/ 197:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(199)
+	__vue_exports__ = __webpack_require__(198)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(200)
+	var __vue_template__ = __webpack_require__(199)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -170,12 +110,14 @@ module.exports =
 
 /***/ },
 
-/***/ 199:
+/***/ 198:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _class = __webpack_require__(68);
+	var _class = __webpack_require__(66);
 
 	exports.default = {
 	  name: 'el-rate',
@@ -440,45 +382,45 @@ module.exports =
 
 /***/ },
 
-/***/ 200:
+/***/ 199:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-rate"
-	  }, [_l((max), function(item) {
-	    return _h('span', {
+	  }, [_vm._l((_vm.max), function(item) {
+	    return _vm._h('span', {
 	      staticClass: "el-rate__item",
 	      style: ({
-	        cursor: disabled ? 'auto' : 'pointer'
+	        cursor: _vm.disabled ? 'auto' : 'pointer'
 	      }),
 	      on: {
 	        "mousemove": function($event) {
-	          setCurrentValue(item, $event)
+	          _vm.setCurrentValue(item, $event)
 	        },
-	        "mouseleave": resetCurrentValue,
+	        "mouseleave": _vm.resetCurrentValue,
 	        "click": function($event) {
-	          selectValue(item)
+	          _vm.selectValue(item)
 	        }
 	      }
-	    }, [_h('i', {
+	    }, [_vm._h('i', {
 	      staticClass: "el-rate__icon",
-	      class: [classes[item - 1], {
-	        'hover': hoverIndex === item
+	      class: [_vm.classes[item - 1], {
+	        'hover': _vm.hoverIndex === item
 	      }],
-	      style: (getIconStyle(item))
-	    }, [(showDecimalIcon(item)) ? _h('i', {
+	      style: (_vm.getIconStyle(item))
+	    }, [(_vm.showDecimalIcon(item)) ? _vm._h('i', {
 	      staticClass: "el-rate__decimal",
-	      class: decimalIconClass,
-	      style: (decimalStyle)
-	    }) : _e()])])
-	  }), (showText) ? _h('span', {
+	      class: _vm.decimalIconClass,
+	      style: (_vm.decimalStyle)
+	    }) : _vm._e()])])
+	  }), (_vm.showText) ? _vm._h('span', {
 	    staticClass: "el-rate__text",
 	    style: ({
-	      color: textColor
+	      color: _vm.textColor
 	    })
-	  }, [_s(text)]) : _e()])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.text)]) : _vm._e()])
+	},staticRenderFns: []}
 
 /***/ }
 

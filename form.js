@@ -46,17 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(96);
+	module.exports = __webpack_require__(94);
 
 
 /***/ },
 
-/***/ 96:
+/***/ 94:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _form = __webpack_require__(97);
+	var _form = __webpack_require__(95);
 
 	var _form2 = _interopRequireDefault(_form);
 
@@ -71,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 97:
+/***/ 95:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(98)
+	__vue_exports__ = __webpack_require__(96)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(99)
+	var __vue_template__ = __webpack_require__(97)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -101,8 +103,10 @@ module.exports =
 
 /***/ },
 
-/***/ 98:
+/***/ 96:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -189,19 +193,19 @@ module.exports =
 
 /***/ },
 
-/***/ 99:
+/***/ 97:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('form', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('form', {
 	    staticClass: "el-form",
 	    class: [
-	      labelPosition ? 'el-form--label-' + labelPosition : '', {
-	        'el-form--inline': inline
+	      _vm.labelPosition ? 'el-form--label-' + _vm.labelPosition : '', {
+	        'el-form--inline': _vm.inline
 	      }
 	    ]
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ }
 

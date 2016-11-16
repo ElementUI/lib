@@ -46,17 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(223);
+	module.exports = __webpack_require__(221);
 
 
 /***/ },
 
-/***/ 223:
+/***/ 221:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _spinner = __webpack_require__(224);
+	var _spinner = __webpack_require__(222);
 
 	var _spinner2 = _interopRequireDefault(_spinner);
 
@@ -71,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 224:
+/***/ 222:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(225)
+	__vue_exports__ = __webpack_require__(223)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(226)
+	var __vue_template__ = __webpack_require__(224)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -101,8 +103,10 @@ module.exports =
 
 /***/ },
 
-/***/ 225:
+/***/ 223:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -134,33 +138,33 @@ module.exports =
 
 /***/ },
 
-/***/ 226:
+/***/ 224:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('span', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('span', {
 	    staticClass: "el-spinner"
-	  }, [_h('svg', {
+	  }, [_vm._h('svg', {
 	    staticClass: "el-spinner-inner",
 	    style: ({
-	      width: radius / 2 + 'px',
-	      height: radius / 2 + 'px'
+	      width: _vm.radius / 2 + 'px',
+	      height: _vm.radius / 2 + 'px'
 	    }),
 	    attrs: {
 	      "viewBox": "0 0 50 50"
 	    }
-	  }, [_h('circle', {
+	  }, [_vm._h('circle', {
 	    staticClass: "path",
 	    attrs: {
 	      "cx": "25",
 	      "cy": "25",
 	      "r": "20",
 	      "fill": "none",
-	      "stroke": strokeColor,
-	      "stroke-width": strokeWidth
+	      "stroke": _vm.strokeColor,
+	      "stroke-width": _vm.strokeWidth
 	    }
 	  })])])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ }
 

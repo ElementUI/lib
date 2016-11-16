@@ -61,6 +61,8 @@ module.exports =
 /***/ 124:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _menu = __webpack_require__(125);
@@ -110,6 +112,8 @@ module.exports =
 
 /***/ 126:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -249,15 +253,15 @@ module.exports =
 /***/ 127:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('ul', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('ul', {
 	    staticClass: "el-menu",
 	    class: {
-	      'el-menu--horizontal': mode === 'horizontal',
-	        'el-menu--dark': theme === 'dark'
+	      'el-menu--horizontal': _vm.mode === 'horizontal',
+	        'el-menu--dark': _vm.theme === 'dark'
 	    }
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ }
 

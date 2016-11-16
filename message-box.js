@@ -58,91 +58,38 @@ module.exports =
 
 /***/ },
 
-/***/ 52:
+/***/ 50:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 68:
+/***/ 66:
 /***/ function(module, exports) {
 
-	var trim = function (string) {
-	  return (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
-	};
-
-	var hasClass = function (el, cls) {
-	  if (!el || !cls) return false;
-	  if (cls.indexOf(' ') != -1) throw new Error('className should not contain space.');
-	  if (el.classList) {
-	    return el.classList.contains(cls);
-	  } else {
-	    return (' ' + el.className + ' ').indexOf(' ' + cls + ' ') > -1;
-	  }
-	};
-
-	var addClass = function (el, cls) {
-	  if (!el) return;
-	  var curClass = el.className;
-	  var classes = (cls || '').split(' ');
-
-	  for (var i = 0, j = classes.length; i < j; i++) {
-	    var clsName = classes[i];
-	    if (!clsName) continue;
-
-	    if (el.classList) {
-	      el.classList.add(clsName);
-	    } else {
-	      if (!hasClass(el, clsName)) {
-	        curClass += ' ' + clsName;
-	      }
-	    }
-	  }
-	  if (!el.classList) {
-	    el.className = curClass;
-	  }
-	};
-
-	var removeClass = function (el, cls) {
-	  if (!el || !cls) return;
-	  var classes = cls.split(' ');
-	  var curClass = ' ' + el.className + ' ';
-
-	  for (var i = 0, j = classes.length; i < j; i++) {
-	    var clsName = classes[i];
-	    if (!clsName) continue;
-
-	    if (el.classList) {
-	      el.classList.remove(clsName);
-	    } else {
-	      if (hasClass(el, clsName)) {
-	        curClass = curClass.replace(' ' + clsName + ' ', ' ');
-	      }
-	    }
-	  }
-	  if (!el.classList) {
-	    el.className = trim(curClass);
-	  }
-	};
-
-	module.exports = {
-	  hasClass: hasClass,
-	  addClass: addClass,
-	  removeClass: removeClass
-	};
+	module.exports = require("wind-dom/src/class");
 
 /***/ },
 
-/***/ 83:
+/***/ 81:
 /***/ function(module, exports) {
 
 	module.exports = require("vue-popup");
 
 /***/ },
 
+/***/ 123:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/merge");
+
+/***/ },
+
 /***/ 147:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -159,6 +106,8 @@ module.exports =
 /***/ 148:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 	exports.MessageBox = undefined;
 
@@ -166,7 +115,7 @@ module.exports =
 
 	var _locale = __webpack_require__(149);
 
-	var _vue = __webpack_require__(52);
+	var _vue = __webpack_require__(50);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -174,7 +123,7 @@ module.exports =
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _merge = __webpack_require__(154);
+	var _merge = __webpack_require__(123);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
@@ -286,10 +235,10 @@ module.exports =
 	var MessageBox = function MessageBox(options, callback) {
 	  if (typeof options === 'string') {
 	    options = {
-	      title: options
+	      message: options
 	    };
 	    if (arguments[1]) {
-	      options.message = arguments[1];
+	      options.title = arguments[1];
 	    }
 	    if (arguments[2]) {
 	      options.type = arguments[2];
@@ -416,9 +365,11 @@ module.exports =
 /***/ 151:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
-	var _vuePopup = __webpack_require__(83);
+	var _vuePopup = __webpack_require__(81);
 
 	var _vuePopup2 = _interopRequireDefault(_vuePopup);
 
@@ -430,7 +381,7 @@ module.exports =
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _class = __webpack_require__(68);
+	var _class = __webpack_require__(66);
 
 	var _locale = __webpack_require__(149);
 
@@ -637,118 +588,111 @@ module.exports =
 /***/ 153:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "msgbox-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (value),
+	      value: (_vm.value),
 	      expression: "value"
 	    }],
 	    staticClass: "el-message-box__wrapper",
 	    on: {
 	      "click": function($event) {
-	        if ($event.target !== $event.currentTarget) return;
-	        handleWrapperClick($event)
+	        if ($event.target !== $event.currentTarget) { return; }
+	        _vm.handleWrapperClick($event)
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-message-box"
-	  }, [(title !== '') ? _h('div', {
+	  }, [(_vm.title !== '') ? _vm._h('div', {
 	    staticClass: "el-message-box__header"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-message-box__title"
-	  }, [_s(title)]), (showClose) ? _h('i', {
+	  }, [_vm._s(_vm.title)]), (_vm.showClose) ? _vm._h('i', {
 	    staticClass: "el-message-box__close el-icon-close",
 	    on: {
 	      "click": function($event) {
-	        handleAction('cancel')
+	        _vm.handleAction('cancel')
 	      }
 	    }
-	  }) : _e()]) : _e(), (message !== '') ? _h('div', {
+	  }) : _vm._e()]) : _vm._e(), (_vm.message !== '') ? _vm._h('div', {
 	    staticClass: "el-message-box__content"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-message-box__status",
-	    class: [typeClass]
-	  }), _h('div', {
+	    class: [_vm.typeClass]
+	  }), _vm._h('div', {
 	    staticClass: "el-message-box__message",
 	    style: ({
-	      'margin-left': typeClass ? '50px' : '0'
+	      'margin-left': _vm.typeClass ? '50px' : '0'
 	    })
-	  }, [_h('p', [_s(message)])]), _h('div', {
+	  }, [_vm._h('p', [_vm._s(_vm.message)])]), _vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (showInput),
+	      value: (_vm.showInput),
 	      expression: "showInput"
 	    }],
 	    staticClass: "el-message-box__input"
-	  }, [_h('el-input', {
+	  }, [_vm._h('el-input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (inputValue),
+	      value: (_vm.inputValue),
 	      expression: "inputValue"
 	    }],
 	    ref: "input",
 	    attrs: {
-	      "placeholder": inputPlaceholder
+	      "placeholder": _vm.inputPlaceholder
 	    },
 	    domProps: {
-	      "value": (inputValue)
+	      "value": (_vm.inputValue)
 	    },
 	    on: {
 	      "input": function($event) {
-	        inputValue = $event
+	        _vm.inputValue = $event
 	      }
 	    }
-	  }), _h('div', {
+	  }), _vm._h('div', {
 	    staticClass: "el-message-box__errormsg",
 	    style: ({
-	      visibility: !!editorErrorMessage ? 'visible' : 'hidden'
+	      visibility: !!_vm.editorErrorMessage ? 'visible' : 'hidden'
 	    })
-	  }, [_s(editorErrorMessage)])])]) : _e(), _h('div', {
+	  }, [_vm._s(_vm.editorErrorMessage)])])]) : _vm._e(), _vm._h('div', {
 	    staticClass: "el-message-box__btns"
-	  }, [_h('el-button', {
+	  }, [_vm._h('el-button', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (showCancelButton),
+	      value: (_vm.showCancelButton),
 	      expression: "showCancelButton"
 	    }],
-	    class: [cancelButtonClasses],
+	    class: [_vm.cancelButtonClasses],
 	    nativeOn: {
 	      "click": function($event) {
-	        handleAction('cancel')
+	        _vm.handleAction('cancel')
 	      }
 	    }
-	  }, [_s(cancelButtonText)]), _h('el-button', {
+	  }, [_vm._s(_vm.cancelButtonText)]), _vm._h('el-button', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (showConfirmButton),
+	      value: (_vm.showConfirmButton),
 	      expression: "showConfirmButton"
 	    }],
 	    ref: "confirm",
-	    class: [confirmButtonClasses],
+	    class: [_vm.confirmButtonClasses],
 	    nativeOn: {
 	      "click": function($event) {
-	        handleAction('confirm')
+	        _vm.handleAction('confirm')
 	      }
 	    }
-	  }, [_s(confirmButtonText)])])])])])
-	}},staticRenderFns: []}
-
-/***/ },
-
-/***/ 154:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/merge");
+	  }, [_vm._s(_vm.confirmButtonText)])])])])])
+	},staticRenderFns: []}
 
 /***/ }
 

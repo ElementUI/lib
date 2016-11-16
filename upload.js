@@ -46,24 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(295);
+	module.exports = __webpack_require__(294);
 
 
 /***/ },
 
-/***/ 59:
+/***/ 57:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 295:
+/***/ 294:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _src = __webpack_require__(296);
+	var _src = __webpack_require__(295);
 
 	var _src2 = _interopRequireDefault(_src);
 
@@ -78,14 +80,14 @@ module.exports =
 
 /***/ },
 
-/***/ 296:
+/***/ 295:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(297)
+	__vue_exports__ = __webpack_require__(296)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,12 +105,14 @@ module.exports =
 
 /***/ },
 
-/***/ 297:
+/***/ 296:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _uploadList = __webpack_require__(298);
+	var _uploadList = __webpack_require__(297);
 
 	var _uploadList2 = _interopRequireDefault(_uploadList);
 
@@ -120,7 +124,7 @@ module.exports =
 
 	var _iframeUpload2 = _interopRequireDefault(_iframeUpload);
 
-	var _progress = __webpack_require__(310);
+	var _progress = __webpack_require__(299);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -344,14 +348,14 @@ module.exports =
 
 /***/ },
 
-/***/ 298:
+/***/ 297:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(299)
+	__vue_exports__ = __webpack_require__(298)
 
 	/* template */
 	var __vue_template__ = __webpack_require__(300)
@@ -374,19 +378,53 @@ module.exports =
 
 /***/ },
 
-/***/ 299:
+/***/ 298:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _locale = __webpack_require__(59);
+	var _locale = __webpack_require__(57);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
+	var _progress = __webpack_require__(299);
+
+	var _progress2 = _interopRequireDefault(_progress);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  mixins: [_locale2.default],
+
+	  components: { ElProgress: _progress2.default },
+
 	  props: {
 	    files: {
 	      type: Array,
@@ -400,45 +438,29 @@ module.exports =
 	      return parseInt(val, 10);
 	    }
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
+
+/***/ },
+
+/***/ 299:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/progress");
 
 /***/ },
 
 /***/ 300:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition-group', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition-group', {
 	    staticClass: "el-upload__files",
 	    attrs: {
 	      "tag": "ul",
 	      "name": "list"
 	    }
-	  }, [_l((files), function(file) {
-	    return _h('li', {
+	  }, [_vm._l((_vm.files), function(file) {
+	    return _vm._h('li', {
 	      key: file,
 	      staticClass: "el-upload__file",
 	      class: {
@@ -446,17 +468,17 @@ module.exports =
 	      },
 	      on: {
 	        "click": function($event) {
-	          $emit('clickFile', file)
+	          _vm.$emit('clickFile', file)
 	        }
 	      }
-	    }, [_h('a', {
+	    }, [_vm._h('a', {
 	      staticClass: "el-upload__file__name",
 	      on: {
 	        "click": function($event) {
-	          $emit('preview', file)
+	          _vm.$emit('preview', file)
 	        }
 	      }
-	    }, [_m(0, true), _s(file.name) + "\n    "]), _h('span', {
+	    }, [_vm._m(0, true), _vm._s(file.name) + "\n    "]), _vm._h('span', {
 	      directives: [{
 	        name: "show",
 	        rawName: "v-show",
@@ -466,22 +488,22 @@ module.exports =
 	      staticClass: "el-upload__btn-delete",
 	      on: {
 	        "click": function($event) {
-	          $emit('remove', file)
+	          _vm.$emit('remove', file)
 	        }
 	      }
-	    }, [_s(t('el.upload.delete'))]), (file.showProgress) ? _h('el-progress', {
+	    }, [_vm._s(_vm.t('el.upload.delete'))]), (file.showProgress) ? _vm._h('el-progress', {
 	      attrs: {
 	        "stroke-width": 2,
-	        "percentage": parsePercentage(file.percentage),
+	        "percentage": _vm.parsePercentage(file.percentage),
 	        "status": file.status === 'finished' && file.showProgress ? 'success' : ''
 	      }
-	    }) : _e()])
+	    }) : _vm._e()])
 	  })])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('i', {
+	},staticRenderFns: [function (){var _vm=this;
+	  return _vm._h('i', {
 	    staticClass: "el-icon-document"
 	  })
-	}}]}
+	}]}
 
 /***/ },
 
@@ -517,6 +539,8 @@ module.exports =
 
 /***/ 302:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -703,6 +727,8 @@ module.exports =
 /***/ 303:
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
 	exports.default = upload;
 	function getError(action, option, xhr) {
@@ -821,16 +847,58 @@ module.exports =
 /***/ 305:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
-	var _locale = __webpack_require__(59);
+	var _locale = __webpack_require__(57);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
+	var _progress = __webpack_require__(299);
+
+	var _progress2 = _interopRequireDefault(_progress);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  mixins: [_locale2.default],
+
+	  components: { ElProgress: _progress2.default },
 
 	  props: {
 	    image: {},
@@ -848,187 +916,155 @@ module.exports =
 	      mouseover: false
 	    };
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 
 /***/ 306:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return (image) ? _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return (_vm.image) ? _vm._h('div', {
 	    staticClass: "el-dragger__cover",
 	    on: {
 	      "click": function($event) {
 	        $event.stopPropagation();
 	      }
 	    }
-	  }, [_h('transition', {
+	  }, [_vm._h('transition', {
 	    attrs: {
 	      "name": "fade-in"
 	    }
-	  }, [(image.status === 'uploading') ? _h('el-progress', {
+	  }, [(_vm.image.status === 'uploading') ? _vm._h('el-progress', {
 	    staticClass: "el-dragger__cover__progress",
 	    attrs: {
-	      "percentage": image.percentage,
+	      "percentage": _vm.image.percentage,
 	      "show-text": false,
-	      "status": image.status === 'finished' ? 'success' : ''
+	      "status": _vm.image.status === 'finished' ? 'success' : ''
 	    }
-	  }) : _e()]), (image.status === 'finished') ? _h('div', {
+	  }) : _vm._e()]), (_vm.image.status === 'finished') ? _vm._h('div', {
 	    staticClass: "el-dragger__cover__content",
 	    on: {
 	      "mouseenter": function($event) {
-	        mouseover = true
+	        _vm.mouseover = true
 	      },
 	      "mouseleave": function($event) {
-	        mouseover = false
+	        _vm.mouseover = false
 	      }
 	    }
-	  }, [_h('img', {
+	  }, [_vm._h('img', {
 	    attrs: {
-	      "src": image.url
+	      "src": _vm.image.url
 	    }
-	  }), _h('transition', {
+	  }), _vm._h('transition', {
 	    attrs: {
 	      "name": "fade-in"
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (mouseover),
+	      value: (_vm.mouseover),
 	      expression: "mouseover"
 	    }],
 	    staticClass: "el-dragger__cover__interact"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-draggeer__cover__btns"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
-	        $parent.handleClick()
+	        _vm.$parent.handleClick()
 	      }
 	    }
-	  }, [_m(0), _h('span', [_s(t('el.upload.continue'))])]), _h('span', {
+	  }, [_vm._m(0), _vm._h('span', [_vm._s(_vm.t('el.upload.continue'))])]), _vm._h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
-	        onPreview(image)
+	        _vm.onPreview(_vm.image)
 	      }
 	    }
-	  }, [_m(1), _h('span', [_s(t('el.upload.preview'))])]), _h('span', {
+	  }, [_vm._m(1), _vm._h('span', [_vm._s(_vm.t('el.upload.preview'))])]), _vm._h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
-	        onRemove(image)
+	        _vm.onRemove(_vm.image)
 	      }
 	    }
-	  }, [_m(2), _h('span', [_s(t('el.upload.delete'))])])])])]), _h('transition', {
+	  }, [_vm._m(2), _vm._h('span', [_vm._s(_vm.t('el.upload.delete'))])])])])]), _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-top"
 	    }
-	  }, [_h('h4', {
+	  }, [_vm._h('h4', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (mouseover),
+	      value: (_vm.mouseover),
 	      expression: "mouseover"
 	    }],
 	    staticClass: "el-dragger__cover__title"
-	  }, [_s(image.name)])])]) : _e()]) : _e()
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('i', {
+	  }, [_vm._s(_vm.image.name)])])]) : _vm._e()]) : _vm._e()
+	},staticRenderFns: [function (){var _vm=this;
+	  return _vm._h('i', {
 	    staticClass: "el-icon-upload2"
 	  })
-	}},function (){with(this) {
-	  return _h('i', {
+	},function (){var _vm=this;
+	  return _vm._h('i', {
 	    staticClass: "el-icon-view"
 	  })
-	}},function (){with(this) {
-	  return _h('i', {
+	},function (){var _vm=this;
+	  return _vm._h('i', {
 	    staticClass: "el-icon-delete2"
 	  })
-	}}]}
+	}]}
 
 /***/ },
 
 /***/ 307:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-upload__inner",
 	    class: {
-	      'el-dragger': type === 'drag',
-	        'is-dragOver': dragOver,
-	        'is-showCover': showCover
+	      'el-dragger': _vm.type === 'drag',
+	        'is-dragOver': _vm.dragOver,
+	        'is-showCover': _vm.showCover
 	    },
 	    on: {
-	      "click": handleClick,
+	      "click": _vm.handleClick,
 	      "drop": function($event) {
 	        $event.preventDefault();
-	        onDrop($event)
+	        _vm.onDrop($event)
 	      },
 	      "dragover": function($event) {
 	        $event.preventDefault();
-	        dragOver = true
+	        _vm.dragOver = true
 	      },
 	      "dragleave": function($event) {
 	        $event.preventDefault();
-	        dragOver = false
+	        _vm.dragOver = false
 	      }
 	    }
-	  }, [(!showCover) ? _t("default") : _h('cover', {
+	  }, [(!_vm.showCover) ? _vm._t("default") : _vm._h('cover', {
 	    attrs: {
-	      "image": lastestFile,
-	      "on-preview": onPreview,
-	      "on-remove": onRemove
+	      "image": _vm.lastestFile,
+	      "on-preview": _vm.onPreview,
+	      "on-remove": _vm.onRemove
 	    }
-	  }), _h('input', {
+	  }), _vm._h('input', {
 	    ref: "input",
 	    staticClass: "el-upload__input",
 	    attrs: {
 	      "type": "file",
-	      "multiple": multiple,
-	      "accept": accept
+	      "multiple": _vm.multiple,
+	      "accept": _vm.accept
 	    },
 	    on: {
-	      "change": handleChange
+	      "change": _vm.handleChange
 	    }
 	  })])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
 
@@ -1059,6 +1095,8 @@ module.exports =
 
 /***/ 309:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -1268,13 +1306,6 @@ module.exports =
 	    );
 	  }
 	};
-
-/***/ },
-
-/***/ 310:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/progress");
 
 /***/ }
 

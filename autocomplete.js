@@ -56,6 +56,8 @@ module.exports =
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _autocomplete = __webpack_require__(6);
@@ -103,6 +105,8 @@ module.exports =
 /***/ },
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -278,65 +282,65 @@ module.exports =
 /* 10 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
-	      value: (handleBlur),
+	      value: (_vm.handleBlur),
 	      expression: "handleBlur"
 	    }],
 	    staticClass: "el-autocomplete"
-	  }, [_h('el-input', {
+	  }, [_vm._h('el-input', {
 	    attrs: {
-	      "disabled": disabled,
-	      "placeholder": placeholder,
-	      "name": name,
-	      "size": size
+	      "disabled": _vm.disabled,
+	      "placeholder": _vm.placeholder,
+	      "name": _vm.name,
+	      "size": _vm.size
 	    },
 	    domProps: {
-	      "value": value
+	      "value": _vm.value
 	    },
 	    on: {
-	      "change": handleChange,
-	      "focus": handleFocus
+	      "change": _vm.handleChange,
+	      "focus": _vm.handleFocus
 	    },
 	    nativeOn: {
 	      "keydown": [function($event) {
-	        if ($event.keyCode !== 38) return;
-	        highlight(highlightedIndex - 1)
+	        if ($event.keyCode !== 38) { return; }
+	        _vm.highlight(_vm.highlightedIndex - 1)
 	      }, function($event) {
-	        if ($event.keyCode !== 40) return;
-	        highlight(highlightedIndex + 1)
+	        if ($event.keyCode !== 40) { return; }
+	        _vm.highlight(_vm.highlightedIndex + 1)
 	      }, function($event) {
-	        if ($event.keyCode !== 13) return;
-	        select(highlightedIndex)
+	        if ($event.keyCode !== 13) { return; }
+	        _vm.select(_vm.highlightedIndex)
 	      }]
 	    }
-	  }), _h('transition', {
+	  }), _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    }
-	  }, [(suggestionVisible) ? _h('ul', {
+	  }, [(_vm.suggestionVisible) ? _vm._h('ul', {
 	    ref: "suggestions",
 	    staticClass: "el-autocomplete__suggestions",
 	    class: {
-	      'is-loading': loading
+	      'is-loading': _vm.loading
 	    }
-	  }, [(loading) ? _h('li', [_m(0)]) : _l((suggestions), function(item, index) {
-	    return [(!customItem) ? _h('li', {
+	  }, [(_vm.loading) ? _vm._h('li', [_vm._m(0)]) : _vm._l((_vm.suggestions), function(item, index) {
+	    return [(!_vm.customItem) ? _vm._h('li', {
 	      class: {
-	        'highlighted': highlightedIndex === index
+	        'highlighted': _vm.highlightedIndex === index
 	      },
 	      on: {
 	        "click": function($event) {
-	          select(index)
+	          _vm.select(index)
 	        }
 	      }
-	    }, ["\n          " + _s(item.value) + "\n        "]) : _h(customItem, {
+	    }, ["\n          " + _vm._s(item.value) + "\n        "]) : _vm._h(_vm.customItem, {
 	      tag: "component",
 	      class: {
-	        'highlighted': highlightedIndex === index
+	        'highlighted': _vm.highlightedIndex === index
 	      },
 	      attrs: {
 	        "item": item,
@@ -344,16 +348,16 @@ module.exports =
 	      },
 	      on: {
 	        "click": function($event) {
-	          select(index)
+	          _vm.select(index)
 	        }
 	      }
 	    })]
-	  })]) : _e()])])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('i', {
+	  })]) : _vm._e()])])
+	},staticRenderFns: [function (){var _vm=this;
+	  return _vm._h('i', {
 	    staticClass: "el-icon-loading"
 	  })
-	}}]}
+	}]}
 
 /***/ }
 /******/ ]);

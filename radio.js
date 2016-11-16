@@ -46,17 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(185);
+	module.exports = __webpack_require__(184);
 
 
 /***/ },
 
-/***/ 185:
+/***/ 184:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _radio = __webpack_require__(186);
+	var _radio = __webpack_require__(185);
 
 	var _radio2 = _interopRequireDefault(_radio);
 
@@ -71,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 186:
+/***/ 185:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(187)
+	__vue_exports__ = __webpack_require__(186)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(188)
+	var __vue_template__ = __webpack_require__(187)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -101,8 +103,10 @@ module.exports =
 
 /***/ },
 
-/***/ 187:
+/***/ 186:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -167,53 +171,53 @@ module.exports =
 
 /***/ },
 
-/***/ 188:
+/***/ 187:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('label', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('label', {
 	    staticClass: "el-radio"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-radio__input"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-radio__inner",
 	    class: {
-	      'is-disabled': disabled,
-	      'is-checked': _value === label,
-	        'is-focus': focus
+	      'is-disabled': _vm.disabled,
+	      'is-checked': _vm._value === _vm.label,
+	        'is-focus': _vm.focus
 	    }
-	  }), _h('input', {
+	  }), _vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_value),
+	      value: (_vm._value),
 	      expression: "_value"
 	    }],
 	    staticClass: "el-radio__original",
 	    attrs: {
 	      "type": "radio",
-	      "name": name,
-	      "disabled": disabled
+	      "name": _vm.name,
+	      "disabled": _vm.disabled
 	    },
 	    domProps: {
-	      "value": label,
-	      "checked": _q(_value, label)
+	      "value": _vm.label,
+	      "checked": _vm._q(_vm._value, _vm.label)
 	    },
 	    on: {
 	      "focus": function($event) {
-	        focus = true
+	        _vm.focus = true
 	      },
 	      "blur": function($event) {
-	        focus = false
+	        _vm.focus = false
 	      },
 	      "change": function($event) {
-	        _value = label
+	        _vm._value = _vm.label
 	      }
 	    }
-	  })]), _h('span', {
+	  })]), _vm._h('span', {
 	    staticClass: "el-radio__label"
-	  }, [_t("default"), (!$slots.default) ? [_s(label)] : _e()])])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()])])
+	},staticRenderFns: []}
 
 /***/ }
 

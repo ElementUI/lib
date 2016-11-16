@@ -46,31 +46,33 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(155);
+	module.exports = __webpack_require__(154);
 
 
 /***/ },
 
-/***/ 52:
+/***/ 50:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 83:
+/***/ 81:
 /***/ function(module, exports) {
 
 	module.exports = require("vue-popup");
 
 /***/ },
 
-/***/ 155:
+/***/ 154:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(156);
+	var _main = __webpack_require__(155);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -80,20 +82,22 @@ module.exports =
 
 /***/ },
 
-/***/ 156:
+/***/ 155:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(52);
+	var _vue = __webpack_require__(50);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _vuePopup = __webpack_require__(83);
+	var _vuePopup = __webpack_require__(81);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var NotificationConstructor = _vue2.default.extend(__webpack_require__(157));
+	var NotificationConstructor = _vue2.default.extend(__webpack_require__(156));
 
 	var instance = void 0;
 	var instances = [];
@@ -125,6 +129,7 @@ module.exports =
 	  topDist += 16;
 	  instance.top = topDist;
 	  instances.push(instance);
+	  return instance.vm;
 	};
 
 	['success', 'warning', 'info', 'error'].forEach(function (type) {
@@ -165,17 +170,17 @@ module.exports =
 
 /***/ },
 
-/***/ 157:
+/***/ 156:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(158)
+	__vue_exports__ = __webpack_require__(157)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(159)
+	var __vue_template__ = __webpack_require__(158)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -195,8 +200,10 @@ module.exports =
 
 /***/ },
 
-/***/ 158:
+/***/ 157:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -257,7 +264,7 @@ module.exports =
 	      this.$destroy(true);
 	      this.$el.parentNode.removeChild(this.$el);
 	    },
-	    handleClose: function handleClose() {
+	    close: function close() {
 	      this.closed = true;
 	      if (typeof this.onClose === 'function') {
 	        this.onClose();
@@ -272,7 +279,7 @@ module.exports =
 	      if (this.duration > 0) {
 	        this.timer = setTimeout(function () {
 	          if (!_this.closed) {
-	            _this.handleClose();
+	            _this.close();
 	          }
 	        }, this.duration);
 	      }
@@ -285,7 +292,7 @@ module.exports =
 	    if (this.duration > 0) {
 	      this.timer = setTimeout(function () {
 	        if (!_this2.closed) {
-	          _this2.handleClose();
+	          _this2.close();
 	        }
 	      }, this.duration);
 	    }
@@ -294,50 +301,48 @@ module.exports =
 
 /***/ },
 
-/***/ 159:
+/***/ 158:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "el-notification-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (visible),
+	      value: (_vm.visible),
 	      expression: "visible"
 	    }],
 	    staticClass: "el-notification",
 	    style: ({
-	      top: top ? top + 'px' : 'auto'
+	      top: _vm.top ? _vm.top + 'px' : 'auto'
 	    }),
 	    on: {
 	      "mouseenter": function($event) {
-	        clearTimer()
+	        _vm.clearTimer()
 	      },
 	      "mouseleave": function($event) {
-	        startTimer()
+	        _vm.startTimer()
 	      }
 	    }
-	  }, [(type) ? _h('i', {
+	  }, [(_vm.type) ? _vm._h('i', {
 	    staticClass: "el-notification__icon",
-	    class: [typeClass]
-	  }) : _e(), _h('div', {
+	    class: [_vm.typeClass]
+	  }) : _vm._e(), _vm._h('div', {
 	    staticClass: "el-notification__group",
 	    style: ({
-	      'margin-left': typeClass ? '55px' : '0'
+	      'margin-left': _vm.typeClass ? '55px' : '0'
 	    })
-	  }, [_h('span', [_s(title)]), _h('p', [_s(message)]), _h('div', {
+	  }, [_vm._h('span', [_vm._s(_vm.title)]), _vm._h('p', [_vm._s(_vm.message)]), _vm._h('div', {
 	    staticClass: "el-notification__closeBtn el-icon-close",
 	    on: {
-	      "click": function($event) {
-	        handleClose()
-	      }
+	      "click": _vm.close
 	    }
 	  })])])])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ }
 

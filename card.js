@@ -54,6 +54,8 @@ module.exports =
 /***/ 31:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _main = __webpack_require__(32);
@@ -104,6 +106,8 @@ module.exports =
 /***/ 33:
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
 	//
 	//
@@ -128,16 +132,16 @@ module.exports =
 /***/ 34:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-card"
-	  }, [($slots.header || header) ? _h('div', {
+	  }, [(_vm.$slots.header || _vm.header) ? _vm._h('div', {
 	    staticClass: "el-card__header"
-	  }, [_t("header", [_s(header)])]) : _e(), _h('div', {
+	  }, [_vm._t("header", [_vm._s(_vm.header)])]) : _vm._e(), _vm._h('div', {
 	    staticClass: "el-card__body",
-	    style: (bodyStyle)
-	  }, [_t("default")])])
-	}},staticRenderFns: []}
+	    style: (_vm.bodyStyle)
+	  }, [_vm._t("default")])])
+	},staticRenderFns: []}
 
 /***/ }
 

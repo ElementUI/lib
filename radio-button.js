@@ -46,17 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(189);
+	module.exports = __webpack_require__(188);
 
 
 /***/ },
 
-/***/ 189:
+/***/ 188:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _radioButton = __webpack_require__(190);
+	var _radioButton = __webpack_require__(189);
 
 	var _radioButton2 = _interopRequireDefault(_radioButton);
 
@@ -71,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 190:
+/***/ 189:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(191)
+	__vue_exports__ = __webpack_require__(190)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(192)
+	var __vue_template__ = __webpack_require__(191)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -101,8 +103,10 @@ module.exports =
 
 /***/ },
 
-/***/ 191:
+/***/ 190:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	exports.default = {
@@ -136,43 +140,43 @@ module.exports =
 
 /***/ },
 
-/***/ 192:
+/***/ 191:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('label', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('label', {
 	    staticClass: "el-radio-button",
 	    class: [
-	      size ? 'el-radio-button--' + size : '', {
-	        'is-active': value === label
+	      _vm.size ? 'el-radio-button--' + _vm.size : '', {
+	        'is-active': _vm.value === _vm.label
 	      }
 	    ]
-	  }, [_h('input', {
+	  }, [_vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (value),
+	      value: (_vm.value),
 	      expression: "value"
 	    }],
 	    staticClass: "el-radio-button__orig-radio",
 	    attrs: {
 	      "type": "radio",
-	      "name": name,
-	      "disabled": disabled
+	      "name": _vm.name,
+	      "disabled": _vm.disabled
 	    },
 	    domProps: {
-	      "value": label,
-	      "checked": _q(value, label)
+	      "value": _vm.label,
+	      "checked": _vm._q(_vm.value, _vm.label)
 	    },
 	    on: {
 	      "change": function($event) {
-	        value = label
+	        _vm.value = _vm.label
 	      }
 	    }
-	  }), _h('span', {
+	  }), _vm._h('span', {
 	    staticClass: "el-radio-button__inner"
-	  }, [_t("default"), (!$slots.default) ? [_s(label)] : _e()])])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()])])
+	},staticRenderFns: []}
 
 /***/ }
 

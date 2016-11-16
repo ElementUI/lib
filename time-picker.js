@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(271);
+	module.exports = __webpack_require__(270);
 
 
 /***/ },
@@ -65,17 +65,17 @@ module.exports =
 
 /***/ },
 
-/***/ 50:
+/***/ 48:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(51)
+	__vue_exports__ = __webpack_require__(49)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(56)
+	var __vue_template__ = __webpack_require__(54)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -95,12 +95,14 @@ module.exports =
 
 /***/ },
 
-/***/ 51:
+/***/ 49:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(52);
+	var _vue = __webpack_require__(50);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -108,9 +110,9 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _util = __webpack_require__(53);
+	var _util = __webpack_require__(51);
 
-	var _vuePopper = __webpack_require__(55);
+	var _vuePopper = __webpack_require__(53);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -130,6 +132,10 @@ module.exports =
 	  data: _vuePopper2.default.data,
 	  beforeDestroy: _vuePopper2.default.beforeDestroy
 	}; //
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -308,6 +314,11 @@ module.exports =
 	    format: String,
 	    readonly: Boolean,
 	    placeholder: String,
+	    disabled: Boolean,
+	    editable: {
+	      type: Boolean,
+	      default: true
+	    },
 	    align: {
 	      type: String,
 	      default: 'left'
@@ -321,29 +332,51 @@ module.exports =
 
 	  data: function data() {
 	    return {
-	      pickerVisible: false
+	      pickerVisible: false,
+	      showClose: false,
+	      internalValue: ''
 	    };
 	  },
 
 
 	  watch: {
 	    pickerVisible: function pickerVisible(val) {
+	      if (this.readonly || this.disabled) return;
 	      val ? this.showPicker() : this.hidePicker();
 	    },
-	    value: function value(val) {
+	    internalValue: function internalValue(val) {
 	      if (!val && this.picker && typeof this.picker.handleClear === 'function') {
 	        this.picker.handleClear();
 	      }
 	      this.dispatch('form-item', 'el.form.change');
+	    },
+
+	    value: {
+	      immediate: true,
+	      handler: function handler(val) {
+	        this.internalValue = val;
+	      }
 	    }
 	  },
 
 	  computed: {
+	    valueIsEmpty: function valueIsEmpty() {
+	      var val = this.internalValue;
+	      if (Array.isArray(val)) {
+	        for (var i = 0, j = val.length; i < j; i++) {
+	          if (val[i]) {
+	            return false;
+	          }
+	        }
+	      } else {
+	        if (val) {
+	          return false;
+	        }
+	      }
+	      return true;
+	    },
 	    triggerClass: function triggerClass() {
 	      return this.type.indexOf('time') !== -1 ? 'el-icon-time' : 'el-icon-date';
-	    },
-	    editable: function editable() {
-	      return this.type.indexOf('range') === -1;
 	    },
 	    selectionMode: function selectionMode() {
 	      if (this.type === 'week') {
@@ -366,7 +399,7 @@ module.exports =
 
 	    visualValue: {
 	      get: function get() {
-	        var value = this.value;
+	        var value = this.internalValue;
 	        var formatter = (TYPE_VALUE_RESOLVER_MAP[this.type] || TYPE_VALUE_RESOLVER_MAP['default']).formatter;
 	        var format = DEFAULT_FORMATS[this.type];
 
@@ -399,6 +432,18 @@ module.exports =
 
 
 	  methods: {
+	    handleMouseEnterIcon: function handleMouseEnterIcon() {
+	      if (!this.valueIsEmpty) {
+	        this.showClose = true;
+	      }
+	    },
+	    handleClickIcon: function handleClickIcon() {
+	      if (this.valueIsEmpty) {
+	        this.pickerVisible = !this.pickerVisible;
+	      } else {
+	        this.internalValue = '';
+	      }
+	    },
 	    handleClose: function handleClose() {
 	      this.pickerVisible = false;
 	    },
@@ -465,7 +510,7 @@ module.exports =
 	      var _this = this;
 
 	      if (!this.picker) {
-	        this.panel.defaultValue = this.value;
+	        this.panel.defaultValue = this.internalValue;
 	        this.picker = new _vue2.default(this.panel).$mount(document.createElement('div'));
 	        this.popperElm = this.picker.$el;
 	        this.picker.width = this.$refs.reference.getBoundingClientRect().width;
@@ -513,10 +558,7 @@ module.exports =
 	          var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 	          _this.$emit('input', date);
-
-	          if (!visible) {
-	            _this.pickerVisible = _this.picker.visible = !_this.picker.visible;
-	          }
+	          _this.pickerVisible = _this.picker.visible = visible;
 	          _this.picker.resetView && _this.picker.resetView();
 	        });
 
@@ -532,11 +574,11 @@ module.exports =
 
 	      this.updatePopper();
 
-	      if (this.value instanceof Date) {
-	        this.picker.date = new Date(this.value.getTime());
+	      if (this.internalValue instanceof Date) {
+	        this.picker.date = new Date(this.internalValue.getTime());
 	        this.picker.resetView && this.picker.resetView();
 	      } else {
-	        this.picker.value = this.value;
+	        this.picker.value = this.internalValue;
 	      }
 
 	      this.$nextTick(function () {
@@ -548,20 +590,22 @@ module.exports =
 
 /***/ },
 
-/***/ 52:
+/***/ 50:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 53:
+/***/ 51:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.toDate = undefined;
 
-	var _date = __webpack_require__(54);
+	var _date = __webpack_require__(52);
 
 	var _date2 = _interopRequireDefault(_date);
 
@@ -729,42 +773,42 @@ module.exports =
 
 /***/ },
 
-/***/ 54:
+/***/ 52:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/date");
 
 /***/ },
 
-/***/ 55:
+/***/ 53:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 
-/***/ 56:
+/***/ 54:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('span', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('span', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
-	      value: (handleClose),
+	      value: (_vm.handleClose),
 	      expression: "handleClose"
 	    }],
 	    staticClass: "el-date-editor",
 	    class: {
-	      'is-have-trigger': haveTrigger,
-	      'is-active': pickerVisible,
-	      'is-filled': !!this.value
+	      'is-have-trigger': _vm.haveTrigger,
+	      'is-active': _vm.pickerVisible,
+	      'is-filled': !!this.internalValue
 	    }
-	  }, [_h('input', {
+	  }, [_vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model.lazy",
-	      value: (visualValue),
+	      value: (_vm.visualValue),
 	      expression: "visualValue",
 	      modifiers: {
 	        "lazy": true
@@ -772,53 +816,62 @@ module.exports =
 	    }],
 	    ref: "reference",
 	    staticClass: "el-date-editor__editor",
+	    class: {
+	      'is-disabled': _vm.disabled
+	    },
 	    attrs: {
-	      "readonly": readonly,
+	      "readonly": !_vm.editable || _vm.readonly,
+	      "disabled": _vm.disabled,
 	      "type": "text",
-	      "placeholder": placeholder
+	      "placeholder": _vm.placeholder
 	    },
 	    domProps: {
-	      "value": _s(visualValue)
+	      "value": _vm._s(_vm.visualValue)
 	    },
 	    on: {
-	      "focus": handleFocus,
-	      "blur": handleBlur,
-	      "keydown": handleKeydown,
+	      "focus": _vm.handleFocus,
+	      "blur": _vm.handleBlur,
+	      "keydown": _vm.handleKeydown,
 	      "change": function($event) {
-	        visualValue = $event.target.value
+	        _vm.visualValue = $event.target.value
 	      }
 	    }
-	  }), (haveTrigger) ? _h('span', {
+	  }), (_vm.haveTrigger) ? _vm._h('span', {
 	    staticClass: "el-date-editor__trigger el-icon",
-	    class: [triggerClass],
+	    class: [_vm.showClose ? 'el-icon-close' : _vm.triggerClass],
 	    on: {
 	      "click": function($event) {
-	        pickerVisible = !pickerVisible
+	        $event.stopPropagation();
+	        _vm.handleClickIcon($event)
+	      },
+	      "mouseenter": _vm.handleMouseEnterIcon,
+	      "mouseleave": function($event) {
+	        _vm.showClose = false
 	      }
 	    }
-	  }) : _e()])
-	}},staticRenderFns: []}
+	  }) : _vm._e()])
+	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 59:
+/***/ 57:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 60:
+/***/ 58:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(61)
+	__vue_exports__ = __webpack_require__(59)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(65)
+	var __vue_template__ = __webpack_require__(63)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -838,14 +891,16 @@ module.exports =
 
 /***/ },
 
-/***/ 61:
+/***/ 59:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(53);
+	var _util = __webpack_require__(51);
 
-	var _locale = __webpack_require__(59);
+	var _locale = __webpack_require__(57);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -887,7 +942,7 @@ module.exports =
 	  mixins: [_locale2.default],
 
 	  components: {
-	    TimeSpinner: __webpack_require__(62)
+	    TimeSpinner: __webpack_require__(60)
 	  },
 
 	  props: {
@@ -948,8 +1003,11 @@ module.exports =
 	  },
 
 	  methods: {
+	    handleClear: function handleClear() {
+	      this.handleCancel();
+	    },
 	    handleCancel: function handleCancel() {
-	      this.$emit('pick', null);
+	      this.$emit('pick');
 	    },
 	    handleChange: function handleChange(date) {
 	      if (date.hours !== undefined) {
@@ -999,17 +1057,17 @@ module.exports =
 
 /***/ },
 
-/***/ 62:
+/***/ 60:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(63)
+	__vue_exports__ = __webpack_require__(61)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(64)
+	var __vue_template__ = __webpack_require__(62)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -1029,12 +1087,14 @@ module.exports =
 
 /***/ },
 
-/***/ 63:
+/***/ 61:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(53);
+	var _util = __webpack_require__(51);
 
 	exports.default = {
 	  props: {
@@ -1182,182 +1242,184 @@ module.exports =
 
 /***/ },
 
-/***/ 64:
+/***/ 62:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-time-spinner"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    ref: "hour",
 	    staticClass: "el-time-spinner__wrapper",
 	    on: {
 	      "mouseenter": function($event) {
-	        emitSelectRange('hours')
+	        _vm.emitSelectRange('hours')
 	      },
 	      "mousewheel": function($event) {
-	        handleScroll('hour')
+	        _vm.handleScroll('hour')
 	      }
 	    }
-	  }, [_h('ul', {
+	  }, [_vm._h('ul', {
 	    staticClass: "el-time-spinner__list"
-	  }, [_l((hoursList), function(disabled, hour) {
-	    return _h('li', {
+	  }, [_vm._l((_vm.hoursList), function(disabled, hour) {
+	    return _vm._h('li', {
 	      staticClass: "el-time-spinner__item",
 	      class: {
-	        'active': hour === hours, 'disabled': disabled
+	        'active': hour === _vm.hours, 'disabled': disabled
 	      },
 	      attrs: {
 	        "track-by": "hour"
 	      },
 	      domProps: {
-	        "textContent": _s(hour)
+	        "textContent": _vm._s(hour)
 	      },
 	      on: {
 	        "click": function($event) {
-	          handleClick('hours', {
+	          _vm.handleClick('hours', {
 	            value: hour,
 	            disabled: disabled
 	          }, true)
 	        }
 	      }
 	    })
-	  })])]), _h('div', {
+	  })])]), _vm._h('div', {
 	    ref: "minute",
 	    staticClass: "el-time-spinner__wrapper",
 	    on: {
 	      "mouseenter": function($event) {
-	        emitSelectRange('minutes')
+	        _vm.emitSelectRange('minutes')
 	      },
 	      "mousewheel": function($event) {
-	        handleScroll('minute')
+	        _vm.handleScroll('minute')
 	      }
 	    }
-	  }, [_h('ul', {
+	  }, [_vm._h('ul', {
 	    staticClass: "el-time-spinner__list"
-	  }, [_l((60), function(minute, key) {
-	    return _h('li', {
+	  }, [_vm._l((60), function(minute, key) {
+	    return _vm._h('li', {
 	      staticClass: "el-time-spinner__item",
 	      class: {
-	        'active': key === minutes
+	        'active': key === _vm.minutes
 	      },
 	      domProps: {
-	        "textContent": _s(key)
+	        "textContent": _vm._s(key)
 	      },
 	      on: {
 	        "click": function($event) {
-	          handleClick('minutes', key, true)
+	          _vm.handleClick('minutes', key, true)
 	        }
 	      }
 	    })
-	  })])]), _h('div', {
+	  })])]), _vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (showSeconds),
+	      value: (_vm.showSeconds),
 	      expression: "showSeconds"
 	    }],
 	    ref: "second",
 	    staticClass: "el-time-spinner__wrapper",
 	    on: {
 	      "mouseenter": function($event) {
-	        emitSelectRange('seconds')
+	        _vm.emitSelectRange('seconds')
 	      },
 	      "mousewheel": function($event) {
-	        handleScroll('second')
+	        _vm.handleScroll('second')
 	      }
 	    }
-	  }, [_h('ul', {
+	  }, [_vm._h('ul', {
 	    staticClass: "el-time-spinner__list"
-	  }, [_l((60), function(second, key) {
-	    return _h('li', {
+	  }, [_vm._l((60), function(second, key) {
+	    return _vm._h('li', {
 	      staticClass: "el-time-spinner__item",
 	      class: {
-	        'active': key === seconds
+	        'active': key === _vm.seconds
 	      },
 	      domProps: {
-	        "textContent": _s(key)
+	        "textContent": _vm._s(key)
 	      },
 	      on: {
 	        "click": function($event) {
-	          handleClick('seconds', key, true)
+	          _vm.handleClick('seconds', key, true)
 	        }
 	      }
 	    })
 	  })])])])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 65:
+/***/ 63:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    },
 	    on: {
 	      "after-leave": function($event) {
-	        $emit('dodestroy')
+	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (currentVisible),
+	      value: (_vm.currentVisible),
 	      expression: "currentVisible"
 	    }],
 	    staticClass: "el-time-panel",
 	    style: ({
-	      width: width + 'px'
+	      width: _vm.width + 'px'
 	    })
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-time-panel__content"
-	  }, [_h('time-spinner', {
+	  }, [_vm._h('time-spinner', {
 	    ref: "spinner",
 	    attrs: {
-	      "show-seconds": showSeconds,
-	      "hours": hours,
-	      "minutes": minutes,
-	      "seconds": seconds
+	      "show-seconds": _vm.showSeconds,
+	      "hours": _vm.hours,
+	      "minutes": _vm.minutes,
+	      "seconds": _vm.seconds
 	    },
 	    on: {
-	      "change": handleChange,
-	      "select-range": setSelectionRange
+	      "change": _vm.handleChange,
+	      "select-range": _vm.setSelectionRange
 	    }
-	  })]), _h('div', {
+	  })]), _vm._h('div', {
 	    staticClass: "el-time-panel__footer"
-	  }, [_h('button', {
+	  }, [_vm._h('button', {
 	    staticClass: "el-time-panel__btn cancel",
 	    attrs: {
 	      "type": "button"
 	    },
 	    on: {
-	      "click": handleCancel
+	      "click": _vm.handleCancel
 	    }
-	  }, [_s(t('el.datepicker.cancel'))]), _h('button', {
+	  }, [_vm._s(_vm.t('el.datepicker.cancel'))]), _vm._h('button', {
 	    staticClass: "el-time-panel__btn confirm",
 	    attrs: {
 	      "type": "button"
 	    },
 	    on: {
 	      "click": function($event) {
-	        handleConfirm()
+	        _vm.handleConfirm()
 	      }
 	    }
-	  }, [_s(t('el.datepicker.confirm'))])])])])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.t('el.datepicker.confirm'))])])])])
+	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 271:
+/***/ 270:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _timePicker = __webpack_require__(272);
+	var _timePicker = __webpack_require__(271);
 
 	var _timePicker2 = _interopRequireDefault(_timePicker);
 
@@ -1372,20 +1434,22 @@ module.exports =
 
 /***/ },
 
-/***/ 272:
+/***/ 271:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _picker = __webpack_require__(50);
+	var _picker = __webpack_require__(48);
 
 	var _picker2 = _interopRequireDefault(_picker);
 
-	var _time = __webpack_require__(60);
+	var _time = __webpack_require__(58);
 
 	var _time2 = _interopRequireDefault(_time);
 
-	var _timeRange = __webpack_require__(273);
+	var _timeRange = __webpack_require__(272);
 
 	var _timeRange2 = _interopRequireDefault(_timeRange);
 
@@ -1408,17 +1472,17 @@ module.exports =
 
 /***/ },
 
-/***/ 273:
+/***/ 272:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(274)
+	__vue_exports__ = __webpack_require__(273)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(275)
+	var __vue_template__ = __webpack_require__(274)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -1438,14 +1502,16 @@ module.exports =
 
 /***/ },
 
-/***/ 274:
+/***/ 273:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(53);
+	var _util = __webpack_require__(51);
 
-	var _locale = __webpack_require__(59);
+	var _locale = __webpack_require__(57);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -1526,7 +1592,7 @@ module.exports =
 	  mixins: [_locale2.default],
 
 	  components: {
-	    TimeSpinner: __webpack_require__(62)
+	    TimeSpinner: __webpack_require__(60)
 	  },
 
 	  computed: {
@@ -1578,6 +1644,9 @@ module.exports =
 
 
 	  methods: {
+	    handleClear: function handleClear() {
+	      this.handleCancel();
+	    },
 	    handleCancel: function handleCancel() {
 	      this.$emit('pick');
 	    },
@@ -1654,93 +1723,93 @@ module.exports =
 
 /***/ },
 
-/***/ 275:
+/***/ 274:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    },
 	    on: {
 	      "after-leave": function($event) {
-	        $emit('dodestroy')
+	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (visible),
+	      value: (_vm.visible),
 	      expression: "visible"
 	    }],
 	    staticClass: "el-time-range-picker el-picker-panel",
 	    style: ({
-	      width: width + 'px'
+	      width: _vm.width + 'px'
 	    })
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-time-range-picker__content"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-time-range-picker__cell"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-time-range-picker__header"
-	  }, [_s(t('el.datepicker.startTime'))]), _h('div', {
+	  }, [_vm._s(_vm.t('el.datepicker.startTime'))]), _vm._h('div', {
 	    staticClass: "el-time-range-picker__body el-time-panel__content"
-	  }, [_h('time-spinner', {
+	  }, [_vm._h('time-spinner', {
 	    ref: "minSpinner",
 	    attrs: {
-	      "show-seconds": showSeconds,
-	      "hours": minHours,
-	      "minutes": minMinutes,
-	      "seconds": minSeconds
+	      "show-seconds": _vm.showSeconds,
+	      "hours": _vm.minHours,
+	      "minutes": _vm.minMinutes,
+	      "seconds": _vm.minSeconds
 	    },
 	    on: {
-	      "change": handleMinChange,
-	      "select-range": setMinSelectionRange
+	      "change": _vm.handleMinChange,
+	      "select-range": _vm.setMinSelectionRange
 	    }
-	  })])]), _h('div', {
+	  })])]), _vm._h('div', {
 	    staticClass: "el-time-range-picker__cell"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-time-range-picker__header"
-	  }, [_s(t('el.datepicker.endTime'))]), _h('div', {
+	  }, [_vm._s(_vm.t('el.datepicker.endTime'))]), _vm._h('div', {
 	    staticClass: "el-time-range-picker__body el-time-panel__content"
-	  }, [_h('time-spinner', {
+	  }, [_vm._h('time-spinner', {
 	    ref: "maxSpinner",
 	    attrs: {
-	      "show-seconds": showSeconds,
-	      "hours": maxHours,
-	      "minutes": maxMinutes,
-	      "seconds": maxSeconds
+	      "show-seconds": _vm.showSeconds,
+	      "hours": _vm.maxHours,
+	      "minutes": _vm.maxMinutes,
+	      "seconds": _vm.maxSeconds
 	    },
 	    on: {
-	      "change": handleMaxChange,
-	      "select-range": setMaxSelectionRange
+	      "change": _vm.handleMaxChange,
+	      "select-range": _vm.setMaxSelectionRange
 	    }
-	  })])])]), _h('div', {
+	  })])])]), _vm._h('div', {
 	    staticClass: "el-time-panel__footer"
-	  }, [_h('button', {
+	  }, [_vm._h('button', {
 	    staticClass: "el-time-panel__btn cancel",
 	    attrs: {
 	      "type": "button"
 	    },
 	    on: {
 	      "click": function($event) {
-	        handleCancel()
+	        _vm.handleCancel()
 	      }
 	    }
-	  }, [_s(t('el.datepicker.cancel'))]), _h('button', {
+	  }, [_vm._s(_vm.t('el.datepicker.cancel'))]), _vm._h('button', {
 	    staticClass: "el-time-panel__btn confirm",
 	    attrs: {
 	      "type": "button",
-	      "disabled": btnDisabled
+	      "disabled": _vm.btnDisabled
 	    },
 	    on: {
 	      "click": function($event) {
-	        handleConfirm()
+	        _vm.handleConfirm()
 	      }
 	    }
-	  }, [_s(t('el.datepicker.confirm'))])])])])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.t('el.datepicker.confirm'))])])])])
+	},staticRenderFns: []}
 
 /***/ }
 

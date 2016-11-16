@@ -1,3 +1,5 @@
+'use strict';
+
 /*eslint-disable*/
 // 把 YYYY-MM-DD 改成了 yyyy-MM-dd
 (function (main) {

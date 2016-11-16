@@ -54,6 +54,8 @@ module.exports =
 /***/ 128:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _menuItem = __webpack_require__(129);
@@ -104,6 +106,8 @@ module.exports =
 /***/ 130:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	var _menuMixin = __webpack_require__(131);
 
 	var _menuMixin2 = _interopRequireDefault(_menuMixin);
@@ -151,6 +155,8 @@ module.exports =
 /***/ 131:
 /***/ function(module, exports) {
 
+	'use strict';
+
 	module.exports = {
 	  computed: {
 	    indexPath: function indexPath() {
@@ -179,18 +185,18 @@ module.exports =
 /***/ 132:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('li', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('li', {
 	    staticClass: "el-menu-item",
 	    class: {
-	      'is-active': active,
-	      'is-disabled': disabled
+	      'is-active': _vm.active,
+	      'is-disabled': _vm.disabled
 	    },
 	    on: {
-	      "click": handleClick
+	      "click": _vm.handleClick
 	    }
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ }
 

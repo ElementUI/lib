@@ -54,6 +54,8 @@ module.exports =
 /***/ 133:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _menuItemGroup = __webpack_require__(134);
@@ -104,7 +106,8 @@ module.exports =
 /***/ 135:
 /***/ function(module, exports) {
 
-	
+	'use strict';
+
 	module.exports = {
 	  name: 'ElMenuItemGroup',
 
@@ -148,16 +151,16 @@ module.exports =
 /***/ 136:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('li', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('li', {
 	    staticClass: "el-menu-item-group"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-menu-item-group__title",
 	    style: ({
-	      'padding-left': paddingLeft + 'px'
+	      'padding-left': _vm.paddingLeft + 'px'
 	    })
-	  }, [_s(title)]), _h('ul', [_t("default")])])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.title)]), _vm._h('ul', [_vm._t("default")])])
+	},staticRenderFns: []}
 
 /***/ }
 

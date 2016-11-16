@@ -1,3 +1,5 @@
+'use strict';
+
 exports.__esModule = true;
 
 var _popper = require('./popper');
@@ -7,8 +9,6 @@ var _popper2 = _interopRequireDefault(_popper);
 var _vuePopup = require('vue-popup');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_vuePopup.PopupManager.zIndex = 2000;
 
 /**
  * @param {HTMLElement} [reference=$refs.reference] - The reference element used to position the popper.

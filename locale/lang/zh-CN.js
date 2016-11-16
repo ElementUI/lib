@@ -1,3 +1,5 @@
+'use strict';
+
 exports.__esModule = true;
 exports.default = {
   el: {
@@ -78,6 +80,9 @@ exports.default = {
       confirmFilter: '筛选',
       resetFilter: '重置',
       clearFilter: '全部'
+    },
+    tree: {
+      emptyText: '暂无数据'
     }
   }
 };

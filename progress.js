@@ -46,17 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(181);
+	module.exports = __webpack_require__(180);
 
 
 /***/ },
 
-/***/ 181:
+/***/ 180:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _progress = __webpack_require__(182);
+	var _progress = __webpack_require__(181);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -71,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 182:
+/***/ 181:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(183)
+	__vue_exports__ = __webpack_require__(182)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(184)
+	var __vue_template__ = __webpack_require__(183)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -101,8 +103,10 @@ module.exports =
 
 /***/ },
 
-/***/ 183:
+/***/ 182:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -234,68 +238,68 @@ module.exports =
 
 /***/ },
 
-/***/ 184:
+/***/ 183:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-progress",
 	    class: [
-	      'el-progress--' + type,
-	      status ? 'is-' + status : '', {
-	        'el-progress--without-text': !showText,
-	        'el-progress--text-inside': textInside,
+	      'el-progress--' + _vm.type,
+	      _vm.status ? 'is-' + _vm.status : '', {
+	        'el-progress--without-text': !_vm.showText,
+	        'el-progress--text-inside': _vm.textInside,
 	      }
 	    ]
-	  }, [(type === 'line') ? _h('div', {
+	  }, [(_vm.type === 'line') ? _vm._h('div', {
 	    staticClass: "el-progress-bar"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-progress-bar__outer",
 	    style: ({
-	      height: strokeWidth + 'px'
+	      height: _vm.strokeWidth + 'px'
 	    })
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-progress-bar__inner",
-	    style: (barStyle)
-	  }, [(showText && textInside) ? _h('div', {
+	    style: (_vm.barStyle)
+	  }, [(_vm.showText && _vm.textInside) ? _vm._h('div', {
 	    staticClass: "el-progress-bar__innerText"
-	  }, [_s(percentage) + "%"]) : _e()])])]) : _h('div', {
+	  }, [_vm._s(_vm.percentage) + "%"]) : _vm._e()])])]) : _vm._h('div', {
 	    staticClass: "el-progress-circle",
 	    style: ({
-	      height: width + 'px',
-	      width: width + 'px'
+	      height: _vm.width + 'px',
+	      width: _vm.width + 'px'
 	    })
-	  }, [_h('svg', {
+	  }, [_vm._h('svg', {
 	    attrs: {
 	      "viewBox": "0 0 100 100"
 	    }
-	  }, [_h('path', {
+	  }, [_vm._h('path', {
 	    staticClass: "el-progress-circle__track",
 	    attrs: {
-	      "d": trackPath,
+	      "d": _vm.trackPath,
 	      "stroke": "#e5e9f2",
-	      "stroke-width": relativeStrokeWidth,
+	      "stroke-width": _vm.relativeStrokeWidth,
 	      "fill": "none"
 	    }
-	  }), _h('path', {
+	  }), _vm._h('path', {
 	    staticClass: "el-progress-circle__path",
-	    style: (circlePathStyle),
+	    style: (_vm.circlePathStyle),
 	    attrs: {
-	      "d": trackPath,
+	      "d": _vm.trackPath,
 	      "stroke-linecap": "round",
-	      "stroke": stroke,
-	      "stroke-width": relativeStrokeWidth,
+	      "stroke": _vm.stroke,
+	      "stroke-width": _vm.relativeStrokeWidth,
 	      "fill": "none"
 	    }
-	  })])]), (showText && !textInside) ? _h('div', {
+	  })])]), (_vm.showText && !_vm.textInside) ? _vm._h('div', {
 	    staticClass: "el-progress__text",
 	    style: ({
-	      fontSize: progressTextSize + 'px'
+	      fontSize: _vm.progressTextSize + 'px'
 	    })
-	  }, [(!status) ? [_s(percentage) + "%"] : _h('i', {
-	    class: iconClass
-	  })]) : _e()])
-	}},staticRenderFns: []}
+	  }, [(!_vm.status) ? [_vm._s(_vm.percentage) + "%"] : _vm._h('i', {
+	    class: _vm.iconClass
+	  })]) : _vm._e()])
+	},staticRenderFns: []}
 
 /***/ }
 

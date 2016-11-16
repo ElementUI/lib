@@ -46,17 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(267);
+	module.exports = __webpack_require__(266);
 
 
 /***/ },
 
-/***/ 267:
+/***/ 266:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _tag = __webpack_require__(268);
+	var _tag = __webpack_require__(267);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
@@ -71,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 268:
+/***/ 267:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(269)
+	__vue_exports__ = __webpack_require__(268)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(270)
+	var __vue_template__ = __webpack_require__(269)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -101,8 +103,10 @@ module.exports =
 
 /***/ },
 
-/***/ 269:
+/***/ 268:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -136,26 +140,26 @@ module.exports =
 
 /***/ },
 
-/***/ 270:
+/***/ 269:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
-	      "name": closeTransition ? '' : 'md-fade-center'
+	      "name": _vm.closeTransition ? '' : 'md-fade-center'
 	    }
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-tag",
-	    class: [type ? 'el-tag--' + type : '', {
-	      'is-hit': hit
+	    class: [_vm.type ? 'el-tag--' + _vm.type : '', {
+	      'is-hit': _vm.hit
 	    }]
-	  }, [_t("default"), (closable) ? _h('i', {
+	  }, [_vm._t("default"), (_vm.closable) ? _vm._h('i', {
 	    staticClass: "el-tag__close el-icon-close",
 	    on: {
-	      "click": handleClose
+	      "click": _vm.handleClose
 	    }
-	  }) : _e()])])
-	}},staticRenderFns: []}
+	  }) : _vm._e()])])
+	},staticRenderFns: []}
 
 /***/ }
 

@@ -62,6 +62,8 @@ module.exports =
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _main = __webpack_require__(12);
@@ -110,6 +112,8 @@ module.exports =
 /* 13 */
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
 	//
 	//
@@ -152,19 +156,19 @@ module.exports =
 /* 14 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-badge"
-	  }, [_t("default"), _h('sup', {
+	  }, [_vm._t("default"), _vm._h('sup', {
 	    staticClass: "el-badge__content",
 	    class: {
-	      'is-fixed': $slots.default, 'is-dot': isDot
+	      'is-fixed': _vm.$slots.default, 'is-dot': _vm.isDot
 	    },
 	    domProps: {
-	      "textContent": _s(content)
+	      "textContent": _vm._s(_vm.content)
 	    }
 	  })])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ }
 /******/ ]);

@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(88);
+	module.exports = __webpack_require__(86);
 
 
 /***/ },
@@ -58,12 +58,14 @@ module.exports =
 
 /***/ },
 
-/***/ 88:
+/***/ 86:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _dropdownItem = __webpack_require__(89);
+	var _dropdownItem = __webpack_require__(87);
 
 	var _dropdownItem2 = _interopRequireDefault(_dropdownItem);
 
@@ -78,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 89:
+/***/ 87:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(90)
+	__vue_exports__ = __webpack_require__(88)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(91)
+	var __vue_template__ = __webpack_require__(89)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -108,8 +110,10 @@ module.exports =
 
 /***/ },
 
-/***/ 90:
+/***/ 88:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -150,21 +154,21 @@ module.exports =
 
 /***/ },
 
-/***/ 91:
+/***/ 89:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('li', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('li', {
 	    staticClass: "el-dropdown-menu__item",
 	    class: {
-	      'is-disabled': disabled,
-	      'el-dropdown-menu__item--divided': divided
+	      'is-disabled': _vm.disabled,
+	      'el-dropdown-menu__item--divided': _vm.divided
 	    },
 	    on: {
-	      "click": handleClick
+	      "click": _vm.handleClick
 	    }
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ }
 

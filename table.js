@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(247);
+	module.exports = __webpack_require__(245);
 
 
 /***/ },
@@ -58,21 +58,21 @@ module.exports =
 
 /***/ },
 
-/***/ 52:
+/***/ 50:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 55:
+/***/ 53:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 
-/***/ 59:
+/***/ 57:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
@@ -86,159 +86,42 @@ module.exports =
 
 /***/ },
 
-/***/ 175:
+/***/ 174:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ },
 
-/***/ 211:
+/***/ 210:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 212:
-/***/ function(module, exports, __webpack_require__) {
-
-	/* eslint-disable no-undefined */
-
-	var throttle = __webpack_require__(213);
-
-	/**
-	 * Debounce execution of a function. Debouncing, unlike throttling,
-	 * guarantees that a function is only executed a single time, either at the
-	 * very beginning of a series of calls, or at the very end.
-	 *
-	 * @param  {Number}   delay         A zero-or-greater delay in milliseconds. For event callbacks, values around 100 or 250 (or even higher) are most useful.
-	 * @param  {Boolean}  atBegin       Optional, defaults to false. If atBegin is false or unspecified, callback will only be executed `delay` milliseconds
-	 *                                  after the last debounced-function call. If atBegin is true, callback will be executed only at the first debounced-function call.
-	 *                                  (After the throttled-function has not been called for `delay` milliseconds, the internal counter is reset).
-	 * @param  {Function} callback      A function to be executed after delay milliseconds. The `this` context and all arguments are passed through, as-is,
-	 *                                  to `callback` when the debounced-function is executed.
-	 *
-	 * @return {Function} A new, debounced function.
-	 */
-	module.exports = function ( delay, atBegin, callback ) {
-		return callback === undefined ? throttle(delay, atBegin, false) : throttle(delay, callback, atBegin !== false);
-	};
-
-
-/***/ },
-
-/***/ 213:
+/***/ 211:
 /***/ function(module, exports) {
 
-	/* eslint-disable no-undefined,no-param-reassign,no-shadow */
-
-	/**
-	 * Throttle execution of a function. Especially useful for rate limiting
-	 * execution of handlers on events like resize and scroll.
-	 *
-	 * @param  {Number}    delay          A zero-or-greater delay in milliseconds. For event callbacks, values around 100 or 250 (or even higher) are most useful.
-	 * @param  {Boolean}   noTrailing     Optional, defaults to false. If noTrailing is true, callback will only execute every `delay` milliseconds while the
-	 *                                    throttled-function is being called. If noTrailing is false or unspecified, callback will be executed one final time
-	 *                                    after the last throttled-function call. (After the throttled-function has not been called for `delay` milliseconds,
-	 *                                    the internal counter is reset)
-	 * @param  {Function}  callback       A function to be executed after delay milliseconds. The `this` context and all arguments are passed through, as-is,
-	 *                                    to `callback` when the throttled-function is executed.
-	 * @param  {Boolean}   debounceMode   If `debounceMode` is true (at begin), schedule `clear` to execute after `delay` ms. If `debounceMode` is false (at end),
-	 *                                    schedule `callback` to execute after `delay` ms.
-	 *
-	 * @return {Function}  A new, throttled, function.
-	 */
-	module.exports = function ( delay, noTrailing, callback, debounceMode ) {
-
-		// After wrapper has stopped being called, this timeout ensures that
-		// `callback` is executed at the proper times in `throttle` and `end`
-		// debounce modes.
-		var timeoutID;
-
-		// Keep track of the last time `callback` was executed.
-		var lastExec = 0;
-
-		// `noTrailing` defaults to falsy.
-		if ( typeof noTrailing !== 'boolean' ) {
-			debounceMode = callback;
-			callback = noTrailing;
-			noTrailing = undefined;
-		}
-
-		// The `wrapper` function encapsulates all of the throttling / debouncing
-		// functionality and when executed will limit the rate at which `callback`
-		// is executed.
-		function wrapper () {
-
-			var self = this;
-			var elapsed = Number(new Date()) - lastExec;
-			var args = arguments;
-
-			// Execute `callback` and update the `lastExec` timestamp.
-			function exec () {
-				lastExec = Number(new Date());
-				callback.apply(self, args);
-			}
-
-			// If `debounceMode` is true (at begin) this is used to clear the flag
-			// to allow future `callback` executions.
-			function clear () {
-				timeoutID = undefined;
-			}
-
-			if ( debounceMode && !timeoutID ) {
-				// Since `wrapper` is being called for the first time and
-				// `debounceMode` is true (at begin), execute `callback`.
-				exec();
-			}
-
-			// Clear any existing timeout.
-			if ( timeoutID ) {
-				clearTimeout(timeoutID);
-			}
-
-			if ( debounceMode === undefined && elapsed > delay ) {
-				// In throttle mode, if `delay` time has been exceeded, execute
-				// `callback`.
-				exec();
-
-			} else if ( noTrailing !== true ) {
-				// In trailing throttle mode, since `delay` time has not been
-				// exceeded, schedule `callback` to execute `delay` ms after most
-				// recent execution.
-				//
-				// If `debounceMode` is true (at begin), schedule `clear` to execute
-				// after `delay` ms.
-				//
-				// If `debounceMode` is false (at end), schedule `callback` to
-				// execute after `delay` ms.
-				timeoutID = setTimeout(debounceMode ? clear : exec, debounceMode === undefined ? delay - elapsed : delay);
-			}
-
-		}
-
-		// Return the wrapper function.
-		return wrapper;
-
-	};
-
+	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
 
-/***/ 214:
+/***/ 212:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ },
 
-/***/ 247:
+/***/ 245:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _table = __webpack_require__(248);
+	var _table = __webpack_require__(246);
 
 	var _table2 = _interopRequireDefault(_table);
 
@@ -253,17 +136,17 @@ module.exports =
 
 /***/ },
 
-/***/ 248:
+/***/ 246:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(249)
+	__vue_exports__ = __webpack_require__(247)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(261)
+	var __vue_template__ = __webpack_require__(260)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -283,44 +166,46 @@ module.exports =
 
 /***/ },
 
-/***/ 249:
+/***/ 247:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _migrating = __webpack_require__(175);
+	var _migrating = __webpack_require__(174);
 
 	var _migrating2 = _interopRequireDefault(_migrating);
 
-	var _throttle = __webpack_require__(213);
+	var _throttle = __webpack_require__(248);
 
 	var _throttle2 = _interopRequireDefault(_throttle);
 
-	var _debounce = __webpack_require__(212);
+	var _debounce = __webpack_require__(211);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _resizeEvent = __webpack_require__(214);
+	var _resizeEvent = __webpack_require__(212);
 
 	var _locale = __webpack_require__(149);
 
-	var _tableStore = __webpack_require__(250);
+	var _tableStore = __webpack_require__(249);
 
 	var _tableStore2 = _interopRequireDefault(_tableStore);
 
-	var _tableLayout = __webpack_require__(252);
+	var _tableLayout = __webpack_require__(251);
 
 	var _tableLayout2 = _interopRequireDefault(_tableLayout);
 
-	var _tableBody = __webpack_require__(253);
+	var _tableBody = __webpack_require__(252);
 
 	var _tableBody2 = _interopRequireDefault(_tableBody);
 
-	var _tableHeader = __webpack_require__(254);
+	var _tableHeader = __webpack_require__(253);
 
 	var _tableHeader2 = _interopRequireDefault(_tableHeader);
 
-	var _util = __webpack_require__(251);
+	var _util = __webpack_require__(250);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -612,31 +497,31 @@ module.exports =
 
 /***/ },
 
-/***/ 250:
+/***/ 248:
+/***/ function(module, exports) {
+
+	module.exports = require("throttle-debounce/throttle");
+
+/***/ },
+
+/***/ 249:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(52);
+	var _vue = __webpack_require__(50);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _debounce = __webpack_require__(212);
+	var _debounce = __webpack_require__(211);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _util = __webpack_require__(251);
+	var _util = __webpack_require__(250);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var getRowIdentity = function getRowIdentity(row, rowKey) {
-	  if (!row) throw new Error('row is required when get row identity');
-	  if (typeof rowKey === 'string') {
-	    return row[rowKey];
-	  } else if (typeof rowKey === 'function') {
-	    return rowKey.call(null, row);
-	  }
-	};
 
 	var sortData = function sortData(data, states) {
 	  var sortingColumn = states.sortingColumn;
@@ -649,7 +534,7 @@ module.exports =
 	var getKeysMap = function getKeysMap(array, rowKey) {
 	  var arrayMap = {};
 	  (array || []).forEach(function (row, index) {
-	    arrayMap[getRowIdentity(row, rowKey)] = { row: row, index: index };
+	    arrayMap[(0, _util.getRowIdentity)(row, rowKey)] = { row: row, index: index };
 	  });
 	  return arrayMap;
 	};
@@ -741,7 +626,7 @@ module.exports =
 	            var selectedMap = getKeysMap(selection, rowKey);
 
 	            states.data.forEach(function (row) {
-	              var rowId = getRowIdentity(row, rowKey);
+	              var rowId = (0, _util.getRowIdentity)(row, rowKey);
 	              var rowInfo = selectedMap[rowId];
 	              if (rowInfo) {
 	                selection[rowInfo.index] = row;
@@ -968,7 +853,7 @@ module.exports =
 
 	  var isSelected = function isSelected(row) {
 	    if (selectedMap) {
-	      return !!selectedMap[getRowIdentity(row, rowKey)];
+	      return !!selectedMap[(0, _util.getRowIdentity)(row, rowKey)];
 	    } else {
 	      return selection.indexOf(row) !== -1;
 	    }
@@ -1027,8 +912,10 @@ module.exports =
 
 /***/ },
 
-/***/ 251:
+/***/ 250:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -1143,14 +1030,25 @@ module.exports =
 	  }
 	};
 
+	var getRowIdentity = exports.getRowIdentity = function getRowIdentity(row, rowKey) {
+	  if (!row) throw new Error('row is required when get row identity');
+	  if (typeof rowKey === 'string') {
+	    return row[rowKey];
+	  } else if (typeof rowKey === 'function') {
+	    return rowKey.call(null, row);
+	  }
+	};
+
 /***/ },
 
-/***/ 252:
+/***/ 251:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(251);
+	var _util = __webpack_require__(250);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1333,12 +1231,14 @@ module.exports =
 
 /***/ },
 
-/***/ 253:
+/***/ 252:
 /***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(251);
+	var _util = __webpack_require__(250);
 
 	exports.default = {
 	  props: {
@@ -1382,6 +1282,7 @@ module.exports =
 	          return h(
 	            "tr",
 	            {
+	              key: _this.$parent.rowKey ? _this.getKeyOfRow(row, $index) : $index,
 	              on: {
 	                click: function click($event) {
 	                  return _this.handleClick($event, row);
@@ -1399,7 +1300,7 @@ module.exports =
 	              return h(
 	                "td",
 	                {
-	                  "class": [column.id, column.align, _this.isCellHidden(cellIndex) ? 'is-hidden' : ''],
+	                  "class": [column.id, column.align, column.className || '', _this.isCellHidden(cellIndex) ? 'is-hidden' : ''],
 	                  on: {
 	                    mouseenter: function mouseenter($event) {
 	                      return _this.handleCellMouseEnter($event, row);
@@ -1407,11 +1308,7 @@ module.exports =
 	                    mouseleave: _this.handleCellMouseLeave
 	                  }
 	                },
-	                [column.renderCell ? column.renderCell.call(_this._renderProxy, h, { row: row, column: column, $index: $index, store: _this.store, _self: _this.$parent.$vnode.context }) : h(
-	                  "div",
-	                  { "class": "cell" },
-	                  [_this.getCellContent(row, column.property, column.id)]
-	                )]
+	                [column.renderCell.call(_this._renderProxy, h, { row: row, column: column, $index: $index, store: _this.store, _self: _this.$parent.$vnode.context })]
 	              );
 	            }), !_this.fixed && _this.layout.scrollY && _this.layout.gutterWidth ? h(
 	              "td",
@@ -1425,12 +1322,40 @@ module.exports =
 	  },
 
 
+	  watch: {
+	    'store.states.hoverRow': function storeStatesHoverRow(newVal, oldVal) {
+	      var el = this.$el;
+	      if (!el) return;
+	      var rows = el.querySelectorAll('tr');
+	      var oldRow = rows[oldVal];
+	      var newRow = rows[newVal];
+	      if (oldRow) {
+	        oldRow.classList.remove('hover-row');
+	      }
+	      if (newRow) {
+	        newRow.classList.add('hover-row');
+	      }
+	    },
+	    'store.states.currentRow': function storeStatesCurrentRow(newVal, oldVal) {
+	      if (!this.highlight) return;
+	      var el = this.$el;
+	      if (!el) return;
+	      var data = this.store.states.data;
+	      var rows = el.querySelectorAll('tr');
+	      var oldRow = rows[data.indexOf(oldVal)];
+	      var newRow = rows[data.indexOf(newVal)];
+	      if (oldRow) {
+	        oldRow.classList.remove('current-row');
+	      }
+	      if (newRow) {
+	        newRow.classList.add('current-row');
+	      }
+	    }
+	  },
+
 	  computed: {
 	    data: function data() {
 	      return this.store.states.data;
-	    },
-	    hoverRowIndex: function hoverRowIndex() {
-	      return this.store.states.hoverRow;
 	    },
 	    columnsCount: function columnsCount() {
 	      return this.store.states.columns.length;
@@ -1454,6 +1379,13 @@ module.exports =
 
 
 	  methods: {
+	    getKeyOfRow: function getKeyOfRow(row, index) {
+	      var rowKey = this.$parent.rowKey;
+	      if (rowKey) {
+	        return (0, _util.getRowIdentity)(row, rowKey);
+	      }
+	      return index;
+	    },
 	    isCellHidden: function isCellHidden(index) {
 	      if (this.fixed === true || this.fixed === 'left') {
 	        return index >= this.leftFixedCount;
@@ -1465,20 +1397,12 @@ module.exports =
 	    },
 	    getRowClass: function getRowClass(row, index) {
 	      var classes = [];
-	      if (this.hoverRowIndex === index) {
-	        classes.push('hover-row');
-	      }
 
 	      var rowClassName = this.rowClassName;
 	      if (typeof rowClassName === 'string') {
 	        classes.push(rowClassName);
 	      } else if (typeof rowClassName === 'function') {
 	        classes.push(rowClassName.apply(null, [row, index]) || '');
-	      }
-
-	      var currentRow = this.store.states.currentRow;
-	      if (this.highlight && currentRow === row) {
-	        classes.push('current-row');
 	      }
 
 	      return classes.join(' ');
@@ -1526,10 +1450,13 @@ module.exports =
 
 	      table.$emit('row-click', row, event);
 	    },
-	    getCellContent: function getCellContent(row, property, columnId) {
-	      var column = (0, _util.getColumnById)(this.$parent, columnId);
+	    getCellContent: function getCellContent(row, property, column) {
 	      if (column && column.formatter) {
 	        return column.formatter(row, column);
+	      }
+
+	      if (property && property.indexOf('.') === -1) {
+	        return row[property];
 	      }
 
 	      return (0, _util.getValueByPath)(row, property);
@@ -1539,24 +1466,26 @@ module.exports =
 
 /***/ },
 
-/***/ 254:
+/***/ 253:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(255);
+	var _checkbox = __webpack_require__(254);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(211);
+	var _tag = __webpack_require__(210);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _vue = __webpack_require__(52);
+	var _vue = __webpack_require__(50);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _filterPanel = __webpack_require__(256);
+	var _filterPanel = __webpack_require__(255);
 
 	var _filterPanel2 = _interopRequireDefault(_filterPanel);
 
@@ -1613,7 +1542,7 @@ module.exports =
 	                  }
 	                },
 
-	                'class': [column.id, column.order, column.align, _this.isCellHidden(cellIndex) ? 'is-hidden' : ''] },
+	                'class': [column.id, column.order, column.align, column.className || '', _this.isCellHidden(cellIndex) ? 'is-hidden' : ''] },
 	              [h(
 	                'div',
 	                { 'class': ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : ''] },
@@ -1900,24 +1829,24 @@ module.exports =
 
 /***/ },
 
-/***/ 255:
+/***/ 254:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 256:
+/***/ 255:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(257)
+	__vue_exports__ = __webpack_require__(256)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(260)
+	var __vue_template__ = __webpack_require__(259)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -1937,16 +1866,18 @@ module.exports =
 
 /***/ },
 
-/***/ 257:
+/***/ 256:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(55);
+	var _vuePopper = __webpack_require__(53);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _locale = __webpack_require__(59);
+	var _locale = __webpack_require__(57);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -1954,15 +1885,15 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _dropdown = __webpack_require__(258);
+	var _dropdown = __webpack_require__(257);
 
 	var _dropdown2 = _interopRequireDefault(_dropdown);
 
-	var _checkbox = __webpack_require__(255);
+	var _checkbox = __webpack_require__(254);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _checkboxGroup = __webpack_require__(259);
+	var _checkboxGroup = __webpack_require__(258);
 
 	var _checkboxGroup2 = _interopRequireDefault(_checkboxGroup);
 
@@ -2164,8 +2095,10 @@ module.exports =
 
 /***/ },
 
-/***/ 258:
+/***/ 257:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	var dropdowns = [];
@@ -2197,246 +2130,246 @@ module.exports =
 
 /***/ },
 
-/***/ 259:
+/***/ 258:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox-group");
 
 /***/ },
 
-/***/ 260:
+/***/ 259:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    }
-	  }, [(multiple) ? _h('div', {
+	  }, [(_vm.multiple) ? _vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (showPopper),
+	      value: (_vm.showPopper),
 	      expression: "showPopper"
 	    }],
 	    staticClass: "el-table-filter"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-table-filter__content"
-	  }, [_h('el-checkbox-group', {
+	  }, [_vm._h('el-checkbox-group', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (filteredValue),
+	      value: (_vm.filteredValue),
 	      expression: "filteredValue"
 	    }],
 	    staticClass: "el-table-filter__checkbox-group",
 	    domProps: {
-	      "value": (filteredValue)
+	      "value": (_vm.filteredValue)
 	    },
 	    on: {
 	      "input": function($event) {
-	        filteredValue = $event
+	        _vm.filteredValue = $event
 	      }
 	    }
-	  }, [_l((filters), function(filter) {
-	    return _h('el-checkbox', {
+	  }, [_vm._l((_vm.filters), function(filter) {
+	    return _vm._h('el-checkbox', {
 	      attrs: {
 	        "label": filter.value
 	      }
-	    }, [_s(filter.text)])
-	  })])]), _h('div', {
+	    }, [_vm._s(filter.text)])
+	  })])]), _vm._h('div', {
 	    staticClass: "el-table-filter__bottom"
-	  }, [_h('button', {
+	  }, [_vm._h('button', {
 	    class: {
-	      'is-disabled': filteredValue.length === 0
+	      'is-disabled': _vm.filteredValue.length === 0
 	    },
 	    attrs: {
-	      "disabled": filteredValue.length === 0
+	      "disabled": _vm.filteredValue.length === 0
 	    },
 	    on: {
-	      "click": handleConfirm
+	      "click": _vm.handleConfirm
 	    }
-	  }, [_s(t('el.table.confirmFilter'))]), _h('button', {
+	  }, [_vm._s(_vm.t('el.table.confirmFilter'))]), _vm._h('button', {
 	    on: {
-	      "click": handleReset
+	      "click": _vm.handleReset
 	    }
-	  }, [_s(t('el.table.resetFilter'))])])]) : _h('div', {
+	  }, [_vm._s(_vm.t('el.table.resetFilter'))])])]) : _vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (showPopper),
+	      value: (_vm.showPopper),
 	      expression: "showPopper"
 	    }],
 	    staticClass: "el-table-filter"
-	  }, [_h('ul', {
+	  }, [_vm._h('ul', {
 	    staticClass: "el-table-filter__list"
-	  }, [_h('li', {
+	  }, [_vm._h('li', {
 	    staticClass: "el-table-filter__list-item",
 	    class: {
-	      'is-active': !filterValue
+	      'is-active': !_vm.filterValue
 	    },
 	    on: {
 	      "click": function($event) {
-	        handleSelect(null)
+	        _vm.handleSelect(null)
 	      }
 	    }
-	  }, [_s(t('el.table.clearFilter'))]), _l((filters), function(filter) {
-	    return _h('li', {
+	  }, [_vm._s(_vm.t('el.table.clearFilter'))]), _vm._l((_vm.filters), function(filter) {
+	    return _vm._h('li', {
 	      staticClass: "el-table-filter__list-item",
 	      class: {
-	        'is-active': isActive(filter)
+	        'is-active': _vm.isActive(filter)
 	      },
 	      attrs: {
 	        "label": filter.value
 	      },
 	      on: {
 	        "click": function($event) {
-	          handleSelect(filter.value)
+	          _vm.handleSelect(filter.value)
 	        }
 	      }
-	    }, [_s(filter.text)])
+	    }, [_vm._s(filter.text)])
 	  })])])])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 261:
+/***/ 260:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-table",
 	    class: {
-	      'el-table--fit': fit, 'el-table--striped': stripe, 'el-table--border': border
+	      'el-table--fit': _vm.fit, 'el-table--striped': _vm.stripe, 'el-table--border': _vm.border
 	    },
 	    on: {
 	      "mouseleave": function($event) {
-	        handleMouseLeave($event)
+	        _vm.handleMouseLeave($event)
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    ref: "hiddenColumns",
 	    staticClass: "hidden-columns"
-	  }, [_t("default")]), _h('div', {
+	  }, [_vm._t("default")]), _vm._h('div', {
 	    ref: "headerWrapper",
 	    staticClass: "el-table__header-wrapper"
-	  }, [_h('table-header', {
+	  }, [_vm._h('table-header', {
 	    style: ({
-	      width: layout.bodyWidth ? layout.bodyWidth + 'px' : ''
+	      width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
 	    }),
 	    attrs: {
-	      "store": store,
-	      "layout": layout,
-	      "border": border
+	      "store": _vm.store,
+	      "layout": _vm.layout,
+	      "border": _vm.border
 	    }
-	  })]), _h('div', {
+	  })]), _vm._h('div', {
 	    ref: "bodyWrapper",
 	    staticClass: "el-table__body-wrapper",
 	    style: ({
-	      height: layout.bodyHeight ? layout.bodyHeight + 'px' : ''
+	      height: _vm.layout.bodyHeight ? _vm.layout.bodyHeight + 'px' : ''
 	    })
-	  }, [_h('table-body', {
+	  }, [_vm._h('table-body', {
 	    style: ({
-	      width: layout.bodyWidth ? layout.bodyWidth - (layout.scrollY ? layout.gutterWidth : 0) + 'px' : ''
+	      width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth - (_vm.layout.scrollY ? _vm.layout.gutterWidth : 0) + 'px' : ''
 	    }),
 	    attrs: {
-	      "store": store,
-	      "layout": layout,
-	      "row-class-name": rowClassName,
-	      "highlight": highlightCurrentRow
+	      "store": _vm.store,
+	      "layout": _vm.layout,
+	      "row-class-name": _vm.rowClassName,
+	      "highlight": _vm.highlightCurrentRow
 	    }
-	  }), (!data || data.length === 0) ? _h('div', {
+	  }), (!_vm.data || _vm.data.length === 0) ? _vm._h('div', {
 	    staticClass: "el-table__empty-block"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-table__empty-text"
-	  }, [_s(emptyText)])]) : _e()]), _h('div', {
+	  }, [_vm._s(_vm.emptyText)])]) : _vm._e()]), _vm._h('div', {
 	    ref: "fixedWrapper",
 	    staticClass: "el-table__fixed",
 	    style: ({
-	      width: layout.fixedWidth ? layout.fixedWidth + 'px' : '',
-	      height: layout.viewportHeight ? layout.viewportHeight + 'px' : ''
+	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : '',
+	      height: _vm.layout.viewportHeight ? _vm.layout.viewportHeight + 'px' : ''
 	    })
-	  }, [(fixedColumns.length > 0) ? _h('div', {
+	  }, [(_vm.fixedColumns.length > 0) ? _vm._h('div', {
 	    ref: "fixedHeaderWrapper",
 	    staticClass: "el-table__fixed-header-wrapper"
-	  }, [_h('table-header', {
+	  }, [_vm._h('table-header', {
 	    style: ({
-	      width: layout.fixedWidth ? layout.fixedWidth + 'px' : ''
+	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
 	    }),
 	    attrs: {
 	      "fixed": "left",
-	      "border": border,
-	      "store": store,
-	      "layout": layout
+	      "border": _vm.border,
+	      "store": _vm.store,
+	      "layout": _vm.layout
 	    }
-	  })]) : _e(), (fixedColumns.length > 0) ? _h('div', {
+	  })]) : _vm._e(), (_vm.fixedColumns.length > 0) ? _vm._h('div', {
 	    ref: "fixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
 	    style: ({
-	      top: layout.headerHeight + 'px',
-	      height: layout.fixedBodyHeight ? layout.fixedBodyHeight + 'px' : ''
+	      top: _vm.layout.headerHeight + 'px',
+	      height: _vm.layout.fixedBodyHeight ? _vm.layout.fixedBodyHeight + 'px' : ''
 	    })
-	  }, [_h('table-body', {
+	  }, [_vm._h('table-body', {
 	    style: ({
-	      width: layout.fixedWidth ? layout.fixedWidth + 'px' : ''
+	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
 	    }),
 	    attrs: {
 	      "fixed": "left",
-	      "store": store,
-	      "layout": layout,
-	      "highlight": highlightCurrentRow,
-	      "row-class-name": rowClassName
+	      "store": _vm.store,
+	      "layout": _vm.layout,
+	      "highlight": _vm.highlightCurrentRow,
+	      "row-class-name": _vm.rowClassName
 	    }
-	  })]) : _e()]), _h('div', {
+	  })]) : _vm._e()]), _vm._h('div', {
 	    ref: "rightFixedWrapper",
 	    staticClass: "el-table__fixed-right",
 	    style: ({
-	      width: layout.rightFixedWidth ? layout.rightFixedWidth + 'px' : '',
-	      height: layout.viewportHeight ? layout.viewportHeight + 'px' : '',
-	      right: layout.scrollY ? layout.gutterWidth + 'px' : ''
+	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : '',
+	      height: _vm.layout.viewportHeight ? _vm.layout.viewportHeight + 'px' : '',
+	      right: _vm.layout.scrollY ? _vm.layout.gutterWidth + 'px' : ''
 	    })
-	  }, [(rightFixedColumns.length > 0) ? _h('div', {
+	  }, [(_vm.rightFixedColumns.length > 0) ? _vm._h('div', {
 	    ref: "rightFixedHeaderWrapper",
 	    staticClass: "el-table__fixed-header-wrapper"
-	  }, [_h('table-header', {
+	  }, [_vm._h('table-header', {
 	    style: ({
-	      width: layout.rightFixedWidth ? layout.rightFixedWidth + 'px' : ''
+	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
 	    }),
 	    attrs: {
 	      "fixed": "right",
-	      "border": border,
-	      "store": store,
-	      "layout": layout
+	      "border": _vm.border,
+	      "store": _vm.store,
+	      "layout": _vm.layout
 	    }
-	  })]) : _e(), (rightFixedColumns.length > 0) ? _h('div', {
+	  })]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _vm._h('div', {
 	    ref: "rightFixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
 	    style: ({
-	      top: layout.headerHeight + 'px',
-	      height: layout.fixedBodyHeight ? layout.fixedBodyHeight + 'px' : ''
+	      top: _vm.layout.headerHeight + 'px',
+	      height: _vm.layout.fixedBodyHeight ? _vm.layout.fixedBodyHeight + 'px' : ''
 	    })
-	  }, [_h('table-body', {
+	  }, [_vm._h('table-body', {
 	    style: ({
-	      width: layout.rightFixedWidth ? layout.rightFixedWidth + 'px' : ''
+	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
 	    }),
 	    attrs: {
 	      "fixed": "right",
-	      "store": store,
-	      "layout": layout,
-	      "row-class-name": rowClassName,
-	      "highlight": highlightCurrentRow
+	      "store": _vm.store,
+	      "layout": _vm.layout,
+	      "row-class-name": _vm.rowClassName,
+	      "highlight": _vm.highlightCurrentRow
 	    }
-	  })]) : _e()]), _h('div', {
+	  })]) : _vm._e()]), _vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (resizeProxyVisible),
+	      value: (_vm.resizeProxyVisible),
 	      expression: "resizeProxyVisible"
 	    }],
 	    ref: "resizeProxy",
 	    staticClass: "el-table__column-resize-proxy"
 	  })])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ }
 

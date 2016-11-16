@@ -1,3 +1,5 @@
+'use strict';
+
 exports.__esModule = true;
 /**
 * Modified from https://github.com/sdecima/javascript-detect-element-resize

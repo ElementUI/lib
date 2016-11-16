@@ -54,6 +54,8 @@ module.exports =
 /***/ 27:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _buttonGroup = __webpack_require__(28);
@@ -104,6 +106,8 @@ module.exports =
 /***/ 29:
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
 	//
 	//
@@ -126,11 +130,11 @@ module.exports =
 /***/ 30:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-button-group"
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ }
 

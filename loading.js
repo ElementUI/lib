@@ -46,43 +46,63 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(119);
+	module.exports = __webpack_require__(117);
 
 
 /***/ },
 
-/***/ 52:
+/***/ 50:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 119:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 66:
+/***/ function(module, exports) {
 
-	exports.__esModule = true;
-
-	var _directive = __webpack_require__(120);
-
-	var _directive2 = _interopRequireDefault(_directive);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = _directive2.default;
+	module.exports = require("wind-dom/src/class");
 
 /***/ },
 
-/***/ 120:
+/***/ 117:
 /***/ function(module, exports, __webpack_require__) {
 
-	var _vue = __webpack_require__(52);
+	'use strict';
 
-	var _vue2 = _interopRequireDefault(_vue);
+	exports.__esModule = true;
+
+	var _directive = __webpack_require__(118);
+
+	var _directive2 = _interopRequireDefault(_directive);
+
+	var _index = __webpack_require__(122);
+
+	var _index2 = _interopRequireDefault(_index);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Spinner = _vue2.default.extend(__webpack_require__(121));
+	exports.default = {
+	  directive: _directive2.default,
+	  service: _index2.default
+	};
+
+/***/ },
+
+/***/ 118:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _vue = __webpack_require__(50);
+
+	var _vue2 = _interopRequireDefault(_vue);
+
+	var _class = __webpack_require__(66);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Mask = _vue2.default.extend(__webpack_require__(119));
 
 	exports.install = function (Vue) {
 	  var toggleLoading = function toggleLoading(el, binding) {
@@ -92,14 +112,11 @@ module.exports =
 	          el.originalPosition = document.body.style.position;
 	          el.originalOverflow = document.body.style.overflow;
 
-	          ['top', 'right', 'bottom', 'left'].forEach(function (property) {
-	            el.maskStyle[property] = '0';
-	          });
-	          el.maskStyle.position = 'fixed';
-	          el.spinnerStyle.position = 'fixed';
-
+	          (0, _class.addClass)(el.mask, 'is-fullscreen');
 	          insertDom(document.body, el, binding);
 	        } else {
+	          (0, _class.removeClass)(el.mask, 'is-fullscreen');
+
 	          if (binding.modifiers.body) {
 	            el.originalPosition = document.body.style.position;
 
@@ -114,11 +131,6 @@ module.exports =
 	            insertDom(document.body, el, binding);
 	          } else {
 	            el.originalPosition = el.style.position;
-
-	            ['top', 'right', 'bottom', 'left'].forEach(function (property) {
-	              el.maskStyle[property] = '0';
-	            });
-
 	            insertDom(el, el, binding);
 	          }
 	        }
@@ -126,10 +138,9 @@ module.exports =
 	    } else {
 	      if (el.domVisible) {
 	        el.mask.style.display = 'none';
-	        el.spinner.style.display = 'none';
 	        el.domVisible = false;
 
-	        if (binding.modifiers.fullscreen) {
+	        if (binding.modifiers.fullscreen && el.originalOverflow !== 'hidden') {
 	          document.body.style.overflow = el.originalOverflow;
 	        }
 	        if (binding.modifiers.fullscreen || binding.modifiers.body) {
@@ -146,10 +157,6 @@ module.exports =
 	        directive.mask.style[property] = directive.maskStyle[property];
 	      });
 
-	      Object.keys(directive.spinnerStyle).forEach(function (property) {
-	        directive.spinner.style[property] = directive.spinnerStyle[property];
-	      });
-
 	      if (directive.originalPosition !== 'absolute') {
 	        parent.style.position = 'relative';
 	      }
@@ -157,37 +164,25 @@ module.exports =
 	        parent.style.overflow = 'hidden';
 	      }
 	      directive.mask.style.display = 'block';
-	      directive.spinner.style.display = 'inline-block';
 	      directive.domVisible = true;
 
 	      parent.appendChild(directive.mask);
-	      directive.mask.appendChild(directive.spinner);
 	      directive.domInserted = true;
 	    }
 	  };
 
 	  Vue.directive('loading', {
 	    bind: function bind(el, binding) {
-	      el.mask = document.createElement('div');
-	      el.mask.className = 'el-loading-mask';
-	      el.maskStyle = {
-	        position: 'absolute',
-	        zIndex: '10000',
-	        backgroundColor: 'rgba(255, 255, 255, .9)',
-	        margin: '0'
-	      };
-
-	      var spinner = new Spinner({
+	      var mask = new Mask({
+	        el: document.createElement('div'),
 	        data: {
 	          text: el.getAttribute('element-loading-text'),
-	          fullScreen: !!binding.modifiers.fullscreen
+	          fullscreen: !!binding.modifiers.fullscreen
 	        }
 	      });
-	      spinner.$mount(el.mask);
-	      el.spinner = spinner.$el;
-	      el.spinnerStyle = {
-	        position: 'absolute'
-	      };
+	      el.mask = mask.$el;
+	      el.maskStyle = {};
+
 	      toggleLoading(el, binding);
 	    },
 
@@ -201,10 +196,8 @@ module.exports =
 	      if (el.domInserted) {
 	        if (binding.modifiers.fullscreen || binding.modifiers.body) {
 	          document.body.removeChild(el.mask);
-	          el.mask.removeChild(el.spinner);
 	        } else {
 	          el.mask && el.mask.parentNode && el.mask.parentNode.removeChild(el.mask);
-	          el.spinner && el.spinner.parentNode && el.spinner.parentNode.removeChild(el.spinner);
 	        }
 	      }
 	    }
@@ -213,17 +206,17 @@ module.exports =
 
 /***/ },
 
-/***/ 121:
+/***/ 119:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(122)
+	__vue_exports__ = __webpack_require__(120)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(123)
+	var __vue_template__ = __webpack_require__(121)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -243,8 +236,10 @@ module.exports =
 
 /***/ },
 
-/***/ 122:
+/***/ 120:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -263,28 +258,31 @@ module.exports =
 	  data: function data() {
 	    return {
 	      text: null,
-	      fullScreen: false
+	      fullscreen: true,
+	      customClass: ''
 	    };
 	  }
 	};
 
 /***/ },
 
-/***/ 123:
+/***/ 121:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
-	    staticClass: "el-loading-spinner",
-	    class: {
-	      'is-full-screen': fullScreen
-	    }
-	  }, [_h('svg', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
+	    staticClass: "el-loading-mask",
+	    class: [_vm.customClass, {
+	      'is-fullscreen': _vm.fullscreen
+	    }]
+	  }, [_vm._h('div', {
+	    staticClass: "el-loading-spinner"
+	  }, [_vm._h('svg', {
 	    staticClass: "circular",
 	    attrs: {
 	      "viewBox": "25 25 50 50"
 	    }
-	  }, [_h('circle', {
+	  }, [_vm._h('circle', {
 	    staticClass: "path",
 	    attrs: {
 	      "cx": "50",
@@ -292,10 +290,121 @@ module.exports =
 	      "r": "20",
 	      "fill": "none"
 	    }
-	  })]), (text) ? _h('p', {
+	  })]), (_vm.text) ? _vm._h('p', {
 	    staticClass: "el-loading-text"
-	  }, [_s(text)]) : _e()])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.text)]) : _vm._e()])])
+	},staticRenderFns: []}
+
+/***/ },
+
+/***/ 122:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _vue = __webpack_require__(50);
+
+	var _vue2 = _interopRequireDefault(_vue);
+
+	var _loading = __webpack_require__(119);
+
+	var _loading2 = _interopRequireDefault(_loading);
+
+	var _merge = __webpack_require__(123);
+
+	var _merge2 = _interopRequireDefault(_merge);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var LoadingConstructor = _vue2.default.extend(_loading2.default);
+
+	var defaults = {
+	  text: null,
+	  fullscreen: true,
+	  body: false,
+	  lock: false,
+	  customClass: ''
+	};
+
+	var originalPosition = void 0,
+	    originalOverflow = void 0;
+
+	LoadingConstructor.prototype.close = function () {
+	  if (this.fullscreen && originalOverflow !== 'hidden') {
+	    document.body.style.overflow = originalOverflow;
+	  }
+	  if (this.fullscreen || this.body) {
+	    document.body.style.position = originalPosition;
+	  } else {
+	    this.target.style.position = originalPosition;
+	  }
+	  this.$el && this.$el.parentNode && this.$el.parentNode.removeChild(this.$el);
+	  this.$destroy();
+	};
+
+	var addStyle = function addStyle(options, parent, element) {
+	  var maskStyle = {};
+	  if (options.fullscreen) {
+	    originalPosition = document.body.style.position;
+	    originalOverflow = document.body.style.overflow;
+	  } else if (options.body) {
+	    originalPosition = document.body.style.position;
+	    ['top', 'left'].forEach(function (property) {
+	      var scroll = property === 'top' ? 'scrollTop' : 'scrollLeft';
+	      maskStyle[property] = options.target.getBoundingClientRect()[property] + document.body[scroll] + document.documentElement[scroll] + 'px';
+	    });
+	    ['height', 'width'].forEach(function (property) {
+	      maskStyle[property] = options.target.getBoundingClientRect()[property] + 'px';
+	    });
+	  } else {
+	    originalPosition = parent.style.position;
+	  }
+	  Object.keys(maskStyle).forEach(function (property) {
+	    element.style[property] = maskStyle[property];
+	  });
+	};
+
+	var Loading = function Loading() {
+	  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+	  options = (0, _merge2.default)({}, defaults, options);
+	  if (typeof options.target === 'string') {
+	    options.target = document.querySelector(options.target);
+	  }
+	  options.target = options.target || document.body;
+	  if (options.target !== document.body) {
+	    options.fullscreen = false;
+	  } else {
+	    options.body = true;
+	  }
+
+	  var parent = options.body ? document.body : options.target;
+	  var instance = new LoadingConstructor({
+	    el: document.createElement('div'),
+	    data: options
+	  });
+
+	  addStyle(options, parent, instance.$el);
+	  if (originalPosition !== 'absolute') {
+	    parent.style.position = 'relative';
+	  }
+	  if (options.fullscreen && options.lock) {
+	    parent.style.overflow = 'hidden';
+	  }
+	  parent.appendChild(instance.$el);
+	  return instance;
+	};
+
+	exports.default = Loading;
+
+/***/ },
+
+/***/ 123:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ }
 

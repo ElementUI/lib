@@ -46,24 +46,33 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(285);
+	module.exports = __webpack_require__(284);
 
 
 /***/ },
 
-/***/ 154:
+/***/ 123:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 285:
+/***/ 149:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/locale");
+
+/***/ },
+
+/***/ 284:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _tree = __webpack_require__(286);
+	var _tree = __webpack_require__(285);
 
 	var _tree2 = _interopRequireDefault(_tree);
 
@@ -78,17 +87,17 @@ module.exports =
 
 /***/ },
 
-/***/ 286:
+/***/ 285:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(287)
+	__vue_exports__ = __webpack_require__(286)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(294)
+	var __vue_template__ = __webpack_require__(293)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -108,16 +117,35 @@ module.exports =
 
 /***/ },
 
-/***/ 287:
+/***/ 286:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _tree = __webpack_require__(288);
+	var _tree = __webpack_require__(287);
 
 	var _tree2 = _interopRequireDefault(_tree);
 
+	var _locale = __webpack_require__(149);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'el-tree',
@@ -126,6 +154,19 @@ module.exports =
 	    data: {
 	      type: Array
 	    },
+	    emptyText: {
+	      type: String,
+	      default: (0, _locale.t)('el.tree.emptyText')
+	    },
+	    nodeKey: String,
+	    checkStrictly: Boolean,
+	    defaultExpandAll: Boolean,
+	    autoExpandParent: {
+	      type: Boolean,
+	      default: true
+	    },
+	    defaultCheckedKeys: Array,
+	    defaultExpandedKeys: Array,
 	    renderContent: Function,
 	    showCheckbox: {
 	      type: Boolean,
@@ -145,19 +186,23 @@ module.exports =
 	      default: false
 	    },
 	    highlightCurrent: Boolean,
-	    load: {
-	      type: Function
-	    }
+	    load: Function
 	  },
 
 	  created: function created() {
 	    this.$isTree = true;
 
 	    this.tree = new _tree2.default({
+	      key: this.nodeKey,
 	      data: this.data,
 	      lazy: this.lazy,
 	      props: this.props,
-	      load: this.load
+	      load: this.load,
+	      checkStrictly: this.checkStrictly,
+	      defaultCheckedKeys: this.defaultCheckedKeys,
+	      defaultExpandedKeys: this.defaultExpandedKeys,
+	      autoExpandParent: this.autoExpandParent,
+	      defaultExpandAll: this.defaultExpandAll
 	    });
 	  },
 	  data: function data() {
@@ -169,7 +214,7 @@ module.exports =
 
 
 	  components: {
-	    ElTreeNode: __webpack_require__(290)
+	    ElTreeNode: __webpack_require__(289)
 	  },
 
 	  computed: {
@@ -185,35 +230,34 @@ module.exports =
 
 	  watch: {
 	    data: function data(newVal) {
-	      this.tree.root.setData(newVal);
+	      this.tree.setData(newVal);
+	    },
+	    defaultCheckedKeys: function defaultCheckedKeys(newVal) {
+	      this.tree.setDefaultCheckedKey(newVal);
 	    }
 	  },
 
 	  methods: {
 	    getCheckedNodes: function getCheckedNodes(leafOnly) {
 	      return this.tree.getCheckedNodes(leafOnly);
+	    },
+	    setCheckedNodes: function setCheckedNodes(nodes) {
+	      if (!this.nodeKey) throw new Error('[Tree] nodeKey is required in setCheckedNodes');
+	      this.tree.setCheckedNodes(nodes);
 	    }
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 
-/***/ 288:
+/***/ 287:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _node = __webpack_require__(289);
+	var _node = __webpack_require__(288);
 
 	var _node2 = _interopRequireDefault(_node);
 
@@ -233,24 +277,79 @@ module.exports =
 	      }
 	    }
 
+	    this.nodesMap = {};
+
 	    this.root = new _node2.default({
 	      data: this.data,
-	      lazy: this.lazy,
-	      props: this.props,
-	      load: this.load
+	      _tree: this
 	    });
 
 	    if (this.lazy && this.load) {
 	      var loadFn = this.load;
 	      loadFn(this.root, function (data) {
 	        _this.root.doCreateChildren(data);
+	        _this._initDefaultCheckedNodes();
 	      });
+	    } else {
+	      this._initDefaultCheckedNodes();
 	    }
 	  }
 
+	  Tree.prototype.setData = function setData(newVal) {
+	    var instanceChanged = newVal !== this.root.data;
+	    this.root.setData(newVal);
+	    if (instanceChanged) {
+	      this._initDefaultCheckedNodes();
+	    }
+	  };
+
+	  Tree.prototype._initDefaultCheckedNodes = function _initDefaultCheckedNodes() {
+	    var _this2 = this;
+
+	    var defaultCheckedKeys = this.defaultCheckedKeys || [];
+	    var nodesMap = this.nodesMap;
+
+	    defaultCheckedKeys.forEach(function (checkedKey) {
+	      var node = nodesMap[checkedKey];
+
+	      if (node) {
+	        node.setChecked(true, !_this2.checkStrictly);
+	      }
+	    });
+	  };
+
+	  Tree.prototype._initDefaultCheckedNode = function _initDefaultCheckedNode(node) {
+	    var defaultCheckedKeys = this.defaultCheckedKeys || [];
+
+	    if (defaultCheckedKeys.indexOf(node.key) !== -1) {
+	      node.setChecked(true, !this.checkStrictly);
+	    }
+	  };
+
+	  Tree.prototype.setDefaultCheckedKey = function setDefaultCheckedKey(newVal) {
+	    if (newVal !== this.defaultCheckedKeys) {
+	      this.defaultCheckedKeys = newVal;
+	      this._initDefaultCheckedNodes();
+	    }
+	  };
+
+	  Tree.prototype.registerNode = function registerNode(node) {
+	    var key = this.key;
+	    if (!key || !node || !node.data) return;
+
+	    this.nodesMap[node.key] = node;
+	  };
+
+	  Tree.prototype.deregisterNode = function deregisterNode(node) {
+	    var key = this.key;
+	    if (!key || !node || !node.data) return;
+
+	    delete this.nodesMap[node.key];
+	  };
+
 	  Tree.prototype.getCheckedNodes = function getCheckedNodes(leafOnly) {
 	    var checkedNodes = [];
-	    var walk = function walk(node) {
+	    var traverse = function traverse(node) {
 	      var childNodes = node.root ? node.root.childNodes : node.childNodes;
 
 	      childNodes.forEach(function (child) {
@@ -258,13 +357,38 @@ module.exports =
 	          checkedNodes.push(child.data);
 	        }
 
-	        walk(child);
+	        traverse(child);
 	      });
 	    };
 
-	    walk(this);
+	    traverse(this);
 
 	    return checkedNodes;
+	  };
+
+	  Tree.prototype.setCheckedNodes = function setCheckedNodes(array) {
+	    var _this3 = this;
+
+	    var key = this.key;
+	    var checkedKeys = {};
+	    array.forEach(function (item) {
+	      checkedKeys[(item || {})[key]] = true;
+	    });
+
+	    var allNodes = [];
+	    var nodesMap = this.nodesMap;
+	    for (var nodeKey in nodesMap) {
+	      if (nodesMap.hasOwnProperty(nodeKey)) {
+	        allNodes.push(nodesMap[nodeKey]);
+	      }
+	    }
+
+	    allNodes.sort(function (a, b) {
+	      return a.level > b.level ? -1 : 1;
+	    });
+	    allNodes.forEach(function (node) {
+	      node.setChecked(!!checkedKeys[(node.data || {})[key]], !_this3.checkStrictly);
+	    });
 	  };
 
 	  return Tree;
@@ -275,23 +399,22 @@ module.exports =
 
 /***/ },
 
-/***/ 289:
+/***/ 288:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _merge = __webpack_require__(154);
+	var _merge = __webpack_require__(123);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var nodeIdSeed = 0;
-
 
 	var reInitChecked = function reInitChecked(node) {
 	  var siblings = node.childNodes;
@@ -319,7 +442,7 @@ module.exports =
 	};
 
 	var getPropertyFromData = function getPropertyFromData(node, prop) {
-	  var props = node.props;
+	  var props = node._tree.props;
 	  var data = node.data || {};
 	  var config = props[prop];
 
@@ -332,6 +455,8 @@ module.exports =
 	  }
 	};
 
+	var nodeIdSeed = 0;
+
 	var Node = function () {
 	  function Node(options) {
 	    _classCallCheck(this, Node);
@@ -342,9 +467,7 @@ module.exports =
 	    this.indeterminate = false;
 	    this.data = null;
 	    this.expanded = false;
-	    this.props = null;
 	    this.parent = null;
-	    this.lazy = false;
 
 	    for (var name in options) {
 	      if (options.hasOwnProperty(name)) {
@@ -353,7 +476,7 @@ module.exports =
 	    }
 
 	    // internal
-	    this.level = -1;
+	    this.level = 0;
 	    this.loaded = false;
 	    this.childNodes = [];
 	    this.loading = false;
@@ -362,8 +485,39 @@ module.exports =
 	      this.level = this.parent.level + 1;
 	    }
 
-	    if (this.lazy !== true && this.data) {
+	    var tree = this._tree;
+	    if (!tree) {
+	      throw new Error('[Node]_tree is required!');
+	    }
+	    tree.registerNode(this);
+
+	    if (tree.lazy !== true && this.data) {
 	      this.setData(this.data);
+
+	      if (tree.defaultExpandAll) {
+	        this.expanded = true;
+	      }
+	    } else if (this.level > 0 && tree.lazy && tree.defaultExpandAll) {
+	      this.expand();
+	    }
+
+	    if (!this.data) return;
+	    var defaultExpandedKeys = tree.defaultExpandedKeys;
+	    var key = tree.key;
+	    if (key && defaultExpandedKeys && defaultExpandedKeys.indexOf(this.key) !== -1) {
+	      if (tree.autoExpandParent) {
+	        var parent = this.parent;
+	        while (parent.level > 0) {
+	          parent.expanded = true;
+	          parent = parent.parent;
+	        }
+	      }
+
+	      this.expand();
+	    }
+
+	    if (tree.lazy) {
+	      tree._initDefaultCheckedNode(this);
 	    }
 	  }
 
@@ -381,7 +535,7 @@ module.exports =
 	    this.childNodes = [];
 
 	    var children = void 0;
-	    if (this.level === -1 && this.data instanceof Array) {
+	    if (this.level === 0 && this.data instanceof Array) {
 	      children = this.data;
 	    } else {
 	      children = getPropertyFromData(this, 'children') || [];
@@ -398,9 +552,7 @@ module.exports =
 	    if (!(child instanceof Node)) {
 	      (0, _merge2.default)(child, {
 	        parent: this,
-	        lazy: this.lazy,
-	        load: this.load,
-	        props: this.props
+	        _tree: this._tree
 	      });
 	      child = new Node(child);
 	    }
@@ -418,6 +570,7 @@ module.exports =
 	    var index = this.childNodes.indexOf(child);
 
 	    if (index > -1) {
+	      this._tree && this._tree.deregisterNode(child);
 	      child.parent = null;
 	      this.childNodes.splice(index, 1);
 	    }
@@ -437,27 +590,28 @@ module.exports =
 	  };
 
 	  Node.prototype.expand = function expand(callback) {
+	    var _this = this;
+
 	    if (this.shouldLoadData()) {
 	      this.loadData(function (data) {
 	        if (data instanceof Array) {
-	          callback();
+	          _this.expanded = true;
+	          if (callback) callback();
 	        }
 	      });
 	    } else {
 	      this.expanded = true;
-	      if (callback) {
-	        callback();
-	      }
+	      if (callback) callback();
 	    }
 	  };
 
 	  Node.prototype.doCreateChildren = function doCreateChildren(array) {
-	    var _this = this;
+	    var _this2 = this;
 
 	    var defaultProps = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
 	    array.forEach(function (item) {
-	      _this.insertChild((0, _merge2.default)({ data: item }, defaultProps));
+	      _this2.insertChild((0, _merge2.default)({ data: item }, defaultProps));
 	    });
 	  };
 
@@ -466,26 +620,26 @@ module.exports =
 	  };
 
 	  Node.prototype.shouldLoadData = function shouldLoadData() {
-	    return this.lazy === true && this.load && !this.loaded;
+	    return this._tree.lazy === true && this._tree.load && !this.loaded;
 	  };
 
 	  Node.prototype.hasChild = function hasChild() {
 	    var childNodes = this.childNodes;
-	    if (!this.lazy || this.lazy === true && this.loaded === true) {
+	    if (!this._tree.lazy || this._tree.lazy === true && this.loaded === true) {
 	      return childNodes && childNodes.length > 0;
 	    }
 	    return true;
 	  };
 
 	  Node.prototype.setChecked = function setChecked(value, deep) {
-	    var _this2 = this;
+	    var _this3 = this;
 
 	    this.indeterminate = value === 'half';
 	    this.checked = value === true;
 
-	    var handleDeep = function handleDeep() {
+	    var handleDescendants = function handleDescendants() {
 	      if (deep) {
-	        var childNodes = _this2.childNodes;
+	        var childNodes = _this3.childNodes;
 	        for (var i = 0, j = childNodes.length; i < j; i++) {
 	          var child = childNodes[i];
 	          child.setChecked(value !== false, deep);
@@ -493,21 +647,23 @@ module.exports =
 	      }
 	    };
 
-	    if (this.shouldLoadData()) {
+	    if (!this._tree.checkStrictly && this.shouldLoadData()) {
 	      // Only work on lazy load data.
 	      this.loadData(function () {
-	        handleDeep();
+	        handleDescendants();
 	      }, {
 	        checked: value !== false
 	      });
 	    } else {
-	      handleDeep();
+	      handleDescendants();
 	    }
 
 	    var parent = this.parent;
-	    if (parent.level === -1) return;
+	    if (!parent || parent.level === 0) return;
 
-	    reInitChecked(parent);
+	    if (!this._tree.checkStrictly) {
+	      reInitChecked(parent);
+	    }
 	  };
 
 	  Node.prototype.getChildren = function getChildren() {
@@ -515,7 +671,7 @@ module.exports =
 	    var data = this.data;
 	    if (!data) return null;
 
-	    var props = this.props;
+	    var props = this._tree.props;
 	    var children = 'children';
 	    if (props) {
 	      children = props.children || 'children';
@@ -529,7 +685,7 @@ module.exports =
 	  };
 
 	  Node.prototype.updateChildren = function updateChildren() {
-	    var _this3 = this;
+	    var _this4 = this;
 
 	    var newData = this.getChildren() || [];
 	    var oldData = this.childNodes.map(function (node) {
@@ -548,36 +704,36 @@ module.exports =
 	    });
 
 	    oldData.forEach(function (item) {
-	      if (!newDataMap[item.$treeNodeId]) _this3.removeChildByData(item);
+	      if (!newDataMap[item.$treeNodeId]) _this4.removeChildByData(item);
 	    });
 	    newNodes.forEach(function (_ref) {
 	      var index = _ref.index;
 	      var data = _ref.data;
-	      return _this3.insertChild({ data: data }, index);
+	      return _this4.insertChild({ data: data }, index);
 	    });
 	  };
 
 	  Node.prototype.loadData = function loadData(callback) {
-	    var _this4 = this;
+	    var _this5 = this;
 
 	    var defaultProps = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	    if (this.lazy === true && this.load && !this.loaded) {
+	    if (this._tree.lazy === true && this._tree.load && !this.loaded && !this.loading) {
 	      this.loading = true;
 
 	      var resolve = function resolve(children) {
-	        _this4.loaded = true;
-	        _this4.loading = false;
-	        _this4.childNodes = [];
+	        _this5.loaded = true;
+	        _this5.loading = false;
+	        _this5.childNodes = [];
 
-	        _this4.doCreateChildren(children, defaultProps);
+	        _this5.doCreateChildren(children, defaultProps);
 
 	        if (callback) {
-	          callback.call(_this4, children);
+	          callback.call(_this5, children);
 	        }
 	      };
 
-	      this.load(this, resolve);
+	      this._tree.load(this, resolve);
 	    } else {
 	      if (callback) {
 	        callback.call(this);
@@ -596,6 +752,13 @@ module.exports =
 	      return getPropertyFromData(this, 'icon');
 	    }
 	  }, {
+	    key: 'key',
+	    get: function get() {
+	      var nodeKey = this._tree.key;
+	      if (this.data) return this.data[nodeKey];
+	      return null;
+	    }
+	  }, {
 	    key: 'isLeaf',
 	    get: function get() {
 	      return !this.hasChild();
@@ -609,17 +772,17 @@ module.exports =
 
 /***/ },
 
-/***/ 290:
+/***/ 289:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(291)
+	__vue_exports__ = __webpack_require__(290)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(293)
+	var __vue_template__ = __webpack_require__(292)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -639,12 +802,14 @@ module.exports =
 
 /***/ },
 
-/***/ 291:
+/***/ 290:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _transition = __webpack_require__(292);
+	var _transition = __webpack_require__(291);
 
 	var _transition2 = _interopRequireDefault(_transition);
 
@@ -700,10 +865,23 @@ module.exports =
 	    },
 	    'node.checked': function nodeChecked(val) {
 	      this.handleSelectChange(val, this.node.indeterminate);
+	    },
+	    'node.expanded': function nodeExpanded(val) {
+	      this.expanded = val;
+	      if (val) {
+	        this.childNodeRendered = true;
+	      }
 	    }
 	  },
 
 	  methods: {
+	    getNodeKey: function getNodeKey(node, index) {
+	      var nodeKey = this.$tree.nodeKey;
+	      if (nodeKey && node) {
+	        return node.data[nodeKey];
+	      }
+	      return index;
+	    },
 	    handleSelectChange: function handleSelectChange(checked, indeterminate) {
 	      if (this.oldChecked !== checked && this.oldIndeterminate !== indeterminate) {
 	        this.$tree.$emit('check-change', this.node.data, checked, indeterminate);
@@ -715,35 +893,29 @@ module.exports =
 	      this.$tree.currentNode = this;
 	    },
 	    handleExpandIconClick: function handleExpandIconClick(event) {
-	      var _this = this;
-
 	      var target = event.target;
 	      if (target.tagName.toUpperCase() !== 'DIV' && target.parentNode.nodeName.toUpperCase() !== 'DIV' || target.nodeName.toUpperCase() === 'LABEL') return;
 	      if (this.expanded) {
 	        this.node.collapse();
-	        this.expanded = false;
 	      } else {
-	        this.node.expand(function () {
-	          _this.expanded = true;
-	          _this.childNodeRendered = true;
-	        });
+	        this.node.expand();
 	      }
 	      this.$tree.$emit('node-click', this.node.data, this.node, this);
 	    },
 	    handleUserClick: function handleUserClick() {
 	      if (this.node.indeterminate) {
-	        this.node.setChecked(this.node.checked, true);
+	        this.node.setChecked(this.node.checked, !this.$tree.checkStrictly);
 	      }
 	    },
 	    handleCheckChange: function handleCheckChange(ev) {
 	      if (!this.node.indeterminate) {
-	        this.node.setChecked(ev.target.checked, true);
+	        this.node.setChecked(ev.target.checked, !this.$tree.checkStrictly);
 	      }
 	    }
 	  },
 
 	  created: function created() {
-	    var _this2 = this;
+	    var _this = this;
 
 	    var parent = this.$parent;
 
@@ -758,7 +930,7 @@ module.exports =
 	    var childrenKey = props['children'] || 'children';
 
 	    this.$watch('node.data.' + childrenKey, function () {
-	      _this2.node.updateChildren();
+	      _this.node.updateChildren();
 	    });
 
 	    if (!tree) {
@@ -766,8 +938,14 @@ module.exports =
 	    }
 
 	    this.showCheckbox = tree.showCheckbox;
+
+	    if (this.node.expanded) {
+	      this.expanded = true;
+	      this.childNodeRendered = true;
+	    }
 	  }
 	}; //
+	//
 	//
 	//
 	//
@@ -808,8 +986,10 @@ module.exports =
 
 /***/ },
 
-/***/ 292:
+/***/ 291:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -903,103 +1083,108 @@ module.exports =
 
 /***/ },
 
-/***/ 293:
+/***/ 292:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-tree-node",
 	    class: {
-	      expanded: childNodeRendered && expanded, 'is-current': $tree.currentNode === _self
+	      'is-expanded': _vm.childNodeRendered && _vm.expanded, 'is-current': _vm.$tree.currentNode === _vm._self
 	    },
 	    on: {
 	      "click": function($event) {
 	        $event.stopPropagation();
-	        handleClick($event)
+	        _vm.handleClick($event)
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-tree-node__content",
 	    style: ({
-	      'padding-left': node.level * 16 + 'px'
+	      'padding-left': (_vm.node.level - 1) * 16 + 'px'
 	    }),
 	    on: {
-	      "click": handleExpandIconClick
+	      "click": _vm.handleExpandIconClick
 	    }
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-tree-node__expand-icon",
 	    class: {
-	      'is-leaf': node.isLeaf, expanded: !node.isLeaf && expanded
+	      'is-leaf': _vm.node.isLeaf, expanded: !_vm.node.isLeaf && _vm.expanded
 	    }
-	  }), (showCheckbox) ? _h('el-checkbox', {
+	  }), (_vm.showCheckbox) ? _vm._h('el-checkbox', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (node.checked),
+	      value: (_vm.node.checked),
 	      expression: "node.checked"
 	    }],
 	    attrs: {
-	      "indeterminate": node.indeterminate
+	      "indeterminate": _vm.node.indeterminate
 	    },
 	    domProps: {
-	      "value": (node.checked)
+	      "value": (_vm.node.checked)
 	    },
 	    on: {
-	      "change": handleCheckChange,
+	      "change": _vm.handleCheckChange,
 	      "input": function($event) {
-	        node.checked = $event
+	        _vm.node.checked = $event
 	      }
 	    },
 	    nativeOn: {
 	      "click": function($event) {
-	        handleUserClick($event)
+	        _vm.handleUserClick($event)
 	      }
 	    }
-	  }) : _e(), (node.loading) ? _h('span', {
-	    staticClass: "el-tree-node__icon el-icon-loading"
-	  }) : _e(), _h('node-content', {
+	  }) : _vm._e(), (_vm.node.loading) ? _vm._h('span', {
+	    staticClass: "el-tree-node__loading-icon el-icon-loading"
+	  }) : _vm._e(), _vm._h('node-content', {
 	    attrs: {
-	      "node": node
+	      "node": _vm.node
 	    }
-	  })]), _h('collapse-transition', [_h('div', {
+	  })]), _vm._h('collapse-transition', [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (expanded),
+	      value: (_vm.expanded),
 	      expression: "expanded"
 	    }],
 	    staticClass: "el-tree-node__children"
-	  }, [_l((node.childNodes), function(child) {
-	    return _h('el-tree-node', {
+	  }, [_vm._l((_vm.node.childNodes), function(child) {
+	    return _vm._h('el-tree-node', {
+	      key: _vm.getNodeKey(child),
 	      attrs: {
-	        "render-content": renderContent,
+	        "render-content": _vm.renderContent,
 	        "node": child
 	      }
 	    })
 	  })])])])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 294:
+/***/ 293:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-tree",
 	    class: {
-	      'el-tree--highlight-current': highlightCurrent
+	      'el-tree--highlight-current': _vm.highlightCurrent
 	    }
-	  }, [_l((tree.root.childNodes), function(child) {
-	    return _h('el-tree-node', {
+	  }, [_vm._l((_vm.tree.root.childNodes), function(child) {
+	    return _vm._h('el-tree-node', {
 	      attrs: {
 	        "node": child,
-	        "props": props,
-	        "render-content": renderContent
+	        "props": _vm.props,
+	        "render-content": _vm.renderContent
 	      }
 	    })
-	  })])
-	}},staticRenderFns: []}
+	  }), (!_vm.tree.root.childNodes || _vm.tree.root.childNodes.length === 0) ? _vm._h('div', {
+	    staticClass: "el-tree__empty-block"
+	  }, [_vm._h('span', {
+	    staticClass: "el-tree__empty-text"
+	  }, [_vm._s(_vm.emptyText)])]) : _vm._e()])
+	},staticRenderFns: []}
 
 /***/ }
 

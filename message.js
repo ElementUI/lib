@@ -51,14 +51,14 @@ module.exports =
 
 /***/ },
 
-/***/ 52:
+/***/ 50:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 83:
+/***/ 81:
 /***/ function(module, exports) {
 
 	module.exports = require("vue-popup");
@@ -67,6 +67,8 @@ module.exports =
 
 /***/ 137:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -83,13 +85,15 @@ module.exports =
 /***/ 138:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(52);
+	var _vue = __webpack_require__(50);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _vuePopup = __webpack_require__(83);
+	var _vuePopup = __webpack_require__(81);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -123,6 +127,7 @@ module.exports =
 	  instance.dom = instance.vm.$el;
 	  instance.dom.style.zIndex = _vuePopup.PopupManager.nextZIndex();
 	  instances.push(instance);
+	  return instance.vm;
 	};
 
 	['success', 'warning', 'info', 'error'].forEach(function (type) {
@@ -186,6 +191,8 @@ module.exports =
 /***/ 140:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 	//
 	//
@@ -236,7 +243,7 @@ module.exports =
 	      this.$destroy(true);
 	      this.$el.parentNode.removeChild(this.$el);
 	    },
-	    handleClose: function handleClose() {
+	    close: function close() {
 	      this.closed = true;
 	      if (typeof this.onClose === 'function') {
 	        this.onClose(this);
@@ -251,7 +258,7 @@ module.exports =
 	      if (this.duration > 0) {
 	        this.timer = setTimeout(function () {
 	          if (!_this.closed) {
-	            _this.handleClose();
+	            _this.close();
 	          }
 	        }, this.duration);
 	      }
@@ -321,38 +328,38 @@ module.exports =
 /***/ 146:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "el-message-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (visible),
+	      value: (_vm.visible),
 	      expression: "visible"
 	    }],
 	    staticClass: "el-message",
 	    on: {
-	      "mouseenter": clearTimer,
-	      "mouseleave": startTimer
+	      "mouseenter": _vm.clearTimer,
+	      "mouseleave": _vm.startTimer
 	    }
-	  }, [_h('img', {
+	  }, [_vm._h('img', {
 	    staticClass: "el-message__icon",
 	    attrs: {
-	      "src": typeImg,
+	      "src": _vm.typeImg,
 	      "alt": ""
 	    }
-	  }), _h('div', {
+	  }), _vm._h('div', {
 	    staticClass: "el-message__group"
-	  }, [_h('p', [_s(message)]), (showClose) ? _h('div', {
+	  }, [_vm._h('p', [_vm._s(_vm.message)]), (_vm.showClose) ? _vm._h('div', {
 	    staticClass: "el-message__closeBtn el-icon-close",
 	    on: {
-	      "click": handleClose
+	      "click": _vm.close
 	    }
-	  }) : _e()])])])
-	}},staticRenderFns: []}
+	  }) : _vm._e()])])])
+	},staticRenderFns: []}
 
 /***/ }
 

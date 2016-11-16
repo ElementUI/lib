@@ -54,6 +54,8 @@ module.exports =
 /***/ 35:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _checkbox = __webpack_require__(36);
@@ -104,6 +106,8 @@ module.exports =
 /***/ 37:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _emitter = __webpack_require__(38);
@@ -123,6 +127,7 @@ module.exports =
 	    indeterminate: Boolean,
 	    disabled: Boolean,
 	    checked: Boolean,
+	    name: String,
 	    trueLabel: [String, Number],
 	    falseLabel: [String, Number]
 	  },
@@ -222,6 +227,8 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
 
 /***/ },
 
@@ -235,105 +242,107 @@ module.exports =
 /***/ 39:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('label', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('label', {
 	    staticClass: "el-checkbox"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-checkbox__input"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-checkbox__inner",
 	    class: {
-	      'is-disabled': disabled,
-	      'is-checked': isChecked,
-	      'is-indeterminate': indeterminate,
-	      'is-focus': focus
+	      'is-disabled': _vm.disabled,
+	      'is-checked': _vm.isChecked,
+	      'is-indeterminate': _vm.indeterminate,
+	      'is-focus': _vm.focus
 	    }
-	  }), (trueLabel || falseLabel) ? _h('input', {
+	  }), (_vm.trueLabel || _vm.falseLabel) ? _vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_value),
+	      value: (_vm._value),
 	      expression: "_value"
 	    }],
 	    ref: "checkbox",
 	    staticClass: "el-checkbox__original",
 	    attrs: {
 	      "type": "checkbox",
-	      "disabled": disabled,
-	      "true-value": trueLabel,
-	      "false-value": falseLabel
+	      "name": _vm.name,
+	      "disabled": _vm.disabled,
+	      "true-value": _vm.trueLabel,
+	      "false-value": _vm.falseLabel
 	    },
 	    domProps: {
-	      "checked": Array.isArray(_value) ? _i(_value, null) > -1 : _q(_value, trueLabel)
+	      "checked": Array.isArray(_vm._value) ? _vm._i(_vm._value, null) > -1 : _vm._q(_vm._value, _vm.trueLabel)
 	    },
 	    on: {
 	      "focus": function($event) {
-	        focus = true
+	        _vm.focus = true
 	      },
 	      "blur": function($event) {
-	        focus = false
+	        _vm.focus = false
 	      },
 	      "change": [function($event) {
-	        var $$a = _value,
+	        var $$a = _vm._value,
 	          $$el = $event.target,
-	          $$c = $$el.checked ? (trueLabel) : (falseLabel);
+	          $$c = $$el.checked ? (_vm.trueLabel) : (_vm.falseLabel);
 	        if (Array.isArray($$a)) {
 	          var $$v = null,
-	            $$i = _i($$a, $$v);
+	            $$i = _vm._i($$a, $$v);
 	          if ($$c) {
-	            $$i < 0 && (_value = $$a.concat($$v))
+	            $$i < 0 && (_vm._value = $$a.concat($$v))
 	          } else {
-	            $$i > -1 && (_value = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	            $$i > -1 && (_vm._value = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
 	          }
 	        } else {
-	          _value = $$c
+	          _vm._value = $$c
 	        }
-	      }, handleChange]
+	      }, _vm.handleChange]
 	    }
-	  }) : _h('input', {
+	  }) : _vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_value),
+	      value: (_vm._value),
 	      expression: "_value"
 	    }],
 	    staticClass: "el-checkbox__original",
 	    attrs: {
 	      "type": "checkbox",
-	      "disabled": disabled
+	      "disabled": _vm.disabled,
+	      "name": _vm.name
 	    },
 	    domProps: {
-	      "value": label,
-	      "checked": Array.isArray(_value) ? _i(_value, label) > -1 : _q(_value, true)
+	      "value": _vm.label,
+	      "checked": Array.isArray(_vm._value) ? _vm._i(_vm._value, _vm.label) > -1 : _vm._q(_vm._value, true)
 	    },
 	    on: {
 	      "focus": function($event) {
-	        focus = true
+	        _vm.focus = true
 	      },
 	      "blur": function($event) {
-	        focus = false
+	        _vm.focus = false
 	      },
 	      "change": [function($event) {
-	        var $$a = _value,
+	        var $$a = _vm._value,
 	          $$el = $event.target,
 	          $$c = $$el.checked ? (true) : (false);
 	        if (Array.isArray($$a)) {
-	          var $$v = label,
-	            $$i = _i($$a, $$v);
+	          var $$v = _vm.label,
+	            $$i = _vm._i($$a, $$v);
 	          if ($$c) {
-	            $$i < 0 && (_value = $$a.concat($$v))
+	            $$i < 0 && (_vm._value = $$a.concat($$v))
 	          } else {
-	            $$i > -1 && (_value = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	            $$i > -1 && (_vm._value = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
 	          }
 	        } else {
-	          _value = $$c
+	          _vm._value = $$c
 	        }
-	      }, handleChange]
+	      }, _vm.handleChange]
 	    }
-	  })]), ($slots.default || label) ? _h('span', {
+	  })]), (_vm.$slots.default || _vm.label) ? _vm._h('span', {
 	    staticClass: "el-checkbox__label"
-	  }, [_t("default"), (!$slots.default) ? [_s(label)] : _e()]) : _e()])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()]) : _vm._e()])
+	},staticRenderFns: []}
 
 /***/ }
 

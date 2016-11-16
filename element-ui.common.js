@@ -52,6 +52,8 @@ module.exports =
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	var _pagination = __webpack_require__(2);
 
 	var _pagination2 = _interopRequireDefault(_pagination);
@@ -128,23 +130,23 @@ module.exports =
 
 	var _select2 = _interopRequireDefault(_select);
 
-	var _option = __webpack_require__(99);
+	var _option = __webpack_require__(98);
 
 	var _option2 = _interopRequireDefault(_option);
 
-	var _optionGroup = __webpack_require__(103);
+	var _optionGroup = __webpack_require__(102);
 
 	var _optionGroup2 = _interopRequireDefault(_optionGroup);
 
-	var _button = __webpack_require__(107);
+	var _button = __webpack_require__(106);
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _buttonGroup = __webpack_require__(111);
+	var _buttonGroup = __webpack_require__(110);
 
 	var _buttonGroup2 = _interopRequireDefault(_buttonGroup);
 
-	var _table = __webpack_require__(115);
+	var _table = __webpack_require__(114);
 
 	var _table2 = _interopRequireDefault(_table);
 
@@ -224,51 +226,51 @@ module.exports =
 
 	var _loading2 = _interopRequireDefault(_loading);
 
-	var _icon = __webpack_require__(246);
+	var _icon = __webpack_require__(247);
 
 	var _icon2 = _interopRequireDefault(_icon);
 
-	var _row = __webpack_require__(250);
+	var _row = __webpack_require__(251);
 
 	var _row2 = _interopRequireDefault(_row);
 
-	var _col = __webpack_require__(254);
+	var _col = __webpack_require__(255);
 
 	var _col2 = _interopRequireDefault(_col);
 
-	var _upload = __webpack_require__(258);
+	var _upload = __webpack_require__(257);
 
 	var _upload2 = _interopRequireDefault(_upload);
 
-	var _progress = __webpack_require__(274);
+	var _progress = __webpack_require__(273);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
-	var _spinner = __webpack_require__(278);
+	var _spinner = __webpack_require__(277);
 
 	var _spinner2 = _interopRequireDefault(_spinner);
 
-	var _message = __webpack_require__(282);
+	var _message = __webpack_require__(281);
 
 	var _message2 = _interopRequireDefault(_message);
 
-	var _badge = __webpack_require__(292);
+	var _badge = __webpack_require__(291);
 
 	var _badge2 = _interopRequireDefault(_badge);
 
-	var _card = __webpack_require__(296);
+	var _card = __webpack_require__(295);
 
 	var _card2 = _interopRequireDefault(_card);
 
-	var _rate = __webpack_require__(300);
+	var _rate = __webpack_require__(299);
 
 	var _rate2 = _interopRequireDefault(_rate);
 
-	var _steps = __webpack_require__(304);
+	var _steps = __webpack_require__(303);
 
 	var _steps2 = _interopRequireDefault(_steps);
 
-	var _step = __webpack_require__(308);
+	var _step = __webpack_require__(307);
 
 	var _step2 = _interopRequireDefault(_step);
 
@@ -339,8 +341,9 @@ module.exports =
 	  Vue.component(_steps2.default.name, _steps2.default);
 	  Vue.component(_step2.default.name, _step2.default);
 
-	  Vue.use(_loading2.default);
+	  Vue.use(_loading2.default.directive);
 
+	  Vue.prototype.$loading = _loading2.default.service;
 	  Vue.prototype.$msgbox = _messageBox2.default;
 	  Vue.prototype.$alert = _messageBox2.default.alert;
 	  Vue.prototype.$confirm = _messageBox2.default.confirm;
@@ -355,9 +358,11 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.0.0',
+	  version: '1.0.1',
 	  locale: _locale2.default.use,
 	  install: install,
+	  Loading: _loading2.default.directive,
+	  LoadingService: _loading2.default.service,
 	  Pagination: _pagination2.default,
 	  Dialog: _dialog2.default,
 	  Autocomplete: _autocomplete2.default,
@@ -400,7 +405,6 @@ module.exports =
 	  Alert: _alert2.default,
 	  Notification: _notification2.default,
 	  Slider: _slider2.default,
-	  Loading: _loading2.default,
 	  Icon: _icon2.default,
 	  Row: _row2.default,
 	  Col: _col2.default,
@@ -418,6 +422,8 @@ module.exports =
 /***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -437,6 +443,8 @@ module.exports =
 /***/ },
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -692,8 +700,11 @@ module.exports =
 	        handleChange: function handleChange(_ref) {
 	          var target = _ref.target;
 
+	          var oldPage = this.$parent.internalCurrentPage;
 	          this.$parent.internalCurrentPage = this.$parent.getValidCurrentPage(target.value);
-	          this.$parent.$emit('current-change', this.$parent.internalCurrentPage);
+	          if (oldPage !== this.$parent.internalCurrentPage) {
+	            this.$parent.$emit('current-change', this.$parent.internalCurrentPage);
+	          }
 	          this.oldValue = null;
 	        }
 	      },
@@ -750,8 +761,11 @@ module.exports =
 	      };
 	    },
 	    handleCurrentChange: function handleCurrentChange(val) {
+	      var oldPage = this.internalCurrentPage;
 	      this.internalCurrentPage = this.getValidCurrentPage(val);
-	      this.$emit('current-change', this.internalCurrentPage);
+	      if (oldPage !== this.internalCurrentPage) {
+	        this.$emit('current-change', this.internalCurrentPage);
+	      }
 	    },
 	    prev: function prev() {
 	      var oldPage = this.internalCurrentPage;
@@ -811,11 +825,13 @@ module.exports =
 	  watch: {
 	    internalPageCount: function internalPageCount(newVal) {
 	      /* istanbul ignore if */
-	      if (newVal > 0 && this.internalCurrentPage === 0) {
+	      var oldPage = this.internalCurrentPage;
+	      if (newVal > 0 && oldPage === 0) {
 	        this.internalCurrentPage = 1;
-	        this.$emit('current-change', 1);
-	      } else if (this.internalCurrentPage > newVal) {
+	      } else if (oldPage > newVal) {
 	        this.internalCurrentPage = newVal === 0 ? 1 : newVal;
+	      }
+	      if (oldPage !== this.internalCurrentPage) {
 	        this.$emit('current-change', this.internalCurrentPage);
 	      }
 	    },
@@ -888,6 +904,8 @@ module.exports =
 /***/ },
 /* 5 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -1040,53 +1058,53 @@ module.exports =
 /* 6 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('ul', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('ul', {
 	    staticClass: "el-pager",
 	    on: {
-	      "click": onPagerClick
+	      "click": _vm.onPagerClick
 	    }
-	  }, [(pageCount > 0) ? _h('li', {
+	  }, [(_vm.pageCount > 0) ? _vm._h('li', {
 	    staticClass: "number",
 	    class: {
-	      active: currentPage === 1
+	      active: _vm.currentPage === 1
 	    }
-	  }, ["1"]) : _e(), (showPrevMore) ? _h('li', {
+	  }, ["1"]) : _vm._e(), (_vm.showPrevMore) ? _vm._h('li', {
 	    staticClass: "el-icon more btn-quickprev",
-	    class: [quickprevIconClass],
+	    class: [_vm.quickprevIconClass],
 	    on: {
 	      "mouseenter": function($event) {
-	        quickprevIconClass = 'el-icon-d-arrow-left'
+	        _vm.quickprevIconClass = 'el-icon-d-arrow-left'
 	      },
 	      "mouseleave": function($event) {
-	        quickprevIconClass = 'el-icon-more'
+	        _vm.quickprevIconClass = 'el-icon-more'
 	      }
 	    }
-	  }) : _e(), _l((pagers), function(pager) {
-	    return _h('li', {
+	  }) : _vm._e(), _vm._l((_vm.pagers), function(pager) {
+	    return _vm._h('li', {
 	      staticClass: "number",
 	      class: {
-	        active: currentPage === pager
+	        active: _vm.currentPage === pager
 	      }
-	    }, [_s(pager)])
-	  }), (showNextMore) ? _h('li', {
+	    }, [_vm._s(pager)])
+	  }), (_vm.showNextMore) ? _vm._h('li', {
 	    staticClass: "el-icon more btn-quicknext",
-	    class: [quicknextIconClass],
+	    class: [_vm.quicknextIconClass],
 	    on: {
 	      "mouseenter": function($event) {
-	        quicknextIconClass = 'el-icon-d-arrow-right'
+	        _vm.quicknextIconClass = 'el-icon-d-arrow-right'
 	      },
 	      "mouseleave": function($event) {
-	        quicknextIconClass = 'el-icon-more'
+	        _vm.quicknextIconClass = 'el-icon-more'
 	      }
 	    }
-	  }) : _e(), (pageCount > 1) ? _h('li', {
+	  }) : _vm._e(), (_vm.pageCount > 1) ? _vm._h('li', {
 	    staticClass: "number",
 	    class: {
-	      active: currentPage === pageCount
+	      active: _vm.currentPage === _vm.pageCount
 	    }
-	  }, [_s(pageCount)]) : _e()])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.pageCount)]) : _vm._e()])
+	},staticRenderFns: []}
 
 /***/ },
 /* 7 */
@@ -1115,6 +1133,8 @@ module.exports =
 /***/ },
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -1164,6 +1184,8 @@ module.exports =
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _vuePopup = __webpack_require__(14);
@@ -1203,6 +1225,11 @@ module.exports =
 	      default: true
 	    },
 
+	    showClose: {
+	      type: Boolean,
+	      default: true
+	    },
+
 	    size: {
 	      type: String,
 	      default: 'small'
@@ -1218,11 +1245,21 @@ module.exports =
 	      default: '15%'
 	    }
 	  },
+	  data: function data() {
+	    return {
+	      visible: false
+	    };
+	  },
+
 
 	  watch: {
 	    value: function value(val) {
+	      this.visible = val;
+	    },
+	    visible: function visible(val) {
 	      var _this = this;
 
+	      this.$emit('input', val);
 	      if (val) {
 	        this.$emit('open');
 	        this.$nextTick(function () {
@@ -1246,7 +1283,7 @@ module.exports =
 	  methods: {
 	    handleWrapperClick: function handleWrapperClick() {
 	      if (this.closeOnClickModal) {
-	        this.$emit('input', false);
+	        this.close();
 	      }
 	    }
 	  },
@@ -1291,53 +1328,55 @@ module.exports =
 /* 15 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "dialog-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (value),
-	      expression: "value"
+	      value: (_vm.visible),
+	      expression: "visible"
 	    }],
 	    staticClass: "el-dialog__wrapper",
 	    on: {
 	      "click": function($event) {
-	        if ($event.target !== $event.currentTarget) return;
-	        handleWrapperClick($event)
+	        if ($event.target !== $event.currentTarget) { return; }
+	        _vm.handleWrapperClick($event)
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    ref: "dialog",
 	    staticClass: "el-dialog",
-	    class: [sizeClass, customClass],
-	    style: (style)
-	  }, [_h('div', {
+	    class: [_vm.sizeClass, _vm.customClass],
+	    style: (_vm.style)
+	  }, [_vm._h('div', {
 	    staticClass: "el-dialog__header"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-dialog__title"
-	  }, [_s(title)]), _h('div', {
+	  }, [_vm._s(_vm.title)]), _vm._h('div', {
 	    staticClass: "el-dialog__headerbtn"
-	  }, [_h('i', {
+	  }, [(_vm.showClose) ? _vm._h('i', {
 	    staticClass: "el-dialog__close el-icon el-icon-close",
 	    on: {
 	      "click": function($event) {
-	        close()
+	        _vm.close()
 	      }
 	    }
-	  })])]), (rendered) ? _h('div', {
+	  }) : _vm._e()])]), (_vm.rendered) ? _vm._h('div', {
 	    staticClass: "el-dialog__body"
-	  }, [_t("default")]) : _e(), ($slots.footer) ? _h('div', {
+	  }, [_vm._t("default")]) : _vm._e(), (_vm.$slots.footer) ? _vm._h('div', {
 	    staticClass: "el-dialog__footer"
-	  }, [_t("footer")]) : _e()])])])
-	}},staticRenderFns: []}
+	  }, [_vm._t("footer")]) : _vm._e()])])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -1386,6 +1425,8 @@ module.exports =
 /***/ },
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -1561,65 +1602,65 @@ module.exports =
 /* 21 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
-	      value: (handleBlur),
+	      value: (_vm.handleBlur),
 	      expression: "handleBlur"
 	    }],
 	    staticClass: "el-autocomplete"
-	  }, [_h('el-input', {
+	  }, [_vm._h('el-input', {
 	    attrs: {
-	      "disabled": disabled,
-	      "placeholder": placeholder,
-	      "name": name,
-	      "size": size
+	      "disabled": _vm.disabled,
+	      "placeholder": _vm.placeholder,
+	      "name": _vm.name,
+	      "size": _vm.size
 	    },
 	    domProps: {
-	      "value": value
+	      "value": _vm.value
 	    },
 	    on: {
-	      "change": handleChange,
-	      "focus": handleFocus
+	      "change": _vm.handleChange,
+	      "focus": _vm.handleFocus
 	    },
 	    nativeOn: {
 	      "keydown": [function($event) {
-	        if ($event.keyCode !== 38) return;
-	        highlight(highlightedIndex - 1)
+	        if ($event.keyCode !== 38) { return; }
+	        _vm.highlight(_vm.highlightedIndex - 1)
 	      }, function($event) {
-	        if ($event.keyCode !== 40) return;
-	        highlight(highlightedIndex + 1)
+	        if ($event.keyCode !== 40) { return; }
+	        _vm.highlight(_vm.highlightedIndex + 1)
 	      }, function($event) {
-	        if ($event.keyCode !== 13) return;
-	        select(highlightedIndex)
+	        if ($event.keyCode !== 13) { return; }
+	        _vm.select(_vm.highlightedIndex)
 	      }]
 	    }
-	  }), _h('transition', {
+	  }), _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    }
-	  }, [(suggestionVisible) ? _h('ul', {
+	  }, [(_vm.suggestionVisible) ? _vm._h('ul', {
 	    ref: "suggestions",
 	    staticClass: "el-autocomplete__suggestions",
 	    class: {
-	      'is-loading': loading
+	      'is-loading': _vm.loading
 	    }
-	  }, [(loading) ? _h('li', [_m(0)]) : _l((suggestions), function(item, index) {
-	    return [(!customItem) ? _h('li', {
+	  }, [(_vm.loading) ? _vm._h('li', [_vm._m(0)]) : _vm._l((_vm.suggestions), function(item, index) {
+	    return [(!_vm.customItem) ? _vm._h('li', {
 	      class: {
-	        'highlighted': highlightedIndex === index
+	        'highlighted': _vm.highlightedIndex === index
 	      },
 	      on: {
 	        "click": function($event) {
-	          select(index)
+	          _vm.select(index)
 	        }
 	      }
-	    }, ["\n          " + _s(item.value) + "\n        "]) : _h(customItem, {
+	    }, ["\n          " + _vm._s(item.value) + "\n        "]) : _vm._h(_vm.customItem, {
 	      tag: "component",
 	      class: {
-	        'highlighted': highlightedIndex === index
+	        'highlighted': _vm.highlightedIndex === index
 	      },
 	      attrs: {
 	        "item": item,
@@ -1627,20 +1668,22 @@ module.exports =
 	      },
 	      on: {
 	        "click": function($event) {
-	          select(index)
+	          _vm.select(index)
 	        }
 	      }
 	    })]
-	  })]) : _e()])])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('i', {
+	  })]) : _vm._e()])])
+	},staticRenderFns: [function (){var _vm=this;
+	  return _vm._h('i', {
 	    staticClass: "el-icon-loading"
 	  })
-	}}]}
+	}]}
 
 /***/ },
 /* 22 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -1684,6 +1727,8 @@ module.exports =
 /***/ },
 /* 24 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -1844,6 +1889,8 @@ module.exports =
 /* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _dropdownMenu = __webpack_require__(27);
@@ -1891,6 +1938,8 @@ module.exports =
 /***/ },
 /* 28 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -1943,28 +1992,30 @@ module.exports =
 /* 30 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    },
 	    on: {
-	      "after-leave": doDestroy
+	      "after-leave": _vm.doDestroy
 	    }
-	  }, [_h('ul', {
+	  }, [_vm._h('ul', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (showPopper),
+	      value: (_vm.showPopper),
 	      expression: "showPopper"
 	    }],
 	    staticClass: "el-dropdown-menu"
-	  }, [_t("default")])])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 31 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -2014,6 +2065,8 @@ module.exports =
 /* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _emitter = __webpack_require__(25);
@@ -2055,22 +2108,24 @@ module.exports =
 /* 34 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('li', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('li', {
 	    staticClass: "el-dropdown-menu__item",
 	    class: {
-	      'is-disabled': disabled,
-	      'el-dropdown-menu__item--divided': divided
+	      'is-disabled': _vm.disabled,
+	      'el-dropdown-menu__item--divided': _vm.divided
 	    },
 	    on: {
-	      "click": handleClick
+	      "click": _vm.handleClick
 	    }
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ },
 /* 35 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -2119,6 +2174,8 @@ module.exports =
 /***/ },
 /* 37 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -2257,19 +2314,21 @@ module.exports =
 /* 38 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('ul', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('ul', {
 	    staticClass: "el-menu",
 	    class: {
-	      'el-menu--horizontal': mode === 'horizontal',
-	        'el-menu--dark': theme === 'dark'
+	      'el-menu--horizontal': _vm.mode === 'horizontal',
+	        'el-menu--dark': _vm.theme === 'dark'
 	    }
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ },
 /* 39 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -2318,6 +2377,8 @@ module.exports =
 /***/ },
 /* 41 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	var _menuMixin = __webpack_require__(42);
 
@@ -2427,6 +2488,8 @@ module.exports =
 /* 42 */
 /***/ function(module, exports) {
 
+	'use strict';
+
 	module.exports = {
 	  computed: {
 	    indexPath: function indexPath() {
@@ -2454,40 +2517,42 @@ module.exports =
 /* 43 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('li', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('li', {
 	    class: {
 	      'el-submenu': true,
-	      'is-active': active,
-	      'is-opened': opened
+	      'is-active': _vm.active,
+	      'is-opened': _vm.opened
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    ref: "submenu-title",
 	    staticClass: "el-submenu__title"
-	  }, [_t("title"), _h('i', {
+	  }, [_vm._t("title"), _vm._h('i', {
 	    class: {
 	      'el-submenu__icon-arrow': true,
-	      'el-icon-arrow-down': rootMenu.mode === 'vertical',
-	        'el-icon-caret-bottom': rootMenu.mode === 'horizontal'
+	      'el-icon-arrow-down': _vm.rootMenu.mode === 'vertical',
+	        'el-icon-caret-bottom': _vm.rootMenu.mode === 'horizontal'
 	    }
-	  })]), _h('transition', {
+	  })]), _vm._h('transition', {
 	    attrs: {
-	      "name": rootMenu.mode === 'horizontal' ? 'md-fade-bottom' : ''
+	      "name": _vm.rootMenu.mode === 'horizontal' ? 'md-fade-bottom' : ''
 	    }
-	  }, [_h('ul', {
+	  }, [_vm._h('ul', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (opened),
+	      value: (_vm.opened),
 	      expression: "opened"
 	    }],
 	    staticClass: "el-menu"
-	  }, [_t("default")])])])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 44 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -2537,6 +2602,8 @@ module.exports =
 /* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	var _menuMixin = __webpack_require__(42);
 
 	var _menuMixin2 = _interopRequireDefault(_menuMixin);
@@ -2583,22 +2650,24 @@ module.exports =
 /* 47 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('li', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('li', {
 	    staticClass: "el-menu-item",
 	    class: {
-	      'is-active': active,
-	      'is-disabled': disabled
+	      'is-active': _vm.active,
+	      'is-disabled': _vm.disabled
 	    },
 	    on: {
-	      "click": handleClick
+	      "click": _vm.handleClick
 	    }
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ },
 /* 48 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -2648,7 +2717,8 @@ module.exports =
 /* 50 */
 /***/ function(module, exports) {
 
-	
+	'use strict';
+
 	module.exports = {
 	  name: 'ElMenuItemGroup',
 
@@ -2691,20 +2761,22 @@ module.exports =
 /* 51 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('li', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('li', {
 	    staticClass: "el-menu-item-group"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-menu-item-group__title",
 	    style: ({
-	      'padding-left': paddingLeft + 'px'
+	      'padding-left': _vm.paddingLeft + 'px'
 	    })
-	  }, [_s(title)]), _h('ul', [_t("default")])])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.title)]), _vm._h('ul', [_vm._t("default")])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 52 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -2753,6 +2825,8 @@ module.exports =
 /***/ },
 /* 54 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -2939,6 +3013,8 @@ module.exports =
 /* 55 */
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
 	exports.default = calcTextareaHeight;
 	var hiddenTextarea = void 0;
@@ -3016,90 +3092,92 @@ module.exports =
 /* 56 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    class: [
-	      type === 'textarea' ? 'el-textarea' : 'el-input',
-	      size ? 'el-input--' + size : '', {
-	        'is-disabled': disabled,
-	        'el-input-group': $slots.prepend || $slots.append
+	      _vm.type === 'textarea' ? 'el-textarea' : 'el-input',
+	      _vm.size ? 'el-input--' + _vm.size : '', {
+	        'is-disabled': _vm.disabled,
+	        'el-input-group': _vm.$slots.prepend || _vm.$slots.append
 	      }
 	    ]
-	  }, [(type !== 'textarea') ? [($slots.prepend) ? _h('div', {
+	  }, [(_vm.type !== 'textarea') ? [(_vm.$slots.prepend) ? _vm._h('div', {
 	    staticClass: "el-input-group__prepend"
-	  }, [_t("prepend")]) : _e(), (icon) ? _h('i', {
+	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.icon) ? _vm._h('i', {
 	    staticClass: "el-input__icon",
-	    class: [icon ? 'el-icon-' + icon : ''],
+	    class: [_vm.icon ? 'el-icon-' + _vm.icon : ''],
 	    on: {
-	      "click": handleIconClick
+	      "click": _vm.handleIconClick
 	    }
-	  }) : _e(), (type !== 'textarea') ? _h('input', {
+	  }) : _vm._e(), (_vm.type !== 'textarea') ? _vm._h('input', {
 	    ref: "input",
 	    staticClass: "el-input__inner",
 	    attrs: {
-	      "type": type,
-	      "name": name,
-	      "placeholder": placeholder,
-	      "disabled": disabled,
-	      "readonly": readonly,
-	      "maxlength": maxlength,
-	      "minlength": minlength,
-	      "autocomplete": autoComplete,
-	      "autofocus": autofocus,
-	      "min": min,
-	      "max": max,
-	      "form": form
+	      "type": _vm.type,
+	      "name": _vm.name,
+	      "placeholder": _vm.placeholder,
+	      "disabled": _vm.disabled,
+	      "readonly": _vm.readonly,
+	      "maxlength": _vm.maxlength,
+	      "minlength": _vm.minlength,
+	      "autocomplete": _vm.autoComplete,
+	      "autofocus": _vm.autofocus,
+	      "min": _vm.min,
+	      "max": _vm.max,
+	      "form": _vm.form
 	    },
 	    domProps: {
-	      "value": value
+	      "value": _vm.value
 	    },
 	    on: {
-	      "input": handleInput,
-	      "focus": handleFocus,
-	      "blur": handleBlur
+	      "input": _vm.handleInput,
+	      "focus": _vm.handleFocus,
+	      "blur": _vm.handleBlur
 	    }
-	  }) : _e(), (validating) ? _h('i', {
+	  }) : _vm._e(), (_vm.validating) ? _vm._h('i', {
 	    staticClass: "el-input__icon el-icon-loading"
-	  }) : _e(), ($slots.append) ? _h('div', {
+	  }) : _vm._e(), (_vm.$slots.append) ? _vm._h('div', {
 	    staticClass: "el-input-group__append"
-	  }, [_t("append")]) : _e()] : _h('textarea', {
+	  }, [_vm._t("append")]) : _vm._e()] : _vm._h('textarea', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (currentValue),
+	      value: (_vm.currentValue),
 	      expression: "currentValue"
 	    }],
 	    ref: "textarea",
 	    staticClass: "el-textarea__inner",
-	    style: (textareaStyle),
+	    style: (_vm.textareaStyle),
 	    attrs: {
-	      "name": name,
-	      "placeholder": placeholder,
-	      "disabled": disabled,
-	      "readonly": readonly,
-	      "rows": rows,
-	      "form": form,
-	      "autofocus": autofocus,
-	      "maxlength": maxlength,
-	      "minlength": minlength
+	      "name": _vm.name,
+	      "placeholder": _vm.placeholder,
+	      "disabled": _vm.disabled,
+	      "readonly": _vm.readonly,
+	      "rows": _vm.rows,
+	      "form": _vm.form,
+	      "autofocus": _vm.autofocus,
+	      "maxlength": _vm.maxlength,
+	      "minlength": _vm.minlength
 	    },
 	    domProps: {
-	      "value": _s(currentValue)
+	      "value": _vm._s(_vm.currentValue)
 	    },
 	    on: {
-	      "focus": handleFocus,
-	      "blur": handleBlur,
+	      "focus": _vm.handleFocus,
+	      "blur": _vm.handleBlur,
 	      "input": function($event) {
-	        if ($event.target.composing) return;
-	        currentValue = $event.target.value
+	        if ($event.target.composing) { return; }
+	        _vm.currentValue = $event.target.value
 	      }
 	    }
 	  })])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
 /* 57 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -3148,6 +3226,8 @@ module.exports =
 /***/ },
 /* 59 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -3374,134 +3454,90 @@ module.exports =
 /* 60 */
 /***/ function(module, exports) {
 
-	var bindEvent = (function() {
-	  if(document.addEventListener) {
-	    return function(element, event, handler) {
-	      if (element && event && handler) {
-	        element.addEventListener(event, handler, false);
-	      }
-	    };
-	  } else {
-	    return function(element, event, handler) {
-	      if (element && event && handler) {
-	        element.attachEvent('on' + event, handler);
-	      }
-	    };
-	  }
-	})();
-
-	var unbindEvent = (function() {
-	  if(document.removeEventListener) {
-	    return function(element, event, handler) {
-	      if (element && event) {
-	        element.removeEventListener(event, handler, false);
-	      }
-	    };
-	  } else {
-	    return function(element, event, handler) {
-	      if (element && event) {
-	        element.detachEvent('on' + event, handler);
-	      }
-	    };
-	  }
-	})();
-
-	var bindOnce = function(el, event, fn) {
-	  var listener = function() {
-	    if (fn) {
-	      fn.apply(this, arguments);
-	    }
-	    unbindEvent(el, event, listener);
-	  };
-	  bindEvent(el, event, listener);
-	};
-
-	module.exports = {
-	  on: bindEvent,
-	  off: unbindEvent,
-	  once: bindOnce
-	};
+	module.exports = require("wind-dom/src/event");
 
 /***/ },
 /* 61 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-input-number",
 	    class: [
-	      size ? 'el-input-number--' + size : '', {
-	        'is-disabled': disabled
+	      _vm.size ? 'el-input-number--' + _vm.size : '', {
+	        'is-disabled': _vm.disabled
 	      }
 	    ]
-	  }, [_h('el-input', {
+	  }, [_vm._h('el-input', {
 	    class: {
-	      'is-active': inputActive
+	      'is-active': _vm.inputActive
 	    },
 	    attrs: {
-	      "disabled": disabled,
-	      "size": size
+	      "disabled": _vm.disabled,
+	      "size": _vm.size
 	    },
 	    domProps: {
-	      "value": currentValue
+	      "value": _vm.currentValue
 	    },
 	    on: {
-	      "blur": handleBlur,
-	      "input": handleInput
+	      "blur": _vm.handleBlur,
+	      "input": _vm.handleInput
 	    },
 	    nativeOn: {
 	      "keydown": [function($event) {
-	        if ($event.keyCode !== 38) return;
-	        increase($event)
+	        if ($event.keyCode !== 38) { return; }
+	        _vm.increase($event)
 	      }, function($event) {
-	        if ($event.keyCode !== 40) return;
-	        decrease($event)
+	        if ($event.keyCode !== 40) { return; }
+	        _vm.decrease($event)
 	      }]
 	    }
-	  }), _h('span', {
+	  }), _vm._h('span', {
 	    directives: [{
 	      name: "repeat-click",
 	      rawName: "v-repeat-click",
-	      value: (decrease),
+	      value: (_vm.decrease),
 	      expression: "decrease"
 	    }],
 	    staticClass: "el-input-number__decrease el-icon-minus",
 	    class: {
-	      'is-disabled': minDisabled
+	      'is-disabled': _vm.minDisabled
 	    },
 	    on: {
 	      "mouseenter": function($event) {
-	        activeInput(minDisabled)
+	        _vm.activeInput(_vm.minDisabled)
 	      },
 	      "mouseleave": function($event) {
-	        inactiveInput(minDisabled)
+	        _vm.inactiveInput(_vm.minDisabled)
 	      }
 	    }
-	  }), _h('span', {
+	  }), _vm._h('span', {
 	    directives: [{
 	      name: "repeat-click",
 	      rawName: "v-repeat-click",
-	      value: (increase),
+	      value: (_vm.increase),
 	      expression: "increase"
 	    }],
 	    staticClass: "el-input-number__increase el-icon-plus",
 	    class: {
-	      'is-disabled': maxDisabled
+	      'is-disabled': _vm.maxDisabled
 	    },
 	    on: {
 	      "mouseenter": function($event) {
-	        activeInput(maxDisabled)
+	        _vm.activeInput(_vm.maxDisabled)
 	      },
 	      "mouseleave": function($event) {
-	        inactiveInput(maxDisabled)
+	        _vm.inactiveInput(_vm.maxDisabled)
 	      }
 	    }
 	  })])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
 /* 62 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -3550,6 +3586,8 @@ module.exports =
 /***/ },
 /* 64 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -3616,54 +3654,56 @@ module.exports =
 /* 65 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('label', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('label', {
 	    staticClass: "el-radio"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-radio__input"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-radio__inner",
 	    class: {
-	      'is-disabled': disabled,
-	      'is-checked': _value === label,
-	        'is-focus': focus
+	      'is-disabled': _vm.disabled,
+	      'is-checked': _vm._value === _vm.label,
+	        'is-focus': _vm.focus
 	    }
-	  }), _h('input', {
+	  }), _vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_value),
+	      value: (_vm._value),
 	      expression: "_value"
 	    }],
 	    staticClass: "el-radio__original",
 	    attrs: {
 	      "type": "radio",
-	      "name": name,
-	      "disabled": disabled
+	      "name": _vm.name,
+	      "disabled": _vm.disabled
 	    },
 	    domProps: {
-	      "value": label,
-	      "checked": _q(_value, label)
+	      "value": _vm.label,
+	      "checked": _vm._q(_vm._value, _vm.label)
 	    },
 	    on: {
 	      "focus": function($event) {
-	        focus = true
+	        _vm.focus = true
 	      },
 	      "blur": function($event) {
-	        focus = false
+	        _vm.focus = false
 	      },
 	      "change": function($event) {
-	        _value = label
+	        _vm._value = _vm.label
 	      }
 	    }
-	  })]), _h('span', {
+	  })]), _vm._h('span', {
 	    staticClass: "el-radio__label"
-	  }, [_t("default"), (!$slots.default) ? [_s(label)] : _e()])])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 66 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -3713,6 +3753,8 @@ module.exports =
 /* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _emitter = __webpack_require__(25);
@@ -3744,15 +3786,17 @@ module.exports =
 /* 69 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-radio-group"
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ },
 /* 70 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -3802,6 +3846,8 @@ module.exports =
 /* 72 */
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
 	exports.default = {
 	  name: 'ElRadioButton',
@@ -3836,44 +3882,46 @@ module.exports =
 /* 73 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('label', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('label', {
 	    staticClass: "el-radio-button",
 	    class: [
-	      size ? 'el-radio-button--' + size : '', {
-	        'is-active': value === label
+	      _vm.size ? 'el-radio-button--' + _vm.size : '', {
+	        'is-active': _vm.value === _vm.label
 	      }
 	    ]
-	  }, [_h('input', {
+	  }, [_vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (value),
+	      value: (_vm.value),
 	      expression: "value"
 	    }],
 	    staticClass: "el-radio-button__orig-radio",
 	    attrs: {
 	      "type": "radio",
-	      "name": name,
-	      "disabled": disabled
+	      "name": _vm.name,
+	      "disabled": _vm.disabled
 	    },
 	    domProps: {
-	      "value": label,
-	      "checked": _q(value, label)
+	      "value": _vm.label,
+	      "checked": _vm._q(_vm.value, _vm.label)
 	    },
 	    on: {
 	      "change": function($event) {
-	        value = label
+	        _vm.value = _vm.label
 	      }
 	    }
-	  }), _h('span', {
+	  }), _vm._h('span', {
 	    staticClass: "el-radio-button__inner"
-	  }, [_t("default"), (!$slots.default) ? [_s(label)] : _e()])])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 74 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -3923,6 +3971,8 @@ module.exports =
 /* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _emitter = __webpack_require__(25);
@@ -3942,6 +3992,7 @@ module.exports =
 	    indeterminate: Boolean,
 	    disabled: Boolean,
 	    checked: Boolean,
+	    name: String,
 	    trueLabel: [String, Number],
 	    falseLabel: [String, Number]
 	  },
@@ -4041,114 +4092,120 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
 
 /***/ },
 /* 77 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('label', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('label', {
 	    staticClass: "el-checkbox"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-checkbox__input"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-checkbox__inner",
 	    class: {
-	      'is-disabled': disabled,
-	      'is-checked': isChecked,
-	      'is-indeterminate': indeterminate,
-	      'is-focus': focus
+	      'is-disabled': _vm.disabled,
+	      'is-checked': _vm.isChecked,
+	      'is-indeterminate': _vm.indeterminate,
+	      'is-focus': _vm.focus
 	    }
-	  }), (trueLabel || falseLabel) ? _h('input', {
+	  }), (_vm.trueLabel || _vm.falseLabel) ? _vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_value),
+	      value: (_vm._value),
 	      expression: "_value"
 	    }],
 	    ref: "checkbox",
 	    staticClass: "el-checkbox__original",
 	    attrs: {
 	      "type": "checkbox",
-	      "disabled": disabled,
-	      "true-value": trueLabel,
-	      "false-value": falseLabel
+	      "name": _vm.name,
+	      "disabled": _vm.disabled,
+	      "true-value": _vm.trueLabel,
+	      "false-value": _vm.falseLabel
 	    },
 	    domProps: {
-	      "checked": Array.isArray(_value) ? _i(_value, null) > -1 : _q(_value, trueLabel)
+	      "checked": Array.isArray(_vm._value) ? _vm._i(_vm._value, null) > -1 : _vm._q(_vm._value, _vm.trueLabel)
 	    },
 	    on: {
 	      "focus": function($event) {
-	        focus = true
+	        _vm.focus = true
 	      },
 	      "blur": function($event) {
-	        focus = false
+	        _vm.focus = false
 	      },
 	      "change": [function($event) {
-	        var $$a = _value,
+	        var $$a = _vm._value,
 	          $$el = $event.target,
-	          $$c = $$el.checked ? (trueLabel) : (falseLabel);
+	          $$c = $$el.checked ? (_vm.trueLabel) : (_vm.falseLabel);
 	        if (Array.isArray($$a)) {
 	          var $$v = null,
-	            $$i = _i($$a, $$v);
+	            $$i = _vm._i($$a, $$v);
 	          if ($$c) {
-	            $$i < 0 && (_value = $$a.concat($$v))
+	            $$i < 0 && (_vm._value = $$a.concat($$v))
 	          } else {
-	            $$i > -1 && (_value = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	            $$i > -1 && (_vm._value = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
 	          }
 	        } else {
-	          _value = $$c
+	          _vm._value = $$c
 	        }
-	      }, handleChange]
+	      }, _vm.handleChange]
 	    }
-	  }) : _h('input', {
+	  }) : _vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_value),
+	      value: (_vm._value),
 	      expression: "_value"
 	    }],
 	    staticClass: "el-checkbox__original",
 	    attrs: {
 	      "type": "checkbox",
-	      "disabled": disabled
+	      "disabled": _vm.disabled,
+	      "name": _vm.name
 	    },
 	    domProps: {
-	      "value": label,
-	      "checked": Array.isArray(_value) ? _i(_value, label) > -1 : _q(_value, true)
+	      "value": _vm.label,
+	      "checked": Array.isArray(_vm._value) ? _vm._i(_vm._value, _vm.label) > -1 : _vm._q(_vm._value, true)
 	    },
 	    on: {
 	      "focus": function($event) {
-	        focus = true
+	        _vm.focus = true
 	      },
 	      "blur": function($event) {
-	        focus = false
+	        _vm.focus = false
 	      },
 	      "change": [function($event) {
-	        var $$a = _value,
+	        var $$a = _vm._value,
 	          $$el = $event.target,
 	          $$c = $$el.checked ? (true) : (false);
 	        if (Array.isArray($$a)) {
-	          var $$v = label,
-	            $$i = _i($$a, $$v);
+	          var $$v = _vm.label,
+	            $$i = _vm._i($$a, $$v);
 	          if ($$c) {
-	            $$i < 0 && (_value = $$a.concat($$v))
+	            $$i < 0 && (_vm._value = $$a.concat($$v))
 	          } else {
-	            $$i > -1 && (_value = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	            $$i > -1 && (_vm._value = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
 	          }
 	        } else {
-	          _value = $$c
+	          _vm._value = $$c
 	        }
-	      }, handleChange]
+	      }, _vm.handleChange]
 	    }
-	  })]), ($slots.default || label) ? _h('span', {
+	  })]), (_vm.$slots.default || _vm.label) ? _vm._h('span', {
 	    staticClass: "el-checkbox__label"
-	  }, [_t("default"), (!$slots.default) ? [_s(label)] : _e()]) : _e()])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()]) : _vm._e()])
+	},staticRenderFns: []}
 
 /***/ },
 /* 78 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -4198,6 +4255,8 @@ module.exports =
 /* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _emitter = __webpack_require__(25);
@@ -4229,15 +4288,17 @@ module.exports =
 /* 81 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-checkbox-group"
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ },
 /* 82 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -4287,7 +4348,13 @@ module.exports =
 /* 84 */
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -4365,8 +4432,11 @@ module.exports =
 	  },
 	  data: function data() {
 	    return {
+	      currentValue: this.value,
 	      coreWidth: this.width,
-	      buttonStyle: {}
+	      buttonStyle: {
+	        transform: ''
+	      }
 	    };
 	  },
 
@@ -4378,18 +4448,19 @@ module.exports =
 	  },
 	  watch: {
 	    value: function value(val) {
+	      this.currentValue = val;
 	      if (this.onColor || this.offColor) {
 	        this.handleCoreColor();
 	      }
 	      this.handleButtonTransform();
-	      this.$emit('change', val);
+	    },
+	    currentValue: function currentValue(val) {
+	      this.$emit('input', val);
 	    }
 	  },
 	  methods: {
-	    handleMiscClick: function handleMiscClick() {
-	      if (!this.disabled) {
-	        this.$emit('input', !this.value);
-	      }
+	    handleChange: function handleChange(event) {
+	      this.$emit('change', event.currentTarget.checked);
 	    },
 	    handleButtonTransform: function handleButtonTransform() {
 	      this.buttonStyle.transform = this.value ? 'translate(' + (this.coreWidth - 20) + 'px, 2px)' : 'translate(2px, 2px)';
@@ -4415,89 +4486,105 @@ module.exports =
 /* 85 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('label', {
 	    staticClass: "el-switch",
 	    class: {
-	      'is-disabled': disabled, 'el-switch--wide': hasText
+	      'is-disabled': _vm.disabled, 'el-switch--wide': _vm.hasText
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (disabled),
+	      value: (_vm.disabled),
 	      expression: "disabled"
 	    }],
 	    staticClass: "el-switch__mask"
-	  }), _h('input', {
+	  }), _vm._h('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (_vm.currentValue),
+	      expression: "currentValue"
+	    }],
 	    staticClass: "el-switch__input",
 	    attrs: {
 	      "type": "checkbox",
-	      "name": name,
-	      "disabled": disabled,
-	      "style": "display: none;"
+	      "name": _vm.name,
+	      "disabled": _vm.disabled
 	    },
 	    domProps: {
-	      "checked": value
+	      "checked": Array.isArray(_vm.currentValue) ? _vm._i(_vm.currentValue, null) > -1 : _vm._q(_vm.currentValue, true)
+	    },
+	    on: {
+	      "change": [function($event) {
+	        var $$a = _vm.currentValue,
+	          $$el = $event.target,
+	          $$c = $$el.checked ? (true) : (false);
+	        if (Array.isArray($$a)) {
+	          var $$v = null,
+	            $$i = _vm._i($$a, $$v);
+	          if ($$c) {
+	            $$i < 0 && (_vm.currentValue = $$a.concat($$v))
+	          } else {
+	            $$i > -1 && (_vm.currentValue = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	          }
+	        } else {
+	          _vm.currentValue = $$c
+	        }
+	      }, _vm.handleChange]
 	    }
-	  }), _h('span', {
+	  }), _vm._h('span', {
 	    ref: "core",
 	    staticClass: "el-switch__core",
 	    style: ({
-	      'width': coreWidth + 'px'
-	    }),
-	    on: {
-	      "click": handleMiscClick
-	    }
-	  }, [_h('span', {
+	      'width': _vm.coreWidth + 'px'
+	    })
+	  }, [_vm._h('span', {
 	    staticClass: "el-switch__button",
-	    style: (buttonStyle)
-	  })]), _h('transition', {
+	    style: (_vm.buttonStyle)
+	  })]), _vm._h('transition', {
 	    attrs: {
 	      "name": "label-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (value),
+	      value: (_vm.value),
 	      expression: "value"
 	    }],
 	    staticClass: "el-switch__label el-switch__label--left",
 	    style: ({
-	      'width': coreWidth + 'px'
-	    }),
-	    on: {
-	      "click": handleMiscClick
-	    }
-	  }, [(onIconClass) ? _h('i', {
-	    class: [onIconClass]
-	  }) : _e(), (!onIconClass && onText) ? _h('span', [_s(onText)]) : _e()])]), _h('transition', {
+	      'width': _vm.coreWidth + 'px'
+	    })
+	  }, [(_vm.onIconClass) ? _vm._h('i', {
+	    class: [_vm.onIconClass]
+	  }) : _vm._e(), (!_vm.onIconClass && _vm.onText) ? _vm._h('span', [_vm._s(_vm.onText)]) : _vm._e()])]), _vm._h('transition', {
 	    attrs: {
 	      "name": "label-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (!value),
+	      value: (!_vm.value),
 	      expression: "!value"
 	    }],
 	    staticClass: "el-switch__label el-switch__label--right",
 	    style: ({
-	      'width': coreWidth + 'px'
-	    }),
-	    on: {
-	      "click": handleMiscClick
-	    }
-	  }, [(offIconClass) ? _h('i', {
-	    class: [offIconClass]
-	  }) : _e(), (!offIconClass && offText) ? _h('span', [_s(offText)]) : _e()])])])
-	}},staticRenderFns: []}
+	      'width': _vm.coreWidth + 'px'
+	    })
+	  }, [(_vm.offIconClass) ? _vm._h('i', {
+	    class: [_vm.offIconClass]
+	  }) : _vm._e(), (!_vm.offIconClass && _vm.offText) ? _vm._h('span', [_vm._s(_vm.offText)]) : _vm._e()])])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 86 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -4525,7 +4612,7 @@ module.exports =
 	__vue_exports__ = __webpack_require__(88)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(98)
+	var __vue_template__ = __webpack_require__(97)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -4546,6 +4633,8 @@ module.exports =
 /***/ },
 /* 88 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -4577,9 +4666,9 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _class = __webpack_require__(96);
+	var _class = __webpack_require__(95);
 
-	var _resizeEvent = __webpack_require__(97);
+	var _resizeEvent = __webpack_require__(96);
 
 	var _locale3 = __webpack_require__(10);
 
@@ -4794,7 +4883,7 @@ module.exports =
 	        _this.resetHoverIndex();
 	      });
 	    },
-	    selected: function selected(val) {
+	    selected: function selected(val, oldVal) {
 	      var _this2 = this;
 
 	      if (this.multiple) {
@@ -4829,7 +4918,7 @@ module.exports =
 	          this.selectedInit = false;
 	          return;
 	        }
-	        this.valueChangeBySelected = true;
+	        if (val.value === oldVal.value) return;
 	        this.$emit('input', val.value);
 	        this.$emit('change', val.value);
 	      }
@@ -5171,6 +5260,8 @@ module.exports =
 /* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _vuePopper = __webpack_require__(29);
@@ -5238,17 +5329,17 @@ module.exports =
 /* 92 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-select-dropdown",
 	    class: {
-	      'is-multiple': $parent.multiple
+	      'is-multiple': _vm.$parent.multiple
 	    },
 	    style: ({
-	      minWidth: minWidth
+	      minWidth: _vm.minWidth
 	    })
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ },
 /* 93 */
@@ -5258,236 +5349,56 @@ module.exports =
 
 /***/ },
 /* 94 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* eslint-disable no-undefined */
-
-	var throttle = __webpack_require__(95);
-
-	/**
-	 * Debounce execution of a function. Debouncing, unlike throttling,
-	 * guarantees that a function is only executed a single time, either at the
-	 * very beginning of a series of calls, or at the very end.
-	 *
-	 * @param  {Number}   delay         A zero-or-greater delay in milliseconds. For event callbacks, values around 100 or 250 (or even higher) are most useful.
-	 * @param  {Boolean}  atBegin       Optional, defaults to false. If atBegin is false or unspecified, callback will only be executed `delay` milliseconds
-	 *                                  after the last debounced-function call. If atBegin is true, callback will be executed only at the first debounced-function call.
-	 *                                  (After the throttled-function has not been called for `delay` milliseconds, the internal counter is reset).
-	 * @param  {Function} callback      A function to be executed after delay milliseconds. The `this` context and all arguments are passed through, as-is,
-	 *                                  to `callback` when the debounced-function is executed.
-	 *
-	 * @return {Function} A new, debounced function.
-	 */
-	module.exports = function ( delay, atBegin, callback ) {
-		return callback === undefined ? throttle(delay, atBegin, false) : throttle(delay, callback, atBegin !== false);
-	};
-
+	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
 /* 95 */
 /***/ function(module, exports) {
 
-	/* eslint-disable no-undefined,no-param-reassign,no-shadow */
-
-	/**
-	 * Throttle execution of a function. Especially useful for rate limiting
-	 * execution of handlers on events like resize and scroll.
-	 *
-	 * @param  {Number}    delay          A zero-or-greater delay in milliseconds. For event callbacks, values around 100 or 250 (or even higher) are most useful.
-	 * @param  {Boolean}   noTrailing     Optional, defaults to false. If noTrailing is true, callback will only execute every `delay` milliseconds while the
-	 *                                    throttled-function is being called. If noTrailing is false or unspecified, callback will be executed one final time
-	 *                                    after the last throttled-function call. (After the throttled-function has not been called for `delay` milliseconds,
-	 *                                    the internal counter is reset)
-	 * @param  {Function}  callback       A function to be executed after delay milliseconds. The `this` context and all arguments are passed through, as-is,
-	 *                                    to `callback` when the throttled-function is executed.
-	 * @param  {Boolean}   debounceMode   If `debounceMode` is true (at begin), schedule `clear` to execute after `delay` ms. If `debounceMode` is false (at end),
-	 *                                    schedule `callback` to execute after `delay` ms.
-	 *
-	 * @return {Function}  A new, throttled, function.
-	 */
-	module.exports = function ( delay, noTrailing, callback, debounceMode ) {
-
-		// After wrapper has stopped being called, this timeout ensures that
-		// `callback` is executed at the proper times in `throttle` and `end`
-		// debounce modes.
-		var timeoutID;
-
-		// Keep track of the last time `callback` was executed.
-		var lastExec = 0;
-
-		// `noTrailing` defaults to falsy.
-		if ( typeof noTrailing !== 'boolean' ) {
-			debounceMode = callback;
-			callback = noTrailing;
-			noTrailing = undefined;
-		}
-
-		// The `wrapper` function encapsulates all of the throttling / debouncing
-		// functionality and when executed will limit the rate at which `callback`
-		// is executed.
-		function wrapper () {
-
-			var self = this;
-			var elapsed = Number(new Date()) - lastExec;
-			var args = arguments;
-
-			// Execute `callback` and update the `lastExec` timestamp.
-			function exec () {
-				lastExec = Number(new Date());
-				callback.apply(self, args);
-			}
-
-			// If `debounceMode` is true (at begin) this is used to clear the flag
-			// to allow future `callback` executions.
-			function clear () {
-				timeoutID = undefined;
-			}
-
-			if ( debounceMode && !timeoutID ) {
-				// Since `wrapper` is being called for the first time and
-				// `debounceMode` is true (at begin), execute `callback`.
-				exec();
-			}
-
-			// Clear any existing timeout.
-			if ( timeoutID ) {
-				clearTimeout(timeoutID);
-			}
-
-			if ( debounceMode === undefined && elapsed > delay ) {
-				// In throttle mode, if `delay` time has been exceeded, execute
-				// `callback`.
-				exec();
-
-			} else if ( noTrailing !== true ) {
-				// In trailing throttle mode, since `delay` time has not been
-				// exceeded, schedule `callback` to execute `delay` ms after most
-				// recent execution.
-				//
-				// If `debounceMode` is true (at begin), schedule `clear` to execute
-				// after `delay` ms.
-				//
-				// If `debounceMode` is false (at end), schedule `callback` to
-				// execute after `delay` ms.
-				timeoutID = setTimeout(debounceMode ? clear : exec, debounceMode === undefined ? delay - elapsed : delay);
-			}
-
-		}
-
-		// Return the wrapper function.
-		return wrapper;
-
-	};
-
+	module.exports = require("wind-dom/src/class");
 
 /***/ },
 /* 96 */
 /***/ function(module, exports) {
 
-	var trim = function (string) {
-	  return (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
-	};
-
-	var hasClass = function (el, cls) {
-	  if (!el || !cls) return false;
-	  if (cls.indexOf(' ') != -1) throw new Error('className should not contain space.');
-	  if (el.classList) {
-	    return el.classList.contains(cls);
-	  } else {
-	    return (' ' + el.className + ' ').indexOf(' ' + cls + ' ') > -1;
-	  }
-	};
-
-	var addClass = function (el, cls) {
-	  if (!el) return;
-	  var curClass = el.className;
-	  var classes = (cls || '').split(' ');
-
-	  for (var i = 0, j = classes.length; i < j; i++) {
-	    var clsName = classes[i];
-	    if (!clsName) continue;
-
-	    if (el.classList) {
-	      el.classList.add(clsName);
-	    } else {
-	      if (!hasClass(el, clsName)) {
-	        curClass += ' ' + clsName;
-	      }
-	    }
-	  }
-	  if (!el.classList) {
-	    el.className = curClass;
-	  }
-	};
-
-	var removeClass = function (el, cls) {
-	  if (!el || !cls) return;
-	  var classes = cls.split(' ');
-	  var curClass = ' ' + el.className + ' ';
-
-	  for (var i = 0, j = classes.length; i < j; i++) {
-	    var clsName = classes[i];
-	    if (!clsName) continue;
-
-	    if (el.classList) {
-	      el.classList.remove(clsName);
-	    } else {
-	      if (hasClass(el, clsName)) {
-	        curClass = curClass.replace(' ' + clsName + ' ', ' ');
-	      }
-	    }
-	  }
-	  if (!el.classList) {
-	    el.className = trim(curClass);
-	  }
-	};
-
-	module.exports = {
-	  hasClass: hasClass,
-	  addClass: addClass,
-	  removeClass: removeClass
-	};
+	module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ },
 /* 97 */
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/utils/resize-event");
-
-/***/ },
-/* 98 */
-/***/ function(module, exports) {
-
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
-	      value: (handleClose),
+	      value: (_vm.handleClose),
 	      expression: "handleClose"
 	    }],
 	    staticClass: "el-select",
 	    class: {
-	      'is-multiple': multiple, 'is-small': size === 'small'
+	      'is-multiple': _vm.multiple, 'is-small': _vm.size === 'small'
 	    }
-	  }, [(multiple) ? _h('div', {
+	  }, [(_vm.multiple) ? _vm._h('div', {
 	    ref: "tags",
 	    staticClass: "el-select__tags",
 	    style: ({
-	      'max-width': inputWidth - 32 + 'px'
+	      'max-width': _vm.inputWidth - 32 + 'px'
 	    }),
 	    on: {
 	      "click": function($event) {
 	        $event.stopPropagation();
-	        toggleMenu($event)
+	        _vm.toggleMenu($event)
 	      }
 	    }
-	  }, [_h('transition-group', {
+	  }, [_vm._h('transition-group', {
 	    on: {
-	      "after-leave": resetInputHeight
+	      "after-leave": _vm.resetInputHeight
 	    }
-	  }, [_l((selected), function(item) {
-	    return _h('el-tag', {
+	  }, [_vm._l((_vm.selected), function(item) {
+	    return _vm._h('el-tag', {
 	      key: item,
 	      attrs: {
 	        "closable": "",
@@ -5497,153 +5408,155 @@ module.exports =
 	      },
 	      on: {
 	        "close": function($event) {
-	          deleteTag($event, item)
+	          _vm.deleteTag($event, item)
 	        }
 	      }
-	    }, [_s(item.currentLabel)])
-	  })]), (filterable) ? _h('input', {
+	    }, [_vm._s(item.currentLabel)])
+	  })]), (_vm.filterable) ? _vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (query),
+	      value: (_vm.query),
 	      expression: "query"
 	    }],
 	    ref: "input",
 	    staticClass: "el-select__input",
 	    style: ({
-	      width: inputLength + 'px',
-	      'max-width': inputWidth - 42 + 'px'
+	      width: _vm.inputLength + 'px',
+	      'max-width': _vm.inputWidth - 42 + 'px'
 	    }),
 	    attrs: {
 	      "type": "text",
-	      "debounce": remote ? 300 : 0
+	      "debounce": _vm.remote ? 300 : 0
 	    },
 	    domProps: {
-	      "value": _s(query)
+	      "value": _vm._s(_vm.query)
 	    },
 	    on: {
 	      "focus": function($event) {
-	        visible = true
+	        _vm.visible = true
 	      },
-	      "keyup": managePlaceholder,
-	      "keydown": [resetInputState, function($event) {
-	        if ($event.keyCode !== 40) return;
+	      "keyup": _vm.managePlaceholder,
+	      "keydown": [_vm.resetInputState, function($event) {
+	        if ($event.keyCode !== 40) { return; }
 	        $event.preventDefault();
-	        navigateOptions('next')
+	        _vm.navigateOptions('next')
 	      }, function($event) {
-	        if ($event.keyCode !== 38) return;
+	        if ($event.keyCode !== 38) { return; }
 	        $event.preventDefault();
-	        navigateOptions('prev')
+	        _vm.navigateOptions('prev')
 	      }, function($event) {
-	        if ($event.keyCode !== 13) return;
+	        if ($event.keyCode !== 13) { return; }
 	        $event.preventDefault();
-	        selectOption($event)
+	        _vm.selectOption($event)
 	      }, function($event) {
-	        if ($event.keyCode !== 27) return;
+	        if ($event.keyCode !== 27) { return; }
 	        $event.preventDefault();
-	        visible = false
+	        _vm.visible = false
 	      }, function($event) {
-	        if ($event.keyCode !== 8 && $event.keyCode !== 46) return;
-	        deletePrevTag($event)
+	        if ($event.keyCode !== 8 && $event.keyCode !== 46) { return; }
+	        _vm.deletePrevTag($event)
 	      }],
 	      "input": function($event) {
-	        if ($event.target.composing) return;
-	        query = $event.target.value
+	        if ($event.target.composing) { return; }
+	        _vm.query = $event.target.value
 	      }
 	    }
-	  }) : _e()]) : _e(), _h('el-input', {
+	  }) : _vm._e()]) : _vm._e(), _vm._h('el-input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (selectedLabel),
+	      value: (_vm.selectedLabel),
 	      expression: "selectedLabel"
 	    }],
 	    ref: "reference",
 	    attrs: {
 	      "type": "text",
-	      "placeholder": currentPlaceholder,
-	      "name": name,
-	      "disabled": disabled,
-	      "readonly": !filterable || multiple,
-	      "icon": iconClass
+	      "placeholder": _vm.currentPlaceholder,
+	      "name": _vm.name,
+	      "disabled": _vm.disabled,
+	      "readonly": !_vm.filterable || _vm.multiple,
+	      "icon": _vm.iconClass
 	    },
 	    domProps: {
-	      "value": (selectedLabel)
+	      "value": (_vm.selectedLabel)
 	    },
 	    on: {
 	      "input": function($event) {
-	        selectedLabel = $event
+	        _vm.selectedLabel = $event
 	      }
 	    },
 	    nativeOn: {
 	      "click": function($event) {
-	        toggleMenu($event)
+	        _vm.toggleMenu($event)
 	      },
 	      "keyup": function($event) {
-	        debouncedOnInputChange($event)
+	        _vm.debouncedOnInputChange($event)
 	      },
 	      "keydown": [function($event) {
-	        if ($event.keyCode !== 40) return;
+	        if ($event.keyCode !== 40) { return; }
 	        $event.preventDefault();
-	        navigateOptions('next')
+	        _vm.navigateOptions('next')
 	      }, function($event) {
-	        if ($event.keyCode !== 38) return;
+	        if ($event.keyCode !== 38) { return; }
 	        $event.preventDefault();
-	        navigateOptions('prev')
+	        _vm.navigateOptions('prev')
 	      }, function($event) {
-	        if ($event.keyCode !== 13) return;
+	        if ($event.keyCode !== 13) { return; }
 	        $event.preventDefault();
-	        selectOption($event)
+	        _vm.selectOption($event)
 	      }, function($event) {
-	        if ($event.keyCode !== 27) return;
+	        if ($event.keyCode !== 27) { return; }
 	        $event.preventDefault();
-	        visible = false
+	        _vm.visible = false
 	      }, function($event) {
-	        if ($event.keyCode !== 9) return;
-	        visible = false
+	        if ($event.keyCode !== 9) { return; }
+	        _vm.visible = false
 	      }],
 	      "mouseenter": function($event) {
-	        inputHovering = true
+	        _vm.inputHovering = true
 	      },
 	      "mouseleave": function($event) {
-	        inputHovering = false
+	        _vm.inputHovering = false
 	      }
 	    }
-	  }), _h('transition', {
+	  }), _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    },
 	    on: {
-	      "after-leave": doDestroy
+	      "after-leave": _vm.doDestroy
 	    }
-	  }, [_h('el-select-menu', {
+	  }, [_vm._h('el-select-menu', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (visible && emptyText !== false),
+	      value: (_vm.visible && _vm.emptyText !== false),
 	      expression: "visible && emptyText !== false"
 	    }],
 	    ref: "popper"
-	  }, [_h('ul', {
+	  }, [_vm._h('ul', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (options.length > 0 && filteredOptionsCount > 0 && !loading),
+	      value: (_vm.options.length > 0 && _vm.filteredOptionsCount > 0 && !_vm.loading),
 	      expression: "options.length > 0 && filteredOptionsCount > 0 && !loading"
 	    }],
 	    staticClass: "el-select-dropdown__list"
-	  }, [_t("default")]), (emptyText) ? _h('p', {
+	  }, [_vm._t("default")]), (_vm.emptyText) ? _vm._h('p', {
 	    staticClass: "el-select-dropdown__empty"
-	  }, [_s(emptyText)]) : _e()])])])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.emptyText)]) : _vm._e()])])])
+	},staticRenderFns: []}
 
 /***/ },
-/* 99 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _option = __webpack_require__(100);
+	var _option = __webpack_require__(99);
 
 	var _option2 = _interopRequireDefault(_option);
 
@@ -5657,17 +5570,17 @@ module.exports =
 	exports.default = _option2.default;
 
 /***/ },
-/* 100 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(101)
+	__vue_exports__ = __webpack_require__(100)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(102)
+	var __vue_template__ = __webpack_require__(101)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -5686,8 +5599,10 @@ module.exports =
 
 
 /***/ },
-/* 101 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -5823,38 +5738,40 @@ module.exports =
 	//
 
 /***/ },
-/* 102 */
+/* 101 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('li', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('li', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (visible),
+	      value: (_vm.visible),
 	      expression: "visible"
 	    }],
 	    staticClass: "el-select-dropdown__item",
 	    class: {
-	      'selected': itemSelected, 'is-disabled': disabled || groupDisabled, 'hover': parent.hoverIndex === index
+	      'selected': _vm.itemSelected, 'is-disabled': _vm.disabled || _vm.groupDisabled, 'hover': _vm.parent.hoverIndex === _vm.index
 	    },
 	    on: {
-	      "mouseenter": hoverItem,
+	      "mouseenter": _vm.hoverItem,
 	      "click": function($event) {
 	        $event.stopPropagation();
-	        selectOptionClick($event)
+	        _vm.selectOptionClick($event)
 	      }
 	    }
-	  }, [_t("default", [_h('span', [_s(currentLabel)])])])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default", [_vm._h('span', [_vm._s(_vm.currentLabel)])])])
+	},staticRenderFns: []}
 
 /***/ },
-/* 103 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _optionGroup = __webpack_require__(104);
+	var _optionGroup = __webpack_require__(103);
 
 	var _optionGroup2 = _interopRequireDefault(_optionGroup);
 
@@ -5868,17 +5785,17 @@ module.exports =
 	exports.default = _optionGroup2.default;
 
 /***/ },
-/* 104 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(105)
+	__vue_exports__ = __webpack_require__(104)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(106)
+	var __vue_template__ = __webpack_require__(105)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -5897,8 +5814,10 @@ module.exports =
 
 
 /***/ },
-/* 105 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -5945,26 +5864,28 @@ module.exports =
 	//
 
 /***/ },
-/* 106 */
+/* 105 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('ul', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('ul', {
 	    staticClass: "el-select-group__wrap"
-	  }, [_h('li', {
+	  }, [_vm._h('li', {
 	    staticClass: "el-select-group__title"
-	  }, [_s(label)]), _h('li', [_h('ul', {
+	  }, [_vm._s(_vm.label)]), _vm._h('li', [_vm._h('ul', {
 	    staticClass: "el-select-group"
-	  }, [_t("default")])])])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])])])
+	},staticRenderFns: []}
 
 /***/ },
-/* 107 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _button = __webpack_require__(108);
+	var _button = __webpack_require__(107);
 
 	var _button2 = _interopRequireDefault(_button);
 
@@ -5978,17 +5899,17 @@ module.exports =
 	exports.default = _button2.default;
 
 /***/ },
-/* 108 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(109)
+	__vue_exports__ = __webpack_require__(108)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(110)
+	var __vue_template__ = __webpack_require__(109)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -6007,8 +5928,10 @@ module.exports =
 
 
 /***/ },
-/* 109 */
+/* 108 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -6063,42 +5986,44 @@ module.exports =
 	};
 
 /***/ },
-/* 110 */
+/* 109 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('button', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('button', {
 	    staticClass: "el-button",
 	    class: [
-	      type ? 'el-button--' + type : '',
-	      size ? 'el-button--' + size : '', {
-	        'is-disabled': disabled,
-	        'is-loading': loading,
-	        'is-plain': plain
+	      _vm.type ? 'el-button--' + _vm.type : '',
+	      _vm.size ? 'el-button--' + _vm.size : '', {
+	        'is-disabled': _vm.disabled,
+	        'is-loading': _vm.loading,
+	        'is-plain': _vm.plain
 	      }
 	    ],
 	    attrs: {
-	      "disabled": disabled,
-	      "autofocus": autofocus,
-	      "type": nativeType
+	      "disabled": _vm.disabled,
+	      "autofocus": _vm.autofocus,
+	      "type": _vm.nativeType
 	    },
 	    on: {
-	      "click": handleClick
+	      "click": _vm.handleClick
 	    }
-	  }, [(loading) ? _h('i', {
+	  }, [(_vm.loading) ? _vm._h('i', {
 	    staticClass: "el-icon-loading"
-	  }) : _e(), (icon && !loading) ? _h('i', {
-	    class: 'el-icon-' + icon
-	  }) : _e(), ($slots.default) ? _h('span', [_t("default")]) : _e()])
-	}},staticRenderFns: []}
+	  }) : _vm._e(), (_vm.icon && !_vm.loading) ? _vm._h('i', {
+	    class: 'el-icon-' + _vm.icon
+	  }) : _vm._e(), (_vm.$slots.default) ? _vm._h('span', [_vm._t("default")]) : _vm._e()])
+	},staticRenderFns: []}
 
 /***/ },
-/* 111 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _buttonGroup = __webpack_require__(112);
+	var _buttonGroup = __webpack_require__(111);
 
 	var _buttonGroup2 = _interopRequireDefault(_buttonGroup);
 
@@ -6112,17 +6037,17 @@ module.exports =
 	exports.default = _buttonGroup2.default;
 
 /***/ },
-/* 112 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(113)
+	__vue_exports__ = __webpack_require__(112)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(114)
+	var __vue_template__ = __webpack_require__(113)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -6141,8 +6066,10 @@ module.exports =
 
 
 /***/ },
-/* 113 */
+/* 112 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -6162,22 +6089,24 @@ module.exports =
 	};
 
 /***/ },
-/* 114 */
+/* 113 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-button-group"
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ },
-/* 115 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _table = __webpack_require__(116);
+	var _table = __webpack_require__(115);
 
 	var _table2 = _interopRequireDefault(_table);
 
@@ -6191,14 +6120,14 @@ module.exports =
 	exports.default = _table2.default;
 
 /***/ },
-/* 116 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(117)
+	__vue_exports__ = __webpack_require__(116)
 
 	/* template */
 	var __vue_template__ = __webpack_require__(130)
@@ -6220,8 +6149,10 @@ module.exports =
 
 
 /***/ },
-/* 117 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -6229,7 +6160,7 @@ module.exports =
 
 	var _migrating2 = _interopRequireDefault(_migrating);
 
-	var _throttle = __webpack_require__(95);
+	var _throttle = __webpack_require__(117);
 
 	var _throttle2 = _interopRequireDefault(_throttle);
 
@@ -6237,7 +6168,7 @@ module.exports =
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _resizeEvent = __webpack_require__(97);
+	var _resizeEvent = __webpack_require__(96);
 
 	var _locale = __webpack_require__(10);
 
@@ -6548,8 +6479,16 @@ module.exports =
 	};
 
 /***/ },
+/* 117 */
+/***/ function(module, exports) {
+
+	module.exports = require("throttle-debounce/throttle");
+
+/***/ },
 /* 118 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -6565,15 +6504,6 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var getRowIdentity = function getRowIdentity(row, rowKey) {
-	  if (!row) throw new Error('row is required when get row identity');
-	  if (typeof rowKey === 'string') {
-	    return row[rowKey];
-	  } else if (typeof rowKey === 'function') {
-	    return rowKey.call(null, row);
-	  }
-	};
-
 	var sortData = function sortData(data, states) {
 	  var sortingColumn = states.sortingColumn;
 	  if (!sortingColumn || typeof sortingColumn.sortable === 'string') {
@@ -6585,7 +6515,7 @@ module.exports =
 	var getKeysMap = function getKeysMap(array, rowKey) {
 	  var arrayMap = {};
 	  (array || []).forEach(function (row, index) {
-	    arrayMap[getRowIdentity(row, rowKey)] = { row: row, index: index };
+	    arrayMap[(0, _util.getRowIdentity)(row, rowKey)] = { row: row, index: index };
 	  });
 	  return arrayMap;
 	};
@@ -6677,7 +6607,7 @@ module.exports =
 	            var selectedMap = getKeysMap(selection, rowKey);
 
 	            states.data.forEach(function (row) {
-	              var rowId = getRowIdentity(row, rowKey);
+	              var rowId = (0, _util.getRowIdentity)(row, rowKey);
 	              var rowInfo = selectedMap[rowId];
 	              if (rowInfo) {
 	                selection[rowInfo.index] = row;
@@ -6904,7 +6834,7 @@ module.exports =
 
 	  var isSelected = function isSelected(row) {
 	    if (selectedMap) {
-	      return !!selectedMap[getRowIdentity(row, rowKey)];
+	      return !!selectedMap[(0, _util.getRowIdentity)(row, rowKey)];
 	    } else {
 	      return selection.indexOf(row) !== -1;
 	    }
@@ -6970,6 +6900,8 @@ module.exports =
 /***/ },
 /* 120 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -7084,9 +7016,20 @@ module.exports =
 	  }
 	};
 
+	var getRowIdentity = exports.getRowIdentity = function getRowIdentity(row, rowKey) {
+	  if (!row) throw new Error('row is required when get row identity');
+	  if (typeof rowKey === 'string') {
+	    return row[rowKey];
+	  } else if (typeof rowKey === 'function') {
+	    return rowKey.call(null, row);
+	  }
+	};
+
 /***/ },
 /* 121 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -7275,6 +7218,8 @@ module.exports =
 /* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	exports.__esModule = true;
 
 	var _util = __webpack_require__(120);
@@ -7321,6 +7266,7 @@ module.exports =
 	          return h(
 	            "tr",
 	            {
+	              key: _this.$parent.rowKey ? _this.getKeyOfRow(row, $index) : $index,
 	              on: {
 	                click: function click($event) {
 	                  return _this.handleClick($event, row);
@@ -7338,7 +7284,7 @@ module.exports =
 	              return h(
 	                "td",
 	                {
-	                  "class": [column.id, column.align, _this.isCellHidden(cellIndex) ? 'is-hidden' : ''],
+	                  "class": [column.id, column.align, column.className || '', _this.isCellHidden(cellIndex) ? 'is-hidden' : ''],
 	                  on: {
 	                    mouseenter: function mouseenter($event) {
 	                      return _this.handleCellMouseEnter($event, row);
@@ -7346,11 +7292,7 @@ module.exports =
 	                    mouseleave: _this.handleCellMouseLeave
 	                  }
 	                },
-	                [column.renderCell ? column.renderCell.call(_this._renderProxy, h, { row: row, column: column, $index: $index, store: _this.store, _self: _this.$parent.$vnode.context }) : h(
-	                  "div",
-	                  { "class": "cell" },
-	                  [_this.getCellContent(row, column.property, column.id)]
-	                )]
+	                [column.renderCell.call(_this._renderProxy, h, { row: row, column: column, $index: $index, store: _this.store, _self: _this.$parent.$vnode.context })]
 	              );
 	            }), !_this.fixed && _this.layout.scrollY && _this.layout.gutterWidth ? h(
 	              "td",
@@ -7364,12 +7306,40 @@ module.exports =
 	  },
 
 
+	  watch: {
+	    'store.states.hoverRow': function storeStatesHoverRow(newVal, oldVal) {
+	      var el = this.$el;
+	      if (!el) return;
+	      var rows = el.querySelectorAll('tr');
+	      var oldRow = rows[oldVal];
+	      var newRow = rows[newVal];
+	      if (oldRow) {
+	        oldRow.classList.remove('hover-row');
+	      }
+	      if (newRow) {
+	        newRow.classList.add('hover-row');
+	      }
+	    },
+	    'store.states.currentRow': function storeStatesCurrentRow(newVal, oldVal) {
+	      if (!this.highlight) return;
+	      var el = this.$el;
+	      if (!el) return;
+	      var data = this.store.states.data;
+	      var rows = el.querySelectorAll('tr');
+	      var oldRow = rows[data.indexOf(oldVal)];
+	      var newRow = rows[data.indexOf(newVal)];
+	      if (oldRow) {
+	        oldRow.classList.remove('current-row');
+	      }
+	      if (newRow) {
+	        newRow.classList.add('current-row');
+	      }
+	    }
+	  },
+
 	  computed: {
 	    data: function data() {
 	      return this.store.states.data;
-	    },
-	    hoverRowIndex: function hoverRowIndex() {
-	      return this.store.states.hoverRow;
 	    },
 	    columnsCount: function columnsCount() {
 	      return this.store.states.columns.length;
@@ -7393,6 +7363,13 @@ module.exports =
 
 
 	  methods: {
+	    getKeyOfRow: function getKeyOfRow(row, index) {
+	      var rowKey = this.$parent.rowKey;
+	      if (rowKey) {
+	        return (0, _util.getRowIdentity)(row, rowKey);
+	      }
+	      return index;
+	    },
 	    isCellHidden: function isCellHidden(index) {
 	      if (this.fixed === true || this.fixed === 'left') {
 	        return index >= this.leftFixedCount;
@@ -7404,20 +7381,12 @@ module.exports =
 	    },
 	    getRowClass: function getRowClass(row, index) {
 	      var classes = [];
-	      if (this.hoverRowIndex === index) {
-	        classes.push('hover-row');
-	      }
 
 	      var rowClassName = this.rowClassName;
 	      if (typeof rowClassName === 'string') {
 	        classes.push(rowClassName);
 	      } else if (typeof rowClassName === 'function') {
 	        classes.push(rowClassName.apply(null, [row, index]) || '');
-	      }
-
-	      var currentRow = this.store.states.currentRow;
-	      if (this.highlight && currentRow === row) {
-	        classes.push('current-row');
 	      }
 
 	      return classes.join(' ');
@@ -7465,10 +7434,13 @@ module.exports =
 
 	      table.$emit('row-click', row, event);
 	    },
-	    getCellContent: function getCellContent(row, property, columnId) {
-	      var column = (0, _util.getColumnById)(this.$parent, columnId);
+	    getCellContent: function getCellContent(row, property, column) {
 	      if (column && column.formatter) {
 	        return column.formatter(row, column);
+	      }
+
+	      if (property && property.indexOf('.') === -1) {
+	        return row[property];
 	      }
 
 	      return (0, _util.getValueByPath)(row, property);
@@ -7479,6 +7451,8 @@ module.exports =
 /***/ },
 /* 123 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -7551,7 +7525,7 @@ module.exports =
 	                  }
 	                },
 
-	                'class': [column.id, column.order, column.align, _this.isCellHidden(cellIndex) ? 'is-hidden' : ''] },
+	                'class': [column.id, column.order, column.align, column.className || '', _this.isCellHidden(cellIndex) ? 'is-hidden' : ''] },
 	              [h(
 	                'div',
 	                { 'class': ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : ''] },
@@ -7875,6 +7849,8 @@ module.exports =
 /* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _vuePopper = __webpack_require__(29);
@@ -8101,6 +8077,8 @@ module.exports =
 /* 127 */
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
 	var dropdowns = [];
 
@@ -8139,239 +8117,241 @@ module.exports =
 /* 129 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    }
-	  }, [(multiple) ? _h('div', {
+	  }, [(_vm.multiple) ? _vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (showPopper),
+	      value: (_vm.showPopper),
 	      expression: "showPopper"
 	    }],
 	    staticClass: "el-table-filter"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-table-filter__content"
-	  }, [_h('el-checkbox-group', {
+	  }, [_vm._h('el-checkbox-group', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (filteredValue),
+	      value: (_vm.filteredValue),
 	      expression: "filteredValue"
 	    }],
 	    staticClass: "el-table-filter__checkbox-group",
 	    domProps: {
-	      "value": (filteredValue)
+	      "value": (_vm.filteredValue)
 	    },
 	    on: {
 	      "input": function($event) {
-	        filteredValue = $event
+	        _vm.filteredValue = $event
 	      }
 	    }
-	  }, [_l((filters), function(filter) {
-	    return _h('el-checkbox', {
+	  }, [_vm._l((_vm.filters), function(filter) {
+	    return _vm._h('el-checkbox', {
 	      attrs: {
 	        "label": filter.value
 	      }
-	    }, [_s(filter.text)])
-	  })])]), _h('div', {
+	    }, [_vm._s(filter.text)])
+	  })])]), _vm._h('div', {
 	    staticClass: "el-table-filter__bottom"
-	  }, [_h('button', {
+	  }, [_vm._h('button', {
 	    class: {
-	      'is-disabled': filteredValue.length === 0
+	      'is-disabled': _vm.filteredValue.length === 0
 	    },
 	    attrs: {
-	      "disabled": filteredValue.length === 0
+	      "disabled": _vm.filteredValue.length === 0
 	    },
 	    on: {
-	      "click": handleConfirm
+	      "click": _vm.handleConfirm
 	    }
-	  }, [_s(t('el.table.confirmFilter'))]), _h('button', {
+	  }, [_vm._s(_vm.t('el.table.confirmFilter'))]), _vm._h('button', {
 	    on: {
-	      "click": handleReset
+	      "click": _vm.handleReset
 	    }
-	  }, [_s(t('el.table.resetFilter'))])])]) : _h('div', {
+	  }, [_vm._s(_vm.t('el.table.resetFilter'))])])]) : _vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (showPopper),
+	      value: (_vm.showPopper),
 	      expression: "showPopper"
 	    }],
 	    staticClass: "el-table-filter"
-	  }, [_h('ul', {
+	  }, [_vm._h('ul', {
 	    staticClass: "el-table-filter__list"
-	  }, [_h('li', {
+	  }, [_vm._h('li', {
 	    staticClass: "el-table-filter__list-item",
 	    class: {
-	      'is-active': !filterValue
+	      'is-active': !_vm.filterValue
 	    },
 	    on: {
 	      "click": function($event) {
-	        handleSelect(null)
+	        _vm.handleSelect(null)
 	      }
 	    }
-	  }, [_s(t('el.table.clearFilter'))]), _l((filters), function(filter) {
-	    return _h('li', {
+	  }, [_vm._s(_vm.t('el.table.clearFilter'))]), _vm._l((_vm.filters), function(filter) {
+	    return _vm._h('li', {
 	      staticClass: "el-table-filter__list-item",
 	      class: {
-	        'is-active': isActive(filter)
+	        'is-active': _vm.isActive(filter)
 	      },
 	      attrs: {
 	        "label": filter.value
 	      },
 	      on: {
 	        "click": function($event) {
-	          handleSelect(filter.value)
+	          _vm.handleSelect(filter.value)
 	        }
 	      }
-	    }, [_s(filter.text)])
+	    }, [_vm._s(filter.text)])
 	  })])])])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
 /* 130 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-table",
 	    class: {
-	      'el-table--fit': fit, 'el-table--striped': stripe, 'el-table--border': border
+	      'el-table--fit': _vm.fit, 'el-table--striped': _vm.stripe, 'el-table--border': _vm.border
 	    },
 	    on: {
 	      "mouseleave": function($event) {
-	        handleMouseLeave($event)
+	        _vm.handleMouseLeave($event)
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    ref: "hiddenColumns",
 	    staticClass: "hidden-columns"
-	  }, [_t("default")]), _h('div', {
+	  }, [_vm._t("default")]), _vm._h('div', {
 	    ref: "headerWrapper",
 	    staticClass: "el-table__header-wrapper"
-	  }, [_h('table-header', {
+	  }, [_vm._h('table-header', {
 	    style: ({
-	      width: layout.bodyWidth ? layout.bodyWidth + 'px' : ''
+	      width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
 	    }),
 	    attrs: {
-	      "store": store,
-	      "layout": layout,
-	      "border": border
+	      "store": _vm.store,
+	      "layout": _vm.layout,
+	      "border": _vm.border
 	    }
-	  })]), _h('div', {
+	  })]), _vm._h('div', {
 	    ref: "bodyWrapper",
 	    staticClass: "el-table__body-wrapper",
 	    style: ({
-	      height: layout.bodyHeight ? layout.bodyHeight + 'px' : ''
+	      height: _vm.layout.bodyHeight ? _vm.layout.bodyHeight + 'px' : ''
 	    })
-	  }, [_h('table-body', {
+	  }, [_vm._h('table-body', {
 	    style: ({
-	      width: layout.bodyWidth ? layout.bodyWidth - (layout.scrollY ? layout.gutterWidth : 0) + 'px' : ''
+	      width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth - (_vm.layout.scrollY ? _vm.layout.gutterWidth : 0) + 'px' : ''
 	    }),
 	    attrs: {
-	      "store": store,
-	      "layout": layout,
-	      "row-class-name": rowClassName,
-	      "highlight": highlightCurrentRow
+	      "store": _vm.store,
+	      "layout": _vm.layout,
+	      "row-class-name": _vm.rowClassName,
+	      "highlight": _vm.highlightCurrentRow
 	    }
-	  }), (!data || data.length === 0) ? _h('div', {
+	  }), (!_vm.data || _vm.data.length === 0) ? _vm._h('div', {
 	    staticClass: "el-table__empty-block"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-table__empty-text"
-	  }, [_s(emptyText)])]) : _e()]), _h('div', {
+	  }, [_vm._s(_vm.emptyText)])]) : _vm._e()]), _vm._h('div', {
 	    ref: "fixedWrapper",
 	    staticClass: "el-table__fixed",
 	    style: ({
-	      width: layout.fixedWidth ? layout.fixedWidth + 'px' : '',
-	      height: layout.viewportHeight ? layout.viewportHeight + 'px' : ''
+	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : '',
+	      height: _vm.layout.viewportHeight ? _vm.layout.viewportHeight + 'px' : ''
 	    })
-	  }, [(fixedColumns.length > 0) ? _h('div', {
+	  }, [(_vm.fixedColumns.length > 0) ? _vm._h('div', {
 	    ref: "fixedHeaderWrapper",
 	    staticClass: "el-table__fixed-header-wrapper"
-	  }, [_h('table-header', {
+	  }, [_vm._h('table-header', {
 	    style: ({
-	      width: layout.fixedWidth ? layout.fixedWidth + 'px' : ''
+	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
 	    }),
 	    attrs: {
 	      "fixed": "left",
-	      "border": border,
-	      "store": store,
-	      "layout": layout
+	      "border": _vm.border,
+	      "store": _vm.store,
+	      "layout": _vm.layout
 	    }
-	  })]) : _e(), (fixedColumns.length > 0) ? _h('div', {
+	  })]) : _vm._e(), (_vm.fixedColumns.length > 0) ? _vm._h('div', {
 	    ref: "fixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
 	    style: ({
-	      top: layout.headerHeight + 'px',
-	      height: layout.fixedBodyHeight ? layout.fixedBodyHeight + 'px' : ''
+	      top: _vm.layout.headerHeight + 'px',
+	      height: _vm.layout.fixedBodyHeight ? _vm.layout.fixedBodyHeight + 'px' : ''
 	    })
-	  }, [_h('table-body', {
+	  }, [_vm._h('table-body', {
 	    style: ({
-	      width: layout.fixedWidth ? layout.fixedWidth + 'px' : ''
+	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
 	    }),
 	    attrs: {
 	      "fixed": "left",
-	      "store": store,
-	      "layout": layout,
-	      "highlight": highlightCurrentRow,
-	      "row-class-name": rowClassName
+	      "store": _vm.store,
+	      "layout": _vm.layout,
+	      "highlight": _vm.highlightCurrentRow,
+	      "row-class-name": _vm.rowClassName
 	    }
-	  })]) : _e()]), _h('div', {
+	  })]) : _vm._e()]), _vm._h('div', {
 	    ref: "rightFixedWrapper",
 	    staticClass: "el-table__fixed-right",
 	    style: ({
-	      width: layout.rightFixedWidth ? layout.rightFixedWidth + 'px' : '',
-	      height: layout.viewportHeight ? layout.viewportHeight + 'px' : '',
-	      right: layout.scrollY ? layout.gutterWidth + 'px' : ''
+	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : '',
+	      height: _vm.layout.viewportHeight ? _vm.layout.viewportHeight + 'px' : '',
+	      right: _vm.layout.scrollY ? _vm.layout.gutterWidth + 'px' : ''
 	    })
-	  }, [(rightFixedColumns.length > 0) ? _h('div', {
+	  }, [(_vm.rightFixedColumns.length > 0) ? _vm._h('div', {
 	    ref: "rightFixedHeaderWrapper",
 	    staticClass: "el-table__fixed-header-wrapper"
-	  }, [_h('table-header', {
+	  }, [_vm._h('table-header', {
 	    style: ({
-	      width: layout.rightFixedWidth ? layout.rightFixedWidth + 'px' : ''
+	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
 	    }),
 	    attrs: {
 	      "fixed": "right",
-	      "border": border,
-	      "store": store,
-	      "layout": layout
+	      "border": _vm.border,
+	      "store": _vm.store,
+	      "layout": _vm.layout
 	    }
-	  })]) : _e(), (rightFixedColumns.length > 0) ? _h('div', {
+	  })]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _vm._h('div', {
 	    ref: "rightFixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
 	    style: ({
-	      top: layout.headerHeight + 'px',
-	      height: layout.fixedBodyHeight ? layout.fixedBodyHeight + 'px' : ''
+	      top: _vm.layout.headerHeight + 'px',
+	      height: _vm.layout.fixedBodyHeight ? _vm.layout.fixedBodyHeight + 'px' : ''
 	    })
-	  }, [_h('table-body', {
+	  }, [_vm._h('table-body', {
 	    style: ({
-	      width: layout.rightFixedWidth ? layout.rightFixedWidth + 'px' : ''
+	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
 	    }),
 	    attrs: {
 	      "fixed": "right",
-	      "store": store,
-	      "layout": layout,
-	      "row-class-name": rowClassName,
-	      "highlight": highlightCurrentRow
+	      "store": _vm.store,
+	      "layout": _vm.layout,
+	      "row-class-name": _vm.rowClassName,
+	      "highlight": _vm.highlightCurrentRow
 	    }
-	  })]) : _e()]), _h('div', {
+	  })]) : _vm._e()]), _vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (resizeProxyVisible),
+	      value: (_vm.resizeProxyVisible),
 	      expression: "resizeProxyVisible"
 	    }],
 	    ref: "resizeProxy",
 	    staticClass: "el-table__column-resize-proxy"
 	  })])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
 /* 131 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -8391,6 +8371,8 @@ module.exports =
 /***/ },
 /* 132 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -8517,11 +8499,7 @@ module.exports =
 	  var row = _ref4.row;
 	  var column = _ref4.column;
 
-	  return h(
-	    'span',
-	    null,
-	    [parent.getCellContent(row, column.property, column.id)]
-	  );
+	  return parent.getCellContent(row, column.property, column);
 	};
 
 	exports.default = {
@@ -8533,6 +8511,7 @@ module.exports =
 	      default: 'default'
 	    },
 	    label: String,
+	    className: String,
 	    property: String,
 	    prop: String,
 	    width: {},
@@ -8626,6 +8605,7 @@ module.exports =
 	    var column = getDefaultColumn(type, {
 	      id: columnId,
 	      label: this.label,
+	      className: this.className,
 	      property: this.prop || this.property,
 	      type: type,
 	      renderCell: DEFAULT_RENDER_CELL,
@@ -8658,12 +8638,13 @@ module.exports =
 	    column.renderCell = function (h, data) {
 	      if (_self.$vnode.data.inlineTemplate) {
 	        renderCell = function renderCell() {
-	          data._staticTrees = _self._staticTrees;
-	          data.$options = {};
-	          data.$options.staticRenderFns = _self.$options.staticRenderFns;
-	          data._renderProxy = _self._renderProxy;
-	          data._m = _self._m;
-
+	          if (Object.prototype.toString.call(data._self) === '[object Object]') {
+	            for (var prop in data._self) {
+	              if (!data.hasOwnProperty(prop)) {
+	                data[prop] = data._self[prop];
+	              }
+	            }
+	          }
 	          return _self.customRender.call(data);
 	        };
 	      }
@@ -8776,6 +8757,8 @@ module.exports =
 /* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _datePicker = __webpack_require__(135);
@@ -8794,6 +8777,8 @@ module.exports =
 /***/ },
 /* 135 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -8868,6 +8853,8 @@ module.exports =
 /* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _vue = __webpack_require__(119);
@@ -8900,6 +8887,10 @@ module.exports =
 	  data: _vuePopper2.default.data,
 	  beforeDestroy: _vuePopper2.default.beforeDestroy
 	}; //
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -9078,6 +9069,11 @@ module.exports =
 	    format: String,
 	    readonly: Boolean,
 	    placeholder: String,
+	    disabled: Boolean,
+	    editable: {
+	      type: Boolean,
+	      default: true
+	    },
 	    align: {
 	      type: String,
 	      default: 'left'
@@ -9091,29 +9087,51 @@ module.exports =
 
 	  data: function data() {
 	    return {
-	      pickerVisible: false
+	      pickerVisible: false,
+	      showClose: false,
+	      internalValue: ''
 	    };
 	  },
 
 
 	  watch: {
 	    pickerVisible: function pickerVisible(val) {
+	      if (this.readonly || this.disabled) return;
 	      val ? this.showPicker() : this.hidePicker();
 	    },
-	    value: function value(val) {
+	    internalValue: function internalValue(val) {
 	      if (!val && this.picker && typeof this.picker.handleClear === 'function') {
 	        this.picker.handleClear();
 	      }
 	      this.dispatch('form-item', 'el.form.change');
+	    },
+
+	    value: {
+	      immediate: true,
+	      handler: function handler(val) {
+	        this.internalValue = val;
+	      }
 	    }
 	  },
 
 	  computed: {
+	    valueIsEmpty: function valueIsEmpty() {
+	      var val = this.internalValue;
+	      if (Array.isArray(val)) {
+	        for (var i = 0, j = val.length; i < j; i++) {
+	          if (val[i]) {
+	            return false;
+	          }
+	        }
+	      } else {
+	        if (val) {
+	          return false;
+	        }
+	      }
+	      return true;
+	    },
 	    triggerClass: function triggerClass() {
 	      return this.type.indexOf('time') !== -1 ? 'el-icon-time' : 'el-icon-date';
-	    },
-	    editable: function editable() {
-	      return this.type.indexOf('range') === -1;
 	    },
 	    selectionMode: function selectionMode() {
 	      if (this.type === 'week') {
@@ -9136,7 +9154,7 @@ module.exports =
 
 	    visualValue: {
 	      get: function get() {
-	        var value = this.value;
+	        var value = this.internalValue;
 	        var formatter = (TYPE_VALUE_RESOLVER_MAP[this.type] || TYPE_VALUE_RESOLVER_MAP['default']).formatter;
 	        var format = DEFAULT_FORMATS[this.type];
 
@@ -9169,6 +9187,18 @@ module.exports =
 
 
 	  methods: {
+	    handleMouseEnterIcon: function handleMouseEnterIcon() {
+	      if (!this.valueIsEmpty) {
+	        this.showClose = true;
+	      }
+	    },
+	    handleClickIcon: function handleClickIcon() {
+	      if (this.valueIsEmpty) {
+	        this.pickerVisible = !this.pickerVisible;
+	      } else {
+	        this.internalValue = '';
+	      }
+	    },
 	    handleClose: function handleClose() {
 	      this.pickerVisible = false;
 	    },
@@ -9235,7 +9265,7 @@ module.exports =
 	      var _this = this;
 
 	      if (!this.picker) {
-	        this.panel.defaultValue = this.value;
+	        this.panel.defaultValue = this.internalValue;
 	        this.picker = new _vue2.default(this.panel).$mount(document.createElement('div'));
 	        this.popperElm = this.picker.$el;
 	        this.picker.width = this.$refs.reference.getBoundingClientRect().width;
@@ -9283,10 +9313,7 @@ module.exports =
 	          var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 	          _this.$emit('input', date);
-
-	          if (!visible) {
-	            _this.pickerVisible = _this.picker.visible = !_this.picker.visible;
-	          }
+	          _this.pickerVisible = _this.picker.visible = visible;
 	          _this.picker.resetView && _this.picker.resetView();
 	        });
 
@@ -9302,11 +9329,11 @@ module.exports =
 
 	      this.updatePopper();
 
-	      if (this.value instanceof Date) {
-	        this.picker.date = new Date(this.value.getTime());
+	      if (this.internalValue instanceof Date) {
+	        this.picker.date = new Date(this.internalValue.getTime());
 	        this.picker.resetView && this.picker.resetView();
 	      } else {
-	        this.picker.value = this.value;
+	        this.picker.value = this.internalValue;
 	      }
 
 	      this.$nextTick(function () {
@@ -9319,6 +9346,8 @@ module.exports =
 /***/ },
 /* 138 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.toDate = undefined;
@@ -9499,25 +9528,25 @@ module.exports =
 /* 140 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('span', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('span', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
-	      value: (handleClose),
+	      value: (_vm.handleClose),
 	      expression: "handleClose"
 	    }],
 	    staticClass: "el-date-editor",
 	    class: {
-	      'is-have-trigger': haveTrigger,
-	      'is-active': pickerVisible,
-	      'is-filled': !!this.value
+	      'is-have-trigger': _vm.haveTrigger,
+	      'is-active': _vm.pickerVisible,
+	      'is-filled': !!this.internalValue
 	    }
-	  }, [_h('input', {
+	  }, [_vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model.lazy",
-	      value: (visualValue),
+	      value: (_vm.visualValue),
 	      expression: "visualValue",
 	      modifiers: {
 	        "lazy": true
@@ -9525,32 +9554,41 @@ module.exports =
 	    }],
 	    ref: "reference",
 	    staticClass: "el-date-editor__editor",
+	    class: {
+	      'is-disabled': _vm.disabled
+	    },
 	    attrs: {
-	      "readonly": readonly,
+	      "readonly": !_vm.editable || _vm.readonly,
+	      "disabled": _vm.disabled,
 	      "type": "text",
-	      "placeholder": placeholder
+	      "placeholder": _vm.placeholder
 	    },
 	    domProps: {
-	      "value": _s(visualValue)
+	      "value": _vm._s(_vm.visualValue)
 	    },
 	    on: {
-	      "focus": handleFocus,
-	      "blur": handleBlur,
-	      "keydown": handleKeydown,
+	      "focus": _vm.handleFocus,
+	      "blur": _vm.handleBlur,
+	      "keydown": _vm.handleKeydown,
 	      "change": function($event) {
-	        visualValue = $event.target.value
+	        _vm.visualValue = $event.target.value
 	      }
 	    }
-	  }), (haveTrigger) ? _h('span', {
+	  }), (_vm.haveTrigger) ? _vm._h('span', {
 	    staticClass: "el-date-editor__trigger el-icon",
-	    class: [triggerClass],
+	    class: [_vm.showClose ? 'el-icon-close' : _vm.triggerClass],
 	    on: {
 	      "click": function($event) {
-	        pickerVisible = !pickerVisible
+	        $event.stopPropagation();
+	        _vm.handleClickIcon($event)
+	      },
+	      "mouseenter": _vm.handleMouseEnterIcon,
+	      "mouseleave": function($event) {
+	        _vm.showClose = false
 	      }
 	    }
-	  }) : _e()])
-	}},staticRenderFns: []}
+	  }) : _vm._e()])
+	},staticRenderFns: []}
 
 /***/ },
 /* 141 */
@@ -9584,6 +9622,8 @@ module.exports =
 /***/ },
 /* 142 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -9740,8 +9780,8 @@ module.exports =
 	      });
 	    },
 	    value: function value(newVal) {
-	      if (newVal instanceof Date) {
-
+	      newVal = new Date(newVal);
+	      if (!isNaN(newVal)) {
 	        if (typeof this.disabledDate === 'function' && this.disabledDate(new Date(newVal))) {
 	          return;
 	        }
@@ -9778,6 +9818,7 @@ module.exports =
 	  methods: {
 	    handleClear: function handleClear() {
 	      this.date = new Date();
+	      this.$emit('pick');
 	    },
 	    resetDate: function resetDate() {
 	      this.date = new Date(this.date);
@@ -9857,6 +9898,7 @@ module.exports =
 	        this.resetDate();
 	      } else {
 	        this.date.setMonth(month);
+	        this.year && this.date.setFullYear(this.year);
 	        this.resetDate();
 	        var value = new Date(this.date.getFullYear(), month, 1);
 	        this.$emit('pick', value);
@@ -10045,6 +10087,8 @@ module.exports =
 /* 144 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _util = __webpack_require__(138);
@@ -10152,8 +10196,11 @@ module.exports =
 	  },
 
 	  methods: {
+	    handleClear: function handleClear() {
+	      this.handleCancel();
+	    },
 	    handleCancel: function handleCancel() {
-	      this.$emit('pick', null);
+	      this.$emit('pick');
 	    },
 	    handleChange: function handleChange(date) {
 	      if (date.hours !== undefined) {
@@ -10233,6 +10280,8 @@ module.exports =
 /***/ },
 /* 146 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -10386,169 +10435,169 @@ module.exports =
 /* 147 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-time-spinner"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    ref: "hour",
 	    staticClass: "el-time-spinner__wrapper",
 	    on: {
 	      "mouseenter": function($event) {
-	        emitSelectRange('hours')
+	        _vm.emitSelectRange('hours')
 	      },
 	      "mousewheel": function($event) {
-	        handleScroll('hour')
+	        _vm.handleScroll('hour')
 	      }
 	    }
-	  }, [_h('ul', {
+	  }, [_vm._h('ul', {
 	    staticClass: "el-time-spinner__list"
-	  }, [_l((hoursList), function(disabled, hour) {
-	    return _h('li', {
+	  }, [_vm._l((_vm.hoursList), function(disabled, hour) {
+	    return _vm._h('li', {
 	      staticClass: "el-time-spinner__item",
 	      class: {
-	        'active': hour === hours, 'disabled': disabled
+	        'active': hour === _vm.hours, 'disabled': disabled
 	      },
 	      attrs: {
 	        "track-by": "hour"
 	      },
 	      domProps: {
-	        "textContent": _s(hour)
+	        "textContent": _vm._s(hour)
 	      },
 	      on: {
 	        "click": function($event) {
-	          handleClick('hours', {
+	          _vm.handleClick('hours', {
 	            value: hour,
 	            disabled: disabled
 	          }, true)
 	        }
 	      }
 	    })
-	  })])]), _h('div', {
+	  })])]), _vm._h('div', {
 	    ref: "minute",
 	    staticClass: "el-time-spinner__wrapper",
 	    on: {
 	      "mouseenter": function($event) {
-	        emitSelectRange('minutes')
+	        _vm.emitSelectRange('minutes')
 	      },
 	      "mousewheel": function($event) {
-	        handleScroll('minute')
+	        _vm.handleScroll('minute')
 	      }
 	    }
-	  }, [_h('ul', {
+	  }, [_vm._h('ul', {
 	    staticClass: "el-time-spinner__list"
-	  }, [_l((60), function(minute, key) {
-	    return _h('li', {
+	  }, [_vm._l((60), function(minute, key) {
+	    return _vm._h('li', {
 	      staticClass: "el-time-spinner__item",
 	      class: {
-	        'active': key === minutes
+	        'active': key === _vm.minutes
 	      },
 	      domProps: {
-	        "textContent": _s(key)
+	        "textContent": _vm._s(key)
 	      },
 	      on: {
 	        "click": function($event) {
-	          handleClick('minutes', key, true)
+	          _vm.handleClick('minutes', key, true)
 	        }
 	      }
 	    })
-	  })])]), _h('div', {
+	  })])]), _vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (showSeconds),
+	      value: (_vm.showSeconds),
 	      expression: "showSeconds"
 	    }],
 	    ref: "second",
 	    staticClass: "el-time-spinner__wrapper",
 	    on: {
 	      "mouseenter": function($event) {
-	        emitSelectRange('seconds')
+	        _vm.emitSelectRange('seconds')
 	      },
 	      "mousewheel": function($event) {
-	        handleScroll('second')
+	        _vm.handleScroll('second')
 	      }
 	    }
-	  }, [_h('ul', {
+	  }, [_vm._h('ul', {
 	    staticClass: "el-time-spinner__list"
-	  }, [_l((60), function(second, key) {
-	    return _h('li', {
+	  }, [_vm._l((60), function(second, key) {
+	    return _vm._h('li', {
 	      staticClass: "el-time-spinner__item",
 	      class: {
-	        'active': key === seconds
+	        'active': key === _vm.seconds
 	      },
 	      domProps: {
-	        "textContent": _s(key)
+	        "textContent": _vm._s(key)
 	      },
 	      on: {
 	        "click": function($event) {
-	          handleClick('seconds', key, true)
+	          _vm.handleClick('seconds', key, true)
 	        }
 	      }
 	    })
 	  })])])])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
 /* 148 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    },
 	    on: {
 	      "after-leave": function($event) {
-	        $emit('dodestroy')
+	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (currentVisible),
+	      value: (_vm.currentVisible),
 	      expression: "currentVisible"
 	    }],
 	    staticClass: "el-time-panel",
 	    style: ({
-	      width: width + 'px'
+	      width: _vm.width + 'px'
 	    })
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-time-panel__content"
-	  }, [_h('time-spinner', {
+	  }, [_vm._h('time-spinner', {
 	    ref: "spinner",
 	    attrs: {
-	      "show-seconds": showSeconds,
-	      "hours": hours,
-	      "minutes": minutes,
-	      "seconds": seconds
+	      "show-seconds": _vm.showSeconds,
+	      "hours": _vm.hours,
+	      "minutes": _vm.minutes,
+	      "seconds": _vm.seconds
 	    },
 	    on: {
-	      "change": handleChange,
-	      "select-range": setSelectionRange
+	      "change": _vm.handleChange,
+	      "select-range": _vm.setSelectionRange
 	    }
-	  })]), _h('div', {
+	  })]), _vm._h('div', {
 	    staticClass: "el-time-panel__footer"
-	  }, [_h('button', {
+	  }, [_vm._h('button', {
 	    staticClass: "el-time-panel__btn cancel",
 	    attrs: {
 	      "type": "button"
 	    },
 	    on: {
-	      "click": handleCancel
+	      "click": _vm.handleCancel
 	    }
-	  }, [_s(t('el.datepicker.cancel'))]), _h('button', {
+	  }, [_vm._s(_vm.t('el.datepicker.cancel'))]), _vm._h('button', {
 	    staticClass: "el-time-panel__btn confirm",
 	    attrs: {
 	      "type": "button"
 	    },
 	    on: {
 	      "click": function($event) {
-	        handleConfirm()
+	        _vm.handleConfirm()
 	      }
 	    }
-	  }, [_s(t('el.datepicker.confirm'))])])])])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.t('el.datepicker.confirm'))])])])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 149 */
@@ -10583,9 +10632,11 @@ module.exports =
 /* 150 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
-	var _class = __webpack_require__(96);
+	var _class = __webpack_require__(95);
 
 	exports.default = {
 	  props: {
@@ -10678,68 +10729,68 @@ module.exports =
 /* 151 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('table', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('table', {
 	    staticClass: "el-year-table",
 	    on: {
-	      "click": handleYearTableClick
+	      "click": _vm.handleYearTableClick
 	    }
-	  }, [_h('tbody', [_h('tr', [_h('td', {
+	  }, [_vm._h('tbody', [_vm._h('tr', [_vm._h('td', {
 	    staticClass: "available",
-	    class: getCellStyle(startYear + 0)
-	  }, [_h('a', {
+	    class: _vm.getCellStyle(_vm.startYear + 0)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(startYear)])]), _h('td', {
+	  }, [_vm._s(_vm.startYear)])]), _vm._h('td', {
 	    staticClass: "available",
-	    class: getCellStyle(startYear + 1)
-	  }, [_h('a', {
+	    class: _vm.getCellStyle(_vm.startYear + 1)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(startYear + 1)])]), _h('td', {
+	  }, [_vm._s(_vm.startYear + 1)])]), _vm._h('td', {
 	    staticClass: "available",
-	    class: getCellStyle(startYear + 2)
-	  }, [_h('a', {
+	    class: _vm.getCellStyle(_vm.startYear + 2)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(startYear + 2)])]), _h('td', {
+	  }, [_vm._s(_vm.startYear + 2)])]), _vm._h('td', {
 	    staticClass: "available",
-	    class: getCellStyle(startYear + 3)
-	  }, [_h('a', {
+	    class: _vm.getCellStyle(_vm.startYear + 3)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(startYear + 3)])])]), _h('tr', [_h('td', {
+	  }, [_vm._s(_vm.startYear + 3)])])]), _vm._h('tr', [_vm._h('td', {
 	    staticClass: "available",
-	    class: getCellStyle(startYear + 4)
-	  }, [_h('a', {
+	    class: _vm.getCellStyle(_vm.startYear + 4)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(startYear + 4)])]), _h('td', {
+	  }, [_vm._s(_vm.startYear + 4)])]), _vm._h('td', {
 	    staticClass: "available",
-	    class: getCellStyle(startYear + 5)
-	  }, [_h('a', {
+	    class: _vm.getCellStyle(_vm.startYear + 5)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(startYear + 5)])]), _h('td', {
+	  }, [_vm._s(_vm.startYear + 5)])]), _vm._h('td', {
 	    staticClass: "available",
-	    class: getCellStyle(startYear + 6)
-	  }, [_h('a', {
+	    class: _vm.getCellStyle(_vm.startYear + 6)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(startYear + 6)])]), _h('td', {
+	  }, [_vm._s(_vm.startYear + 6)])]), _vm._h('td', {
 	    staticClass: "available",
-	    class: getCellStyle(startYear + 7)
-	  }, [_h('a', {
+	    class: _vm.getCellStyle(_vm.startYear + 7)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(startYear + 7)])])]), _h('tr', [_h('td', {
+	  }, [_vm._s(_vm.startYear + 7)])])]), _vm._h('tr', [_vm._h('td', {
 	    staticClass: "available",
-	    class: getCellStyle(startYear + 8)
-	  }, [_h('a', {
+	    class: _vm.getCellStyle(_vm.startYear + 8)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(startYear + 8)])]), _h('td', {
+	  }, [_vm._s(_vm.startYear + 8)])]), _vm._h('td', {
 	    staticClass: "available",
-	    class: getCellStyle(startYear + 9)
-	  }, [_h('a', {
+	    class: _vm.getCellStyle(_vm.startYear + 9)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(startYear + 9)])]), _m(0), _m(1)])])])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('td')
-	}},function (){with(this) {
-	  return _h('td')
-	}}]}
+	  }, [_vm._s(_vm.startYear + 9)])]), _vm._m(0), _vm._m(1)])])])
+	},staticRenderFns: [function (){var _vm=this;
+	  return _vm._h('td')
+	},function (){var _vm=this;
+	  return _vm._h('td')
+	}]}
 
 /***/ },
 /* 152 */
@@ -10774,13 +10825,15 @@ module.exports =
 /* 153 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _locale = __webpack_require__(89);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _class = __webpack_require__(96);
+	var _class = __webpack_require__(95);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10871,62 +10924,62 @@ module.exports =
 /* 154 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('table', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('table', {
 	    staticClass: "el-month-table",
 	    on: {
-	      "click": handleMonthTableClick
+	      "click": _vm.handleMonthTableClick
 	    }
-	  }, [_h('tbody', [_h('tr', [_h('td', {
-	    class: getCellStyle(0)
-	  }, [_h('a', {
+	  }, [_vm._h('tbody', [_vm._h('tr', [_vm._h('td', {
+	    class: _vm.getCellStyle(0)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(t('el.datepicker.months.jan'))])]), _h('td', {
-	    class: getCellStyle(1)
-	  }, [_h('a', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.jan'))])]), _vm._h('td', {
+	    class: _vm.getCellStyle(1)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(t('el.datepicker.months.feb'))])]), _h('td', {
-	    class: getCellStyle(2)
-	  }, [_h('a', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.feb'))])]), _vm._h('td', {
+	    class: _vm.getCellStyle(2)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(t('el.datepicker.months.mar'))])]), _h('td', {
-	    class: getCellStyle(3)
-	  }, [_h('a', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.mar'))])]), _vm._h('td', {
+	    class: _vm.getCellStyle(3)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(t('el.datepicker.months.apr'))])])]), _h('tr', [_h('td', {
-	    class: getCellStyle(4)
-	  }, [_h('a', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.apr'))])])]), _vm._h('tr', [_vm._h('td', {
+	    class: _vm.getCellStyle(4)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(t('el.datepicker.months.may'))])]), _h('td', {
-	    class: getCellStyle(5)
-	  }, [_h('a', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.may'))])]), _vm._h('td', {
+	    class: _vm.getCellStyle(5)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(t('el.datepicker.months.jun'))])]), _h('td', {
-	    class: getCellStyle(6)
-	  }, [_h('a', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.jun'))])]), _vm._h('td', {
+	    class: _vm.getCellStyle(6)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(t('el.datepicker.months.jul'))])]), _h('td', {
-	    class: getCellStyle(7)
-	  }, [_h('a', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.jul'))])]), _vm._h('td', {
+	    class: _vm.getCellStyle(7)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(t('el.datepicker.months.aug'))])])]), _h('tr', [_h('td', {
-	    class: getCellStyle(8)
-	  }, [_h('a', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.aug'))])])]), _vm._h('tr', [_vm._h('td', {
+	    class: _vm.getCellStyle(8)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(t('el.datepicker.months.sep'))])]), _h('td', {
-	    class: getCellStyle(9)
-	  }, [_h('a', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.sep'))])]), _vm._h('td', {
+	    class: _vm.getCellStyle(9)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(t('el.datepicker.months.oct'))])]), _h('td', {
-	    class: getCellStyle(10)
-	  }, [_h('a', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.oct'))])]), _vm._h('td', {
+	    class: _vm.getCellStyle(10)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(t('el.datepicker.months.nov'))])]), _h('td', {
-	    class: getCellStyle(11)
-	  }, [_h('a', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.nov'))])]), _vm._h('td', {
+	    class: _vm.getCellStyle(11)
+	  }, [_vm._h('a', {
 	    staticClass: "cell"
-	  }, [_s(t('el.datepicker.months.dec'))])])])])])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.t('el.datepicker.months.dec'))])])])])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 155 */
@@ -10961,11 +11014,13 @@ module.exports =
 /* 156 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _util = __webpack_require__(138);
 
-	var _class = __webpack_require__(96);
+	var _class = __webpack_require__(95);
 
 	var _locale = __webpack_require__(89);
 
@@ -11404,93 +11459,93 @@ module.exports =
 /* 157 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('table', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('table', {
 	    staticClass: "el-date-table",
 	    class: {
-	      'is-week-mode': selectionMode === 'week'
+	      'is-week-mode': _vm.selectionMode === 'week'
 	    },
 	    attrs: {
 	      "cellspacing": "0",
 	      "cellpadding": "0"
 	    },
 	    on: {
-	      "click": handleClick,
-	      "mousemove": handleMouseMove
+	      "click": _vm.handleClick,
+	      "mousemove": _vm.handleMouseMove
 	    }
-	  }, [_h('tbody', [_h('tr', [(showWeekNumber) ? _h('th', [_s(t('el.datepicker.week'))]) : _e(), _h('th', [_s(t('el.datepicker.weeks.sun'))]), _h('th', [_s(t('el.datepicker.weeks.mon'))]), _h('th', [_s(t('el.datepicker.weeks.tue'))]), _h('th', [_s(t('el.datepicker.weeks.wed'))]), _h('th', [_s(t('el.datepicker.weeks.thu'))]), _h('th', [_s(t('el.datepicker.weeks.fri'))]), _h('th', [_s(t('el.datepicker.weeks.sat'))])]), _l((rows), function(row) {
-	    return _h('tr', {
+	  }, [_vm._h('tbody', [_vm._h('tr', [(_vm.showWeekNumber) ? _vm._h('th', [_vm._s(_vm.t('el.datepicker.week'))]) : _vm._e(), _vm._h('th', [_vm._s(_vm.t('el.datepicker.weeks.sun'))]), _vm._h('th', [_vm._s(_vm.t('el.datepicker.weeks.mon'))]), _vm._h('th', [_vm._s(_vm.t('el.datepicker.weeks.tue'))]), _vm._h('th', [_vm._s(_vm.t('el.datepicker.weeks.wed'))]), _vm._h('th', [_vm._s(_vm.t('el.datepicker.weeks.thu'))]), _vm._h('th', [_vm._s(_vm.t('el.datepicker.weeks.fri'))]), _vm._h('th', [_vm._s(_vm.t('el.datepicker.weeks.sat'))])]), _vm._l((_vm.rows), function(row) {
+	    return _vm._h('tr', {
 	      staticClass: "el-date-table__row",
 	      class: {
-	        current: value && isWeekActive(row[1])
+	        current: _vm.value && _vm.isWeekActive(row[1])
 	      }
-	    }, [_l((row), function(cell) {
-	      return _h('td', {
-	        class: getCellClasses(cell),
+	    }, [_vm._l((row), function(cell) {
+	      return _vm._h('td', {
+	        class: _vm.getCellClasses(cell),
 	        domProps: {
-	          "textContent": _s(cell.type === 'today' ? t('el.datepicker.today') : cell.text)
+	          "textContent": _vm._s(cell.type === 'today' ? _vm.t('el.datepicker.today') : cell.text)
 	        }
 	      })
 	    })])
 	  })])])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
 /* 158 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    },
 	    on: {
 	      "after-leave": function($event) {
-	        $emit('dodestroy')
+	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (visible),
+	      value: (_vm.visible),
 	      expression: "visible"
 	    }],
 	    staticClass: "el-picker-panel el-date-picker",
 	    class: {
-	      'has-sidebar': $slots.sidebar || shortcuts,
-	        'has-time': showTime
+	      'has-sidebar': _vm.$slots.sidebar || _vm.shortcuts,
+	        'has-time': _vm.showTime
 	    },
 	    style: ({
-	      width: width + 'px'
+	      width: _vm.width + 'px'
 	    })
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-picker-panel__body-wrapper"
-	  }, [_t("sidebar"), (shortcuts) ? _h('div', {
+	  }, [_vm._t("sidebar"), (_vm.shortcuts) ? _vm._h('div', {
 	    staticClass: "el-picker-panel__sidebar"
-	  }, [_l((shortcuts), function(shortcut) {
-	    return _h('button', {
+	  }, [_vm._l((_vm.shortcuts), function(shortcut) {
+	    return _vm._h('button', {
 	      staticClass: "el-picker-panel__shortcut",
 	      attrs: {
 	        "type": "button"
 	      },
 	      on: {
 	        "click": function($event) {
-	          handleShortcutClick(shortcut)
+	          _vm.handleShortcutClick(shortcut)
 	        }
 	      }
-	    }, [_s(shortcut.text)])
-	  })]) : _e(), _h('div', {
+	    }, [_vm._s(shortcut.text)])
+	  })]) : _vm._e(), _vm._h('div', {
 	    staticClass: "el-picker-panel__body"
-	  }, [(showTime) ? _h('div', {
+	  }, [(_vm.showTime) ? _vm._h('div', {
 	    staticClass: "el-date-picker__time-header"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-date-picker__editor-wrap"
-	  }, [_h('input', {
+	  }, [_vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model.lazy",
-	      value: (visibleDate),
+	      value: (_vm.visibleDate),
 	      expression: "visibleDate",
 	      modifiers: {
 	        "lazy": true
@@ -11498,24 +11553,24 @@ module.exports =
 	    }],
 	    staticClass: "el-date-picker__editor",
 	    attrs: {
-	      "placehoder": t('el.datepicker.selectDate'),
+	      "placehoder": _vm.t('el.datepicker.selectDate'),
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": _s(visibleDate)
+	      "value": _vm._s(_vm.visibleDate)
 	    },
 	    on: {
 	      "change": function($event) {
-	        visibleDate = $event.target.value
+	        _vm.visibleDate = $event.target.value
 	      }
 	    }
-	  })]), _h('span', {
+	  })]), _vm._h('span', {
 	    staticClass: "el-date-picker__editor-wrap"
-	  }, [_h('input', {
+	  }, [_vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model.lazy",
-	      value: (visibleTime),
+	      value: (_vm.visibleTime),
 	      expression: "visibleTime",
 	      modifiers: {
 	        "lazy": true
@@ -11524,51 +11579,51 @@ module.exports =
 	    ref: "input",
 	    staticClass: "el-date-picker__editor",
 	    attrs: {
-	      "placehoder": t('el.datepicker.selectTime'),
+	      "placehoder": _vm.t('el.datepicker.selectTime'),
 	      "type": "text"
 	    },
 	    domProps: {
-	      "value": _s(visibleTime)
+	      "value": _vm._s(_vm.visibleTime)
 	    },
 	    on: {
 	      "focus": function($event) {
-	        timePickerVisible = !timePickerVisible
+	        _vm.timePickerVisible = !_vm.timePickerVisible
 	      },
 	      "change": function($event) {
-	        visibleTime = $event.target.value
+	        _vm.visibleTime = $event.target.value
 	      }
 	    }
-	  }), _h('time-picker', {
+	  }), _vm._h('time-picker', {
 	    ref: "timepicker",
 	    attrs: {
-	      "date": date,
-	      "picker-width": pickerWidth,
-	      "visible": timePickerVisible
+	      "date": _vm.date,
+	      "picker-width": _vm.pickerWidth,
+	      "visible": _vm.timePickerVisible
 	    },
 	    on: {
-	      "pick": handleTimePick
+	      "pick": _vm.handleTimePick
 	    }
-	  })])]) : _e(), _h('div', {
+	  })])]) : _vm._e(), _vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (currentView !== 'time'),
+	      value: (_vm.currentView !== 'time'),
 	      expression: "currentView !== 'time'"
 	    }],
 	    staticClass: "el-date-picker__header"
-	  }, [_h('button', {
+	  }, [_vm._h('button', {
 	    staticClass: "el-picker-panel__icon-btn el-date-picker__prev-btn el-icon-d-arrow-left",
 	    attrs: {
 	      "type": "button"
 	    },
 	    on: {
-	      "click": prevYear
+	      "click": _vm.prevYear
 	    }
-	  }), _h('button', {
+	  }), _vm._h('button', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (currentView === 'date'),
+	      value: (_vm.currentView === 'date'),
 	      expression: "currentView === 'date'"
 	    }],
 	    staticClass: "el-picker-panel__icon-btn el-date-picker__prev-btn el-icon-arrow-left",
@@ -11576,40 +11631,40 @@ module.exports =
 	      "type": "button"
 	    },
 	    on: {
-	      "click": prevMonth
+	      "click": _vm.prevMonth
 	    }
-	  }), _h('span', {
+	  }), _vm._h('span', {
 	    staticClass: "el-date-picker__header-label",
 	    on: {
-	      "click": showYearPicker
+	      "click": _vm.showYearPicker
 	    }
-	  }, [_s(yearLabel)]), _h('span', {
+	  }, [_vm._s(_vm.yearLabel)]), _vm._h('span', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (currentView === 'date'),
+	      value: (_vm.currentView === 'date'),
 	      expression: "currentView === 'date'"
 	    }],
 	    staticClass: "el-date-picker__header-label",
 	    class: {
-	      active: currentView === 'month'
+	      active: _vm.currentView === 'month'
 	    },
 	    on: {
-	      "click": showMonthPicker
+	      "click": _vm.showMonthPicker
 	    }
-	  }, [_s(t(("el.datepicker.month" + (month + 1))))]), _h('button', {
+	  }, [_vm._s(_vm.t(("el.datepicker.month" + (_vm.month + 1))))]), _vm._h('button', {
 	    staticClass: "el-picker-panel__icon-btn el-date-picker__next-btn el-icon-d-arrow-right",
 	    attrs: {
 	      "type": "button"
 	    },
 	    on: {
-	      "click": nextYear
+	      "click": _vm.nextYear
 	    }
-	  }), _h('button', {
+	  }), _vm._h('button', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (currentView === 'date'),
+	      value: (_vm.currentView === 'date'),
 	      expression: "currentView === 'date'"
 	    }],
 	    staticClass: "el-picker-panel__icon-btn el-date-picker__next-btn el-icon-arrow-right",
@@ -11617,88 +11672,88 @@ module.exports =
 	      "type": "button"
 	    },
 	    on: {
-	      "click": nextMonth
+	      "click": _vm.nextMonth
 	    }
-	  })]), _h('div', {
+	  })]), _vm._h('div', {
 	    staticClass: "el-picker-panel__content"
-	  }, [_h('date-table', {
+	  }, [_vm._h('date-table', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (currentView === 'date'),
+	      value: (_vm.currentView === 'date'),
 	      expression: "currentView === 'date'"
 	    }],
 	    attrs: {
-	      "year": year,
-	      "month": month,
-	      "date": date,
-	      "week": week,
-	      "selection-mode": selectionMode,
-	      "disabled-date": disabledDate
+	      "year": _vm.year,
+	      "month": _vm.month,
+	      "date": _vm.date,
+	      "week": _vm.week,
+	      "selection-mode": _vm.selectionMode,
+	      "disabled-date": _vm.disabledDate
 	    },
 	    domProps: {
-	      "value": value
+	      "value": _vm.value
 	    },
 	    on: {
-	      "pick": handleDatePick
+	      "pick": _vm.handleDatePick
 	    }
-	  }), _h('year-table', {
+	  }), _vm._h('year-table', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (currentView === 'year'),
+	      value: (_vm.currentView === 'year'),
 	      expression: "currentView === 'year'"
 	    }],
 	    ref: "yearTable",
 	    attrs: {
-	      "year": year,
-	      "date": date,
-	      "disabled-date": disabledDate
+	      "year": _vm.year,
+	      "date": _vm.date,
+	      "disabled-date": _vm.disabledDate
 	    },
 	    on: {
-	      "pick": handleYearPick
+	      "pick": _vm.handleYearPick
 	    }
-	  }), _h('month-table', {
+	  }), _vm._h('month-table', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (currentView === 'month'),
+	      value: (_vm.currentView === 'month'),
 	      expression: "currentView === 'month'"
 	    }],
 	    attrs: {
-	      "month": month,
-	      "date": date,
-	      "disabled-date": disabledDate
+	      "month": _vm.month,
+	      "date": _vm.date,
+	      "disabled-date": _vm.disabledDate
 	    },
 	    on: {
-	      "pick": handleMonthPick
+	      "pick": _vm.handleMonthPick
 	    }
-	  })])])]), _h('div', {
+	  })])])]), _vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (footerVisible && currentView === 'date'),
+	      value: (_vm.footerVisible && _vm.currentView === 'date'),
 	      expression: "footerVisible && currentView === 'date'"
 	    }],
 	    staticClass: "el-picker-panel__footer"
-	  }, [_h('a', {
+	  }, [_vm._h('a', {
 	    staticClass: "el-picker-panel__link-btn",
 	    attrs: {
 	      "href": "JavaScript:"
 	    },
 	    on: {
-	      "click": changeToNow
+	      "click": _vm.changeToNow
 	    }
-	  }, [_s(t('el.datepicker.now'))]), _h('button', {
+	  }, [_vm._s(_vm.t('el.datepicker.now'))]), _vm._h('button', {
 	    staticClass: "el-picker-panel__btn",
 	    attrs: {
 	      "type": "button"
 	    },
 	    on: {
-	      "click": confirm
+	      "click": _vm.confirm
 	    }
-	  }, [_s(t('el.datepicker.confirm'))])])])])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.t('el.datepicker.confirm'))])])])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 159 */
@@ -11732,6 +11787,8 @@ module.exports =
 /***/ },
 /* 160 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -12008,16 +12065,16 @@ module.exports =
 	        this.minDate = null;
 	        this.maxDate = null;
 	      } else if (Array.isArray(newVal)) {
-	        this.minDate = (0, _util.toDate)(newVal[0]);
-	        this.maxDate = (0, _util.toDate)(newVal[1]);
+	        this.minDate = newVal[0] ? (0, _util.toDate)(newVal[0]) : null;
+	        this.maxDate = newVal[1] ? (0, _util.toDate)(newVal[1]) : null;
 	      }
 	    }
 	  },
 
 	  methods: {
 	    handleClear: function handleClear() {
-	      this.minDate = '';
-	      this.maxDate = '';
+	      this.minDate = null;
+	      this.maxDate = null;
 	      this.handleConfirm();
 	    },
 	    handleDateInput: function handleDateInput(event, type) {
@@ -12184,247 +12241,249 @@ module.exports =
 /* 161 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    },
 	    on: {
 	      "after-leave": function($event) {
-	        $emit('dodestroy')
+	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (visible),
+	      value: (_vm.visible),
 	      expression: "visible"
 	    }],
 	    staticClass: "el-picker-panel el-date-range-picker",
 	    class: {
-	      'has-sidebar': $slots.sidebar || shortcuts,
-	        'has-time': showTime
+	      'has-sidebar': _vm.$slots.sidebar || _vm.shortcuts,
+	        'has-time': _vm.showTime
 	    },
 	    style: ({
-	      width: width + 'px'
+	      width: _vm.width + 'px'
 	    })
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-picker-panel__body-wrapper"
-	  }, [_t("sidebar"), (shortcuts) ? _h('div', {
+	  }, [_vm._t("sidebar"), (_vm.shortcuts) ? _vm._h('div', {
 	    staticClass: "el-picker-panel__sidebar"
-	  }, [_l((shortcuts), function(shortcut) {
-	    return _h('button', {
+	  }, [_vm._l((_vm.shortcuts), function(shortcut) {
+	    return _vm._h('button', {
 	      staticClass: "el-picker-panel__shortcut",
 	      attrs: {
 	        "type": "button"
 	      },
 	      on: {
 	        "click": function($event) {
-	          handleShortcutClick(shortcut)
+	          _vm.handleShortcutClick(shortcut)
 	        }
 	      }
-	    }, [_s(shortcut.text)])
-	  })]) : _e(), _h('div', {
+	    }, [_vm._s(shortcut.text)])
+	  })]) : _vm._e(), _vm._h('div', {
 	    staticClass: "el-picker-panel__body"
-	  }, [(showTime) ? _h('div', {
+	  }, [(_vm.showTime) ? _vm._h('div', {
 	    staticClass: "el-date-range-picker__time-header"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-date-range-picker__editors-wrap"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
-	  }, [_h('input', {
+	  }, [_vm._h('input', {
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
-	      "placeholder": t('el.datepicker.startDate')
+	      "placeholder": _vm.t('el.datepicker.startDate')
 	    },
 	    domProps: {
-	      "value": minVisibleDate
+	      "value": _vm.minVisibleDate
 	    },
 	    on: {
 	      "input": function($event) {
-	        handleDateInput($event, 'min')
+	        _vm.handleDateInput($event, 'min')
 	      },
 	      "change": function($event) {
-	        handleDateChange($event, 'min')
+	        _vm.handleDateChange($event, 'min')
 	      }
 	    }
-	  })]), _h('span', {
+	  })]), _vm._h('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
-	  }, [_h('input', {
+	  }, [_vm._h('input', {
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
-	      "placeholder": t('el.datepicker.startTime')
+	      "placeholder": _vm.t('el.datepicker.startTime')
 	    },
 	    domProps: {
-	      "value": minVisibleTime
+	      "value": _vm.minVisibleTime
 	    },
 	    on: {
 	      "focus": function($event) {
-	        minTimePickerVisible = !minTimePickerVisible
+	        _vm.minTimePickerVisible = !_vm.minTimePickerVisible
 	      },
 	      "change": function($event) {
-	        handleTimeChange($event, 'min')
+	        _vm.handleTimeChange($event, 'min')
 	      }
 	    }
-	  }), _h('time-picker', {
+	  }), _vm._h('time-picker', {
 	    ref: "minTimePicker",
 	    attrs: {
-	      "picker-width": minPickerWidth,
-	      "date": minDate,
-	      "visible": minTimePickerVisible
+	      "picker-width": _vm.minPickerWidth,
+	      "date": _vm.minDate,
+	      "visible": _vm.minTimePickerVisible
 	    },
 	    on: {
-	      "pick": handleMinTimePick
+	      "pick": _vm.handleMinTimePick
 	    }
-	  })])]), _m(0), _h('span', {
+	  })])]), _vm._m(0), _vm._h('span', {
 	    staticClass: "el-date-range-picker__editors-wrap is-right"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
-	  }, [_h('input', {
+	  }, [_vm._h('input', {
 	    ref: "minInput",
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
-	      "placeholder": t('el.datepicker.endDate'),
-	      "readonly": !minDate
+	      "placeholder": _vm.t('el.datepicker.endDate'),
+	      "readonly": !_vm.minDate
 	    },
 	    domProps: {
-	      "value": maxVisibleDate
+	      "value": _vm.maxVisibleDate
 	    },
 	    on: {
 	      "input": function($event) {
-	        handleDateInput($event, 'max')
+	        _vm.handleDateInput($event, 'max')
 	      },
 	      "change": function($event) {
-	        handleDateChange($event, 'max')
+	        _vm.handleDateChange($event, 'max')
 	      }
 	    }
-	  })]), _h('span', {
+	  })]), _vm._h('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
-	  }, [_h('input', {
+	  }, [_vm._h('input', {
 	    ref: "maxInput",
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
-	      "placeholder": t('el.datepicker.endTime'),
-	      "readonly": !minDate
+	      "placeholder": _vm.t('el.datepicker.endTime'),
+	      "readonly": !_vm.minDate
 	    },
 	    domProps: {
-	      "value": maxVisibleTime
+	      "value": _vm.maxVisibleTime
 	    },
 	    on: {
 	      "focus": function($event) {
-	        minDate && (maxTimePickerVisible = !maxTimePickerVisible)
+	        _vm.minDate && (_vm.maxTimePickerVisible = !_vm.maxTimePickerVisible)
 	      },
 	      "change": function($event) {
-	        handleTimeChange($event, 'max')
+	        _vm.handleTimeChange($event, 'max')
 	      }
 	    }
-	  }), _h('time-picker', {
+	  }), _vm._h('time-picker', {
 	    ref: "maxTimePicker",
 	    attrs: {
-	      "picker-width": maxPickerWidth,
-	      "date": maxDate,
-	      "visible": maxTimePickerVisible
+	      "picker-width": _vm.maxPickerWidth,
+	      "date": _vm.maxDate,
+	      "visible": _vm.maxTimePickerVisible
 	    },
 	    on: {
-	      "pick": handleMaxTimePick
+	      "pick": _vm.handleMaxTimePick
 	    }
-	  })])])]) : _e(), _h('div', {
+	  })])])]) : _vm._e(), _vm._h('div', {
 	    staticClass: "el-picker-panel__content el-date-range-picker__content is-left"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-date-range-picker__header"
-	  }, [_h('button', {
+	  }, [_vm._h('button', {
 	    staticClass: "el-picker-panel__icon-btn el-icon-d-arrow-left",
 	    attrs: {
 	      "type": "button"
 	    },
 	    on: {
-	      "click": prevYear
+	      "click": _vm.prevYear
 	    }
-	  }), _h('button', {
+	  }), _vm._h('button', {
 	    staticClass: "el-picker-panel__icon-btn el-icon-arrow-left",
 	    attrs: {
 	      "type": "button"
 	    },
 	    on: {
-	      "click": prevMonth
+	      "click": _vm.prevMonth
 	    }
-	  }), _h('div', [_s(leftLabel)])]), _h('date-table', {
+	  }), _vm._h('div', [_vm._s(_vm.leftLabel)])]), _vm._h('date-table', {
 	    attrs: {
 	      "selection-mode": "range",
-	      "date": date,
-	      "year": leftYear,
-	      "month": leftMonth,
-	      "min-date": minDate,
-	      "max-date": maxDate,
-	      "range-state": rangeState,
-	      "disabled-date": disabledDate
+	      "date": _vm.date,
+	      "year": _vm.leftYear,
+	      "month": _vm.leftMonth,
+	      "min-date": _vm.minDate,
+	      "max-date": _vm.maxDate,
+	      "range-state": _vm.rangeState,
+	      "disabled-date": _vm.disabledDate
 	    },
 	    on: {
-	      "changerange": handleChangeRange,
-	      "pick": handleRangePick
+	      "changerange": _vm.handleChangeRange,
+	      "pick": _vm.handleRangePick
 	    }
-	  })]), _h('div', {
+	  })]), _vm._h('div', {
 	    staticClass: "el-picker-panel__content el-date-range-picker__content is-right"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-date-range-picker__header"
-	  }, [_h('button', {
+	  }, [_vm._h('button', {
 	    staticClass: "el-picker-panel__icon-btn el-icon-d-arrow-right",
 	    attrs: {
 	      "type": "button"
 	    },
 	    on: {
-	      "click": nextYear
+	      "click": _vm.nextYear
 	    }
-	  }), _h('button', {
+	  }), _vm._h('button', {
 	    staticClass: "el-picker-panel__icon-btn el-icon-arrow-right",
 	    attrs: {
 	      "type": "button"
 	    },
 	    on: {
-	      "click": nextMonth
+	      "click": _vm.nextMonth
 	    }
-	  }), _h('div', [_s(rightLabel)])]), _h('date-table', {
+	  }), _vm._h('div', [_vm._s(_vm.rightLabel)])]), _vm._h('date-table', {
 	    attrs: {
 	      "selection-mode": "range",
-	      "date": rightDate,
-	      "year": rightYear,
-	      "month": rightMonth,
-	      "min-date": minDate,
-	      "max-date": maxDate,
-	      "range-state": rangeState,
-	      "disabled-date": disabledDate
+	      "date": _vm.rightDate,
+	      "year": _vm.rightYear,
+	      "month": _vm.rightMonth,
+	      "min-date": _vm.minDate,
+	      "max-date": _vm.maxDate,
+	      "range-state": _vm.rangeState,
+	      "disabled-date": _vm.disabledDate
 	    },
 	    on: {
-	      "changerange": handleChangeRange,
-	      "pick": handleRangePick
+	      "changerange": _vm.handleChangeRange,
+	      "pick": _vm.handleRangePick
 	    }
-	  })])])]), (showTime) ? _h('div', {
+	  })])])]), (_vm.showTime) ? _vm._h('div', {
 	    staticClass: "el-picker-panel__footer"
-	  }, [_h('a', {
+	  }, [_vm._h('a', {
 	    staticClass: "el-picker-panel__link-btn",
 	    on: {
-	      "click": handleClear
+	      "click": _vm.handleClear
 	    }
-	  }, [_s(t('el.datepicker.clear'))]), _h('button', {
+	  }, [_vm._s(_vm.t('el.datepicker.clear'))]), _vm._h('button', {
 	    staticClass: "el-picker-panel__btn",
 	    attrs: {
 	      "type": "button",
-	      "disabled": btnDisabled
+	      "disabled": _vm.btnDisabled
 	    },
 	    on: {
-	      "click": handleConfirm
+	      "click": _vm.handleConfirm
 	    }
-	  }, [_s(t('el.datepicker.confirm'))])]) : _e()])])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('span', {
+	  }, [_vm._s(_vm.t('el.datepicker.confirm'))])]) : _vm._e()])])
+	},staticRenderFns: [function (){var _vm=this;
+	  return _vm._h('span', {
 	    staticClass: "el-icon-arrow-right"
 	  })
-	}}]}
+	}]}
 
 /***/ },
 /* 162 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -12444,6 +12503,8 @@ module.exports =
 /***/ },
 /* 163 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -12500,6 +12561,8 @@ module.exports =
 /***/ },
 /* 165 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -12585,6 +12648,9 @@ module.exports =
 	      if (!item.disabled) {
 	        this.$emit('pick', item.value);
 	      }
+	    },
+	    handleClear: function handleClear() {
+	      this.$emit('pick');
 	    }
 	  },
 
@@ -12629,50 +12695,52 @@ module.exports =
 /* 166 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    },
 	    on: {
 	      "after-leave": function($event) {
-	        $emit('dodestroy')
+	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (visible),
+	      value: (_vm.visible),
 	      expression: "visible"
 	    }],
 	    staticClass: "el-picker-panel time-select",
 	    style: ({
-	      width: width + 'px'
+	      width: _vm.width + 'px'
 	    })
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-picker-panel__content"
-	  }, [_l((items), function(item) {
-	    return _h('div', {
+	  }, [_vm._l((_vm.items), function(item) {
+	    return _vm._h('div', {
 	      staticClass: "time-select-item",
 	      class: {
-	        selected: value === item.value, disabled: item.disabled
+	        selected: _vm.value === item.value, disabled: item.disabled
 	      },
 	      attrs: {
 	        "disabled": item.disabled
 	      },
 	      on: {
 	        "click": function($event) {
-	          handleClick(item)
+	          _vm.handleClick(item)
 	        }
 	      }
-	    }, [_s(item.value)])
+	    }, [_vm._s(item.value)])
 	  })])])])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
 /* 167 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -12692,6 +12760,8 @@ module.exports =
 /***/ },
 /* 168 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -12756,6 +12826,8 @@ module.exports =
 /***/ },
 /* 170 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -12894,6 +12966,9 @@ module.exports =
 
 
 	  methods: {
+	    handleClear: function handleClear() {
+	      this.handleCancel();
+	    },
 	    handleCancel: function handleCancel() {
 	      this.$emit('pick');
 	    },
@@ -12972,94 +13047,96 @@ module.exports =
 /* 171 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    },
 	    on: {
 	      "after-leave": function($event) {
-	        $emit('dodestroy')
+	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (visible),
+	      value: (_vm.visible),
 	      expression: "visible"
 	    }],
 	    staticClass: "el-time-range-picker el-picker-panel",
 	    style: ({
-	      width: width + 'px'
+	      width: _vm.width + 'px'
 	    })
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-time-range-picker__content"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-time-range-picker__cell"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-time-range-picker__header"
-	  }, [_s(t('el.datepicker.startTime'))]), _h('div', {
+	  }, [_vm._s(_vm.t('el.datepicker.startTime'))]), _vm._h('div', {
 	    staticClass: "el-time-range-picker__body el-time-panel__content"
-	  }, [_h('time-spinner', {
+	  }, [_vm._h('time-spinner', {
 	    ref: "minSpinner",
 	    attrs: {
-	      "show-seconds": showSeconds,
-	      "hours": minHours,
-	      "minutes": minMinutes,
-	      "seconds": minSeconds
+	      "show-seconds": _vm.showSeconds,
+	      "hours": _vm.minHours,
+	      "minutes": _vm.minMinutes,
+	      "seconds": _vm.minSeconds
 	    },
 	    on: {
-	      "change": handleMinChange,
-	      "select-range": setMinSelectionRange
+	      "change": _vm.handleMinChange,
+	      "select-range": _vm.setMinSelectionRange
 	    }
-	  })])]), _h('div', {
+	  })])]), _vm._h('div', {
 	    staticClass: "el-time-range-picker__cell"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-time-range-picker__header"
-	  }, [_s(t('el.datepicker.endTime'))]), _h('div', {
+	  }, [_vm._s(_vm.t('el.datepicker.endTime'))]), _vm._h('div', {
 	    staticClass: "el-time-range-picker__body el-time-panel__content"
-	  }, [_h('time-spinner', {
+	  }, [_vm._h('time-spinner', {
 	    ref: "maxSpinner",
 	    attrs: {
-	      "show-seconds": showSeconds,
-	      "hours": maxHours,
-	      "minutes": maxMinutes,
-	      "seconds": maxSeconds
+	      "show-seconds": _vm.showSeconds,
+	      "hours": _vm.maxHours,
+	      "minutes": _vm.maxMinutes,
+	      "seconds": _vm.maxSeconds
 	    },
 	    on: {
-	      "change": handleMaxChange,
-	      "select-range": setMaxSelectionRange
+	      "change": _vm.handleMaxChange,
+	      "select-range": _vm.setMaxSelectionRange
 	    }
-	  })])])]), _h('div', {
+	  })])])]), _vm._h('div', {
 	    staticClass: "el-time-panel__footer"
-	  }, [_h('button', {
+	  }, [_vm._h('button', {
 	    staticClass: "el-time-panel__btn cancel",
 	    attrs: {
 	      "type": "button"
 	    },
 	    on: {
 	      "click": function($event) {
-	        handleCancel()
+	        _vm.handleCancel()
 	      }
 	    }
-	  }, [_s(t('el.datepicker.cancel'))]), _h('button', {
+	  }, [_vm._s(_vm.t('el.datepicker.cancel'))]), _vm._h('button', {
 	    staticClass: "el-time-panel__btn confirm",
 	    attrs: {
 	      "type": "button",
-	      "disabled": btnDisabled
+	      "disabled": _vm.btnDisabled
 	    },
 	    on: {
 	      "click": function($event) {
-	        handleConfirm()
+	        _vm.handleConfirm()
 	      }
 	    }
-	  }, [_s(t('el.datepicker.confirm'))])])])])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.t('el.datepicker.confirm'))])])])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 172 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -13121,6 +13198,8 @@ module.exports =
 /* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _vuePopper = __webpack_require__(29);
@@ -13159,7 +13238,7 @@ module.exports =
 	      type: String,
 	      default: 'click',
 	      validator: function validator(value) {
-	        return ['click', 'focus', 'hover'].indexOf(value) > -1;
+	        return ['click', 'focus', 'hover', 'manual'].indexOf(value) > -1;
 	      }
 	    },
 	    title: String,
@@ -13198,7 +13277,7 @@ module.exports =
 	      (0, _event.on)(popper, 'mouseenter', this.handleMouseEnter);
 	      (0, _event.on)(reference, 'mouseleave', this.handleMouseLeave);
 	      (0, _event.on)(popper, 'mouseleave', this.handleMouseLeave);
-	    } else {
+	    } else if (this.trigger === 'focus') {
 	      var found = false;
 
 	      if ([].slice.call(reference.children).length) {
@@ -13267,38 +13346,40 @@ module.exports =
 /* 175 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('span', [_h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('span', [_vm._h('transition', {
 	    attrs: {
-	      "name": transition
+	      "name": _vm.transition
 	    },
 	    on: {
-	      "after-leave": doDestroy
+	      "after-leave": _vm.doDestroy
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (showPopper),
+	      value: (_vm.showPopper),
 	      expression: "showPopper"
 	    }],
 	    ref: "popper",
 	    staticClass: "el-popover",
-	    class: [popperClass],
+	    class: [_vm.popperClass],
 	    style: ({
-	      width: width + 'px'
+	      width: _vm.width + 'px'
 	    })
-	  }, [(title) ? _h('div', {
+	  }, [(_vm.title) ? _vm._h('div', {
 	    staticClass: "el-popover__title",
 	    domProps: {
-	      "textContent": _s(title)
+	      "textContent": _vm._s(_vm.title)
 	    }
-	  }) : _e(), _t("default", [_s(content)])])]), _t("reference")])
-	}},staticRenderFns: []}
+	  }) : _vm._e(), _vm._t("default", [_vm._s(_vm.content)])])]), _vm._t("reference")])
+	},staticRenderFns: []}
 
 /***/ },
 /* 176 */
 /***/ function(module, exports) {
+
+	"use strict";
 
 	exports.__esModule = true;
 	exports.default = {
@@ -13310,6 +13391,8 @@ module.exports =
 /***/ },
 /* 177 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -13358,6 +13441,8 @@ module.exports =
 /***/ },
 /* 179 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -13442,43 +13527,45 @@ module.exports =
 /* 180 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-tooltip",
 	    on: {
-	      "mouseenter": handleShowPopper,
-	      "mouseleave": handleClosePopper
+	      "mouseenter": _vm.handleShowPopper,
+	      "mouseleave": _vm.handleClosePopper
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    ref: "reference",
 	    staticClass: "el-tooltip__rel"
-	  }, [_t("default")]), _h('transition', {
+	  }, [_vm._t("default")]), _vm._h('transition', {
 	    attrs: {
-	      "name": transition
+	      "name": _vm.transition
 	    },
 	    on: {
-	      "after-leave": doDestroy
+	      "after-leave": _vm.doDestroy
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (!disabled && showPopper),
+	      value: (!_vm.disabled && _vm.showPopper),
 	      expression: "!disabled && showPopper"
 	    }],
 	    ref: "popper",
 	    staticClass: "el-tooltip__popper",
-	    class: ['is-' + effect]
-	  }, [_t("content", [_h('div', {
+	    class: ['is-' + _vm.effect]
+	  }, [_vm._t("content", [_vm._h('div', {
 	    domProps: {
-	      "textContent": _s(content)
+	      "textContent": _vm._s(_vm.content)
 	    }
 	  })])])])])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
 /* 181 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -13493,6 +13580,8 @@ module.exports =
 /***/ },
 /* 182 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	exports.MessageBox = undefined;
@@ -13621,10 +13710,10 @@ module.exports =
 	var MessageBox = function MessageBox(options, callback) {
 	  if (typeof options === 'string') {
 	    options = {
-	      title: options
+	      message: options
 	    };
 	    if (arguments[1]) {
-	      options.message = arguments[1];
+	      options.title = arguments[1];
 	    }
 	    if (arguments[2]) {
 	      options.type = arguments[2];
@@ -13742,6 +13831,8 @@ module.exports =
 /* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _vuePopup = __webpack_require__(14);
@@ -13756,7 +13847,7 @@ module.exports =
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _class = __webpack_require__(96);
+	var _class = __webpack_require__(95);
 
 	var _locale = __webpack_require__(10);
 
@@ -13961,115 +14052,117 @@ module.exports =
 /* 186 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "msgbox-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (value),
+	      value: (_vm.value),
 	      expression: "value"
 	    }],
 	    staticClass: "el-message-box__wrapper",
 	    on: {
 	      "click": function($event) {
-	        if ($event.target !== $event.currentTarget) return;
-	        handleWrapperClick($event)
+	        if ($event.target !== $event.currentTarget) { return; }
+	        _vm.handleWrapperClick($event)
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-message-box"
-	  }, [(title !== '') ? _h('div', {
+	  }, [(_vm.title !== '') ? _vm._h('div', {
 	    staticClass: "el-message-box__header"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-message-box__title"
-	  }, [_s(title)]), (showClose) ? _h('i', {
+	  }, [_vm._s(_vm.title)]), (_vm.showClose) ? _vm._h('i', {
 	    staticClass: "el-message-box__close el-icon-close",
 	    on: {
 	      "click": function($event) {
-	        handleAction('cancel')
+	        _vm.handleAction('cancel')
 	      }
 	    }
-	  }) : _e()]) : _e(), (message !== '') ? _h('div', {
+	  }) : _vm._e()]) : _vm._e(), (_vm.message !== '') ? _vm._h('div', {
 	    staticClass: "el-message-box__content"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-message-box__status",
-	    class: [typeClass]
-	  }), _h('div', {
+	    class: [_vm.typeClass]
+	  }), _vm._h('div', {
 	    staticClass: "el-message-box__message",
 	    style: ({
-	      'margin-left': typeClass ? '50px' : '0'
+	      'margin-left': _vm.typeClass ? '50px' : '0'
 	    })
-	  }, [_h('p', [_s(message)])]), _h('div', {
+	  }, [_vm._h('p', [_vm._s(_vm.message)])]), _vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (showInput),
+	      value: (_vm.showInput),
 	      expression: "showInput"
 	    }],
 	    staticClass: "el-message-box__input"
-	  }, [_h('el-input', {
+	  }, [_vm._h('el-input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (inputValue),
+	      value: (_vm.inputValue),
 	      expression: "inputValue"
 	    }],
 	    ref: "input",
 	    attrs: {
-	      "placeholder": inputPlaceholder
+	      "placeholder": _vm.inputPlaceholder
 	    },
 	    domProps: {
-	      "value": (inputValue)
+	      "value": (_vm.inputValue)
 	    },
 	    on: {
 	      "input": function($event) {
-	        inputValue = $event
+	        _vm.inputValue = $event
 	      }
 	    }
-	  }), _h('div', {
+	  }), _vm._h('div', {
 	    staticClass: "el-message-box__errormsg",
 	    style: ({
-	      visibility: !!editorErrorMessage ? 'visible' : 'hidden'
+	      visibility: !!_vm.editorErrorMessage ? 'visible' : 'hidden'
 	    })
-	  }, [_s(editorErrorMessage)])])]) : _e(), _h('div', {
+	  }, [_vm._s(_vm.editorErrorMessage)])])]) : _vm._e(), _vm._h('div', {
 	    staticClass: "el-message-box__btns"
-	  }, [_h('el-button', {
+	  }, [_vm._h('el-button', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (showCancelButton),
+	      value: (_vm.showCancelButton),
 	      expression: "showCancelButton"
 	    }],
-	    class: [cancelButtonClasses],
+	    class: [_vm.cancelButtonClasses],
 	    nativeOn: {
 	      "click": function($event) {
-	        handleAction('cancel')
+	        _vm.handleAction('cancel')
 	      }
 	    }
-	  }, [_s(cancelButtonText)]), _h('el-button', {
+	  }, [_vm._s(_vm.cancelButtonText)]), _vm._h('el-button', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (showConfirmButton),
+	      value: (_vm.showConfirmButton),
 	      expression: "showConfirmButton"
 	    }],
 	    ref: "confirm",
-	    class: [confirmButtonClasses],
+	    class: [_vm.confirmButtonClasses],
 	    nativeOn: {
 	      "click": function($event) {
-	        handleAction('confirm')
+	        _vm.handleAction('confirm')
 	      }
 	    }
-	  }, [_s(confirmButtonText)])])])])])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.confirmButtonText)])])])])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 187 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -14119,6 +14212,8 @@ module.exports =
 /* 189 */
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
 	//
 	//
@@ -14141,15 +14236,17 @@ module.exports =
 /* 190 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-breadcrumb"
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ },
 /* 191 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -14199,6 +14296,8 @@ module.exports =
 /* 193 */
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
 	//
 	//
@@ -14236,20 +14335,22 @@ module.exports =
 /* 194 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('span', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('span', {
 	    staticClass: "el-breadcrumb__item"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    ref: "link",
 	    staticClass: "el-breadcrumb__item__inner"
-	  }, [_t("default")]), _h('span', {
+	  }, [_vm._t("default")]), _vm._h('span', {
 	    staticClass: "el-breadcrumb__separator"
-	  }, [_s(separator)])])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.separator)])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 195 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -14298,6 +14399,8 @@ module.exports =
 /***/ },
 /* 197 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -14386,20 +14489,22 @@ module.exports =
 /* 198 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('form', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('form', {
 	    staticClass: "el-form",
 	    class: [
-	      labelPosition ? 'el-form--label-' + labelPosition : '', {
-	        'el-form--inline': inline
+	      _vm.labelPosition ? 'el-form--label-' + _vm.labelPosition : '', {
+	        'el-form--inline': _vm.inline
 	      }
 	    ]
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ },
 /* 199 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -14448,6 +14553,8 @@ module.exports =
 /***/ },
 /* 201 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -14539,8 +14646,7 @@ module.exports =
 	      validateDisabled: false,
 	      validating: false,
 	      validator: {},
-	      isRequired: false,
-	      initialValue: null
+	      isRequired: false
 	    };
 	  },
 
@@ -14612,14 +14718,6 @@ module.exports =
 	      }
 
 	      this.validate('change');
-	    },
-	    getInitialValue: function getInitialValue() {
-	      var value = this.form.model[this.prop];
-	      if (value === undefined) {
-	        return value;
-	      } else {
-	        return JSON.parse(JSON.stringify(value));
-	      }
 	    }
 	  },
 	  mounted: function mounted() {
@@ -14628,7 +14726,9 @@ module.exports =
 	    if (this.prop) {
 	      this.dispatch('form', 'el.form.addField', [this]);
 
-	      this.initialValue = this.getInitialValue();
+	      Object.defineProperty(this, 'initialValue', {
+	        value: this.form.model[this.prop]
+	      });
 
 	      var rules = this.getRules();
 
@@ -14659,32 +14759,34 @@ module.exports =
 /* 203 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-form-item",
 	    class: {
-	      'is-error': error !== '',
-	        'is-validating': validating,
-	        'is-required': isRequired || required
+	      'is-error': _vm.error !== '',
+	        'is-validating': _vm.validating,
+	        'is-required': _vm.isRequired || _vm.required
 	    }
-	  }, [(label) ? _h('label', {
+	  }, [(_vm.label) ? _vm._h('label', {
 	    staticClass: "el-form-item__label",
-	    style: (labelStyle)
-	  }, ["\n    " + _s(label + form.labelSuffix) + "\n  "]) : _e(), _h('div', {
+	    style: (_vm.labelStyle)
+	  }, ["\n    " + _vm._s(_vm.label + _vm.form.labelSuffix) + "\n  "]) : _vm._e(), _vm._h('div', {
 	    staticClass: "el-form-item__content",
-	    style: (contentStyle)
-	  }, [_t("default"), _h('transition', {
+	    style: (_vm.contentStyle)
+	  }, [_vm._t("default"), _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    }
-	  }, [(error !== '') ? _h('div', {
+	  }, [(_vm.error !== '') ? _vm._h('div', {
 	    staticClass: "el-form-item__error"
-	  }, [_s(error)]) : _e()])])])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.error)]) : _vm._e()])])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 204 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -14729,7 +14831,8 @@ module.exports =
 /* 206 */
 /***/ function(module, exports) {
 
-	
+	'use strict';
+
 	module.exports = {
 	  name: 'el-tabs',
 
@@ -14810,8 +14913,9 @@ module.exports =
 	  mounted: function mounted() {
 	    var _this2 = this;
 
+	    this.currentName = this.activeName || this.$children[0].index || '1';
 	    this.$nextTick(function () {
-	      _this2.currentName = _this2.activeName || _this2.$children[0].index || '1';
+	      _this2.$forceUpdate();
 	    });
 	  },
 	  render: function render(h) {
@@ -14877,6 +14981,8 @@ module.exports =
 /* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _tabPane = __webpack_require__(208);
@@ -14925,7 +15031,8 @@ module.exports =
 /* 209 */
 /***/ function(module, exports) {
 
-	
+	'use strict';
+
 	module.exports = {
 	  name: 'el-tab-pane',
 
@@ -14989,21 +15096,23 @@ module.exports =
 /* 210 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (show && $slots.default),
+	      value: (_vm.show && _vm.$slots.default),
 	      expression: "show && $slots.default"
 	    }],
 	    staticClass: "el-tab-pane"
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ },
 /* 211 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -15053,6 +15162,8 @@ module.exports =
 /* 213 */
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
 	//
 	//
@@ -15087,27 +15198,29 @@ module.exports =
 /* 214 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
-	      "name": closeTransition ? '' : 'md-fade-center'
+	      "name": _vm.closeTransition ? '' : 'md-fade-center'
 	    }
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-tag",
-	    class: [type ? 'el-tag--' + type : '', {
-	      'is-hit': hit
+	    class: [_vm.type ? 'el-tag--' + _vm.type : '', {
+	      'is-hit': _vm.hit
 	    }]
-	  }, [_t("default"), (closable) ? _h('i', {
+	  }, [_vm._t("default"), (_vm.closable) ? _vm._h('i', {
 	    staticClass: "el-tag__close el-icon-close",
 	    on: {
-	      "click": handleClose
+	      "click": _vm.handleClose
 	    }
-	  }) : _e()])])
-	}},staticRenderFns: []}
+	  }) : _vm._e()])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 215 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -15157,13 +15270,32 @@ module.exports =
 /* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _tree = __webpack_require__(218);
 
 	var _tree2 = _interopRequireDefault(_tree);
 
+	var _locale = __webpack_require__(10);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'el-tree',
@@ -15172,6 +15304,19 @@ module.exports =
 	    data: {
 	      type: Array
 	    },
+	    emptyText: {
+	      type: String,
+	      default: (0, _locale.t)('el.tree.emptyText')
+	    },
+	    nodeKey: String,
+	    checkStrictly: Boolean,
+	    defaultExpandAll: Boolean,
+	    autoExpandParent: {
+	      type: Boolean,
+	      default: true
+	    },
+	    defaultCheckedKeys: Array,
+	    defaultExpandedKeys: Array,
 	    renderContent: Function,
 	    showCheckbox: {
 	      type: Boolean,
@@ -15191,19 +15336,23 @@ module.exports =
 	      default: false
 	    },
 	    highlightCurrent: Boolean,
-	    load: {
-	      type: Function
-	    }
+	    load: Function
 	  },
 
 	  created: function created() {
 	    this.$isTree = true;
 
 	    this.tree = new _tree2.default({
+	      key: this.nodeKey,
 	      data: this.data,
 	      lazy: this.lazy,
 	      props: this.props,
-	      load: this.load
+	      load: this.load,
+	      checkStrictly: this.checkStrictly,
+	      defaultCheckedKeys: this.defaultCheckedKeys,
+	      defaultExpandedKeys: this.defaultExpandedKeys,
+	      autoExpandParent: this.autoExpandParent,
+	      defaultExpandAll: this.defaultExpandAll
 	    });
 	  },
 	  data: function data() {
@@ -15231,30 +15380,29 @@ module.exports =
 
 	  watch: {
 	    data: function data(newVal) {
-	      this.tree.root.setData(newVal);
+	      this.tree.setData(newVal);
+	    },
+	    defaultCheckedKeys: function defaultCheckedKeys(newVal) {
+	      this.tree.setDefaultCheckedKey(newVal);
 	    }
 	  },
 
 	  methods: {
 	    getCheckedNodes: function getCheckedNodes(leafOnly) {
 	      return this.tree.getCheckedNodes(leafOnly);
+	    },
+	    setCheckedNodes: function setCheckedNodes(nodes) {
+	      if (!this.nodeKey) throw new Error('[Tree] nodeKey is required in setCheckedNodes');
+	      this.tree.setCheckedNodes(nodes);
 	    }
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 /* 218 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -15278,24 +15426,79 @@ module.exports =
 	      }
 	    }
 
+	    this.nodesMap = {};
+
 	    this.root = new _node2.default({
 	      data: this.data,
-	      lazy: this.lazy,
-	      props: this.props,
-	      load: this.load
+	      _tree: this
 	    });
 
 	    if (this.lazy && this.load) {
 	      var loadFn = this.load;
 	      loadFn(this.root, function (data) {
 	        _this.root.doCreateChildren(data);
+	        _this._initDefaultCheckedNodes();
 	      });
+	    } else {
+	      this._initDefaultCheckedNodes();
 	    }
 	  }
 
+	  Tree.prototype.setData = function setData(newVal) {
+	    var instanceChanged = newVal !== this.root.data;
+	    this.root.setData(newVal);
+	    if (instanceChanged) {
+	      this._initDefaultCheckedNodes();
+	    }
+	  };
+
+	  Tree.prototype._initDefaultCheckedNodes = function _initDefaultCheckedNodes() {
+	    var _this2 = this;
+
+	    var defaultCheckedKeys = this.defaultCheckedKeys || [];
+	    var nodesMap = this.nodesMap;
+
+	    defaultCheckedKeys.forEach(function (checkedKey) {
+	      var node = nodesMap[checkedKey];
+
+	      if (node) {
+	        node.setChecked(true, !_this2.checkStrictly);
+	      }
+	    });
+	  };
+
+	  Tree.prototype._initDefaultCheckedNode = function _initDefaultCheckedNode(node) {
+	    var defaultCheckedKeys = this.defaultCheckedKeys || [];
+
+	    if (defaultCheckedKeys.indexOf(node.key) !== -1) {
+	      node.setChecked(true, !this.checkStrictly);
+	    }
+	  };
+
+	  Tree.prototype.setDefaultCheckedKey = function setDefaultCheckedKey(newVal) {
+	    if (newVal !== this.defaultCheckedKeys) {
+	      this.defaultCheckedKeys = newVal;
+	      this._initDefaultCheckedNodes();
+	    }
+	  };
+
+	  Tree.prototype.registerNode = function registerNode(node) {
+	    var key = this.key;
+	    if (!key || !node || !node.data) return;
+
+	    this.nodesMap[node.key] = node;
+	  };
+
+	  Tree.prototype.deregisterNode = function deregisterNode(node) {
+	    var key = this.key;
+	    if (!key || !node || !node.data) return;
+
+	    delete this.nodesMap[node.key];
+	  };
+
 	  Tree.prototype.getCheckedNodes = function getCheckedNodes(leafOnly) {
 	    var checkedNodes = [];
-	    var walk = function walk(node) {
+	    var traverse = function traverse(node) {
 	      var childNodes = node.root ? node.root.childNodes : node.childNodes;
 
 	      childNodes.forEach(function (child) {
@@ -15303,13 +15506,38 @@ module.exports =
 	          checkedNodes.push(child.data);
 	        }
 
-	        walk(child);
+	        traverse(child);
 	      });
 	    };
 
-	    walk(this);
+	    traverse(this);
 
 	    return checkedNodes;
+	  };
+
+	  Tree.prototype.setCheckedNodes = function setCheckedNodes(array) {
+	    var _this3 = this;
+
+	    var key = this.key;
+	    var checkedKeys = {};
+	    array.forEach(function (item) {
+	      checkedKeys[(item || {})[key]] = true;
+	    });
+
+	    var allNodes = [];
+	    var nodesMap = this.nodesMap;
+	    for (var nodeKey in nodesMap) {
+	      if (nodesMap.hasOwnProperty(nodeKey)) {
+	        allNodes.push(nodesMap[nodeKey]);
+	      }
+	    }
+
+	    allNodes.sort(function (a, b) {
+	      return a.level > b.level ? -1 : 1;
+	    });
+	    allNodes.forEach(function (node) {
+	      node.setChecked(!!checkedKeys[(node.data || {})[key]], !_this3.checkStrictly);
+	    });
 	  };
 
 	  return Tree;
@@ -15322,6 +15550,8 @@ module.exports =
 /* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -15333,9 +15563,6 @@ module.exports =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var nodeIdSeed = 0;
-
 
 	var reInitChecked = function reInitChecked(node) {
 	  var siblings = node.childNodes;
@@ -15363,7 +15590,7 @@ module.exports =
 	};
 
 	var getPropertyFromData = function getPropertyFromData(node, prop) {
-	  var props = node.props;
+	  var props = node._tree.props;
 	  var data = node.data || {};
 	  var config = props[prop];
 
@@ -15376,6 +15603,8 @@ module.exports =
 	  }
 	};
 
+	var nodeIdSeed = 0;
+
 	var Node = function () {
 	  function Node(options) {
 	    _classCallCheck(this, Node);
@@ -15386,9 +15615,7 @@ module.exports =
 	    this.indeterminate = false;
 	    this.data = null;
 	    this.expanded = false;
-	    this.props = null;
 	    this.parent = null;
-	    this.lazy = false;
 
 	    for (var name in options) {
 	      if (options.hasOwnProperty(name)) {
@@ -15397,7 +15624,7 @@ module.exports =
 	    }
 
 	    // internal
-	    this.level = -1;
+	    this.level = 0;
 	    this.loaded = false;
 	    this.childNodes = [];
 	    this.loading = false;
@@ -15406,8 +15633,39 @@ module.exports =
 	      this.level = this.parent.level + 1;
 	    }
 
-	    if (this.lazy !== true && this.data) {
+	    var tree = this._tree;
+	    if (!tree) {
+	      throw new Error('[Node]_tree is required!');
+	    }
+	    tree.registerNode(this);
+
+	    if (tree.lazy !== true && this.data) {
 	      this.setData(this.data);
+
+	      if (tree.defaultExpandAll) {
+	        this.expanded = true;
+	      }
+	    } else if (this.level > 0 && tree.lazy && tree.defaultExpandAll) {
+	      this.expand();
+	    }
+
+	    if (!this.data) return;
+	    var defaultExpandedKeys = tree.defaultExpandedKeys;
+	    var key = tree.key;
+	    if (key && defaultExpandedKeys && defaultExpandedKeys.indexOf(this.key) !== -1) {
+	      if (tree.autoExpandParent) {
+	        var parent = this.parent;
+	        while (parent.level > 0) {
+	          parent.expanded = true;
+	          parent = parent.parent;
+	        }
+	      }
+
+	      this.expand();
+	    }
+
+	    if (tree.lazy) {
+	      tree._initDefaultCheckedNode(this);
 	    }
 	  }
 
@@ -15425,7 +15683,7 @@ module.exports =
 	    this.childNodes = [];
 
 	    var children = void 0;
-	    if (this.level === -1 && this.data instanceof Array) {
+	    if (this.level === 0 && this.data instanceof Array) {
 	      children = this.data;
 	    } else {
 	      children = getPropertyFromData(this, 'children') || [];
@@ -15442,9 +15700,7 @@ module.exports =
 	    if (!(child instanceof Node)) {
 	      (0, _merge2.default)(child, {
 	        parent: this,
-	        lazy: this.lazy,
-	        load: this.load,
-	        props: this.props
+	        _tree: this._tree
 	      });
 	      child = new Node(child);
 	    }
@@ -15462,6 +15718,7 @@ module.exports =
 	    var index = this.childNodes.indexOf(child);
 
 	    if (index > -1) {
+	      this._tree && this._tree.deregisterNode(child);
 	      child.parent = null;
 	      this.childNodes.splice(index, 1);
 	    }
@@ -15481,27 +15738,28 @@ module.exports =
 	  };
 
 	  Node.prototype.expand = function expand(callback) {
+	    var _this = this;
+
 	    if (this.shouldLoadData()) {
 	      this.loadData(function (data) {
 	        if (data instanceof Array) {
-	          callback();
+	          _this.expanded = true;
+	          if (callback) callback();
 	        }
 	      });
 	    } else {
 	      this.expanded = true;
-	      if (callback) {
-	        callback();
-	      }
+	      if (callback) callback();
 	    }
 	  };
 
 	  Node.prototype.doCreateChildren = function doCreateChildren(array) {
-	    var _this = this;
+	    var _this2 = this;
 
 	    var defaultProps = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
 	    array.forEach(function (item) {
-	      _this.insertChild((0, _merge2.default)({ data: item }, defaultProps));
+	      _this2.insertChild((0, _merge2.default)({ data: item }, defaultProps));
 	    });
 	  };
 
@@ -15510,26 +15768,26 @@ module.exports =
 	  };
 
 	  Node.prototype.shouldLoadData = function shouldLoadData() {
-	    return this.lazy === true && this.load && !this.loaded;
+	    return this._tree.lazy === true && this._tree.load && !this.loaded;
 	  };
 
 	  Node.prototype.hasChild = function hasChild() {
 	    var childNodes = this.childNodes;
-	    if (!this.lazy || this.lazy === true && this.loaded === true) {
+	    if (!this._tree.lazy || this._tree.lazy === true && this.loaded === true) {
 	      return childNodes && childNodes.length > 0;
 	    }
 	    return true;
 	  };
 
 	  Node.prototype.setChecked = function setChecked(value, deep) {
-	    var _this2 = this;
+	    var _this3 = this;
 
 	    this.indeterminate = value === 'half';
 	    this.checked = value === true;
 
-	    var handleDeep = function handleDeep() {
+	    var handleDescendants = function handleDescendants() {
 	      if (deep) {
-	        var childNodes = _this2.childNodes;
+	        var childNodes = _this3.childNodes;
 	        for (var i = 0, j = childNodes.length; i < j; i++) {
 	          var child = childNodes[i];
 	          child.setChecked(value !== false, deep);
@@ -15537,21 +15795,23 @@ module.exports =
 	      }
 	    };
 
-	    if (this.shouldLoadData()) {
+	    if (!this._tree.checkStrictly && this.shouldLoadData()) {
 	      // Only work on lazy load data.
 	      this.loadData(function () {
-	        handleDeep();
+	        handleDescendants();
 	      }, {
 	        checked: value !== false
 	      });
 	    } else {
-	      handleDeep();
+	      handleDescendants();
 	    }
 
 	    var parent = this.parent;
-	    if (parent.level === -1) return;
+	    if (!parent || parent.level === 0) return;
 
-	    reInitChecked(parent);
+	    if (!this._tree.checkStrictly) {
+	      reInitChecked(parent);
+	    }
 	  };
 
 	  Node.prototype.getChildren = function getChildren() {
@@ -15559,7 +15819,7 @@ module.exports =
 	    var data = this.data;
 	    if (!data) return null;
 
-	    var props = this.props;
+	    var props = this._tree.props;
 	    var children = 'children';
 	    if (props) {
 	      children = props.children || 'children';
@@ -15573,7 +15833,7 @@ module.exports =
 	  };
 
 	  Node.prototype.updateChildren = function updateChildren() {
-	    var _this3 = this;
+	    var _this4 = this;
 
 	    var newData = this.getChildren() || [];
 	    var oldData = this.childNodes.map(function (node) {
@@ -15592,36 +15852,36 @@ module.exports =
 	    });
 
 	    oldData.forEach(function (item) {
-	      if (!newDataMap[item.$treeNodeId]) _this3.removeChildByData(item);
+	      if (!newDataMap[item.$treeNodeId]) _this4.removeChildByData(item);
 	    });
 	    newNodes.forEach(function (_ref) {
 	      var index = _ref.index;
 	      var data = _ref.data;
-	      return _this3.insertChild({ data: data }, index);
+	      return _this4.insertChild({ data: data }, index);
 	    });
 	  };
 
 	  Node.prototype.loadData = function loadData(callback) {
-	    var _this4 = this;
+	    var _this5 = this;
 
 	    var defaultProps = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	    if (this.lazy === true && this.load && !this.loaded) {
+	    if (this._tree.lazy === true && this._tree.load && !this.loaded && !this.loading) {
 	      this.loading = true;
 
 	      var resolve = function resolve(children) {
-	        _this4.loaded = true;
-	        _this4.loading = false;
-	        _this4.childNodes = [];
+	        _this5.loaded = true;
+	        _this5.loading = false;
+	        _this5.childNodes = [];
 
-	        _this4.doCreateChildren(children, defaultProps);
+	        _this5.doCreateChildren(children, defaultProps);
 
 	        if (callback) {
-	          callback.call(_this4, children);
+	          callback.call(_this5, children);
 	        }
 	      };
 
-	      this.load(this, resolve);
+	      this._tree.load(this, resolve);
 	    } else {
 	      if (callback) {
 	        callback.call(this);
@@ -15638,6 +15898,13 @@ module.exports =
 	    key: 'icon',
 	    get: function get() {
 	      return getPropertyFromData(this, 'icon');
+	    }
+	  }, {
+	    key: 'key',
+	    get: function get() {
+	      var nodeKey = this._tree.key;
+	      if (this.data) return this.data[nodeKey];
+	      return null;
 	    }
 	  }, {
 	    key: 'isLeaf',
@@ -15683,6 +15950,8 @@ module.exports =
 /***/ },
 /* 221 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -15742,10 +16011,23 @@ module.exports =
 	    },
 	    'node.checked': function nodeChecked(val) {
 	      this.handleSelectChange(val, this.node.indeterminate);
+	    },
+	    'node.expanded': function nodeExpanded(val) {
+	      this.expanded = val;
+	      if (val) {
+	        this.childNodeRendered = true;
+	      }
 	    }
 	  },
 
 	  methods: {
+	    getNodeKey: function getNodeKey(node, index) {
+	      var nodeKey = this.$tree.nodeKey;
+	      if (nodeKey && node) {
+	        return node.data[nodeKey];
+	      }
+	      return index;
+	    },
 	    handleSelectChange: function handleSelectChange(checked, indeterminate) {
 	      if (this.oldChecked !== checked && this.oldIndeterminate !== indeterminate) {
 	        this.$tree.$emit('check-change', this.node.data, checked, indeterminate);
@@ -15757,35 +16039,29 @@ module.exports =
 	      this.$tree.currentNode = this;
 	    },
 	    handleExpandIconClick: function handleExpandIconClick(event) {
-	      var _this = this;
-
 	      var target = event.target;
 	      if (target.tagName.toUpperCase() !== 'DIV' && target.parentNode.nodeName.toUpperCase() !== 'DIV' || target.nodeName.toUpperCase() === 'LABEL') return;
 	      if (this.expanded) {
 	        this.node.collapse();
-	        this.expanded = false;
 	      } else {
-	        this.node.expand(function () {
-	          _this.expanded = true;
-	          _this.childNodeRendered = true;
-	        });
+	        this.node.expand();
 	      }
 	      this.$tree.$emit('node-click', this.node.data, this.node, this);
 	    },
 	    handleUserClick: function handleUserClick() {
 	      if (this.node.indeterminate) {
-	        this.node.setChecked(this.node.checked, true);
+	        this.node.setChecked(this.node.checked, !this.$tree.checkStrictly);
 	      }
 	    },
 	    handleCheckChange: function handleCheckChange(ev) {
 	      if (!this.node.indeterminate) {
-	        this.node.setChecked(ev.target.checked, true);
+	        this.node.setChecked(ev.target.checked, !this.$tree.checkStrictly);
 	      }
 	    }
 	  },
 
 	  created: function created() {
-	    var _this2 = this;
+	    var _this = this;
 
 	    var parent = this.$parent;
 
@@ -15800,7 +16076,7 @@ module.exports =
 	    var childrenKey = props['children'] || 'children';
 
 	    this.$watch('node.data.' + childrenKey, function () {
-	      _this2.node.updateChildren();
+	      _this.node.updateChildren();
 	    });
 
 	    if (!tree) {
@@ -15808,8 +16084,14 @@ module.exports =
 	    }
 
 	    this.showCheckbox = tree.showCheckbox;
+
+	    if (this.node.expanded) {
+	      this.expanded = true;
+	      this.childNodeRendered = true;
+	    }
 	  }
 	}; //
+	//
 	//
 	//
 	//
@@ -15851,6 +16133,8 @@ module.exports =
 /***/ },
 /* 222 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -15946,103 +16230,110 @@ module.exports =
 /* 223 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-tree-node",
 	    class: {
-	      expanded: childNodeRendered && expanded, 'is-current': $tree.currentNode === _self
+	      'is-expanded': _vm.childNodeRendered && _vm.expanded, 'is-current': _vm.$tree.currentNode === _vm._self
 	    },
 	    on: {
 	      "click": function($event) {
 	        $event.stopPropagation();
-	        handleClick($event)
+	        _vm.handleClick($event)
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-tree-node__content",
 	    style: ({
-	      'padding-left': node.level * 16 + 'px'
+	      'padding-left': (_vm.node.level - 1) * 16 + 'px'
 	    }),
 	    on: {
-	      "click": handleExpandIconClick
+	      "click": _vm.handleExpandIconClick
 	    }
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "el-tree-node__expand-icon",
 	    class: {
-	      'is-leaf': node.isLeaf, expanded: !node.isLeaf && expanded
+	      'is-leaf': _vm.node.isLeaf, expanded: !_vm.node.isLeaf && _vm.expanded
 	    }
-	  }), (showCheckbox) ? _h('el-checkbox', {
+	  }), (_vm.showCheckbox) ? _vm._h('el-checkbox', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (node.checked),
+	      value: (_vm.node.checked),
 	      expression: "node.checked"
 	    }],
 	    attrs: {
-	      "indeterminate": node.indeterminate
+	      "indeterminate": _vm.node.indeterminate
 	    },
 	    domProps: {
-	      "value": (node.checked)
+	      "value": (_vm.node.checked)
 	    },
 	    on: {
-	      "change": handleCheckChange,
+	      "change": _vm.handleCheckChange,
 	      "input": function($event) {
-	        node.checked = $event
+	        _vm.node.checked = $event
 	      }
 	    },
 	    nativeOn: {
 	      "click": function($event) {
-	        handleUserClick($event)
+	        _vm.handleUserClick($event)
 	      }
 	    }
-	  }) : _e(), (node.loading) ? _h('span', {
-	    staticClass: "el-tree-node__icon el-icon-loading"
-	  }) : _e(), _h('node-content', {
+	  }) : _vm._e(), (_vm.node.loading) ? _vm._h('span', {
+	    staticClass: "el-tree-node__loading-icon el-icon-loading"
+	  }) : _vm._e(), _vm._h('node-content', {
 	    attrs: {
-	      "node": node
+	      "node": _vm.node
 	    }
-	  })]), _h('collapse-transition', [_h('div', {
+	  })]), _vm._h('collapse-transition', [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (expanded),
+	      value: (_vm.expanded),
 	      expression: "expanded"
 	    }],
 	    staticClass: "el-tree-node__children"
-	  }, [_l((node.childNodes), function(child) {
-	    return _h('el-tree-node', {
+	  }, [_vm._l((_vm.node.childNodes), function(child) {
+	    return _vm._h('el-tree-node', {
+	      key: _vm.getNodeKey(child),
 	      attrs: {
-	        "render-content": renderContent,
+	        "render-content": _vm.renderContent,
 	        "node": child
 	      }
 	    })
 	  })])])])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
 /* 224 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-tree",
 	    class: {
-	      'el-tree--highlight-current': highlightCurrent
+	      'el-tree--highlight-current': _vm.highlightCurrent
 	    }
-	  }, [_l((tree.root.childNodes), function(child) {
-	    return _h('el-tree-node', {
+	  }, [_vm._l((_vm.tree.root.childNodes), function(child) {
+	    return _vm._h('el-tree-node', {
 	      attrs: {
 	        "node": child,
-	        "props": props,
-	        "render-content": renderContent
+	        "props": _vm.props,
+	        "render-content": _vm.renderContent
 	      }
 	    })
-	  })])
-	}},staticRenderFns: []}
+	  }), (!_vm.tree.root.childNodes || _vm.tree.root.childNodes.length === 0) ? _vm._h('div', {
+	    staticClass: "el-tree__empty-block"
+	  }, [_vm._h('span', {
+	    staticClass: "el-tree__empty-text"
+	  }, [_vm._s(_vm.emptyText)])]) : _vm._e()])
+	},staticRenderFns: []}
 
 /***/ },
 /* 225 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -16091,6 +16382,8 @@ module.exports =
 /***/ },
 /* 227 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -16177,52 +16470,54 @@ module.exports =
 /* 228 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "el-alert-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (visible),
+	      value: (_vm.visible),
 	      expression: "visible"
 	    }],
 	    staticClass: "el-alert",
-	    class: [typeClass]
-	  }, [(showIcon) ? _h('i', {
+	    class: [_vm.typeClass]
+	  }, [(_vm.showIcon) ? _vm._h('i', {
 	    staticClass: "el-alert__icon",
-	    class: [iconClass, isBigIcon]
-	  }) : _e(), _h('div', {
+	    class: [_vm.iconClass, _vm.isBigIcon]
+	  }) : _vm._e(), _vm._h('div', {
 	    staticClass: "el-alert__content"
-	  }, [(title) ? _h('span', {
+	  }, [(_vm.title) ? _vm._h('span', {
 	    staticClass: "el-alert__title",
-	    class: [isBoldTitle]
-	  }, [_s(title)]) : _e(), (description) ? _h('p', {
+	    class: [_vm.isBoldTitle]
+	  }, [_vm._s(_vm.title)]) : _vm._e(), (_vm.description) ? _vm._h('p', {
 	    staticClass: "el-alert__description"
-	  }, [_s(description)]) : _e(), _h('i', {
+	  }, [_vm._s(_vm.description)]) : _vm._e(), _vm._h('i', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (closable),
+	      value: (_vm.closable),
 	      expression: "closable"
 	    }],
 	    staticClass: "el-alert__closebtn",
 	    class: {
-	      'is-customed': closeText !== '', 'el-icon-close': closeText === ''
+	      'is-customed': _vm.closeText !== '', 'el-icon-close': _vm.closeText === ''
 	    },
 	    on: {
 	      "click": function($event) {
-	        close()
+	        _vm.close()
 	      }
 	    }
-	  }, [_s(closeText)])])])])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.closeText)])])])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 229 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -16237,6 +16532,8 @@ module.exports =
 /***/ },
 /* 230 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -16280,6 +16577,7 @@ module.exports =
 	  topDist += 16;
 	  instance.top = topDist;
 	  instances.push(instance);
+	  return instance.vm;
 	};
 
 	['success', 'warning', 'info', 'error'].forEach(function (type) {
@@ -16351,6 +16649,8 @@ module.exports =
 /* 232 */
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
 	//
 	//
@@ -16410,7 +16710,7 @@ module.exports =
 	      this.$destroy(true);
 	      this.$el.parentNode.removeChild(this.$el);
 	    },
-	    handleClose: function handleClose() {
+	    close: function close() {
 	      this.closed = true;
 	      if (typeof this.onClose === 'function') {
 	        this.onClose();
@@ -16425,7 +16725,7 @@ module.exports =
 	      if (this.duration > 0) {
 	        this.timer = setTimeout(function () {
 	          if (!_this.closed) {
-	            _this.handleClose();
+	            _this.close();
 	          }
 	        }, this.duration);
 	      }
@@ -16438,7 +16738,7 @@ module.exports =
 	    if (this.duration > 0) {
 	      this.timer = setTimeout(function () {
 	        if (!_this2.closed) {
-	          _this2.handleClose();
+	          _this2.close();
 	        }
 	      }, this.duration);
 	    }
@@ -16449,51 +16749,51 @@ module.exports =
 /* 233 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "el-notification-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (visible),
+	      value: (_vm.visible),
 	      expression: "visible"
 	    }],
 	    staticClass: "el-notification",
 	    style: ({
-	      top: top ? top + 'px' : 'auto'
+	      top: _vm.top ? _vm.top + 'px' : 'auto'
 	    }),
 	    on: {
 	      "mouseenter": function($event) {
-	        clearTimer()
+	        _vm.clearTimer()
 	      },
 	      "mouseleave": function($event) {
-	        startTimer()
+	        _vm.startTimer()
 	      }
 	    }
-	  }, [(type) ? _h('i', {
+	  }, [(_vm.type) ? _vm._h('i', {
 	    staticClass: "el-notification__icon",
-	    class: [typeClass]
-	  }) : _e(), _h('div', {
+	    class: [_vm.typeClass]
+	  }) : _vm._e(), _vm._h('div', {
 	    staticClass: "el-notification__group",
 	    style: ({
-	      'margin-left': typeClass ? '55px' : '0'
+	      'margin-left': _vm.typeClass ? '55px' : '0'
 	    })
-	  }, [_h('span', [_s(title)]), _h('p', [_s(message)]), _h('div', {
+	  }, [_vm._h('span', [_vm._s(_vm.title)]), _vm._h('p', [_vm._s(_vm.message)]), _vm._h('div', {
 	    staticClass: "el-notification__closeBtn el-icon-close",
 	    on: {
-	      "click": function($event) {
-	        handleClose()
-	      }
+	      "click": _vm.close
 	    }
 	  })])])])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
 /* 234 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -16542,6 +16842,8 @@ module.exports =
 /***/ },
 /* 236 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -16788,167 +17090,99 @@ module.exports =
 /* 239 */
 /***/ function(module, exports) {
 
-	var SPECIAL_CHARS_REGEXP = /([\:\-\_]+(.))/g;
-	var MOZ_HACK_REGEXP = /^moz([A-Z])/;
-
-	function camelCase(name) {
-	  return name.
-	    replace(SPECIAL_CHARS_REGEXP, function(_, separator, letter, offset) {
-	      return offset ? letter.toUpperCase() : letter;
-	    }).
-	    replace(MOZ_HACK_REGEXP, 'Moz$1');
-	}
-
-	var ieVersion = Number(document.documentMode);
-	var getStyle = ieVersion < 9 ? function(element, styleName) {
-	  if (!element || !styleName) return null;
-	  styleName = camelCase(styleName);
-	  if (styleName === 'float') {
-	    styleName = 'styleFloat';
-	  }
-	  try {
-	    switch (styleName) {
-	      case 'opacity':
-	        try {
-	          return element.filters.item('alpha').opacity / 100;
-	        }
-	        catch (e) {
-	          return 1.0;
-	        }
-	        break;
-	      default:
-	        return ( element.style[styleName] || element.currentStyle ? element.currentStyle[styleName] : null );
-	    }
-	  } catch(e) {
-	    return element.style[styleName];
-	  }
-	} : function(element, styleName) {
-	  if (!element || !styleName) return null;
-	  styleName = camelCase(styleName);
-	  if (styleName === 'float') {
-	    styleName = 'cssFloat';
-	  }
-	  try {
-	    var computed = document.defaultView.getComputedStyle(element, '');
-	    return element.style[styleName] || computed ? computed[styleName] : null;
-	  } catch(e) {
-	    return element.style[styleName];
-	  }
-	};
-
-	var setStyle = function(element, styleName, value) {
-	  if (!element || !styleName) return;
-
-	  if (typeof styleName === 'object') {
-	    for (var prop in styleName) {
-	      if (styleName.hasOwnProperty(prop)) {
-	        setStyle(element, prop, styleName[prop]);
-	      }
-	    }
-	  } else {
-	    styleName = camelCase(styleName);
-	    if (styleName === 'opacity' && ieVersion < 9) {
-	      element.style.filter = isNaN(value) ? '' : 'alpha(opacity=' + value * 100 + ')';
-	    } else {
-	      element.style[styleName] = value;
-	    }
-	  }
-	};
-
-	module.exports = {
-	  getStyle: getStyle,
-	  setStyle: setStyle
-	};
+	module.exports = require("wind-dom/src/style");
 
 /***/ },
 /* 240 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-slider"
-	  }, [(showInput) ? _h('el-input-number', {
+	  }, [(_vm.showInput) ? _vm._h('el-input-number', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (inputValue),
+	      value: (_vm.inputValue),
 	      expression: "inputValue"
 	    }],
 	    ref: "input",
 	    staticClass: "el-slider__input",
 	    attrs: {
-	      "step": step,
-	      "disabled": disabled,
-	      "min": min,
-	      "max": max,
+	      "step": _vm.step,
+	      "disabled": _vm.disabled,
+	      "min": _vm.min,
+	      "max": _vm.max,
 	      "size": "small"
 	    },
 	    domProps: {
-	      "value": (inputValue)
+	      "value": (_vm.inputValue)
 	    },
 	    on: {
 	      "input": function($event) {
-	        inputValue = $event
+	        _vm.inputValue = $event
 	      }
 	    },
 	    nativeOn: {
 	      "keyup": function($event) {
-	        onInputChange($event)
+	        _vm.onInputChange($event)
 	      }
 	    }
-	  }) : _e(), _h('div', {
+	  }) : _vm._e(), _vm._h('div', {
 	    ref: "slider",
 	    staticClass: "el-slider__runway",
 	    class: {
-	      'show-input': showInput, 'disabled': disabled
+	      'show-input': _vm.showInput, 'disabled': _vm.disabled
 	    },
 	    on: {
-	      "click": onSliderClick
+	      "click": _vm.onSliderClick
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-slider__bar",
 	    style: ({
-	      width: currentPosition
+	      width: _vm.currentPosition
 	    })
-	  }), _h('div', {
+	  }), _vm._h('div', {
 	    ref: "button",
 	    staticClass: "el-slider__button-wrapper",
 	    class: {
-	      'hover': hovering, 'dragging': dragging
+	      'hover': _vm.hovering, 'dragging': _vm.dragging
 	    },
 	    style: ({
-	      left: currentPosition
+	      left: _vm.currentPosition
 	    }),
 	    on: {
-	      "mouseenter": handleMouseEnter,
-	      "mouseleave": handleMouseLeave,
-	      "mousedown": onButtonDown
+	      "mouseenter": _vm.handleMouseEnter,
+	      "mouseleave": _vm.handleMouseLeave,
+	      "mousedown": _vm.onButtonDown
 	    }
-	  }, [_h('el-tooltip', {
+	  }, [_vm._h('el-tooltip', {
 	    ref: "tooltip",
 	    attrs: {
 	      "placement": "top"
 	    }
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    slot: "content"
-	  }, [_s(value)]), _h('div', {
+	  }, [_vm._s(_vm.value)]), _vm._h('div', {
 	    staticClass: "el-slider__button",
 	    class: {
-	      'hover': hovering, 'dragging': dragging
+	      'hover': _vm.hovering, 'dragging': _vm.dragging
 	    }
-	  })])]), _l((stops), function(item) {
-	    return (showStops) ? _h('div', {
+	  })])]), _vm._l((_vm.stops), function(item) {
+	    return (_vm.showStops) ? _vm._h('div', {
 	      staticClass: "el-slider__stop",
 	      style: ({
 	        'left': item + '%'
 	      })
-	    }) : _e()
+	    }) : _vm._e()
 	  })])])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
 /* 241 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -16956,21 +17190,32 @@ module.exports =
 
 	var _directive2 = _interopRequireDefault(_directive);
 
+	var _index = __webpack_require__(246);
+
+	var _index2 = _interopRequireDefault(_index);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	exports.default = _directive2.default;
+	exports.default = {
+	  directive: _directive2.default,
+	  service: _index2.default
+	};
 
 /***/ },
 /* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	var _vue = __webpack_require__(119);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
+	var _class = __webpack_require__(95);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Spinner = _vue2.default.extend(__webpack_require__(243));
+	var Mask = _vue2.default.extend(__webpack_require__(243));
 
 	exports.install = function (Vue) {
 	  var toggleLoading = function toggleLoading(el, binding) {
@@ -16980,14 +17225,11 @@ module.exports =
 	          el.originalPosition = document.body.style.position;
 	          el.originalOverflow = document.body.style.overflow;
 
-	          ['top', 'right', 'bottom', 'left'].forEach(function (property) {
-	            el.maskStyle[property] = '0';
-	          });
-	          el.maskStyle.position = 'fixed';
-	          el.spinnerStyle.position = 'fixed';
-
+	          (0, _class.addClass)(el.mask, 'is-fullscreen');
 	          insertDom(document.body, el, binding);
 	        } else {
+	          (0, _class.removeClass)(el.mask, 'is-fullscreen');
+
 	          if (binding.modifiers.body) {
 	            el.originalPosition = document.body.style.position;
 
@@ -17002,11 +17244,6 @@ module.exports =
 	            insertDom(document.body, el, binding);
 	          } else {
 	            el.originalPosition = el.style.position;
-
-	            ['top', 'right', 'bottom', 'left'].forEach(function (property) {
-	              el.maskStyle[property] = '0';
-	            });
-
 	            insertDom(el, el, binding);
 	          }
 	        }
@@ -17014,10 +17251,9 @@ module.exports =
 	    } else {
 	      if (el.domVisible) {
 	        el.mask.style.display = 'none';
-	        el.spinner.style.display = 'none';
 	        el.domVisible = false;
 
-	        if (binding.modifiers.fullscreen) {
+	        if (binding.modifiers.fullscreen && el.originalOverflow !== 'hidden') {
 	          document.body.style.overflow = el.originalOverflow;
 	        }
 	        if (binding.modifiers.fullscreen || binding.modifiers.body) {
@@ -17034,10 +17270,6 @@ module.exports =
 	        directive.mask.style[property] = directive.maskStyle[property];
 	      });
 
-	      Object.keys(directive.spinnerStyle).forEach(function (property) {
-	        directive.spinner.style[property] = directive.spinnerStyle[property];
-	      });
-
 	      if (directive.originalPosition !== 'absolute') {
 	        parent.style.position = 'relative';
 	      }
@@ -17045,37 +17277,25 @@ module.exports =
 	        parent.style.overflow = 'hidden';
 	      }
 	      directive.mask.style.display = 'block';
-	      directive.spinner.style.display = 'inline-block';
 	      directive.domVisible = true;
 
 	      parent.appendChild(directive.mask);
-	      directive.mask.appendChild(directive.spinner);
 	      directive.domInserted = true;
 	    }
 	  };
 
 	  Vue.directive('loading', {
 	    bind: function bind(el, binding) {
-	      el.mask = document.createElement('div');
-	      el.mask.className = 'el-loading-mask';
-	      el.maskStyle = {
-	        position: 'absolute',
-	        zIndex: '10000',
-	        backgroundColor: 'rgba(255, 255, 255, .9)',
-	        margin: '0'
-	      };
-
-	      var spinner = new Spinner({
+	      var mask = new Mask({
+	        el: document.createElement('div'),
 	        data: {
 	          text: el.getAttribute('element-loading-text'),
-	          fullScreen: !!binding.modifiers.fullscreen
+	          fullscreen: !!binding.modifiers.fullscreen
 	        }
 	      });
-	      spinner.$mount(el.mask);
-	      el.spinner = spinner.$el;
-	      el.spinnerStyle = {
-	        position: 'absolute'
-	      };
+	      el.mask = mask.$el;
+	      el.maskStyle = {};
+
 	      toggleLoading(el, binding);
 	    },
 
@@ -17089,10 +17309,8 @@ module.exports =
 	      if (el.domInserted) {
 	        if (binding.modifiers.fullscreen || binding.modifiers.body) {
 	          document.body.removeChild(el.mask);
-	          el.mask.removeChild(el.spinner);
 	        } else {
 	          el.mask && el.mask.parentNode && el.mask.parentNode.removeChild(el.mask);
-	          el.spinner && el.spinner.parentNode && el.spinner.parentNode.removeChild(el.spinner);
 	        }
 	      }
 	    }
@@ -17132,6 +17350,8 @@ module.exports =
 /* 244 */
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
 	//
 	//
@@ -17149,7 +17369,8 @@ module.exports =
 	  data: function data() {
 	    return {
 	      text: null,
-	      fullScreen: false
+	      fullscreen: true,
+	      customClass: ''
 	    };
 	  }
 	};
@@ -17158,18 +17379,20 @@ module.exports =
 /* 245 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
-	    staticClass: "el-loading-spinner",
-	    class: {
-	      'is-full-screen': fullScreen
-	    }
-	  }, [_h('svg', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
+	    staticClass: "el-loading-mask",
+	    class: [_vm.customClass, {
+	      'is-fullscreen': _vm.fullscreen
+	    }]
+	  }, [_vm._h('div', {
+	    staticClass: "el-loading-spinner"
+	  }, [_vm._h('svg', {
 	    staticClass: "circular",
 	    attrs: {
 	      "viewBox": "25 25 50 50"
 	    }
-	  }, [_h('circle', {
+	  }, [_vm._h('circle', {
 	    staticClass: "path",
 	    attrs: {
 	      "cx": "50",
@@ -17177,18 +17400,123 @@ module.exports =
 	      "r": "20",
 	      "fill": "none"
 	    }
-	  })]), (text) ? _h('p', {
+	  })]), (_vm.text) ? _vm._h('p', {
 	    staticClass: "el-loading-text"
-	  }, [_s(text)]) : _e()])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.text)]) : _vm._e()])])
+	},staticRenderFns: []}
 
 /***/ },
 /* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
-	var _icon = __webpack_require__(247);
+	var _vue = __webpack_require__(119);
+
+	var _vue2 = _interopRequireDefault(_vue);
+
+	var _loading = __webpack_require__(243);
+
+	var _loading2 = _interopRequireDefault(_loading);
+
+	var _merge = __webpack_require__(133);
+
+	var _merge2 = _interopRequireDefault(_merge);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var LoadingConstructor = _vue2.default.extend(_loading2.default);
+
+	var defaults = {
+	  text: null,
+	  fullscreen: true,
+	  body: false,
+	  lock: false,
+	  customClass: ''
+	};
+
+	var originalPosition = void 0,
+	    originalOverflow = void 0;
+
+	LoadingConstructor.prototype.close = function () {
+	  if (this.fullscreen && originalOverflow !== 'hidden') {
+	    document.body.style.overflow = originalOverflow;
+	  }
+	  if (this.fullscreen || this.body) {
+	    document.body.style.position = originalPosition;
+	  } else {
+	    this.target.style.position = originalPosition;
+	  }
+	  this.$el && this.$el.parentNode && this.$el.parentNode.removeChild(this.$el);
+	  this.$destroy();
+	};
+
+	var addStyle = function addStyle(options, parent, element) {
+	  var maskStyle = {};
+	  if (options.fullscreen) {
+	    originalPosition = document.body.style.position;
+	    originalOverflow = document.body.style.overflow;
+	  } else if (options.body) {
+	    originalPosition = document.body.style.position;
+	    ['top', 'left'].forEach(function (property) {
+	      var scroll = property === 'top' ? 'scrollTop' : 'scrollLeft';
+	      maskStyle[property] = options.target.getBoundingClientRect()[property] + document.body[scroll] + document.documentElement[scroll] + 'px';
+	    });
+	    ['height', 'width'].forEach(function (property) {
+	      maskStyle[property] = options.target.getBoundingClientRect()[property] + 'px';
+	    });
+	  } else {
+	    originalPosition = parent.style.position;
+	  }
+	  Object.keys(maskStyle).forEach(function (property) {
+	    element.style[property] = maskStyle[property];
+	  });
+	};
+
+	var Loading = function Loading() {
+	  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+	  options = (0, _merge2.default)({}, defaults, options);
+	  if (typeof options.target === 'string') {
+	    options.target = document.querySelector(options.target);
+	  }
+	  options.target = options.target || document.body;
+	  if (options.target !== document.body) {
+	    options.fullscreen = false;
+	  } else {
+	    options.body = true;
+	  }
+
+	  var parent = options.body ? document.body : options.target;
+	  var instance = new LoadingConstructor({
+	    el: document.createElement('div'),
+	    data: options
+	  });
+
+	  addStyle(options, parent, instance.$el);
+	  if (originalPosition !== 'absolute') {
+	    parent.style.position = 'relative';
+	  }
+	  if (options.fullscreen && options.lock) {
+	    parent.style.overflow = 'hidden';
+	  }
+	  parent.appendChild(instance.$el);
+	  return instance;
+	};
+
+	exports.default = Loading;
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _icon = __webpack_require__(248);
 
 	var _icon2 = _interopRequireDefault(_icon);
 
@@ -17202,17 +17530,17 @@ module.exports =
 	exports.default = _icon2.default;
 
 /***/ },
-/* 247 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(248)
+	__vue_exports__ = __webpack_require__(249)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(249)
+	var __vue_template__ = __webpack_require__(250)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -17231,8 +17559,10 @@ module.exports =
 
 
 /***/ },
-/* 248 */
+/* 249 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -17249,22 +17579,24 @@ module.exports =
 	};
 
 /***/ },
-/* 249 */
+/* 250 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('i', {
-	    class: 'el-icon-' + name
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('i', {
+	    class: 'el-icon-' + _vm.name
 	  })
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
-/* 250 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _row = __webpack_require__(251);
+	var _row = __webpack_require__(252);
 
 	var _row2 = _interopRequireDefault(_row);
 
@@ -17278,17 +17610,17 @@ module.exports =
 	exports.default = _row2.default;
 
 /***/ },
-/* 251 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(252)
+	__vue_exports__ = __webpack_require__(253)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(253)
+	var __vue_template__ = __webpack_require__(254)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -17307,8 +17639,10 @@ module.exports =
 
 
 /***/ },
-/* 252 */
+/* 253 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -17358,29 +17692,31 @@ module.exports =
 	};
 
 /***/ },
-/* 253 */
+/* 254 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-row",
 	    class: [
-	      justify !== 'start' ? 'is-justify-' + justify : '',
-	      align !== 'top' ? 'is-align-' + align : '', {
-	        'el-row--flex': type === 'flex'
+	      _vm.justify !== 'start' ? 'is-justify-' + _vm.justify : '',
+	      _vm.align !== 'top' ? 'is-align-' + _vm.align : '', {
+	        'el-row--flex': _vm.type === 'flex'
 	      }
 	    ],
-	    style: (style)
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	    style: (_vm.style)
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ },
-/* 254 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _col = __webpack_require__(255);
+	var _col = __webpack_require__(256);
 
 	var _col2 = _interopRequireDefault(_col);
 
@@ -17394,53 +17730,14 @@ module.exports =
 	exports.default = _col2.default;
 
 /***/ },
-/* 255 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
-
-	/* script */
-	__vue_exports__ = __webpack_require__(256)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(257)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
-
-
-/***/ },
 /* 256 */
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	exports.default = {
 	  name: 'ElCol',
@@ -17448,11 +17745,15 @@ module.exports =
 	  props: {
 	    span: {
 	      type: Number,
-	      required: true
+	      default: 24
 	    },
 	    offset: Number,
 	    pull: Number,
-	    push: Number
+	    push: Number,
+	    xs: [Number, Object],
+	    sm: [Number, Object],
+	    md: [Number, Object],
+	    lg: [Number, Object]
 	  },
 
 	  computed: {
@@ -17469,33 +17770,52 @@ module.exports =
 
 	      return ret;
 	    }
+	  },
+	  render: function render(h) {
+	    var _this = this;
+
+	    var style = this.style;
+
+	    var classList = [];
+
+	    ['span', 'offset', 'pull', 'push'].forEach(function (prop) {
+	      if (_this[prop]) {
+	        classList.push(prop !== 'span' ? 'el-col-' + prop + '-' + _this[prop] : 'el-col-' + _this[prop]);
+	      }
+	    });
+
+	    ['xs', 'sm', 'md', 'lg'].forEach(function (size) {
+	      if (typeof _this[size] === 'number') {
+	        classList.push('el-col-' + size + '-' + _this[size]);
+	      } else if (_typeof(_this[size]) === 'object') {
+	        (function () {
+	          var props = _this[size];
+	          Object.keys(props).forEach(function (prop) {
+	            classList.push(prop !== 'span' ? 'el-col-' + size + '-' + prop + '-' + props[prop] : 'el-col-' + size + '-' + props[prop]);
+	          });
+	        })();
+	      }
+	    });
+
+	    return h(
+	      'div',
+	      {
+	        'class': ['el-col', classList],
+	        style: style },
+	      [this.$slots.default]
+	    );
 	  }
 	};
 
 /***/ },
 /* 257 */
-/***/ function(module, exports) {
-
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
-	    staticClass: "el-col",
-	    class: [
-	      'el-col-' + span,
-	      offset ? 'el-col-offset-' + offset : '',
-	      pull ? 'el-col-pull-' + pull : '',
-	      push ? 'el-col-push-' + push : ''
-	    ],
-	    style: (style)
-	  }, [_t("default")])
-	}},staticRenderFns: []}
-
-/***/ },
-/* 258 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _src = __webpack_require__(259);
+	var _src = __webpack_require__(258);
 
 	var _src2 = _interopRequireDefault(_src);
 
@@ -17509,14 +17829,14 @@ module.exports =
 	exports.default = _src2.default;
 
 /***/ },
-/* 259 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(260)
+	__vue_exports__ = __webpack_require__(259)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -17533,12 +17853,14 @@ module.exports =
 
 
 /***/ },
-/* 260 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _uploadList = __webpack_require__(261);
+	var _uploadList = __webpack_require__(260);
 
 	var _uploadList2 = _interopRequireDefault(_uploadList);
 
@@ -17550,7 +17872,7 @@ module.exports =
 
 	var _iframeUpload2 = _interopRequireDefault(_iframeUpload);
 
-	var _progress = __webpack_require__(273);
+	var _progress = __webpack_require__(262);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -17773,14 +18095,14 @@ module.exports =
 	};
 
 /***/ },
-/* 261 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(262)
+	__vue_exports__ = __webpack_require__(261)
 
 	/* template */
 	var __vue_template__ = __webpack_require__(263)
@@ -17802,8 +18124,10 @@ module.exports =
 
 
 /***/ },
-/* 262 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -17811,10 +18135,42 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
+	var _progress = __webpack_require__(262);
+
+	var _progress2 = _interopRequireDefault(_progress);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  mixins: [_locale2.default],
+
+	  components: { ElProgress: _progress2.default },
+
 	  props: {
 	    files: {
 	      type: Array,
@@ -17828,44 +18184,27 @@ module.exports =
 	      return parseInt(val, 10);
 	    }
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
+
+/***/ },
+/* 262 */
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/progress");
 
 /***/ },
 /* 263 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition-group', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition-group', {
 	    staticClass: "el-upload__files",
 	    attrs: {
 	      "tag": "ul",
 	      "name": "list"
 	    }
-	  }, [_l((files), function(file) {
-	    return _h('li', {
+	  }, [_vm._l((_vm.files), function(file) {
+	    return _vm._h('li', {
 	      key: file,
 	      staticClass: "el-upload__file",
 	      class: {
@@ -17873,17 +18212,17 @@ module.exports =
 	      },
 	      on: {
 	        "click": function($event) {
-	          $emit('clickFile', file)
+	          _vm.$emit('clickFile', file)
 	        }
 	      }
-	    }, [_h('a', {
+	    }, [_vm._h('a', {
 	      staticClass: "el-upload__file__name",
 	      on: {
 	        "click": function($event) {
-	          $emit('preview', file)
+	          _vm.$emit('preview', file)
 	        }
 	      }
-	    }, [_m(0, true), _s(file.name) + "\n    "]), _h('span', {
+	    }, [_vm._m(0, true), _vm._s(file.name) + "\n    "]), _vm._h('span', {
 	      directives: [{
 	        name: "show",
 	        rawName: "v-show",
@@ -17893,22 +18232,22 @@ module.exports =
 	      staticClass: "el-upload__btn-delete",
 	      on: {
 	        "click": function($event) {
-	          $emit('remove', file)
+	          _vm.$emit('remove', file)
 	        }
 	      }
-	    }, [_s(t('el.upload.delete'))]), (file.showProgress) ? _h('el-progress', {
+	    }, [_vm._s(_vm.t('el.upload.delete'))]), (file.showProgress) ? _vm._h('el-progress', {
 	      attrs: {
 	        "stroke-width": 2,
-	        "percentage": parsePercentage(file.percentage),
+	        "percentage": _vm.parsePercentage(file.percentage),
 	        "status": file.status === 'finished' && file.showProgress ? 'success' : ''
 	      }
-	    }) : _e()])
+	    }) : _vm._e()])
 	  })])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('i', {
+	},staticRenderFns: [function (){var _vm=this;
+	  return _vm._h('i', {
 	    staticClass: "el-icon-document"
 	  })
-	}}]}
+	}]}
 
 /***/ },
 /* 264 */
@@ -17942,6 +18281,8 @@ module.exports =
 /***/ },
 /* 265 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -18127,6 +18468,8 @@ module.exports =
 /* 266 */
 /***/ function(module, exports) {
 
+	'use strict';
+
 	exports.__esModule = true;
 	exports.default = upload;
 	function getError(action, option, xhr) {
@@ -18243,16 +18586,58 @@ module.exports =
 /* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _locale = __webpack_require__(89);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
+	var _progress = __webpack_require__(262);
+
+	var _progress2 = _interopRequireDefault(_progress);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  mixins: [_locale2.default],
+
+	  components: { ElProgress: _progress2.default },
 
 	  props: {
 	    image: {},
@@ -18270,185 +18655,153 @@ module.exports =
 	      mouseover: false
 	    };
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 /* 269 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return (image) ? _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return (_vm.image) ? _vm._h('div', {
 	    staticClass: "el-dragger__cover",
 	    on: {
 	      "click": function($event) {
 	        $event.stopPropagation();
 	      }
 	    }
-	  }, [_h('transition', {
+	  }, [_vm._h('transition', {
 	    attrs: {
 	      "name": "fade-in"
 	    }
-	  }, [(image.status === 'uploading') ? _h('el-progress', {
+	  }, [(_vm.image.status === 'uploading') ? _vm._h('el-progress', {
 	    staticClass: "el-dragger__cover__progress",
 	    attrs: {
-	      "percentage": image.percentage,
+	      "percentage": _vm.image.percentage,
 	      "show-text": false,
-	      "status": image.status === 'finished' ? 'success' : ''
+	      "status": _vm.image.status === 'finished' ? 'success' : ''
 	    }
-	  }) : _e()]), (image.status === 'finished') ? _h('div', {
+	  }) : _vm._e()]), (_vm.image.status === 'finished') ? _vm._h('div', {
 	    staticClass: "el-dragger__cover__content",
 	    on: {
 	      "mouseenter": function($event) {
-	        mouseover = true
+	        _vm.mouseover = true
 	      },
 	      "mouseleave": function($event) {
-	        mouseover = false
+	        _vm.mouseover = false
 	      }
 	    }
-	  }, [_h('img', {
+	  }, [_vm._h('img', {
 	    attrs: {
-	      "src": image.url
+	      "src": _vm.image.url
 	    }
-	  }), _h('transition', {
+	  }), _vm._h('transition', {
 	    attrs: {
 	      "name": "fade-in"
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (mouseover),
+	      value: (_vm.mouseover),
 	      expression: "mouseover"
 	    }],
 	    staticClass: "el-dragger__cover__interact"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-draggeer__cover__btns"
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
-	        $parent.handleClick()
+	        _vm.$parent.handleClick()
 	      }
 	    }
-	  }, [_m(0), _h('span', [_s(t('el.upload.continue'))])]), _h('span', {
+	  }, [_vm._m(0), _vm._h('span', [_vm._s(_vm.t('el.upload.continue'))])]), _vm._h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
-	        onPreview(image)
+	        _vm.onPreview(_vm.image)
 	      }
 	    }
-	  }, [_m(1), _h('span', [_s(t('el.upload.preview'))])]), _h('span', {
+	  }, [_vm._m(1), _vm._h('span', [_vm._s(_vm.t('el.upload.preview'))])]), _vm._h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
-	        onRemove(image)
+	        _vm.onRemove(_vm.image)
 	      }
 	    }
-	  }, [_m(2), _h('span', [_s(t('el.upload.delete'))])])])])]), _h('transition', {
+	  }, [_vm._m(2), _vm._h('span', [_vm._s(_vm.t('el.upload.delete'))])])])])]), _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-top"
 	    }
-	  }, [_h('h4', {
+	  }, [_vm._h('h4', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (mouseover),
+	      value: (_vm.mouseover),
 	      expression: "mouseover"
 	    }],
 	    staticClass: "el-dragger__cover__title"
-	  }, [_s(image.name)])])]) : _e()]) : _e()
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('i', {
+	  }, [_vm._s(_vm.image.name)])])]) : _vm._e()]) : _vm._e()
+	},staticRenderFns: [function (){var _vm=this;
+	  return _vm._h('i', {
 	    staticClass: "el-icon-upload2"
 	  })
-	}},function (){with(this) {
-	  return _h('i', {
+	},function (){var _vm=this;
+	  return _vm._h('i', {
 	    staticClass: "el-icon-view"
 	  })
-	}},function (){with(this) {
-	  return _h('i', {
+	},function (){var _vm=this;
+	  return _vm._h('i', {
 	    staticClass: "el-icon-delete2"
 	  })
-	}}]}
+	}]}
 
 /***/ },
 /* 270 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-upload__inner",
 	    class: {
-	      'el-dragger': type === 'drag',
-	        'is-dragOver': dragOver,
-	        'is-showCover': showCover
+	      'el-dragger': _vm.type === 'drag',
+	        'is-dragOver': _vm.dragOver,
+	        'is-showCover': _vm.showCover
 	    },
 	    on: {
-	      "click": handleClick,
+	      "click": _vm.handleClick,
 	      "drop": function($event) {
 	        $event.preventDefault();
-	        onDrop($event)
+	        _vm.onDrop($event)
 	      },
 	      "dragover": function($event) {
 	        $event.preventDefault();
-	        dragOver = true
+	        _vm.dragOver = true
 	      },
 	      "dragleave": function($event) {
 	        $event.preventDefault();
-	        dragOver = false
+	        _vm.dragOver = false
 	      }
 	    }
-	  }, [(!showCover) ? _t("default") : _h('cover', {
+	  }, [(!_vm.showCover) ? _vm._t("default") : _vm._h('cover', {
 	    attrs: {
-	      "image": lastestFile,
-	      "on-preview": onPreview,
-	      "on-remove": onRemove
+	      "image": _vm.lastestFile,
+	      "on-preview": _vm.onPreview,
+	      "on-remove": _vm.onRemove
 	    }
-	  }), _h('input', {
+	  }), _vm._h('input', {
 	    ref: "input",
 	    staticClass: "el-upload__input",
 	    attrs: {
 	      "type": "file",
-	      "multiple": multiple,
-	      "accept": accept
+	      "multiple": _vm.multiple,
+	      "accept": _vm.accept
 	    },
 	    on: {
-	      "change": handleChange
+	      "change": _vm.handleChange
 	    }
 	  })])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
 /* 271 */
@@ -18477,6 +18830,8 @@ module.exports =
 /***/ },
 /* 272 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -18689,17 +19044,13 @@ module.exports =
 
 /***/ },
 /* 273 */
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/progress");
-
-/***/ },
-/* 274 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _progress = __webpack_require__(275);
+	var _progress = __webpack_require__(274);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -18713,17 +19064,17 @@ module.exports =
 	exports.default = _progress2.default;
 
 /***/ },
-/* 275 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(276)
+	__vue_exports__ = __webpack_require__(275)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(277)
+	var __vue_template__ = __webpack_require__(276)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -18742,8 +19093,10 @@ module.exports =
 
 
 /***/ },
-/* 276 */
+/* 275 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -18874,76 +19227,78 @@ module.exports =
 	};
 
 /***/ },
-/* 277 */
+/* 276 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-progress",
 	    class: [
-	      'el-progress--' + type,
-	      status ? 'is-' + status : '', {
-	        'el-progress--without-text': !showText,
-	        'el-progress--text-inside': textInside,
+	      'el-progress--' + _vm.type,
+	      _vm.status ? 'is-' + _vm.status : '', {
+	        'el-progress--without-text': !_vm.showText,
+	        'el-progress--text-inside': _vm.textInside,
 	      }
 	    ]
-	  }, [(type === 'line') ? _h('div', {
+	  }, [(_vm.type === 'line') ? _vm._h('div', {
 	    staticClass: "el-progress-bar"
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-progress-bar__outer",
 	    style: ({
-	      height: strokeWidth + 'px'
+	      height: _vm.strokeWidth + 'px'
 	    })
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-progress-bar__inner",
-	    style: (barStyle)
-	  }, [(showText && textInside) ? _h('div', {
+	    style: (_vm.barStyle)
+	  }, [(_vm.showText && _vm.textInside) ? _vm._h('div', {
 	    staticClass: "el-progress-bar__innerText"
-	  }, [_s(percentage) + "%"]) : _e()])])]) : _h('div', {
+	  }, [_vm._s(_vm.percentage) + "%"]) : _vm._e()])])]) : _vm._h('div', {
 	    staticClass: "el-progress-circle",
 	    style: ({
-	      height: width + 'px',
-	      width: width + 'px'
+	      height: _vm.width + 'px',
+	      width: _vm.width + 'px'
 	    })
-	  }, [_h('svg', {
+	  }, [_vm._h('svg', {
 	    attrs: {
 	      "viewBox": "0 0 100 100"
 	    }
-	  }, [_h('path', {
+	  }, [_vm._h('path', {
 	    staticClass: "el-progress-circle__track",
 	    attrs: {
-	      "d": trackPath,
+	      "d": _vm.trackPath,
 	      "stroke": "#e5e9f2",
-	      "stroke-width": relativeStrokeWidth,
+	      "stroke-width": _vm.relativeStrokeWidth,
 	      "fill": "none"
 	    }
-	  }), _h('path', {
+	  }), _vm._h('path', {
 	    staticClass: "el-progress-circle__path",
-	    style: (circlePathStyle),
+	    style: (_vm.circlePathStyle),
 	    attrs: {
-	      "d": trackPath,
+	      "d": _vm.trackPath,
 	      "stroke-linecap": "round",
-	      "stroke": stroke,
-	      "stroke-width": relativeStrokeWidth,
+	      "stroke": _vm.stroke,
+	      "stroke-width": _vm.relativeStrokeWidth,
 	      "fill": "none"
 	    }
-	  })])]), (showText && !textInside) ? _h('div', {
+	  })])]), (_vm.showText && !_vm.textInside) ? _vm._h('div', {
 	    staticClass: "el-progress__text",
 	    style: ({
-	      fontSize: progressTextSize + 'px'
+	      fontSize: _vm.progressTextSize + 'px'
 	    })
-	  }, [(!status) ? [_s(percentage) + "%"] : _h('i', {
-	    class: iconClass
-	  })]) : _e()])
-	}},staticRenderFns: []}
+	  }, [(!_vm.status) ? [_vm._s(_vm.percentage) + "%"] : _vm._h('i', {
+	    class: _vm.iconClass
+	  })]) : _vm._e()])
+	},staticRenderFns: []}
 
 /***/ },
-/* 278 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _spinner = __webpack_require__(279);
+	var _spinner = __webpack_require__(278);
 
 	var _spinner2 = _interopRequireDefault(_spinner);
 
@@ -18957,17 +19312,17 @@ module.exports =
 	exports.default = _spinner2.default;
 
 /***/ },
-/* 279 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(280)
+	__vue_exports__ = __webpack_require__(279)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(281)
+	var __vue_template__ = __webpack_require__(280)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -18986,8 +19341,10 @@ module.exports =
 
 
 /***/ },
-/* 280 */
+/* 279 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -19018,41 +19375,43 @@ module.exports =
 	};
 
 /***/ },
-/* 281 */
+/* 280 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('span', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('span', {
 	    staticClass: "el-spinner"
-	  }, [_h('svg', {
+	  }, [_vm._h('svg', {
 	    staticClass: "el-spinner-inner",
 	    style: ({
-	      width: radius / 2 + 'px',
-	      height: radius / 2 + 'px'
+	      width: _vm.radius / 2 + 'px',
+	      height: _vm.radius / 2 + 'px'
 	    }),
 	    attrs: {
 	      "viewBox": "0 0 50 50"
 	    }
-	  }, [_h('circle', {
+	  }, [_vm._h('circle', {
 	    staticClass: "path",
 	    attrs: {
 	      "cx": "25",
 	      "cy": "25",
 	      "r": "20",
 	      "fill": "none",
-	      "stroke": strokeColor,
-	      "stroke-width": strokeWidth
+	      "stroke": _vm.strokeColor,
+	      "stroke-width": _vm.strokeWidth
 	    }
 	  })])])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
-/* 282 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(283);
+	var _main = __webpack_require__(282);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -19061,8 +19420,10 @@ module.exports =
 	exports.default = _main2.default;
 
 /***/ },
-/* 283 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -19074,7 +19435,7 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var MessageConstructor = _vue2.default.extend(__webpack_require__(284));
+	var MessageConstructor = _vue2.default.extend(__webpack_require__(283));
 
 	var instance = void 0;
 	var instances = [];
@@ -19104,6 +19465,7 @@ module.exports =
 	  instance.dom = instance.vm.$el;
 	  instance.dom.style.zIndex = _vuePopup.PopupManager.nextZIndex();
 	  instances.push(instance);
+	  return instance.vm;
 	};
 
 	['success', 'warning', 'info', 'error'].forEach(function (type) {
@@ -19133,17 +19495,17 @@ module.exports =
 	exports.default = Message;
 
 /***/ },
-/* 284 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(285)
+	__vue_exports__ = __webpack_require__(284)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(291)
+	var __vue_template__ = __webpack_require__(290)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -19162,8 +19524,10 @@ module.exports =
 
 
 /***/ },
-/* 285 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -19196,7 +19560,7 @@ module.exports =
 
 	  computed: {
 	    typeImg: function typeImg() {
-	      return __webpack_require__(286)("./" + this.type + '.svg');
+	      return __webpack_require__(285)("./" + this.type + '.svg');
 	    }
 	  },
 
@@ -19215,7 +19579,7 @@ module.exports =
 	      this.$destroy(true);
 	      this.$el.parentNode.removeChild(this.$el);
 	    },
-	    handleClose: function handleClose() {
+	    close: function close() {
 	      this.closed = true;
 	      if (typeof this.onClose === 'function') {
 	        this.onClose(this);
@@ -19230,7 +19594,7 @@ module.exports =
 	      if (this.duration > 0) {
 	        this.timer = setTimeout(function () {
 	          if (!_this.closed) {
-	            _this.handleClose();
+	            _this.close();
 	          }
 	        }, this.duration);
 	      }
@@ -19243,14 +19607,14 @@ module.exports =
 	};
 
 /***/ },
-/* 286 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./error.svg": 287,
-		"./info.svg": 288,
-		"./success.svg": 289,
-		"./warning.svg": 290
+		"./error.svg": 286,
+		"./info.svg": 287,
+		"./success.svg": 288,
+		"./warning.svg": 289
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -19263,77 +19627,79 @@ module.exports =
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 286;
+	webpackContext.id = 285;
 
 
 /***/ },
-/* 287 */
+/* 286 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMCAwIDQwIDQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCAzOS4xICgzMTcyMCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+aWNvbl9kYW5nZXI8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iRWxlbWVudC1ndWlkZWxpbmUtdjAuMi40IiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0iTWVzc2FnZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTYwLjAwMDAwMCwgLTMzMi4wMDAwMDApIj4KICAgICAgICAgICAgPGcgaWQ9IuW4puWAvuWQkV/kv6Hmga8iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYwLjAwMDAwMCwgMzMyLjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPGcgaWQ9IlJlY3RhbmdsZS0yIj4KICAgICAgICAgICAgICAgICAgICA8ZyBpZD0iaWNvbl9kYW5nZXIiPgogICAgICAgICAgICAgICAgICAgICAgICA8cmVjdCBpZD0iUmVjdGFuZ2xlLTIiIGZpbGw9IiNGRjQ5NDkiIHg9IjAiIHk9IjAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PC9yZWN0PgogICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMjUuODE3MjYyNywxNi4zNDUxNzk2IEMyNS45MzkwOTAyLDE2LjIyMzM0ODMgMjYsMTYuMDc2MTQxOCAyNiwxNS45MDM1NTIzIEMyNiwxNS43MzA5NjI4IDI1LjkzOTA5MDIsMTUuNTgzNzU2MyAyNS44MTcyNjI3LDE1LjQ2MTkyODkgTDI0LjUwNzYxNTcsMTQuMTgyNzQxMSBDMjQuMzg1Nzg4MiwxNC4wNjA5MTM3IDI0LjI0MzY1NzUsMTQgMjQuMDgxMjE5NiwxNCBDMjMuOTE4NzgxNywxNCAyMy43NzY2NTEsMTQuMDYwOTEzNyAyMy42NTQ4MjM1LDE0LjE4Mjc0MTEgTDIwLDE3LjgzNzU2MzUgTDE2LjMxNDcyMTYsMTQuMTgyNzQxMSBDMTYuMTkyODkwMiwxNC4wNjA5MTM3IDE2LjA1MDc1OTUsMTQgMTUuODg4MzIxNiwxNCBDMTUuNzI1ODg3NiwxNCAxNS41ODM3NTY5LDE0LjA2MDkxMzcgMTUuNDYxOTI5NCwxNC4xODI3NDExIEwxNC4xNTIyODI0LDE1LjQ2MTkyODkgQzE0LjA1MDc1ODIsMTUuNTgzNzU2MyAxNCwxNS43MzA5NjI4IDE0LDE1LjkwMzU1MjMgQzE0LDE2LjA3NjE0MTggMTQuMDUwNzU4MiwxNi4yMjMzNDgzIDE0LjE1MjI4MjQsMTYuMzQ1MTc5NiBMMTcuODM3NTYwOCwyMC4wMDAwMDE5IEwxNC4xNTIyODI0LDIzLjY1NDgyNDMgQzE0LjA1MDc1ODIsMjMuNzc2NjUxNyAxNCwyMy45MjM4NTgyIDE0LDI0LjA5NjQ0NzcgQzE0LDI0LjI2OTAzNzIgMTQuMDUwNzU4MiwyNC40MTYyNDM3IDE0LjE1MjI4MjQsMjQuNTM4MDcxMSBMMTUuNDYxOTI5NCwyNS44MTcyNTg5IEMxNS41ODM3NTY5LDI1LjkzOTA4NjMgMTUuNzI1ODg3NiwyNiAxNS44ODgzMjE2LDI2IEMxNi4wNTA3NTk1LDI2IDE2LjE5Mjg5MDIsMjUuOTM5MDg2MyAxNi4zMTQ3MjE2LDI1LjgxNzI1ODkgTDIwLDIyLjE2MjQzNjUgTDIzLjY1NDgyMzUsMjUuODE3MjU4OSBDMjMuNzc2NjUxLDI1LjkzOTA4NjMgMjMuOTE4NzgxNywyNiAyNC4wODEyMTk2LDI2IEMyNC4yNDM2NTc1LDI2IDI0LjM4NTc4ODIsMjUuOTM5MDg2MyAyNC41MDc2MTU3LDI1LjgxNzI1ODkgTDI1LjgxNzI2MjcsMjQuNTM4MDcxMSBDMjUuOTM5MDkwMiwyNC40MTYyNDM3IDI2LDI0LjI2OTAzNzIgMjYsMjQuMDk2NDQ3NyBDMjYsMjMuOTIzODU4MiAyNS45MzkwOTAyLDIzLjc3NjY1MTcgMjUuODE3MjYyNywyMy42NTQ4MjQzIEwyMi4xMzE5ODA0LDIwLjAwMDAwMTkgTDI1LjgxNzI2MjcsMTYuMzQ1MTc5NiBaIiBpZD0iUGF0aCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+"
 
 /***/ },
-/* 288 */
+/* 287 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMCAwIDQwIDQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCAzOS4xICgzMTcyMCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+aWNvbl9pbmZvPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgaWQ9IkVsZW1lbnQtZ3VpZGVsaW5lLXYwLjIuNCIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9Ik1lc3NhZ2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC02MC4wMDAwMDAsIC0xNTIuMDAwMDAwKSI+CiAgICAgICAgICAgIDxnIGlkPSLluKblgL7lkJFf5L+h5oGvIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2MC4wMDAwMDAsIDE1Mi4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxnIGlkPSJSZWN0YW5nbGUtMiI+CiAgICAgICAgICAgICAgICAgICAgPGcgaWQ9Imljb25faW5mbyI+CiAgICAgICAgICAgICAgICAgICAgICAgIDxyZWN0IGlkPSJSZWN0YW5nbGUtMiIgZmlsbD0iIzUwQkZGRiIgeD0iMCIgeT0iMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIj48L3JlY3Q+CiAgICAgICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0yMS42MTUzODQ2LDI2LjU0MzIwOTkgQzIxLjYxNTM4NDYsMjYuOTQ3ODc1MSAyMS40NTgzMzQ4LDI3LjI5MTgzNjggMjEuMTQ0MjMwOCwyNy41NzUxMDI5IEMyMC44MzAxMjY4LDI3Ljg1ODM2ODkgMjAuNDQ4NzE5NCwyOCAyMCwyOCBDMTkuNTUxMjgwNiwyOCAxOS4xNjk4NzMyLDI3Ljg1ODM2ODkgMTguODU1NzY5MiwyNy41NzUxMDI5IEMxOC41NDE2NjUyLDI3LjI5MTgzNjggMTguMzg0NjE1NCwyNi45NDc4NzUxIDE4LjM4NDYxNTQsMjYuNTQzMjA5OSBMMTguMzg0NjE1NCwxOS43NDQ4NTYgQzE4LjM4NDYxNTQsMTkuMzQwMTkwNyAxOC41NDE2NjUyLDE4Ljk5NjIyOSAxOC44NTU3NjkyLDE4LjcxMjk2MyBDMTkuMTY5ODczMiwxOC40Mjk2OTY5IDE5LjU1MTI4MDYsMTguMjg4MDY1OCAyMCwxOC4yODgwNjU4IEMyMC40NDg3MTk0LDE4LjI4ODA2NTggMjAuODMwMTI2OCwxOC40Mjk2OTY5IDIxLjE0NDIzMDgsMTguNzEyOTYzIEMyMS40NTgzMzQ4LDE4Ljk5NjIyOSAyMS42MTUzODQ2LDE5LjM0MDE5MDcgMjEuNjE1Mzg0NiwxOS43NDQ4NTYgTDIxLjYxNTM4NDYsMjYuNTQzMjA5OSBaIE0yMCwxNS44MDQyOTgxIEMxOS40NDQ0NDI3LDE1LjgwNDI5ODEgMTguOTcyMjI0LDE1LjYxOTM2ODcgMTguNTgzMzMzMywxNS4yNDk1MDQ2IEMxOC4xOTQ0NDI3LDE0Ljg3OTY0MDYgMTgsMTQuNDMwNTI1NSAxOCwxMy45MDIxNDkxIEMxOCwxMy4zNzM3NzI2IDE4LjE5NDQ0MjcsMTIuOTI0NjU3NSAxOC41ODMzMzMzLDEyLjU1NDc5MzUgQzE4Ljk3MjIyNCwxMi4xODQ5Mjk1IDE5LjQ0NDQ0MjcsMTIgMjAsMTIgQzIwLjU1NTU1NzMsMTIgMjEuMDI3Nzc2LDEyLjE4NDkyOTUgMjEuNDE2NjY2NywxMi41NTQ3OTM1IEMyMS44MDU1NTczLDEyLjkyNDY1NzUgMjIsMTMuMzczNzcyNiAyMiwxMy45MDIxNDkxIEMyMiwxNC40MzA1MjU1IDIxLjgwNTU1NzMsMTQuODc5NjQwNiAyMS40MTY2NjY3LDE1LjI0OTUwNDYgQzIxLjAyNzc3NiwxNS42MTkzNjg3IDIwLjU1NTU1NzMsMTUuODA0Mjk4MSAyMCwxNS44MDQyOTgxIFoiIGlkPSJDb21iaW5lZC1TaGFwZSIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+"
 
 /***/ },
-/* 289 */
+/* 288 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMCAwIDQwIDQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCAzOS4xICgzMTcyMCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+aWNvbl9zdWNjZXNzPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgaWQ9IkVsZW1lbnQtZ3VpZGVsaW5lLXYwLjIuNCIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9Ik1lc3NhZ2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC02MC4wMDAwMDAsIC0yMTIuMDAwMDAwKSI+CiAgICAgICAgICAgIDxnIGlkPSLluKblgL7lkJFf5L+h5oGvIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2MC4wMDAwMDAsIDIxMi4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxnIGlkPSJSZWN0YW5nbGUtMiI+CiAgICAgICAgICAgICAgICAgICAgPGcgaWQ9Imljb25fc3VjY2VzcyI+CiAgICAgICAgICAgICAgICAgICAgICAgIDxyZWN0IGlkPSJSZWN0YW5nbGUtMiIgZmlsbD0iIzEzQ0U2NiIgeD0iMCIgeT0iMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIj48L3JlY3Q+CiAgICAgICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0yNy44MjU1ODE0LDE3LjE0ODQzNTcgTDE5LjAxNzQ0LDI1LjgyODEyMTMgQzE4LjkwMTE2MDksMjUuOTQyNzA4MyAxOC43NjU1MDMzLDI2IDE4LjYxMDQ2NywyNiBDMTguNDU1NDI3LDI2IDE4LjMxOTc2OTMsMjUuOTQyNzA4MyAxOC4yMDM0ODY1LDI1LjgyODEyMTMgTDE4LjAyOTA3MTYsMjUuNjU2MjUgTDEzLjE3NDQxODYsMjAuODQzNzUgQzEzLjA1ODEzOTUsMjAuNzI5MTYzIDEzLDIwLjU5NTQ4MzcgMTMsMjAuNDQyNzA0NyBDMTMsMjAuMjg5OTI5MyAxMy4wNTgxMzk1LDIwLjE1NjI1IDEzLjE3NDQxODYsMjAuMDQxNjY2NyBMMTQuMzY2Mjc3MiwxOC44NjcxODU3IEMxNC40ODI1NiwxOC43NTI2MDIzIDE0LjYxODIxNzcsMTguNjk1MzEwNyAxNC43NzMyNTc3LDE4LjY5NTMxMDcgQzE0LjkyODI5NCwxOC42OTUzMTA3IDE1LjA2Mzk1MTYsMTguNzUyNjAyMyAxNS4xODAyMzA3LDE4Ljg2NzE4NTcgTDE4LjYxMDQ2NywyMi4yNzYwMzggTDI1LjgxOTc2OTMsMTUuMTcxODcxMyBDMjUuOTM2MDQ4NCwxNS4wNTcyODggMjYuMDcxNzA2LDE1IDI2LjIyNjc0MjMsMTUgQzI2LjM4MTc4MjMsMTUgMjYuNTE3NDQsMTUuMDU3Mjg4IDI2LjYzMzcyMjgsMTUuMTcxODcxMyBMMjcuODI1NTgxNCwxNi4zNDYzNTIzIEMyNy45NDE4NjA1LDE2LjQ2MDkzNTcgMjgsMTYuNTk0NjE1IDI4LDE2Ljc0NzM5NCBDMjgsMTYuOTAwMTczIDI3Ljk0MTg2MDUsMTcuMDMzODUyMyAyNy44MjU1ODE0LDE3LjE0ODQzNTcgTDI3LjgyNTU4MTQsMTcuMTQ4NDM1NyBaIiBpZD0iUGF0aCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+"
 
 /***/ },
-/* 290 */
+/* 289 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMCAwIDQwIDQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCAzOS4xICgzMTcyMCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+aWNvbl93YXJuaW5nPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9Ik1lc3NhZ2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC02MC4wMDAwMDAsIC0yNzIuMDAwMDAwKSI+CiAgICAgICAgICAgIDxnIGlkPSLluKblgL7lkJFf5L+h5oGvLWNvcHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYwLjAwMDAwMCwgMjcyLjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPGcgaWQ9IlJlY3RhbmdsZS0yIj4KICAgICAgICAgICAgICAgICAgICA8ZyBpZD0iaWNvbl93YXJuaW5nIj4KICAgICAgICAgICAgICAgICAgICAgICAgPHJlY3QgaWQ9IlJlY3RhbmdsZS0yIiBmaWxsPSIjRjdCQTJBIiB4PSIwIiB5PSIwIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiPjwvcmVjdD4KICAgICAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTIxLjYxNTM4NDYsMjYuNTQzMjA5OSBDMjEuNjE1Mzg0NiwyNi45NDc4NzUxIDIxLjQ1ODMzNDgsMjcuMjkxODM2OCAyMS4xNDQyMzA4LDI3LjU3NTEwMjkgQzIwLjgzMDEyNjgsMjcuODU4MzY4OSAyMC40NDg3MTk0LDI4IDIwLDI4IEMxOS41NTEyODA2LDI4IDE5LjE2OTg3MzIsMjcuODU4MzY4OSAxOC44NTU3NjkyLDI3LjU3NTEwMjkgQzE4LjU0MTY2NTIsMjcuMjkxODM2OCAxOC4zODQ2MTU0LDI2Ljk0Nzg3NTEgMTguMzg0NjE1NCwyNi41NDMyMDk5IEwxOC4zODQ2MTU0LDE5Ljc0NDg1NiBDMTguMzg0NjE1NCwxOS4zNDAxOTA3IDE4LjU0MTY2NTIsMTguOTk2MjI5IDE4Ljg1NTc2OTIsMTguNzEyOTYzIEMxOS4xNjk4NzMyLDE4LjQyOTY5NjkgMTkuNTUxMjgwNiwxOC4yODgwNjU4IDIwLDE4LjI4ODA2NTggQzIwLjQ0ODcxOTQsMTguMjg4MDY1OCAyMC44MzAxMjY4LDE4LjQyOTY5NjkgMjEuMTQ0MjMwOCwxOC43MTI5NjMgQzIxLjQ1ODMzNDgsMTguOTk2MjI5IDIxLjYxNTM4NDYsMTkuMzQwMTkwNyAyMS42MTUzODQ2LDE5Ljc0NDg1NiBMMjEuNjE1Mzg0NiwyNi41NDMyMDk5IFogTTIwLDE1LjgwNDI5ODEgQzE5LjQ0NDQ0MjcsMTUuODA0Mjk4MSAxOC45NzIyMjQsMTUuNjE5MzY4NyAxOC41ODMzMzMzLDE1LjI0OTUwNDYgQzE4LjE5NDQ0MjcsMTQuODc5NjQwNiAxOCwxNC40MzA1MjU1IDE4LDEzLjkwMjE0OTEgQzE4LDEzLjM3Mzc3MjYgMTguMTk0NDQyNywxMi45MjQ2NTc1IDE4LjU4MzMzMzMsMTIuNTU0NzkzNSBDMTguOTcyMjI0LDEyLjE4NDkyOTUgMTkuNDQ0NDQyNywxMiAyMCwxMiBDMjAuNTU1NTU3MywxMiAyMS4wMjc3NzYsMTIuMTg0OTI5NSAyMS40MTY2NjY3LDEyLjU1NDc5MzUgQzIxLjgwNTU1NzMsMTIuOTI0NjU3NSAyMiwxMy4zNzM3NzI2IDIyLDEzLjkwMjE0OTEgQzIyLDE0LjQzMDUyNTUgMjEuODA1NTU3MywxNC44Nzk2NDA2IDIxLjQxNjY2NjcsMTUuMjQ5NTA0NiBDMjEuMDI3Nzc2LDE1LjYxOTM2ODcgMjAuNTU1NTU3MywxNS44MDQyOTgxIDIwLDE1LjgwNDI5ODEgWiIgaWQ9IkNvbWJpbmVkLVNoYXBlIiBmaWxsPSIjRkZGRkZGIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMC4wMDAwMDAsIDIwLjAwMDAwMCkgc2NhbGUoMSwgLTEpIHRyYW5zbGF0ZSgtMjAuMDAwMDAwLCAtMjAuMDAwMDAwKSAiPjwvcGF0aD4KICAgICAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg=="
 
 /***/ },
-/* 291 */
+/* 290 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('transition', {
 	    attrs: {
 	      "name": "el-message-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (visible),
+	      value: (_vm.visible),
 	      expression: "visible"
 	    }],
 	    staticClass: "el-message",
 	    on: {
-	      "mouseenter": clearTimer,
-	      "mouseleave": startTimer
+	      "mouseenter": _vm.clearTimer,
+	      "mouseleave": _vm.startTimer
 	    }
-	  }, [_h('img', {
+	  }, [_vm._h('img', {
 	    staticClass: "el-message__icon",
 	    attrs: {
-	      "src": typeImg,
+	      "src": _vm.typeImg,
 	      "alt": ""
 	    }
-	  }), _h('div', {
+	  }), _vm._h('div', {
 	    staticClass: "el-message__group"
-	  }, [_h('p', [_s(message)]), (showClose) ? _h('div', {
+	  }, [_vm._h('p', [_vm._s(_vm.message)]), (_vm.showClose) ? _vm._h('div', {
 	    staticClass: "el-message__closeBtn el-icon-close",
 	    on: {
-	      "click": handleClose
+	      "click": _vm.close
 	    }
-	  }) : _e()])])])
-	}},staticRenderFns: []}
+	  }) : _vm._e()])])])
+	},staticRenderFns: []}
 
 /***/ },
-/* 292 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(293);
+	var _main = __webpack_require__(292);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -19347,17 +19713,17 @@ module.exports =
 	exports.default = _main2.default;
 
 /***/ },
-/* 293 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(294)
+	__vue_exports__ = __webpack_require__(293)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(295)
+	var __vue_template__ = __webpack_require__(294)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -19376,8 +19742,10 @@ module.exports =
 
 
 /***/ },
-/* 294 */
+/* 293 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -19418,30 +19786,32 @@ module.exports =
 	};
 
 /***/ },
-/* 295 */
+/* 294 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-badge"
-	  }, [_t("default"), _h('sup', {
+	  }, [_vm._t("default"), _vm._h('sup', {
 	    staticClass: "el-badge__content",
 	    class: {
-	      'is-fixed': $slots.default, 'is-dot': isDot
+	      'is-fixed': _vm.$slots.default, 'is-dot': _vm.isDot
 	    },
 	    domProps: {
-	      "textContent": _s(content)
+	      "textContent": _vm._s(_vm.content)
 	    }
 	  })])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ },
-/* 296 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(297);
+	var _main = __webpack_require__(296);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -19455,17 +19825,17 @@ module.exports =
 	exports.default = _main2.default;
 
 /***/ },
-/* 297 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(298)
+	__vue_exports__ = __webpack_require__(297)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(299)
+	var __vue_template__ = __webpack_require__(298)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -19484,8 +19854,10 @@ module.exports =
 
 
 /***/ },
-/* 298 */
+/* 297 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -19507,27 +19879,29 @@ module.exports =
 	};
 
 /***/ },
-/* 299 */
+/* 298 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-card"
-	  }, [($slots.header || header) ? _h('div', {
+	  }, [(_vm.$slots.header || _vm.header) ? _vm._h('div', {
 	    staticClass: "el-card__header"
-	  }, [_t("header", [_s(header)])]) : _e(), _h('div', {
+	  }, [_vm._t("header", [_vm._s(_vm.header)])]) : _vm._e(), _vm._h('div', {
 	    staticClass: "el-card__body",
-	    style: (bodyStyle)
-	  }, [_t("default")])])
-	}},staticRenderFns: []}
+	    style: (_vm.bodyStyle)
+	  }, [_vm._t("default")])])
+	},staticRenderFns: []}
 
 /***/ },
-/* 300 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(301);
+	var _main = __webpack_require__(300);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -19541,17 +19915,17 @@ module.exports =
 	exports.default = _main2.default;
 
 /***/ },
-/* 301 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(302)
+	__vue_exports__ = __webpack_require__(301)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(303)
+	var __vue_template__ = __webpack_require__(302)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -19570,12 +19944,14 @@ module.exports =
 
 
 /***/ },
-/* 302 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _class = __webpack_require__(96);
+	var _class = __webpack_require__(95);
 
 	exports.default = {
 	  name: 'el-rate',
@@ -19839,53 +20215,55 @@ module.exports =
 	//
 
 /***/ },
-/* 303 */
+/* 302 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-rate"
-	  }, [_l((max), function(item) {
-	    return _h('span', {
+	  }, [_vm._l((_vm.max), function(item) {
+	    return _vm._h('span', {
 	      staticClass: "el-rate__item",
 	      style: ({
-	        cursor: disabled ? 'auto' : 'pointer'
+	        cursor: _vm.disabled ? 'auto' : 'pointer'
 	      }),
 	      on: {
 	        "mousemove": function($event) {
-	          setCurrentValue(item, $event)
+	          _vm.setCurrentValue(item, $event)
 	        },
-	        "mouseleave": resetCurrentValue,
+	        "mouseleave": _vm.resetCurrentValue,
 	        "click": function($event) {
-	          selectValue(item)
+	          _vm.selectValue(item)
 	        }
 	      }
-	    }, [_h('i', {
+	    }, [_vm._h('i', {
 	      staticClass: "el-rate__icon",
-	      class: [classes[item - 1], {
-	        'hover': hoverIndex === item
+	      class: [_vm.classes[item - 1], {
+	        'hover': _vm.hoverIndex === item
 	      }],
-	      style: (getIconStyle(item))
-	    }, [(showDecimalIcon(item)) ? _h('i', {
+	      style: (_vm.getIconStyle(item))
+	    }, [(_vm.showDecimalIcon(item)) ? _vm._h('i', {
 	      staticClass: "el-rate__decimal",
-	      class: decimalIconClass,
-	      style: (decimalStyle)
-	    }) : _e()])])
-	  }), (showText) ? _h('span', {
+	      class: _vm.decimalIconClass,
+	      style: (_vm.decimalStyle)
+	    }) : _vm._e()])])
+	  }), (_vm.showText) ? _vm._h('span', {
 	    staticClass: "el-rate__text",
 	    style: ({
-	      color: textColor
+	      color: _vm.textColor
 	    })
-	  }, [_s(text)]) : _e()])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.text)]) : _vm._e()])
+	},staticRenderFns: []}
 
 /***/ },
-/* 304 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _steps = __webpack_require__(305);
+	var _steps = __webpack_require__(304);
 
 	var _steps2 = _interopRequireDefault(_steps);
 
@@ -19899,17 +20277,17 @@ module.exports =
 	exports.default = _steps2.default;
 
 /***/ },
-/* 305 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(306)
+	__vue_exports__ = __webpack_require__(305)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(307)
+	var __vue_template__ = __webpack_require__(306)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -19928,8 +20306,10 @@ module.exports =
 
 
 /***/ },
-/* 306 */
+/* 305 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -19947,6 +20327,7 @@ module.exports =
 	      type: String,
 	      default: 'horizontal'
 	    },
+	    alignCenter: Boolean,
 	    finishStatus: {
 	      type: String,
 	      default: 'finish'
@@ -19978,23 +20359,25 @@ module.exports =
 	};
 
 /***/ },
-/* 307 */
+/* 306 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-steps",
-	    class: ['is-' + direction]
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	    class: ['is-' + _vm.direction]
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ },
-/* 308 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _step = __webpack_require__(309);
+	var _step = __webpack_require__(308);
 
 	var _step2 = _interopRequireDefault(_step);
 
@@ -20008,17 +20391,17 @@ module.exports =
 	exports.default = _step2.default;
 
 /***/ },
-/* 309 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(310)
+	__vue_exports__ = __webpack_require__(309)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(311)
+	var __vue_template__ = __webpack_require__(310)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -20037,8 +20420,10 @@ module.exports =
 
 
 /***/ },
-/* 310 */
+/* 309 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -20154,7 +20539,9 @@ module.exports =
 
 	    if (parent.direction === 'horizontal') {
 	      this.style = { width: space };
-	      // this.mainOffset = -this.$refs.title.getBoundingClientRect().width / 2 + 16 + 'px';
+	      if (parent.alignCenter) {
+	        this.mainOffset = -this.$refs.title.getBoundingClientRect().width / 2 + 16 + 'px';
+	      }
 	    } else {
 	      if (parent.steps[parent.steps.length - 1] !== this) {
 	        this.style = { height: space };
@@ -20169,47 +20556,47 @@ module.exports =
 	};
 
 /***/ },
-/* 311 */
+/* 310 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-step",
-	    class: ['is-' + $parent.direction],
-	    style: (style)
-	  }, [_h('div', {
+	    class: ['is-' + _vm.$parent.direction],
+	    style: (_vm.style)
+	  }, [_vm._h('div', {
 	    staticClass: "el-step__head",
-	    class: ['is-' + currentStatus, {
-	      'is-text': !icon
+	    class: ['is-' + _vm.currentStatus, {
+	      'is-text': !_vm.icon
 	    }]
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-step__line",
-	    class: ['is-' + $parent.direction, {
-	      'is-icon': icon
+	    class: ['is-' + _vm.$parent.direction, {
+	      'is-icon': _vm.icon
 	    }]
-	  }, [_h('i', {
+	  }, [_vm._h('i', {
 	    staticClass: "el-step__line-inner",
-	    style: (lineStyle)
-	  })]), _h('span', {
+	    style: (_vm.lineStyle)
+	  })]), _vm._h('span', {
 	    staticClass: "el-step__icon"
-	  }, [(currentStatus !== 'success' && currentStatus !== 'error') ? _t("icon", [(icon) ? _h('i', {
-	    class: ['el-icon-' + icon]
-	  }) : _h('div', [_s(index + 1)])]) : _h('i', {
-	    class: ['el-icon-' + (currentStatus === 'success' ? 'check' : 'close')]
-	  })])]), _h('div', {
+	  }, [(_vm.currentStatus !== 'success' && _vm.currentStatus !== 'error') ? _vm._t("icon", [(_vm.icon) ? _vm._h('i', {
+	    class: ['el-icon-' + _vm.icon]
+	  }) : _vm._h('div', [_vm._s(_vm.index + 1)])]) : _vm._h('i', {
+	    class: ['el-icon-' + (_vm.currentStatus === 'success' ? 'check' : 'close')]
+	  })])]), _vm._h('div', {
 	    staticClass: "el-step__main",
 	    style: ({
-	      marginLeft: mainOffset
+	      marginLeft: _vm.mainOffset
 	    })
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    ref: "title",
 	    staticClass: "el-step__title",
-	    class: ['is-' + currentStatus]
-	  }, [_t("title", [_s(title)])]), _h('div', {
+	    class: ['is-' + _vm.currentStatus]
+	  }, [_vm._t("title", [_vm._s(_vm.title)])]), _vm._h('div', {
 	    staticClass: "el-step__description",
-	    class: ['is-' + currentStatus]
-	  }, [_t("description", [_s(description)])])])])
-	}},staticRenderFns: []}
+	    class: ['is-' + _vm.currentStatus]
+	  }, [_vm._t("description", [_vm._s(_vm.description)])])])])
+	},staticRenderFns: []}
 
 /***/ }
 /******/ ]);

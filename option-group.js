@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(164);
+	module.exports = __webpack_require__(163);
 
 
 /***/ },
@@ -58,12 +58,14 @@ module.exports =
 
 /***/ },
 
-/***/ 164:
+/***/ 163:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _optionGroup = __webpack_require__(165);
+	var _optionGroup = __webpack_require__(164);
 
 	var _optionGroup2 = _interopRequireDefault(_optionGroup);
 
@@ -78,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 165:
+/***/ 164:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(166)
+	__vue_exports__ = __webpack_require__(165)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(167)
+	var __vue_template__ = __webpack_require__(166)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -108,8 +110,10 @@ module.exports =
 
 /***/ },
 
-/***/ 166:
+/***/ 165:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -157,18 +161,18 @@ module.exports =
 
 /***/ },
 
-/***/ 167:
+/***/ 166:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('ul', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('ul', {
 	    staticClass: "el-select-group__wrap"
-	  }, [_h('li', {
+	  }, [_vm._h('li', {
 	    staticClass: "el-select-group__title"
-	  }, [_s(label)]), _h('li', [_h('ul', {
+	  }, [_vm._s(_vm.label)]), _vm._h('li', [_vm._h('ul', {
 	    staticClass: "el-select-group"
-	  }, [_t("default")])])])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])])])
+	},staticRenderFns: []}
 
 /***/ }
 

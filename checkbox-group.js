@@ -61,6 +61,8 @@ module.exports =
 /***/ 40:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _checkboxGroup = __webpack_require__(41);
@@ -111,6 +113,8 @@ module.exports =
 /***/ 42:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _emitter = __webpack_require__(38);
@@ -143,11 +147,11 @@ module.exports =
 /***/ 43:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-checkbox-group"
-	  }, [_t("default")])
-	}},staticRenderFns: []}
+	  }, [_vm._t("default")])
+	},staticRenderFns: []}
 
 /***/ }
 

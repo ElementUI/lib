@@ -46,17 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(216);
+	module.exports = __webpack_require__(214);
 
 
 /***/ },
 
-/***/ 216:
+/***/ 214:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(217);
+	var _main = __webpack_require__(215);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -71,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 217:
+/***/ 215:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(218)
+	__vue_exports__ = __webpack_require__(216)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(222)
+	var __vue_template__ = __webpack_require__(220)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -101,20 +103,22 @@ module.exports =
 
 /***/ },
 
-/***/ 218:
+/***/ 216:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _inputNumber = __webpack_require__(219);
+	var _inputNumber = __webpack_require__(217);
 
 	var _inputNumber2 = _interopRequireDefault(_inputNumber);
 
-	var _tooltip = __webpack_require__(220);
+	var _tooltip = __webpack_require__(218);
 
 	var _tooltip2 = _interopRequireDefault(_tooltip);
 
-	var _style = __webpack_require__(221);
+	var _style = __webpack_require__(219);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -335,181 +339,111 @@ module.exports =
 
 /***/ },
 
-/***/ 219:
+/***/ 217:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input-number");
 
 /***/ },
 
-/***/ 220:
+/***/ 218:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tooltip");
 
 /***/ },
 
-/***/ 221:
+/***/ 219:
 /***/ function(module, exports) {
 
-	var SPECIAL_CHARS_REGEXP = /([\:\-\_]+(.))/g;
-	var MOZ_HACK_REGEXP = /^moz([A-Z])/;
-
-	function camelCase(name) {
-	  return name.
-	    replace(SPECIAL_CHARS_REGEXP, function(_, separator, letter, offset) {
-	      return offset ? letter.toUpperCase() : letter;
-	    }).
-	    replace(MOZ_HACK_REGEXP, 'Moz$1');
-	}
-
-	var ieVersion = Number(document.documentMode);
-	var getStyle = ieVersion < 9 ? function(element, styleName) {
-	  if (!element || !styleName) return null;
-	  styleName = camelCase(styleName);
-	  if (styleName === 'float') {
-	    styleName = 'styleFloat';
-	  }
-	  try {
-	    switch (styleName) {
-	      case 'opacity':
-	        try {
-	          return element.filters.item('alpha').opacity / 100;
-	        }
-	        catch (e) {
-	          return 1.0;
-	        }
-	        break;
-	      default:
-	        return ( element.style[styleName] || element.currentStyle ? element.currentStyle[styleName] : null );
-	    }
-	  } catch(e) {
-	    return element.style[styleName];
-	  }
-	} : function(element, styleName) {
-	  if (!element || !styleName) return null;
-	  styleName = camelCase(styleName);
-	  if (styleName === 'float') {
-	    styleName = 'cssFloat';
-	  }
-	  try {
-	    var computed = document.defaultView.getComputedStyle(element, '');
-	    return element.style[styleName] || computed ? computed[styleName] : null;
-	  } catch(e) {
-	    return element.style[styleName];
-	  }
-	};
-
-	var setStyle = function(element, styleName, value) {
-	  if (!element || !styleName) return;
-
-	  if (typeof styleName === 'object') {
-	    for (var prop in styleName) {
-	      if (styleName.hasOwnProperty(prop)) {
-	        setStyle(element, prop, styleName[prop]);
-	      }
-	    }
-	  } else {
-	    styleName = camelCase(styleName);
-	    if (styleName === 'opacity' && ieVersion < 9) {
-	      element.style.filter = isNaN(value) ? '' : 'alpha(opacity=' + value * 100 + ')';
-	    } else {
-	      element.style[styleName] = value;
-	    }
-	  }
-	};
-
-	module.exports = {
-	  getStyle: getStyle,
-	  setStyle: setStyle
-	};
+	module.exports = require("wind-dom/src/style");
 
 /***/ },
 
-/***/ 222:
+/***/ 220:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-slider"
-	  }, [(showInput) ? _h('el-input-number', {
+	  }, [(_vm.showInput) ? _vm._h('el-input-number', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (inputValue),
+	      value: (_vm.inputValue),
 	      expression: "inputValue"
 	    }],
 	    ref: "input",
 	    staticClass: "el-slider__input",
 	    attrs: {
-	      "step": step,
-	      "disabled": disabled,
-	      "min": min,
-	      "max": max,
+	      "step": _vm.step,
+	      "disabled": _vm.disabled,
+	      "min": _vm.min,
+	      "max": _vm.max,
 	      "size": "small"
 	    },
 	    domProps: {
-	      "value": (inputValue)
+	      "value": (_vm.inputValue)
 	    },
 	    on: {
 	      "input": function($event) {
-	        inputValue = $event
+	        _vm.inputValue = $event
 	      }
 	    },
 	    nativeOn: {
 	      "keyup": function($event) {
-	        onInputChange($event)
+	        _vm.onInputChange($event)
 	      }
 	    }
-	  }) : _e(), _h('div', {
+	  }) : _vm._e(), _vm._h('div', {
 	    ref: "slider",
 	    staticClass: "el-slider__runway",
 	    class: {
-	      'show-input': showInput, 'disabled': disabled
+	      'show-input': _vm.showInput, 'disabled': _vm.disabled
 	    },
 	    on: {
-	      "click": onSliderClick
+	      "click": _vm.onSliderClick
 	    }
-	  }, [_h('div', {
+	  }, [_vm._h('div', {
 	    staticClass: "el-slider__bar",
 	    style: ({
-	      width: currentPosition
+	      width: _vm.currentPosition
 	    })
-	  }), _h('div', {
+	  }), _vm._h('div', {
 	    ref: "button",
 	    staticClass: "el-slider__button-wrapper",
 	    class: {
-	      'hover': hovering, 'dragging': dragging
+	      'hover': _vm.hovering, 'dragging': _vm.dragging
 	    },
 	    style: ({
-	      left: currentPosition
+	      left: _vm.currentPosition
 	    }),
 	    on: {
-	      "mouseenter": handleMouseEnter,
-	      "mouseleave": handleMouseLeave,
-	      "mousedown": onButtonDown
+	      "mouseenter": _vm.handleMouseEnter,
+	      "mouseleave": _vm.handleMouseLeave,
+	      "mousedown": _vm.onButtonDown
 	    }
-	  }, [_h('el-tooltip', {
+	  }, [_vm._h('el-tooltip', {
 	    ref: "tooltip",
 	    attrs: {
 	      "placement": "top"
 	    }
-	  }, [_h('span', {
+	  }, [_vm._h('span', {
 	    slot: "content"
-	  }, [_s(value)]), _h('div', {
+	  }, [_vm._s(_vm.value)]), _vm._h('div', {
 	    staticClass: "el-slider__button",
 	    class: {
-	      'hover': hovering, 'dragging': dragging
+	      'hover': _vm.hovering, 'dragging': _vm.dragging
 	    }
-	  })])]), _l((stops), function(item) {
-	    return (showStops) ? _h('div', {
+	  })])]), _vm._l((_vm.stops), function(item) {
+	    return (_vm.showStops) ? _vm._h('div', {
 	      staticClass: "el-slider__stop",
 	      style: ({
 	        'left': item + '%'
 	      })
-	    }) : _e()
+	    }) : _vm._e()
 	  })])])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ }
 

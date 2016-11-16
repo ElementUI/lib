@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(114);
+	module.exports = __webpack_require__(112);
 
 
 /***/ },
@@ -58,12 +58,14 @@ module.exports =
 
 /***/ },
 
-/***/ 114:
+/***/ 112:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _inputNumber = __webpack_require__(115);
+	var _inputNumber = __webpack_require__(113);
 
 	var _inputNumber2 = _interopRequireDefault(_inputNumber);
 
@@ -78,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 115:
+/***/ 113:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(116)
+	__vue_exports__ = __webpack_require__(114)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(118)
+	var __vue_template__ = __webpack_require__(116)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -108,8 +110,10 @@ module.exports =
 
 /***/ },
 
-/***/ 116:
+/***/ 114:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -117,7 +121,7 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _event = __webpack_require__(117);
+	var _event = __webpack_require__(115);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -334,134 +338,88 @@ module.exports =
 
 /***/ },
 
-/***/ 117:
+/***/ 115:
 /***/ function(module, exports) {
 
-	var bindEvent = (function() {
-	  if(document.addEventListener) {
-	    return function(element, event, handler) {
-	      if (element && event && handler) {
-	        element.addEventListener(event, handler, false);
-	      }
-	    };
-	  } else {
-	    return function(element, event, handler) {
-	      if (element && event && handler) {
-	        element.attachEvent('on' + event, handler);
-	      }
-	    };
-	  }
-	})();
-
-	var unbindEvent = (function() {
-	  if(document.removeEventListener) {
-	    return function(element, event, handler) {
-	      if (element && event) {
-	        element.removeEventListener(event, handler, false);
-	      }
-	    };
-	  } else {
-	    return function(element, event, handler) {
-	      if (element && event) {
-	        element.detachEvent('on' + event, handler);
-	      }
-	    };
-	  }
-	})();
-
-	var bindOnce = function(el, event, fn) {
-	  var listener = function() {
-	    if (fn) {
-	      fn.apply(this, arguments);
-	    }
-	    unbindEvent(el, event, listener);
-	  };
-	  bindEvent(el, event, listener);
-	};
-
-	module.exports = {
-	  on: bindEvent,
-	  off: unbindEvent,
-	  once: bindOnce
-	};
+	module.exports = require("wind-dom/src/event");
 
 /***/ },
 
-/***/ 118:
+/***/ 116:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('div', {
 	    staticClass: "el-input-number",
 	    class: [
-	      size ? 'el-input-number--' + size : '', {
-	        'is-disabled': disabled
+	      _vm.size ? 'el-input-number--' + _vm.size : '', {
+	        'is-disabled': _vm.disabled
 	      }
 	    ]
-	  }, [_h('el-input', {
+	  }, [_vm._h('el-input', {
 	    class: {
-	      'is-active': inputActive
+	      'is-active': _vm.inputActive
 	    },
 	    attrs: {
-	      "disabled": disabled,
-	      "size": size
+	      "disabled": _vm.disabled,
+	      "size": _vm.size
 	    },
 	    domProps: {
-	      "value": currentValue
+	      "value": _vm.currentValue
 	    },
 	    on: {
-	      "blur": handleBlur,
-	      "input": handleInput
+	      "blur": _vm.handleBlur,
+	      "input": _vm.handleInput
 	    },
 	    nativeOn: {
 	      "keydown": [function($event) {
-	        if ($event.keyCode !== 38) return;
-	        increase($event)
+	        if ($event.keyCode !== 38) { return; }
+	        _vm.increase($event)
 	      }, function($event) {
-	        if ($event.keyCode !== 40) return;
-	        decrease($event)
+	        if ($event.keyCode !== 40) { return; }
+	        _vm.decrease($event)
 	      }]
 	    }
-	  }), _h('span', {
+	  }), _vm._h('span', {
 	    directives: [{
 	      name: "repeat-click",
 	      rawName: "v-repeat-click",
-	      value: (decrease),
+	      value: (_vm.decrease),
 	      expression: "decrease"
 	    }],
 	    staticClass: "el-input-number__decrease el-icon-minus",
 	    class: {
-	      'is-disabled': minDisabled
+	      'is-disabled': _vm.minDisabled
 	    },
 	    on: {
 	      "mouseenter": function($event) {
-	        activeInput(minDisabled)
+	        _vm.activeInput(_vm.minDisabled)
 	      },
 	      "mouseleave": function($event) {
-	        inactiveInput(minDisabled)
+	        _vm.inactiveInput(_vm.minDisabled)
 	      }
 	    }
-	  }), _h('span', {
+	  }), _vm._h('span', {
 	    directives: [{
 	      name: "repeat-click",
 	      rawName: "v-repeat-click",
-	      value: (increase),
+	      value: (_vm.increase),
 	      expression: "increase"
 	    }],
 	    staticClass: "el-input-number__increase el-icon-plus",
 	    class: {
-	      'is-disabled': maxDisabled
+	      'is-disabled': _vm.maxDisabled
 	    },
 	    on: {
 	      "mouseenter": function($event) {
-	        activeInput(maxDisabled)
+	        _vm.activeInput(_vm.maxDisabled)
 	      },
 	      "mouseleave": function($event) {
-	        inactiveInput(maxDisabled)
+	        _vm.inactiveInput(_vm.maxDisabled)
 	      }
 	    }
 	  })])
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ }
 

@@ -46,17 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(105);
+	module.exports = __webpack_require__(103);
 
 
 /***/ },
 
-/***/ 105:
+/***/ 103:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _icon = __webpack_require__(106);
+	var _icon = __webpack_require__(104);
 
 	var _icon2 = _interopRequireDefault(_icon);
 
@@ -71,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 106:
+/***/ 104:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(107)
+	__vue_exports__ = __webpack_require__(105)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(108)
+	var __vue_template__ = __webpack_require__(106)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -101,8 +103,10 @@ module.exports =
 
 /***/ },
 
-/***/ 107:
+/***/ 105:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -120,14 +124,14 @@ module.exports =
 
 /***/ },
 
-/***/ 108:
+/***/ 106:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('i', {
-	    class: 'el-icon-' + name
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('i', {
+	    class: 'el-icon-' + _vm.name
 	  })
-	}},staticRenderFns: []}
+	},staticRenderFns: []}
 
 /***/ }
 

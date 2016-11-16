@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(168);
+	module.exports = __webpack_require__(167);
 
 
 /***/ },
@@ -58,12 +58,14 @@ module.exports =
 
 /***/ },
 
-/***/ 168:
+/***/ 167:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _pagination = __webpack_require__(169);
+	var _pagination = __webpack_require__(168);
 
 	var _pagination2 = _interopRequireDefault(_pagination);
 
@@ -78,24 +80,26 @@ module.exports =
 
 /***/ },
 
-/***/ 169:
+/***/ 168:
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _pager = __webpack_require__(170);
+	var _pager = __webpack_require__(169);
 
 	var _pager2 = _interopRequireDefault(_pager);
 
-	var _select = __webpack_require__(173);
+	var _select = __webpack_require__(172);
 
 	var _select2 = _interopRequireDefault(_select);
 
-	var _option = __webpack_require__(174);
+	var _option = __webpack_require__(173);
 
 	var _option2 = _interopRequireDefault(_option);
 
-	var _migrating = __webpack_require__(175);
+	var _migrating = __webpack_require__(174);
 
 	var _migrating2 = _interopRequireDefault(_migrating);
 
@@ -335,8 +339,11 @@ module.exports =
 	        handleChange: function handleChange(_ref) {
 	          var target = _ref.target;
 
+	          var oldPage = this.$parent.internalCurrentPage;
 	          this.$parent.internalCurrentPage = this.$parent.getValidCurrentPage(target.value);
-	          this.$parent.$emit('current-change', this.$parent.internalCurrentPage);
+	          if (oldPage !== this.$parent.internalCurrentPage) {
+	            this.$parent.$emit('current-change', this.$parent.internalCurrentPage);
+	          }
 	          this.oldValue = null;
 	        }
 	      },
@@ -393,8 +400,11 @@ module.exports =
 	      };
 	    },
 	    handleCurrentChange: function handleCurrentChange(val) {
+	      var oldPage = this.internalCurrentPage;
 	      this.internalCurrentPage = this.getValidCurrentPage(val);
-	      this.$emit('current-change', this.internalCurrentPage);
+	      if (oldPage !== this.internalCurrentPage) {
+	        this.$emit('current-change', this.internalCurrentPage);
+	      }
 	    },
 	    prev: function prev() {
 	      var oldPage = this.internalCurrentPage;
@@ -454,11 +464,13 @@ module.exports =
 	  watch: {
 	    internalPageCount: function internalPageCount(newVal) {
 	      /* istanbul ignore if */
-	      if (newVal > 0 && this.internalCurrentPage === 0) {
+	      var oldPage = this.internalCurrentPage;
+	      if (newVal > 0 && oldPage === 0) {
 	        this.internalCurrentPage = 1;
-	        this.$emit('current-change', 1);
-	      } else if (this.internalCurrentPage > newVal) {
+	      } else if (oldPage > newVal) {
 	        this.internalCurrentPage = newVal === 0 ? 1 : newVal;
+	      }
+	      if (oldPage !== this.internalCurrentPage) {
 	        this.$emit('current-change', this.internalCurrentPage);
 	      }
 	    },
@@ -501,17 +513,17 @@ module.exports =
 
 /***/ },
 
-/***/ 170:
+/***/ 169:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(171)
+	__vue_exports__ = __webpack_require__(170)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(172)
+	var __vue_template__ = __webpack_require__(171)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -531,8 +543,10 @@ module.exports =
 
 /***/ },
 
-/***/ 171:
+/***/ 170:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	exports.__esModule = true;
 	//
@@ -683,74 +697,74 @@ module.exports =
 
 /***/ },
 
-/***/ 172:
+/***/ 171:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('ul', {
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('ul', {
 	    staticClass: "el-pager",
 	    on: {
-	      "click": onPagerClick
+	      "click": _vm.onPagerClick
 	    }
-	  }, [(pageCount > 0) ? _h('li', {
+	  }, [(_vm.pageCount > 0) ? _vm._h('li', {
 	    staticClass: "number",
 	    class: {
-	      active: currentPage === 1
+	      active: _vm.currentPage === 1
 	    }
-	  }, ["1"]) : _e(), (showPrevMore) ? _h('li', {
+	  }, ["1"]) : _vm._e(), (_vm.showPrevMore) ? _vm._h('li', {
 	    staticClass: "el-icon more btn-quickprev",
-	    class: [quickprevIconClass],
+	    class: [_vm.quickprevIconClass],
 	    on: {
 	      "mouseenter": function($event) {
-	        quickprevIconClass = 'el-icon-d-arrow-left'
+	        _vm.quickprevIconClass = 'el-icon-d-arrow-left'
 	      },
 	      "mouseleave": function($event) {
-	        quickprevIconClass = 'el-icon-more'
+	        _vm.quickprevIconClass = 'el-icon-more'
 	      }
 	    }
-	  }) : _e(), _l((pagers), function(pager) {
-	    return _h('li', {
+	  }) : _vm._e(), _vm._l((_vm.pagers), function(pager) {
+	    return _vm._h('li', {
 	      staticClass: "number",
 	      class: {
-	        active: currentPage === pager
+	        active: _vm.currentPage === pager
 	      }
-	    }, [_s(pager)])
-	  }), (showNextMore) ? _h('li', {
+	    }, [_vm._s(pager)])
+	  }), (_vm.showNextMore) ? _vm._h('li', {
 	    staticClass: "el-icon more btn-quicknext",
-	    class: [quicknextIconClass],
+	    class: [_vm.quicknextIconClass],
 	    on: {
 	      "mouseenter": function($event) {
-	        quicknextIconClass = 'el-icon-d-arrow-right'
+	        _vm.quicknextIconClass = 'el-icon-d-arrow-right'
 	      },
 	      "mouseleave": function($event) {
-	        quicknextIconClass = 'el-icon-more'
+	        _vm.quicknextIconClass = 'el-icon-more'
 	      }
 	    }
-	  }) : _e(), (pageCount > 1) ? _h('li', {
+	  }) : _vm._e(), (_vm.pageCount > 1) ? _vm._h('li', {
 	    staticClass: "number",
 	    class: {
-	      active: currentPage === pageCount
+	      active: _vm.currentPage === _vm.pageCount
 	    }
-	  }, [_s(pageCount)]) : _e()])
-	}},staticRenderFns: []}
+	  }, [_vm._s(_vm.pageCount)]) : _vm._e()])
+	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 173:
+/***/ 172:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/select");
 
 /***/ },
 
-/***/ 174:
+/***/ 173:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/option");
 
 /***/ },
 
-/***/ 175:
+/***/ 174:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/migrating");
