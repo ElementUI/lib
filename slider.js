@@ -167,6 +167,7 @@ module.exports =
 
 	  data: function data() {
 	    return {
+	      precision: null,
 	      inputValue: null,
 	      timeout: null,
 	      hovering: false,
@@ -191,7 +192,7 @@ module.exports =
 	      this.$nextTick(function () {
 	        _this.updatePopper();
 	      });
-	      if (val < this.min) {
+	      if (typeof val !== 'number' || isNaN(val) || val < this.min) {
 	        this.$emit('input', this.min);
 	        return;
 	      }
@@ -220,7 +221,11 @@ module.exports =
 	      if (newPos >= 0 && newPos <= 100) {
 	        var lengthPerStep = 100 / ((this.max - this.min) / this.step);
 	        var steps = Math.round(newPos / lengthPerStep);
-	        this.$emit('input', Math.round(steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min));
+	        var value = steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min;
+	        if (this.precision) {
+	          value = parseFloat(value.toFixed(this.precision));
+	        }
+	        this.$emit('input', value);
 	        this.currentPosition = (this.value - this.min) / (this.max - this.min) * 100 + '%';
 	        if (!this.dragging) {
 	          if (this.value !== this.oldValue) {
@@ -232,10 +237,8 @@ module.exports =
 	    },
 	    onSliderClick: function onSliderClick(event) {
 	      if (this.disabled) return;
-	      var currentX = event.clientX;
 	      var sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
-	      var newPos = (currentX - sliderOffsetLeft) / this.$sliderWidth * 100;
-	      this.setPosition(newPos);
+	      this.setPosition((event.clientX - sliderOffsetLeft) / this.$sliderWidth * 100);
 	    },
 	    onInputChange: function onInputChange() {
 	      if (this.value === '') {
@@ -282,9 +285,9 @@ module.exports =
 	    },
 	    stops: function stops() {
 	      var stopCount = (this.max - this.value) / this.step;
-	      var result = [];
 	      var currentLeft = parseFloat(this.currentPosition);
 	      var stepWidth = 100 * this.step / (this.max - this.min);
+	      var result = [];
 	      for (var i = 1; i < stopCount; i++) {
 	        result.push(currentLeft + i * stepWidth);
 	      }
@@ -293,10 +296,13 @@ module.exports =
 	  },
 
 	  created: function created() {
-	    if (typeof this.value !== 'number' || this.value < this.min) {
+	    if (typeof this.value !== 'number' || isNaN(this.value) || this.value < this.min) {
 	      this.$emit('input', this.min);
 	    } else if (this.value > this.max) {
 	      this.$emit('input', this.max);
+	    }
+	    if (this.step && this.step < 1) {
+	      this.precision = this.step.toPrecision(1).split('.')[1].length;
 	    }
 	    this.inputValue = this.inputValue || this.value;
 	  }

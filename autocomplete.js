@@ -163,6 +163,13 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElAutocomplete',
@@ -317,7 +324,11 @@ module.exports =
 	        _vm.select(_vm.highlightedIndex)
 	      }]
 	    }
-	  }), _vm._h('transition', {
+	  }, [(_vm.$slots.prepend) ? _vm._h('template', {
+	    slot: "prepend"
+	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.$slots.append) ? _vm._h('template', {
+	    slot: "append"
+	  }, [_vm._t("append")]) : _vm._e()]), _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    }

@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(294);
+	module.exports = __webpack_require__(295);
 
 
 /***/ },
@@ -58,14 +58,14 @@ module.exports =
 
 /***/ },
 
-/***/ 294:
+/***/ 295:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _src = __webpack_require__(295);
+	var _src = __webpack_require__(296);
 
 	var _src2 = _interopRequireDefault(_src);
 
@@ -80,14 +80,14 @@ module.exports =
 
 /***/ },
 
-/***/ 295:
+/***/ 296:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(296)
+	__vue_exports__ = __webpack_require__(297)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -105,26 +105,26 @@ module.exports =
 
 /***/ },
 
-/***/ 296:
+/***/ 297:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _uploadList = __webpack_require__(297);
+	var _uploadList = __webpack_require__(298);
 
 	var _uploadList2 = _interopRequireDefault(_uploadList);
 
-	var _upload = __webpack_require__(301);
+	var _upload = __webpack_require__(302);
 
 	var _upload2 = _interopRequireDefault(_upload);
 
-	var _iframeUpload = __webpack_require__(308);
+	var _iframeUpload = __webpack_require__(309);
 
 	var _iframeUpload2 = _interopRequireDefault(_iframeUpload);
 
-	var _progress = __webpack_require__(299);
+	var _progress = __webpack_require__(300);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -190,6 +190,12 @@ module.exports =
 	    onError: {
 	      type: Function,
 	      default: noop
+	    },
+	    defaultFileList: {
+	      type: Array,
+	      default: function _default() {
+	        return [];
+	      }
 	    }
 	  },
 
@@ -278,6 +284,22 @@ module.exports =
 	    }
 	  },
 
+	  watch: {
+	    defaultFileList: {
+	      immediate: true,
+	      handler: function handler(fileList) {
+	        var _this = this;
+
+	        this.fileList = fileList.map(function (item) {
+	          item.status = 'finished';
+	          item.percentage = 100;
+	          item.uid = Date.now() + _this.tempIndex++;
+	          return item;
+	        });
+	      }
+	    }
+	  },
+
 	  render: function render(h) {
 	    var uploadList;
 
@@ -348,17 +370,17 @@ module.exports =
 
 /***/ },
 
-/***/ 297:
+/***/ 298:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(298)
+	__vue_exports__ = __webpack_require__(299)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(300)
+	var __vue_template__ = __webpack_require__(301)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -378,7 +400,7 @@ module.exports =
 
 /***/ },
 
-/***/ 298:
+/***/ 299:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -389,7 +411,7 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _progress = __webpack_require__(299);
+	var _progress = __webpack_require__(300);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -442,14 +464,14 @@ module.exports =
 
 /***/ },
 
-/***/ 299:
+/***/ 300:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/progress");
 
 /***/ },
 
-/***/ 300:
+/***/ 301:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -505,17 +527,17 @@ module.exports =
 
 /***/ },
 
-/***/ 301:
+/***/ 302:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(302)
+	__vue_exports__ = __webpack_require__(303)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(307)
+	var __vue_template__ = __webpack_require__(308)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -535,18 +557,18 @@ module.exports =
 
 /***/ },
 
-/***/ 302:
+/***/ 303:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _ajax = __webpack_require__(303);
+	var _ajax = __webpack_require__(304);
 
 	var _ajax2 = _interopRequireDefault(_ajax);
 
-	var _cover = __webpack_require__(304);
+	var _cover = __webpack_require__(305);
 
 	var _cover2 = _interopRequireDefault(_cover);
 
@@ -722,7 +744,7 @@ module.exports =
 
 /***/ },
 
-/***/ 303:
+/***/ 304:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -812,17 +834,17 @@ module.exports =
 
 /***/ },
 
-/***/ 304:
+/***/ 305:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(305)
+	__vue_exports__ = __webpack_require__(306)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(306)
+	var __vue_template__ = __webpack_require__(307)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -842,7 +864,7 @@ module.exports =
 
 /***/ },
 
-/***/ 305:
+/***/ 306:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -853,7 +875,7 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _progress = __webpack_require__(299);
+	var _progress = __webpack_require__(300);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -918,7 +940,7 @@ module.exports =
 
 /***/ },
 
-/***/ 306:
+/***/ 307:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -1012,7 +1034,7 @@ module.exports =
 
 /***/ },
 
-/***/ 307:
+/***/ 308:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -1060,14 +1082,14 @@ module.exports =
 
 /***/ },
 
-/***/ 308:
+/***/ 309:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(309)
+	__vue_exports__ = __webpack_require__(310)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -1085,14 +1107,14 @@ module.exports =
 
 /***/ },
 
-/***/ 309:
+/***/ 310:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _cover = __webpack_require__(304);
+	var _cover = __webpack_require__(305);
 
 	var _cover2 = _interopRequireDefault(_cover);
 

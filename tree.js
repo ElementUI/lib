@@ -65,6 +65,13 @@ module.exports =
 
 /***/ },
 
+/***/ 254:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/checkbox");
+
+/***/ },
+
 /***/ 284:
 /***/ function(module, exports, __webpack_require__) {
 
@@ -97,7 +104,7 @@ module.exports =
 	__vue_exports__ = __webpack_require__(286)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(293)
+	var __vue_template__ = __webpack_require__(294)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -124,14 +131,15 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _tree = __webpack_require__(287);
+	var _treeStore = __webpack_require__(287);
 
-	var _tree2 = _interopRequireDefault(_tree);
+	var _treeStore2 = _interopRequireDefault(_treeStore);
 
 	var _locale = __webpack_require__(152);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
 	//
 	//
 	//
@@ -188,13 +196,14 @@ module.exports =
 	      default: false
 	    },
 	    highlightCurrent: Boolean,
-	    load: Function
+	    load: Function,
+	    filterNodeMethod: Function
 	  },
 
 	  created: function created() {
-	    this.$isTree = true;
+	    this.isTree = true;
 
-	    this.tree = new _tree2.default({
+	    this.store = new _treeStore2.default({
 	      key: this.nodeKey,
 	      data: this.data,
 	      lazy: this.lazy,
@@ -204,19 +213,23 @@ module.exports =
 	      defaultCheckedKeys: this.defaultCheckedKeys,
 	      defaultExpandedKeys: this.defaultExpandedKeys,
 	      autoExpandParent: this.autoExpandParent,
-	      defaultExpandAll: this.defaultExpandAll
+	      defaultExpandAll: this.defaultExpandAll,
+	      filterNodeMethod: this.filterNodeMethod
 	    });
+
+	    this.root = this.store.root;
 	  },
 	  data: function data() {
 	    return {
-	      tree: {},
+	      store: null,
+	      root: null,
 	      currentNode: null
 	    };
 	  },
 
 
 	  components: {
-	    ElTreeNode: __webpack_require__(289)
+	    ElTreeNode: __webpack_require__(290)
 	  },
 
 	  computed: {
@@ -231,21 +244,47 @@ module.exports =
 	  },
 
 	  watch: {
-	    data: function data(newVal) {
-	      this.tree.setData(newVal);
-	    },
 	    defaultCheckedKeys: function defaultCheckedKeys(newVal) {
-	      this.tree.setDefaultCheckedKey(newVal);
+	      this.store.defaultCheckedKeys = newVal;
+	      this.store.setDefaultCheckedKey(newVal);
+	    },
+	    defaultExpandedKeys: function defaultExpandedKeys(newVal) {
+	      this.store.defaultExpandedKeys = newVal;
+	      this.store.setDefaultExpandedKeys(newVal);
+	    },
+	    data: function data(newVal) {
+	      this.store.setData(newVal);
 	    }
 	  },
 
 	  methods: {
-	    getCheckedNodes: function getCheckedNodes(leafOnly) {
-	      return this.tree.getCheckedNodes(leafOnly);
+	    filter: function filter(value) {
+	      if (!this.filterNodeMethod) throw new Error('[Tree] filterNodeMethod is required when filter');
+	      this.store.filter(value);
 	    },
-	    setCheckedNodes: function setCheckedNodes(nodes) {
+	    getNodeKey: function getNodeKey(node, index) {
+	      var nodeKey = this.nodeKey;
+	      if (nodeKey && node) {
+	        return node.data[nodeKey];
+	      }
+	      return index;
+	    },
+	    getCheckedNodes: function getCheckedNodes(leafOnly) {
+	      return this.store.getCheckedNodes(leafOnly);
+	    },
+	    getCheckedKeys: function getCheckedKeys(leafOnly) {
+	      return this.store.getCheckedKeys(leafOnly);
+	    },
+	    setCheckedNodes: function setCheckedNodes(nodes, leafOnly) {
 	      if (!this.nodeKey) throw new Error('[Tree] nodeKey is required in setCheckedNodes');
-	      this.tree.setCheckedNodes(nodes);
+	      this.store.setCheckedNodes(nodes, leafOnly);
+	    },
+	    setCheckedKeys: function setCheckedKeys(keys, leafOnly) {
+	      if (!this.nodeKey) throw new Error('[Tree] nodeKey is required in setCheckedNodes');
+	      this.store.setCheckedKeys(keys, leafOnly);
+	    },
+	    setChecked: function setChecked(data, checked, deep) {
+	      this.store.setChecked(data, checked, deep);
 	    }
 	  }
 	};
@@ -259,19 +298,23 @@ module.exports =
 
 	exports.__esModule = true;
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	var _node = __webpack_require__(288);
 
 	var _node2 = _interopRequireDefault(_node);
+
+	var _util = __webpack_require__(289);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var Tree = function () {
-	  function Tree(options) {
+	var TreeStore = function () {
+	  function TreeStore(options) {
 	    var _this = this;
 
-	    _classCallCheck(this, Tree);
+	    _classCallCheck(this, TreeStore);
 
 	    for (var option in options) {
 	      if (options.hasOwnProperty(option)) {
@@ -283,7 +326,7 @@ module.exports =
 
 	    this.root = new _node2.default({
 	      data: this.data,
-	      _tree: this
+	      store: this
 	    });
 
 	    if (this.lazy && this.load) {
@@ -297,7 +340,38 @@ module.exports =
 	    }
 	  }
 
-	  Tree.prototype.setData = function setData(newVal) {
+	  TreeStore.prototype.filter = function filter(value) {
+	    var filterNodeMethod = this.filterNodeMethod;
+	    var traverse = function traverse(node) {
+	      var childNodes = node.root ? node.root.childNodes : node.childNodes;
+
+	      childNodes.forEach(function (child) {
+	        child.visible = filterNodeMethod.call(child, value, child.data, child);
+
+	        traverse(child);
+	      });
+
+	      if (!node.visible && childNodes.length) {
+	        var allHidden = true;
+
+	        childNodes.forEach(function (child) {
+	          if (child.visible) allHidden = false;
+	        });
+
+	        if (node.root) {
+	          node.root.visible = allHidden === false;
+	        } else {
+	          node.visible = allHidden === false;
+	        }
+	      }
+
+	      if (node.visible && !node.isLeaf) node.expand();
+	    };
+
+	    traverse(this);
+	  };
+
+	  TreeStore.prototype.setData = function setData(newVal) {
 	    var instanceChanged = newVal !== this.root.data;
 	    this.root.setData(newVal);
 	    if (instanceChanged) {
@@ -305,7 +379,37 @@ module.exports =
 	    }
 	  };
 
-	  Tree.prototype._initDefaultCheckedNodes = function _initDefaultCheckedNodes() {
+	  TreeStore.prototype.getNode = function getNode(data) {
+	    var key = (typeof data === 'undefined' ? 'undefined' : _typeof(data)) !== 'object' ? data : (0, _util.getNodeKey)(this.key, data);
+	    return this.nodesMap[key];
+	  };
+
+	  TreeStore.prototype.insertBefore = function insertBefore(data, refData) {
+	    var refNode = this.getNode(refData);
+	    refNode.parent.insertBefore({ data: data }, refNode);
+	  };
+
+	  TreeStore.prototype.insertAfter = function insertAfter(data, refData) {
+	    var refNode = this.getNode(refData);
+	    refNode.parent.insertAfter({ data: data }, refNode);
+	  };
+
+	  TreeStore.prototype.remove = function remove(data) {
+	    var node = this.getNode(data);
+	    if (node) {
+	      node.parent.removeChild(node);
+	    }
+	  };
+
+	  TreeStore.prototype.append = function append(data, parentData) {
+	    var parentNode = parentData ? this.getNode(parentData) : this.root;
+
+	    if (parentNode) {
+	      parentNode.insertChild({ data: data });
+	    }
+	  };
+
+	  TreeStore.prototype._initDefaultCheckedNodes = function _initDefaultCheckedNodes() {
 	    var _this2 = this;
 
 	    var defaultCheckedKeys = this.defaultCheckedKeys || [];
@@ -320,7 +424,7 @@ module.exports =
 	    });
 	  };
 
-	  Tree.prototype._initDefaultCheckedNode = function _initDefaultCheckedNode(node) {
+	  TreeStore.prototype._initDefaultCheckedNode = function _initDefaultCheckedNode(node) {
 	    var defaultCheckedKeys = this.defaultCheckedKeys || [];
 
 	    if (defaultCheckedKeys.indexOf(node.key) !== -1) {
@@ -328,28 +432,29 @@ module.exports =
 	    }
 	  };
 
-	  Tree.prototype.setDefaultCheckedKey = function setDefaultCheckedKey(newVal) {
+	  TreeStore.prototype.setDefaultCheckedKey = function setDefaultCheckedKey(newVal) {
 	    if (newVal !== this.defaultCheckedKeys) {
 	      this.defaultCheckedKeys = newVal;
 	      this._initDefaultCheckedNodes();
 	    }
 	  };
 
-	  Tree.prototype.registerNode = function registerNode(node) {
+	  TreeStore.prototype.registerNode = function registerNode(node) {
 	    var key = this.key;
 	    if (!key || !node || !node.data) return;
 
-	    this.nodesMap[node.key] = node;
+	    var nodeKey = node.key;
+	    if (nodeKey) this.nodesMap[node.key] = node;
 	  };
 
-	  Tree.prototype.deregisterNode = function deregisterNode(node) {
+	  TreeStore.prototype.deregisterNode = function deregisterNode(node) {
 	    var key = this.key;
 	    if (!key || !node || !node.data) return;
 
 	    delete this.nodesMap[node.key];
 	  };
 
-	  Tree.prototype.getCheckedNodes = function getCheckedNodes(leafOnly) {
+	  TreeStore.prototype.getCheckedNodes = function getCheckedNodes(leafOnly) {
 	    var checkedNodes = [];
 	    var traverse = function traverse(node) {
 	      var childNodes = node.root ? node.root.childNodes : node.childNodes;
@@ -368,15 +473,21 @@ module.exports =
 	    return checkedNodes;
 	  };
 
-	  Tree.prototype.setCheckedNodes = function setCheckedNodes(array) {
-	    var _this3 = this;
-
+	  TreeStore.prototype.getCheckedKeys = function getCheckedKeys(leafOnly) {
 	    var key = this.key;
-	    var checkedKeys = {};
-	    array.forEach(function (item) {
-	      checkedKeys[(item || {})[key]] = true;
+	    var allNodes = this._getAllNodes();
+	    var keys = [];
+	    allNodes.forEach(function (node) {
+	      if (!leafOnly || leafOnly && node.isLeaf) {
+	        if (node.checked) {
+	          keys.push((node.data || {})[key]);
+	        }
+	      }
 	    });
+	    return keys;
+	  };
 
+	  TreeStore.prototype._getAllNodes = function _getAllNodes() {
 	    var allNodes = [];
 	    var nodesMap = this.nodesMap;
 	    for (var nodeKey in nodesMap) {
@@ -385,18 +496,73 @@ module.exports =
 	      }
 	    }
 
+	    return allNodes;
+	  };
+
+	  TreeStore.prototype._setCheckedKeys = function _setCheckedKeys(key, leafOnly, checkedKeys) {
+	    var _this3 = this;
+
+	    var allNodes = this._getAllNodes();
+
 	    allNodes.sort(function (a, b) {
 	      return a.level > b.level ? -1 : 1;
 	    });
 	    allNodes.forEach(function (node) {
-	      node.setChecked(!!checkedKeys[(node.data || {})[key]], !_this3.checkStrictly);
+	      if (!leafOnly || leafOnly && node.isLeaf) {
+	        node.setChecked(!!checkedKeys[(node.data || {})[key]], !_this3.checkStrictly);
+	      }
 	    });
 	  };
 
-	  return Tree;
+	  TreeStore.prototype.setCheckedNodes = function setCheckedNodes(array) {
+	    var leafOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+	    var key = this.key;
+	    var checkedKeys = {};
+	    array.forEach(function (item) {
+	      checkedKeys[(item || {})[key]] = true;
+	    });
+
+	    this._setCheckedKeys(key, leafOnly, checkedKeys);
+	  };
+
+	  TreeStore.prototype.setCheckedKeys = function setCheckedKeys(keys) {
+	    var leafOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+	    this.defaultCheckedKeys = keys;
+	    var key = this.key;
+	    var checkedKeys = {};
+	    keys.forEach(function (key) {
+	      checkedKeys[key] = true;
+	    });
+
+	    this._setCheckedKeys(key, leafOnly, checkedKeys);
+	  };
+
+	  TreeStore.prototype.setDefaultExpandedKeys = function setDefaultExpandedKeys(keys) {
+	    var _this4 = this;
+
+	    keys = keys || [];
+	    this.defaultExpandedKeys = keys;
+
+	    keys.forEach(function (key) {
+	      var node = _this4.getNode(key);
+	      if (node) node.expand(null, _this4.autoExpandParent);
+	    });
+	  };
+
+	  TreeStore.prototype.setChecked = function setChecked(data, checked, deep) {
+	    var node = this.getNode(data);
+
+	    if (node) {
+	      node.setChecked(!!checked, deep);
+	    }
+	  };
+
+	  return TreeStore;
 	}();
 
-	exports.default = Tree;
+	exports.default = TreeStore;
 	;
 
 /***/ },
@@ -413,6 +579,8 @@ module.exports =
 	var _merge = __webpack_require__(123);
 
 	var _merge2 = _interopRequireDefault(_merge);
+
+	var _util = __webpack_require__(289);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -444,7 +612,7 @@ module.exports =
 	};
 
 	var getPropertyFromData = function getPropertyFromData(node, prop) {
-	  var props = node._tree.props;
+	  var props = node.store.props;
 	  var data = node.data || {};
 	  var config = props[prop];
 
@@ -470,6 +638,7 @@ module.exports =
 	    this.data = null;
 	    this.expanded = false;
 	    this.parent = null;
+	    this.visible = true;
 
 	    for (var name in options) {
 	      if (options.hasOwnProperty(name)) {
@@ -487,50 +656,47 @@ module.exports =
 	      this.level = this.parent.level + 1;
 	    }
 
-	    var tree = this._tree;
-	    if (!tree) {
-	      throw new Error('[Node]_tree is required!');
+	    var store = this.store;
+	    if (!store) {
+	      throw new Error('[Node]store is required!');
 	    }
-	    tree.registerNode(this);
+	    store.registerNode(this);
 
-	    if (tree.lazy !== true && this.data) {
+	    var props = store.props;
+	    if (props && typeof props.isLeaf !== 'undefined') {
+	      var isLeaf = getPropertyFromData(this, 'isLeaf');
+	      if (typeof isLeaf === 'boolean') {
+	        this.isLeafByUser = isLeaf;
+	      }
+	    }
+
+	    if (store.lazy !== true && this.data) {
 	      this.setData(this.data);
 
-	      if (tree.defaultExpandAll) {
+	      if (store.defaultExpandAll) {
 	        this.expanded = true;
 	      }
-	    } else if (this.level > 0 && tree.lazy && tree.defaultExpandAll) {
+	    } else if (this.level > 0 && store.lazy && store.defaultExpandAll) {
 	      this.expand();
 	    }
 
 	    if (!this.data) return;
-	    var defaultExpandedKeys = tree.defaultExpandedKeys;
-	    var key = tree.key;
+	    var defaultExpandedKeys = store.defaultExpandedKeys;
+	    var key = store.key;
 	    if (key && defaultExpandedKeys && defaultExpandedKeys.indexOf(this.key) !== -1) {
-	      if (tree.autoExpandParent) {
-	        var parent = this.parent;
-	        while (parent.level > 0) {
-	          parent.expanded = true;
-	          parent = parent.parent;
-	        }
-	      }
-
-	      this.expand();
+	      this.expand(null, store.autoExpandParent);
 	    }
 
-	    if (tree.lazy) {
-	      tree._initDefaultCheckedNode(this);
+	    if (store.lazy) {
+	      store._initDefaultCheckedNode(this);
 	    }
+
+	    this.updateLeafState();
 	  }
 
 	  Node.prototype.setData = function setData(data) {
-	    if (!Array.isArray(data) && !data.$treeNodeId) {
-	      Object.defineProperty(data, '$treeNodeId', {
-	        value: this.id,
-	        enumerable: false,
-	        configurable: false,
-	        writable: false
-	      });
+	    if (!Array.isArray(data)) {
+	      (0, _util.markNodeData)(this, data);
 	    }
 
 	    this.data = data;
@@ -554,28 +720,49 @@ module.exports =
 	    if (!(child instanceof Node)) {
 	      (0, _merge2.default)(child, {
 	        parent: this,
-	        _tree: this._tree
+	        store: this.store
 	      });
 	      child = new Node(child);
 	    }
 
 	    child.level = this.level + 1;
 
-	    if (typeof index === 'undefined') {
+	    if (typeof index === 'undefined' || index < 0) {
 	      this.childNodes.push(child);
 	    } else {
 	      this.childNodes.splice(index, 0, child);
 	    }
+
+	    this.updateLeafState();
+	  };
+
+	  Node.prototype.insertBefore = function insertBefore(child, ref) {
+	    var index = void 0;
+	    if (ref) {
+	      index = this.childNodes.indexOf(ref);
+	    }
+	    this.insertChild(child, index);
+	  };
+
+	  Node.prototype.insertAfter = function insertAfter(child, ref) {
+	    var index = void 0;
+	    if (ref) {
+	      index = this.childNodes.indexOf(ref);
+	      if (index !== -1) index += 1;
+	    }
+	    this.insertChild(child, index);
 	  };
 
 	  Node.prototype.removeChild = function removeChild(child) {
 	    var index = this.childNodes.indexOf(child);
 
 	    if (index > -1) {
-	      this._tree && this._tree.deregisterNode(child);
+	      this.store && this.store.deregisterNode(child);
 	      child.parent = null;
 	      this.childNodes.splice(index, 1);
 	    }
+
+	    this.updateLeafState();
 	  };
 
 	  Node.prototype.removeChildByData = function removeChildByData(data) {
@@ -591,19 +778,29 @@ module.exports =
 	    }
 	  };
 
-	  Node.prototype.expand = function expand(callback) {
+	  Node.prototype.expand = function expand(callback, expandParent) {
 	    var _this = this;
+
+	    var done = function done() {
+	      if (expandParent) {
+	        var parent = _this.parent;
+	        while (parent.level > 0) {
+	          parent.expanded = true;
+	          parent = parent.parent;
+	        }
+	      }
+	      _this.expanded = true;
+	      if (callback) callback();
+	    };
 
 	    if (this.shouldLoadData()) {
 	      this.loadData(function (data) {
 	        if (data instanceof Array) {
-	          _this.expanded = true;
-	          if (callback) callback();
+	          done();
 	        }
 	      });
 	    } else {
-	      this.expanded = true;
-	      if (callback) callback();
+	      done();
 	    }
 	  };
 
@@ -622,15 +819,20 @@ module.exports =
 	  };
 
 	  Node.prototype.shouldLoadData = function shouldLoadData() {
-	    return this._tree.lazy === true && this._tree.load && !this.loaded;
+	    return this.store.lazy === true && this.store.load && !this.loaded;
 	  };
 
-	  Node.prototype.hasChild = function hasChild() {
-	    var childNodes = this.childNodes;
-	    if (!this._tree.lazy || this._tree.lazy === true && this.loaded === true) {
-	      return childNodes && childNodes.length > 0;
+	  Node.prototype.updateLeafState = function updateLeafState() {
+	    if (this.store.lazy === true && this.loaded !== true && typeof this.isLeafByUser !== 'undefined') {
+	      this.isLeaf = this.isLeafByUser;
+	      return;
 	    }
-	    return true;
+	    var childNodes = this.childNodes;
+	    if (!this.store.lazy || this.store.lazy === true && this.loaded === true) {
+	      this.isLeaf = !childNodes || childNodes.length === 0;
+	      return;
+	    }
+	    this.isLeaf = false;
 	  };
 
 	  Node.prototype.setChecked = function setChecked(value, deep) {
@@ -649,7 +851,7 @@ module.exports =
 	      }
 	    };
 
-	    if (!this._tree.checkStrictly && this.shouldLoadData()) {
+	    if (!this.store.checkStrictly && this.shouldLoadData()) {
 	      // Only work on lazy load data.
 	      this.loadData(function () {
 	        handleDescendants();
@@ -663,7 +865,7 @@ module.exports =
 	    var parent = this.parent;
 	    if (!parent || parent.level === 0) return;
 
-	    if (!this._tree.checkStrictly) {
+	    if (!this.store.checkStrictly) {
 	      reInitChecked(parent);
 	    }
 	  };
@@ -673,7 +875,7 @@ module.exports =
 	    var data = this.data;
 	    if (!data) return null;
 
-	    var props = this._tree.props;
+	    var props = this.store.props;
 	    var children = 'children';
 	    if (props) {
 	      children = props.children || 'children';
@@ -698,21 +900,25 @@ module.exports =
 	    var newNodes = [];
 
 	    newData.forEach(function (item, index) {
-	      if (item.$treeNodeId) {
-	        newDataMap[item.$treeNodeId] = { index: index, data: item };
+	      if (item[_util.NODE_KEY]) {
+	        newDataMap[item[_util.NODE_KEY]] = { index: index, data: item };
 	      } else {
 	        newNodes.push({ index: index, data: item });
 	      }
 	    });
 
 	    oldData.forEach(function (item) {
-	      if (!newDataMap[item.$treeNodeId]) _this4.removeChildByData(item);
+	      if (!newDataMap[item[_util.NODE_KEY]]) _this4.removeChildByData(item);
 	    });
+
 	    newNodes.forEach(function (_ref) {
 	      var index = _ref.index,
 	          data = _ref.data;
-	      return _this4.insertChild({ data: data }, index);
+
+	      _this4.insertChild({ data: data }, index);
 	    });
+
+	    this.updateLeafState();
 	  };
 
 	  Node.prototype.loadData = function loadData(callback) {
@@ -720,7 +926,7 @@ module.exports =
 
 	    var defaultProps = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	    if (this._tree.lazy === true && this._tree.load && !this.loaded && !this.loading) {
+	    if (this.store.lazy === true && this.store.load && !this.loaded && !this.loading) {
 	      this.loading = true;
 
 	      var resolve = function resolve(children) {
@@ -735,7 +941,7 @@ module.exports =
 	        }
 	      };
 
-	      this._tree.load(this, resolve);
+	      this.store.load(this, resolve);
 	    } else {
 	      if (callback) {
 	        callback.call(this);
@@ -756,14 +962,9 @@ module.exports =
 	  }, {
 	    key: 'key',
 	    get: function get() {
-	      var nodeKey = this._tree.key;
+	      var nodeKey = this.store.key;
 	      if (this.data) return this.data[nodeKey];
 	      return null;
-	    }
-	  }, {
-	    key: 'isLeaf',
-	    get: function get() {
-	      return !this.hasChild();
 	    }
 	  }]);
 
@@ -775,16 +976,41 @@ module.exports =
 /***/ },
 
 /***/ 289:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	var NODE_KEY = exports.NODE_KEY = '$treeNodeId';
+
+	var markNodeData = exports.markNodeData = function markNodeData(node, data) {
+	  if (data[NODE_KEY]) return;
+	  Object.defineProperty(data, NODE_KEY, {
+	    value: node.id,
+	    enumerable: false,
+	    configurable: false,
+	    writable: false
+	  });
+	};
+
+	var getNodeKey = exports.getNodeKey = function getNodeKey(key, data) {
+	  if (!key) return data[NODE_KEY];
+	  return data[key];
+	};
+
+/***/ },
+
+/***/ 290:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(290)
+	__vue_exports__ = __webpack_require__(291)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(292)
+	var __vue_template__ = __webpack_require__(293)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -804,18 +1030,63 @@ module.exports =
 
 /***/ },
 
-/***/ 290:
+/***/ 291:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _transition = __webpack_require__(291);
+	var _transition = __webpack_require__(292);
 
 	var _transition2 = _interopRequireDefault(_transition);
 
+	var _checkbox = __webpack_require__(254);
+
+	var _checkbox2 = _interopRequireDefault(_checkbox);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'el-tree-node',
@@ -831,6 +1102,7 @@ module.exports =
 	  },
 
 	  components: {
+	    ElCheckbox: _checkbox2.default,
 	    CollapseTransition: _transition2.default,
 	    NodeContent: {
 	      props: {
@@ -840,7 +1112,10 @@ module.exports =
 	      },
 	      render: function render(h) {
 	        var parent = this.$parent;
-	        return parent.renderContent ? parent.renderContent.call(parent._renderProxy, h, { _self: parent.$parent.$vnode.context, node: this.node }) : h(
+	        var node = this.node;
+	        var data = node.data;
+	        var store = node.store;
+	        return parent.renderContent ? parent.renderContent.call(parent._renderProxy, h, { _self: parent.tree.$vnode.context, node: node, data: data, store: store }) : h(
 	          'span',
 	          { 'class': 'el-tree-node__label' },
 	          [this.node.label]
@@ -851,7 +1126,7 @@ module.exports =
 
 	  data: function data() {
 	    return {
-	      $tree: null,
+	      tree: null,
 	      expanded: false,
 	      childNodeRendered: false,
 	      showCheckbox: false,
@@ -878,7 +1153,7 @@ module.exports =
 
 	  methods: {
 	    getNodeKey: function getNodeKey(node, index) {
-	      var nodeKey = this.$tree.nodeKey;
+	      var nodeKey = this.tree.nodeKey;
 	      if (nodeKey && node) {
 	        return node.data[nodeKey];
 	      }
@@ -886,13 +1161,13 @@ module.exports =
 	    },
 	    handleSelectChange: function handleSelectChange(checked, indeterminate) {
 	      if (this.oldChecked !== checked && this.oldIndeterminate !== indeterminate) {
-	        this.$tree.$emit('check-change', this.node.data, checked, indeterminate);
+	        this.tree.$emit('check-change', this.node.data, checked, indeterminate);
 	      }
 	      this.oldChecked = checked;
 	      this.indeterminate = indeterminate;
 	    },
 	    handleClick: function handleClick() {
-	      this.$tree.currentNode = this;
+	      this.tree.currentNode = this;
 	    },
 	    handleExpandIconClick: function handleExpandIconClick(event) {
 	      var target = event.target;
@@ -902,16 +1177,16 @@ module.exports =
 	      } else {
 	        this.node.expand();
 	      }
-	      this.$tree.$emit('node-click', this.node.data, this.node, this);
+	      this.tree.$emit('node-click', this.node.data, this.node, this);
 	    },
 	    handleUserClick: function handleUserClick() {
 	      if (this.node.indeterminate) {
-	        this.node.setChecked(this.node.checked, !this.$tree.checkStrictly);
+	        this.node.setChecked(this.node.checked, !this.tree.checkStrictly);
 	      }
 	    },
 	    handleCheckChange: function handleCheckChange(ev) {
 	      if (!this.node.indeterminate) {
-	        this.node.setChecked(ev.target.checked, !this.$tree.checkStrictly);
+	        this.node.setChecked(ev.target.checked, !this.tree.checkStrictly);
 	      }
 	    }
 	  },
@@ -921,13 +1196,13 @@ module.exports =
 
 	    var parent = this.$parent;
 
-	    if (parent.$isTree) {
-	      this.$tree = parent;
+	    if (parent.isTree) {
+	      this.tree = parent;
 	    } else {
-	      this.$tree = parent.$tree;
+	      this.tree = parent.tree;
 	    }
 
-	    var tree = this.$tree;
+	    var tree = this.tree;
 	    var props = this.props || {};
 	    var childrenKey = props['children'] || 'children';
 
@@ -946,49 +1221,11 @@ module.exports =
 	      this.childNodeRendered = true;
 	    }
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 
-/***/ 291:
+/***/ 292:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1003,6 +1240,7 @@ module.exports =
 	  }
 
 	  Transition.prototype.beforeEnter = function beforeEnter(el) {
+	    if (!el.dataset) el.dataset = {};
 	    el.dataset.oldPaddingTop = el.style.paddingTop;
 	    el.dataset.oldPaddingBottom = el.style.paddingBottom;
 	    el.style.height = '0';
@@ -1034,6 +1272,7 @@ module.exports =
 	  };
 
 	  Transition.prototype.beforeLeave = function beforeLeave(el) {
+	    if (!el.dataset) el.dataset = {};
 	    el.dataset.oldPaddingTop = el.style.paddingTop;
 	    el.dataset.oldPaddingBottom = el.style.paddingBottom;
 	    el.dataset.oldOverflow = el.style.overflow;
@@ -1085,14 +1324,20 @@ module.exports =
 
 /***/ },
 
-/***/ 292:
+/***/ 293:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
 	  return _vm._h('div', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (_vm.node.visible),
+	      expression: "node.visible"
+	    }],
 	    staticClass: "el-tree-node",
 	    class: {
-	      'is-expanded': _vm.childNodeRendered && _vm.expanded, 'is-current': _vm.$tree.currentNode === _vm._self
+	      'is-expanded': _vm.childNodeRendered && _vm.expanded, 'is-current': _vm.tree.currentNode === _vm._self, 'is-hidden': !_vm.node.visible
 	    },
 	    on: {
 	      "click": function($event) {
@@ -1164,7 +1409,7 @@ module.exports =
 
 /***/ },
 
-/***/ 293:
+/***/ 294:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -1173,15 +1418,16 @@ module.exports =
 	    class: {
 	      'el-tree--highlight-current': _vm.highlightCurrent
 	    }
-	  }, [_vm._l((_vm.tree.root.childNodes), function(child) {
+	  }, [_vm._l((_vm.root.childNodes), function(child) {
 	    return _vm._h('el-tree-node', {
+	      key: _vm.getNodeKey(child),
 	      attrs: {
 	        "node": child,
 	        "props": _vm.props,
 	        "render-content": _vm.renderContent
 	      }
 	    })
-	  }), (!_vm.tree.root.childNodes || _vm.tree.root.childNodes.length === 0) ? _vm._h('div', {
+	  }), (!_vm.root.childNodes || _vm.root.childNodes.length === 0) ? _vm._h('div', {
 	    staticClass: "el-tree__empty-block"
 	  }, [_vm._h('span', {
 	    staticClass: "el-tree__empty-text"

@@ -299,15 +299,17 @@ module.exports =
 	      return (arg1 + arg2) / m;
 	    },
 	    increase: function increase() {
-	      if (this.value + this.step > this.max || this.disabled) return;
-	      this.currentValue = this.accAdd(this.step, this.value);
+	      var value = this.value || 0;
+	      if (value + this.step > this.max || this.disabled) return;
+	      this.currentValue = this.accAdd(this.step, value);
 	      if (this.maxDisabled) {
 	        this.inputActive = false;
 	      }
 	    },
 	    decrease: function decrease() {
-	      if (this.value - this.step < this.min || this.disabled) return;
-	      this.currentValue = this.accSub(this.value, this.step);
+	      var value = this.value || 0;
+	      if (value - this.step < this.min || this.disabled) return;
+	      this.currentValue = this.accSub(value, this.step);
 	      if (this.minDisabled) {
 	        this.inputActive = false;
 	      }

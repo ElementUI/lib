@@ -145,10 +145,35 @@ module.exports =
 	//
 	//
 
+	function noop() {}
+
+	function getPropByPath(obj, path) {
+	  var tempObj = obj;
+	  path = path.replace(/\[(\w+)\]/g, '.$1');
+	  path = path.replace(/^\./, '');
+
+	  var keyArr = path.split('.');
+	  var i = 0;
+
+	  for (var len = keyArr.length; i < len - 1; ++i) {
+	    var key = keyArr[i];
+	    if (key in tempObj) {
+	      tempObj = tempObj[key];
+	    } else {
+	      throw new Error('please transfer a valid prop path to form item!');
+	    }
+	  }
+	  return {
+	    o: tempObj,
+	    k: keyArr[i],
+	    v: tempObj[keyArr[i]]
+	  };
+	}
+
 	exports.default = {
 	  name: 'ElFormItem',
 
-	  componentName: 'form-item',
+	  componentName: 'ElFormItem',
 
 	  mixins: [_emitter2.default],
 
@@ -157,7 +182,18 @@ module.exports =
 	    labelWidth: String,
 	    prop: String,
 	    required: Boolean,
-	    rules: [Object, Array]
+	    rules: [Object, Array],
+	    error: String,
+	    validateStatus: String
+	  },
+	  watch: {
+	    error: function error(value) {
+	      this.validateMessage = value;
+	      this.validateState = 'error';
+	    },
+	    validateStatus: function validateStatus(value) {
+	      this.validateState = value;
+	    }
 	  },
 	  computed: {
 	    labelStyle: function labelStyle() {
@@ -178,7 +214,7 @@ module.exports =
 	    },
 	    form: function form() {
 	      var parent = this.$parent;
-	      while (parent.$options.componentName !== 'form') {
+	      while (parent.$options.componentName !== 'ElForm') {
 	        parent = parent.$parent;
 	      }
 	      return parent;
@@ -192,34 +228,38 @@ module.exports =
 	          return;
 	        }
 
-	        var temp = this.prop.split(':');
+	        var path = this.prop;
+	        if (path.indexOf(':') !== -1) {
+	          path = path.replace(/:/, '.');
+	        }
 
-	        return temp.length > 1 ? model[temp[0]][temp[1]] : model[this.prop];
+	        return getPropByPath(model, path).v;
 	      }
 	    }
 	  },
 	  data: function data() {
 	    return {
-	      valid: true,
-	      error: '',
+	      validateState: '',
+	      validateMessage: '',
 	      validateDisabled: false,
-	      validating: false,
 	      validator: {},
 	      isRequired: false
 	    };
 	  },
 
 	  methods: {
-	    validate: function validate(trigger, cb) {
+	    validate: function validate(trigger) {
 	      var _this = this;
+
+	      var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : noop;
 
 	      var rules = this.getFilteredRule(trigger);
 	      if (!rules || rules.length === 0) {
-	        cb && cb();
+	        callback();
 	        return true;
 	      }
 
-	      this.validating = true;
+	      this.validateState = 'validating';
 
 	      var descriptor = {};
 	      descriptor[this.prop] = rules;
@@ -230,26 +270,31 @@ module.exports =
 	      model[this.prop] = this.fieldValue;
 
 	      validator.validate(model, { firstFields: true }, function (errors, fields) {
-	        _this.valid = !errors;
-	        _this.error = errors ? errors[0].message : '';
+	        _this.validateState = !errors ? 'success' : 'error';
+	        _this.validateMessage = errors ? errors[0].message : '';
 
-	        cb && cb(errors);
-	        _this.validating = false;
+	        callback(errors);
 	      });
 	    },
 	    resetField: function resetField() {
-	      this.valid = true;
-	      this.error = '';
+	      this.validateState = '';
+	      this.validateMessage = '';
 
 	      var model = this.form.model;
 	      var value = this.fieldValue;
+	      var path = this.prop;
+	      if (path.indexOf(':') !== -1) {
+	        path = path.replace(/:/, '.');
+	      }
+
+	      var prop = getPropByPath(model, path);
 
 	      if (Array.isArray(value) && value.length > 0) {
 	        this.validateDisabled = true;
-	        model[this.prop] = [];
+	        prop.o[prop.k] = [];
 	      } else if (value) {
 	        this.validateDisabled = true;
-	        model[this.prop] = this.initialValue;
+	        prop.o[prop.k] = this.initialValue;
 	      }
 	    },
 	    getRules: function getRules() {
@@ -283,10 +328,10 @@ module.exports =
 	    var _this2 = this;
 
 	    if (this.prop) {
-	      this.dispatch('form', 'el.form.addField', [this]);
+	      this.dispatch('ElForm', 'el.form.addField', [this]);
 
 	      Object.defineProperty(this, 'initialValue', {
-	        value: this.form.model[this.prop]
+	        value: this.fieldValue
 	      });
 
 	      var rules = this.getRules();
@@ -304,7 +349,7 @@ module.exports =
 	    }
 	  },
 	  beforeDestroy: function beforeDestroy() {
-	    this.dispatch('form', 'el.form.removeField', [this]);
+	    this.dispatch('ElForm', 'el.form.removeField', [this]);
 	  }
 	};
 
@@ -324,8 +369,8 @@ module.exports =
 	  return _vm._h('div', {
 	    staticClass: "el-form-item",
 	    class: {
-	      'is-error': _vm.error !== '',
-	        'is-validating': _vm.validating,
+	      'is-error': _vm.validateState === 'error',
+	        'is-validating': _vm.validateState === 'validating',
 	        'is-required': _vm.isRequired || _vm.required
 	    }
 	  }, [(_vm.label) ? _vm._h('label', {
@@ -338,9 +383,9 @@ module.exports =
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    }
-	  }, [(_vm.error !== '') ? _vm._h('div', {
+	  }, [(_vm.validateState === 'error') ? _vm._h('div', {
 	    staticClass: "el-form-item__error"
-	  }, [_vm._s(_vm.error)]) : _vm._e()])])])
+	  }, [_vm._s(_vm.validateMessage)]) : _vm._e()])])])
 	},staticRenderFns: []}
 
 /***/ }

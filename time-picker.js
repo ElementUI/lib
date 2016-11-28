@@ -174,7 +174,8 @@ module.exports =
 	  time: 'HH:mm:ss',
 	  timerange: 'HH:mm:ss',
 	  daterange: 'yyyy-MM-dd',
-	  datetimerange: 'yyyy-MM-dd HH:mm:ss'
+	  datetimerange: 'yyyy-MM-dd HH:mm:ss',
+	  year: 'yyyy'
 	};
 	var HAVE_TRIGGER_TYPES = ['date', 'datetime', 'time', 'time-select', 'week', 'month', 'year', 'daterange', 'timerange', 'datetimerange'];
 	var DATE_FORMATTER = function DATE_FORMATTER(value, format) {
@@ -274,16 +275,8 @@ module.exports =
 	    parser: DATE_PARSER
 	  },
 	  year: {
-	    formatter: function formatter(value) {
-	      if (!value) return '';
-	      return '' + value;
-	    },
-	    parser: function parser(text) {
-	      var year = Number(text);
-	      if (!isNaN(year)) return year;
-
-	      return null;
-	    }
+	    formatter: DATE_FORMATTER,
+	    parser: DATE_PARSER
 	  },
 	  number: {
 	    formatter: function formatter(value) {
@@ -348,7 +341,7 @@ module.exports =
 	      if (!val && this.picker && typeof this.picker.handleClear === 'function') {
 	        this.picker.handleClear();
 	      }
-	      this.dispatch('form-item', 'el.form.change');
+	      this.dispatch('ElFormItem', 'el.form.change');
 	    },
 
 	    value: {
@@ -433,11 +426,13 @@ module.exports =
 
 	  methods: {
 	    handleMouseEnterIcon: function handleMouseEnterIcon() {
+	      if (this.readonly || this.disabled) return;
 	      if (!this.valueIsEmpty) {
 	        this.showClose = true;
 	      }
 	    },
 	    handleClickIcon: function handleClickIcon() {
+	      if (this.readonly || this.disabled) return;
 	      if (this.valueIsEmpty) {
 	        this.pickerVisible = !this.pickerVisible;
 	      } else {
@@ -457,7 +452,7 @@ module.exports =
 	    },
 	    handleBlur: function handleBlur() {
 	      this.$emit('blur', this);
-	      this.dispatch('form-item', 'el.form.blur');
+	      this.dispatch('ElFormItem', 'el.form.blur');
 	    },
 	    handleKeydown: function handleKeydown(event) {
 	      var keyCode = event.keyCode;
@@ -1004,7 +999,7 @@ module.exports =
 
 	  methods: {
 	    handleClear: function handleClear() {
-	      this.handleCancel();
+	      this.$emit('pick', '');
 	    },
 	    handleCancel: function handleCancel() {
 	      this.$emit('pick');
@@ -1179,10 +1174,14 @@ module.exports =
 	      }
 	    },
 	    handleScroll: function handleScroll(type) {
-	      var ajust = {};
+	      var _this = this;
 
-	      ajust[type + 's'] = Math.min(Math.floor((this.$refs[type].scrollTop - 80) / 32 + 3), 59);
-	      this.$emit('change', ajust);
+	      window.setTimeout(function () {
+	        var ajust = {};
+
+	        ajust[type + 's'] = Math.min(Math.floor((_this.$refs[type].scrollTop - 80) / 32 + 3), 59);
+	        _this.$emit('change', ajust);
+	      }, 0);
 	    },
 	    ajustScrollTop: function ajustScrollTop() {
 	      this.$refs.hour.scrollTop = Math.max(0, (this.hours - 2.5) * 32 + 80);

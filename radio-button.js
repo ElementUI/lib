@@ -134,6 +134,13 @@ module.exports =
 	      set: function set(newValue) {
 	        this.$parent.$emit('input', newValue);
 	      }
+	    },
+	    activeStyle: function activeStyle() {
+	      return {
+	        backgroundColor: this.$parent.fill,
+	        borderColor: this.$parent.fill,
+	        color: this.$parent.textColor
+	      };
 	    }
 	  }
 	};
@@ -174,7 +181,8 @@ module.exports =
 	      }
 	    }
 	  }), _vm._h('span', {
-	    staticClass: "el-radio-button__inner"
+	    staticClass: "el-radio-button__inner",
+	    style: (_vm.value === _vm.label ? _vm.activeStyle : null)
 	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()])])
 	},staticRenderFns: []}
 

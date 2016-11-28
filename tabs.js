@@ -118,7 +118,8 @@ module.exports =
 	    return {
 	      children: null,
 	      activeTab: null,
-	      currentName: 0
+	      currentName: 0,
+	      panes: []
 	    };
 	  },
 
@@ -190,7 +191,7 @@ module.exports =
 	  },
 	  render: function render(h) {
 	    var type = this.type,
-	        closable = this.closable,
+	        panes = this.panes,
 	        handleTabRemove = this.handleTabRemove,
 	        handleTabClick = this.handleTabClick,
 	        currentName = this.currentName;
@@ -217,14 +218,14 @@ module.exports =
 	          'el-tabs__item': true,
 	          'is-active': currentName === tab.index,
 	          'is-disabled': tab.disabled,
-	          'is-closable': closable
+	          'is-closable': tab.isClosable
 	        },
 	        ref: 'tabs',
 	        refInFor: true,
 	        on: { click: function click(ev) {
 	            handleTabClick(tab, ev);
 	          } }
-	      }, [tab.label, closable ? btnClose : null, index === 0 ? activeBar : null]);
+	      }, [tab.label, tab.isClosable ? btnClose : null, index === 0 ? activeBar : null]);
 	      return _tab;
 	    });
 	    return h(

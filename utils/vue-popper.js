@@ -153,5 +153,11 @@ exports.default = {
   beforeDestroy: function beforeDestroy() {
     this.doDestroy();
     this.popperElm && this.popperElm.parentNode === document.body && document.body.removeChild(this.popperElm);
+  },
+
+
+  // call destroy in keep-alive mode
+  deactivated: function deactivated() {
+    this.$options.beforeDestroy[0].call(this);
   }
 };

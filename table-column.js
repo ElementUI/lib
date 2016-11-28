@@ -65,6 +65,135 @@ module.exports =
 
 /***/ },
 
+/***/ 250:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	var scrollBarWidth = void 0;
+
+	var getScrollBarWidth = exports.getScrollBarWidth = function getScrollBarWidth() {
+	  if (scrollBarWidth !== undefined) return scrollBarWidth;
+
+	  var outer = document.createElement('div');
+	  outer.style.visibility = 'hidden';
+	  outer.style.width = '100px';
+	  outer.style.position = 'absolute';
+	  outer.style.top = '-9999px';
+	  document.body.appendChild(outer);
+
+	  var widthNoScroll = outer.offsetWidth;
+	  outer.style.overflow = 'scroll';
+
+	  var inner = document.createElement('div');
+	  inner.style.width = '100%';
+	  outer.appendChild(inner);
+
+	  var widthWithScroll = inner.offsetWidth;
+	  outer.parentNode.removeChild(outer);
+
+	  return widthNoScroll - widthWithScroll;
+	};
+
+	var getCell = exports.getCell = function getCell(event) {
+	  var cell = event.target;
+
+	  while (cell && cell.tagName.toUpperCase() !== 'HTML') {
+	    if (cell.tagName.toUpperCase() === 'TD') {
+	      return cell;
+	    }
+	    cell = cell.parentNode;
+	  }
+
+	  return null;
+	};
+
+	var getValueByPath = exports.getValueByPath = function getValueByPath(object, prop) {
+	  prop = prop || '';
+	  var paths = prop.split('.');
+	  var current = object;
+	  var result = null;
+	  for (var i = 0, j = paths.length; i < j; i++) {
+	    var path = paths[i];
+	    if (!current) break;
+
+	    if (i === j - 1) {
+	      result = current[path];
+	      break;
+	    }
+	    current = current[path];
+	  }
+	  return result;
+	};
+
+	var isObject = function isObject(obj) {
+	  return obj !== null && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object';
+	};
+
+	var orderBy = exports.orderBy = function orderBy(array, sortKey, reverse, sortMethod) {
+	  if (typeof reverse === 'string') {
+	    reverse = reverse === 'descending' ? -1 : 1;
+	  }
+	  if (!sortKey) {
+	    return array;
+	  }
+	  var order = reverse && reverse < 0 ? -1 : 1;
+
+	  // sort on a copy to avoid mutating original array
+	  return array.slice().sort(sortMethod ? function (a, b) {
+	    return sortMethod(a, b) ? order : -order;
+	  } : function (a, b) {
+	    if (sortKey !== '$key') {
+	      if (isObject(a) && '$value' in a) a = a.$value;
+	      if (isObject(b) && '$value' in b) b = b.$value;
+	    }
+	    a = isObject(a) ? getValueByPath(a, sortKey) : a;
+	    b = isObject(b) ? getValueByPath(b, sortKey) : b;
+	    return a === b ? 0 : a > b ? order : -order;
+	  });
+	};
+
+	var getColumnById = exports.getColumnById = function getColumnById(table, columnId) {
+	  var column = null;
+	  table.columns.forEach(function (item) {
+	    if (item.id === columnId) {
+	      column = item;
+	    }
+	  });
+	  return column;
+	};
+
+	var getColumnByCell = exports.getColumnByCell = function getColumnByCell(table, cell) {
+	  var matches = (cell.className || '').match(/el-table_[^\s]+/gm);
+	  if (matches) {
+	    return getColumnById(table, matches[0]);
+	  }
+	  return null;
+	};
+
+	var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+
+	var mousewheel = exports.mousewheel = function mousewheel(element, callback) {
+	  if (element && element.addEventListener) {
+	    element.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', callback);
+	  }
+	};
+
+	var getRowIdentity = exports.getRowIdentity = function getRowIdentity(row, rowKey) {
+	  if (!row) throw new Error('row is required when get row identity');
+	  if (typeof rowKey === 'string') {
+	    return row[rowKey];
+	  } else if (typeof rowKey === 'function') {
+	    return rowKey.call(null, row);
+	  }
+	};
+
+/***/ },
+
 /***/ 254:
 /***/ function(module, exports) {
 
@@ -112,6 +241,8 @@ module.exports =
 	var _merge = __webpack_require__(123);
 
 	var _merge2 = _interopRequireDefault(_merge);
+
+	var _util = __webpack_require__(250);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -220,11 +351,20 @@ module.exports =
 	  return column;
 	};
 
-	var DEFAULT_RENDER_CELL = function DEFAULT_RENDER_CELL(h, _ref4, parent) {
+	var DEFAULT_RENDER_CELL = function DEFAULT_RENDER_CELL(h, _ref4) {
 	  var row = _ref4.row,
 	      column = _ref4.column;
 
-	  return parent.getCellContent(row, column.property, column);
+	  var property = column.property;
+	  if (column && column.formatter) {
+	    return column.formatter(row, column);
+	  }
+
+	  if (property && property.indexOf('.') === -1) {
+	    return row[property];
+	  }
+
+	  return (0, _util.getValueByPath)(row, property);
 	};
 
 	exports.default = {
@@ -267,10 +407,16 @@ module.exports =
 	    }
 	  },
 
-	  render: function render() {},
+	  render: function render() {
+	    return h(
+	      'div',
+	      null,
+	      [this._t('default')]
+	    );
+	  },
 	  data: function data() {
 	    return {
-	      isChildColumn: false,
+	      isSubColumn: false,
 	      columns: []
 	    };
 	  },
@@ -297,16 +443,22 @@ module.exports =
 	  },
 
 	  created: function created() {
+	    var _this = this;
+
 	    this.customRender = this.$options.render;
 	    this.$options.render = function (h) {
-	      return h('div');
+	      return h(
+	        'div',
+	        null,
+	        [_this._t('default')]
+	      );
 	    };
 
 	    var columnId = this.columnId = (this.$parent.tableId || this.$parent.columnId + '_') + 'column_' + columnIdSeed++;
 
 	    var parent = this.$parent;
 	    var owner = this.owner;
-	    this.isChildColumn = owner !== parent;
+	    this.isSubColumn = owner !== parent;
 
 	    var type = this.type;
 
@@ -334,7 +486,7 @@ module.exports =
 	      className: this.className,
 	      property: this.prop || this.property,
 	      type: type,
-	      renderCell: DEFAULT_RENDER_CELL,
+	      renderCell: null,
 	      renderHeader: this.renderHeader,
 	      minWidth: minWidth,
 	      width: width,
@@ -381,6 +533,10 @@ module.exports =
 	        };
 	      }
 
+	      if (!renderCell) {
+	        renderCell = DEFAULT_RENDER_CELL;
+	      }
+
 	      return _self.showOverflowTooltip || _self.showTooltipWhenOverflow ? h(
 	        'el-tooltip',
 	        {
@@ -392,16 +548,16 @@ module.exports =
 	        [h(
 	          'div',
 	          { 'class': 'cell' },
-	          [renderCell(h, data, this._renderProxy)]
+	          [renderCell(h, data)]
 	        ), h(
 	          'span',
 	          { slot: 'content' },
-	          [renderCell(h, data, this._renderProxy)]
+	          [renderCell(h, data)]
 	        )]
 	      ) : h(
 	        'div',
 	        { 'class': 'cell' },
-	        [renderCell(h, data, this._renderProxy)]
+	        [renderCell(h, data)]
 	      );
 	    };
 
@@ -441,25 +597,25 @@ module.exports =
 	    },
 	    align: function align(newVal) {
 	      if (this.columnConfig) {
-	        this.columnConfig.align = newVal;
+	        this.columnConfig.align = newVal ? 'is-' + newVal : null;
 	      }
 	    },
 	    width: function width(newVal) {
 	      if (this.columnConfig) {
 	        this.columnConfig.width = newVal;
-	        this.owner.scheduleLayout();
+	        this.owner.store.scheduleLayout();
 	      }
 	    },
 	    minWidth: function minWidth(newVal) {
 	      if (this.columnConfig) {
 	        this.columnConfig.minWidth = newVal;
-	        this.owner.scheduleLayout();
+	        this.owner.store.scheduleLayout();
 	      }
 	    },
 	    fixed: function fixed(newVal) {
 	      if (this.columnConfig) {
 	        this.columnConfig.fixed = newVal;
-	        this.owner.scheduleLayout();
+	        this.owner.store.scheduleLayout();
 	      }
 	    }
 	  },
@@ -469,13 +625,13 @@ module.exports =
 	    var parent = this.$parent;
 	    var columnIndex = void 0;
 
-	    if (!this.isChildColumn) {
+	    if (!this.isSubColumn) {
 	      columnIndex = [].indexOf.call(parent.$refs.hiddenColumns.children, this.$el);
 	    } else {
 	      columnIndex = [].indexOf.call(parent.$el.children, this.$el);
 	    }
 
-	    owner.store.commit('insertColumn', this.columnConfig, columnIndex);
+	    owner.store.commit('insertColumn', this.columnConfig, columnIndex, this.isSubColumn ? parent.columnConfig : null);
 	  }
 	};
 

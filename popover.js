@@ -196,6 +196,12 @@ module.exports =
 	    }
 	  },
 
+	  watch: {
+	    showPopper: function showPopper(newVal, oldVal) {
+	      newVal ? this.$emit('show') : this.$emit('hide');
+	    }
+	  },
+
 	  mounted: function mounted() {
 	    var _this = this;
 

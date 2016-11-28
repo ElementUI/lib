@@ -121,7 +121,7 @@ module.exports =
 	exports.default = {
 	  name: 'ElForm',
 
-	  componentName: 'form',
+	  componentName: 'ElForm',
 
 	  props: {
 	    model: Object,
@@ -134,54 +134,57 @@ module.exports =
 	    },
 	    inline: Boolean
 	  },
+	  watch: {
+	    rules: function rules() {
+	      this.validate();
+	    }
+	  },
 	  data: function data() {
 	    return {
-	      fields: {},
-	      fieldLength: 0
+	      fields: []
 	    };
 	  },
 	  created: function created() {
 	    var _this = this;
 
 	    this.$on('el.form.addField', function (field) {
-	      _this.fields[field.prop] = field;
-	      _this.fieldLength++;
+	      if (field) {
+	        _this.fields.push(field);
+	      }
 	    });
 	    /* istanbul ignore next */
 	    this.$on('el.form.removeField', function (field) {
-	      delete _this.fields[field.prop];
-	      _this.fieldLength--;
+	      if (field.prop) {
+	        _this.fields.splice(_this.fields.indexOf(field), 1);
+	      }
 	    });
 	  },
 
 	  methods: {
 	    resetFields: function resetFields() {
-	      for (var prop in this.fields) {
-	        var field = this.fields[prop];
+	      this.fields.forEach(function (field) {
 	        field.resetField();
-	      }
+	      });
 	    },
 	    validate: function validate(callback) {
 	      var _this2 = this;
 
-	      var count = 0;
 	      var valid = true;
-
-	      for (var prop in this.fields) {
-	        var field = this.fields[prop];
+	      this.fields.forEach(function (field, index) {
 	        field.validate('', function (errors) {
 	          if (errors) {
 	            valid = false;
 	          }
-
-	          if (++count === _this2.fieldLength) {
+	          if (typeof callback === 'function' && index === _this2.fields.length - 1) {
 	            callback(valid);
 	          }
 	        });
-	      }
+	      });
 	    },
 	    validateField: function validateField(prop, cb) {
-	      var field = this.fields[prop];
+	      var field = this.fields.filter(function (field) {
+	        return field.prop === prop;
+	      })[0];
 	      if (!field) {
 	        throw new Error('must call validateField with valid prop string!');
 	      }

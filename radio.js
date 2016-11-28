@@ -51,6 +51,13 @@ module.exports =
 
 /***/ },
 
+/***/ 38:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ },
+
 /***/ 184:
 /***/ function(module, exports, __webpack_require__) {
 
@@ -104,39 +111,24 @@ module.exports =
 /***/ },
 
 /***/ 186:
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+
+	var _emitter = __webpack_require__(38);
+
+	var _emitter2 = _interopRequireDefault(_emitter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	  name: 'ElRadio',
+
+	  mixins: [_emitter2.default],
+
+	  componentName: 'ElRadio',
 
 	  props: {
 	    value: [String, Number],
@@ -147,27 +139,62 @@ module.exports =
 	    disabled: Boolean,
 	    name: String
 	  },
+
 	  data: function data() {
 	    return {
-	      focus: false
+	      focus: false,
+	      isGroup: false,
+	      store: this.value
 	    };
 	  },
 
-	  computed: {
-	    _value: {
-	      get: function get() {
-	        return this.value !== undefined ? this.value : this.$parent.value;
-	      },
-	      set: function set(newValue) {
-	        if (this.value !== undefined) {
-	          this.$emit('input', newValue);
-	        } else {
-	          this.$parent.$emit('input', newValue);
-	        }
+
+	  watch: {
+	    store: function store(_store) {
+	      if (this.isGroup) {
+	        this.dispatch('ElRadioGroup', 'input', _store);
+	      } else {
+	        this.$emit('input', _store);
 	      }
+	    },
+	    value: function value(val) {
+	      this.store = val;
 	    }
+	  },
+
+	  created: function created() {
+	    var _this = this;
+
+	    this.$on('initData', function (data) {
+	      _this.store = data;
+	      _this.isGroup = true;
+	    });
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
@@ -183,15 +210,15 @@ module.exports =
 	    staticClass: "el-radio__inner",
 	    class: {
 	      'is-disabled': _vm.disabled,
-	      'is-checked': _vm._value === _vm.label,
+	      'is-checked': _vm.store === _vm.label,
 	        'is-focus': _vm.focus
 	    }
 	  }), _vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm._value),
-	      expression: "_value"
+	      value: (_vm.store),
+	      expression: "store"
 	    }],
 	    staticClass: "el-radio__original",
 	    attrs: {
@@ -201,7 +228,7 @@ module.exports =
 	    },
 	    domProps: {
 	      "value": _vm.label,
-	      "checked": _vm._q(_vm._value, _vm.label)
+	      "checked": _vm._q(_vm.store, _vm.label)
 	    },
 	    on: {
 	      "focus": function($event) {
@@ -211,7 +238,7 @@ module.exports =
 	        _vm.focus = false
 	      },
 	      "change": function($event) {
-	        _vm._value = _vm.label
+	        _vm.store = _vm.label
 	      }
 	    }
 	  })]), _vm._h('span', {

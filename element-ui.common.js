@@ -210,71 +210,71 @@ module.exports =
 
 	var _tree2 = _interopRequireDefault(_tree);
 
-	var _alert = __webpack_require__(225);
+	var _alert = __webpack_require__(226);
 
 	var _alert2 = _interopRequireDefault(_alert);
 
-	var _notification = __webpack_require__(229);
+	var _notification = __webpack_require__(230);
 
 	var _notification2 = _interopRequireDefault(_notification);
 
-	var _slider = __webpack_require__(234);
+	var _slider = __webpack_require__(235);
 
 	var _slider2 = _interopRequireDefault(_slider);
 
-	var _loading = __webpack_require__(241);
+	var _loading = __webpack_require__(242);
 
 	var _loading2 = _interopRequireDefault(_loading);
 
-	var _icon = __webpack_require__(247);
+	var _icon = __webpack_require__(248);
 
 	var _icon2 = _interopRequireDefault(_icon);
 
-	var _row = __webpack_require__(251);
+	var _row = __webpack_require__(252);
 
 	var _row2 = _interopRequireDefault(_row);
 
-	var _col = __webpack_require__(255);
+	var _col = __webpack_require__(256);
 
 	var _col2 = _interopRequireDefault(_col);
 
-	var _upload = __webpack_require__(257);
+	var _upload = __webpack_require__(258);
 
 	var _upload2 = _interopRequireDefault(_upload);
 
-	var _progress = __webpack_require__(273);
+	var _progress = __webpack_require__(274);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
-	var _spinner = __webpack_require__(277);
+	var _spinner = __webpack_require__(278);
 
 	var _spinner2 = _interopRequireDefault(_spinner);
 
-	var _message = __webpack_require__(281);
+	var _message = __webpack_require__(282);
 
 	var _message2 = _interopRequireDefault(_message);
 
-	var _badge = __webpack_require__(291);
+	var _badge = __webpack_require__(292);
 
 	var _badge2 = _interopRequireDefault(_badge);
 
-	var _card = __webpack_require__(295);
+	var _card = __webpack_require__(296);
 
 	var _card2 = _interopRequireDefault(_card);
 
-	var _rate = __webpack_require__(299);
+	var _rate = __webpack_require__(300);
 
 	var _rate2 = _interopRequireDefault(_rate);
 
-	var _steps = __webpack_require__(303);
+	var _steps = __webpack_require__(304);
 
 	var _steps2 = _interopRequireDefault(_steps);
 
-	var _step = __webpack_require__(307);
+	var _step = __webpack_require__(308);
 
 	var _step2 = _interopRequireDefault(_step);
 
-	var _locale = __webpack_require__(10);
+	var _locale = __webpack_require__(96);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -358,7 +358,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.0.2',
+	  version: '1.0.3',
 	  locale: _locale2.default.use,
 	  install: install,
 	  Loading: _loading2.default,
@@ -465,6 +465,8 @@ module.exports =
 
 	var _locale = __webpack_require__(10);
 
+	var _locale2 = _interopRequireDefault(_locale);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
@@ -543,7 +545,9 @@ module.exports =
 	      ),
 	      sizes: h(
 	        'sizes',
-	        null,
+	        {
+	          attrs: { pageSizes: this.pageSizes }
+	        },
 	        []
 	      ),
 	      slot: h(
@@ -632,12 +636,26 @@ module.exports =
 	    },
 
 	    Sizes: {
-	      created: function created() {
-	        if (Array.isArray(this.$parent.pageSizes)) {
-	          this.$parent.internalPageSize = this.$parent.pageSizes.indexOf(this.$parent.pageSize) > -1 ? this.$parent.pageSize : this.$parent.pageSizes[0];
+	      mixins: [_locale2.default],
+
+	      props: {
+	        pageSizes: Array
+	      },
+
+	      watch: {
+	        pageSizes: {
+	          immediate: true,
+	          handler: function handler(value) {
+	            if (Array.isArray(value)) {
+	              this.$parent.internalPageSize = value.indexOf(this.$parent.pageSize) > -1 ? this.$parent.pageSize : this.pageSizes[0];
+	            }
+	          }
 	        }
 	      },
+
 	      render: function render(h) {
+	        var _this = this;
+
 	        return h(
 	          'span',
 	          { 'class': 'el-pagination__sizes' },
@@ -653,13 +671,13 @@ module.exports =
 	                'change': this.handleChange
 	              }
 	            },
-	            [this.$parent.pageSizes.map(function (item) {
+	            [this.pageSizes.map(function (item) {
 	              return h(
 	                'el-option',
 	                {
 	                  attrs: {
 	                    value: item,
-	                    label: item + ' ' + (0, _locale.t)('el.pagination.pagesize') }
+	                    label: item + ' ' + _this.t('el.pagination.pagesize') }
 	                },
 	                []
 	              );
@@ -685,6 +703,8 @@ module.exports =
 	    },
 
 	    Jumper: {
+	      mixins: [_locale2.default],
+
 	      data: function data() {
 	        return {
 	          oldValue: null
@@ -699,11 +719,7 @@ module.exports =
 	        handleChange: function handleChange(_ref) {
 	          var target = _ref.target;
 
-	          var oldPage = this.$parent.internalCurrentPage;
 	          this.$parent.internalCurrentPage = this.$parent.getValidCurrentPage(target.value);
-	          if (oldPage !== this.$parent.internalCurrentPage) {
-	            this.$parent.$emit('current-change', this.$parent.internalCurrentPage);
-	          }
 	          this.oldValue = null;
 	        }
 	      },
@@ -712,7 +728,7 @@ module.exports =
 	        return h(
 	          'span',
 	          { 'class': 'el-pagination__jump' },
-	          [(0, _locale.t)('el.pagination.goto'), h(
+	          [this.t('el.pagination.goto'), h(
 	            'input',
 	            {
 	              'class': 'el-pagination__editor',
@@ -731,17 +747,19 @@ module.exports =
 
 	              style: { width: '30px' } },
 	            []
-	          ), (0, _locale.t)('el.pagination.pageClassifier')]
+	          ), this.t('el.pagination.pageClassifier')]
 	        );
 	      }
 	    },
 
 	    Total: {
+	      mixins: [_locale2.default],
+
 	      render: function render(h) {
 	        return typeof this.$parent.total === 'number' ? h(
 	          'span',
 	          { 'class': 'el-pagination__total' },
-	          [(0, _locale.t)('el.pagination.total', { total: this.$parent.total })]
+	          [this.t('el.pagination.total', { total: this.$parent.total })]
 	        ) : '';
 	      }
 	    },
@@ -760,29 +778,15 @@ module.exports =
 	      };
 	    },
 	    handleCurrentChange: function handleCurrentChange(val) {
-	      var oldPage = this.internalCurrentPage;
 	      this.internalCurrentPage = this.getValidCurrentPage(val);
-	      if (oldPage !== this.internalCurrentPage) {
-	        this.$emit('current-change', this.internalCurrentPage);
-	      }
 	    },
 	    prev: function prev() {
-	      var oldPage = this.internalCurrentPage;
 	      var newVal = this.internalCurrentPage - 1;
 	      this.internalCurrentPage = this.getValidCurrentPage(newVal);
-
-	      if (this.internalCurrentPage !== oldPage) {
-	        this.$emit('current-change', this.internalCurrentPage);
-	      }
 	    },
 	    next: function next() {
-	      var oldPage = this.internalCurrentPage;
 	      var newVal = this.internalCurrentPage + 1;
 	      this.internalCurrentPage = this.getValidCurrentPage(newVal);
-
-	      if (this.internalCurrentPage !== oldPage) {
-	        this.$emit('current-change', this.internalCurrentPage);
-	      }
 	    },
 	    getValidCurrentPage: function getValidCurrentPage(value) {
 	      value = parseInt(value, 10);
@@ -822,20 +826,6 @@ module.exports =
 	  },
 
 	  watch: {
-	    internalPageCount: function internalPageCount(newVal) {
-	      /* istanbul ignore if */
-	      var oldPage = this.internalCurrentPage;
-	      if (newVal > 0 && oldPage === 0) {
-	        this.internalCurrentPage = 1;
-	      } else if (oldPage > newVal) {
-	        this.internalCurrentPage = newVal === 0 ? 1 : newVal;
-	      }
-	      if (oldPage !== this.internalCurrentPage) {
-	        this.$emit('current-change', this.internalCurrentPage);
-	      }
-	    },
-
-
 	    currentPage: {
 	      immediate: true,
 	      handler: function handler(val) {
@@ -851,7 +841,7 @@ module.exports =
 	    },
 
 	    internalCurrentPage: function internalCurrentPage(newVal, oldVal) {
-	      var _this = this;
+	      var _this2 = this;
 
 	      newVal = parseInt(newVal, 10);
 
@@ -864,8 +854,22 @@ module.exports =
 
 	      if (newVal !== undefined) {
 	        this.$nextTick(function () {
-	          _this.internalCurrentPage = newVal;
+	          _this2.internalCurrentPage = newVal;
+	          if (oldVal !== newVal) {
+	            _this2.$emit('current-change', _this2.internalCurrentPage);
+	          }
 	        });
+	      } else {
+	        this.$emit('current-change', this.internalCurrentPage);
+	      }
+	    },
+	    internalPageCount: function internalPageCount(newVal) {
+	      /* istanbul ignore if */
+	      var oldPage = this.internalCurrentPage;
+	      if (newVal > 0 && oldPage === 0) {
+	        this.internalCurrentPage = 1;
+	      } else if (oldPage > newVal) {
+	        this.internalCurrentPage = newVal === 0 ? 1 : newVal;
 	      }
 	    }
 	  }
@@ -1127,7 +1131,7 @@ module.exports =
 /* 10 */
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/locale");
+	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 /* 11 */
@@ -1482,6 +1486,13 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElAutocomplete',
@@ -1636,7 +1647,11 @@ module.exports =
 	        _vm.select(_vm.highlightedIndex)
 	      }]
 	    }
-	  }), _vm._h('transition', {
+	  }, [(_vm.$slots.prepend) ? _vm._h('template', {
+	    slot: "prepend"
+	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.$slots.append) ? _vm._h('template', {
+	    slot: "append"
+	  }, [_vm._t("append")]) : _vm._e()]), _vm._h('transition', {
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    }
@@ -2723,8 +2738,7 @@ module.exports =
 
 	  props: {
 	    title: {
-	      type: String,
-	      required: true
+	      type: String
 	    }
 	  },
 	  data: function data() {
@@ -2766,7 +2780,7 @@ module.exports =
 	    style: ({
 	      'padding-left': _vm.paddingLeft + 'px'
 	    })
-	  }, [_vm._s(_vm.title)]), _vm._h('ul', [_vm._t("default")])])
+	  }, [(!_vm.$slots.title) ? [_vm._s(_vm.title)] : _vm._t("title")]), _vm._h('ul', [_vm._t("default")])])
 	},staticRenderFns: []}
 
 /***/ },
@@ -2904,6 +2918,8 @@ module.exports =
 	exports.default = {
 	  name: 'ElInput',
 
+	  componentName: 'ElInput',
+
 	  mixins: [_emitter2.default],
 
 	  props: {
@@ -2941,7 +2957,7 @@ module.exports =
 	  methods: {
 	    handleBlur: function handleBlur(event) {
 	      this.$emit('blur', event);
-	      this.dispatch('form-item', 'el.form.blur', [this.currentValue]);
+	      this.dispatch('ElFormItem', 'el.form.blur', [this.currentValue]);
 	    },
 	    inputSelect: function inputSelect() {
 	      this.$refs.input.select();
@@ -2985,7 +3001,7 @@ module.exports =
 
 	  computed: {
 	    validating: function validating() {
-	      return this.$parent.validating;
+	      return this.$parent.validateState === 'validating';
 	    }
 	  },
 
@@ -3001,7 +3017,7 @@ module.exports =
 	      });
 	      this.$emit('input', val);
 	      this.$emit('change', val);
-	      this.dispatch('form-item', 'el.form.change', [val]);
+	      this.dispatch('ElFormItem', 'el.form.change', [val]);
 	    }
 	  }
 	};
@@ -3408,15 +3424,17 @@ module.exports =
 	      return (arg1 + arg2) / m;
 	    },
 	    increase: function increase() {
-	      if (this.value + this.step > this.max || this.disabled) return;
-	      this.currentValue = this.accAdd(this.step, this.value);
+	      var value = this.value || 0;
+	      if (value + this.step > this.max || this.disabled) return;
+	      this.currentValue = this.accAdd(this.step, value);
 	      if (this.maxDisabled) {
 	        this.inputActive = false;
 	      }
 	    },
 	    decrease: function decrease() {
-	      if (this.value - this.step < this.min || this.disabled) return;
-	      this.currentValue = this.accSub(this.value, this.step);
+	      var value = this.value || 0;
+	      if (value - this.step < this.min || this.disabled) return;
+	      this.currentValue = this.accSub(value, this.step);
 	      if (this.minDisabled) {
 	        this.inputActive = false;
 	      }
@@ -3580,39 +3598,24 @@ module.exports =
 
 /***/ },
 /* 64 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+
+	var _emitter = __webpack_require__(25);
+
+	var _emitter2 = _interopRequireDefault(_emitter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	  name: 'ElRadio',
+
+	  mixins: [_emitter2.default],
+
+	  componentName: 'ElRadio',
 
 	  props: {
 	    value: [String, Number],
@@ -3623,27 +3626,62 @@ module.exports =
 	    disabled: Boolean,
 	    name: String
 	  },
+
 	  data: function data() {
 	    return {
-	      focus: false
+	      focus: false,
+	      isGroup: false,
+	      store: this.value
 	    };
 	  },
 
-	  computed: {
-	    _value: {
-	      get: function get() {
-	        return this.value !== undefined ? this.value : this.$parent.value;
-	      },
-	      set: function set(newValue) {
-	        if (this.value !== undefined) {
-	          this.$emit('input', newValue);
-	        } else {
-	          this.$parent.$emit('input', newValue);
-	        }
+
+	  watch: {
+	    store: function store(_store) {
+	      if (this.isGroup) {
+	        this.dispatch('ElRadioGroup', 'input', _store);
+	      } else {
+	        this.$emit('input', _store);
 	      }
+	    },
+	    value: function value(val) {
+	      this.store = val;
 	    }
+	  },
+
+	  created: function created() {
+	    var _this = this;
+
+	    this.$on('initData', function (data) {
+	      _this.store = data;
+	      _this.isGroup = true;
+	    });
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 /* 65 */
@@ -3658,15 +3696,15 @@ module.exports =
 	    staticClass: "el-radio__inner",
 	    class: {
 	      'is-disabled': _vm.disabled,
-	      'is-checked': _vm._value === _vm.label,
+	      'is-checked': _vm.store === _vm.label,
 	        'is-focus': _vm.focus
 	    }
 	  }), _vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm._value),
-	      expression: "_value"
+	      value: (_vm.store),
+	      expression: "store"
 	    }],
 	    staticClass: "el-radio__original",
 	    attrs: {
@@ -3676,7 +3714,7 @@ module.exports =
 	    },
 	    domProps: {
 	      "value": _vm.label,
-	      "checked": _vm._q(_vm._value, _vm.label)
+	      "checked": _vm._q(_vm.store, _vm.label)
 	    },
 	    on: {
 	      "focus": function($event) {
@@ -3686,7 +3724,7 @@ module.exports =
 	        _vm.focus = false
 	      },
 	      "change": function($event) {
-	        _vm._value = _vm.label
+	        _vm.store = _vm.label
 	      }
 	    }
 	  })]), _vm._h('span', {
@@ -3761,19 +3799,31 @@ module.exports =
 	exports.default = {
 	  name: 'ElRadioGroup',
 
-	  componentName: 'radio-group',
+	  componentName: 'ElRadioGroup',
 
 	  mixins: [_emitter2.default],
 
 	  props: {
 	    value: [String, Number],
-	    size: String
+	    size: String,
+	    fill: {
+	      type: String,
+	      default: '#20a0ff'
+	    },
+	    textColor: {
+	      type: String,
+	      default: '#fff'
+	    }
 	  },
 	  watch: {
 	    value: function value(_value) {
 	      this.$emit('change', _value);
-	      this.dispatch('form-item', 'el.form.change', [this.value]);
+	      this.broadcast('ElRadio', 'initData', _value);
+	      this.dispatch('ElFormItem', 'el.form.change', [this.value]);
 	    }
+	  },
+	  mounted: function mounted() {
+	    this.broadcast('ElRadio', 'initData', this.value);
 	  }
 	};
 
@@ -3869,6 +3919,13 @@ module.exports =
 	      set: function set(newValue) {
 	        this.$parent.$emit('input', newValue);
 	      }
+	    },
+	    activeStyle: function activeStyle() {
+	      return {
+	        backgroundColor: this.$parent.fill,
+	        borderColor: this.$parent.fill,
+	        color: this.$parent.textColor
+	      };
 	    }
 	  }
 	};
@@ -3908,7 +3965,8 @@ module.exports =
 	      }
 	    }
 	  }), _vm._h('span', {
-	    staticClass: "el-radio-button__inner"
+	    staticClass: "el-radio-button__inner",
+	    style: (_vm.value === _vm.label ? _vm.activeStyle : null)
 	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()])])
 	},staticRenderFns: []}
 
@@ -3981,9 +4039,36 @@ module.exports =
 
 	  mixins: [_emitter2.default],
 
+	  componentName: 'ElCheckbox',
+
+	  computed: {
+	    model: {
+	      get: function get() {
+	        return this.isGroup ? this.store : this.value;
+	      },
+	      set: function set(val) {
+	        if (this.isGroup) {
+	          this.dispatch('ElCheckboxGroup', 'input', [val]);
+	        } else {
+	          this.$emit('input', val);
+	        }
+	      }
+	    },
+
+	    isChecked: function isChecked() {
+	      if ({}.toString.call(this.model) === '[object Boolean]') {
+	        return this.model;
+	      } else if (Array.isArray(this.model)) {
+	        return this.model.indexOf(this.label) > -1;
+	      } else if (this.model !== null && this.model !== undefined) {
+	        return this.model === this.trueLabel;
+	      }
+	    }
+	  },
+
 	  props: {
 	    value: {},
-	    label: String,
+	    label: {},
 	    indeterminate: Boolean,
 	    disabled: Boolean,
 	    checked: Boolean,
@@ -3992,63 +4077,35 @@ module.exports =
 	    falseLabel: [String, Number]
 	  },
 
-	  computed: {
-	    _value: {
-	      get: function get() {
-	        return !this.wrapInGroup ? this.value : this.$parent.value;
-	      },
-	      set: function set(newValue) {
-	        if (!this.wrapInGroup) {
-	          this.$emit('input', newValue);
-	        } else {
-	          this.$parent.$emit('input', newValue);
-	        }
-	      }
-	    },
-	    isChecked: function isChecked() {
-	      var type = Object.prototype.toString.call(this._value);
-
-	      if (type === '[object Boolean]') {
-	        return this._value;
-	      } else if (type === '[object Array]') {
-	        return this._value.indexOf(this.label) > -1;
-	      } else if (type === '[object String]' || type === '[object Number]') {
-	        return this._value === this.trueLabel;
-	      }
-	    }
-	  },
-
 	  data: function data() {
 	    return {
-	      focus: false,
-	      wrapInGroup: this.$parent.$options.componentName === 'ElCheckboxGroup'
+	      store: [],
+	      isGroup: false
 	    };
 	  },
 
 
-	  watch: {
-	    checked: {
-	      immediate: true,
-	      handler: function handler(value) {
-	        if (value) {
-	          var type = Object.prototype.toString.call(this._value);
-	          if (type !== '[object Array]') {
-	            this._value = this.trueLabel || true;
-	          } else {
-	            this._value.push(this.label);
-	          }
-	        }
+	  methods: {
+	    addToStore: function addToStore() {
+	      if (Array.isArray(this.model)) {
+	        this.model.indexOf(this.label) === -1 && this.model.push(this.label);
+	      } else {
+	        this.model = this.trueLabel || true;
 	      }
 	    }
 	  },
 
-	  methods: {
-	    handleChange: function handleChange(ev) {
-	      this.$emit('change', ev);
-	    }
+	  created: function created() {
+	    var _this = this;
+
+	    this.checked && this.addToStore();
+	    this.$on('initData', function (data) {
+	      _this.store = data;
+	      _this.isGroup = true;
+	      _this.checked && _this.addToStore();
+	    });
 	  }
 	}; //
-	//
 	//
 	//
 	//
@@ -4111,10 +4168,9 @@ module.exports =
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm._value),
-	      expression: "_value"
+	      value: (_vm.model),
+	      expression: "model"
 	    }],
-	    ref: "checkbox",
 	    staticClass: "el-checkbox__original",
 	    attrs: {
 	      "type": "checkbox",
@@ -4124,38 +4180,40 @@ module.exports =
 	      "false-value": _vm.falseLabel
 	    },
 	    domProps: {
-	      "checked": Array.isArray(_vm._value) ? _vm._i(_vm._value, null) > -1 : _vm._q(_vm._value, _vm.trueLabel)
+	      "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm._q(_vm.model, _vm.trueLabel)
 	    },
 	    on: {
-	      "focus": function($event) {
-	        _vm.focus = true
-	      },
-	      "blur": function($event) {
-	        _vm.focus = false
-	      },
 	      "change": [function($event) {
-	        var $$a = _vm._value,
+	        var $$a = _vm.model,
 	          $$el = $event.target,
 	          $$c = $$el.checked ? (_vm.trueLabel) : (_vm.falseLabel);
 	        if (Array.isArray($$a)) {
 	          var $$v = null,
 	            $$i = _vm._i($$a, $$v);
 	          if ($$c) {
-	            $$i < 0 && (_vm._value = $$a.concat($$v))
+	            $$i < 0 && (_vm.model = $$a.concat($$v))
 	          } else {
-	            $$i > -1 && (_vm._value = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	            $$i > -1 && (_vm.model = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
 	          }
 	        } else {
-	          _vm._value = $$c
+	          _vm.model = $$c
 	        }
-	      }, _vm.handleChange]
+	      }, function($event) {
+	        _vm.$emit('change', $event)
+	      }],
+	      "focus": function($event) {
+	        _vm.focus = true
+	      },
+	      "blur": function($event) {
+	        _vm.focus = false
+	      }
 	    }
 	  }) : _vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm._value),
-	      expression: "_value"
+	      value: (_vm.model),
+	      expression: "model"
 	    }],
 	    staticClass: "el-checkbox__original",
 	    attrs: {
@@ -4165,31 +4223,33 @@ module.exports =
 	    },
 	    domProps: {
 	      "value": _vm.label,
-	      "checked": Array.isArray(_vm._value) ? _vm._i(_vm._value, _vm.label) > -1 : _vm._q(_vm._value, true)
+	      "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, _vm.label) > -1 : _vm._q(_vm.model, true)
 	    },
 	    on: {
-	      "focus": function($event) {
-	        _vm.focus = true
-	      },
-	      "blur": function($event) {
-	        _vm.focus = false
-	      },
 	      "change": [function($event) {
-	        var $$a = _vm._value,
+	        var $$a = _vm.model,
 	          $$el = $event.target,
 	          $$c = $$el.checked ? (true) : (false);
 	        if (Array.isArray($$a)) {
 	          var $$v = _vm.label,
 	            $$i = _vm._i($$a, $$v);
 	          if ($$c) {
-	            $$i < 0 && (_vm._value = $$a.concat($$v))
+	            $$i < 0 && (_vm.model = $$a.concat($$v))
 	          } else {
-	            $$i > -1 && (_vm._value = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	            $$i > -1 && (_vm.model = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
 	          }
 	        } else {
-	          _vm._value = $$c
+	          _vm.model = $$c
 	        }
-	      }, _vm.handleChange]
+	      }, function($event) {
+	        _vm.$emit('change', $event)
+	      }],
+	      "focus": function($event) {
+	        _vm.focus = true
+	      },
+	      "blur": function($event) {
+	        _vm.focus = false
+	      }
 	    }
 	  })]), (_vm.$slots.default || _vm.label) ? _vm._h('span', {
 	    staticClass: "el-checkbox__label"
@@ -4274,8 +4334,13 @@ module.exports =
 	  watch: {
 	    value: function value(_value) {
 	      this.$emit('change', _value);
-	      this.dispatch('form-item', 'el.form.change', [_value]);
+	      this.dispatch('ElFormItem', 'el.form.change', [_value]);
+	      this.broadcast('ElCheckbox', 'initData', [_value]);
 	    }
+	  },
+
+	  mounted: function mounted() {
+	    this.broadcast('ElCheckbox', 'initData', [this.value]);
 	  }
 	};
 
@@ -4642,7 +4707,7 @@ module.exports =
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _locale = __webpack_require__(89);
+	var _locale = __webpack_require__(10);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -4650,15 +4715,15 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _selectDropdown = __webpack_require__(90);
+	var _selectDropdown = __webpack_require__(89);
 
 	var _selectDropdown2 = _interopRequireDefault(_selectDropdown);
 
-	var _tag = __webpack_require__(93);
+	var _tag = __webpack_require__(92);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _debounce = __webpack_require__(94);
+	var _debounce = __webpack_require__(93);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -4666,14 +4731,16 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _class = __webpack_require__(95);
+	var _class = __webpack_require__(94);
 
-	var _resizeEvent = __webpack_require__(96);
+	var _resizeEvent = __webpack_require__(95);
 
-	var _locale3 = __webpack_require__(10);
+	var _locale3 = __webpack_require__(96);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
+	//
 	//
 	//
 	//
@@ -4745,7 +4812,7 @@ module.exports =
 
 	  name: 'ElSelect',
 
-	  componentName: 'select',
+	  componentName: 'ElSelect',
 
 	  computed: {
 	    iconClass: function iconClass() {
@@ -4755,19 +4822,24 @@ module.exports =
 	      return this.remote ? 300 : 0;
 	    },
 	    showCloseIcon: function showCloseIcon() {
+	      var _this = this;
+
 	      var criteria = this.clearable && this.inputHovering && !this.multiple && this.options.indexOf(this.selected) > -1;
 	      if (!this.$el) return false;
 
-	      var icon = this.$el.querySelector('.el-input__icon');
-	      if (icon) {
-	        if (criteria) {
-	          icon.addEventListener('click', this.deleteSelected);
-	          (0, _class.addClass)(icon, 'is-show-close');
-	        } else {
-	          icon.removeEventListener('click', this.deleteSelected);
-	          (0, _class.removeClass)(icon, 'is-show-close');
+	      this.$nextTick(function () {
+	        var icon = _this.$el.querySelector('.el-input__icon');
+	        if (icon) {
+	          if (criteria) {
+	            icon.addEventListener('click', _this.deleteSelected);
+	            (0, _class.addClass)(icon, 'is-show-close');
+	          } else {
+	            icon.removeEventListener('click', _this.deleteSelected);
+	            (0, _class.removeClass)(icon, 'is-show-close');
+	          }
 	        }
-	      }
+	      });
+
 	      return criteria;
 	    },
 	    emptyText: function emptyText() {
@@ -4848,45 +4920,45 @@ module.exports =
 	      this.currentPlaceholder = val;
 	    },
 	    value: function value(val) {
-	      var _this = this;
+	      var _this2 = this;
 
 	      if (this.valueChangeBySelected) {
 	        this.valueChangeBySelected = false;
 	        return;
 	      }
 	      this.$nextTick(function () {
-	        if (_this.multiple && Array.isArray(val)) {
-	          _this.$nextTick(function () {
-	            _this.resetInputHeight();
+	        if (_this2.multiple && Array.isArray(val)) {
+	          _this2.$nextTick(function () {
+	            _this2.resetInputHeight();
 	          });
-	          _this.selectedInit = true;
-	          _this.selected = [];
-	          _this.currentPlaceholder = _this.cachedPlaceHolder;
+	          _this2.selectedInit = true;
+	          _this2.selected = [];
+	          _this2.currentPlaceholder = _this2.cachedPlaceHolder;
 	          val.forEach(function (item) {
-	            var option = _this.options.filter(function (option) {
+	            var option = _this2.options.filter(function (option) {
 	              return option.value === item;
 	            })[0];
 	            if (option) {
-	              _this.$emit('addOptionToValue', option);
+	              _this2.$emit('addOptionToValue', option);
 	            }
 	          });
 	        }
-	        if (!_this.multiple) {
-	          var option = _this.options.filter(function (option) {
+	        if (!_this2.multiple) {
+	          var option = _this2.options.filter(function (option) {
 	            return option.value === val;
 	          })[0];
 	          if (option) {
-	            _this.$emit('addOptionToValue', option);
+	            _this2.$emit('addOptionToValue', option);
 	          } else {
-	            _this.selected = {};
-	            _this.selectedLabel = '';
+	            _this2.selected = {};
+	            _this2.selectedLabel = '';
 	          }
 	        }
-	        _this.resetHoverIndex();
+	        _this2.resetHoverIndex();
 	      });
 	    },
 	    selected: function selected(val, oldVal) {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      if (this.multiple) {
 	        if (this.selected.length > 0) {
@@ -4895,7 +4967,7 @@ module.exports =
 	          this.currentPlaceholder = this.cachedPlaceHolder;
 	        }
 	        this.$nextTick(function () {
-	          _this2.resetInputHeight();
+	          _this3.resetInputHeight();
 	        });
 	        if (this.selectedInit) {
 	          this.selectedInit = false;
@@ -4908,7 +4980,7 @@ module.exports =
 
 	        this.$emit('input', result);
 	        this.$emit('change', result);
-	        this.dispatch('form-item', 'el.form.change', val);
+	        this.dispatch('ElFormItem', 'el.form.change', val);
 	        if (this.filterable) {
 	          this.query = '';
 	          this.hoverIndex = -1;
@@ -4926,10 +4998,10 @@ module.exports =
 	      }
 	    },
 	    query: function query(val) {
-	      var _this3 = this;
+	      var _this4 = this;
 
 	      this.$nextTick(function () {
-	        _this3.broadcast('select-dropdown', 'updatePopper');
+	        _this4.broadcast('ElSelectDropdown', 'updatePopper');
 	      });
 	      if (this.multiple && this.filterable) {
 	        this.resetInputHeight();
@@ -4938,12 +5010,12 @@ module.exports =
 	        this.hoverIndex = -1;
 	        this.remoteMethod(val);
 	        this.voidRemoteQuery = val === '';
-	        this.broadcast('option', 'resetIndex');
+	        this.broadcast('ElOption', 'resetIndex');
 	      } else if (typeof this.filterMethod === 'function') {
 	        this.filterMethod(val);
 	      } else {
 	        this.filteredOptionsCount = this.optionsCount;
-	        this.broadcast('option', 'queryChange', val);
+	        this.broadcast('ElOption', 'queryChange', val);
 	      }
 	    },
 	    visible: function visible(val) {
@@ -4952,7 +5024,7 @@ module.exports =
 	        if (this.$el.querySelector('.el-input__icon')) {
 	          (0, _class.removeClass)(this.$el.querySelector('.el-input__icon'), 'is-reverse');
 	        }
-	        this.broadcast('select-dropdown', 'destroyPopper');
+	        this.broadcast('ElSelectDropdown', 'destroyPopper');
 	        if (this.$refs.input) {
 	          this.$refs.input.blur();
 	        }
@@ -4970,13 +5042,13 @@ module.exports =
 	        if (icon && !(0, _class.hasClass)(icon, 'el-icon-circle-close')) {
 	          (0, _class.addClass)(this.$el.querySelector('.el-input__icon'), 'is-reverse');
 	        }
-	        this.broadcast('select-dropdown', 'updatePopper');
+	        this.broadcast('ElSelectDropdown', 'updatePopper');
 	        if (this.filterable) {
 	          this.query = this.selectedLabel;
 	          if (this.multiple) {
 	            this.$refs.input.focus();
 	          } else {
-	            this.broadcast('input', 'inputSelect');
+	            this.broadcast('ElInput', 'inputSelect');
 	          }
 	        }
 	        if (!this.dropdownUl) {
@@ -5000,6 +5072,13 @@ module.exports =
 	  },
 
 	  methods: {
+	    handleMouseDown: function handleMouseDown(event) {
+	      if (event.target.tagName !== 'INPUT') return;
+	      if (this.visible) {
+	        this.handleClose();
+	        event.preventDefault();
+	      }
+	    },
 	    doDestroy: function doDestroy() {
 	      this.$refs.popper.doDestroy();
 	    },
@@ -5048,30 +5127,30 @@ module.exports =
 	      this.inputLength = this.$refs.input.value.length * 15 + 20;
 	    },
 	    resetInputHeight: function resetInputHeight() {
-	      var _this4 = this;
+	      var _this5 = this;
 
 	      this.$nextTick(function () {
-	        var inputChildNodes = _this4.$refs.reference.$el.childNodes;
+	        var inputChildNodes = _this5.$refs.reference.$el.childNodes;
 	        var input = [].filter.call(inputChildNodes, function (item) {
 	          return item.tagName === 'INPUT';
 	        })[0];
-	        input.style.height = Math.max(_this4.$refs.tags.clientHeight + 6, _this4.size === 'small' ? 28 : 36) + 'px';
-	        _this4.broadcast('select-dropdown', 'updatePopper');
+	        input.style.height = Math.max(_this5.$refs.tags.clientHeight + 6, _this5.size === 'small' ? 28 : 36) + 'px';
+	        _this5.broadcast('ElSelectDropdown', 'updatePopper');
 	      });
 	    },
 	    resetHoverIndex: function resetHoverIndex() {
-	      var _this5 = this;
+	      var _this6 = this;
 
 	      setTimeout(function () {
-	        if (!_this5.multiple) {
-	          _this5.hoverIndex = _this5.options.indexOf(_this5.selected);
+	        if (!_this6.multiple) {
+	          _this6.hoverIndex = _this6.options.indexOf(_this6.selected);
 	        } else {
-	          if (_this5.selected.length > 0) {
-	            _this5.hoverIndex = Math.min.apply(null, _this5.selected.map(function (item) {
-	              return _this5.options.indexOf(item);
+	          if (_this6.selected.length > 0) {
+	            _this6.hoverIndex = Math.min.apply(null, _this6.selected.map(function (item) {
+	              return _this6.options.indexOf(item);
 	            }));
 	          } else {
-	            _this5.hoverIndex = -1;
+	            _this6.hoverIndex = -1;
 	          }
 	        }
 	      }, 300);
@@ -5084,7 +5163,7 @@ module.exports =
 	      } else {
 	        var optionIndex = -1;
 	        this.selected.forEach(function (item, index) {
-	          if (item === option || item.currentLabel === option.currentLabel) {
+	          if (item === option || item.currentValue === option.currentValue) {
 	            optionIndex = index;
 	          }
 	        });
@@ -5173,7 +5252,7 @@ module.exports =
 	      if (index > -1) {
 	        this.options.splice(index, 1);
 	      }
-	      this.broadcast('option', 'resetIndex');
+	      this.broadcast('ElOption', 'resetIndex');
 	    },
 	    resetInputWidth: function resetInputWidth() {
 	      this.inputWidth = this.$refs.reference.$el.getBoundingClientRect().width;
@@ -5181,7 +5260,7 @@ module.exports =
 	  },
 
 	  created: function created() {
-	    var _this6 = this;
+	    var _this7 = this;
 
 	    this.cachedPlaceHolder = this.currentPlaceholder = this.placeholder;
 	    if (this.multiple) {
@@ -5193,7 +5272,7 @@ module.exports =
 	    }
 
 	    this.debouncedOnInputChange = (0, _debounce2.default)(this.debounce, function () {
-	      _this6.onInputChange();
+	      _this7.onInputChange();
 	    });
 
 	    this.$on('addOptionToValue', this.addOptionToValue);
@@ -5201,20 +5280,20 @@ module.exports =
 	    this.$on('onOptionDestroy', this.onOptionDestroy);
 	  },
 	  mounted: function mounted() {
-	    var _this7 = this;
+	    var _this8 = this;
 
 	    (0, _resizeEvent.addResizeListener)(this.$el, this.resetInputWidth);
 	    if (this.remote && this.multiple && Array.isArray(this.value)) {
 	      this.selected = this.options.reduce(function (prev, curr) {
-	        return _this7.value.indexOf(curr.value) > -1 ? prev.concat(curr) : prev;
+	        return _this8.value.indexOf(curr.value) > -1 ? prev.concat(curr) : prev;
 	      }, []);
 	      this.$nextTick(function () {
-	        _this7.resetInputHeight();
+	        _this8.resetInputHeight();
 	      });
 	    }
 	    this.$nextTick(function () {
-	      if (_this7.$refs.reference.$el) {
-	        _this7.inputWidth = _this7.$refs.reference.$el.getBoundingClientRect().width;
+	      if (_this8.$refs.reference.$el) {
+	        _this8.inputWidth = _this8.$refs.reference.$el.getBoundingClientRect().width;
 	      }
 	    });
 	  },
@@ -5225,22 +5304,16 @@ module.exports =
 
 /***/ },
 /* 89 */
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/mixins/locale");
-
-/***/ },
-/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(91)
+	__vue_exports__ = __webpack_require__(90)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(92)
+	var __vue_template__ = __webpack_require__(91)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -5259,7 +5332,7 @@ module.exports =
 
 
 /***/ },
-/* 91 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5275,7 +5348,7 @@ module.exports =
 	exports.default = {
 	  name: 'el-select-dropdown',
 
-	  componentName: 'select-dropdown',
+	  componentName: 'ElSelectDropdown',
 
 	  mixins: [_vuePopper2.default],
 
@@ -5328,7 +5401,7 @@ module.exports =
 	//
 
 /***/ },
-/* 92 */
+/* 91 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -5344,28 +5417,34 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 93 */
+/* 92 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
-/* 94 */
+/* 93 */
 /***/ function(module, exports) {
 
 	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
-/* 95 */
+/* 94 */
 /***/ function(module, exports) {
 
 	module.exports = require("wind-dom/src/class");
 
 /***/ },
-/* 96 */
+/* 95 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/resize-event");
+
+/***/ },
+/* 96 */
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 /* 97 */
@@ -5485,11 +5564,15 @@ module.exports =
 	    },
 	    on: {
 	      "focus": _vm.toggleMenu,
+	      "click": _vm.toggleMenu,
 	      "input": function($event) {
 	        _vm.selectedLabel = $event
 	      }
 	    },
 	    nativeOn: {
+	      "mousedown": function($event) {
+	        _vm.handleMouseDown($event)
+	      },
 	      "keyup": function($event) {
 	        _vm.debouncedOnInputChange($event)
 	      },
@@ -5617,7 +5700,7 @@ module.exports =
 
 	  name: 'el-option',
 
-	  componentName: 'option',
+	  componentName: 'ElOption',
 
 	  props: {
 	    value: {
@@ -5648,6 +5731,9 @@ module.exports =
 	    currentLabel: function currentLabel() {
 	      return this.label || (typeof this.value === 'string' || typeof this.value === 'number' ? this.value : '');
 	    },
+	    currentValue: function currentValue() {
+	      return this.value || this.label || '';
+	    },
 	    parent: function parent() {
 	      var result = this.$parent;
 	      while (!result.isSelect) {
@@ -5670,7 +5756,7 @@ module.exports =
 	  watch: {
 	    currentSelected: function currentSelected(val) {
 	      if (val === true) {
-	        this.dispatch('select', 'addOptionToValue', this);
+	        this.dispatch('ElSelect', 'addOptionToValue', this);
 	      }
 	    }
 	  },
@@ -5686,7 +5772,7 @@ module.exports =
 	    },
 	    selectOptionClick: function selectOptionClick() {
 	      if (this.disabled !== true && this.groupDisabled !== true) {
-	        this.dispatch('select', 'handleOptionClick', this);
+	        this.dispatch('ElSelect', 'handleOptionClick', this);
 	      }
 	    },
 	    queryChange: function queryChange(query) {
@@ -5713,7 +5799,7 @@ module.exports =
 	    this.index = this.parent.options.indexOf(this);
 
 	    if (this.currentSelected === true) {
-	      this.dispatch('select', 'addOptionToValue', [this, true]);
+	      this.dispatch('ElSelect', 'addOptionToValue', [this, true]);
 	    }
 
 	    this.$on('queryChange', this.queryChange);
@@ -5721,7 +5807,7 @@ module.exports =
 	    this.$on('resetIndex', this.resetIndex);
 	  },
 	  beforeDestroy: function beforeDestroy() {
-	    this.dispatch('select', 'onOptionDestroy', this);
+	    this.dispatch('ElSelect', 'onOptionDestroy', this);
 	  }
 	}; //
 	//
@@ -5842,13 +5928,13 @@ module.exports =
 
 	  watch: {
 	    disabled: function disabled(val) {
-	      this.broadcast('option', 'handleGroupDisabled', val);
+	      this.broadcast('ElOption', 'handleGroupDisabled', val);
 	    }
 	  },
 
 	  mounted: function mounted() {
 	    if (this.disabled) {
-	      this.broadcast('option', 'handleGroupDisabled', this.disabled);
+	      this.broadcast('ElOption', 'handleGroupDisabled', this.disabled);
 	    }
 	  }
 	}; //
@@ -6164,13 +6250,13 @@ module.exports =
 
 	var _throttle2 = _interopRequireDefault(_throttle);
 
-	var _debounce = __webpack_require__(94);
+	var _debounce = __webpack_require__(93);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _resizeEvent = __webpack_require__(96);
+	var _resizeEvent = __webpack_require__(95);
 
-	var _locale = __webpack_require__(10);
+	var _locale = __webpack_require__(96);
 
 	var _tableStore = __webpack_require__(118);
 
@@ -6192,6 +6278,15 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -6322,6 +6417,8 @@ module.exports =
 
 	    rowClassName: [String, Function],
 
+	    rowStyle: [Object, Function],
+
 	    highlightCurrentRow: Boolean,
 
 	    emptyText: {
@@ -6357,6 +6454,7 @@ module.exports =
 	    },
 	    toggleRowSelection: function toggleRowSelection(row, selected) {
 	      this.store.toggleRowSelection(row, selected);
+	      this.store.updateAllSelected();
 	    },
 	    clearSelection: function clearSelection() {
 	      this.store.clearSelection();
@@ -6377,20 +6475,22 @@ module.exports =
 
 	      var refs = this.$refs;
 	      bodyWrapper.addEventListener('scroll', function () {
-	        headerWrapper.scrollLeft = this.scrollLeft;
+	        if (headerWrapper) headerWrapper.scrollLeft = this.scrollLeft;
 	        if (refs.fixedBodyWrapper) refs.fixedBodyWrapper.scrollTop = this.scrollTop;
 	        if (refs.rightFixedBodyWrapper) refs.rightFixedBodyWrapper.scrollTop = this.scrollTop;
 	      });
 
-	      (0, _util.mousewheel)(headerWrapper, (0, _throttle2.default)(16, function (event) {
-	        var deltaX = event.deltaX;
+	      if (headerWrapper) {
+	        (0, _util.mousewheel)(headerWrapper, (0, _throttle2.default)(16, function (event) {
+	          var deltaX = event.deltaX;
 
-	        if (deltaX > 0) {
-	          bodyWrapper.scrollLeft = bodyWrapper.scrollLeft + 10;
-	        } else {
-	          bodyWrapper.scrollLeft = bodyWrapper.scrollLeft - 10;
-	        }
-	      }));
+	          if (deltaX > 0) {
+	            bodyWrapper.scrollLeft = bodyWrapper.scrollLeft + 10;
+	          } else {
+	            bodyWrapper.scrollLeft = bodyWrapper.scrollLeft - 10;
+	          }
+	        }));
+	      }
 
 	      if (this.fit) {
 	        this.windowResizeListener = (0, _throttle2.default)(50, function () {
@@ -6505,7 +6605,7 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _debounce = __webpack_require__(94);
+	var _debounce = __webpack_require__(93);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -6565,9 +6665,11 @@ module.exports =
 	  this.states = {
 	    rowKey: null,
 	    _columns: [],
+	    originColumns: [],
 	    columns: [],
 	    fixedColumns: [],
 	    rightFixedColumns: [],
+	    isComplex: false,
 	    _data: null,
 	    filteredData: null,
 	    data: null,
@@ -6688,13 +6790,19 @@ module.exports =
 	      return _this3.table.updateScrollY();
 	    });
 	  },
-	  insertColumn: function insertColumn(states, column, index) {
-	    var _columns = states._columns;
-	    if (typeof index !== 'undefined') {
-	      _columns.splice(index, 0, column);
-	    } else {
-	      _columns.push(column);
+	  insertColumn: function insertColumn(states, column, index, parent) {
+	    var array = states._columns;
+	    if (parent) {
+	      array = parent.children;
+	      if (!array) array = parent.children = [];
 	    }
+
+	    if (typeof index !== 'undefined') {
+	      array.splice(index, 0, column);
+	    } else {
+	      array.push(column);
+	    }
+
 	    if (column.type === 'selection') {
 	      states.selectable = column.selectable;
 	      states.reserveSelection = column.reserveSelection;
@@ -6762,6 +6870,18 @@ module.exports =
 	  })
 	};
 
+	var doFlattenColumns = function doFlattenColumns(columns) {
+	  var result = [];
+	  columns.forEach(function (column) {
+	    if (column.children) {
+	      result.push.apply(result, doFlattenColumns(column.children));
+	    } else {
+	      result.push(column);
+	    }
+	  });
+	  return result;
+	};
+
 	TableStore.prototype.updateColumns = function () {
 	  var states = this.states;
 	  var _columns = states._columns || [];
@@ -6776,9 +6896,11 @@ module.exports =
 	    _columns[0].fixed = true;
 	    states.fixedColumns.unshift(_columns[0]);
 	  }
-	  states.columns = [].concat(states.fixedColumns).concat(_columns.filter(function (column) {
+	  states.originColumns = [].concat(states.fixedColumns).concat(_columns.filter(function (column) {
 	    return !column.fixed;
 	  })).concat(states.rightFixedColumns);
+	  states.columns = doFlattenColumns(states.originColumns);
+	  states.isComplex = states.fixedColumns.length > 0 || states.rightFixedColumns.length > 0;
 	};
 
 	TableStore.prototype.isSelected = function (row) {
@@ -7107,6 +7229,8 @@ module.exports =
 	  }
 
 	  TableLayout.prototype.updateScrollY = function updateScrollY() {
+	    var height = this.height;
+	    if (typeof height !== 'string' || typeof height !== 'number') return;
 	    var bodyWrapper = this.table.$refs.bodyWrapper;
 	    if (this.table.$el && bodyWrapper) {
 	      var body = bodyWrapper.querySelector('.el-table__body');
@@ -7221,6 +7345,8 @@ module.exports =
 	      flattenColumns.forEach(function (column) {
 	        if (!column.width && !column.minWidth) {
 	          column.realWidth = 80;
+	        } else {
+	          column.realWidth = column.width || column.minWidth;
 	        }
 
 	        bodyMinWidth += column.realWidth;
@@ -7277,6 +7403,7 @@ module.exports =
 	      required: true
 	    },
 	    rowClassName: [String, Function],
+	    rowStyle: [Object, Function],
 	    fixed: String,
 	    highlight: Boolean
 	  },
@@ -7284,6 +7411,9 @@ module.exports =
 	  render: function render(h) {
 	    var _this = this;
 
+	    var columnsHidden = this.columns.map(function (column, index) {
+	      return _this.isColumnHidden(index);
+	    });
 	    return h(
 	      "table",
 	      {
@@ -7310,6 +7440,7 @@ module.exports =
 	          return h(
 	            "tr",
 	            {
+	              style: _this.rowStyle ? _this.getRowStyle(row, $index) : null,
 	              key: _this.$parent.rowKey ? _this.getKeyOfRow(row, $index) : $index,
 	              on: {
 	                "click": function click($event) {
@@ -7328,7 +7459,7 @@ module.exports =
 	              return h(
 	                "td",
 	                {
-	                  "class": [column.id, column.align, column.className || '', _this.isCellHidden(cellIndex) ? 'is-hidden' : ''],
+	                  "class": [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden' : ''],
 	                  on: {
 	                    "mouseenter": function mouseenter($event) {
 	                      return _this.handleCellMouseEnter($event, row);
@@ -7352,9 +7483,10 @@ module.exports =
 
 	  watch: {
 	    'store.states.hoverRow': function storeStatesHoverRow(newVal, oldVal) {
+	      if (!this.store.states.isComplex) return;
 	      var el = this.$el;
 	      if (!el) return;
-	      var rows = el.querySelectorAll('tr');
+	      var rows = el.querySelectorAll('tbody > tr');
 	      var oldRow = rows[oldVal];
 	      var newRow = rows[newVal];
 	      if (oldRow) {
@@ -7369,7 +7501,7 @@ module.exports =
 	      var el = this.$el;
 	      if (!el) return;
 	      var data = this.store.states.data;
-	      var rows = el.querySelectorAll('tr');
+	      var rows = el.querySelectorAll('tbody > tr');
 	      var oldRow = rows[data.indexOf(oldVal)];
 	      var newRow = rows[data.indexOf(newVal)];
 	      if (oldRow) {
@@ -7414,7 +7546,7 @@ module.exports =
 	      }
 	      return index;
 	    },
-	    isCellHidden: function isCellHidden(index) {
+	    isColumnHidden: function isColumnHidden(index) {
 	      if (this.fixed === true || this.fixed === 'left') {
 	        return index >= this.leftFixedCount;
 	      } else if (this.fixed === 'right') {
@@ -7423,6 +7555,13 @@ module.exports =
 	        return index < this.leftFixedCount || index >= this.columnsCount - this.rightFixedCount;
 	      }
 	    },
+	    getRowStyle: function getRowStyle(row, index) {
+	      var rowStyle = this.rowStyle;
+	      if (typeof rowStyle === 'function') {
+	        return rowStyle.call(null, row, index);
+	      }
+	      return rowStyle;
+	    },
 	    getRowClass: function getRowClass(row, index) {
 	      var classes = [];
 
@@ -7430,7 +7569,7 @@ module.exports =
 	      if (typeof rowClassName === 'string') {
 	        classes.push(rowClassName);
 	      } else if (typeof rowClassName === 'function') {
-	        classes.push(rowClassName.apply(null, [row, index]) || '');
+	        classes.push(rowClassName.call(null, row, index) || '');
 	      }
 
 	      return classes.join(' ');
@@ -7477,17 +7616,6 @@ module.exports =
 	      this.store.commit('setCurrentRow', row);
 
 	      table.$emit('row-click', row, event);
-	    },
-	    getCellContent: function getCellContent(row, property, column) {
-	      if (column && column.formatter) {
-	        return column.formatter(row, column);
-	      }
-
-	      if (property && property.indexOf('.') === -1) {
-	        return row[property];
-	      }
-
-	      return (0, _util.getValueByPath)(row, property);
 	    }
 	  }
 	};
@@ -7504,7 +7632,7 @@ module.exports =
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(93);
+	var _tag = __webpack_require__(92);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
@@ -7518,11 +7646,78 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var getAllColumns = function getAllColumns(columns) {
+	  var result = [];
+	  columns.forEach(function (column) {
+	    if (column.children) {
+	      result.push(column);
+	      result.push.apply(result, getAllColumns(column.children));
+	    } else {
+	      result.push(column);
+	    }
+	  });
+	  return result;
+	};
+
+	var convertToRows = function convertToRows(originColumns) {
+	  var maxLevel = 1;
+	  var traverse = function traverse(column, parent) {
+	    if (parent) {
+	      column.level = parent.level + 1;
+	      if (maxLevel < column.level) {
+	        maxLevel = column.level;
+	      }
+	    }
+	    if (column.children) {
+	      (function () {
+	        var childrenMax = 1;
+	        var colSpan = 0;
+	        column.children.forEach(function (subColumn) {
+	          var temp = traverse(subColumn, column);
+	          if (temp > childrenMax) {
+	            childrenMax = temp;
+	          }
+	          colSpan += subColumn.colSpan;
+	        });
+	        column.colSpan = colSpan;
+	      })();
+	    } else {
+	      column.colSpan = 1;
+	    }
+	  };
+
+	  originColumns.forEach(function (column) {
+	    column.level = 1;
+	    traverse(column);
+	  });
+
+	  var rows = [];
+	  for (var i = 0; i < maxLevel; i++) {
+	    rows.push([]);
+	  }
+
+	  var allColumns = getAllColumns(originColumns);
+
+	  allColumns.forEach(function (column) {
+	    if (!column.children) {
+	      column.rowSpan = maxLevel - column.level + 1;
+	    } else {
+	      column.rowSpan = 1;
+	    }
+	    rows[column.level - 1].push(column);
+	  });
+
+	  return rows;
+	};
+
 	exports.default = {
 	  name: 'el-table-header',
 
 	  render: function render(h) {
 	    var _this = this;
+
+	    var originColumns = this.store.states.originColumns;
+	    var columnRows = convertToRows(originColumns, this.columns);
 
 	    return h(
 	      'table',
@@ -7552,69 +7747,75 @@ module.exports =
 	      ) : '', h(
 	        'thead',
 	        null,
-	        [h(
-	          'tr',
-	          null,
-	          [this._l(this.columns, function (column, cellIndex) {
-	            return h(
-	              'th',
-	              {
-	                on: {
-	                  'mousemove': function mousemove($event) {
-	                    return _this.handleMouseMove($event, column);
+	        [this._l(columnRows, function (columns) {
+	          return h(
+	            'tr',
+	            null,
+	            [_this._l(columns, function (column, cellIndex) {
+	              return h(
+	                'th',
+	                {
+	                  attrs: {
+	                    colspan: column.colSpan,
+	                    rowspan: column.rowSpan
 	                  },
-	                  'mouseout': _this.handleMouseOut,
-	                  'mousedown': function mousedown($event) {
-	                    return _this.handleMouseDown($event, column);
+	                  on: {
+	                    'mousemove': function mousemove($event) {
+	                      return _this.handleMouseMove($event, column);
+	                    },
+	                    'mouseout': _this.handleMouseOut,
+	                    'mousedown': function mousedown($event) {
+	                      return _this.handleMouseDown($event, column);
+	                    },
+	                    'click': function click($event) {
+	                      return _this.handleClick($event, column);
+	                    }
 	                  },
-	                  'click': function click($event) {
-	                    return _this.handleClick($event, column);
-	                  }
-	                },
 
-	                'class': [column.id, column.order, column.align, column.className || '', _this.isCellHidden(cellIndex) ? 'is-hidden' : ''] },
-	              [h(
-	                'div',
-	                { 'class': ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : ''] },
-	                [column.renderHeader ? column.renderHeader.call(_this._renderProxy, h, { column: column, $index: cellIndex, store: _this.store, _self: _this.$parent.$vnode.context }) : column.label, column.sortable ? h(
-	                  'span',
-	                  { 'class': 'caret-wrapper', on: {
-	                      'click': function click($event) {
-	                        return _this.handleHeaderClick($event, column);
+	                  'class': [column.id, column.order, column.align, column.className || '', _this.isCellHidden(cellIndex) ? 'is-hidden' : '', !column.children ? 'is-leaf' : ''] },
+	                [h(
+	                  'div',
+	                  { 'class': ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : ''] },
+	                  [column.renderHeader ? column.renderHeader.call(_this._renderProxy, h, { column: column, $index: cellIndex, store: _this.store, _self: _this.$parent.$vnode.context }) : column.label, column.sortable ? h(
+	                    'span',
+	                    { 'class': 'caret-wrapper', on: {
+	                        'click': function click($event) {
+	                          return _this.handleHeaderClick($event, column);
+	                        }
 	                      }
-	                    }
-	                  },
-	                  [h(
-	                    'i',
-	                    { 'class': 'sort-caret ascending' },
-	                    []
-	                  ), h(
-	                    'i',
-	                    { 'class': 'sort-caret descending' },
-	                    []
-	                  )]
-	                ) : '', column.filterable ? h(
-	                  'span',
-	                  { 'class': 'el-table__column-filter-trigger', on: {
-	                      'click': function click($event) {
-	                        return _this.handleFilterClick($event, column);
+	                    },
+	                    [h(
+	                      'i',
+	                      { 'class': 'sort-caret ascending' },
+	                      []
+	                    ), h(
+	                      'i',
+	                      { 'class': 'sort-caret descending' },
+	                      []
+	                    )]
+	                  ) : '', column.filterable ? h(
+	                    'span',
+	                    { 'class': 'el-table__column-filter-trigger', on: {
+	                        'click': function click($event) {
+	                          return _this.handleFilterClick($event, column);
+	                        }
 	                      }
-	                    }
-	                  },
-	                  [h(
-	                    'i',
-	                    { 'class': ['el-icon-arrow-down', column.filterOpened ? 'el-icon-arrow-up' : ''] },
-	                    []
-	                  )]
-	                ) : '']
-	              )]
-	            );
-	          }), !this.fixed && this.layout.gutterWidth ? h(
-	            'th',
-	            { 'class': 'gutter', style: { width: this.layout.scrollY ? this.layout.gutterWidth + 'px' : '0' } },
-	            []
-	          ) : '']
-	        )]
+	                    },
+	                    [h(
+	                      'i',
+	                      { 'class': ['el-icon-arrow-down', column.filterOpened ? 'el-icon-arrow-up' : ''] },
+	                      []
+	                    )]
+	                  ) : '']
+	                )]
+	              );
+	            }), !_this.fixed && _this.layout.gutterWidth ? h(
+	              'th',
+	              { 'class': 'gutter', style: { width: _this.layout.scrollY ? _this.layout.gutterWidth + 'px' : '0' } },
+	              []
+	            ) : '']
+	          );
+	        })]
 	      )]
 	    );
 	  },
@@ -7713,6 +7914,7 @@ module.exports =
 	    handleMouseDown: function handleMouseDown(event, column) {
 	      var _this2 = this;
 
+	      if (column.children && column.children.length > 0) return;
 	      /* istanbul ignore if */
 	      if (this.draggingColumn && this.border) {
 	        (function () {
@@ -7784,6 +7986,7 @@ module.exports =
 	      }
 	    },
 	    handleMouseMove: function handleMouseMove(event, column) {
+	      if (column.children && column.children.length > 0) return;
 	      var target = event.target;
 	      while (target && target.tagName !== 'TH') {
 	        target = target.parentNode;
@@ -7907,7 +8110,7 @@ module.exports =
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _locale = __webpack_require__(89);
+	var _locale = __webpack_require__(10);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -8266,7 +8469,11 @@ module.exports =
 	  return _vm._h('div', {
 	    staticClass: "el-table",
 	    class: {
-	      'el-table--fit': _vm.fit, 'el-table--striped': _vm.stripe, 'el-table--border': _vm.border
+	      'el-table--fit': _vm.fit,
+	      'el-table--striped': _vm.stripe,
+	      'el-table--border': _vm.border,
+	      'el-table--enable-row-hover': !_vm.store.states.isComplex,
+	        'el-table--enable-row-transition': true || (_vm.store.states.data || []).length !== 0 && (_vm.store.states.data || []).length < 100
 	    },
 	    on: {
 	      "mouseleave": function($event) {
@@ -8303,6 +8510,7 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout,
 	      "row-class-name": _vm.rowClassName,
+	      "row-style": _vm.rowStyle,
 	      "highlight": _vm.highlightCurrentRow
 	    }
 	  }), (!_vm.data || _vm.data.length === 0) ? _vm._h('div', {
@@ -8345,7 +8553,8 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout,
 	      "highlight": _vm.highlightCurrentRow,
-	      "row-class-name": _vm.rowClassName
+	      "row-class-name": _vm.rowClassName,
+	      "row-style": _vm.rowStyle
 	    }
 	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _vm._h('div', {
 	    ref: "rightFixedWrapper",
@@ -8384,6 +8593,7 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout,
 	      "row-class-name": _vm.rowClassName,
+	      "row-style": _vm.rowStyle,
 	      "highlight": _vm.highlightCurrentRow
 	    }
 	  })])]) : _vm._e(), _vm._h('div', {
@@ -8431,13 +8641,15 @@ module.exports =
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(93);
+	var _tag = __webpack_require__(92);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
 	var _merge = __webpack_require__(133);
 
 	var _merge2 = _interopRequireDefault(_merge);
+
+	var _util = __webpack_require__(120);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8546,11 +8758,20 @@ module.exports =
 	  return column;
 	};
 
-	var DEFAULT_RENDER_CELL = function DEFAULT_RENDER_CELL(h, _ref4, parent) {
+	var DEFAULT_RENDER_CELL = function DEFAULT_RENDER_CELL(h, _ref4) {
 	  var row = _ref4.row,
 	      column = _ref4.column;
 
-	  return parent.getCellContent(row, column.property, column);
+	  var property = column.property;
+	  if (column && column.formatter) {
+	    return column.formatter(row, column);
+	  }
+
+	  if (property && property.indexOf('.') === -1) {
+	    return row[property];
+	  }
+
+	  return (0, _util.getValueByPath)(row, property);
 	};
 
 	exports.default = {
@@ -8593,10 +8814,16 @@ module.exports =
 	    }
 	  },
 
-	  render: function render() {},
+	  render: function render() {
+	    return h(
+	      'div',
+	      null,
+	      [this._t('default')]
+	    );
+	  },
 	  data: function data() {
 	    return {
-	      isChildColumn: false,
+	      isSubColumn: false,
 	      columns: []
 	    };
 	  },
@@ -8623,16 +8850,22 @@ module.exports =
 	  },
 
 	  created: function created() {
+	    var _this = this;
+
 	    this.customRender = this.$options.render;
 	    this.$options.render = function (h) {
-	      return h('div');
+	      return h(
+	        'div',
+	        null,
+	        [_this._t('default')]
+	      );
 	    };
 
 	    var columnId = this.columnId = (this.$parent.tableId || this.$parent.columnId + '_') + 'column_' + columnIdSeed++;
 
 	    var parent = this.$parent;
 	    var owner = this.owner;
-	    this.isChildColumn = owner !== parent;
+	    this.isSubColumn = owner !== parent;
 
 	    var type = this.type;
 
@@ -8660,7 +8893,7 @@ module.exports =
 	      className: this.className,
 	      property: this.prop || this.property,
 	      type: type,
-	      renderCell: DEFAULT_RENDER_CELL,
+	      renderCell: null,
 	      renderHeader: this.renderHeader,
 	      minWidth: minWidth,
 	      width: width,
@@ -8707,6 +8940,10 @@ module.exports =
 	        };
 	      }
 
+	      if (!renderCell) {
+	        renderCell = DEFAULT_RENDER_CELL;
+	      }
+
 	      return _self.showOverflowTooltip || _self.showTooltipWhenOverflow ? h(
 	        'el-tooltip',
 	        {
@@ -8718,16 +8955,16 @@ module.exports =
 	        [h(
 	          'div',
 	          { 'class': 'cell' },
-	          [renderCell(h, data, this._renderProxy)]
+	          [renderCell(h, data)]
 	        ), h(
 	          'span',
 	          { slot: 'content' },
-	          [renderCell(h, data, this._renderProxy)]
+	          [renderCell(h, data)]
 	        )]
 	      ) : h(
 	        'div',
 	        { 'class': 'cell' },
-	        [renderCell(h, data, this._renderProxy)]
+	        [renderCell(h, data)]
 	      );
 	    };
 
@@ -8767,25 +9004,25 @@ module.exports =
 	    },
 	    align: function align(newVal) {
 	      if (this.columnConfig) {
-	        this.columnConfig.align = newVal;
+	        this.columnConfig.align = newVal ? 'is-' + newVal : null;
 	      }
 	    },
 	    width: function width(newVal) {
 	      if (this.columnConfig) {
 	        this.columnConfig.width = newVal;
-	        this.owner.scheduleLayout();
+	        this.owner.store.scheduleLayout();
 	      }
 	    },
 	    minWidth: function minWidth(newVal) {
 	      if (this.columnConfig) {
 	        this.columnConfig.minWidth = newVal;
-	        this.owner.scheduleLayout();
+	        this.owner.store.scheduleLayout();
 	      }
 	    },
 	    fixed: function fixed(newVal) {
 	      if (this.columnConfig) {
 	        this.columnConfig.fixed = newVal;
-	        this.owner.scheduleLayout();
+	        this.owner.store.scheduleLayout();
 	      }
 	    }
 	  },
@@ -8795,13 +9032,13 @@ module.exports =
 	    var parent = this.$parent;
 	    var columnIndex = void 0;
 
-	    if (!this.isChildColumn) {
+	    if (!this.isSubColumn) {
 	      columnIndex = [].indexOf.call(parent.$refs.hiddenColumns.children, this.$el);
 	    } else {
 	      columnIndex = [].indexOf.call(parent.$el.children, this.$el);
 	    }
 
-	    owner.store.commit('insertColumn', this.columnConfig, columnIndex);
+	    owner.store.commit('insertColumn', this.columnConfig, columnIndex, this.isSubColumn ? parent.columnConfig : null);
 	  }
 	};
 
@@ -8987,7 +9224,8 @@ module.exports =
 	  time: 'HH:mm:ss',
 	  timerange: 'HH:mm:ss',
 	  daterange: 'yyyy-MM-dd',
-	  datetimerange: 'yyyy-MM-dd HH:mm:ss'
+	  datetimerange: 'yyyy-MM-dd HH:mm:ss',
+	  year: 'yyyy'
 	};
 	var HAVE_TRIGGER_TYPES = ['date', 'datetime', 'time', 'time-select', 'week', 'month', 'year', 'daterange', 'timerange', 'datetimerange'];
 	var DATE_FORMATTER = function DATE_FORMATTER(value, format) {
@@ -9087,16 +9325,8 @@ module.exports =
 	    parser: DATE_PARSER
 	  },
 	  year: {
-	    formatter: function formatter(value) {
-	      if (!value) return '';
-	      return '' + value;
-	    },
-	    parser: function parser(text) {
-	      var year = Number(text);
-	      if (!isNaN(year)) return year;
-
-	      return null;
-	    }
+	    formatter: DATE_FORMATTER,
+	    parser: DATE_PARSER
 	  },
 	  number: {
 	    formatter: function formatter(value) {
@@ -9161,7 +9391,7 @@ module.exports =
 	      if (!val && this.picker && typeof this.picker.handleClear === 'function') {
 	        this.picker.handleClear();
 	      }
-	      this.dispatch('form-item', 'el.form.change');
+	      this.dispatch('ElFormItem', 'el.form.change');
 	    },
 
 	    value: {
@@ -9246,11 +9476,13 @@ module.exports =
 
 	  methods: {
 	    handleMouseEnterIcon: function handleMouseEnterIcon() {
+	      if (this.readonly || this.disabled) return;
 	      if (!this.valueIsEmpty) {
 	        this.showClose = true;
 	      }
 	    },
 	    handleClickIcon: function handleClickIcon() {
+	      if (this.readonly || this.disabled) return;
 	      if (this.valueIsEmpty) {
 	        this.pickerVisible = !this.pickerVisible;
 	      } else {
@@ -9270,7 +9502,7 @@ module.exports =
 	    },
 	    handleBlur: function handleBlur() {
 	      this.$emit('blur', this);
-	      this.dispatch('form-item', 'el.form.blur');
+	      this.dispatch('ElFormItem', 'el.form.blur');
 	    },
 	    handleKeydown: function handleKeydown(event) {
 	      var keyCode = event.keyCode;
@@ -9687,7 +9919,7 @@ module.exports =
 
 	var _util = __webpack_require__(138);
 
-	var _locale = __webpack_require__(89);
+	var _locale = __webpack_require__(10);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -9876,7 +10108,7 @@ module.exports =
 	  methods: {
 	    handleClear: function handleClear() {
 	      this.date = new Date();
-	      this.$emit('pick');
+	      this.$emit('pick', '');
 	    },
 	    resetDate: function resetDate() {
 	      this.date = new Date(this.date);
@@ -9917,6 +10149,8 @@ module.exports =
 	        this.$refs.yearTable.nextTenYear();
 	      } else {
 	        this.year++;
+	        this.date.setFullYear(this.year);
+	        this.resetDate();
 	      }
 	    },
 	    prevYear: function prevYear() {
@@ -9924,6 +10158,8 @@ module.exports =
 	        this.$refs.yearTable.prevTenYear();
 	      } else {
 	        this.year--;
+	        this.date.setFullYear(this.year);
+	        this.resetDate();
 	      }
 	    },
 	    handleShortcutClick: function handleShortcutClick(shortcut) {
@@ -9989,7 +10225,7 @@ module.exports =
 
 	      this.date.setFullYear(year);
 	      if (this.selectionMode === 'year') {
-	        this.$emit('pick', year);
+	        this.$emit('pick', new Date(year));
 	      } else {
 	        this.currentView = 'month';
 	      }
@@ -10151,7 +10387,7 @@ module.exports =
 
 	var _util = __webpack_require__(138);
 
-	var _locale = __webpack_require__(89);
+	var _locale = __webpack_require__(10);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -10255,7 +10491,7 @@ module.exports =
 
 	  methods: {
 	    handleClear: function handleClear() {
-	      this.handleCancel();
+	      this.$emit('pick', '');
 	    },
 	    handleCancel: function handleCancel() {
 	      this.$emit('pick');
@@ -10428,10 +10664,14 @@ module.exports =
 	      }
 	    },
 	    handleScroll: function handleScroll(type) {
-	      var ajust = {};
+	      var _this = this;
 
-	      ajust[type + 's'] = Math.min(Math.floor((this.$refs[type].scrollTop - 80) / 32 + 3), 59);
-	      this.$emit('change', ajust);
+	      window.setTimeout(function () {
+	        var ajust = {};
+
+	        ajust[type + 's'] = Math.min(Math.floor((_this.$refs[type].scrollTop - 80) / 32 + 3), 59);
+	        _this.$emit('change', ajust);
+	      }, 0);
 	    },
 	    ajustScrollTop: function ajustScrollTop() {
 	      this.$refs.hour.scrollTop = Math.max(0, (this.hours - 2.5) * 32 + 80);
@@ -10694,15 +10934,13 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _class = __webpack_require__(95);
+	var _class = __webpack_require__(94);
 
 	exports.default = {
 	  props: {
 	    disabledDate: {},
 	    date: {},
-	    year: {
-	      type: Number
-	    }
+	    year: {}
 	  },
 
 	  computed: {
@@ -10732,7 +10970,7 @@ module.exports =
 	      var target = event.target;
 	      if (target.tagName === 'A') {
 	        if ((0, _class.hasClass)(target.parentNode, 'disabled')) return;
-	        var year = parseInt(target.textContent || target.innerText, 10);
+	        var year = target.textContent || target.innerText;
 	        this.$emit('pick', year);
 	      }
 	    }
@@ -10887,11 +11125,11 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _locale = __webpack_require__(89);
+	var _locale = __webpack_require__(10);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _class = __webpack_require__(95);
+	var _class = __webpack_require__(94);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11078,9 +11316,9 @@ module.exports =
 
 	var _util = __webpack_require__(138);
 
-	var _class = __webpack_require__(95);
+	var _class = __webpack_require__(94);
 
-	var _locale = __webpack_require__(89);
+	var _locale = __webpack_require__(10);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -11852,7 +12090,7 @@ module.exports =
 
 	var _util = __webpack_require__(138);
 
-	var _locale = __webpack_require__(89);
+	var _locale = __webpack_require__(10);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -12706,7 +12944,7 @@ module.exports =
 	      }
 	    },
 	    handleClear: function handleClear() {
-	      this.$emit('pick');
+	      this.$emit('pick', '');
 	    }
 	  },
 
@@ -12889,7 +13127,7 @@ module.exports =
 
 	var _util = __webpack_require__(138);
 
-	var _locale = __webpack_require__(89);
+	var _locale = __webpack_require__(10);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -13308,6 +13546,12 @@ module.exports =
 	    transition: {
 	      type: String,
 	      default: 'fade-in-linear'
+	    }
+	  },
+
+	  watch: {
+	    showPopper: function showPopper(newVal, oldVal) {
+	      newVal ? this.$emit('show') : this.$emit('hide');
 	    }
 	  },
 
@@ -13890,7 +14134,7 @@ module.exports =
 
 	var _vuePopup2 = _interopRequireDefault(_vuePopup);
 
-	var _locale = __webpack_require__(89);
+	var _locale = __webpack_require__(10);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -13902,9 +14146,9 @@ module.exports =
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _class = __webpack_require__(95);
+	var _class = __webpack_require__(94);
 
-	var _locale3 = __webpack_require__(10);
+	var _locale3 = __webpack_require__(96);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14471,7 +14715,7 @@ module.exports =
 	exports.default = {
 	  name: 'ElForm',
 
-	  componentName: 'form',
+	  componentName: 'ElForm',
 
 	  props: {
 	    model: Object,
@@ -14484,54 +14728,57 @@ module.exports =
 	    },
 	    inline: Boolean
 	  },
+	  watch: {
+	    rules: function rules() {
+	      this.validate();
+	    }
+	  },
 	  data: function data() {
 	    return {
-	      fields: {},
-	      fieldLength: 0
+	      fields: []
 	    };
 	  },
 	  created: function created() {
 	    var _this = this;
 
 	    this.$on('el.form.addField', function (field) {
-	      _this.fields[field.prop] = field;
-	      _this.fieldLength++;
+	      if (field) {
+	        _this.fields.push(field);
+	      }
 	    });
 	    /* istanbul ignore next */
 	    this.$on('el.form.removeField', function (field) {
-	      delete _this.fields[field.prop];
-	      _this.fieldLength--;
+	      if (field.prop) {
+	        _this.fields.splice(_this.fields.indexOf(field), 1);
+	      }
 	    });
 	  },
 
 	  methods: {
 	    resetFields: function resetFields() {
-	      for (var prop in this.fields) {
-	        var field = this.fields[prop];
+	      this.fields.forEach(function (field) {
 	        field.resetField();
-	      }
+	      });
 	    },
 	    validate: function validate(callback) {
 	      var _this2 = this;
 
-	      var count = 0;
 	      var valid = true;
-
-	      for (var prop in this.fields) {
-	        var field = this.fields[prop];
+	      this.fields.forEach(function (field, index) {
 	        field.validate('', function (errors) {
 	          if (errors) {
 	            valid = false;
 	          }
-
-	          if (++count === _this2.fieldLength) {
+	          if (typeof callback === 'function' && index === _this2.fields.length - 1) {
 	            callback(valid);
 	          }
 	        });
-	      }
+	      });
 	    },
 	    validateField: function validateField(prop, cb) {
-	      var field = this.fields[prop];
+	      var field = this.fields.filter(function (field) {
+	        return field.prop === prop;
+	      })[0];
 	      if (!field) {
 	        throw new Error('must call validateField with valid prop string!');
 	      }
@@ -14642,10 +14889,35 @@ module.exports =
 	//
 	//
 
+	function noop() {}
+
+	function getPropByPath(obj, path) {
+	  var tempObj = obj;
+	  path = path.replace(/\[(\w+)\]/g, '.$1');
+	  path = path.replace(/^\./, '');
+
+	  var keyArr = path.split('.');
+	  var i = 0;
+
+	  for (var len = keyArr.length; i < len - 1; ++i) {
+	    var key = keyArr[i];
+	    if (key in tempObj) {
+	      tempObj = tempObj[key];
+	    } else {
+	      throw new Error('please transfer a valid prop path to form item!');
+	    }
+	  }
+	  return {
+	    o: tempObj,
+	    k: keyArr[i],
+	    v: tempObj[keyArr[i]]
+	  };
+	}
+
 	exports.default = {
 	  name: 'ElFormItem',
 
-	  componentName: 'form-item',
+	  componentName: 'ElFormItem',
 
 	  mixins: [_emitter2.default],
 
@@ -14654,7 +14926,18 @@ module.exports =
 	    labelWidth: String,
 	    prop: String,
 	    required: Boolean,
-	    rules: [Object, Array]
+	    rules: [Object, Array],
+	    error: String,
+	    validateStatus: String
+	  },
+	  watch: {
+	    error: function error(value) {
+	      this.validateMessage = value;
+	      this.validateState = 'error';
+	    },
+	    validateStatus: function validateStatus(value) {
+	      this.validateState = value;
+	    }
 	  },
 	  computed: {
 	    labelStyle: function labelStyle() {
@@ -14675,7 +14958,7 @@ module.exports =
 	    },
 	    form: function form() {
 	      var parent = this.$parent;
-	      while (parent.$options.componentName !== 'form') {
+	      while (parent.$options.componentName !== 'ElForm') {
 	        parent = parent.$parent;
 	      }
 	      return parent;
@@ -14689,34 +14972,38 @@ module.exports =
 	          return;
 	        }
 
-	        var temp = this.prop.split(':');
+	        var path = this.prop;
+	        if (path.indexOf(':') !== -1) {
+	          path = path.replace(/:/, '.');
+	        }
 
-	        return temp.length > 1 ? model[temp[0]][temp[1]] : model[this.prop];
+	        return getPropByPath(model, path).v;
 	      }
 	    }
 	  },
 	  data: function data() {
 	    return {
-	      valid: true,
-	      error: '',
+	      validateState: '',
+	      validateMessage: '',
 	      validateDisabled: false,
-	      validating: false,
 	      validator: {},
 	      isRequired: false
 	    };
 	  },
 
 	  methods: {
-	    validate: function validate(trigger, cb) {
+	    validate: function validate(trigger) {
 	      var _this = this;
+
+	      var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : noop;
 
 	      var rules = this.getFilteredRule(trigger);
 	      if (!rules || rules.length === 0) {
-	        cb && cb();
+	        callback();
 	        return true;
 	      }
 
-	      this.validating = true;
+	      this.validateState = 'validating';
 
 	      var descriptor = {};
 	      descriptor[this.prop] = rules;
@@ -14727,26 +15014,31 @@ module.exports =
 	      model[this.prop] = this.fieldValue;
 
 	      validator.validate(model, { firstFields: true }, function (errors, fields) {
-	        _this.valid = !errors;
-	        _this.error = errors ? errors[0].message : '';
+	        _this.validateState = !errors ? 'success' : 'error';
+	        _this.validateMessage = errors ? errors[0].message : '';
 
-	        cb && cb(errors);
-	        _this.validating = false;
+	        callback(errors);
 	      });
 	    },
 	    resetField: function resetField() {
-	      this.valid = true;
-	      this.error = '';
+	      this.validateState = '';
+	      this.validateMessage = '';
 
 	      var model = this.form.model;
 	      var value = this.fieldValue;
+	      var path = this.prop;
+	      if (path.indexOf(':') !== -1) {
+	        path = path.replace(/:/, '.');
+	      }
+
+	      var prop = getPropByPath(model, path);
 
 	      if (Array.isArray(value) && value.length > 0) {
 	        this.validateDisabled = true;
-	        model[this.prop] = [];
+	        prop.o[prop.k] = [];
 	      } else if (value) {
 	        this.validateDisabled = true;
-	        model[this.prop] = this.initialValue;
+	        prop.o[prop.k] = this.initialValue;
 	      }
 	    },
 	    getRules: function getRules() {
@@ -14780,10 +15072,10 @@ module.exports =
 	    var _this2 = this;
 
 	    if (this.prop) {
-	      this.dispatch('form', 'el.form.addField', [this]);
+	      this.dispatch('ElForm', 'el.form.addField', [this]);
 
 	      Object.defineProperty(this, 'initialValue', {
-	        value: this.form.model[this.prop]
+	        value: this.fieldValue
 	      });
 
 	      var rules = this.getRules();
@@ -14801,7 +15093,7 @@ module.exports =
 	    }
 	  },
 	  beforeDestroy: function beforeDestroy() {
-	    this.dispatch('form', 'el.form.removeField', [this]);
+	    this.dispatch('ElForm', 'el.form.removeField', [this]);
 	  }
 	};
 
@@ -14819,8 +15111,8 @@ module.exports =
 	  return _vm._h('div', {
 	    staticClass: "el-form-item",
 	    class: {
-	      'is-error': _vm.error !== '',
-	        'is-validating': _vm.validating,
+	      'is-error': _vm.validateState === 'error',
+	        'is-validating': _vm.validateState === 'validating',
 	        'is-required': _vm.isRequired || _vm.required
 	    }
 	  }, [(_vm.label) ? _vm._h('label', {
@@ -14833,9 +15125,9 @@ module.exports =
 	    attrs: {
 	      "name": "md-fade-bottom"
 	    }
-	  }, [(_vm.error !== '') ? _vm._h('div', {
+	  }, [(_vm.validateState === 'error') ? _vm._h('div', {
 	    staticClass: "el-form-item__error"
-	  }, [_vm._s(_vm.error)]) : _vm._e()])])])
+	  }, [_vm._s(_vm.validateMessage)]) : _vm._e()])])])
 	},staticRenderFns: []}
 
 /***/ },
@@ -14904,7 +15196,8 @@ module.exports =
 	    return {
 	      children: null,
 	      activeTab: null,
-	      currentName: 0
+	      currentName: 0,
+	      panes: []
 	    };
 	  },
 
@@ -14976,7 +15269,7 @@ module.exports =
 	  },
 	  render: function render(h) {
 	    var type = this.type,
-	        closable = this.closable,
+	        panes = this.panes,
 	        handleTabRemove = this.handleTabRemove,
 	        handleTabClick = this.handleTabClick,
 	        currentName = this.currentName;
@@ -15003,14 +15296,14 @@ module.exports =
 	          'el-tabs__item': true,
 	          'is-active': currentName === tab.index,
 	          'is-disabled': tab.disabled,
-	          'is-closable': closable
+	          'is-closable': tab.isClosable
 	        },
 	        ref: 'tabs',
 	        refInFor: true,
 	        on: { click: function click(ev) {
 	            handleTabClick(tab, ev);
 	          } }
-	      }, [tab.label, closable ? btnClose : null, index === 0 ? activeBar : null]);
+	      }, [tab.label, tab.isClosable ? btnClose : null, index === 0 ? activeBar : null]);
 	      return _tab;
 	    });
 	    return h(
@@ -15097,7 +15390,8 @@ module.exports =
 	      type: String,
 	      required: true
 	    },
-	    name: String
+	    name: String,
+	    closable: Boolean
 	  },
 
 	  data: function data() {
@@ -15107,12 +15401,22 @@ module.exports =
 	      paneStyle: {
 	        position: 'relative'
 	      },
+	      isClosable: null,
 	      index: ''
 	    };
 	  },
 	  created: function created() {
+	    var propsData = this.$options.propsData;
+	    if (propsData && typeof propsData.closable !== 'undefined') {
+	      this.isClosable = propsData.closable === '' || propsData.closable;
+	    } else {
+	      this.isClosable = this.$parent.closable;
+	    }
 	    if (!this.index) {
 	      this.index = this.$parent.$children.indexOf(this) + 1 + '';
+	    }
+	    if (this.$parent.panes) {
+	      this.$parent.panes.push(this);
 	    }
 	  },
 
@@ -15124,8 +15428,12 @@ module.exports =
 	  },
 
 	  destroyed: function destroyed() {
-	    if (this.$el) {
+	    if (this.$el && this.$el.parentNode) {
 	      this.$el.parentNode.removeChild(this.$el);
+	    }
+	    var panes = this.$parent.panes;
+	    if (panes) {
+	      panes.splice(this, panes.indexOf(this));
 	    }
 	  },
 
@@ -15136,6 +15444,9 @@ module.exports =
 	      handler: function handler(val) {
 	        this.index = val;
 	      }
+	    },
+	    closable: function closable(val) {
+	      this.isClosable = val;
 	    },
 	    '$parent.currentName': function $parentCurrentName(newValue, oldValue) {
 	      if (this.index === newValue) {
@@ -15304,7 +15615,7 @@ module.exports =
 	__vue_exports__ = __webpack_require__(217)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(224)
+	var __vue_template__ = __webpack_require__(225)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -15330,14 +15641,15 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _tree = __webpack_require__(218);
+	var _treeStore = __webpack_require__(218);
 
-	var _tree2 = _interopRequireDefault(_tree);
+	var _treeStore2 = _interopRequireDefault(_treeStore);
 
-	var _locale = __webpack_require__(10);
+	var _locale = __webpack_require__(96);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
 	//
 	//
 	//
@@ -15394,13 +15706,14 @@ module.exports =
 	      default: false
 	    },
 	    highlightCurrent: Boolean,
-	    load: Function
+	    load: Function,
+	    filterNodeMethod: Function
 	  },
 
 	  created: function created() {
-	    this.$isTree = true;
+	    this.isTree = true;
 
-	    this.tree = new _tree2.default({
+	    this.store = new _treeStore2.default({
 	      key: this.nodeKey,
 	      data: this.data,
 	      lazy: this.lazy,
@@ -15410,19 +15723,23 @@ module.exports =
 	      defaultCheckedKeys: this.defaultCheckedKeys,
 	      defaultExpandedKeys: this.defaultExpandedKeys,
 	      autoExpandParent: this.autoExpandParent,
-	      defaultExpandAll: this.defaultExpandAll
+	      defaultExpandAll: this.defaultExpandAll,
+	      filterNodeMethod: this.filterNodeMethod
 	    });
+
+	    this.root = this.store.root;
 	  },
 	  data: function data() {
 	    return {
-	      tree: {},
+	      store: null,
+	      root: null,
 	      currentNode: null
 	    };
 	  },
 
 
 	  components: {
-	    ElTreeNode: __webpack_require__(220)
+	    ElTreeNode: __webpack_require__(221)
 	  },
 
 	  computed: {
@@ -15437,21 +15754,47 @@ module.exports =
 	  },
 
 	  watch: {
-	    data: function data(newVal) {
-	      this.tree.setData(newVal);
-	    },
 	    defaultCheckedKeys: function defaultCheckedKeys(newVal) {
-	      this.tree.setDefaultCheckedKey(newVal);
+	      this.store.defaultCheckedKeys = newVal;
+	      this.store.setDefaultCheckedKey(newVal);
+	    },
+	    defaultExpandedKeys: function defaultExpandedKeys(newVal) {
+	      this.store.defaultExpandedKeys = newVal;
+	      this.store.setDefaultExpandedKeys(newVal);
+	    },
+	    data: function data(newVal) {
+	      this.store.setData(newVal);
 	    }
 	  },
 
 	  methods: {
-	    getCheckedNodes: function getCheckedNodes(leafOnly) {
-	      return this.tree.getCheckedNodes(leafOnly);
+	    filter: function filter(value) {
+	      if (!this.filterNodeMethod) throw new Error('[Tree] filterNodeMethod is required when filter');
+	      this.store.filter(value);
 	    },
-	    setCheckedNodes: function setCheckedNodes(nodes) {
+	    getNodeKey: function getNodeKey(node, index) {
+	      var nodeKey = this.nodeKey;
+	      if (nodeKey && node) {
+	        return node.data[nodeKey];
+	      }
+	      return index;
+	    },
+	    getCheckedNodes: function getCheckedNodes(leafOnly) {
+	      return this.store.getCheckedNodes(leafOnly);
+	    },
+	    getCheckedKeys: function getCheckedKeys(leafOnly) {
+	      return this.store.getCheckedKeys(leafOnly);
+	    },
+	    setCheckedNodes: function setCheckedNodes(nodes, leafOnly) {
 	      if (!this.nodeKey) throw new Error('[Tree] nodeKey is required in setCheckedNodes');
-	      this.tree.setCheckedNodes(nodes);
+	      this.store.setCheckedNodes(nodes, leafOnly);
+	    },
+	    setCheckedKeys: function setCheckedKeys(keys, leafOnly) {
+	      if (!this.nodeKey) throw new Error('[Tree] nodeKey is required in setCheckedNodes');
+	      this.store.setCheckedKeys(keys, leafOnly);
+	    },
+	    setChecked: function setChecked(data, checked, deep) {
+	      this.store.setChecked(data, checked, deep);
 	    }
 	  }
 	};
@@ -15464,19 +15807,23 @@ module.exports =
 
 	exports.__esModule = true;
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	var _node = __webpack_require__(219);
 
 	var _node2 = _interopRequireDefault(_node);
+
+	var _util = __webpack_require__(220);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var Tree = function () {
-	  function Tree(options) {
+	var TreeStore = function () {
+	  function TreeStore(options) {
 	    var _this = this;
 
-	    _classCallCheck(this, Tree);
+	    _classCallCheck(this, TreeStore);
 
 	    for (var option in options) {
 	      if (options.hasOwnProperty(option)) {
@@ -15488,7 +15835,7 @@ module.exports =
 
 	    this.root = new _node2.default({
 	      data: this.data,
-	      _tree: this
+	      store: this
 	    });
 
 	    if (this.lazy && this.load) {
@@ -15502,7 +15849,38 @@ module.exports =
 	    }
 	  }
 
-	  Tree.prototype.setData = function setData(newVal) {
+	  TreeStore.prototype.filter = function filter(value) {
+	    var filterNodeMethod = this.filterNodeMethod;
+	    var traverse = function traverse(node) {
+	      var childNodes = node.root ? node.root.childNodes : node.childNodes;
+
+	      childNodes.forEach(function (child) {
+	        child.visible = filterNodeMethod.call(child, value, child.data, child);
+
+	        traverse(child);
+	      });
+
+	      if (!node.visible && childNodes.length) {
+	        var allHidden = true;
+
+	        childNodes.forEach(function (child) {
+	          if (child.visible) allHidden = false;
+	        });
+
+	        if (node.root) {
+	          node.root.visible = allHidden === false;
+	        } else {
+	          node.visible = allHidden === false;
+	        }
+	      }
+
+	      if (node.visible && !node.isLeaf) node.expand();
+	    };
+
+	    traverse(this);
+	  };
+
+	  TreeStore.prototype.setData = function setData(newVal) {
 	    var instanceChanged = newVal !== this.root.data;
 	    this.root.setData(newVal);
 	    if (instanceChanged) {
@@ -15510,7 +15888,37 @@ module.exports =
 	    }
 	  };
 
-	  Tree.prototype._initDefaultCheckedNodes = function _initDefaultCheckedNodes() {
+	  TreeStore.prototype.getNode = function getNode(data) {
+	    var key = (typeof data === 'undefined' ? 'undefined' : _typeof(data)) !== 'object' ? data : (0, _util.getNodeKey)(this.key, data);
+	    return this.nodesMap[key];
+	  };
+
+	  TreeStore.prototype.insertBefore = function insertBefore(data, refData) {
+	    var refNode = this.getNode(refData);
+	    refNode.parent.insertBefore({ data: data }, refNode);
+	  };
+
+	  TreeStore.prototype.insertAfter = function insertAfter(data, refData) {
+	    var refNode = this.getNode(refData);
+	    refNode.parent.insertAfter({ data: data }, refNode);
+	  };
+
+	  TreeStore.prototype.remove = function remove(data) {
+	    var node = this.getNode(data);
+	    if (node) {
+	      node.parent.removeChild(node);
+	    }
+	  };
+
+	  TreeStore.prototype.append = function append(data, parentData) {
+	    var parentNode = parentData ? this.getNode(parentData) : this.root;
+
+	    if (parentNode) {
+	      parentNode.insertChild({ data: data });
+	    }
+	  };
+
+	  TreeStore.prototype._initDefaultCheckedNodes = function _initDefaultCheckedNodes() {
 	    var _this2 = this;
 
 	    var defaultCheckedKeys = this.defaultCheckedKeys || [];
@@ -15525,7 +15933,7 @@ module.exports =
 	    });
 	  };
 
-	  Tree.prototype._initDefaultCheckedNode = function _initDefaultCheckedNode(node) {
+	  TreeStore.prototype._initDefaultCheckedNode = function _initDefaultCheckedNode(node) {
 	    var defaultCheckedKeys = this.defaultCheckedKeys || [];
 
 	    if (defaultCheckedKeys.indexOf(node.key) !== -1) {
@@ -15533,28 +15941,29 @@ module.exports =
 	    }
 	  };
 
-	  Tree.prototype.setDefaultCheckedKey = function setDefaultCheckedKey(newVal) {
+	  TreeStore.prototype.setDefaultCheckedKey = function setDefaultCheckedKey(newVal) {
 	    if (newVal !== this.defaultCheckedKeys) {
 	      this.defaultCheckedKeys = newVal;
 	      this._initDefaultCheckedNodes();
 	    }
 	  };
 
-	  Tree.prototype.registerNode = function registerNode(node) {
+	  TreeStore.prototype.registerNode = function registerNode(node) {
 	    var key = this.key;
 	    if (!key || !node || !node.data) return;
 
-	    this.nodesMap[node.key] = node;
+	    var nodeKey = node.key;
+	    if (nodeKey) this.nodesMap[node.key] = node;
 	  };
 
-	  Tree.prototype.deregisterNode = function deregisterNode(node) {
+	  TreeStore.prototype.deregisterNode = function deregisterNode(node) {
 	    var key = this.key;
 	    if (!key || !node || !node.data) return;
 
 	    delete this.nodesMap[node.key];
 	  };
 
-	  Tree.prototype.getCheckedNodes = function getCheckedNodes(leafOnly) {
+	  TreeStore.prototype.getCheckedNodes = function getCheckedNodes(leafOnly) {
 	    var checkedNodes = [];
 	    var traverse = function traverse(node) {
 	      var childNodes = node.root ? node.root.childNodes : node.childNodes;
@@ -15573,15 +15982,21 @@ module.exports =
 	    return checkedNodes;
 	  };
 
-	  Tree.prototype.setCheckedNodes = function setCheckedNodes(array) {
-	    var _this3 = this;
-
+	  TreeStore.prototype.getCheckedKeys = function getCheckedKeys(leafOnly) {
 	    var key = this.key;
-	    var checkedKeys = {};
-	    array.forEach(function (item) {
-	      checkedKeys[(item || {})[key]] = true;
+	    var allNodes = this._getAllNodes();
+	    var keys = [];
+	    allNodes.forEach(function (node) {
+	      if (!leafOnly || leafOnly && node.isLeaf) {
+	        if (node.checked) {
+	          keys.push((node.data || {})[key]);
+	        }
+	      }
 	    });
+	    return keys;
+	  };
 
+	  TreeStore.prototype._getAllNodes = function _getAllNodes() {
 	    var allNodes = [];
 	    var nodesMap = this.nodesMap;
 	    for (var nodeKey in nodesMap) {
@@ -15590,18 +16005,73 @@ module.exports =
 	      }
 	    }
 
+	    return allNodes;
+	  };
+
+	  TreeStore.prototype._setCheckedKeys = function _setCheckedKeys(key, leafOnly, checkedKeys) {
+	    var _this3 = this;
+
+	    var allNodes = this._getAllNodes();
+
 	    allNodes.sort(function (a, b) {
 	      return a.level > b.level ? -1 : 1;
 	    });
 	    allNodes.forEach(function (node) {
-	      node.setChecked(!!checkedKeys[(node.data || {})[key]], !_this3.checkStrictly);
+	      if (!leafOnly || leafOnly && node.isLeaf) {
+	        node.setChecked(!!checkedKeys[(node.data || {})[key]], !_this3.checkStrictly);
+	      }
 	    });
 	  };
 
-	  return Tree;
+	  TreeStore.prototype.setCheckedNodes = function setCheckedNodes(array) {
+	    var leafOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+	    var key = this.key;
+	    var checkedKeys = {};
+	    array.forEach(function (item) {
+	      checkedKeys[(item || {})[key]] = true;
+	    });
+
+	    this._setCheckedKeys(key, leafOnly, checkedKeys);
+	  };
+
+	  TreeStore.prototype.setCheckedKeys = function setCheckedKeys(keys) {
+	    var leafOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+	    this.defaultCheckedKeys = keys;
+	    var key = this.key;
+	    var checkedKeys = {};
+	    keys.forEach(function (key) {
+	      checkedKeys[key] = true;
+	    });
+
+	    this._setCheckedKeys(key, leafOnly, checkedKeys);
+	  };
+
+	  TreeStore.prototype.setDefaultExpandedKeys = function setDefaultExpandedKeys(keys) {
+	    var _this4 = this;
+
+	    keys = keys || [];
+	    this.defaultExpandedKeys = keys;
+
+	    keys.forEach(function (key) {
+	      var node = _this4.getNode(key);
+	      if (node) node.expand(null, _this4.autoExpandParent);
+	    });
+	  };
+
+	  TreeStore.prototype.setChecked = function setChecked(data, checked, deep) {
+	    var node = this.getNode(data);
+
+	    if (node) {
+	      node.setChecked(!!checked, deep);
+	    }
+	  };
+
+	  return TreeStore;
 	}();
 
-	exports.default = Tree;
+	exports.default = TreeStore;
 	;
 
 /***/ },
@@ -15617,6 +16087,8 @@ module.exports =
 	var _merge = __webpack_require__(133);
 
 	var _merge2 = _interopRequireDefault(_merge);
+
+	var _util = __webpack_require__(220);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15648,7 +16120,7 @@ module.exports =
 	};
 
 	var getPropertyFromData = function getPropertyFromData(node, prop) {
-	  var props = node._tree.props;
+	  var props = node.store.props;
 	  var data = node.data || {};
 	  var config = props[prop];
 
@@ -15674,6 +16146,7 @@ module.exports =
 	    this.data = null;
 	    this.expanded = false;
 	    this.parent = null;
+	    this.visible = true;
 
 	    for (var name in options) {
 	      if (options.hasOwnProperty(name)) {
@@ -15691,50 +16164,47 @@ module.exports =
 	      this.level = this.parent.level + 1;
 	    }
 
-	    var tree = this._tree;
-	    if (!tree) {
-	      throw new Error('[Node]_tree is required!');
+	    var store = this.store;
+	    if (!store) {
+	      throw new Error('[Node]store is required!');
 	    }
-	    tree.registerNode(this);
+	    store.registerNode(this);
 
-	    if (tree.lazy !== true && this.data) {
+	    var props = store.props;
+	    if (props && typeof props.isLeaf !== 'undefined') {
+	      var isLeaf = getPropertyFromData(this, 'isLeaf');
+	      if (typeof isLeaf === 'boolean') {
+	        this.isLeafByUser = isLeaf;
+	      }
+	    }
+
+	    if (store.lazy !== true && this.data) {
 	      this.setData(this.data);
 
-	      if (tree.defaultExpandAll) {
+	      if (store.defaultExpandAll) {
 	        this.expanded = true;
 	      }
-	    } else if (this.level > 0 && tree.lazy && tree.defaultExpandAll) {
+	    } else if (this.level > 0 && store.lazy && store.defaultExpandAll) {
 	      this.expand();
 	    }
 
 	    if (!this.data) return;
-	    var defaultExpandedKeys = tree.defaultExpandedKeys;
-	    var key = tree.key;
+	    var defaultExpandedKeys = store.defaultExpandedKeys;
+	    var key = store.key;
 	    if (key && defaultExpandedKeys && defaultExpandedKeys.indexOf(this.key) !== -1) {
-	      if (tree.autoExpandParent) {
-	        var parent = this.parent;
-	        while (parent.level > 0) {
-	          parent.expanded = true;
-	          parent = parent.parent;
-	        }
-	      }
-
-	      this.expand();
+	      this.expand(null, store.autoExpandParent);
 	    }
 
-	    if (tree.lazy) {
-	      tree._initDefaultCheckedNode(this);
+	    if (store.lazy) {
+	      store._initDefaultCheckedNode(this);
 	    }
+
+	    this.updateLeafState();
 	  }
 
 	  Node.prototype.setData = function setData(data) {
-	    if (!Array.isArray(data) && !data.$treeNodeId) {
-	      Object.defineProperty(data, '$treeNodeId', {
-	        value: this.id,
-	        enumerable: false,
-	        configurable: false,
-	        writable: false
-	      });
+	    if (!Array.isArray(data)) {
+	      (0, _util.markNodeData)(this, data);
 	    }
 
 	    this.data = data;
@@ -15758,28 +16228,49 @@ module.exports =
 	    if (!(child instanceof Node)) {
 	      (0, _merge2.default)(child, {
 	        parent: this,
-	        _tree: this._tree
+	        store: this.store
 	      });
 	      child = new Node(child);
 	    }
 
 	    child.level = this.level + 1;
 
-	    if (typeof index === 'undefined') {
+	    if (typeof index === 'undefined' || index < 0) {
 	      this.childNodes.push(child);
 	    } else {
 	      this.childNodes.splice(index, 0, child);
 	    }
+
+	    this.updateLeafState();
+	  };
+
+	  Node.prototype.insertBefore = function insertBefore(child, ref) {
+	    var index = void 0;
+	    if (ref) {
+	      index = this.childNodes.indexOf(ref);
+	    }
+	    this.insertChild(child, index);
+	  };
+
+	  Node.prototype.insertAfter = function insertAfter(child, ref) {
+	    var index = void 0;
+	    if (ref) {
+	      index = this.childNodes.indexOf(ref);
+	      if (index !== -1) index += 1;
+	    }
+	    this.insertChild(child, index);
 	  };
 
 	  Node.prototype.removeChild = function removeChild(child) {
 	    var index = this.childNodes.indexOf(child);
 
 	    if (index > -1) {
-	      this._tree && this._tree.deregisterNode(child);
+	      this.store && this.store.deregisterNode(child);
 	      child.parent = null;
 	      this.childNodes.splice(index, 1);
 	    }
+
+	    this.updateLeafState();
 	  };
 
 	  Node.prototype.removeChildByData = function removeChildByData(data) {
@@ -15795,19 +16286,29 @@ module.exports =
 	    }
 	  };
 
-	  Node.prototype.expand = function expand(callback) {
+	  Node.prototype.expand = function expand(callback, expandParent) {
 	    var _this = this;
+
+	    var done = function done() {
+	      if (expandParent) {
+	        var parent = _this.parent;
+	        while (parent.level > 0) {
+	          parent.expanded = true;
+	          parent = parent.parent;
+	        }
+	      }
+	      _this.expanded = true;
+	      if (callback) callback();
+	    };
 
 	    if (this.shouldLoadData()) {
 	      this.loadData(function (data) {
 	        if (data instanceof Array) {
-	          _this.expanded = true;
-	          if (callback) callback();
+	          done();
 	        }
 	      });
 	    } else {
-	      this.expanded = true;
-	      if (callback) callback();
+	      done();
 	    }
 	  };
 
@@ -15826,15 +16327,20 @@ module.exports =
 	  };
 
 	  Node.prototype.shouldLoadData = function shouldLoadData() {
-	    return this._tree.lazy === true && this._tree.load && !this.loaded;
+	    return this.store.lazy === true && this.store.load && !this.loaded;
 	  };
 
-	  Node.prototype.hasChild = function hasChild() {
-	    var childNodes = this.childNodes;
-	    if (!this._tree.lazy || this._tree.lazy === true && this.loaded === true) {
-	      return childNodes && childNodes.length > 0;
+	  Node.prototype.updateLeafState = function updateLeafState() {
+	    if (this.store.lazy === true && this.loaded !== true && typeof this.isLeafByUser !== 'undefined') {
+	      this.isLeaf = this.isLeafByUser;
+	      return;
 	    }
-	    return true;
+	    var childNodes = this.childNodes;
+	    if (!this.store.lazy || this.store.lazy === true && this.loaded === true) {
+	      this.isLeaf = !childNodes || childNodes.length === 0;
+	      return;
+	    }
+	    this.isLeaf = false;
 	  };
 
 	  Node.prototype.setChecked = function setChecked(value, deep) {
@@ -15853,7 +16359,7 @@ module.exports =
 	      }
 	    };
 
-	    if (!this._tree.checkStrictly && this.shouldLoadData()) {
+	    if (!this.store.checkStrictly && this.shouldLoadData()) {
 	      // Only work on lazy load data.
 	      this.loadData(function () {
 	        handleDescendants();
@@ -15867,7 +16373,7 @@ module.exports =
 	    var parent = this.parent;
 	    if (!parent || parent.level === 0) return;
 
-	    if (!this._tree.checkStrictly) {
+	    if (!this.store.checkStrictly) {
 	      reInitChecked(parent);
 	    }
 	  };
@@ -15877,7 +16383,7 @@ module.exports =
 	    var data = this.data;
 	    if (!data) return null;
 
-	    var props = this._tree.props;
+	    var props = this.store.props;
 	    var children = 'children';
 	    if (props) {
 	      children = props.children || 'children';
@@ -15902,21 +16408,25 @@ module.exports =
 	    var newNodes = [];
 
 	    newData.forEach(function (item, index) {
-	      if (item.$treeNodeId) {
-	        newDataMap[item.$treeNodeId] = { index: index, data: item };
+	      if (item[_util.NODE_KEY]) {
+	        newDataMap[item[_util.NODE_KEY]] = { index: index, data: item };
 	      } else {
 	        newNodes.push({ index: index, data: item });
 	      }
 	    });
 
 	    oldData.forEach(function (item) {
-	      if (!newDataMap[item.$treeNodeId]) _this4.removeChildByData(item);
+	      if (!newDataMap[item[_util.NODE_KEY]]) _this4.removeChildByData(item);
 	    });
+
 	    newNodes.forEach(function (_ref) {
 	      var index = _ref.index,
 	          data = _ref.data;
-	      return _this4.insertChild({ data: data }, index);
+
+	      _this4.insertChild({ data: data }, index);
 	    });
+
+	    this.updateLeafState();
 	  };
 
 	  Node.prototype.loadData = function loadData(callback) {
@@ -15924,7 +16434,7 @@ module.exports =
 
 	    var defaultProps = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	    if (this._tree.lazy === true && this._tree.load && !this.loaded && !this.loading) {
+	    if (this.store.lazy === true && this.store.load && !this.loaded && !this.loading) {
 	      this.loading = true;
 
 	      var resolve = function resolve(children) {
@@ -15939,7 +16449,7 @@ module.exports =
 	        }
 	      };
 
-	      this._tree.load(this, resolve);
+	      this.store.load(this, resolve);
 	    } else {
 	      if (callback) {
 	        callback.call(this);
@@ -15960,14 +16470,9 @@ module.exports =
 	  }, {
 	    key: 'key',
 	    get: function get() {
-	      var nodeKey = this._tree.key;
+	      var nodeKey = this.store.key;
 	      if (this.data) return this.data[nodeKey];
 	      return null;
-	    }
-	  }, {
-	    key: 'isLeaf',
-	    get: function get() {
-	      return !this.hasChild();
 	    }
 	  }]);
 
@@ -15978,16 +16483,40 @@ module.exports =
 
 /***/ },
 /* 220 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	var NODE_KEY = exports.NODE_KEY = '$treeNodeId';
+
+	var markNodeData = exports.markNodeData = function markNodeData(node, data) {
+	  if (data[NODE_KEY]) return;
+	  Object.defineProperty(data, NODE_KEY, {
+	    value: node.id,
+	    enumerable: false,
+	    configurable: false,
+	    writable: false
+	  });
+	};
+
+	var getNodeKey = exports.getNodeKey = function getNodeKey(key, data) {
+	  if (!key) return data[NODE_KEY];
+	  return data[key];
+	};
+
+/***/ },
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(221)
+	__vue_exports__ = __webpack_require__(222)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(223)
+	var __vue_template__ = __webpack_require__(224)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -16006,18 +16535,63 @@ module.exports =
 
 
 /***/ },
-/* 221 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _transition = __webpack_require__(222);
+	var _transition = __webpack_require__(223);
 
 	var _transition2 = _interopRequireDefault(_transition);
 
+	var _checkbox = __webpack_require__(124);
+
+	var _checkbox2 = _interopRequireDefault(_checkbox);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'el-tree-node',
@@ -16033,6 +16607,7 @@ module.exports =
 	  },
 
 	  components: {
+	    ElCheckbox: _checkbox2.default,
 	    CollapseTransition: _transition2.default,
 	    NodeContent: {
 	      props: {
@@ -16042,7 +16617,10 @@ module.exports =
 	      },
 	      render: function render(h) {
 	        var parent = this.$parent;
-	        return parent.renderContent ? parent.renderContent.call(parent._renderProxy, h, { _self: parent.$parent.$vnode.context, node: this.node }) : h(
+	        var node = this.node;
+	        var data = node.data;
+	        var store = node.store;
+	        return parent.renderContent ? parent.renderContent.call(parent._renderProxy, h, { _self: parent.tree.$vnode.context, node: node, data: data, store: store }) : h(
 	          'span',
 	          { 'class': 'el-tree-node__label' },
 	          [this.node.label]
@@ -16053,7 +16631,7 @@ module.exports =
 
 	  data: function data() {
 	    return {
-	      $tree: null,
+	      tree: null,
 	      expanded: false,
 	      childNodeRendered: false,
 	      showCheckbox: false,
@@ -16080,7 +16658,7 @@ module.exports =
 
 	  methods: {
 	    getNodeKey: function getNodeKey(node, index) {
-	      var nodeKey = this.$tree.nodeKey;
+	      var nodeKey = this.tree.nodeKey;
 	      if (nodeKey && node) {
 	        return node.data[nodeKey];
 	      }
@@ -16088,13 +16666,13 @@ module.exports =
 	    },
 	    handleSelectChange: function handleSelectChange(checked, indeterminate) {
 	      if (this.oldChecked !== checked && this.oldIndeterminate !== indeterminate) {
-	        this.$tree.$emit('check-change', this.node.data, checked, indeterminate);
+	        this.tree.$emit('check-change', this.node.data, checked, indeterminate);
 	      }
 	      this.oldChecked = checked;
 	      this.indeterminate = indeterminate;
 	    },
 	    handleClick: function handleClick() {
-	      this.$tree.currentNode = this;
+	      this.tree.currentNode = this;
 	    },
 	    handleExpandIconClick: function handleExpandIconClick(event) {
 	      var target = event.target;
@@ -16104,16 +16682,16 @@ module.exports =
 	      } else {
 	        this.node.expand();
 	      }
-	      this.$tree.$emit('node-click', this.node.data, this.node, this);
+	      this.tree.$emit('node-click', this.node.data, this.node, this);
 	    },
 	    handleUserClick: function handleUserClick() {
 	      if (this.node.indeterminate) {
-	        this.node.setChecked(this.node.checked, !this.$tree.checkStrictly);
+	        this.node.setChecked(this.node.checked, !this.tree.checkStrictly);
 	      }
 	    },
 	    handleCheckChange: function handleCheckChange(ev) {
 	      if (!this.node.indeterminate) {
-	        this.node.setChecked(ev.target.checked, !this.$tree.checkStrictly);
+	        this.node.setChecked(ev.target.checked, !this.tree.checkStrictly);
 	      }
 	    }
 	  },
@@ -16123,13 +16701,13 @@ module.exports =
 
 	    var parent = this.$parent;
 
-	    if (parent.$isTree) {
-	      this.$tree = parent;
+	    if (parent.isTree) {
+	      this.tree = parent;
 	    } else {
-	      this.$tree = parent.$tree;
+	      this.tree = parent.tree;
 	    }
 
-	    var tree = this.$tree;
+	    var tree = this.tree;
 	    var props = this.props || {};
 	    var childrenKey = props['children'] || 'children';
 
@@ -16148,48 +16726,10 @@ module.exports =
 	      this.childNodeRendered = true;
 	    }
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
-/* 222 */
+/* 223 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -16204,6 +16744,7 @@ module.exports =
 	  }
 
 	  Transition.prototype.beforeEnter = function beforeEnter(el) {
+	    if (!el.dataset) el.dataset = {};
 	    el.dataset.oldPaddingTop = el.style.paddingTop;
 	    el.dataset.oldPaddingBottom = el.style.paddingBottom;
 	    el.style.height = '0';
@@ -16235,6 +16776,7 @@ module.exports =
 	  };
 
 	  Transition.prototype.beforeLeave = function beforeLeave(el) {
+	    if (!el.dataset) el.dataset = {};
 	    el.dataset.oldPaddingTop = el.style.paddingTop;
 	    el.dataset.oldPaddingBottom = el.style.paddingBottom;
 	    el.dataset.oldOverflow = el.style.overflow;
@@ -16285,14 +16827,20 @@ module.exports =
 	};
 
 /***/ },
-/* 223 */
+/* 224 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
 	  return _vm._h('div', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (_vm.node.visible),
+	      expression: "node.visible"
+	    }],
 	    staticClass: "el-tree-node",
 	    class: {
-	      'is-expanded': _vm.childNodeRendered && _vm.expanded, 'is-current': _vm.$tree.currentNode === _vm._self
+	      'is-expanded': _vm.childNodeRendered && _vm.expanded, 'is-current': _vm.tree.currentNode === _vm._self, 'is-hidden': !_vm.node.visible
 	    },
 	    on: {
 	      "click": function($event) {
@@ -16363,7 +16911,7 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 224 */
+/* 225 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -16372,15 +16920,16 @@ module.exports =
 	    class: {
 	      'el-tree--highlight-current': _vm.highlightCurrent
 	    }
-	  }, [_vm._l((_vm.tree.root.childNodes), function(child) {
+	  }, [_vm._l((_vm.root.childNodes), function(child) {
 	    return _vm._h('el-tree-node', {
+	      key: _vm.getNodeKey(child),
 	      attrs: {
 	        "node": child,
 	        "props": _vm.props,
 	        "render-content": _vm.renderContent
 	      }
 	    })
-	  }), (!_vm.tree.root.childNodes || _vm.tree.root.childNodes.length === 0) ? _vm._h('div', {
+	  }), (!_vm.root.childNodes || _vm.root.childNodes.length === 0) ? _vm._h('div', {
 	    staticClass: "el-tree__empty-block"
 	  }, [_vm._h('span', {
 	    staticClass: "el-tree__empty-text"
@@ -16388,14 +16937,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(226);
+	var _main = __webpack_require__(227);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -16409,17 +16958,17 @@ module.exports =
 	exports.default = _main2.default;
 
 /***/ },
-/* 226 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(227)
+	__vue_exports__ = __webpack_require__(228)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(228)
+	var __vue_template__ = __webpack_require__(229)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -16438,7 +16987,7 @@ module.exports =
 
 
 /***/ },
-/* 227 */
+/* 228 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -16545,7 +17094,7 @@ module.exports =
 	};
 
 /***/ },
-/* 228 */
+/* 229 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -16590,14 +17139,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 229 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(230);
+	var _main = __webpack_require__(231);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -16606,7 +17155,7 @@ module.exports =
 	exports.default = _main2.default;
 
 /***/ },
-/* 230 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16621,7 +17170,7 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var NotificationConstructor = _vue2.default.extend(__webpack_require__(231));
+	var NotificationConstructor = _vue2.default.extend(__webpack_require__(232));
 
 	var instance = void 0;
 	var instances = [];
@@ -16693,17 +17242,17 @@ module.exports =
 	exports.default = Notification;
 
 /***/ },
-/* 231 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(232)
+	__vue_exports__ = __webpack_require__(233)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(233)
+	var __vue_template__ = __webpack_require__(234)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -16722,7 +17271,7 @@ module.exports =
 
 
 /***/ },
-/* 232 */
+/* 233 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -16822,7 +17371,7 @@ module.exports =
 	};
 
 /***/ },
-/* 233 */
+/* 234 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -16866,14 +17415,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 234 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(235);
+	var _main = __webpack_require__(236);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -16887,17 +17436,17 @@ module.exports =
 	exports.default = _main2.default;
 
 /***/ },
-/* 235 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(236)
+	__vue_exports__ = __webpack_require__(237)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(240)
+	var __vue_template__ = __webpack_require__(241)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -16916,22 +17465,22 @@ module.exports =
 
 
 /***/ },
-/* 236 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _inputNumber = __webpack_require__(237);
+	var _inputNumber = __webpack_require__(238);
 
 	var _inputNumber2 = _interopRequireDefault(_inputNumber);
 
-	var _tooltip = __webpack_require__(238);
+	var _tooltip = __webpack_require__(239);
 
 	var _tooltip2 = _interopRequireDefault(_tooltip);
 
-	var _style = __webpack_require__(239);
+	var _style = __webpack_require__(240);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16980,6 +17529,7 @@ module.exports =
 
 	  data: function data() {
 	    return {
+	      precision: null,
 	      inputValue: null,
 	      timeout: null,
 	      hovering: false,
@@ -17004,7 +17554,7 @@ module.exports =
 	      this.$nextTick(function () {
 	        _this.updatePopper();
 	      });
-	      if (val < this.min) {
+	      if (typeof val !== 'number' || isNaN(val) || val < this.min) {
 	        this.$emit('input', this.min);
 	        return;
 	      }
@@ -17033,7 +17583,11 @@ module.exports =
 	      if (newPos >= 0 && newPos <= 100) {
 	        var lengthPerStep = 100 / ((this.max - this.min) / this.step);
 	        var steps = Math.round(newPos / lengthPerStep);
-	        this.$emit('input', Math.round(steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min));
+	        var value = steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min;
+	        if (this.precision) {
+	          value = parseFloat(value.toFixed(this.precision));
+	        }
+	        this.$emit('input', value);
 	        this.currentPosition = (this.value - this.min) / (this.max - this.min) * 100 + '%';
 	        if (!this.dragging) {
 	          if (this.value !== this.oldValue) {
@@ -17045,10 +17599,8 @@ module.exports =
 	    },
 	    onSliderClick: function onSliderClick(event) {
 	      if (this.disabled) return;
-	      var currentX = event.clientX;
 	      var sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
-	      var newPos = (currentX - sliderOffsetLeft) / this.$sliderWidth * 100;
-	      this.setPosition(newPos);
+	      this.setPosition((event.clientX - sliderOffsetLeft) / this.$sliderWidth * 100);
 	    },
 	    onInputChange: function onInputChange() {
 	      if (this.value === '') {
@@ -17095,9 +17647,9 @@ module.exports =
 	    },
 	    stops: function stops() {
 	      var stopCount = (this.max - this.value) / this.step;
-	      var result = [];
 	      var currentLeft = parseFloat(this.currentPosition);
 	      var stepWidth = 100 * this.step / (this.max - this.min);
+	      var result = [];
 	      for (var i = 1; i < stopCount; i++) {
 	        result.push(currentLeft + i * stepWidth);
 	      }
@@ -17106,10 +17658,13 @@ module.exports =
 	  },
 
 	  created: function created() {
-	    if (typeof this.value !== 'number' || this.value < this.min) {
+	    if (typeof this.value !== 'number' || isNaN(this.value) || this.value < this.min) {
 	      this.$emit('input', this.min);
 	    } else if (this.value > this.max) {
 	      this.$emit('input', this.max);
+	    }
+	    if (this.step && this.step < 1) {
+	      this.precision = this.step.toPrecision(1).split('.')[1].length;
 	    }
 	    this.inputValue = this.inputValue || this.value;
 	  }
@@ -17151,25 +17706,25 @@ module.exports =
 	//
 
 /***/ },
-/* 237 */
+/* 238 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input-number");
 
 /***/ },
-/* 238 */
+/* 239 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tooltip");
 
 /***/ },
-/* 239 */
+/* 240 */
 /***/ function(module, exports) {
 
 	module.exports = require("wind-dom/src/style");
 
 /***/ },
-/* 240 */
+/* 241 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -17255,18 +17810,18 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 241 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _directive = __webpack_require__(242);
+	var _directive = __webpack_require__(243);
 
 	var _directive2 = _interopRequireDefault(_directive);
 
-	var _index = __webpack_require__(246);
+	var _index = __webpack_require__(247);
 
 	var _index2 = _interopRequireDefault(_index);
 
@@ -17283,7 +17838,7 @@ module.exports =
 	};
 
 /***/ },
-/* 242 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17292,11 +17847,11 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _class = __webpack_require__(95);
+	var _class = __webpack_require__(94);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Mask = _vue2.default.extend(__webpack_require__(243));
+	var Mask = _vue2.default.extend(__webpack_require__(244));
 
 	exports.install = function (Vue) {
 	  var toggleLoading = function toggleLoading(el, binding) {
@@ -17399,17 +17954,17 @@ module.exports =
 	};
 
 /***/ },
-/* 243 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(244)
+	__vue_exports__ = __webpack_require__(245)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(245)
+	var __vue_template__ = __webpack_require__(246)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -17428,7 +17983,7 @@ module.exports =
 
 
 /***/ },
-/* 244 */
+/* 245 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -17457,7 +18012,7 @@ module.exports =
 	};
 
 /***/ },
-/* 245 */
+/* 246 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -17487,7 +18042,7 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 246 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17498,7 +18053,7 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _loading = __webpack_require__(243);
+	var _loading = __webpack_require__(244);
 
 	var _loading2 = _interopRequireDefault(_loading);
 
@@ -17590,14 +18145,14 @@ module.exports =
 	exports.default = Loading;
 
 /***/ },
-/* 247 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _icon = __webpack_require__(248);
+	var _icon = __webpack_require__(249);
 
 	var _icon2 = _interopRequireDefault(_icon);
 
@@ -17611,17 +18166,17 @@ module.exports =
 	exports.default = _icon2.default;
 
 /***/ },
-/* 248 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(249)
+	__vue_exports__ = __webpack_require__(250)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(250)
+	var __vue_template__ = __webpack_require__(251)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -17640,7 +18195,7 @@ module.exports =
 
 
 /***/ },
-/* 249 */
+/* 250 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -17660,7 +18215,7 @@ module.exports =
 	};
 
 /***/ },
-/* 250 */
+/* 251 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -17670,14 +18225,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 251 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _row = __webpack_require__(252);
+	var _row = __webpack_require__(253);
 
 	var _row2 = _interopRequireDefault(_row);
 
@@ -17691,17 +18246,17 @@ module.exports =
 	exports.default = _row2.default;
 
 /***/ },
-/* 252 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(253)
+	__vue_exports__ = __webpack_require__(254)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(254)
+	var __vue_template__ = __webpack_require__(255)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -17720,7 +18275,7 @@ module.exports =
 
 
 /***/ },
-/* 253 */
+/* 254 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -17773,7 +18328,7 @@ module.exports =
 	};
 
 /***/ },
-/* 254 */
+/* 255 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -17790,14 +18345,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 255 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _col = __webpack_require__(256);
+	var _col = __webpack_require__(257);
 
 	var _col2 = _interopRequireDefault(_col);
 
@@ -17811,7 +18366,7 @@ module.exports =
 	exports.default = _col2.default;
 
 /***/ },
-/* 256 */
+/* 257 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -17889,14 +18444,14 @@ module.exports =
 	};
 
 /***/ },
-/* 257 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _src = __webpack_require__(258);
+	var _src = __webpack_require__(259);
 
 	var _src2 = _interopRequireDefault(_src);
 
@@ -17910,14 +18465,14 @@ module.exports =
 	exports.default = _src2.default;
 
 /***/ },
-/* 258 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(259)
+	__vue_exports__ = __webpack_require__(260)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -17934,26 +18489,26 @@ module.exports =
 
 
 /***/ },
-/* 259 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _uploadList = __webpack_require__(260);
+	var _uploadList = __webpack_require__(261);
 
 	var _uploadList2 = _interopRequireDefault(_uploadList);
 
-	var _upload = __webpack_require__(264);
+	var _upload = __webpack_require__(265);
 
 	var _upload2 = _interopRequireDefault(_upload);
 
-	var _iframeUpload = __webpack_require__(271);
+	var _iframeUpload = __webpack_require__(272);
 
 	var _iframeUpload2 = _interopRequireDefault(_iframeUpload);
 
-	var _progress = __webpack_require__(262);
+	var _progress = __webpack_require__(263);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -18019,6 +18574,12 @@ module.exports =
 	    onError: {
 	      type: Function,
 	      default: noop
+	    },
+	    defaultFileList: {
+	      type: Array,
+	      default: function _default() {
+	        return [];
+	      }
 	    }
 	  },
 
@@ -18107,6 +18668,22 @@ module.exports =
 	    }
 	  },
 
+	  watch: {
+	    defaultFileList: {
+	      immediate: true,
+	      handler: function handler(fileList) {
+	        var _this = this;
+
+	        this.fileList = fileList.map(function (item) {
+	          item.status = 'finished';
+	          item.percentage = 100;
+	          item.uid = Date.now() + _this.tempIndex++;
+	          return item;
+	        });
+	      }
+	    }
+	  },
+
 	  render: function render(h) {
 	    var uploadList;
 
@@ -18176,17 +18753,17 @@ module.exports =
 	};
 
 /***/ },
-/* 260 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(261)
+	__vue_exports__ = __webpack_require__(262)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(263)
+	var __vue_template__ = __webpack_require__(264)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -18205,18 +18782,18 @@ module.exports =
 
 
 /***/ },
-/* 261 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _locale = __webpack_require__(89);
+	var _locale = __webpack_require__(10);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _progress = __webpack_require__(262);
+	var _progress = __webpack_require__(263);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -18268,13 +18845,13 @@ module.exports =
 	};
 
 /***/ },
-/* 262 */
+/* 263 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/progress");
 
 /***/ },
-/* 263 */
+/* 264 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -18329,17 +18906,17 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 264 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(265)
+	__vue_exports__ = __webpack_require__(266)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(270)
+	var __vue_template__ = __webpack_require__(271)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -18358,18 +18935,18 @@ module.exports =
 
 
 /***/ },
-/* 265 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _ajax = __webpack_require__(266);
+	var _ajax = __webpack_require__(267);
 
 	var _ajax2 = _interopRequireDefault(_ajax);
 
-	var _cover = __webpack_require__(267);
+	var _cover = __webpack_require__(268);
 
 	var _cover2 = _interopRequireDefault(_cover);
 
@@ -18544,7 +19121,7 @@ module.exports =
 	};
 
 /***/ },
-/* 266 */
+/* 267 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18633,17 +19210,17 @@ module.exports =
 	}
 
 /***/ },
-/* 267 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(268)
+	__vue_exports__ = __webpack_require__(269)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(269)
+	var __vue_template__ = __webpack_require__(270)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -18662,18 +19239,18 @@ module.exports =
 
 
 /***/ },
-/* 268 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _locale = __webpack_require__(89);
+	var _locale = __webpack_require__(10);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _progress = __webpack_require__(262);
+	var _progress = __webpack_require__(263);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -18737,7 +19314,7 @@ module.exports =
 	};
 
 /***/ },
-/* 269 */
+/* 270 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -18830,7 +19407,7 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 270 */
+/* 271 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -18877,14 +19454,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 271 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(272)
+	__vue_exports__ = __webpack_require__(273)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -18901,14 +19478,14 @@ module.exports =
 
 
 /***/ },
-/* 272 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _cover = __webpack_require__(267);
+	var _cover = __webpack_require__(268);
 
 	var _cover2 = _interopRequireDefault(_cover);
 
@@ -19120,14 +19697,14 @@ module.exports =
 	};
 
 /***/ },
-/* 273 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _progress = __webpack_require__(274);
+	var _progress = __webpack_require__(275);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -19141,17 +19718,17 @@ module.exports =
 	exports.default = _progress2.default;
 
 /***/ },
-/* 274 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(275)
+	__vue_exports__ = __webpack_require__(276)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(276)
+	var __vue_template__ = __webpack_require__(277)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -19170,7 +19747,7 @@ module.exports =
 
 
 /***/ },
-/* 275 */
+/* 276 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -19304,7 +19881,7 @@ module.exports =
 	};
 
 /***/ },
-/* 276 */
+/* 277 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -19368,14 +19945,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 277 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _spinner = __webpack_require__(278);
+	var _spinner = __webpack_require__(279);
 
 	var _spinner2 = _interopRequireDefault(_spinner);
 
@@ -19389,17 +19966,17 @@ module.exports =
 	exports.default = _spinner2.default;
 
 /***/ },
-/* 278 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(279)
+	__vue_exports__ = __webpack_require__(280)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(280)
+	var __vue_template__ = __webpack_require__(281)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -19418,7 +19995,7 @@ module.exports =
 
 
 /***/ },
-/* 279 */
+/* 280 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -19452,7 +20029,7 @@ module.exports =
 	};
 
 /***/ },
-/* 280 */
+/* 281 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -19481,14 +20058,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 281 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(282);
+	var _main = __webpack_require__(283);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -19497,7 +20074,7 @@ module.exports =
 	exports.default = _main2.default;
 
 /***/ },
-/* 282 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19512,7 +20089,7 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var MessageConstructor = _vue2.default.extend(__webpack_require__(283));
+	var MessageConstructor = _vue2.default.extend(__webpack_require__(284));
 
 	var instance = void 0;
 	var instances = [];
@@ -19572,17 +20149,17 @@ module.exports =
 	exports.default = Message;
 
 /***/ },
-/* 283 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(284)
+	__vue_exports__ = __webpack_require__(285)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(290)
+	var __vue_template__ = __webpack_require__(291)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -19601,7 +20178,7 @@ module.exports =
 
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19637,7 +20214,7 @@ module.exports =
 
 	  computed: {
 	    typeImg: function typeImg() {
-	      return __webpack_require__(285)("./" + this.type + '.svg');
+	      return __webpack_require__(286)("./" + this.type + '.svg');
 	    }
 	  },
 
@@ -19684,14 +20261,14 @@ module.exports =
 	};
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./error.svg": 286,
-		"./info.svg": 287,
-		"./success.svg": 288,
-		"./warning.svg": 289
+		"./error.svg": 287,
+		"./info.svg": 288,
+		"./success.svg": 289,
+		"./warning.svg": 290
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -19704,35 +20281,35 @@ module.exports =
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 285;
+	webpackContext.id = 286;
 
-
-/***/ },
-/* 286 */
-/***/ function(module, exports) {
-
-	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMCAwIDQwIDQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCAzOS4xICgzMTcyMCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+aWNvbl9kYW5nZXI8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iRWxlbWVudC1ndWlkZWxpbmUtdjAuMi40IiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0iTWVzc2FnZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTYwLjAwMDAwMCwgLTMzMi4wMDAwMDApIj4KICAgICAgICAgICAgPGcgaWQ9IuW4puWAvuWQkV/kv6Hmga8iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYwLjAwMDAwMCwgMzMyLjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPGcgaWQ9IlJlY3RhbmdsZS0yIj4KICAgICAgICAgICAgICAgICAgICA8ZyBpZD0iaWNvbl9kYW5nZXIiPgogICAgICAgICAgICAgICAgICAgICAgICA8cmVjdCBpZD0iUmVjdGFuZ2xlLTIiIGZpbGw9IiNGRjQ5NDkiIHg9IjAiIHk9IjAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PC9yZWN0PgogICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMjUuODE3MjYyNywxNi4zNDUxNzk2IEMyNS45MzkwOTAyLDE2LjIyMzM0ODMgMjYsMTYuMDc2MTQxOCAyNiwxNS45MDM1NTIzIEMyNiwxNS43MzA5NjI4IDI1LjkzOTA5MDIsMTUuNTgzNzU2MyAyNS44MTcyNjI3LDE1LjQ2MTkyODkgTDI0LjUwNzYxNTcsMTQuMTgyNzQxMSBDMjQuMzg1Nzg4MiwxNC4wNjA5MTM3IDI0LjI0MzY1NzUsMTQgMjQuMDgxMjE5NiwxNCBDMjMuOTE4NzgxNywxNCAyMy43NzY2NTEsMTQuMDYwOTEzNyAyMy42NTQ4MjM1LDE0LjE4Mjc0MTEgTDIwLDE3LjgzNzU2MzUgTDE2LjMxNDcyMTYsMTQuMTgyNzQxMSBDMTYuMTkyODkwMiwxNC4wNjA5MTM3IDE2LjA1MDc1OTUsMTQgMTUuODg4MzIxNiwxNCBDMTUuNzI1ODg3NiwxNCAxNS41ODM3NTY5LDE0LjA2MDkxMzcgMTUuNDYxOTI5NCwxNC4xODI3NDExIEwxNC4xNTIyODI0LDE1LjQ2MTkyODkgQzE0LjA1MDc1ODIsMTUuNTgzNzU2MyAxNCwxNS43MzA5NjI4IDE0LDE1LjkwMzU1MjMgQzE0LDE2LjA3NjE0MTggMTQuMDUwNzU4MiwxNi4yMjMzNDgzIDE0LjE1MjI4MjQsMTYuMzQ1MTc5NiBMMTcuODM3NTYwOCwyMC4wMDAwMDE5IEwxNC4xNTIyODI0LDIzLjY1NDgyNDMgQzE0LjA1MDc1ODIsMjMuNzc2NjUxNyAxNCwyMy45MjM4NTgyIDE0LDI0LjA5NjQ0NzcgQzE0LDI0LjI2OTAzNzIgMTQuMDUwNzU4MiwyNC40MTYyNDM3IDE0LjE1MjI4MjQsMjQuNTM4MDcxMSBMMTUuNDYxOTI5NCwyNS44MTcyNTg5IEMxNS41ODM3NTY5LDI1LjkzOTA4NjMgMTUuNzI1ODg3NiwyNiAxNS44ODgzMjE2LDI2IEMxNi4wNTA3NTk1LDI2IDE2LjE5Mjg5MDIsMjUuOTM5MDg2MyAxNi4zMTQ3MjE2LDI1LjgxNzI1ODkgTDIwLDIyLjE2MjQzNjUgTDIzLjY1NDgyMzUsMjUuODE3MjU4OSBDMjMuNzc2NjUxLDI1LjkzOTA4NjMgMjMuOTE4NzgxNywyNiAyNC4wODEyMTk2LDI2IEMyNC4yNDM2NTc1LDI2IDI0LjM4NTc4ODIsMjUuOTM5MDg2MyAyNC41MDc2MTU3LDI1LjgxNzI1ODkgTDI1LjgxNzI2MjcsMjQuNTM4MDcxMSBDMjUuOTM5MDkwMiwyNC40MTYyNDM3IDI2LDI0LjI2OTAzNzIgMjYsMjQuMDk2NDQ3NyBDMjYsMjMuOTIzODU4MiAyNS45MzkwOTAyLDIzLjc3NjY1MTcgMjUuODE3MjYyNywyMy42NTQ4MjQzIEwyMi4xMzE5ODA0LDIwLjAwMDAwMTkgTDI1LjgxNzI2MjcsMTYuMzQ1MTc5NiBaIiBpZD0iUGF0aCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+"
 
 /***/ },
 /* 287 */
 /***/ function(module, exports) {
 
-	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMCAwIDQwIDQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCAzOS4xICgzMTcyMCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+aWNvbl9pbmZvPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgaWQ9IkVsZW1lbnQtZ3VpZGVsaW5lLXYwLjIuNCIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9Ik1lc3NhZ2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC02MC4wMDAwMDAsIC0xNTIuMDAwMDAwKSI+CiAgICAgICAgICAgIDxnIGlkPSLluKblgL7lkJFf5L+h5oGvIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2MC4wMDAwMDAsIDE1Mi4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxnIGlkPSJSZWN0YW5nbGUtMiI+CiAgICAgICAgICAgICAgICAgICAgPGcgaWQ9Imljb25faW5mbyI+CiAgICAgICAgICAgICAgICAgICAgICAgIDxyZWN0IGlkPSJSZWN0YW5nbGUtMiIgZmlsbD0iIzUwQkZGRiIgeD0iMCIgeT0iMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIj48L3JlY3Q+CiAgICAgICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0yMS42MTUzODQ2LDI2LjU0MzIwOTkgQzIxLjYxNTM4NDYsMjYuOTQ3ODc1MSAyMS40NTgzMzQ4LDI3LjI5MTgzNjggMjEuMTQ0MjMwOCwyNy41NzUxMDI5IEMyMC44MzAxMjY4LDI3Ljg1ODM2ODkgMjAuNDQ4NzE5NCwyOCAyMCwyOCBDMTkuNTUxMjgwNiwyOCAxOS4xNjk4NzMyLDI3Ljg1ODM2ODkgMTguODU1NzY5MiwyNy41NzUxMDI5IEMxOC41NDE2NjUyLDI3LjI5MTgzNjggMTguMzg0NjE1NCwyNi45NDc4NzUxIDE4LjM4NDYxNTQsMjYuNTQzMjA5OSBMMTguMzg0NjE1NCwxOS43NDQ4NTYgQzE4LjM4NDYxNTQsMTkuMzQwMTkwNyAxOC41NDE2NjUyLDE4Ljk5NjIyOSAxOC44NTU3NjkyLDE4LjcxMjk2MyBDMTkuMTY5ODczMiwxOC40Mjk2OTY5IDE5LjU1MTI4MDYsMTguMjg4MDY1OCAyMCwxOC4yODgwNjU4IEMyMC40NDg3MTk0LDE4LjI4ODA2NTggMjAuODMwMTI2OCwxOC40Mjk2OTY5IDIxLjE0NDIzMDgsMTguNzEyOTYzIEMyMS40NTgzMzQ4LDE4Ljk5NjIyOSAyMS42MTUzODQ2LDE5LjM0MDE5MDcgMjEuNjE1Mzg0NiwxOS43NDQ4NTYgTDIxLjYxNTM4NDYsMjYuNTQzMjA5OSBaIE0yMCwxNS44MDQyOTgxIEMxOS40NDQ0NDI3LDE1LjgwNDI5ODEgMTguOTcyMjI0LDE1LjYxOTM2ODcgMTguNTgzMzMzMywxNS4yNDk1MDQ2IEMxOC4xOTQ0NDI3LDE0Ljg3OTY0MDYgMTgsMTQuNDMwNTI1NSAxOCwxMy45MDIxNDkxIEMxOCwxMy4zNzM3NzI2IDE4LjE5NDQ0MjcsMTIuOTI0NjU3NSAxOC41ODMzMzMzLDEyLjU1NDc5MzUgQzE4Ljk3MjIyNCwxMi4xODQ5Mjk1IDE5LjQ0NDQ0MjcsMTIgMjAsMTIgQzIwLjU1NTU1NzMsMTIgMjEuMDI3Nzc2LDEyLjE4NDkyOTUgMjEuNDE2NjY2NywxMi41NTQ3OTM1IEMyMS44MDU1NTczLDEyLjkyNDY1NzUgMjIsMTMuMzczNzcyNiAyMiwxMy45MDIxNDkxIEMyMiwxNC40MzA1MjU1IDIxLjgwNTU1NzMsMTQuODc5NjQwNiAyMS40MTY2NjY3LDE1LjI0OTUwNDYgQzIxLjAyNzc3NiwxNS42MTkzNjg3IDIwLjU1NTU1NzMsMTUuODA0Mjk4MSAyMCwxNS44MDQyOTgxIFoiIGlkPSJDb21iaW5lZC1TaGFwZSIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+"
+	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMCAwIDQwIDQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCAzOS4xICgzMTcyMCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+aWNvbl9kYW5nZXI8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iRWxlbWVudC1ndWlkZWxpbmUtdjAuMi40IiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0iTWVzc2FnZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTYwLjAwMDAwMCwgLTMzMi4wMDAwMDApIj4KICAgICAgICAgICAgPGcgaWQ9IuW4puWAvuWQkV/kv6Hmga8iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYwLjAwMDAwMCwgMzMyLjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPGcgaWQ9IlJlY3RhbmdsZS0yIj4KICAgICAgICAgICAgICAgICAgICA8ZyBpZD0iaWNvbl9kYW5nZXIiPgogICAgICAgICAgICAgICAgICAgICAgICA8cmVjdCBpZD0iUmVjdGFuZ2xlLTIiIGZpbGw9IiNGRjQ5NDkiIHg9IjAiIHk9IjAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PC9yZWN0PgogICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMjUuODE3MjYyNywxNi4zNDUxNzk2IEMyNS45MzkwOTAyLDE2LjIyMzM0ODMgMjYsMTYuMDc2MTQxOCAyNiwxNS45MDM1NTIzIEMyNiwxNS43MzA5NjI4IDI1LjkzOTA5MDIsMTUuNTgzNzU2MyAyNS44MTcyNjI3LDE1LjQ2MTkyODkgTDI0LjUwNzYxNTcsMTQuMTgyNzQxMSBDMjQuMzg1Nzg4MiwxNC4wNjA5MTM3IDI0LjI0MzY1NzUsMTQgMjQuMDgxMjE5NiwxNCBDMjMuOTE4NzgxNywxNCAyMy43NzY2NTEsMTQuMDYwOTEzNyAyMy42NTQ4MjM1LDE0LjE4Mjc0MTEgTDIwLDE3LjgzNzU2MzUgTDE2LjMxNDcyMTYsMTQuMTgyNzQxMSBDMTYuMTkyODkwMiwxNC4wNjA5MTM3IDE2LjA1MDc1OTUsMTQgMTUuODg4MzIxNiwxNCBDMTUuNzI1ODg3NiwxNCAxNS41ODM3NTY5LDE0LjA2MDkxMzcgMTUuNDYxOTI5NCwxNC4xODI3NDExIEwxNC4xNTIyODI0LDE1LjQ2MTkyODkgQzE0LjA1MDc1ODIsMTUuNTgzNzU2MyAxNCwxNS43MzA5NjI4IDE0LDE1LjkwMzU1MjMgQzE0LDE2LjA3NjE0MTggMTQuMDUwNzU4MiwxNi4yMjMzNDgzIDE0LjE1MjI4MjQsMTYuMzQ1MTc5NiBMMTcuODM3NTYwOCwyMC4wMDAwMDE5IEwxNC4xNTIyODI0LDIzLjY1NDgyNDMgQzE0LjA1MDc1ODIsMjMuNzc2NjUxNyAxNCwyMy45MjM4NTgyIDE0LDI0LjA5NjQ0NzcgQzE0LDI0LjI2OTAzNzIgMTQuMDUwNzU4MiwyNC40MTYyNDM3IDE0LjE1MjI4MjQsMjQuNTM4MDcxMSBMMTUuNDYxOTI5NCwyNS44MTcyNTg5IEMxNS41ODM3NTY5LDI1LjkzOTA4NjMgMTUuNzI1ODg3NiwyNiAxNS44ODgzMjE2LDI2IEMxNi4wNTA3NTk1LDI2IDE2LjE5Mjg5MDIsMjUuOTM5MDg2MyAxNi4zMTQ3MjE2LDI1LjgxNzI1ODkgTDIwLDIyLjE2MjQzNjUgTDIzLjY1NDgyMzUsMjUuODE3MjU4OSBDMjMuNzc2NjUxLDI1LjkzOTA4NjMgMjMuOTE4NzgxNywyNiAyNC4wODEyMTk2LDI2IEMyNC4yNDM2NTc1LDI2IDI0LjM4NTc4ODIsMjUuOTM5MDg2MyAyNC41MDc2MTU3LDI1LjgxNzI1ODkgTDI1LjgxNzI2MjcsMjQuNTM4MDcxMSBDMjUuOTM5MDkwMiwyNC40MTYyNDM3IDI2LDI0LjI2OTAzNzIgMjYsMjQuMDk2NDQ3NyBDMjYsMjMuOTIzODU4MiAyNS45MzkwOTAyLDIzLjc3NjY1MTcgMjUuODE3MjYyNywyMy42NTQ4MjQzIEwyMi4xMzE5ODA0LDIwLjAwMDAwMTkgTDI1LjgxNzI2MjcsMTYuMzQ1MTc5NiBaIiBpZD0iUGF0aCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+"
 
 /***/ },
 /* 288 */
 /***/ function(module, exports) {
 
-	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMCAwIDQwIDQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCAzOS4xICgzMTcyMCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+aWNvbl9zdWNjZXNzPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgaWQ9IkVsZW1lbnQtZ3VpZGVsaW5lLXYwLjIuNCIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9Ik1lc3NhZ2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC02MC4wMDAwMDAsIC0yMTIuMDAwMDAwKSI+CiAgICAgICAgICAgIDxnIGlkPSLluKblgL7lkJFf5L+h5oGvIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2MC4wMDAwMDAsIDIxMi4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxnIGlkPSJSZWN0YW5nbGUtMiI+CiAgICAgICAgICAgICAgICAgICAgPGcgaWQ9Imljb25fc3VjY2VzcyI+CiAgICAgICAgICAgICAgICAgICAgICAgIDxyZWN0IGlkPSJSZWN0YW5nbGUtMiIgZmlsbD0iIzEzQ0U2NiIgeD0iMCIgeT0iMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIj48L3JlY3Q+CiAgICAgICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0yNy44MjU1ODE0LDE3LjE0ODQzNTcgTDE5LjAxNzQ0LDI1LjgyODEyMTMgQzE4LjkwMTE2MDksMjUuOTQyNzA4MyAxOC43NjU1MDMzLDI2IDE4LjYxMDQ2NywyNiBDMTguNDU1NDI3LDI2IDE4LjMxOTc2OTMsMjUuOTQyNzA4MyAxOC4yMDM0ODY1LDI1LjgyODEyMTMgTDE4LjAyOTA3MTYsMjUuNjU2MjUgTDEzLjE3NDQxODYsMjAuODQzNzUgQzEzLjA1ODEzOTUsMjAuNzI5MTYzIDEzLDIwLjU5NTQ4MzcgMTMsMjAuNDQyNzA0NyBDMTMsMjAuMjg5OTI5MyAxMy4wNTgxMzk1LDIwLjE1NjI1IDEzLjE3NDQxODYsMjAuMDQxNjY2NyBMMTQuMzY2Mjc3MiwxOC44NjcxODU3IEMxNC40ODI1NiwxOC43NTI2MDIzIDE0LjYxODIxNzcsMTguNjk1MzEwNyAxNC43NzMyNTc3LDE4LjY5NTMxMDcgQzE0LjkyODI5NCwxOC42OTUzMTA3IDE1LjA2Mzk1MTYsMTguNzUyNjAyMyAxNS4xODAyMzA3LDE4Ljg2NzE4NTcgTDE4LjYxMDQ2NywyMi4yNzYwMzggTDI1LjgxOTc2OTMsMTUuMTcxODcxMyBDMjUuOTM2MDQ4NCwxNS4wNTcyODggMjYuMDcxNzA2LDE1IDI2LjIyNjc0MjMsMTUgQzI2LjM4MTc4MjMsMTUgMjYuNTE3NDQsMTUuMDU3Mjg4IDI2LjYzMzcyMjgsMTUuMTcxODcxMyBMMjcuODI1NTgxNCwxNi4zNDYzNTIzIEMyNy45NDE4NjA1LDE2LjQ2MDkzNTcgMjgsMTYuNTk0NjE1IDI4LDE2Ljc0NzM5NCBDMjgsMTYuOTAwMTczIDI3Ljk0MTg2MDUsMTcuMDMzODUyMyAyNy44MjU1ODE0LDE3LjE0ODQzNTcgTDI3LjgyNTU4MTQsMTcuMTQ4NDM1NyBaIiBpZD0iUGF0aCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+"
+	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMCAwIDQwIDQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCAzOS4xICgzMTcyMCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+aWNvbl9pbmZvPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgaWQ9IkVsZW1lbnQtZ3VpZGVsaW5lLXYwLjIuNCIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9Ik1lc3NhZ2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC02MC4wMDAwMDAsIC0xNTIuMDAwMDAwKSI+CiAgICAgICAgICAgIDxnIGlkPSLluKblgL7lkJFf5L+h5oGvIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2MC4wMDAwMDAsIDE1Mi4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxnIGlkPSJSZWN0YW5nbGUtMiI+CiAgICAgICAgICAgICAgICAgICAgPGcgaWQ9Imljb25faW5mbyI+CiAgICAgICAgICAgICAgICAgICAgICAgIDxyZWN0IGlkPSJSZWN0YW5nbGUtMiIgZmlsbD0iIzUwQkZGRiIgeD0iMCIgeT0iMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIj48L3JlY3Q+CiAgICAgICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0yMS42MTUzODQ2LDI2LjU0MzIwOTkgQzIxLjYxNTM4NDYsMjYuOTQ3ODc1MSAyMS40NTgzMzQ4LDI3LjI5MTgzNjggMjEuMTQ0MjMwOCwyNy41NzUxMDI5IEMyMC44MzAxMjY4LDI3Ljg1ODM2ODkgMjAuNDQ4NzE5NCwyOCAyMCwyOCBDMTkuNTUxMjgwNiwyOCAxOS4xNjk4NzMyLDI3Ljg1ODM2ODkgMTguODU1NzY5MiwyNy41NzUxMDI5IEMxOC41NDE2NjUyLDI3LjI5MTgzNjggMTguMzg0NjE1NCwyNi45NDc4NzUxIDE4LjM4NDYxNTQsMjYuNTQzMjA5OSBMMTguMzg0NjE1NCwxOS43NDQ4NTYgQzE4LjM4NDYxNTQsMTkuMzQwMTkwNyAxOC41NDE2NjUyLDE4Ljk5NjIyOSAxOC44NTU3NjkyLDE4LjcxMjk2MyBDMTkuMTY5ODczMiwxOC40Mjk2OTY5IDE5LjU1MTI4MDYsMTguMjg4MDY1OCAyMCwxOC4yODgwNjU4IEMyMC40NDg3MTk0LDE4LjI4ODA2NTggMjAuODMwMTI2OCwxOC40Mjk2OTY5IDIxLjE0NDIzMDgsMTguNzEyOTYzIEMyMS40NTgzMzQ4LDE4Ljk5NjIyOSAyMS42MTUzODQ2LDE5LjM0MDE5MDcgMjEuNjE1Mzg0NiwxOS43NDQ4NTYgTDIxLjYxNTM4NDYsMjYuNTQzMjA5OSBaIE0yMCwxNS44MDQyOTgxIEMxOS40NDQ0NDI3LDE1LjgwNDI5ODEgMTguOTcyMjI0LDE1LjYxOTM2ODcgMTguNTgzMzMzMywxNS4yNDk1MDQ2IEMxOC4xOTQ0NDI3LDE0Ljg3OTY0MDYgMTgsMTQuNDMwNTI1NSAxOCwxMy45MDIxNDkxIEMxOCwxMy4zNzM3NzI2IDE4LjE5NDQ0MjcsMTIuOTI0NjU3NSAxOC41ODMzMzMzLDEyLjU1NDc5MzUgQzE4Ljk3MjIyNCwxMi4xODQ5Mjk1IDE5LjQ0NDQ0MjcsMTIgMjAsMTIgQzIwLjU1NTU1NzMsMTIgMjEuMDI3Nzc2LDEyLjE4NDkyOTUgMjEuNDE2NjY2NywxMi41NTQ3OTM1IEMyMS44MDU1NTczLDEyLjkyNDY1NzUgMjIsMTMuMzczNzcyNiAyMiwxMy45MDIxNDkxIEMyMiwxNC40MzA1MjU1IDIxLjgwNTU1NzMsMTQuODc5NjQwNiAyMS40MTY2NjY3LDE1LjI0OTUwNDYgQzIxLjAyNzc3NiwxNS42MTkzNjg3IDIwLjU1NTU1NzMsMTUuODA0Mjk4MSAyMCwxNS44MDQyOTgxIFoiIGlkPSJDb21iaW5lZC1TaGFwZSIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+"
 
 /***/ },
 /* 289 */
 /***/ function(module, exports) {
 
-	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMCAwIDQwIDQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCAzOS4xICgzMTcyMCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+aWNvbl93YXJuaW5nPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9Ik1lc3NhZ2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC02MC4wMDAwMDAsIC0yNzIuMDAwMDAwKSI+CiAgICAgICAgICAgIDxnIGlkPSLluKblgL7lkJFf5L+h5oGvLWNvcHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYwLjAwMDAwMCwgMjcyLjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPGcgaWQ9IlJlY3RhbmdsZS0yIj4KICAgICAgICAgICAgICAgICAgICA8ZyBpZD0iaWNvbl93YXJuaW5nIj4KICAgICAgICAgICAgICAgICAgICAgICAgPHJlY3QgaWQ9IlJlY3RhbmdsZS0yIiBmaWxsPSIjRjdCQTJBIiB4PSIwIiB5PSIwIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiPjwvcmVjdD4KICAgICAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTIxLjYxNTM4NDYsMjYuNTQzMjA5OSBDMjEuNjE1Mzg0NiwyNi45NDc4NzUxIDIxLjQ1ODMzNDgsMjcuMjkxODM2OCAyMS4xNDQyMzA4LDI3LjU3NTEwMjkgQzIwLjgzMDEyNjgsMjcuODU4MzY4OSAyMC40NDg3MTk0LDI4IDIwLDI4IEMxOS41NTEyODA2LDI4IDE5LjE2OTg3MzIsMjcuODU4MzY4OSAxOC44NTU3NjkyLDI3LjU3NTEwMjkgQzE4LjU0MTY2NTIsMjcuMjkxODM2OCAxOC4zODQ2MTU0LDI2Ljk0Nzg3NTEgMTguMzg0NjE1NCwyNi41NDMyMDk5IEwxOC4zODQ2MTU0LDE5Ljc0NDg1NiBDMTguMzg0NjE1NCwxOS4zNDAxOTA3IDE4LjU0MTY2NTIsMTguOTk2MjI5IDE4Ljg1NTc2OTIsMTguNzEyOTYzIEMxOS4xNjk4NzMyLDE4LjQyOTY5NjkgMTkuNTUxMjgwNiwxOC4yODgwNjU4IDIwLDE4LjI4ODA2NTggQzIwLjQ0ODcxOTQsMTguMjg4MDY1OCAyMC44MzAxMjY4LDE4LjQyOTY5NjkgMjEuMTQ0MjMwOCwxOC43MTI5NjMgQzIxLjQ1ODMzNDgsMTguOTk2MjI5IDIxLjYxNTM4NDYsMTkuMzQwMTkwNyAyMS42MTUzODQ2LDE5Ljc0NDg1NiBMMjEuNjE1Mzg0NiwyNi41NDMyMDk5IFogTTIwLDE1LjgwNDI5ODEgQzE5LjQ0NDQ0MjcsMTUuODA0Mjk4MSAxOC45NzIyMjQsMTUuNjE5MzY4NyAxOC41ODMzMzMzLDE1LjI0OTUwNDYgQzE4LjE5NDQ0MjcsMTQuODc5NjQwNiAxOCwxNC40MzA1MjU1IDE4LDEzLjkwMjE0OTEgQzE4LDEzLjM3Mzc3MjYgMTguMTk0NDQyNywxMi45MjQ2NTc1IDE4LjU4MzMzMzMsMTIuNTU0NzkzNSBDMTguOTcyMjI0LDEyLjE4NDkyOTUgMTkuNDQ0NDQyNywxMiAyMCwxMiBDMjAuNTU1NTU3MywxMiAyMS4wMjc3NzYsMTIuMTg0OTI5NSAyMS40MTY2NjY3LDEyLjU1NDc5MzUgQzIxLjgwNTU1NzMsMTIuOTI0NjU3NSAyMiwxMy4zNzM3NzI2IDIyLDEzLjkwMjE0OTEgQzIyLDE0LjQzMDUyNTUgMjEuODA1NTU3MywxNC44Nzk2NDA2IDIxLjQxNjY2NjcsMTUuMjQ5NTA0NiBDMjEuMDI3Nzc2LDE1LjYxOTM2ODcgMjAuNTU1NTU3MywxNS44MDQyOTgxIDIwLDE1LjgwNDI5ODEgWiIgaWQ9IkNvbWJpbmVkLVNoYXBlIiBmaWxsPSIjRkZGRkZGIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMC4wMDAwMDAsIDIwLjAwMDAwMCkgc2NhbGUoMSwgLTEpIHRyYW5zbGF0ZSgtMjAuMDAwMDAwLCAtMjAuMDAwMDAwKSAiPjwvcGF0aD4KICAgICAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg=="
+	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMCAwIDQwIDQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCAzOS4xICgzMTcyMCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+aWNvbl9zdWNjZXNzPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgaWQ9IkVsZW1lbnQtZ3VpZGVsaW5lLXYwLjIuNCIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9Ik1lc3NhZ2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC02MC4wMDAwMDAsIC0yMTIuMDAwMDAwKSI+CiAgICAgICAgICAgIDxnIGlkPSLluKblgL7lkJFf5L+h5oGvIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2MC4wMDAwMDAsIDIxMi4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxnIGlkPSJSZWN0YW5nbGUtMiI+CiAgICAgICAgICAgICAgICAgICAgPGcgaWQ9Imljb25fc3VjY2VzcyI+CiAgICAgICAgICAgICAgICAgICAgICAgIDxyZWN0IGlkPSJSZWN0YW5nbGUtMiIgZmlsbD0iIzEzQ0U2NiIgeD0iMCIgeT0iMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIj48L3JlY3Q+CiAgICAgICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0yNy44MjU1ODE0LDE3LjE0ODQzNTcgTDE5LjAxNzQ0LDI1LjgyODEyMTMgQzE4LjkwMTE2MDksMjUuOTQyNzA4MyAxOC43NjU1MDMzLDI2IDE4LjYxMDQ2NywyNiBDMTguNDU1NDI3LDI2IDE4LjMxOTc2OTMsMjUuOTQyNzA4MyAxOC4yMDM0ODY1LDI1LjgyODEyMTMgTDE4LjAyOTA3MTYsMjUuNjU2MjUgTDEzLjE3NDQxODYsMjAuODQzNzUgQzEzLjA1ODEzOTUsMjAuNzI5MTYzIDEzLDIwLjU5NTQ4MzcgMTMsMjAuNDQyNzA0NyBDMTMsMjAuMjg5OTI5MyAxMy4wNTgxMzk1LDIwLjE1NjI1IDEzLjE3NDQxODYsMjAuMDQxNjY2NyBMMTQuMzY2Mjc3MiwxOC44NjcxODU3IEMxNC40ODI1NiwxOC43NTI2MDIzIDE0LjYxODIxNzcsMTguNjk1MzEwNyAxNC43NzMyNTc3LDE4LjY5NTMxMDcgQzE0LjkyODI5NCwxOC42OTUzMTA3IDE1LjA2Mzk1MTYsMTguNzUyNjAyMyAxNS4xODAyMzA3LDE4Ljg2NzE4NTcgTDE4LjYxMDQ2NywyMi4yNzYwMzggTDI1LjgxOTc2OTMsMTUuMTcxODcxMyBDMjUuOTM2MDQ4NCwxNS4wNTcyODggMjYuMDcxNzA2LDE1IDI2LjIyNjc0MjMsMTUgQzI2LjM4MTc4MjMsMTUgMjYuNTE3NDQsMTUuMDU3Mjg4IDI2LjYzMzcyMjgsMTUuMTcxODcxMyBMMjcuODI1NTgxNCwxNi4zNDYzNTIzIEMyNy45NDE4NjA1LDE2LjQ2MDkzNTcgMjgsMTYuNTk0NjE1IDI4LDE2Ljc0NzM5NCBDMjgsMTYuOTAwMTczIDI3Ljk0MTg2MDUsMTcuMDMzODUyMyAyNy44MjU1ODE0LDE3LjE0ODQzNTcgTDI3LjgyNTU4MTQsMTcuMTQ4NDM1NyBaIiBpZD0iUGF0aCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+"
 
 /***/ },
 /* 290 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMCAwIDQwIDQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCAzOS4xICgzMTcyMCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+aWNvbl93YXJuaW5nPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9Ik1lc3NhZ2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC02MC4wMDAwMDAsIC0yNzIuMDAwMDAwKSI+CiAgICAgICAgICAgIDxnIGlkPSLluKblgL7lkJFf5L+h5oGvLWNvcHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYwLjAwMDAwMCwgMjcyLjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPGcgaWQ9IlJlY3RhbmdsZS0yIj4KICAgICAgICAgICAgICAgICAgICA8ZyBpZD0iaWNvbl93YXJuaW5nIj4KICAgICAgICAgICAgICAgICAgICAgICAgPHJlY3QgaWQ9IlJlY3RhbmdsZS0yIiBmaWxsPSIjRjdCQTJBIiB4PSIwIiB5PSIwIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiPjwvcmVjdD4KICAgICAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTIxLjYxNTM4NDYsMjYuNTQzMjA5OSBDMjEuNjE1Mzg0NiwyNi45NDc4NzUxIDIxLjQ1ODMzNDgsMjcuMjkxODM2OCAyMS4xNDQyMzA4LDI3LjU3NTEwMjkgQzIwLjgzMDEyNjgsMjcuODU4MzY4OSAyMC40NDg3MTk0LDI4IDIwLDI4IEMxOS41NTEyODA2LDI4IDE5LjE2OTg3MzIsMjcuODU4MzY4OSAxOC44NTU3NjkyLDI3LjU3NTEwMjkgQzE4LjU0MTY2NTIsMjcuMjkxODM2OCAxOC4zODQ2MTU0LDI2Ljk0Nzg3NTEgMTguMzg0NjE1NCwyNi41NDMyMDk5IEwxOC4zODQ2MTU0LDE5Ljc0NDg1NiBDMTguMzg0NjE1NCwxOS4zNDAxOTA3IDE4LjU0MTY2NTIsMTguOTk2MjI5IDE4Ljg1NTc2OTIsMTguNzEyOTYzIEMxOS4xNjk4NzMyLDE4LjQyOTY5NjkgMTkuNTUxMjgwNiwxOC4yODgwNjU4IDIwLDE4LjI4ODA2NTggQzIwLjQ0ODcxOTQsMTguMjg4MDY1OCAyMC44MzAxMjY4LDE4LjQyOTY5NjkgMjEuMTQ0MjMwOCwxOC43MTI5NjMgQzIxLjQ1ODMzNDgsMTguOTk2MjI5IDIxLjYxNTM4NDYsMTkuMzQwMTkwNyAyMS42MTUzODQ2LDE5Ljc0NDg1NiBMMjEuNjE1Mzg0NiwyNi41NDMyMDk5IFogTTIwLDE1LjgwNDI5ODEgQzE5LjQ0NDQ0MjcsMTUuODA0Mjk4MSAxOC45NzIyMjQsMTUuNjE5MzY4NyAxOC41ODMzMzMzLDE1LjI0OTUwNDYgQzE4LjE5NDQ0MjcsMTQuODc5NjQwNiAxOCwxNC40MzA1MjU1IDE4LDEzLjkwMjE0OTEgQzE4LDEzLjM3Mzc3MjYgMTguMTk0NDQyNywxMi45MjQ2NTc1IDE4LjU4MzMzMzMsMTIuNTU0NzkzNSBDMTguOTcyMjI0LDEyLjE4NDkyOTUgMTkuNDQ0NDQyNywxMiAyMCwxMiBDMjAuNTU1NTU3MywxMiAyMS4wMjc3NzYsMTIuMTg0OTI5NSAyMS40MTY2NjY3LDEyLjU1NDc5MzUgQzIxLjgwNTU1NzMsMTIuOTI0NjU3NSAyMiwxMy4zNzM3NzI2IDIyLDEzLjkwMjE0OTEgQzIyLDE0LjQzMDUyNTUgMjEuODA1NTU3MywxNC44Nzk2NDA2IDIxLjQxNjY2NjcsMTUuMjQ5NTA0NiBDMjEuMDI3Nzc2LDE1LjYxOTM2ODcgMjAuNTU1NTU3MywxNS44MDQyOTgxIDIwLDE1LjgwNDI5ODEgWiIgaWQ9IkNvbWJpbmVkLVNoYXBlIiBmaWxsPSIjRkZGRkZGIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMC4wMDAwMDAsIDIwLjAwMDAwMCkgc2NhbGUoMSwgLTEpIHRyYW5zbGF0ZSgtMjAuMDAwMDAwLCAtMjAuMDAwMDAwKSAiPjwvcGF0aD4KICAgICAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg=="
+
+/***/ },
+/* 291 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -19769,14 +20346,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 291 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(292);
+	var _main = __webpack_require__(293);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -19790,17 +20367,17 @@ module.exports =
 	exports.default = _main2.default;
 
 /***/ },
-/* 292 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(293)
+	__vue_exports__ = __webpack_require__(294)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(294)
+	var __vue_template__ = __webpack_require__(295)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -19819,7 +20396,7 @@ module.exports =
 
 
 /***/ },
-/* 293 */
+/* 294 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -19863,7 +20440,7 @@ module.exports =
 	};
 
 /***/ },
-/* 294 */
+/* 295 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -19881,14 +20458,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 295 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(296);
+	var _main = __webpack_require__(297);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -19902,17 +20479,17 @@ module.exports =
 	exports.default = _main2.default;
 
 /***/ },
-/* 296 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(297)
+	__vue_exports__ = __webpack_require__(298)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(298)
+	var __vue_template__ = __webpack_require__(299)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -19931,7 +20508,7 @@ module.exports =
 
 
 /***/ },
-/* 297 */
+/* 298 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -19956,7 +20533,7 @@ module.exports =
 	};
 
 /***/ },
-/* 298 */
+/* 299 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -19971,14 +20548,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 299 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(300);
+	var _main = __webpack_require__(301);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -19992,17 +20569,17 @@ module.exports =
 	exports.default = _main2.default;
 
 /***/ },
-/* 300 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(301)
+	__vue_exports__ = __webpack_require__(302)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(302)
+	var __vue_template__ = __webpack_require__(303)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -20021,14 +20598,14 @@ module.exports =
 
 
 /***/ },
-/* 301 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _class = __webpack_require__(95);
+	var _class = __webpack_require__(94);
 
 	exports.default = {
 	  name: 'el-rate',
@@ -20292,7 +20869,7 @@ module.exports =
 	//
 
 /***/ },
-/* 302 */
+/* 303 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -20333,14 +20910,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 303 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _steps = __webpack_require__(304);
+	var _steps = __webpack_require__(305);
 
 	var _steps2 = _interopRequireDefault(_steps);
 
@@ -20354,17 +20931,17 @@ module.exports =
 	exports.default = _steps2.default;
 
 /***/ },
-/* 304 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(305)
+	__vue_exports__ = __webpack_require__(306)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(306)
+	var __vue_template__ = __webpack_require__(307)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -20383,7 +20960,7 @@ module.exports =
 
 
 /***/ },
-/* 305 */
+/* 306 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20436,7 +21013,7 @@ module.exports =
 	};
 
 /***/ },
-/* 306 */
+/* 307 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
@@ -20447,14 +21024,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 307 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _step = __webpack_require__(308);
+	var _step = __webpack_require__(309);
 
 	var _step2 = _interopRequireDefault(_step);
 
@@ -20468,17 +21045,17 @@ module.exports =
 	exports.default = _step2.default;
 
 /***/ },
-/* 308 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(309)
+	__vue_exports__ = __webpack_require__(310)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(310)
+	var __vue_template__ = __webpack_require__(311)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -20497,7 +21074,7 @@ module.exports =
 
 
 /***/ },
-/* 309 */
+/* 310 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20633,7 +21210,7 @@ module.exports =
 	};
 
 /***/ },
-/* 310 */
+/* 311 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;

@@ -116,7 +116,8 @@ module.exports =
 	      type: String,
 	      required: true
 	    },
-	    name: String
+	    name: String,
+	    closable: Boolean
 	  },
 
 	  data: function data() {
@@ -126,12 +127,22 @@ module.exports =
 	      paneStyle: {
 	        position: 'relative'
 	      },
+	      isClosable: null,
 	      index: ''
 	    };
 	  },
 	  created: function created() {
+	    var propsData = this.$options.propsData;
+	    if (propsData && typeof propsData.closable !== 'undefined') {
+	      this.isClosable = propsData.closable === '' || propsData.closable;
+	    } else {
+	      this.isClosable = this.$parent.closable;
+	    }
 	    if (!this.index) {
 	      this.index = this.$parent.$children.indexOf(this) + 1 + '';
+	    }
+	    if (this.$parent.panes) {
+	      this.$parent.panes.push(this);
 	    }
 	  },
 
@@ -143,8 +154,12 @@ module.exports =
 	  },
 
 	  destroyed: function destroyed() {
-	    if (this.$el) {
+	    if (this.$el && this.$el.parentNode) {
 	      this.$el.parentNode.removeChild(this.$el);
+	    }
+	    var panes = this.$parent.panes;
+	    if (panes) {
+	      panes.splice(this, panes.indexOf(this));
 	    }
 	  },
 
@@ -155,6 +170,9 @@ module.exports =
 	      handler: function handler(val) {
 	        this.index = val;
 	      }
+	    },
+	    closable: function closable(val) {
+	      this.isClosable = val;
 	    },
 	    '$parent.currentName': function $parentCurrentName(newValue, oldValue) {
 	      if (this.index === newValue) {

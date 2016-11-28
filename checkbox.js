@@ -121,9 +121,36 @@ module.exports =
 
 	  mixins: [_emitter2.default],
 
+	  componentName: 'ElCheckbox',
+
+	  computed: {
+	    model: {
+	      get: function get() {
+	        return this.isGroup ? this.store : this.value;
+	      },
+	      set: function set(val) {
+	        if (this.isGroup) {
+	          this.dispatch('ElCheckboxGroup', 'input', [val]);
+	        } else {
+	          this.$emit('input', val);
+	        }
+	      }
+	    },
+
+	    isChecked: function isChecked() {
+	      if ({}.toString.call(this.model) === '[object Boolean]') {
+	        return this.model;
+	      } else if (Array.isArray(this.model)) {
+	        return this.model.indexOf(this.label) > -1;
+	      } else if (this.model !== null && this.model !== undefined) {
+	        return this.model === this.trueLabel;
+	      }
+	    }
+	  },
+
 	  props: {
 	    value: {},
-	    label: String,
+	    label: {},
 	    indeterminate: Boolean,
 	    disabled: Boolean,
 	    checked: Boolean,
@@ -132,63 +159,35 @@ module.exports =
 	    falseLabel: [String, Number]
 	  },
 
-	  computed: {
-	    _value: {
-	      get: function get() {
-	        return !this.wrapInGroup ? this.value : this.$parent.value;
-	      },
-	      set: function set(newValue) {
-	        if (!this.wrapInGroup) {
-	          this.$emit('input', newValue);
-	        } else {
-	          this.$parent.$emit('input', newValue);
-	        }
-	      }
-	    },
-	    isChecked: function isChecked() {
-	      var type = Object.prototype.toString.call(this._value);
-
-	      if (type === '[object Boolean]') {
-	        return this._value;
-	      } else if (type === '[object Array]') {
-	        return this._value.indexOf(this.label) > -1;
-	      } else if (type === '[object String]' || type === '[object Number]') {
-	        return this._value === this.trueLabel;
-	      }
-	    }
-	  },
-
 	  data: function data() {
 	    return {
-	      focus: false,
-	      wrapInGroup: this.$parent.$options.componentName === 'ElCheckboxGroup'
+	      store: [],
+	      isGroup: false
 	    };
 	  },
 
 
-	  watch: {
-	    checked: {
-	      immediate: true,
-	      handler: function handler(value) {
-	        if (value) {
-	          var type = Object.prototype.toString.call(this._value);
-	          if (type !== '[object Array]') {
-	            this._value = this.trueLabel || true;
-	          } else {
-	            this._value.push(this.label);
-	          }
-	        }
+	  methods: {
+	    addToStore: function addToStore() {
+	      if (Array.isArray(this.model)) {
+	        this.model.indexOf(this.label) === -1 && this.model.push(this.label);
+	      } else {
+	        this.model = this.trueLabel || true;
 	      }
 	    }
 	  },
 
-	  methods: {
-	    handleChange: function handleChange(ev) {
-	      this.$emit('change', ev);
-	    }
+	  created: function created() {
+	    var _this = this;
+
+	    this.checked && this.addToStore();
+	    this.$on('initData', function (data) {
+	      _this.store = data;
+	      _this.isGroup = true;
+	      _this.checked && _this.addToStore();
+	    });
 	  }
 	}; //
-	//
 	//
 	//
 	//
@@ -259,10 +258,9 @@ module.exports =
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm._value),
-	      expression: "_value"
+	      value: (_vm.model),
+	      expression: "model"
 	    }],
-	    ref: "checkbox",
 	    staticClass: "el-checkbox__original",
 	    attrs: {
 	      "type": "checkbox",
@@ -272,38 +270,40 @@ module.exports =
 	      "false-value": _vm.falseLabel
 	    },
 	    domProps: {
-	      "checked": Array.isArray(_vm._value) ? _vm._i(_vm._value, null) > -1 : _vm._q(_vm._value, _vm.trueLabel)
+	      "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, null) > -1 : _vm._q(_vm.model, _vm.trueLabel)
 	    },
 	    on: {
-	      "focus": function($event) {
-	        _vm.focus = true
-	      },
-	      "blur": function($event) {
-	        _vm.focus = false
-	      },
 	      "change": [function($event) {
-	        var $$a = _vm._value,
+	        var $$a = _vm.model,
 	          $$el = $event.target,
 	          $$c = $$el.checked ? (_vm.trueLabel) : (_vm.falseLabel);
 	        if (Array.isArray($$a)) {
 	          var $$v = null,
 	            $$i = _vm._i($$a, $$v);
 	          if ($$c) {
-	            $$i < 0 && (_vm._value = $$a.concat($$v))
+	            $$i < 0 && (_vm.model = $$a.concat($$v))
 	          } else {
-	            $$i > -1 && (_vm._value = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	            $$i > -1 && (_vm.model = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
 	          }
 	        } else {
-	          _vm._value = $$c
+	          _vm.model = $$c
 	        }
-	      }, _vm.handleChange]
+	      }, function($event) {
+	        _vm.$emit('change', $event)
+	      }],
+	      "focus": function($event) {
+	        _vm.focus = true
+	      },
+	      "blur": function($event) {
+	        _vm.focus = false
+	      }
 	    }
 	  }) : _vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm._value),
-	      expression: "_value"
+	      value: (_vm.model),
+	      expression: "model"
 	    }],
 	    staticClass: "el-checkbox__original",
 	    attrs: {
@@ -313,31 +313,33 @@ module.exports =
 	    },
 	    domProps: {
 	      "value": _vm.label,
-	      "checked": Array.isArray(_vm._value) ? _vm._i(_vm._value, _vm.label) > -1 : _vm._q(_vm._value, true)
+	      "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, _vm.label) > -1 : _vm._q(_vm.model, true)
 	    },
 	    on: {
-	      "focus": function($event) {
-	        _vm.focus = true
-	      },
-	      "blur": function($event) {
-	        _vm.focus = false
-	      },
 	      "change": [function($event) {
-	        var $$a = _vm._value,
+	        var $$a = _vm.model,
 	          $$el = $event.target,
 	          $$c = $$el.checked ? (true) : (false);
 	        if (Array.isArray($$a)) {
 	          var $$v = _vm.label,
 	            $$i = _vm._i($$a, $$v);
 	          if ($$c) {
-	            $$i < 0 && (_vm._value = $$a.concat($$v))
+	            $$i < 0 && (_vm.model = $$a.concat($$v))
 	          } else {
-	            $$i > -1 && (_vm._value = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	            $$i > -1 && (_vm.model = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
 	          }
 	        } else {
-	          _vm._value = $$c
+	          _vm.model = $$c
 	        }
-	      }, _vm.handleChange]
+	      }, function($event) {
+	        _vm.$emit('change', $event)
+	      }],
+	      "focus": function($event) {
+	        _vm.focus = true
+	      },
+	      "blur": function($event) {
+	        _vm.focus = false
+	      }
 	    }
 	  })]), (_vm.$slots.default || _vm.label) ? _vm._h('span', {
 	    staticClass: "el-checkbox__label"

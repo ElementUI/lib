@@ -115,8 +115,7 @@ module.exports =
 
 	  props: {
 	    title: {
-	      type: String,
-	      required: true
+	      type: String
 	    }
 	  },
 	  data: function data() {
@@ -159,7 +158,7 @@ module.exports =
 	    style: ({
 	      'padding-left': _vm.paddingLeft + 'px'
 	    })
-	  }, [_vm._s(_vm.title)]), _vm._h('ul', [_vm._t("default")])])
+	  }, [(!_vm.$slots.title) ? [_vm._s(_vm.title)] : _vm._t("title")]), _vm._h('ul', [_vm._t("default")])])
 	},staticRenderFns: []}
 
 /***/ }

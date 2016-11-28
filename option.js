@@ -128,7 +128,7 @@ module.exports =
 
 	  name: 'el-option',
 
-	  componentName: 'option',
+	  componentName: 'ElOption',
 
 	  props: {
 	    value: {
@@ -159,6 +159,9 @@ module.exports =
 	    currentLabel: function currentLabel() {
 	      return this.label || (typeof this.value === 'string' || typeof this.value === 'number' ? this.value : '');
 	    },
+	    currentValue: function currentValue() {
+	      return this.value || this.label || '';
+	    },
 	    parent: function parent() {
 	      var result = this.$parent;
 	      while (!result.isSelect) {
@@ -181,7 +184,7 @@ module.exports =
 	  watch: {
 	    currentSelected: function currentSelected(val) {
 	      if (val === true) {
-	        this.dispatch('select', 'addOptionToValue', this);
+	        this.dispatch('ElSelect', 'addOptionToValue', this);
 	      }
 	    }
 	  },
@@ -197,7 +200,7 @@ module.exports =
 	    },
 	    selectOptionClick: function selectOptionClick() {
 	      if (this.disabled !== true && this.groupDisabled !== true) {
-	        this.dispatch('select', 'handleOptionClick', this);
+	        this.dispatch('ElSelect', 'handleOptionClick', this);
 	      }
 	    },
 	    queryChange: function queryChange(query) {
@@ -224,7 +227,7 @@ module.exports =
 	    this.index = this.parent.options.indexOf(this);
 
 	    if (this.currentSelected === true) {
-	      this.dispatch('select', 'addOptionToValue', [this, true]);
+	      this.dispatch('ElSelect', 'addOptionToValue', [this, true]);
 	    }
 
 	    this.$on('queryChange', this.queryChange);
@@ -232,7 +235,7 @@ module.exports =
 	    this.$on('resetIndex', this.resetIndex);
 	  },
 	  beforeDestroy: function beforeDestroy() {
-	    this.dispatch('select', 'onOptionDestroy', this);
+	    this.dispatch('ElSelect', 'onOptionDestroy', this);
 	  }
 	}; //
 	//

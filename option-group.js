@@ -138,13 +138,13 @@ module.exports =
 
 	  watch: {
 	    disabled: function disabled(val) {
-	      this.broadcast('option', 'handleGroupDisabled', val);
+	      this.broadcast('ElOption', 'handleGroupDisabled', val);
 	    }
 	  },
 
 	  mounted: function mounted() {
 	    if (this.disabled) {
-	      this.broadcast('option', 'handleGroupDisabled', this.disabled);
+	      this.broadcast('ElOption', 'handleGroupDisabled', this.disabled);
 	    }
 	  }
 	}; //

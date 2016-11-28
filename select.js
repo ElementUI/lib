@@ -260,13 +260,15 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
 
 	exports.default = {
 	  mixins: [_emitter2.default, _locale2.default],
 
 	  name: 'ElSelect',
 
-	  componentName: 'select',
+	  componentName: 'ElSelect',
 
 	  computed: {
 	    iconClass: function iconClass() {
@@ -276,19 +278,24 @@ module.exports =
 	      return this.remote ? 300 : 0;
 	    },
 	    showCloseIcon: function showCloseIcon() {
+	      var _this = this;
+
 	      var criteria = this.clearable && this.inputHovering && !this.multiple && this.options.indexOf(this.selected) > -1;
 	      if (!this.$el) return false;
 
-	      var icon = this.$el.querySelector('.el-input__icon');
-	      if (icon) {
-	        if (criteria) {
-	          icon.addEventListener('click', this.deleteSelected);
-	          (0, _class.addClass)(icon, 'is-show-close');
-	        } else {
-	          icon.removeEventListener('click', this.deleteSelected);
-	          (0, _class.removeClass)(icon, 'is-show-close');
+	      this.$nextTick(function () {
+	        var icon = _this.$el.querySelector('.el-input__icon');
+	        if (icon) {
+	          if (criteria) {
+	            icon.addEventListener('click', _this.deleteSelected);
+	            (0, _class.addClass)(icon, 'is-show-close');
+	          } else {
+	            icon.removeEventListener('click', _this.deleteSelected);
+	            (0, _class.removeClass)(icon, 'is-show-close');
+	          }
 	        }
-	      }
+	      });
+
 	      return criteria;
 	    },
 	    emptyText: function emptyText() {
@@ -369,45 +376,45 @@ module.exports =
 	      this.currentPlaceholder = val;
 	    },
 	    value: function value(val) {
-	      var _this = this;
+	      var _this2 = this;
 
 	      if (this.valueChangeBySelected) {
 	        this.valueChangeBySelected = false;
 	        return;
 	      }
 	      this.$nextTick(function () {
-	        if (_this.multiple && Array.isArray(val)) {
-	          _this.$nextTick(function () {
-	            _this.resetInputHeight();
+	        if (_this2.multiple && Array.isArray(val)) {
+	          _this2.$nextTick(function () {
+	            _this2.resetInputHeight();
 	          });
-	          _this.selectedInit = true;
-	          _this.selected = [];
-	          _this.currentPlaceholder = _this.cachedPlaceHolder;
+	          _this2.selectedInit = true;
+	          _this2.selected = [];
+	          _this2.currentPlaceholder = _this2.cachedPlaceHolder;
 	          val.forEach(function (item) {
-	            var option = _this.options.filter(function (option) {
+	            var option = _this2.options.filter(function (option) {
 	              return option.value === item;
 	            })[0];
 	            if (option) {
-	              _this.$emit('addOptionToValue', option);
+	              _this2.$emit('addOptionToValue', option);
 	            }
 	          });
 	        }
-	        if (!_this.multiple) {
-	          var option = _this.options.filter(function (option) {
+	        if (!_this2.multiple) {
+	          var option = _this2.options.filter(function (option) {
 	            return option.value === val;
 	          })[0];
 	          if (option) {
-	            _this.$emit('addOptionToValue', option);
+	            _this2.$emit('addOptionToValue', option);
 	          } else {
-	            _this.selected = {};
-	            _this.selectedLabel = '';
+	            _this2.selected = {};
+	            _this2.selectedLabel = '';
 	          }
 	        }
-	        _this.resetHoverIndex();
+	        _this2.resetHoverIndex();
 	      });
 	    },
 	    selected: function selected(val, oldVal) {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      if (this.multiple) {
 	        if (this.selected.length > 0) {
@@ -416,7 +423,7 @@ module.exports =
 	          this.currentPlaceholder = this.cachedPlaceHolder;
 	        }
 	        this.$nextTick(function () {
-	          _this2.resetInputHeight();
+	          _this3.resetInputHeight();
 	        });
 	        if (this.selectedInit) {
 	          this.selectedInit = false;
@@ -429,7 +436,7 @@ module.exports =
 
 	        this.$emit('input', result);
 	        this.$emit('change', result);
-	        this.dispatch('form-item', 'el.form.change', val);
+	        this.dispatch('ElFormItem', 'el.form.change', val);
 	        if (this.filterable) {
 	          this.query = '';
 	          this.hoverIndex = -1;
@@ -447,10 +454,10 @@ module.exports =
 	      }
 	    },
 	    query: function query(val) {
-	      var _this3 = this;
+	      var _this4 = this;
 
 	      this.$nextTick(function () {
-	        _this3.broadcast('select-dropdown', 'updatePopper');
+	        _this4.broadcast('ElSelectDropdown', 'updatePopper');
 	      });
 	      if (this.multiple && this.filterable) {
 	        this.resetInputHeight();
@@ -459,12 +466,12 @@ module.exports =
 	        this.hoverIndex = -1;
 	        this.remoteMethod(val);
 	        this.voidRemoteQuery = val === '';
-	        this.broadcast('option', 'resetIndex');
+	        this.broadcast('ElOption', 'resetIndex');
 	      } else if (typeof this.filterMethod === 'function') {
 	        this.filterMethod(val);
 	      } else {
 	        this.filteredOptionsCount = this.optionsCount;
-	        this.broadcast('option', 'queryChange', val);
+	        this.broadcast('ElOption', 'queryChange', val);
 	      }
 	    },
 	    visible: function visible(val) {
@@ -473,7 +480,7 @@ module.exports =
 	        if (this.$el.querySelector('.el-input__icon')) {
 	          (0, _class.removeClass)(this.$el.querySelector('.el-input__icon'), 'is-reverse');
 	        }
-	        this.broadcast('select-dropdown', 'destroyPopper');
+	        this.broadcast('ElSelectDropdown', 'destroyPopper');
 	        if (this.$refs.input) {
 	          this.$refs.input.blur();
 	        }
@@ -491,13 +498,13 @@ module.exports =
 	        if (icon && !(0, _class.hasClass)(icon, 'el-icon-circle-close')) {
 	          (0, _class.addClass)(this.$el.querySelector('.el-input__icon'), 'is-reverse');
 	        }
-	        this.broadcast('select-dropdown', 'updatePopper');
+	        this.broadcast('ElSelectDropdown', 'updatePopper');
 	        if (this.filterable) {
 	          this.query = this.selectedLabel;
 	          if (this.multiple) {
 	            this.$refs.input.focus();
 	          } else {
-	            this.broadcast('input', 'inputSelect');
+	            this.broadcast('ElInput', 'inputSelect');
 	          }
 	        }
 	        if (!this.dropdownUl) {
@@ -521,6 +528,13 @@ module.exports =
 	  },
 
 	  methods: {
+	    handleMouseDown: function handleMouseDown(event) {
+	      if (event.target.tagName !== 'INPUT') return;
+	      if (this.visible) {
+	        this.handleClose();
+	        event.preventDefault();
+	      }
+	    },
 	    doDestroy: function doDestroy() {
 	      this.$refs.popper.doDestroy();
 	    },
@@ -569,30 +583,30 @@ module.exports =
 	      this.inputLength = this.$refs.input.value.length * 15 + 20;
 	    },
 	    resetInputHeight: function resetInputHeight() {
-	      var _this4 = this;
+	      var _this5 = this;
 
 	      this.$nextTick(function () {
-	        var inputChildNodes = _this4.$refs.reference.$el.childNodes;
+	        var inputChildNodes = _this5.$refs.reference.$el.childNodes;
 	        var input = [].filter.call(inputChildNodes, function (item) {
 	          return item.tagName === 'INPUT';
 	        })[0];
-	        input.style.height = Math.max(_this4.$refs.tags.clientHeight + 6, _this4.size === 'small' ? 28 : 36) + 'px';
-	        _this4.broadcast('select-dropdown', 'updatePopper');
+	        input.style.height = Math.max(_this5.$refs.tags.clientHeight + 6, _this5.size === 'small' ? 28 : 36) + 'px';
+	        _this5.broadcast('ElSelectDropdown', 'updatePopper');
 	      });
 	    },
 	    resetHoverIndex: function resetHoverIndex() {
-	      var _this5 = this;
+	      var _this6 = this;
 
 	      setTimeout(function () {
-	        if (!_this5.multiple) {
-	          _this5.hoverIndex = _this5.options.indexOf(_this5.selected);
+	        if (!_this6.multiple) {
+	          _this6.hoverIndex = _this6.options.indexOf(_this6.selected);
 	        } else {
-	          if (_this5.selected.length > 0) {
-	            _this5.hoverIndex = Math.min.apply(null, _this5.selected.map(function (item) {
-	              return _this5.options.indexOf(item);
+	          if (_this6.selected.length > 0) {
+	            _this6.hoverIndex = Math.min.apply(null, _this6.selected.map(function (item) {
+	              return _this6.options.indexOf(item);
 	            }));
 	          } else {
-	            _this5.hoverIndex = -1;
+	            _this6.hoverIndex = -1;
 	          }
 	        }
 	      }, 300);
@@ -605,7 +619,7 @@ module.exports =
 	      } else {
 	        var optionIndex = -1;
 	        this.selected.forEach(function (item, index) {
-	          if (item === option || item.currentLabel === option.currentLabel) {
+	          if (item === option || item.currentValue === option.currentValue) {
 	            optionIndex = index;
 	          }
 	        });
@@ -694,7 +708,7 @@ module.exports =
 	      if (index > -1) {
 	        this.options.splice(index, 1);
 	      }
-	      this.broadcast('option', 'resetIndex');
+	      this.broadcast('ElOption', 'resetIndex');
 	    },
 	    resetInputWidth: function resetInputWidth() {
 	      this.inputWidth = this.$refs.reference.$el.getBoundingClientRect().width;
@@ -702,7 +716,7 @@ module.exports =
 	  },
 
 	  created: function created() {
-	    var _this6 = this;
+	    var _this7 = this;
 
 	    this.cachedPlaceHolder = this.currentPlaceholder = this.placeholder;
 	    if (this.multiple) {
@@ -714,7 +728,7 @@ module.exports =
 	    }
 
 	    this.debouncedOnInputChange = (0, _debounce2.default)(this.debounce, function () {
-	      _this6.onInputChange();
+	      _this7.onInputChange();
 	    });
 
 	    this.$on('addOptionToValue', this.addOptionToValue);
@@ -722,20 +736,20 @@ module.exports =
 	    this.$on('onOptionDestroy', this.onOptionDestroy);
 	  },
 	  mounted: function mounted() {
-	    var _this7 = this;
+	    var _this8 = this;
 
 	    (0, _resizeEvent.addResizeListener)(this.$el, this.resetInputWidth);
 	    if (this.remote && this.multiple && Array.isArray(this.value)) {
 	      this.selected = this.options.reduce(function (prev, curr) {
-	        return _this7.value.indexOf(curr.value) > -1 ? prev.concat(curr) : prev;
+	        return _this8.value.indexOf(curr.value) > -1 ? prev.concat(curr) : prev;
 	      }, []);
 	      this.$nextTick(function () {
-	        _this7.resetInputHeight();
+	        _this8.resetInputHeight();
 	      });
 	    }
 	    this.$nextTick(function () {
-	      if (_this7.$refs.reference.$el) {
-	        _this7.inputWidth = _this7.$refs.reference.$el.getBoundingClientRect().width;
+	      if (_this8.$refs.reference.$el) {
+	        _this8.inputWidth = _this8.$refs.reference.$el.getBoundingClientRect().width;
 	      }
 	    });
 	  },
@@ -792,7 +806,7 @@ module.exports =
 	exports.default = {
 	  name: 'el-select-dropdown',
 
-	  componentName: 'select-dropdown',
+	  componentName: 'ElSelectDropdown',
 
 	  mixins: [_vuePopper2.default],
 
@@ -1001,11 +1015,15 @@ module.exports =
 	    },
 	    on: {
 	      "focus": _vm.toggleMenu,
+	      "click": _vm.toggleMenu,
 	      "input": function($event) {
 	        _vm.selectedLabel = $event
 	      }
 	    },
 	    nativeOn: {
+	      "mousedown": function($event) {
+	        _vm.handleMouseDown($event)
+	      },
 	      "keyup": function($event) {
 	        _vm.debouncedOnInputChange($event)
 	      },

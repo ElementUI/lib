@@ -299,6 +299,15 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	var tableIdSeed = 1;
 
@@ -339,6 +348,8 @@ module.exports =
 
 	    rowClassName: [String, Function],
 
+	    rowStyle: [Object, Function],
+
 	    highlightCurrentRow: Boolean,
 
 	    emptyText: {
@@ -374,6 +385,7 @@ module.exports =
 	    },
 	    toggleRowSelection: function toggleRowSelection(row, selected) {
 	      this.store.toggleRowSelection(row, selected);
+	      this.store.updateAllSelected();
 	    },
 	    clearSelection: function clearSelection() {
 	      this.store.clearSelection();
@@ -394,20 +406,22 @@ module.exports =
 
 	      var refs = this.$refs;
 	      bodyWrapper.addEventListener('scroll', function () {
-	        headerWrapper.scrollLeft = this.scrollLeft;
+	        if (headerWrapper) headerWrapper.scrollLeft = this.scrollLeft;
 	        if (refs.fixedBodyWrapper) refs.fixedBodyWrapper.scrollTop = this.scrollTop;
 	        if (refs.rightFixedBodyWrapper) refs.rightFixedBodyWrapper.scrollTop = this.scrollTop;
 	      });
 
-	      (0, _util.mousewheel)(headerWrapper, (0, _throttle2.default)(16, function (event) {
-	        var deltaX = event.deltaX;
+	      if (headerWrapper) {
+	        (0, _util.mousewheel)(headerWrapper, (0, _throttle2.default)(16, function (event) {
+	          var deltaX = event.deltaX;
 
-	        if (deltaX > 0) {
-	          bodyWrapper.scrollLeft = bodyWrapper.scrollLeft + 10;
-	        } else {
-	          bodyWrapper.scrollLeft = bodyWrapper.scrollLeft - 10;
-	        }
-	      }));
+	          if (deltaX > 0) {
+	            bodyWrapper.scrollLeft = bodyWrapper.scrollLeft + 10;
+	          } else {
+	            bodyWrapper.scrollLeft = bodyWrapper.scrollLeft - 10;
+	          }
+	        }));
+	      }
 
 	      if (this.fit) {
 	        this.windowResizeListener = (0, _throttle2.default)(50, function () {
@@ -584,9 +598,11 @@ module.exports =
 	  this.states = {
 	    rowKey: null,
 	    _columns: [],
+	    originColumns: [],
 	    columns: [],
 	    fixedColumns: [],
 	    rightFixedColumns: [],
+	    isComplex: false,
 	    _data: null,
 	    filteredData: null,
 	    data: null,
@@ -707,13 +723,19 @@ module.exports =
 	      return _this3.table.updateScrollY();
 	    });
 	  },
-	  insertColumn: function insertColumn(states, column, index) {
-	    var _columns = states._columns;
-	    if (typeof index !== 'undefined') {
-	      _columns.splice(index, 0, column);
-	    } else {
-	      _columns.push(column);
+	  insertColumn: function insertColumn(states, column, index, parent) {
+	    var array = states._columns;
+	    if (parent) {
+	      array = parent.children;
+	      if (!array) array = parent.children = [];
 	    }
+
+	    if (typeof index !== 'undefined') {
+	      array.splice(index, 0, column);
+	    } else {
+	      array.push(column);
+	    }
+
 	    if (column.type === 'selection') {
 	      states.selectable = column.selectable;
 	      states.reserveSelection = column.reserveSelection;
@@ -781,6 +803,18 @@ module.exports =
 	  })
 	};
 
+	var doFlattenColumns = function doFlattenColumns(columns) {
+	  var result = [];
+	  columns.forEach(function (column) {
+	    if (column.children) {
+	      result.push.apply(result, doFlattenColumns(column.children));
+	    } else {
+	      result.push(column);
+	    }
+	  });
+	  return result;
+	};
+
 	TableStore.prototype.updateColumns = function () {
 	  var states = this.states;
 	  var _columns = states._columns || [];
@@ -795,9 +829,11 @@ module.exports =
 	    _columns[0].fixed = true;
 	    states.fixedColumns.unshift(_columns[0]);
 	  }
-	  states.columns = [].concat(states.fixedColumns).concat(_columns.filter(function (column) {
+	  states.originColumns = [].concat(states.fixedColumns).concat(_columns.filter(function (column) {
 	    return !column.fixed;
 	  })).concat(states.rightFixedColumns);
+	  states.columns = doFlattenColumns(states.originColumns);
+	  states.isComplex = states.fixedColumns.length > 0 || states.rightFixedColumns.length > 0;
 	};
 
 	TableStore.prototype.isSelected = function (row) {
@@ -1122,6 +1158,8 @@ module.exports =
 	  }
 
 	  TableLayout.prototype.updateScrollY = function updateScrollY() {
+	    var height = this.height;
+	    if (typeof height !== 'string' || typeof height !== 'number') return;
 	    var bodyWrapper = this.table.$refs.bodyWrapper;
 	    if (this.table.$el && bodyWrapper) {
 	      var body = bodyWrapper.querySelector('.el-table__body');
@@ -1236,6 +1274,8 @@ module.exports =
 	      flattenColumns.forEach(function (column) {
 	        if (!column.width && !column.minWidth) {
 	          column.realWidth = 80;
+	        } else {
+	          column.realWidth = column.width || column.minWidth;
 	        }
 
 	        bodyMinWidth += column.realWidth;
@@ -1293,6 +1333,7 @@ module.exports =
 	      required: true
 	    },
 	    rowClassName: [String, Function],
+	    rowStyle: [Object, Function],
 	    fixed: String,
 	    highlight: Boolean
 	  },
@@ -1300,6 +1341,9 @@ module.exports =
 	  render: function render(h) {
 	    var _this = this;
 
+	    var columnsHidden = this.columns.map(function (column, index) {
+	      return _this.isColumnHidden(index);
+	    });
 	    return h(
 	      "table",
 	      {
@@ -1326,6 +1370,7 @@ module.exports =
 	          return h(
 	            "tr",
 	            {
+	              style: _this.rowStyle ? _this.getRowStyle(row, $index) : null,
 	              key: _this.$parent.rowKey ? _this.getKeyOfRow(row, $index) : $index,
 	              on: {
 	                "click": function click($event) {
@@ -1344,7 +1389,7 @@ module.exports =
 	              return h(
 	                "td",
 	                {
-	                  "class": [column.id, column.align, column.className || '', _this.isCellHidden(cellIndex) ? 'is-hidden' : ''],
+	                  "class": [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden' : ''],
 	                  on: {
 	                    "mouseenter": function mouseenter($event) {
 	                      return _this.handleCellMouseEnter($event, row);
@@ -1368,9 +1413,10 @@ module.exports =
 
 	  watch: {
 	    'store.states.hoverRow': function storeStatesHoverRow(newVal, oldVal) {
+	      if (!this.store.states.isComplex) return;
 	      var el = this.$el;
 	      if (!el) return;
-	      var rows = el.querySelectorAll('tr');
+	      var rows = el.querySelectorAll('tbody > tr');
 	      var oldRow = rows[oldVal];
 	      var newRow = rows[newVal];
 	      if (oldRow) {
@@ -1385,7 +1431,7 @@ module.exports =
 	      var el = this.$el;
 	      if (!el) return;
 	      var data = this.store.states.data;
-	      var rows = el.querySelectorAll('tr');
+	      var rows = el.querySelectorAll('tbody > tr');
 	      var oldRow = rows[data.indexOf(oldVal)];
 	      var newRow = rows[data.indexOf(newVal)];
 	      if (oldRow) {
@@ -1430,7 +1476,7 @@ module.exports =
 	      }
 	      return index;
 	    },
-	    isCellHidden: function isCellHidden(index) {
+	    isColumnHidden: function isColumnHidden(index) {
 	      if (this.fixed === true || this.fixed === 'left') {
 	        return index >= this.leftFixedCount;
 	      } else if (this.fixed === 'right') {
@@ -1439,6 +1485,13 @@ module.exports =
 	        return index < this.leftFixedCount || index >= this.columnsCount - this.rightFixedCount;
 	      }
 	    },
+	    getRowStyle: function getRowStyle(row, index) {
+	      var rowStyle = this.rowStyle;
+	      if (typeof rowStyle === 'function') {
+	        return rowStyle.call(null, row, index);
+	      }
+	      return rowStyle;
+	    },
 	    getRowClass: function getRowClass(row, index) {
 	      var classes = [];
 
@@ -1446,7 +1499,7 @@ module.exports =
 	      if (typeof rowClassName === 'string') {
 	        classes.push(rowClassName);
 	      } else if (typeof rowClassName === 'function') {
-	        classes.push(rowClassName.apply(null, [row, index]) || '');
+	        classes.push(rowClassName.call(null, row, index) || '');
 	      }
 
 	      return classes.join(' ');
@@ -1493,17 +1546,6 @@ module.exports =
 	      this.store.commit('setCurrentRow', row);
 
 	      table.$emit('row-click', row, event);
-	    },
-	    getCellContent: function getCellContent(row, property, column) {
-	      if (column && column.formatter) {
-	        return column.formatter(row, column);
-	      }
-
-	      if (property && property.indexOf('.') === -1) {
-	        return row[property];
-	      }
-
-	      return (0, _util.getValueByPath)(row, property);
 	    }
 	  }
 	};
@@ -1535,11 +1577,78 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var getAllColumns = function getAllColumns(columns) {
+	  var result = [];
+	  columns.forEach(function (column) {
+	    if (column.children) {
+	      result.push(column);
+	      result.push.apply(result, getAllColumns(column.children));
+	    } else {
+	      result.push(column);
+	    }
+	  });
+	  return result;
+	};
+
+	var convertToRows = function convertToRows(originColumns) {
+	  var maxLevel = 1;
+	  var traverse = function traverse(column, parent) {
+	    if (parent) {
+	      column.level = parent.level + 1;
+	      if (maxLevel < column.level) {
+	        maxLevel = column.level;
+	      }
+	    }
+	    if (column.children) {
+	      (function () {
+	        var childrenMax = 1;
+	        var colSpan = 0;
+	        column.children.forEach(function (subColumn) {
+	          var temp = traverse(subColumn, column);
+	          if (temp > childrenMax) {
+	            childrenMax = temp;
+	          }
+	          colSpan += subColumn.colSpan;
+	        });
+	        column.colSpan = colSpan;
+	      })();
+	    } else {
+	      column.colSpan = 1;
+	    }
+	  };
+
+	  originColumns.forEach(function (column) {
+	    column.level = 1;
+	    traverse(column);
+	  });
+
+	  var rows = [];
+	  for (var i = 0; i < maxLevel; i++) {
+	    rows.push([]);
+	  }
+
+	  var allColumns = getAllColumns(originColumns);
+
+	  allColumns.forEach(function (column) {
+	    if (!column.children) {
+	      column.rowSpan = maxLevel - column.level + 1;
+	    } else {
+	      column.rowSpan = 1;
+	    }
+	    rows[column.level - 1].push(column);
+	  });
+
+	  return rows;
+	};
+
 	exports.default = {
 	  name: 'el-table-header',
 
 	  render: function render(h) {
 	    var _this = this;
+
+	    var originColumns = this.store.states.originColumns;
+	    var columnRows = convertToRows(originColumns, this.columns);
 
 	    return h(
 	      'table',
@@ -1569,69 +1678,75 @@ module.exports =
 	      ) : '', h(
 	        'thead',
 	        null,
-	        [h(
-	          'tr',
-	          null,
-	          [this._l(this.columns, function (column, cellIndex) {
-	            return h(
-	              'th',
-	              {
-	                on: {
-	                  'mousemove': function mousemove($event) {
-	                    return _this.handleMouseMove($event, column);
+	        [this._l(columnRows, function (columns) {
+	          return h(
+	            'tr',
+	            null,
+	            [_this._l(columns, function (column, cellIndex) {
+	              return h(
+	                'th',
+	                {
+	                  attrs: {
+	                    colspan: column.colSpan,
+	                    rowspan: column.rowSpan
 	                  },
-	                  'mouseout': _this.handleMouseOut,
-	                  'mousedown': function mousedown($event) {
-	                    return _this.handleMouseDown($event, column);
+	                  on: {
+	                    'mousemove': function mousemove($event) {
+	                      return _this.handleMouseMove($event, column);
+	                    },
+	                    'mouseout': _this.handleMouseOut,
+	                    'mousedown': function mousedown($event) {
+	                      return _this.handleMouseDown($event, column);
+	                    },
+	                    'click': function click($event) {
+	                      return _this.handleClick($event, column);
+	                    }
 	                  },
-	                  'click': function click($event) {
-	                    return _this.handleClick($event, column);
-	                  }
-	                },
 
-	                'class': [column.id, column.order, column.align, column.className || '', _this.isCellHidden(cellIndex) ? 'is-hidden' : ''] },
-	              [h(
-	                'div',
-	                { 'class': ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : ''] },
-	                [column.renderHeader ? column.renderHeader.call(_this._renderProxy, h, { column: column, $index: cellIndex, store: _this.store, _self: _this.$parent.$vnode.context }) : column.label, column.sortable ? h(
-	                  'span',
-	                  { 'class': 'caret-wrapper', on: {
-	                      'click': function click($event) {
-	                        return _this.handleHeaderClick($event, column);
+	                  'class': [column.id, column.order, column.align, column.className || '', _this.isCellHidden(cellIndex) ? 'is-hidden' : '', !column.children ? 'is-leaf' : ''] },
+	                [h(
+	                  'div',
+	                  { 'class': ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : ''] },
+	                  [column.renderHeader ? column.renderHeader.call(_this._renderProxy, h, { column: column, $index: cellIndex, store: _this.store, _self: _this.$parent.$vnode.context }) : column.label, column.sortable ? h(
+	                    'span',
+	                    { 'class': 'caret-wrapper', on: {
+	                        'click': function click($event) {
+	                          return _this.handleHeaderClick($event, column);
+	                        }
 	                      }
-	                    }
-	                  },
-	                  [h(
-	                    'i',
-	                    { 'class': 'sort-caret ascending' },
-	                    []
-	                  ), h(
-	                    'i',
-	                    { 'class': 'sort-caret descending' },
-	                    []
-	                  )]
-	                ) : '', column.filterable ? h(
-	                  'span',
-	                  { 'class': 'el-table__column-filter-trigger', on: {
-	                      'click': function click($event) {
-	                        return _this.handleFilterClick($event, column);
+	                    },
+	                    [h(
+	                      'i',
+	                      { 'class': 'sort-caret ascending' },
+	                      []
+	                    ), h(
+	                      'i',
+	                      { 'class': 'sort-caret descending' },
+	                      []
+	                    )]
+	                  ) : '', column.filterable ? h(
+	                    'span',
+	                    { 'class': 'el-table__column-filter-trigger', on: {
+	                        'click': function click($event) {
+	                          return _this.handleFilterClick($event, column);
+	                        }
 	                      }
-	                    }
-	                  },
-	                  [h(
-	                    'i',
-	                    { 'class': ['el-icon-arrow-down', column.filterOpened ? 'el-icon-arrow-up' : ''] },
-	                    []
-	                  )]
-	                ) : '']
-	              )]
-	            );
-	          }), !this.fixed && this.layout.gutterWidth ? h(
-	            'th',
-	            { 'class': 'gutter', style: { width: this.layout.scrollY ? this.layout.gutterWidth + 'px' : '0' } },
-	            []
-	          ) : '']
-	        )]
+	                    },
+	                    [h(
+	                      'i',
+	                      { 'class': ['el-icon-arrow-down', column.filterOpened ? 'el-icon-arrow-up' : ''] },
+	                      []
+	                    )]
+	                  ) : '']
+	                )]
+	              );
+	            }), !_this.fixed && _this.layout.gutterWidth ? h(
+	              'th',
+	              { 'class': 'gutter', style: { width: _this.layout.scrollY ? _this.layout.gutterWidth + 'px' : '0' } },
+	              []
+	            ) : '']
+	          );
+	        })]
 	      )]
 	    );
 	  },
@@ -1730,6 +1845,7 @@ module.exports =
 	    handleMouseDown: function handleMouseDown(event, column) {
 	      var _this2 = this;
 
+	      if (column.children && column.children.length > 0) return;
 	      /* istanbul ignore if */
 	      if (this.draggingColumn && this.border) {
 	        (function () {
@@ -1801,6 +1917,7 @@ module.exports =
 	      }
 	    },
 	    handleMouseMove: function handleMouseMove(event, column) {
+	      if (column.children && column.children.length > 0) return;
 	      var target = event.target;
 	      while (target && target.tagName !== 'TH') {
 	        target = target.parentNode;
@@ -2290,7 +2407,11 @@ module.exports =
 	  return _vm._h('div', {
 	    staticClass: "el-table",
 	    class: {
-	      'el-table--fit': _vm.fit, 'el-table--striped': _vm.stripe, 'el-table--border': _vm.border
+	      'el-table--fit': _vm.fit,
+	      'el-table--striped': _vm.stripe,
+	      'el-table--border': _vm.border,
+	      'el-table--enable-row-hover': !_vm.store.states.isComplex,
+	        'el-table--enable-row-transition': true || (_vm.store.states.data || []).length !== 0 && (_vm.store.states.data || []).length < 100
 	    },
 	    on: {
 	      "mouseleave": function($event) {
@@ -2327,6 +2448,7 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout,
 	      "row-class-name": _vm.rowClassName,
+	      "row-style": _vm.rowStyle,
 	      "highlight": _vm.highlightCurrentRow
 	    }
 	  }), (!_vm.data || _vm.data.length === 0) ? _vm._h('div', {
@@ -2369,7 +2491,8 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout,
 	      "highlight": _vm.highlightCurrentRow,
-	      "row-class-name": _vm.rowClassName
+	      "row-class-name": _vm.rowClassName,
+	      "row-style": _vm.rowStyle
 	    }
 	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _vm._h('div', {
 	    ref: "rightFixedWrapper",
@@ -2408,6 +2531,7 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout,
 	      "row-class-name": _vm.rowClassName,
+	      "row-style": _vm.rowStyle,
 	      "highlight": _vm.highlightCurrentRow
 	    }
 	  })])]) : _vm._e(), _vm._h('div', {

@@ -51,10 +51,10 @@ module.exports =
 
 /***/ },
 
-/***/ 152:
+/***/ 57:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/locale");
+	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
@@ -103,7 +103,9 @@ module.exports =
 
 	var _migrating2 = _interopRequireDefault(_migrating);
 
-	var _locale = __webpack_require__(152);
+	var _locale = __webpack_require__(57);
+
+	var _locale2 = _interopRequireDefault(_locale);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -183,7 +185,9 @@ module.exports =
 	      ),
 	      sizes: h(
 	        'sizes',
-	        null,
+	        {
+	          attrs: { pageSizes: this.pageSizes }
+	        },
 	        []
 	      ),
 	      slot: h(
@@ -272,12 +276,26 @@ module.exports =
 	    },
 
 	    Sizes: {
-	      created: function created() {
-	        if (Array.isArray(this.$parent.pageSizes)) {
-	          this.$parent.internalPageSize = this.$parent.pageSizes.indexOf(this.$parent.pageSize) > -1 ? this.$parent.pageSize : this.$parent.pageSizes[0];
+	      mixins: [_locale2.default],
+
+	      props: {
+	        pageSizes: Array
+	      },
+
+	      watch: {
+	        pageSizes: {
+	          immediate: true,
+	          handler: function handler(value) {
+	            if (Array.isArray(value)) {
+	              this.$parent.internalPageSize = value.indexOf(this.$parent.pageSize) > -1 ? this.$parent.pageSize : this.pageSizes[0];
+	            }
+	          }
 	        }
 	      },
+
 	      render: function render(h) {
+	        var _this = this;
+
 	        return h(
 	          'span',
 	          { 'class': 'el-pagination__sizes' },
@@ -293,13 +311,13 @@ module.exports =
 	                'change': this.handleChange
 	              }
 	            },
-	            [this.$parent.pageSizes.map(function (item) {
+	            [this.pageSizes.map(function (item) {
 	              return h(
 	                'el-option',
 	                {
 	                  attrs: {
 	                    value: item,
-	                    label: item + ' ' + (0, _locale.t)('el.pagination.pagesize') }
+	                    label: item + ' ' + _this.t('el.pagination.pagesize') }
 	                },
 	                []
 	              );
@@ -325,6 +343,8 @@ module.exports =
 	    },
 
 	    Jumper: {
+	      mixins: [_locale2.default],
+
 	      data: function data() {
 	        return {
 	          oldValue: null
@@ -339,11 +359,7 @@ module.exports =
 	        handleChange: function handleChange(_ref) {
 	          var target = _ref.target;
 
-	          var oldPage = this.$parent.internalCurrentPage;
 	          this.$parent.internalCurrentPage = this.$parent.getValidCurrentPage(target.value);
-	          if (oldPage !== this.$parent.internalCurrentPage) {
-	            this.$parent.$emit('current-change', this.$parent.internalCurrentPage);
-	          }
 	          this.oldValue = null;
 	        }
 	      },
@@ -352,7 +368,7 @@ module.exports =
 	        return h(
 	          'span',
 	          { 'class': 'el-pagination__jump' },
-	          [(0, _locale.t)('el.pagination.goto'), h(
+	          [this.t('el.pagination.goto'), h(
 	            'input',
 	            {
 	              'class': 'el-pagination__editor',
@@ -371,17 +387,19 @@ module.exports =
 
 	              style: { width: '30px' } },
 	            []
-	          ), (0, _locale.t)('el.pagination.pageClassifier')]
+	          ), this.t('el.pagination.pageClassifier')]
 	        );
 	      }
 	    },
 
 	    Total: {
+	      mixins: [_locale2.default],
+
 	      render: function render(h) {
 	        return typeof this.$parent.total === 'number' ? h(
 	          'span',
 	          { 'class': 'el-pagination__total' },
-	          [(0, _locale.t)('el.pagination.total', { total: this.$parent.total })]
+	          [this.t('el.pagination.total', { total: this.$parent.total })]
 	        ) : '';
 	      }
 	    },
@@ -400,29 +418,15 @@ module.exports =
 	      };
 	    },
 	    handleCurrentChange: function handleCurrentChange(val) {
-	      var oldPage = this.internalCurrentPage;
 	      this.internalCurrentPage = this.getValidCurrentPage(val);
-	      if (oldPage !== this.internalCurrentPage) {
-	        this.$emit('current-change', this.internalCurrentPage);
-	      }
 	    },
 	    prev: function prev() {
-	      var oldPage = this.internalCurrentPage;
 	      var newVal = this.internalCurrentPage - 1;
 	      this.internalCurrentPage = this.getValidCurrentPage(newVal);
-
-	      if (this.internalCurrentPage !== oldPage) {
-	        this.$emit('current-change', this.internalCurrentPage);
-	      }
 	    },
 	    next: function next() {
-	      var oldPage = this.internalCurrentPage;
 	      var newVal = this.internalCurrentPage + 1;
 	      this.internalCurrentPage = this.getValidCurrentPage(newVal);
-
-	      if (this.internalCurrentPage !== oldPage) {
-	        this.$emit('current-change', this.internalCurrentPage);
-	      }
 	    },
 	    getValidCurrentPage: function getValidCurrentPage(value) {
 	      value = parseInt(value, 10);
@@ -462,20 +466,6 @@ module.exports =
 	  },
 
 	  watch: {
-	    internalPageCount: function internalPageCount(newVal) {
-	      /* istanbul ignore if */
-	      var oldPage = this.internalCurrentPage;
-	      if (newVal > 0 && oldPage === 0) {
-	        this.internalCurrentPage = 1;
-	      } else if (oldPage > newVal) {
-	        this.internalCurrentPage = newVal === 0 ? 1 : newVal;
-	      }
-	      if (oldPage !== this.internalCurrentPage) {
-	        this.$emit('current-change', this.internalCurrentPage);
-	      }
-	    },
-
-
 	    currentPage: {
 	      immediate: true,
 	      handler: function handler(val) {
@@ -491,7 +481,7 @@ module.exports =
 	    },
 
 	    internalCurrentPage: function internalCurrentPage(newVal, oldVal) {
-	      var _this = this;
+	      var _this2 = this;
 
 	      newVal = parseInt(newVal, 10);
 
@@ -504,8 +494,22 @@ module.exports =
 
 	      if (newVal !== undefined) {
 	        this.$nextTick(function () {
-	          _this.internalCurrentPage = newVal;
+	          _this2.internalCurrentPage = newVal;
+	          if (oldVal !== newVal) {
+	            _this2.$emit('current-change', _this2.internalCurrentPage);
+	          }
 	        });
+	      } else {
+	        this.$emit('current-change', this.internalCurrentPage);
+	      }
+	    },
+	    internalPageCount: function internalPageCount(newVal) {
+	      /* istanbul ignore if */
+	      var oldPage = this.internalCurrentPage;
+	      if (newVal > 0 && oldPage === 0) {
+	        this.internalCurrentPage = 1;
+	      } else if (oldPage > newVal) {
+	        this.internalCurrentPage = newVal === 0 ? 1 : newVal;
 	      }
 	    }
 	  }

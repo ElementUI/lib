@@ -194,6 +194,8 @@ module.exports =
 	exports.default = {
 	  name: 'ElInput',
 
+	  componentName: 'ElInput',
+
 	  mixins: [_emitter2.default],
 
 	  props: {
@@ -231,7 +233,7 @@ module.exports =
 	  methods: {
 	    handleBlur: function handleBlur(event) {
 	      this.$emit('blur', event);
-	      this.dispatch('form-item', 'el.form.blur', [this.currentValue]);
+	      this.dispatch('ElFormItem', 'el.form.blur', [this.currentValue]);
 	    },
 	    inputSelect: function inputSelect() {
 	      this.$refs.input.select();
@@ -275,7 +277,7 @@ module.exports =
 
 	  computed: {
 	    validating: function validating() {
-	      return this.$parent.validating;
+	      return this.$parent.validateState === 'validating';
 	    }
 	  },
 
@@ -291,7 +293,7 @@ module.exports =
 	      });
 	      this.$emit('input', val);
 	      this.$emit('change', val);
-	      this.dispatch('form-item', 'el.form.change', [val]);
+	      this.dispatch('ElFormItem', 'el.form.change', [val]);
 	    }
 	  }
 	};

@@ -8,7 +8,7 @@ function _broadcast(componentName, eventName, params) {
     if (name === componentName) {
       child.$emit.apply(child, [eventName].concat(params));
     } else {
-      _broadcast.apply(child, [componentName, eventName].concat(params));
+      _broadcast.apply(child, [componentName, eventName].concat([params]));
     }
   });
 }
