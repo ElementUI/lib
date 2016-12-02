@@ -333,29 +333,34 @@ module.exports =
 	  customClass: ''
 	};
 
-	var originalPosition = void 0,
-	    originalOverflow = void 0;
+	var fullscreenLoading = void 0;
+
+	LoadingConstructor.prototype.originalPosition = '';
+	LoadingConstructor.prototype.originalOverflow = '';
 
 	LoadingConstructor.prototype.close = function () {
-	  if (this.fullscreen && originalOverflow !== 'hidden') {
-	    document.body.style.overflow = originalOverflow;
+	  if (this.fullscreen && this.originalOverflow !== 'hidden') {
+	    document.body.style.overflow = this.originalOverflow;
 	  }
 	  if (this.fullscreen || this.body) {
-	    document.body.style.position = originalPosition;
+	    document.body.style.position = this.originalPosition;
 	  } else {
-	    this.target.style.position = originalPosition;
+	    this.target.style.position = this.originalPosition;
+	  }
+	  if (this.fullscreen) {
+	    fullscreenLoading = undefined;
 	  }
 	  this.$el && this.$el.parentNode && this.$el.parentNode.removeChild(this.$el);
 	  this.$destroy();
 	};
 
-	var addStyle = function addStyle(options, parent, element) {
+	var addStyle = function addStyle(options, parent, instance) {
 	  var maskStyle = {};
 	  if (options.fullscreen) {
-	    originalPosition = document.body.style.position;
-	    originalOverflow = document.body.style.overflow;
+	    instance.originalPosition = document.body.style.position;
+	    instance.originalOverflow = document.body.style.overflow;
 	  } else if (options.body) {
-	    originalPosition = document.body.style.position;
+	    instance.originalPosition = document.body.style.position;
 	    ['top', 'left'].forEach(function (property) {
 	      var scroll = property === 'top' ? 'scrollTop' : 'scrollLeft';
 	      maskStyle[property] = options.target.getBoundingClientRect()[property] + document.body[scroll] + document.documentElement[scroll] + 'px';
@@ -364,10 +369,10 @@ module.exports =
 	      maskStyle[property] = options.target.getBoundingClientRect()[property] + 'px';
 	    });
 	  } else {
-	    originalPosition = parent.style.position;
+	    instance.originalPosition = parent.style.position;
 	  }
 	  Object.keys(maskStyle).forEach(function (property) {
-	    element.style[property] = maskStyle[property];
+	    instance.$el.style[property] = maskStyle[property];
 	  });
 	};
 
@@ -384,6 +389,9 @@ module.exports =
 	  } else {
 	    options.body = true;
 	  }
+	  if (options.fullscreen && fullscreenLoading) {
+	    return fullscreenLoading;
+	  }
 
 	  var parent = options.body ? document.body : options.target;
 	  var instance = new LoadingConstructor({
@@ -391,14 +399,17 @@ module.exports =
 	    data: options
 	  });
 
-	  addStyle(options, parent, instance.$el);
-	  if (originalPosition !== 'absolute') {
+	  addStyle(options, parent, instance);
+	  if (instance.originalPosition !== 'absolute') {
 	    parent.style.position = 'relative';
 	  }
 	  if (options.fullscreen && options.lock) {
 	    parent.style.overflow = 'hidden';
 	  }
 	  parent.appendChild(instance.$el);
+	  if (options.fullscreen) {
+	    fullscreenLoading = instance;
+	  }
 	  return instance;
 	};
 

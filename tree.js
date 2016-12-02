@@ -936,6 +936,7 @@ module.exports =
 
 	        _this5.doCreateChildren(children, defaultProps);
 
+	        _this5.updateLeafState();
 	        if (callback) {
 	          callback.call(_this5, children);
 	        }
@@ -1203,16 +1204,16 @@ module.exports =
 	    }
 
 	    var tree = this.tree;
-	    var props = this.props || {};
+	    if (!tree) {
+	      console.warn('Can not find node\'s tree.');
+	    }
+
+	    var props = tree.props || {};
 	    var childrenKey = props['children'] || 'children';
 
 	    this.$watch('node.data.' + childrenKey, function () {
 	      _this.node.updateChildren();
 	    });
-
-	    if (!tree) {
-	      console.warn('Can not find node\'s tree.');
-	    }
 
 	    this.showCheckbox = tree.showCheckbox;
 

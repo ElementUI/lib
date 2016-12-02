@@ -303,12 +303,10 @@ module.exports =
 	            'el-select',
 	            {
 	              attrs: {
-	                size: 'small',
-	                value: this.$parent.internalPageSize,
-
-	                width: 110 },
+	                value: this.$parent.internalPageSize
+	              },
 	              on: {
-	                'change': this.handleChange
+	                'input': this.handleChange
 	              }
 	            },
 	            [this.pageSizes.map(function (item) {

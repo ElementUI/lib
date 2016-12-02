@@ -437,6 +437,7 @@ module.exports =
 	        this.pickerVisible = !this.pickerVisible;
 	      } else {
 	        this.internalValue = '';
+	        this.$emit('input', '');
 	      }
 	    },
 	    handleClose: function handleClose() {

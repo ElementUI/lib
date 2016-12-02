@@ -1159,11 +1159,10 @@ module.exports =
 
 	  TableLayout.prototype.updateScrollY = function updateScrollY() {
 	    var height = this.height;
-	    if (typeof height !== 'string' || typeof height !== 'number') return;
+	    if (typeof height !== 'string' && typeof height !== 'number') return;
 	    var bodyWrapper = this.table.$refs.bodyWrapper;
 	    if (this.table.$el && bodyWrapper) {
 	      var body = bodyWrapper.querySelector('.el-table__body');
-
 	      this.scrollY = body.offsetHeight > bodyWrapper.offsetHeight;
 	    }
 	  };
@@ -1373,6 +1372,9 @@ module.exports =
 	              style: _this.rowStyle ? _this.getRowStyle(row, $index) : null,
 	              key: _this.$parent.rowKey ? _this.getKeyOfRow(row, $index) : $index,
 	              on: {
+	                "dblclick": function dblclick($event) {
+	                  return _this.handleDoubleClick($event, row);
+	                },
 	                "click": function click($event) {
 	                  return _this.handleClick($event, row);
 	                },
@@ -1532,6 +1534,10 @@ module.exports =
 	    handleMouseLeave: function handleMouseLeave() {
 	      this.store.commit('setHoverRow', null);
 	    },
+	    handleDoubleClick: function handleDoubleClick(event, row) {
+	      var table = this.$parent;
+	      table.$emit('row-dblclick', row, event);
+	    },
 	    handleClick: function handleClick(event, row) {
 	      var table = this.$parent;
 	      var cell = (0, _util.getCell)(event);
@@ -1678,7 +1684,7 @@ module.exports =
 	      ) : '', h(
 	        'thead',
 	        null,
-	        [this._l(columnRows, function (columns) {
+	        [this._l(columnRows, function (columns, rowIndex) {
 	          return h(
 	            'tr',
 	            null,
@@ -1703,7 +1709,7 @@ module.exports =
 	                    }
 	                  },
 
-	                  'class': [column.id, column.order, column.align, column.className || '', _this.isCellHidden(cellIndex) ? 'is-hidden' : '', !column.children ? 'is-leaf' : ''] },
+	                  'class': [column.id, column.order, column.align, column.className || '', rowIndex === 0 && _this.isCellHidden(cellIndex) ? 'is-hidden' : '', !column.children ? 'is-leaf' : ''] },
 	                [h(
 	                  'div',
 	                  { 'class': ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : ''] },

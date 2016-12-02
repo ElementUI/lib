@@ -145,12 +145,8 @@ module.exports =
 	  watch: {
 	    value: function value(_value) {
 	      this.$emit('change', _value);
-	      this.broadcast('ElRadio', 'initData', _value);
 	      this.dispatch('ElFormItem', 'el.form.change', [this.value]);
 	    }
-	  },
-	  mounted: function mounted() {
-	    this.broadcast('ElRadio', 'initData', this.value);
 	  }
 	};
 

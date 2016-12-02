@@ -131,44 +131,46 @@ module.exports =
 	  componentName: 'ElRadio',
 
 	  props: {
-	    value: [String, Number],
-	    label: {
-	      type: [String, Number],
-	      required: true
-	    },
+	    value: {},
+	    label: {},
 	    disabled: Boolean,
 	    name: String
 	  },
 
 	  data: function data() {
 	    return {
-	      focus: false,
-	      isGroup: false,
-	      store: this.value
+	      focus: false
 	    };
 	  },
 
 
-	  watch: {
-	    store: function store(_store) {
-	      if (this.isGroup) {
-	        this.dispatch('ElRadioGroup', 'input', _store);
-	      } else {
-	        this.$emit('input', _store);
+	  computed: {
+	    isGroup: function isGroup() {
+	      var parent = this.$parent;
+	      while (parent) {
+	        if (parent.$options.componentName !== 'ElRadioGroup') {
+	          parent = parent.$parent;
+	        } else {
+	          this._radioGroup = parent;
+	          return true;
+	        }
 	      }
+	      return false;
 	    },
-	    value: function value(val) {
-	      this.store = val;
+
+
+	    model: {
+	      get: function get() {
+	        return this.isGroup ? this._radioGroup.value : this.value;
+	      },
+	      set: function set(val) {
+	        if (this.isGroup) {
+	          this.dispatch('ElRadioGroup', 'input', [val]);
+	        } else {
+	          this.$emit('input', val);
+	        }
+	      }
 	    }
-	  },
-
-	  created: function created() {
-	    var _this = this;
-
-	    this.$on('initData', function (data) {
-	      _this.store = data;
-	      _this.isGroup = true;
-	    });
 	  }
 	}; //
 	//
@@ -210,15 +212,15 @@ module.exports =
 	    staticClass: "el-radio__inner",
 	    class: {
 	      'is-disabled': _vm.disabled,
-	      'is-checked': _vm.store === _vm.label,
+	      'is-checked': _vm.model === _vm.label,
 	        'is-focus': _vm.focus
 	    }
 	  }), _vm._h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.store),
-	      expression: "store"
+	      value: (_vm.model),
+	      expression: "model"
 	    }],
 	    staticClass: "el-radio__original",
 	    attrs: {
@@ -228,7 +230,7 @@ module.exports =
 	    },
 	    domProps: {
 	      "value": _vm.label,
-	      "checked": _vm._q(_vm.store, _vm.label)
+	      "checked": _vm._q(_vm.model, _vm.label)
 	    },
 	    on: {
 	      "focus": function($event) {
@@ -238,7 +240,7 @@ module.exports =
 	        _vm.focus = false
 	      },
 	      "change": function($event) {
-	        _vm.store = _vm.label
+	        _vm.model = _vm.label
 	      }
 	    }
 	  })]), _vm._h('span', {

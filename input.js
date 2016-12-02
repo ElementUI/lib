@@ -190,6 +190,8 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElInput',
@@ -387,14 +389,16 @@ module.exports =
 	      _vm.type === 'textarea' ? 'el-textarea' : 'el-input',
 	      _vm.size ? 'el-input--' + _vm.size : '', {
 	        'is-disabled': _vm.disabled,
-	        'el-input-group': _vm.$slots.prepend || _vm.$slots.append
+	        'el-input-group': _vm.$slots.prepend || _vm.$slots.append,
+	        'el-input-group--append': _vm.$slots.append,
+	        'el-input-group--prepend': _vm.$slots.prepend
 	      }
 	    ]
 	  }, [(_vm.type !== 'textarea') ? [(_vm.$slots.prepend) ? _vm._h('div', {
 	    staticClass: "el-input-group__prepend"
 	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.icon) ? _vm._h('i', {
 	    staticClass: "el-input__icon",
-	    class: [_vm.icon ? 'el-icon-' + _vm.icon : ''],
+	    class: 'el-icon-' + _vm.icon,
 	    on: {
 	      "click": _vm.handleIconClick
 	    }

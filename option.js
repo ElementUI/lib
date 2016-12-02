@@ -139,6 +139,7 @@ module.exports =
 	      type: Boolean,
 	      default: false
 	    },
+	    created: Boolean,
 	    disabled: {
 	      type: Boolean,
 	      default: false
@@ -170,21 +171,17 @@ module.exports =
 	      return result;
 	    },
 	    itemSelected: function itemSelected() {
-	      if (Object.prototype.toString.call(this.parent.selected) === '[object Object]') {
-	        return this === this.parent.selected;
-	      } else if (Array.isArray(this.parent.selected)) {
+	      if (!this.parent.multiple) {
+	        return this.value === this.parent.value;
+	      } else {
 	        return this.parent.value.indexOf(this.value) > -1;
 	      }
 	    },
-	    currentSelected: function currentSelected() {
-	      return this.selected || (this.parent.multiple ? this.parent.value.indexOf(this.value) > -1 : this.parent.value === this.value);
-	    }
-	  },
-
-	  watch: {
-	    currentSelected: function currentSelected(val) {
-	      if (val === true) {
-	        this.dispatch('ElSelect', 'addOptionToValue', this);
+	    limitReached: function limitReached() {
+	      if (this.parent.multiple) {
+	        return !this.itemSelected && this.parent.value.length >= this.parent.multipleLimit && this.parent.multipleLimit > 0;
+	      } else {
+	        return false;
 	      }
 	    }
 	  },
@@ -206,7 +203,7 @@ module.exports =
 	    queryChange: function queryChange(query) {
 	      // query 里如果有正则中的特殊字符，需要先将这些字符转义
 	      var parsedQuery = query.replace(/(\^|\(|\)|\[|\]|\$|\*|\+|\.|\?|\\|\{|\}|\|)/g, '\\$1');
-	      this.visible = new RegExp(parsedQuery, 'i').test(this.currentLabel);
+	      this.visible = new RegExp(parsedQuery, 'i').test(this.currentLabel) || this.created;
 	      if (!this.visible) {
 	        this.parent.filteredOptionsCount--;
 	      }
@@ -226,10 +223,6 @@ module.exports =
 	    this.parent.filteredOptionsCount++;
 	    this.index = this.parent.options.indexOf(this);
 
-	    if (this.currentSelected === true) {
-	      this.dispatch('ElSelect', 'addOptionToValue', [this, true]);
-	    }
-
 	    this.$on('queryChange', this.queryChange);
 	    this.$on('handleGroupDisabled', this.handleGroupDisabled);
 	    this.$on('resetIndex', this.resetIndex);
@@ -238,6 +231,10 @@ module.exports =
 	    this.dispatch('ElSelect', 'onOptionDestroy', this);
 	  }
 	}; //
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -266,7 +263,9 @@ module.exports =
 	    }],
 	    staticClass: "el-select-dropdown__item",
 	    class: {
-	      'selected': _vm.itemSelected, 'is-disabled': _vm.disabled || _vm.groupDisabled, 'hover': _vm.parent.hoverIndex === _vm.index
+	      'selected': _vm.itemSelected,
+	      'is-disabled': _vm.disabled || _vm.groupDisabled || _vm.limitReached,
+	        'hover': _vm.parent.hoverIndex === _vm.index
 	    },
 	    on: {
 	      "mouseenter": _vm.hoverItem,

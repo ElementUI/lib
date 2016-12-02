@@ -321,6 +321,7 @@ module.exports =
 	        _vm.highlight(_vm.highlightedIndex + 1)
 	      }, function($event) {
 	        if ($event.keyCode !== 13) { return; }
+	        $event.stopPropagation();
 	        _vm.select(_vm.highlightedIndex)
 	      }]
 	    }

@@ -167,7 +167,7 @@ module.exports =
 
 	  data: function data() {
 	    return {
-	      precision: null,
+	      precision: 0,
 	      inputValue: null,
 	      timeout: null,
 	      hovering: false,
@@ -218,20 +218,22 @@ module.exports =
 	      this.$refs.tooltip.updatePopper();
 	    },
 	    setPosition: function setPosition(newPos) {
-	      if (newPos >= 0 && newPos <= 100) {
-	        var lengthPerStep = 100 / ((this.max - this.min) / this.step);
-	        var steps = Math.round(newPos / lengthPerStep);
-	        var value = steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min;
-	        if (this.precision) {
-	          value = parseFloat(value.toFixed(this.precision));
-	        }
-	        this.$emit('input', value);
-	        this.currentPosition = (this.value - this.min) / (this.max - this.min) * 100 + '%';
-	        if (!this.dragging) {
-	          if (this.value !== this.oldValue) {
-	            this.$emit('change', this.value);
-	            this.oldValue = this.value;
-	          }
+	      if (newPos < 0) {
+	        newPos = 0;
+	      } else if (newPos > 100) {
+	        newPos = 100;
+	      }
+
+	      var lengthPerStep = 100 / ((this.max - this.min) / this.step);
+	      var steps = Math.round(newPos / lengthPerStep);
+	      var value = steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min;
+	      value = parseFloat(value.toFixed(this.precision));
+	      this.$emit('input', value);
+	      this.currentPosition = (this.value - this.min) / (this.max - this.min) * 100 + '%';
+	      if (!this.dragging) {
+	        if (this.value !== this.oldValue) {
+	          this.$emit('change', this.value);
+	          this.oldValue = this.value;
 	        }
 	      }
 	    },
@@ -301,9 +303,11 @@ module.exports =
 	    } else if (this.value > this.max) {
 	      this.$emit('input', this.max);
 	    }
-	    if (this.step && this.step < 1) {
-	      this.precision = this.step.toPrecision(1).split('.')[1].length;
-	    }
+	    var precisions = [this.min, this.max, this.step].map(function (item) {
+	      var decimal = ('' + item).split('.')[1];
+	      return decimal ? decimal.length : 0;
+	    });
+	    this.precision = Math.max.apply(null, precisions);
 	    this.inputValue = this.inputValue || this.value;
 	  }
 	}; //

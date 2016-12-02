@@ -100,6 +100,205 @@ module.exports =
 
 /***/ },
 
+/***/ 160:
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+	var __vue_styles__ = {}
+
+	/* script */
+	__vue_exports__ = __webpack_require__(161)
+
+	/* template */
+	var __vue_template__ = __webpack_require__(162)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+	module.exports = __vue_exports__
+
+
+/***/ },
+
+/***/ 161:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _emitter = __webpack_require__(38);
+
+	var _emitter2 = _interopRequireDefault(_emitter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	  mixins: [_emitter2.default],
+
+	  name: 'el-option',
+
+	  componentName: 'ElOption',
+
+	  props: {
+	    value: {
+	      required: true
+	    },
+	    label: [String, Number],
+	    selected: {
+	      type: Boolean,
+	      default: false
+	    },
+	    created: Boolean,
+	    disabled: {
+	      type: Boolean,
+	      default: false
+	    }
+	  },
+
+	  data: function data() {
+	    return {
+	      index: -1,
+	      groupDisabled: false,
+	      visible: true,
+	      hitState: false
+	    };
+	  },
+
+
+	  computed: {
+	    currentLabel: function currentLabel() {
+	      return this.label || (typeof this.value === 'string' || typeof this.value === 'number' ? this.value : '');
+	    },
+	    currentValue: function currentValue() {
+	      return this.value || this.label || '';
+	    },
+	    parent: function parent() {
+	      var result = this.$parent;
+	      while (!result.isSelect) {
+	        result = result.$parent;
+	      }
+	      return result;
+	    },
+	    itemSelected: function itemSelected() {
+	      if (!this.parent.multiple) {
+	        return this.value === this.parent.value;
+	      } else {
+	        return this.parent.value.indexOf(this.value) > -1;
+	      }
+	    },
+	    limitReached: function limitReached() {
+	      if (this.parent.multiple) {
+	        return !this.itemSelected && this.parent.value.length >= this.parent.multipleLimit && this.parent.multipleLimit > 0;
+	      } else {
+	        return false;
+	      }
+	    }
+	  },
+
+	  methods: {
+	    handleGroupDisabled: function handleGroupDisabled(val) {
+	      this.groupDisabled = val;
+	    },
+	    hoverItem: function hoverItem() {
+	      if (!this.disabled && !this.groupDisabled) {
+	        this.parent.hoverIndex = this.parent.options.indexOf(this);
+	      }
+	    },
+	    selectOptionClick: function selectOptionClick() {
+	      if (this.disabled !== true && this.groupDisabled !== true) {
+	        this.dispatch('ElSelect', 'handleOptionClick', this);
+	      }
+	    },
+	    queryChange: function queryChange(query) {
+	      // query 里如果有正则中的特殊字符，需要先将这些字符转义
+	      var parsedQuery = query.replace(/(\^|\(|\)|\[|\]|\$|\*|\+|\.|\?|\\|\{|\}|\|)/g, '\\$1');
+	      this.visible = new RegExp(parsedQuery, 'i').test(this.currentLabel) || this.created;
+	      if (!this.visible) {
+	        this.parent.filteredOptionsCount--;
+	      }
+	    },
+	    resetIndex: function resetIndex() {
+	      var _this = this;
+
+	      this.$nextTick(function () {
+	        _this.index = _this.parent.options.indexOf(_this);
+	      });
+	    }
+	  },
+
+	  created: function created() {
+	    this.parent.options.push(this);
+	    this.parent.optionsCount++;
+	    this.parent.filteredOptionsCount++;
+	    this.index = this.parent.options.indexOf(this);
+
+	    this.$on('queryChange', this.queryChange);
+	    this.$on('handleGroupDisabled', this.handleGroupDisabled);
+	    this.$on('resetIndex', this.resetIndex);
+	  },
+	  beforeDestroy: function beforeDestroy() {
+	    this.dispatch('ElSelect', 'onOptionDestroy', this);
+	  }
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+/***/ },
+
+/***/ 162:
+/***/ function(module, exports) {
+
+	module.exports={render:function (){var _vm=this;
+	  return _vm._h('li', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (_vm.visible),
+	      expression: "visible"
+	    }],
+	    staticClass: "el-select-dropdown__item",
+	    class: {
+	      'selected': _vm.itemSelected,
+	      'is-disabled': _vm.disabled || _vm.groupDisabled || _vm.limitReached,
+	        'hover': _vm.parent.hoverIndex === _vm.index
+	    },
+	    on: {
+	      "mouseenter": _vm.hoverItem,
+	      "click": function($event) {
+	        $event.stopPropagation();
+	        _vm.selectOptionClick($event)
+	      }
+	    }
+	  }, [_vm._t("default", [_vm._h('span', [_vm._s(_vm.currentLabel)])])])
+	},staticRenderFns: []}
+
+/***/ },
+
 /***/ 204:
 /***/ function(module, exports, __webpack_require__) {
 
@@ -175,6 +374,10 @@ module.exports =
 
 	var _selectDropdown2 = _interopRequireDefault(_selectDropdown);
 
+	var _option = __webpack_require__(160);
+
+	var _option2 = _interopRequireDefault(_option);
+
 	var _tag = __webpack_require__(210);
 
 	var _tag2 = _interopRequireDefault(_tag);
@@ -195,74 +398,6 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
 	exports.default = {
 	  mixins: [_emitter2.default, _locale2.default],
 
@@ -280,22 +415,14 @@ module.exports =
 	    showCloseIcon: function showCloseIcon() {
 	      var _this = this;
 
-	      var criteria = this.clearable && this.inputHovering && !this.multiple && this.options.indexOf(this.selected) > -1;
+	      var criteria = this.clearable && this.inputHovering && !this.multiple && this.value !== undefined && this.value !== '';
 	      if (!this.$el) return false;
-
 	      this.$nextTick(function () {
 	        var icon = _this.$el.querySelector('.el-input__icon');
 	        if (icon) {
-	          if (criteria) {
-	            icon.addEventListener('click', _this.deleteSelected);
-	            (0, _class.addClass)(icon, 'is-show-close');
-	          } else {
-	            icon.removeEventListener('click', _this.deleteSelected);
-	            (0, _class.removeClass)(icon, 'is-show-close');
-	          }
+	          criteria ? (0, _class.addClass)(icon, 'is-show-close') : (0, _class.removeClass)(icon, 'is-show-close');
 	        }
 	      });
-
 	      return criteria;
 	    },
 	    emptyText: function emptyText() {
@@ -314,12 +441,23 @@ module.exports =
 	        }
 	      }
 	      return null;
+	    },
+	    showNewOption: function showNewOption() {
+	      var _this2 = this;
+
+	      var hasExistingOption = this.options.filter(function (option) {
+	        return !option.created;
+	      }).some(function (option) {
+	        return option.currentLabel === _this2.query;
+	      });
+	      return this.filterable && this.allowCreate && this.query !== '' && !hasExistingOption;
 	    }
 	  },
 
 	  components: {
 	    ElInput: _input2.default,
 	    ElSelectMenu: _selectDropdown2.default,
+	    ElOption: _option2.default,
 	    ElTag: _tag2.default
 	  },
 
@@ -328,15 +466,19 @@ module.exports =
 	  props: {
 	    name: String,
 	    value: {},
-	    size: String,
 	    disabled: Boolean,
 	    clearable: Boolean,
 	    filterable: Boolean,
+	    allowCreate: Boolean,
 	    loading: Boolean,
 	    remote: Boolean,
 	    remoteMethod: Function,
 	    filterMethod: Function,
 	    multiple: Boolean,
+	    multipleLimit: {
+	      type: Number,
+	      default: 0
+	    },
 	    placeholder: {
 	      type: String,
 	      default: function _default() {
@@ -348,22 +490,21 @@ module.exports =
 	  data: function data() {
 	    return {
 	      options: [],
-	      selected: {},
+	      selected: this.multiple ? [] : {},
 	      isSelect: true,
 	      inputLength: 20,
 	      inputWidth: 0,
-	      valueChangeBySelected: false,
 	      cachedPlaceHolder: '',
 	      optionsCount: 0,
 	      filteredOptionsCount: 0,
 	      dropdownUl: null,
 	      visible: false,
 	      selectedLabel: '',
-	      selectInit: false,
 	      hoverIndex: -1,
 	      query: '',
 	      voidRemoteQuery: false,
 	      bottomOverflowBeforeHidden: 0,
+	      topOverflowBeforeHidden: 0,
 	      optionsAllDisabled: false,
 	      inputHovering: false,
 	      currentPlaceholder: ''
@@ -376,89 +517,24 @@ module.exports =
 	      this.currentPlaceholder = val;
 	    },
 	    value: function value(val) {
-	      var _this2 = this;
-
-	      if (this.valueChangeBySelected) {
-	        this.valueChangeBySelected = false;
-	        return;
-	      }
-	      this.$nextTick(function () {
-	        if (_this2.multiple && Array.isArray(val)) {
-	          _this2.$nextTick(function () {
-	            _this2.resetInputHeight();
-	          });
-	          _this2.selectedInit = true;
-	          _this2.selected = [];
-	          _this2.currentPlaceholder = _this2.cachedPlaceHolder;
-	          val.forEach(function (item) {
-	            var option = _this2.options.filter(function (option) {
-	              return option.value === item;
-	            })[0];
-	            if (option) {
-	              _this2.$emit('addOptionToValue', option);
-	            }
-	          });
-	        }
-	        if (!_this2.multiple) {
-	          var option = _this2.options.filter(function (option) {
-	            return option.value === val;
-	          })[0];
-	          if (option) {
-	            _this2.$emit('addOptionToValue', option);
-	          } else {
-	            _this2.selected = {};
-	            _this2.selectedLabel = '';
-	          }
-	        }
-	        _this2.resetHoverIndex();
-	      });
-	    },
-	    selected: function selected(val, oldVal) {
-	      var _this3 = this;
-
 	      if (this.multiple) {
-	        if (this.selected.length > 0) {
+	        this.resetInputHeight();
+	        if (val.length > 0) {
 	          this.currentPlaceholder = '';
 	        } else {
 	          this.currentPlaceholder = this.cachedPlaceHolder;
 	        }
-	        this.$nextTick(function () {
-	          _this3.resetInputHeight();
-	        });
-	        if (this.selectedInit) {
-	          this.selectedInit = false;
-	          return;
-	        }
-	        this.valueChangeBySelected = true;
-	        var result = val.map(function (item) {
-	          return item.value;
-	        });
-
-	        this.$emit('input', result);
-	        this.$emit('change', result);
-	        this.dispatch('ElFormItem', 'el.form.change', val);
-	        if (this.filterable) {
-	          this.query = '';
-	          this.hoverIndex = -1;
-	          this.$refs.input.focus();
-	          this.inputLength = 20;
-	        }
-	      } else {
-	        if (this.selectedInit) {
-	          this.selectedInit = false;
-	          return;
-	        }
-	        if (val.value === oldVal.value) return;
-	        this.$emit('input', val.value);
-	        this.$emit('change', val.value);
 	      }
+	      this.selected = this.getSelected();
+	      if (this.filterable && !this.multiple) {
+	        this.inputLength = 20;
+	      }
+	      this.$emit('change', val);
+	      this.dispatch('ElFormItem', 'el.form.change', val);
 	    },
 	    query: function query(val) {
-	      var _this4 = this;
-
-	      this.$nextTick(function () {
-	        _this4.broadcast('ElSelectDropdown', 'updatePopper');
-	      });
+	      this.broadcast('ElSelectDropdown', 'updatePopper');
+	      this.hoverIndex = -1;
 	      if (this.multiple && this.filterable) {
 	        this.resetInputHeight();
 	      }
@@ -477,27 +553,22 @@ module.exports =
 	    visible: function visible(val) {
 	      if (!val) {
 	        this.$refs.reference.$el.querySelector('input').blur();
-	        if (this.$el.querySelector('.el-input__icon')) {
-	          (0, _class.removeClass)(this.$el.querySelector('.el-input__icon'), 'is-reverse');
-	        }
+	        this.handleIconHide();
 	        this.broadcast('ElSelectDropdown', 'destroyPopper');
 	        if (this.$refs.input) {
 	          this.$refs.input.blur();
 	        }
+	        this.query = '';
+	        this.selectedLabel = '';
 	        this.resetHoverIndex();
 	        if (!this.multiple) {
-	          if (this.dropdownUl && this.selected.$el) {
-	            this.bottomOverflowBeforeHidden = this.selected.$el.getBoundingClientRect().bottom - this.$refs.popper.$el.getBoundingClientRect().bottom;
-	          }
+	          this.getOverflows();
 	          if (this.selected && this.selected.value) {
 	            this.selectedLabel = this.selected.currentLabel;
 	          }
 	        }
 	      } else {
-	        var icon = this.$el.querySelector('.el-input__icon');
-	        if (icon && !(0, _class.hasClass)(icon, 'el-icon-circle-close')) {
-	          (0, _class.addClass)(this.$el.querySelector('.el-input__icon'), 'is-reverse');
-	        }
+	        this.handleIconShow();
 	        this.broadcast('ElSelectDropdown', 'updatePopper');
 	        if (this.filterable) {
 	          this.query = this.selectedLabel;
@@ -514,9 +585,7 @@ module.exports =
 	          })[0];
 	        }
 	        if (!this.multiple && this.dropdownUl) {
-	          if (this.bottomOverflowBeforeHidden > 0) {
-	            this.dropdownUl.scrollTop += this.bottomOverflowBeforeHidden;
-	          }
+	          this.setOverflow();
 	        }
 	      }
 	    },
@@ -524,10 +593,82 @@ module.exports =
 	      this.optionsAllDisabled = val.length === val.filter(function (item) {
 	        return item.disabled === true;
 	      }).length;
+	      if (this.multiple) {
+	        this.resetInputHeight();
+	      }
 	    }
 	  },
 
 	  methods: {
+	    handleIconHide: function handleIconHide() {
+	      var icon = this.$el.querySelector('.el-input__icon');
+	      if (icon) {
+	        (0, _class.removeClass)(icon, 'is-reverse');
+	      }
+	    },
+	    handleIconShow: function handleIconShow() {
+	      var icon = this.$el.querySelector('.el-input__icon');
+	      if (icon && !(0, _class.hasClass)(icon, 'el-icon-circle-close')) {
+	        (0, _class.addClass)(icon, 'is-reverse');
+	      }
+	    },
+	    getOverflows: function getOverflows() {
+	      if (this.dropdownUl && this.selected && this.selected.$el) {
+	        var selectedRect = this.selected.$el.getBoundingClientRect();
+	        var popperRect = this.$refs.popper.$el.getBoundingClientRect();
+	        this.bottomOverflowBeforeHidden = selectedRect.bottom - popperRect.bottom;
+	        this.topOverflowBeforeHidden = selectedRect.top - popperRect.top;
+	      }
+	    },
+	    setOverflow: function setOverflow() {
+	      var _this3 = this;
+
+	      if (this.bottomOverflowBeforeHidden > 0) {
+	        this.$nextTick(function () {
+	          _this3.dropdownUl.scrollTop += _this3.bottomOverflowBeforeHidden;
+	        });
+	      } else if (this.topOverflowBeforeHidden < 0) {
+	        this.$nextTick(function () {
+	          _this3.dropdownUl.scrollTop += _this3.topOverflowBeforeHidden;
+	        });
+	      }
+	    },
+	    getSelected: function getSelected() {
+	      var _this4 = this;
+
+	      if (!this.multiple) {
+	        var option = this.options.filter(function (option) {
+	          return option.value === _this4.value;
+	        })[0] || { value: this.value, currentLabel: this.value };
+	        this.selectedLabel = option.currentLabel;
+	        return option;
+	      }
+	      var result = [];
+	      if (Array.isArray(this.value)) {
+	        this.value.forEach(function (value) {
+	          var option = _this4.options.filter(function (option) {
+	            return option.value === value;
+	          })[0];
+	          if (option) {
+	            result.push(option);
+	          } else {
+	            result.push({
+	              value: _this4.value,
+	              currentLabel: value,
+	              hitState: false
+	            });
+	          }
+	        });
+	      }
+	      return result;
+	    },
+	    handleIconClick: function handleIconClick(event) {
+	      if (this.iconClass === 'circle-close') {
+	        this.deleteSelected(event);
+	      } else {
+	        this.toggleMenu();
+	      }
+	    },
 	    handleMouseDown: function handleMouseDown(event) {
 	      if (event.target.tagName !== 'INPUT') return;
 	      if (this.visible) {
@@ -556,21 +697,7 @@ module.exports =
 	    },
 	    deletePrevTag: function deletePrevTag(e) {
 	      if (e.target.value.length <= 0 && !this.toggleLastOptionHitState()) {
-	        this.selected.pop();
-	      }
-	    },
-	    addOptionToValue: function addOptionToValue(option, init) {
-	      if (this.multiple) {
-	        if (this.selected.indexOf(option) === -1 && (this.remote ? this.value.indexOf(option.value) === -1 : true)) {
-	          this.selectedInit = !!init;
-	          this.selected.push(option);
-	          this.resetHoverIndex();
-	        }
-	      } else {
-	        this.selectedInit = !!init;
-	        this.selected = option;
-	        this.selectedLabel = option.currentLabel;
-	        this.hoverIndex = option.index;
+	        this.value.pop();
 	      }
 	    },
 	    managePlaceholder: function managePlaceholder() {
@@ -613,20 +740,24 @@ module.exports =
 	    },
 	    handleOptionSelect: function handleOptionSelect(option) {
 	      if (!this.multiple) {
-	        this.selected = option;
-	        this.selectedLabel = option.currentLabel;
+	        this.$emit('input', option.value);
 	        this.visible = false;
 	      } else {
 	        var optionIndex = -1;
-	        this.selected.forEach(function (item, index) {
-	          if (item === option || item.currentValue === option.currentValue) {
+	        this.value.forEach(function (item, index) {
+	          if (item === option.value) {
 	            optionIndex = index;
 	          }
 	        });
 	        if (optionIndex > -1) {
-	          this.selected.splice(optionIndex, 1);
-	        } else {
-	          this.selected.push(option);
+	          this.value.splice(optionIndex, 1);
+	        } else if (this.multipleLimit <= 0 || this.value.length < this.multipleLimit) {
+	          this.value.push(option.value);
+	        }
+	        if (option.created) {
+	          this.query = '';
+	          this.inputLength = 20;
+	          this.$refs.input.focus();
 	        }
 	      }
 	    },
@@ -643,6 +774,7 @@ module.exports =
 	        this.visible = true;
 	        return;
 	      }
+	      if (this.options.length === 0 || this.filteredOptionsCount === 0) return;
 	      if (!this.optionsAllDisabled) {
 	        if (direction === 'next') {
 	          this.hoverIndex++;
@@ -683,8 +815,6 @@ module.exports =
 	    },
 	    deleteSelected: function deleteSelected(event) {
 	      event.stopPropagation();
-	      this.selected = {};
-	      this.selectedLabel = '';
 	      this.$emit('input', '');
 	      this.$emit('change', '');
 	      this.visible = false;
@@ -692,12 +822,12 @@ module.exports =
 	    deleteTag: function deleteTag(event, tag) {
 	      var index = this.selected.indexOf(tag);
 	      if (index > -1) {
-	        this.selected.splice(index, 1);
+	        this.value.splice(index, 1);
 	      }
 	      event.stopPropagation();
 	    },
 	    onInputChange: function onInputChange() {
-	      if (this.filterable && this.selectedLabel !== this.value) {
+	      if (this.filterable) {
 	        this.query = this.selectedLabel;
 	      }
 	    },
@@ -719,9 +849,11 @@ module.exports =
 	    var _this7 = this;
 
 	    this.cachedPlaceHolder = this.currentPlaceholder = this.placeholder;
-	    if (this.multiple) {
-	      this.selectedInit = true;
-	      this.selected = [];
+	    if (this.multiple && !Array.isArray(this.value)) {
+	      this.$emit('input', []);
+	    }
+	    if (!this.multiple && (!this.value || Array.isArray(this.value))) {
+	      this.$emit('input', '');
 	    }
 	    if (this.remote) {
 	      this.voidRemoteQuery = true;
@@ -731,21 +863,19 @@ module.exports =
 	      _this7.onInputChange();
 	    });
 
-	    this.$on('addOptionToValue', this.addOptionToValue);
 	    this.$on('handleOptionClick', this.handleOptionSelect);
 	    this.$on('onOptionDestroy', this.onOptionDestroy);
 	  },
 	  mounted: function mounted() {
 	    var _this8 = this;
 
+	    if (this.multiple && Array.isArray(this.value) && this.value.length > 0) {
+	      this.currentPlaceholder = '';
+	    }
 	    (0, _resizeEvent.addResizeListener)(this.$el, this.resetInputWidth);
-	    if (this.remote && this.multiple && Array.isArray(this.value)) {
-	      this.selected = this.options.reduce(function (prev, curr) {
-	        return _this8.value.indexOf(curr.value) > -1 ? prev.concat(curr) : prev;
-	      }, []);
-	      this.$nextTick(function () {
-	        _this8.resetInputHeight();
-	      });
+	    this.selected = this.getSelected();
+	    if (this.remote && this.multiple) {
+	      this.resetInputHeight();
 	    }
 	    this.$nextTick(function () {
 	      if (_this8.$refs.reference.$el) {
@@ -756,7 +886,88 @@ module.exports =
 	  destroyed: function destroyed() {
 	    if (this.resetInputWidth) (0, _resizeEvent.removeResizeListener)(this.$el, this.resetInputWidth);
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
@@ -909,10 +1120,7 @@ module.exports =
 	      value: (_vm.handleClose),
 	      expression: "handleClose"
 	    }],
-	    staticClass: "el-select",
-	    class: {
-	      'is-multiple': _vm.multiple, 'is-small': _vm.size === 'small'
-	    }
+	    staticClass: "el-select"
 	  }, [(_vm.multiple) ? _vm._h('div', {
 	    ref: "tags",
 	    staticClass: "el-select__tags",
@@ -931,7 +1139,7 @@ module.exports =
 	    }
 	  }, [_vm._l((_vm.selected), function(item) {
 	    return _vm._h('el-tag', {
-	      key: item,
+	      key: item.value,
 	      attrs: {
 	        "closable": "",
 	        "hit": item.hitState,
@@ -943,7 +1151,7 @@ module.exports =
 	          _vm.deleteTag($event, item)
 	        }
 	      }
-	    }, [_vm._s(item.currentLabel)])
+	    }, ["\n        " + _vm._s(item.currentLabel) + "\n      "])
 	  })]), (_vm.filterable) ? _vm._h('input', {
 	    directives: [{
 	      name: "model",
@@ -1015,7 +1223,7 @@ module.exports =
 	    },
 	    on: {
 	      "focus": _vm.toggleMenu,
-	      "click": _vm.toggleMenu,
+	      "click": _vm.handleIconClick,
 	      "input": function($event) {
 	        _vm.selectedLabel = $event
 	      }
@@ -1073,11 +1281,21 @@ module.exports =
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (_vm.options.length > 0 && _vm.filteredOptionsCount > 0 && !_vm.loading),
-	      expression: "options.length > 0 && filteredOptionsCount > 0 && !loading"
+	      value: (_vm.options.length > 0 && !_vm.loading),
+	      expression: "options.length > 0 && !loading"
 	    }],
-	    staticClass: "el-select-dropdown__list"
-	  }, [_vm._t("default")]), (_vm.emptyText) ? _vm._h('p', {
+	    staticClass: "el-select-dropdown__list",
+	    class: {
+	      'is-empty': !_vm.allowCreate && _vm.filteredOptionsCount === 0
+	    }
+	  }, [(_vm.showNewOption) ? _vm._h('el-option', {
+	    attrs: {
+	      "created": ""
+	    },
+	    domProps: {
+	      "value": _vm.query
+	    }
+	  }) : _vm._e(), _vm._t("default")]), (_vm.emptyText && !_vm.allowCreate) ? _vm._h('p', {
 	    staticClass: "el-select-dropdown__empty"
 	  }, [_vm._s(_vm.emptyText)]) : _vm._e()])])])
 	},staticRenderFns: []}

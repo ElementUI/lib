@@ -190,6 +190,8 @@ module.exports =
 	    });
 	  },
 	  render: function render(h) {
+	    var _this3 = this;
+
 	    var type = this.type,
 	        panes = this.panes,
 	        handleTabRemove = this.handleTabRemove,
@@ -225,7 +227,7 @@ module.exports =
 	        on: { click: function click(ev) {
 	            handleTabClick(tab, ev);
 	          } }
-	      }, [tab.label, tab.isClosable ? btnClose : null, index === 0 ? activeBar : null]);
+	      }, [tab.labelContent ? tab.labelContent.call(_this3._renderProxy, h) : tab.label, tab.isClosable ? btnClose : null, index === 0 ? activeBar : null]);
 	      return _tab;
 	    });
 	    return h(

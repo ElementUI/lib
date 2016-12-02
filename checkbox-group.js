@@ -138,12 +138,7 @@ module.exports =
 	    value: function value(_value) {
 	      this.$emit('change', _value);
 	      this.dispatch('ElFormItem', 'el.form.change', [_value]);
-	      this.broadcast('ElCheckbox', 'initData', [_value]);
 	    }
-	  },
-
-	  mounted: function mounted() {
-	    this.broadcast('ElCheckbox', 'initData', [this.value]);
 	  }
 	};
 

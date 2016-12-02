@@ -122,7 +122,8 @@ module.exports =
 	  instance.dom = instance.vm.$el;
 	  instance.dom.style.zIndex = _vuePopup.PopupManager.nextZIndex();
 
-	  var topDist = 0;
+	  var offset = options.offset || 0;
+	  var topDist = offset;
 	  for (var i = 0, len = instances.length; i < len; i++) {
 	    topDist += instances[i].$el.offsetHeight + 16;
 	  }

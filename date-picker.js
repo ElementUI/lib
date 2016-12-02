@@ -542,6 +542,7 @@ module.exports =
 	        this.pickerVisible = !this.pickerVisible;
 	      } else {
 	        this.internalValue = '';
+	        this.$emit('input', '');
 	      }
 	    },
 	    handleClose: function handleClose() {
@@ -3343,16 +3344,16 @@ module.exports =
 	      return this.rightDate.getMonth();
 	    },
 	    minVisibleDate: function minVisibleDate() {
-	      return (0, _util.formatDate)(this.minDate);
+	      return this.minDate ? (0, _util.formatDate)(this.minDate) : '';
 	    },
 	    maxVisibleDate: function maxVisibleDate() {
-	      return (0, _util.formatDate)(this.maxDate || this.minDate);
+	      return this.maxDate || this.minDate ? (0, _util.formatDate)(this.maxDate || this.minDate) : '';
 	    },
 	    minVisibleTime: function minVisibleTime() {
-	      return (0, _util.formatDate)(this.minDate, 'HH:mm:ss');
+	      return this.minDate ? (0, _util.formatDate)(this.minDate, 'HH:mm:ss') : '';
 	    },
 	    maxVisibleTime: function maxVisibleTime() {
-	      return (0, _util.formatDate)(this.maxDate, 'HH:mm:ss');
+	      return this.maxDate || this.minDate ? (0, _util.formatDate)(this.maxDate || this.minDate, 'HH:mm:ss') : '';
 	    },
 	    rightDate: function rightDate() {
 	      var newDate = new Date(this.date);

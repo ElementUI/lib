@@ -162,6 +162,9 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElInputNumber',
@@ -182,7 +185,11 @@ module.exports =
 	      default: 0
 	    },
 	    disabled: Boolean,
-	    size: String
+	    size: String,
+	    controls: {
+	      type: Boolean,
+	      default: true
+	    }
 	  },
 	  directives: {
 	    repeatClick: {
@@ -356,6 +363,8 @@ module.exports =
 	    class: [
 	      _vm.size ? 'el-input-number--' + _vm.size : '', {
 	        'is-disabled': _vm.disabled
+	      }, {
+	        'is-without-controls': !_vm.controls
 	      }
 	    ]
 	  }, [_vm._h('el-input', {
@@ -382,7 +391,7 @@ module.exports =
 	        _vm.decrease($event)
 	      }]
 	    }
-	  }), _vm._h('span', {
+	  }), (_vm.controls) ? _vm._h('span', {
 	    directives: [{
 	      name: "repeat-click",
 	      rawName: "v-repeat-click",
@@ -401,7 +410,7 @@ module.exports =
 	        _vm.inactiveInput(_vm.minDisabled)
 	      }
 	    }
-	  }), _vm._h('span', {
+	  }) : _vm._e(), (_vm.controls) ? _vm._h('span', {
 	    directives: [{
 	      name: "repeat-click",
 	      rawName: "v-repeat-click",
@@ -420,7 +429,7 @@ module.exports =
 	        _vm.inactiveInput(_vm.maxDisabled)
 	      }
 	    }
-	  })])
+	  }) : _vm._e()])
 	},staticRenderFns: []}
 
 /***/ }

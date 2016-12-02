@@ -145,6 +145,21 @@ module.exports =
 	      } else if (this.model !== null && this.model !== undefined) {
 	        return this.model === this.trueLabel;
 	      }
+	    },
+	    isGroup: function isGroup() {
+	      var parent = this.$parent;
+	      while (parent) {
+	        if (parent.$options.componentName !== 'ElCheckboxGroup') {
+	          parent = parent.$parent;
+	        } else {
+	          this._checkboxGroup = parent;
+	          return true;
+	        }
+	      }
+	      return false;
+	    },
+	    store: function store() {
+	      return this._checkboxGroup.value;
 	    }
 	  },
 
@@ -159,14 +174,6 @@ module.exports =
 	    falseLabel: [String, Number]
 	  },
 
-	  data: function data() {
-	    return {
-	      store: [],
-	      isGroup: false
-	    };
-	  },
-
-
 	  methods: {
 	    addToStore: function addToStore() {
 	      if (Array.isArray(this.model)) {
@@ -178,14 +185,7 @@ module.exports =
 	  },
 
 	  created: function created() {
-	    var _this = this;
-
 	    this.checked && this.addToStore();
-	    this.$on('initData', function (data) {
-	      _this.store = data;
-	      _this.isGroup = true;
-	      _this.checked && _this.addToStore();
-	    });
 	  }
 	}; //
 	//
