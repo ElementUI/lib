@@ -209,6 +209,22 @@ module.exports =
 	  },
 
 
+	  watch: {
+	    defaultFileList: {
+	      immediate: true,
+	      handler: function handler(fileList) {
+	        var _this = this;
+
+	        this.fileList = fileList.map(function (item) {
+	          item.status = 'finished';
+	          item.percentage = 100;
+	          item.uid = Date.now() + _this.tempIndex++;
+	          return item;
+	        });
+	      }
+	    }
+	  },
+
 	  methods: {
 	    handleStart: function handleStart(file) {
 	      file.uid = Date.now() + this.tempIndex++;
@@ -221,13 +237,11 @@ module.exports =
 	        showProgress: true
 	      };
 
-	      if (this.thumbnailMode) {
-	        try {
-	          _file.url = URL.createObjectURL(file);
-	        } catch (err) {
-	          console.log(err);
-	          return;
-	        }
+	      try {
+	        _file.url = URL.createObjectURL(file);
+	      } catch (err) {
+	        console.error(err);
+	        return;
 	      }
 
 	      this.fileList.push(_file);
@@ -281,22 +295,6 @@ module.exports =
 	    },
 	    clearFiles: function clearFiles() {
 	      this.fileList = [];
-	    }
-	  },
-
-	  watch: {
-	    defaultFileList: {
-	      immediate: true,
-	      handler: function handler(fileList) {
-	        var _this = this;
-
-	        this.fileList = fileList.map(function (item) {
-	          item.status = 'finished';
-	          item.percentage = 100;
-	          item.uid = Date.now() + _this.tempIndex++;
-	          return item;
-	        });
-	      }
 	    }
 	  },
 
@@ -953,7 +951,7 @@ module.exports =
 	    }
 	  }, [_vm._h('transition', {
 	    attrs: {
-	      "name": "fade-in"
+	      "name": "el-fade-in"
 	    }
 	  }, [(_vm.image.status === 'uploading') ? _vm._h('el-progress', {
 	    staticClass: "el-dragger__cover__progress",
@@ -978,7 +976,7 @@ module.exports =
 	    }
 	  }), _vm._h('transition', {
 	    attrs: {
-	      "name": "fade-in"
+	      "name": "el-fade-in"
 	    }
 	  }, [_vm._h('div', {
 	    directives: [{
@@ -1019,7 +1017,7 @@ module.exports =
 	    staticClass: "el-icon-delete2"
 	  }), _vm._h('span', [_vm._s(_vm.t('el.upload.delete'))])])])])]), _vm._h('transition', {
 	    attrs: {
-	      "name": "md-fade-top"
+	      "name": "el-zoom-in-bottom"
 	    }
 	  }, [_vm._h('h4', {
 	    directives: [{

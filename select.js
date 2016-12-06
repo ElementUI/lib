@@ -429,11 +429,8 @@ module.exports =
 	      if (this.loading) {
 	        return this.t('el.select.loading');
 	      } else {
-	        if (this.voidRemoteQuery) {
-	          this.voidRemoteQuery = false;
-	          return false;
-	        }
-	        if (this.filterable && this.filteredOptionsCount === 0) {
+	        if (this.remote && this.query === '' && this.options.length === 0) return false;
+	        if (this.filterable && this.options.length > 0 && this.filteredOptionsCount === 0) {
 	          return this.t('el.select.noMatch');
 	        }
 	        if (this.options.length === 0) {
@@ -502,7 +499,6 @@ module.exports =
 	      selectedLabel: '',
 	      hoverIndex: -1,
 	      query: '',
-	      voidRemoteQuery: false,
 	      bottomOverflowBeforeHidden: 0,
 	      topOverflowBeforeHidden: 0,
 	      optionsAllDisabled: false,
@@ -519,7 +515,7 @@ module.exports =
 	    value: function value(val) {
 	      if (this.multiple) {
 	        this.resetInputHeight();
-	        if (val.length > 0) {
+	        if (val.length > 0 || this.$refs.input && this.query !== '') {
 	          this.currentPlaceholder = '';
 	        } else {
 	          this.currentPlaceholder = this.cachedPlaceHolder;
@@ -541,7 +537,6 @@ module.exports =
 	      if (this.remote && typeof this.remoteMethod === 'function') {
 	        this.hoverIndex = -1;
 	        this.remoteMethod(val);
-	        this.voidRemoteQuery = val === '';
 	        this.broadcast('ElOption', 'resetIndex');
 	      } else if (typeof this.filterMethod === 'function') {
 	        this.filterMethod(val);
@@ -551,6 +546,8 @@ module.exports =
 	      }
 	    },
 	    visible: function visible(val) {
+	      var _this3 = this;
+
 	      if (!val) {
 	        this.$refs.reference.$el.querySelector('input').blur();
 	        this.handleIconHide();
@@ -561,9 +558,14 @@ module.exports =
 	        this.query = '';
 	        this.selectedLabel = '';
 	        this.resetHoverIndex();
+	        this.$nextTick(function () {
+	          if (_this3.$refs.input && _this3.$refs.input.value === '' && _this3.selected.length === 0) {
+	            _this3.currentPlaceholder = _this3.cachedPlaceHolder;
+	          }
+	        });
 	        if (!this.multiple) {
 	          this.getOverflows();
-	          if (this.selected && this.selected.value) {
+	          if (this.selected) {
 	            this.selectedLabel = this.selected.currentLabel;
 	          }
 	        }
@@ -596,6 +598,10 @@ module.exports =
 	      if (this.multiple) {
 	        this.resetInputHeight();
 	      }
+	      var inputs = this.$el.querySelectorAll('input');
+	      if ([].indexOf.call(inputs, document.activeElement) === -1) {
+	        this.selected = this.getSelected();
+	      }
 	    }
 	  },
 
@@ -621,43 +627,45 @@ module.exports =
 	      }
 	    },
 	    setOverflow: function setOverflow() {
-	      var _this3 = this;
+	      var _this4 = this;
 
 	      if (this.bottomOverflowBeforeHidden > 0) {
 	        this.$nextTick(function () {
-	          _this3.dropdownUl.scrollTop += _this3.bottomOverflowBeforeHidden;
+	          _this4.dropdownUl.scrollTop += _this4.bottomOverflowBeforeHidden;
 	        });
 	      } else if (this.topOverflowBeforeHidden < 0) {
 	        this.$nextTick(function () {
-	          _this3.dropdownUl.scrollTop += _this3.topOverflowBeforeHidden;
+	          _this4.dropdownUl.scrollTop += _this4.topOverflowBeforeHidden;
 	        });
 	      }
 	    },
+	    getOption: function getOption(value) {
+	      var option = this.options.filter(function (option) {
+	        return option.value === value;
+	      })[0];
+	      if (option) return option;
+	      var label = typeof value === 'string' || typeof value === 'number' ? value : '';
+	      var newOption = {
+	        value: value,
+	        currentLabel: label
+	      };
+	      if (this.multiple) {
+	        newOption.hitState = false;
+	      }
+	      return newOption;
+	    },
 	    getSelected: function getSelected() {
-	      var _this4 = this;
+	      var _this5 = this;
 
 	      if (!this.multiple) {
-	        var option = this.options.filter(function (option) {
-	          return option.value === _this4.value;
-	        })[0] || { value: this.value, currentLabel: this.value };
+	        var option = this.getOption(this.value);
 	        this.selectedLabel = option.currentLabel;
 	        return option;
 	      }
 	      var result = [];
 	      if (Array.isArray(this.value)) {
 	        this.value.forEach(function (value) {
-	          var option = _this4.options.filter(function (option) {
-	            return option.value === value;
-	          })[0];
-	          if (option) {
-	            result.push(option);
-	          } else {
-	            result.push({
-	              value: _this4.value,
-	              currentLabel: value,
-	              hitState: false
-	            });
-	          }
+	          result.push(_this5.getOption(value));
 	        });
 	      }
 	      return result;
@@ -710,30 +718,30 @@ module.exports =
 	      this.inputLength = this.$refs.input.value.length * 15 + 20;
 	    },
 	    resetInputHeight: function resetInputHeight() {
-	      var _this5 = this;
+	      var _this6 = this;
 
 	      this.$nextTick(function () {
-	        var inputChildNodes = _this5.$refs.reference.$el.childNodes;
+	        var inputChildNodes = _this6.$refs.reference.$el.childNodes;
 	        var input = [].filter.call(inputChildNodes, function (item) {
 	          return item.tagName === 'INPUT';
 	        })[0];
-	        input.style.height = Math.max(_this5.$refs.tags.clientHeight + 6, _this5.size === 'small' ? 28 : 36) + 'px';
-	        _this5.broadcast('ElSelectDropdown', 'updatePopper');
+	        input.style.height = Math.max(_this6.$refs.tags.clientHeight + 6, _this6.size === 'small' ? 28 : 36) + 'px';
+	        _this6.broadcast('ElSelectDropdown', 'updatePopper');
 	      });
 	    },
 	    resetHoverIndex: function resetHoverIndex() {
-	      var _this6 = this;
+	      var _this7 = this;
 
 	      setTimeout(function () {
-	        if (!_this6.multiple) {
-	          _this6.hoverIndex = _this6.options.indexOf(_this6.selected);
+	        if (!_this7.multiple) {
+	          _this7.hoverIndex = _this7.options.indexOf(_this7.selected);
 	        } else {
-	          if (_this6.selected.length > 0) {
-	            _this6.hoverIndex = Math.min.apply(null, _this6.selected.map(function (item) {
-	              return _this6.options.indexOf(item);
+	          if (_this7.selected.length > 0) {
+	            _this7.hoverIndex = Math.min.apply(null, _this7.selected.map(function (item) {
+	              return _this7.options.indexOf(item);
 	            }));
 	          } else {
-	            _this6.hoverIndex = -1;
+	            _this7.hoverIndex = -1;
 	          }
 	        }
 	      }, 300);
@@ -846,28 +854,25 @@ module.exports =
 	  },
 
 	  created: function created() {
-	    var _this7 = this;
+	    var _this8 = this;
 
 	    this.cachedPlaceHolder = this.currentPlaceholder = this.placeholder;
 	    if (this.multiple && !Array.isArray(this.value)) {
 	      this.$emit('input', []);
 	    }
-	    if (!this.multiple && (!this.value || Array.isArray(this.value))) {
+	    if (!this.multiple && Array.isArray(this.value)) {
 	      this.$emit('input', '');
-	    }
-	    if (this.remote) {
-	      this.voidRemoteQuery = true;
 	    }
 
 	    this.debouncedOnInputChange = (0, _debounce2.default)(this.debounce, function () {
-	      _this7.onInputChange();
+	      _this8.onInputChange();
 	    });
 
 	    this.$on('handleOptionClick', this.handleOptionSelect);
 	    this.$on('onOptionDestroy', this.onOptionDestroy);
 	  },
 	  mounted: function mounted() {
-	    var _this8 = this;
+	    var _this9 = this;
 
 	    if (this.multiple && Array.isArray(this.value) && this.value.length > 0) {
 	      this.currentPlaceholder = '';
@@ -878,8 +883,8 @@ module.exports =
 	      this.resetInputHeight();
 	    }
 	    this.$nextTick(function () {
-	      if (_this8.$refs.reference.$el) {
-	        _this8.inputWidth = _this8.$refs.reference.$el.getBoundingClientRect().width;
+	      if (_this9.$refs.reference.$el) {
+	        _this9.inputWidth = _this9.$refs.reference.$el.getBoundingClientRect().width;
 	      }
 	    });
 	  },
@@ -1264,7 +1269,7 @@ module.exports =
 	    }
 	  }), _vm._h('transition', {
 	    attrs: {
-	      "name": "md-fade-bottom"
+	      "name": "el-zoom-in-top"
 	    },
 	    on: {
 	      "after-leave": _vm.doDestroy

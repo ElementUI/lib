@@ -265,7 +265,7 @@ module.exports =
 	    }
 	  })]), _vm._h('transition', {
 	    attrs: {
-	      "name": _vm.rootMenu.mode === 'horizontal' ? 'md-fade-bottom' : ''
+	      "name": _vm.rootMenu.mode === 'horizontal' ? 'el-zoom-in-top' : ''
 	    }
 	  }, [_vm._h('ul', {
 	    directives: [{

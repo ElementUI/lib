@@ -1916,7 +1916,7 @@ module.exports =
 	module.exports={render:function (){var _vm=this;
 	  return _vm._h('transition', {
 	    attrs: {
-	      "name": "md-fade-bottom"
+	      "name": "el-zoom-in-top"
 	    },
 	    on: {
 	      "after-leave": function($event) {
@@ -2873,7 +2873,7 @@ module.exports =
 	module.exports={render:function (){var _vm=this;
 	  return _vm._h('transition', {
 	    attrs: {
-	      "name": "md-fade-bottom"
+	      "name": "el-zoom-in-top"
 	    },
 	    on: {
 	      "after-leave": function($event) {
@@ -3620,7 +3620,7 @@ module.exports =
 	module.exports={render:function (){var _vm=this;
 	  return _vm._h('transition', {
 	    attrs: {
-	      "name": "md-fade-bottom"
+	      "name": "el-zoom-in-top"
 	    },
 	    on: {
 	      "after-leave": function($event) {

@@ -381,7 +381,7 @@ module.exports =
 	    style: (_vm.contentStyle)
 	  }, [_vm._t("default"), _vm._h('transition', {
 	    attrs: {
-	      "name": "md-fade-bottom"
+	      "name": "el-zoom-in-top"
 	    }
 	  }, [(_vm.validateState === 'error') ? _vm._h('div', {
 	    staticClass: "el-form-item__error"

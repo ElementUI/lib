@@ -331,7 +331,7 @@ module.exports =
 	    slot: "append"
 	  }, [_vm._t("append")]) : _vm._e()]), _vm._h('transition', {
 	    attrs: {
-	      "name": "md-fade-bottom"
+	      "name": "el-zoom-in-top"
 	    }
 	  }, [(_vm.suggestionVisible) ? _vm._h('ul', {
 	    ref: "suggestions",

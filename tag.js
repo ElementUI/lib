@@ -146,7 +146,7 @@ module.exports =
 	module.exports={render:function (){var _vm=this;
 	  return _vm._h('transition', {
 	    attrs: {
-	      "name": _vm.closeTransition ? '' : 'md-fade-center'
+	      "name": _vm.closeTransition ? '' : 'el-zoom-in-center'
 	    }
 	  }, [_vm._h('span', {
 	    staticClass: "el-tag",
