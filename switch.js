@@ -239,7 +239,7 @@ module.exports =
 	      this.coreWidth = this.hasText ? 58 : 46;
 	    }
 	    this.handleButtonTransform();
-	    if ((this.onColor || this.offColor) && !this.disabled) {
+	    if (this.onColor || this.offColor) {
 	      this.setBackgroundColor();
 	    }
 	  }

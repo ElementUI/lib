@@ -239,6 +239,7 @@ module.exports =
 
 	  created: function created() {
 	    this.parent.options.push(this);
+	    this.parent.cachedOptions.push(this);
 	    this.parent.optionsCount++;
 	    this.parent.filteredOptionsCount++;
 	    this.index = this.parent.options.indexOf(this);
@@ -407,23 +408,11 @@ module.exports =
 
 	  computed: {
 	    iconClass: function iconClass() {
-	      return this.showCloseIcon ? 'circle-close' : this.remote && this.filterable ? '' : 'caret-top';
+	      var criteria = this.clearable && !this.disabled && this.inputHovering && !this.multiple && this.value !== undefined && this.value !== '';
+	      return criteria ? 'circle-close is-show-close' : this.remote && this.filterable ? '' : 'caret-top';
 	    },
 	    debounce: function debounce() {
 	      return this.remote ? 300 : 0;
-	    },
-	    showCloseIcon: function showCloseIcon() {
-	      var _this = this;
-
-	      var criteria = this.clearable && this.inputHovering && !this.multiple && this.value !== undefined && this.value !== '';
-	      if (!this.$el) return false;
-	      this.$nextTick(function () {
-	        var icon = _this.$el.querySelector('.el-input__icon');
-	        if (icon) {
-	          criteria ? (0, _class.addClass)(icon, 'is-show-close') : (0, _class.removeClass)(icon, 'is-show-close');
-	        }
-	      });
-	      return criteria;
 	    },
 	    emptyText: function emptyText() {
 	      if (this.loading) {
@@ -440,12 +429,12 @@ module.exports =
 	      return null;
 	    },
 	    showNewOption: function showNewOption() {
-	      var _this2 = this;
+	      var _this = this;
 
 	      var hasExistingOption = this.options.filter(function (option) {
 	        return !option.created;
 	      }).some(function (option) {
-	        return option.currentLabel === _this2.query;
+	        return option.currentLabel === _this.query;
 	      });
 	      return this.filterable && this.allowCreate && this.query !== '' && !hasExistingOption;
 	    }
@@ -487,6 +476,7 @@ module.exports =
 	  data: function data() {
 	    return {
 	      options: [],
+	      cachedOptions: [],
 	      selected: this.multiple ? [] : {},
 	      isSelect: true,
 	      inputLength: 20,
@@ -520,13 +510,13 @@ module.exports =
 	        } else {
 	          this.currentPlaceholder = this.cachedPlaceHolder;
 	        }
+	        this.dispatch('ElFormItem', 'el.form.change', val);
 	      }
-	      this.selected = this.getSelected();
+	      this.setSelected();
 	      if (this.filterable && !this.multiple) {
 	        this.inputLength = 20;
 	      }
 	      this.$emit('change', val);
-	      this.dispatch('ElFormItem', 'el.form.change', val);
 	    },
 	    query: function query(val) {
 	      this.broadcast('ElSelectDropdown', 'updatePopper');
@@ -546,7 +536,7 @@ module.exports =
 	      }
 	    },
 	    visible: function visible(val) {
-	      var _this3 = this;
+	      var _this2 = this;
 
 	      if (!val) {
 	        this.$refs.reference.$el.querySelector('input').blur();
@@ -559,8 +549,8 @@ module.exports =
 	        this.selectedLabel = '';
 	        this.resetHoverIndex();
 	        this.$nextTick(function () {
-	          if (_this3.$refs.input && _this3.$refs.input.value === '' && _this3.selected.length === 0) {
-	            _this3.currentPlaceholder = _this3.cachedPlaceHolder;
+	          if (_this2.$refs.input && _this2.$refs.input.value === '' && _this2.selected.length === 0) {
+	            _this2.currentPlaceholder = _this2.cachedPlaceHolder;
 	          }
 	        });
 	        if (!this.multiple) {
@@ -600,7 +590,7 @@ module.exports =
 	      }
 	      var inputs = this.$el.querySelectorAll('input');
 	      if ([].indexOf.call(inputs, document.activeElement) === -1) {
-	        this.selected = this.getSelected();
+	        this.setSelected();
 	      }
 	    }
 	  },
@@ -627,20 +617,20 @@ module.exports =
 	      }
 	    },
 	    setOverflow: function setOverflow() {
-	      var _this4 = this;
+	      var _this3 = this;
 
 	      if (this.bottomOverflowBeforeHidden > 0) {
 	        this.$nextTick(function () {
-	          _this4.dropdownUl.scrollTop += _this4.bottomOverflowBeforeHidden;
+	          _this3.dropdownUl.scrollTop += _this3.bottomOverflowBeforeHidden;
 	        });
 	      } else if (this.topOverflowBeforeHidden < 0) {
 	        this.$nextTick(function () {
-	          _this4.dropdownUl.scrollTop += _this4.topOverflowBeforeHidden;
+	          _this3.dropdownUl.scrollTop += _this3.topOverflowBeforeHidden;
 	        });
 	      }
 	    },
 	    getOption: function getOption(value) {
-	      var option = this.options.filter(function (option) {
+	      var option = this.cachedOptions.filter(function (option) {
 	        return option.value === value;
 	      })[0];
 	      if (option) return option;
@@ -654,24 +644,25 @@ module.exports =
 	      }
 	      return newOption;
 	    },
-	    getSelected: function getSelected() {
-	      var _this5 = this;
+	    setSelected: function setSelected() {
+	      var _this4 = this;
 
 	      if (!this.multiple) {
 	        var option = this.getOption(this.value);
 	        this.selectedLabel = option.currentLabel;
-	        return option;
+	        this.selected = option;
+	        return;
 	      }
 	      var result = [];
 	      if (Array.isArray(this.value)) {
 	        this.value.forEach(function (value) {
-	          result.push(_this5.getOption(value));
+	          result.push(_this4.getOption(value));
 	        });
 	      }
-	      return result;
+	      this.selected = result;
 	    },
 	    handleIconClick: function handleIconClick(event) {
-	      if (this.iconClass === 'circle-close') {
+	      if (this.iconClass.indexOf('circle-close') > -1) {
 	        this.deleteSelected(event);
 	      } else {
 	        this.toggleMenu();
@@ -718,30 +709,30 @@ module.exports =
 	      this.inputLength = this.$refs.input.value.length * 15 + 20;
 	    },
 	    resetInputHeight: function resetInputHeight() {
-	      var _this6 = this;
+	      var _this5 = this;
 
 	      this.$nextTick(function () {
-	        var inputChildNodes = _this6.$refs.reference.$el.childNodes;
+	        var inputChildNodes = _this5.$refs.reference.$el.childNodes;
 	        var input = [].filter.call(inputChildNodes, function (item) {
 	          return item.tagName === 'INPUT';
 	        })[0];
-	        input.style.height = Math.max(_this6.$refs.tags.clientHeight + 6, _this6.size === 'small' ? 28 : 36) + 'px';
-	        _this6.broadcast('ElSelectDropdown', 'updatePopper');
+	        input.style.height = Math.max(_this5.$refs.tags.clientHeight + 6, _this5.size === 'small' ? 28 : 36) + 'px';
+	        _this5.broadcast('ElSelectDropdown', 'updatePopper');
 	      });
 	    },
 	    resetHoverIndex: function resetHoverIndex() {
-	      var _this7 = this;
+	      var _this6 = this;
 
 	      setTimeout(function () {
-	        if (!_this7.multiple) {
-	          _this7.hoverIndex = _this7.options.indexOf(_this7.selected);
+	        if (!_this6.multiple) {
+	          _this6.hoverIndex = _this6.options.indexOf(_this6.selected);
 	        } else {
-	          if (_this7.selected.length > 0) {
-	            _this7.hoverIndex = Math.min.apply(null, _this7.selected.map(function (item) {
-	              return _this7.options.indexOf(item);
+	          if (_this6.selected.length > 0) {
+	            _this6.hoverIndex = Math.min.apply(null, _this6.selected.map(function (item) {
+	              return _this6.options.indexOf(item);
 	            }));
 	          } else {
-	            _this7.hoverIndex = -1;
+	            _this6.hoverIndex = -1;
 	          }
 	        }
 	      }, 300);
@@ -824,7 +815,6 @@ module.exports =
 	    deleteSelected: function deleteSelected(event) {
 	      event.stopPropagation();
 	      this.$emit('input', '');
-	      this.$emit('change', '');
 	      this.visible = false;
 	    },
 	    deleteTag: function deleteTag(event, tag) {
@@ -854,7 +844,7 @@ module.exports =
 	  },
 
 	  created: function created() {
-	    var _this8 = this;
+	    var _this7 = this;
 
 	    this.cachedPlaceHolder = this.currentPlaceholder = this.placeholder;
 	    if (this.multiple && !Array.isArray(this.value)) {
@@ -863,28 +853,28 @@ module.exports =
 	    if (!this.multiple && Array.isArray(this.value)) {
 	      this.$emit('input', '');
 	    }
+	    this.setSelected();
 
 	    this.debouncedOnInputChange = (0, _debounce2.default)(this.debounce, function () {
-	      _this8.onInputChange();
+	      _this7.onInputChange();
 	    });
 
 	    this.$on('handleOptionClick', this.handleOptionSelect);
 	    this.$on('onOptionDestroy', this.onOptionDestroy);
 	  },
 	  mounted: function mounted() {
-	    var _this9 = this;
+	    var _this8 = this;
 
 	    if (this.multiple && Array.isArray(this.value) && this.value.length > 0) {
 	      this.currentPlaceholder = '';
 	    }
 	    (0, _resizeEvent.addResizeListener)(this.$el, this.resetInputWidth);
-	    this.selected = this.getSelected();
 	    if (this.remote && this.multiple) {
 	      this.resetInputHeight();
 	    }
 	    this.$nextTick(function () {
-	      if (_this9.$refs.reference.$el) {
-	        _this9.inputWidth = _this9.$refs.reference.$el.getBoundingClientRect().width;
+	      if (_this8.$refs.reference.$el) {
+	        _this8.inputWidth = _this8.$refs.reference.$el.getBoundingClientRect().width;
 	      }
 	    });
 	  },

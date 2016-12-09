@@ -358,7 +358,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.0.5',
+	  version: '1.0.6',
 	  locale: _locale2.default.use,
 	  install: install,
 	  Loading: _loading2.default,
@@ -1660,9 +1660,7 @@ module.exports =
 	    class: {
 	      'is-loading': _vm.loading
 	    }
-	  }, [(_vm.loading) ? _vm._h('li', [_vm._h('i', {
-	    staticClass: "el-icon-loading"
-	  })]) : _vm._l((_vm.suggestions), function(item, index) {
+	  }, [(_vm.loading) ? _vm._h('li', [_vm._m(0)]) : _vm._l((_vm.suggestions), function(item, index) {
 	    return [(!_vm.customItem) ? _vm._h('li', {
 	      class: {
 	        'highlighted': _vm.highlightedIndex === index
@@ -1688,7 +1686,11 @@ module.exports =
 	      }
 	    })]
 	  })]) : _vm._e()])])
-	},staticRenderFns: []}
+	},staticRenderFns: [function (){var _vm=this;
+	  return _vm._h('i', {
+	    staticClass: "el-icon-loading"
+	  })
+	}]}
 
 /***/ },
 /* 22 */
@@ -2915,6 +2917,8 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElInput',
@@ -3117,13 +3121,13 @@ module.exports =
 	    ]
 	  }, [(_vm.type !== 'textarea') ? [(_vm.$slots.prepend) ? _vm._h('div', {
 	    staticClass: "el-input-group__prepend"
-	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.icon) ? _vm._h('i', {
+	  }, [_vm._t("prepend")]) : _vm._e(), _vm._t("icon", [(_vm.icon) ? _vm._h('i', {
 	    staticClass: "el-input__icon",
 	    class: 'el-icon-' + _vm.icon,
 	    on: {
 	      "click": _vm.handleIconClick
 	    }
-	  }) : _vm._e(), (_vm.type !== 'textarea') ? _vm._h('input', {
+	  }) : _vm._e()]), (_vm.type !== 'textarea') ? _vm._h('input', {
 	    ref: "input",
 	    staticClass: "el-input__inner",
 	    attrs: {
@@ -4551,7 +4555,7 @@ module.exports =
 	      this.coreWidth = this.hasText ? 58 : 46;
 	    }
 	    this.handleButtonTransform();
-	    if ((this.onColor || this.offColor) && !this.disabled) {
+	    if (this.onColor || this.offColor) {
 	      this.setBackgroundColor();
 	    }
 	  }
@@ -4762,23 +4766,11 @@ module.exports =
 
 	  computed: {
 	    iconClass: function iconClass() {
-	      return this.showCloseIcon ? 'circle-close' : this.remote && this.filterable ? '' : 'caret-top';
+	      var criteria = this.clearable && !this.disabled && this.inputHovering && !this.multiple && this.value !== undefined && this.value !== '';
+	      return criteria ? 'circle-close is-show-close' : this.remote && this.filterable ? '' : 'caret-top';
 	    },
 	    debounce: function debounce() {
 	      return this.remote ? 300 : 0;
-	    },
-	    showCloseIcon: function showCloseIcon() {
-	      var _this = this;
-
-	      var criteria = this.clearable && this.inputHovering && !this.multiple && this.value !== undefined && this.value !== '';
-	      if (!this.$el) return false;
-	      this.$nextTick(function () {
-	        var icon = _this.$el.querySelector('.el-input__icon');
-	        if (icon) {
-	          criteria ? (0, _class.addClass)(icon, 'is-show-close') : (0, _class.removeClass)(icon, 'is-show-close');
-	        }
-	      });
-	      return criteria;
 	    },
 	    emptyText: function emptyText() {
 	      if (this.loading) {
@@ -4795,12 +4787,12 @@ module.exports =
 	      return null;
 	    },
 	    showNewOption: function showNewOption() {
-	      var _this2 = this;
+	      var _this = this;
 
 	      var hasExistingOption = this.options.filter(function (option) {
 	        return !option.created;
 	      }).some(function (option) {
-	        return option.currentLabel === _this2.query;
+	        return option.currentLabel === _this.query;
 	      });
 	      return this.filterable && this.allowCreate && this.query !== '' && !hasExistingOption;
 	    }
@@ -4842,6 +4834,7 @@ module.exports =
 	  data: function data() {
 	    return {
 	      options: [],
+	      cachedOptions: [],
 	      selected: this.multiple ? [] : {},
 	      isSelect: true,
 	      inputLength: 20,
@@ -4875,13 +4868,13 @@ module.exports =
 	        } else {
 	          this.currentPlaceholder = this.cachedPlaceHolder;
 	        }
+	        this.dispatch('ElFormItem', 'el.form.change', val);
 	      }
-	      this.selected = this.getSelected();
+	      this.setSelected();
 	      if (this.filterable && !this.multiple) {
 	        this.inputLength = 20;
 	      }
 	      this.$emit('change', val);
-	      this.dispatch('ElFormItem', 'el.form.change', val);
 	    },
 	    query: function query(val) {
 	      this.broadcast('ElSelectDropdown', 'updatePopper');
@@ -4901,7 +4894,7 @@ module.exports =
 	      }
 	    },
 	    visible: function visible(val) {
-	      var _this3 = this;
+	      var _this2 = this;
 
 	      if (!val) {
 	        this.$refs.reference.$el.querySelector('input').blur();
@@ -4914,8 +4907,8 @@ module.exports =
 	        this.selectedLabel = '';
 	        this.resetHoverIndex();
 	        this.$nextTick(function () {
-	          if (_this3.$refs.input && _this3.$refs.input.value === '' && _this3.selected.length === 0) {
-	            _this3.currentPlaceholder = _this3.cachedPlaceHolder;
+	          if (_this2.$refs.input && _this2.$refs.input.value === '' && _this2.selected.length === 0) {
+	            _this2.currentPlaceholder = _this2.cachedPlaceHolder;
 	          }
 	        });
 	        if (!this.multiple) {
@@ -4955,7 +4948,7 @@ module.exports =
 	      }
 	      var inputs = this.$el.querySelectorAll('input');
 	      if ([].indexOf.call(inputs, document.activeElement) === -1) {
-	        this.selected = this.getSelected();
+	        this.setSelected();
 	      }
 	    }
 	  },
@@ -4982,20 +4975,20 @@ module.exports =
 	      }
 	    },
 	    setOverflow: function setOverflow() {
-	      var _this4 = this;
+	      var _this3 = this;
 
 	      if (this.bottomOverflowBeforeHidden > 0) {
 	        this.$nextTick(function () {
-	          _this4.dropdownUl.scrollTop += _this4.bottomOverflowBeforeHidden;
+	          _this3.dropdownUl.scrollTop += _this3.bottomOverflowBeforeHidden;
 	        });
 	      } else if (this.topOverflowBeforeHidden < 0) {
 	        this.$nextTick(function () {
-	          _this4.dropdownUl.scrollTop += _this4.topOverflowBeforeHidden;
+	          _this3.dropdownUl.scrollTop += _this3.topOverflowBeforeHidden;
 	        });
 	      }
 	    },
 	    getOption: function getOption(value) {
-	      var option = this.options.filter(function (option) {
+	      var option = this.cachedOptions.filter(function (option) {
 	        return option.value === value;
 	      })[0];
 	      if (option) return option;
@@ -5009,24 +5002,25 @@ module.exports =
 	      }
 	      return newOption;
 	    },
-	    getSelected: function getSelected() {
-	      var _this5 = this;
+	    setSelected: function setSelected() {
+	      var _this4 = this;
 
 	      if (!this.multiple) {
 	        var option = this.getOption(this.value);
 	        this.selectedLabel = option.currentLabel;
-	        return option;
+	        this.selected = option;
+	        return;
 	      }
 	      var result = [];
 	      if (Array.isArray(this.value)) {
 	        this.value.forEach(function (value) {
-	          result.push(_this5.getOption(value));
+	          result.push(_this4.getOption(value));
 	        });
 	      }
-	      return result;
+	      this.selected = result;
 	    },
 	    handleIconClick: function handleIconClick(event) {
-	      if (this.iconClass === 'circle-close') {
+	      if (this.iconClass.indexOf('circle-close') > -1) {
 	        this.deleteSelected(event);
 	      } else {
 	        this.toggleMenu();
@@ -5073,30 +5067,30 @@ module.exports =
 	      this.inputLength = this.$refs.input.value.length * 15 + 20;
 	    },
 	    resetInputHeight: function resetInputHeight() {
-	      var _this6 = this;
+	      var _this5 = this;
 
 	      this.$nextTick(function () {
-	        var inputChildNodes = _this6.$refs.reference.$el.childNodes;
+	        var inputChildNodes = _this5.$refs.reference.$el.childNodes;
 	        var input = [].filter.call(inputChildNodes, function (item) {
 	          return item.tagName === 'INPUT';
 	        })[0];
-	        input.style.height = Math.max(_this6.$refs.tags.clientHeight + 6, _this6.size === 'small' ? 28 : 36) + 'px';
-	        _this6.broadcast('ElSelectDropdown', 'updatePopper');
+	        input.style.height = Math.max(_this5.$refs.tags.clientHeight + 6, _this5.size === 'small' ? 28 : 36) + 'px';
+	        _this5.broadcast('ElSelectDropdown', 'updatePopper');
 	      });
 	    },
 	    resetHoverIndex: function resetHoverIndex() {
-	      var _this7 = this;
+	      var _this6 = this;
 
 	      setTimeout(function () {
-	        if (!_this7.multiple) {
-	          _this7.hoverIndex = _this7.options.indexOf(_this7.selected);
+	        if (!_this6.multiple) {
+	          _this6.hoverIndex = _this6.options.indexOf(_this6.selected);
 	        } else {
-	          if (_this7.selected.length > 0) {
-	            _this7.hoverIndex = Math.min.apply(null, _this7.selected.map(function (item) {
-	              return _this7.options.indexOf(item);
+	          if (_this6.selected.length > 0) {
+	            _this6.hoverIndex = Math.min.apply(null, _this6.selected.map(function (item) {
+	              return _this6.options.indexOf(item);
 	            }));
 	          } else {
-	            _this7.hoverIndex = -1;
+	            _this6.hoverIndex = -1;
 	          }
 	        }
 	      }, 300);
@@ -5179,7 +5173,6 @@ module.exports =
 	    deleteSelected: function deleteSelected(event) {
 	      event.stopPropagation();
 	      this.$emit('input', '');
-	      this.$emit('change', '');
 	      this.visible = false;
 	    },
 	    deleteTag: function deleteTag(event, tag) {
@@ -5209,7 +5202,7 @@ module.exports =
 	  },
 
 	  created: function created() {
-	    var _this8 = this;
+	    var _this7 = this;
 
 	    this.cachedPlaceHolder = this.currentPlaceholder = this.placeholder;
 	    if (this.multiple && !Array.isArray(this.value)) {
@@ -5218,28 +5211,28 @@ module.exports =
 	    if (!this.multiple && Array.isArray(this.value)) {
 	      this.$emit('input', '');
 	    }
+	    this.setSelected();
 
 	    this.debouncedOnInputChange = (0, _debounce2.default)(this.debounce, function () {
-	      _this8.onInputChange();
+	      _this7.onInputChange();
 	    });
 
 	    this.$on('handleOptionClick', this.handleOptionSelect);
 	    this.$on('onOptionDestroy', this.onOptionDestroy);
 	  },
 	  mounted: function mounted() {
-	    var _this9 = this;
+	    var _this8 = this;
 
 	    if (this.multiple && Array.isArray(this.value) && this.value.length > 0) {
 	      this.currentPlaceholder = '';
 	    }
 	    (0, _resizeEvent.addResizeListener)(this.$el, this.resetInputWidth);
-	    this.selected = this.getSelected();
 	    if (this.remote && this.multiple) {
 	      this.resetInputHeight();
 	    }
 	    this.$nextTick(function () {
-	      if (_this9.$refs.reference.$el) {
-	        _this9.inputWidth = _this9.$refs.reference.$el.getBoundingClientRect().width;
+	      if (_this8.$refs.reference.$el) {
+	        _this8.inputWidth = _this8.$refs.reference.$el.getBoundingClientRect().width;
 	      }
 	    });
 	  },
@@ -5582,6 +5575,7 @@ module.exports =
 
 	  created: function created() {
 	    this.parent.options.push(this);
+	    this.parent.cachedOptions.push(this);
 	    this.parent.optionsCount++;
 	    this.parent.filteredOptionsCount++;
 	    this.index = this.parent.options.indexOf(this);
@@ -6275,11 +6269,15 @@ module.exports =
 
 	exports.__esModule = true;
 
+	var _checkbox = __webpack_require__(117);
+
+	var _checkbox2 = _interopRequireDefault(_checkbox);
+
 	var _migrating = __webpack_require__(9);
 
 	var _migrating2 = _interopRequireDefault(_migrating);
 
-	var _throttle = __webpack_require__(117);
+	var _throttle = __webpack_require__(118);
 
 	var _throttle2 = _interopRequireDefault(_throttle);
 
@@ -6289,28 +6287,31 @@ module.exports =
 
 	var _resizeEvent = __webpack_require__(98);
 
-	var _locale = __webpack_require__(99);
+	var _locale = __webpack_require__(10);
 
-	var _tableStore = __webpack_require__(118);
+	var _locale2 = _interopRequireDefault(_locale);
+
+	var _tableStore = __webpack_require__(119);
 
 	var _tableStore2 = _interopRequireDefault(_tableStore);
 
-	var _tableLayout = __webpack_require__(121);
+	var _tableLayout = __webpack_require__(122);
 
 	var _tableLayout2 = _interopRequireDefault(_tableLayout);
 
-	var _tableBody = __webpack_require__(122);
+	var _tableBody = __webpack_require__(123);
 
 	var _tableBody2 = _interopRequireDefault(_tableBody);
 
-	var _tableHeader = __webpack_require__(123);
+	var _tableHeader = __webpack_require__(124);
 
 	var _tableHeader2 = _interopRequireDefault(_tableHeader);
 
-	var _util = __webpack_require__(120);
+	var _util = __webpack_require__(121);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var tableIdSeed = 1; //
 	//
 	//
 	//
@@ -6410,13 +6411,13 @@ module.exports =
 	//
 	//
 	//
-
-	var tableIdSeed = 1;
+	//
+	//
 
 	exports.default = {
 	  name: 'el-table',
 
-	  mixins: [_migrating2.default],
+	  mixins: [_migrating2.default, _locale2.default],
 
 	  props: {
 	    data: {
@@ -6454,17 +6455,13 @@ module.exports =
 
 	    highlightCurrentRow: Boolean,
 
-	    emptyText: {
-	      type: String,
-	      default: function _default() {
-	        return (0, _locale.t)('el.table.emptyText');
-	      }
-	    }
+	    emptyText: String
 	  },
 
 	  components: {
 	    TableHeader: _tableHeader2.default,
-	    TableBody: _tableBody2.default
+	    TableBody: _tableBody2.default,
+	    ElCheckbox: _checkbox2.default
 	  },
 
 	  methods: {
@@ -6624,17 +6621,23 @@ module.exports =
 /* 117 */
 /***/ function(module, exports) {
 
-	module.exports = require("throttle-debounce/throttle");
+	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 /* 118 */
+/***/ function(module, exports) {
+
+	module.exports = require("throttle-debounce/throttle");
+
+/***/ },
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(119);
+	var _vue = __webpack_require__(120);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -6642,7 +6645,7 @@ module.exports =
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _util = __webpack_require__(120);
+	var _util = __webpack_require__(121);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7073,13 +7076,13 @@ module.exports =
 	exports.default = TableStore;
 
 /***/ },
-/* 119 */
+/* 120 */
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
-/* 120 */
+/* 121 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -7207,14 +7210,14 @@ module.exports =
 	};
 
 /***/ },
-/* 121 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(120);
+	var _util = __webpack_require__(121);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -7416,16 +7419,26 @@ module.exports =
 	exports.default = TableLayout;
 
 /***/ },
-/* 122 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(120);
+	var _util = __webpack_require__(121);
+
+	var _checkbox = __webpack_require__(117);
+
+	var _checkbox2 = _interopRequireDefault(_checkbox);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
+	  components: {
+	    ElCheckbox: _checkbox2.default
+	  },
+
 	  props: {
 	    store: {
 	      required: true
@@ -7447,16 +7460,16 @@ module.exports =
 	      return _this.isColumnHidden(index);
 	    });
 	    return h(
-	      "table",
+	      'table',
 	      {
-	        "class": "el-table__body",
-	        attrs: { cellspacing: "0",
-	          cellpadding: "0",
-	          border: "0" }
+	        'class': 'el-table__body',
+	        attrs: { cellspacing: '0',
+	          cellpadding: '0',
+	          border: '0' }
 	      },
 	      [this._l(this.columns, function (column) {
 	        return h(
-	          "col",
+	          'col',
 	          {
 	            attrs: {
 	              name: column.id,
@@ -7466,47 +7479,47 @@ module.exports =
 	          []
 	        );
 	      }), h(
-	        "tbody",
+	        'tbody',
 	        null,
 	        [this._l(this.data, function (row, $index) {
 	          return h(
-	            "tr",
+	            'tr',
 	            {
 	              style: _this.rowStyle ? _this.getRowStyle(row, $index) : null,
 	              key: _this.$parent.rowKey ? _this.getKeyOfRow(row, $index) : $index,
 	              on: {
-	                "dblclick": function dblclick($event) {
+	                'dblclick': function dblclick($event) {
 	                  return _this.handleDoubleClick($event, row);
 	                },
-	                "click": function click($event) {
+	                'click': function click($event) {
 	                  return _this.handleClick($event, row);
 	                },
-	                "mouseenter": function mouseenter(_) {
+	                'mouseenter': function mouseenter(_) {
 	                  return _this.handleMouseEnter($index);
 	                },
-	                "mouseleave": function mouseleave(_) {
+	                'mouseleave': function mouseleave(_) {
 	                  return _this.handleMouseLeave();
 	                }
 	              },
 
-	              "class": _this.getRowClass(row, $index) },
+	              'class': _this.getRowClass(row, $index) },
 	            [_this._l(_this.columns, function (column, cellIndex) {
 	              return h(
-	                "td",
+	                'td',
 	                {
-	                  "class": [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden' : ''],
+	                  'class': [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden' : ''],
 	                  on: {
-	                    "mouseenter": function mouseenter($event) {
+	                    'mouseenter': function mouseenter($event) {
 	                      return _this.handleCellMouseEnter($event, row);
 	                    },
-	                    "mouseleave": _this.handleCellMouseLeave
+	                    'mouseleave': _this.handleCellMouseLeave
 	                  }
 	                },
 	                [column.renderCell.call(_this._renderProxy, h, { row: row, column: column, $index: $index, store: _this.store, _self: _this.context || _this.$parent.$vnode.context })]
 	              );
 	            }), !_this.fixed && _this.layout.scrollY && _this.layout.gutterWidth ? h(
-	              "td",
-	              { "class": "gutter" },
+	              'td',
+	              { 'class': 'gutter' },
 	              []
 	            ) : '']
 	          );
@@ -7660,14 +7673,14 @@ module.exports =
 	};
 
 /***/ },
-/* 123 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(124);
+	var _checkbox = __webpack_require__(117);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -7675,7 +7688,7 @@ module.exports =
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _vue = __webpack_require__(119);
+	var _vue = __webpack_require__(120);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -8103,12 +8116,6 @@ module.exports =
 	};
 
 /***/ },
-/* 124 */
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/checkbox");
-
-/***/ },
 /* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -8161,7 +8168,7 @@ module.exports =
 
 	var _dropdown2 = _interopRequireDefault(_dropdown);
 
-	var _checkbox = __webpack_require__(124);
+	var _checkbox = __webpack_require__(117);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -8556,7 +8563,7 @@ module.exports =
 	    staticClass: "el-table__empty-block"
 	  }, [_vm._h('span', {
 	    staticClass: "el-table__empty-text"
-	  }, [_vm._s(_vm.emptyText)])]) : _vm._e()]), (_vm.fixedColumns.length > 0) ? _vm._h('div', {
+	  }, [_vm._s(_vm.emptyText || _vm.t('el.table.emptyText'))])]) : _vm._e()]), (_vm.fixedColumns.length > 0) ? _vm._h('div', {
 	    ref: "fixedWrapper",
 	    staticClass: "el-table__fixed",
 	    style: ({
@@ -8601,7 +8608,7 @@ module.exports =
 	    style: ({
 	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : '',
 	      height: _vm.layout.viewportHeight ? _vm.layout.viewportHeight + 'px' : '',
-	      right: _vm.layout.scrollY ? _vm.layout.gutterWidth + 'px' : ''
+	      right: _vm.layout.scrollY ? (_vm.border ? _vm.layout.gutterWidth : (_vm.layout.gutterWidth || 1)) + 'px' : ''
 	    })
 	  }, [(_vm.showHeader) ? _vm._h('div', {
 	    ref: "rightFixedHeaderWrapper",
@@ -8635,7 +8642,13 @@ module.exports =
 	      "row-style": _vm.rowStyle,
 	      "highlight": _vm.highlightCurrentRow
 	    }
-	  })])]) : _vm._e(), _vm._h('div', {
+	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _vm._h('div', {
+	    staticClass: "el-table__fixed-right-patch",
+	    style: ({
+	      width: _vm.layout.scrollY ? _vm.layout.gutterWidth + 'px' : '0',
+	      height: _vm.layout.headerHeight + 'px'
+	    })
+	  }) : _vm._e(), _vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -8676,7 +8689,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(124);
+	var _checkbox = __webpack_require__(117);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -8688,7 +8701,7 @@ module.exports =
 
 	var _merge2 = _interopRequireDefault(_merge);
 
-	var _util = __webpack_require__(120);
+	var _util = __webpack_require__(121);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8702,7 +8715,8 @@ module.exports =
 	    width: 48,
 	    minWidth: 48,
 	    realWidth: 48,
-	    order: ''
+	    order: '',
+	    className: 'el-table-column--selection'
 	  },
 	  index: {
 	    width: 48,
@@ -9191,7 +9205,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(119);
+	var _vue = __webpack_require__(120);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -9209,7 +9223,37 @@ module.exports =
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
+	var _input = __webpack_require__(19);
+
+	var _input2 = _interopRequireDefault(_input);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	var NewPopper = {
 	  props: {
@@ -9220,40 +9264,7 @@ module.exports =
 	  methods: _vuePopper2.default.methods,
 	  data: _vuePopper2.default.data,
 	  beforeDestroy: _vuePopper2.default.beforeDestroy
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 	var RANGE_SEPARATOR = ' - ';
 	var DEFAULT_FORMATS = {
@@ -9271,12 +9282,6 @@ module.exports =
 	  return (0, _util.formatDate)(value, format);
 	};
 	var DATE_PARSER = function DATE_PARSER(text, format) {
-	  text = text.split(':');
-	  if (text.length > 1) text = text.map(function (item) {
-	    return item.slice(-2);
-	  });
-	  text = text.join(':');
-
 	  return (0, _util.parseDate)(text, format);
 	};
 	var RANGE_FORMATTER = function RANGE_FORMATTER(value, format) {
@@ -9393,6 +9398,7 @@ module.exports =
 	  mixins: [_emitter2.default, NewPopper],
 
 	  props: {
+	    size: String,
 	    format: String,
 	    readonly: Boolean,
 	    placeholder: String,
@@ -9409,6 +9415,8 @@ module.exports =
 	    haveTrigger: {},
 	    pickerOptions: {}
 	  },
+
+	  components: { ElInput: _input2.default },
 
 	  directives: { Clickoutside: _clickoutside2.default },
 
@@ -9430,7 +9438,6 @@ module.exports =
 	      if (!val && this.picker && typeof this.picker.handleClear === 'function') {
 	        this.picker.handleClear();
 	      }
-	      this.dispatch('ElFormItem', 'el.form.change');
 	    },
 
 	    value: {
@@ -9442,10 +9449,17 @@ module.exports =
 	  },
 
 	  computed: {
+	    reference: function reference() {
+	      return this.$refs.reference.$el;
+	    },
+	    refInput: function refInput() {
+	      if (this.reference) return this.reference.querySelector('input');
+	      return {};
+	    },
 	    valueIsEmpty: function valueIsEmpty() {
 	      var val = this.internalValue;
 	      if (Array.isArray(val)) {
-	        for (var i = 0, j = val.length; i < j; i++) {
+	        for (var i = 0, len = val.length; i < len; i++) {
 	          if (val[i]) {
 	            return false;
 	          }
@@ -9482,6 +9496,7 @@ module.exports =
 	    visualValue: {
 	      get: function get() {
 	        var value = this.internalValue;
+	        if (!value) return;
 	        var formatter = (TYPE_VALUE_RESOLVER_MAP[this.type] || TYPE_VALUE_RESOLVER_MAP['default']).formatter;
 	        var format = DEFAULT_FORMATS[this.type];
 
@@ -9517,6 +9532,7 @@ module.exports =
 	    handleMouseEnterIcon: function handleMouseEnterIcon() {
 	      if (this.readonly || this.disabled) return;
 	      if (!this.valueIsEmpty) {
+	        this.visualValue = this.refInput.value;
 	        this.showClose = true;
 	      }
 	    },
@@ -9547,9 +9563,6 @@ module.exports =
 	    handleKeydown: function handleKeydown(event) {
 	      var keyCode = event.keyCode;
 	      var target = event.target;
-	      var selectionStart = target.selectionStart;
-	      var selectionEnd = target.selectionEnd;
-	      var length = target.value.length;
 
 	      // tab
 	      if (keyCode === 9) {
@@ -9558,30 +9571,6 @@ module.exports =
 	      } else if (keyCode === 13) {
 	        this.pickerVisible = this.picker.visible = false;
 	        this.visualValue = target.value;
-	        target.blur();
-	        // left
-	      } else if (keyCode === 37) {
-	        event.preventDefault();
-
-	        if (selectionEnd === length && selectionStart === length) {
-	          target.selectionStart = length - 2;
-	        } else if (selectionStart >= 3) {
-	          target.selectionStart -= 3;
-	        } else {
-	          target.selectionStart = 0;
-	        }
-	        target.selectionEnd = target.selectionStart + 2;
-	        // right
-	      } else if (keyCode === 39) {
-	        event.preventDefault();
-	        if (selectionEnd === 0 && selectionStart === 0) {
-	          target.selectionEnd = 2;
-	        } else if (selectionEnd <= length - 3) {
-	          target.selectionEnd += 3;
-	        } else {
-	          target.selectionEnd = length;
-	        }
-	        target.selectionStart = target.selectionEnd - 2;
 	      }
 	    },
 	    hidePicker: function hidePicker() {
@@ -9598,7 +9587,7 @@ module.exports =
 	        this.panel.defaultValue = this.internalValue;
 	        this.picker = new _vue2.default(this.panel).$mount(document.createElement('div'));
 	        this.popperElm = this.picker.$el;
-	        this.picker.width = this.$refs.reference.getBoundingClientRect().width;
+	        this.picker.width = this.reference.getBoundingClientRect().width;
 	        this.picker.showTime = this.type === 'datetime' || this.type === 'datetimerange';
 	        this.picker.selectionMode = this.selectionMode;
 	        if (this.format) {
@@ -9648,10 +9637,8 @@ module.exports =
 	        });
 
 	        this.picker.$on('select-range', function (start, end) {
-	          setTimeout(function () {
-	            _this.$refs.reference.setSelectionRange(start, end);
-	            _this.$refs.reference.focus();
-	          }, 0);
+	          _this.refInput.setSelectionRange(start, end);
+	          _this.refInput.focus();
 	        });
 	      } else {
 	        this.pickerVisible = this.picker.visible = true;
@@ -9661,10 +9648,10 @@ module.exports =
 
 	      if (this.internalValue instanceof Date) {
 	        this.picker.date = new Date(this.internalValue.getTime());
-	        this.picker.resetView && this.picker.resetView();
 	      } else {
 	        this.picker.value = this.internalValue;
 	      }
+	      this.picker.resetView && this.picker.resetView();
 
 	      this.$nextTick(function () {
 	        _this.picker.ajustScrollTop && _this.picker.ajustScrollTop();
@@ -9859,59 +9846,42 @@ module.exports =
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
-	  return _vm._h('span', {
+	  return _vm._h('el-input', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
 	      value: (_vm.handleClose),
 	      expression: "handleClose"
 	    }],
-	    staticClass: "el-date-editor",
-	    class: {
-	      'is-have-trigger': _vm.haveTrigger,
-	      'is-active': _vm.pickerVisible,
-	      'is-filled': !!this.internalValue
-	    }
-	  }, [_vm._h('input', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model.lazy",
-	      value: (_vm.visualValue),
-	      expression: "visualValue",
-	      modifiers: {
-	        "lazy": true
-	      }
-	    }],
 	    ref: "reference",
-	    staticClass: "el-date-editor__editor",
-	    class: {
-	      'is-disabled': _vm.disabled
-	    },
+	    staticClass: "el-date-editor",
 	    attrs: {
 	      "readonly": !_vm.editable || _vm.readonly,
 	      "disabled": _vm.disabled,
-	      "type": "text",
+	      "size": _vm.size,
 	      "placeholder": _vm.placeholder
 	    },
 	    domProps: {
-	      "value": _vm._s(_vm.visualValue)
+	      "value": _vm.visualValue
 	    },
 	    on: {
 	      "focus": _vm.handleFocus,
-	      "blur": _vm.handleBlur,
-	      "keydown": _vm.handleKeydown,
+	      "blur": _vm.handleBlur
+	    },
+	    nativeOn: {
+	      "keydown": function($event) {
+	        _vm.handleKeydown($event)
+	      },
 	      "change": function($event) {
 	        _vm.visualValue = $event.target.value
 	      }
 	    }
-	  }), (_vm.haveTrigger) ? _vm._h('span', {
-	    staticClass: "el-date-editor__trigger el-icon",
+	  }, [(_vm.haveTrigger) ? _vm._h('i', {
+	    slot: "icon",
+	    staticClass: "el-input__icon",
 	    class: [_vm.showClose ? 'el-icon-close' : _vm.triggerClass],
 	    on: {
-	      "click": function($event) {
-	        $event.stopPropagation();
-	        _vm.handleClickIcon($event)
-	      },
+	      "click": _vm.handleClickIcon,
 	      "mouseenter": _vm.handleMouseEnterIcon,
 	      "mouseleave": function($event) {
 	        _vm.showClose = false
@@ -9963,135 +9933,27 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _input = __webpack_require__(19);
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	var _input2 = _interopRequireDefault(_input);
+
+	var _time = __webpack_require__(143);
+
+	var _time2 = _interopRequireDefault(_time);
+
+	var _yearTable = __webpack_require__(149);
+
+	var _yearTable2 = _interopRequireDefault(_yearTable);
+
+	var _monthTable = __webpack_require__(152);
+
+	var _monthTable2 = _interopRequireDefault(_monthTable);
+
+	var _dateTable = __webpack_require__(155);
+
+	var _dateTable2 = _interopRequireDefault(_dateTable);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	  mixins: [_locale2.default],
@@ -10103,7 +9965,7 @@ module.exports =
 	      /* istanbul ignore if */
 	      if (!val) return;
 	      this.$nextTick(function (_) {
-	        var inputElm = _this.$refs.input;
+	        var inputElm = _this.$refs.input.$el;
 	        if (inputElm) {
 	          _this.pickerWidth = inputElm.getBoundingClientRect().width + 10;
 	        }
@@ -10297,10 +10159,7 @@ module.exports =
 	  },
 
 	  components: {
-	    TimePicker: __webpack_require__(143),
-	    YearTable: __webpack_require__(149),
-	    MonthTable: __webpack_require__(152),
-	    DateTable: __webpack_require__(155)
+	    TimePicker: _time2.default, YearTable: _yearTable2.default, MonthTable: _monthTable2.default, DateTable: _dateTable2.default, ElInput: _input2.default
 	  },
 
 	  mounted: function mounted() {
@@ -10386,7 +10245,133 @@ module.exports =
 	      return this.year + ' ' + yearTranslation;
 	    }
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 /* 143 */
@@ -10704,14 +10689,10 @@ module.exports =
 	      }
 	    },
 	    handleScroll: function handleScroll(type) {
-	      var _this = this;
+	      var ajust = {};
 
-	      window.setTimeout(function () {
-	        var ajust = {};
-
-	        ajust[type + 's'] = Math.min(Math.floor((_this.$refs[type].scrollTop - 80) / 32 + 3), 59);
-	        _this.$emit('change', ajust);
-	      }, 0);
+	      ajust[type + 's'] = Math.min(Math.floor((this.$refs[type].scrollTop - 80) / 32 + 3), 59);
+	      this.$emit('change', ajust);
 	    },
 	    ajustScrollTop: function ajustScrollTop() {
 	      this.$refs.hour.scrollTop = Math.max(0, (this.hours - 2.5) * 32 + 80);
@@ -10775,7 +10756,10 @@ module.exports =
 
 	module.exports={render:function (){var _vm=this;
 	  return _vm._h('div', {
-	    staticClass: "el-time-spinner"
+	    staticClass: "el-time-spinner",
+	    class: {
+	      'has-seconds': _vm.showSeconds
+	    }
 	  }, [_vm._h('div', {
 	    ref: "hour",
 	    staticClass: "el-time-spinner__wrapper",
@@ -10901,7 +10885,10 @@ module.exports =
 	      width: _vm.width + 'px'
 	    })
 	  }, [_vm._h('div', {
-	    staticClass: "el-time-panel__content"
+	    staticClass: "el-time-panel__content",
+	    class: {
+	      'has-seconds': _vm.showSeconds
+	    }
 	  }, [_vm._h('time-spinner', {
 	    ref: "spinner",
 	    attrs: {
@@ -10996,15 +10983,15 @@ module.exports =
 
 	      date.setFullYear(year);
 	      style.disabled = typeof this.disabledDate === 'function' && this.disabledDate(date);
-	      style.current = this.year === year;
+	      style.current = Number(this.year) === year;
 
 	      return style;
 	    },
 	    nextTenYear: function nextTenYear() {
-	      this.$emit('pick', this.year + 10, false);
+	      this.$emit('pick', Number(this.year) + 10, false);
 	    },
 	    prevTenYear: function prevTenYear() {
-	      this.$emit('pick', this.year - 10, false);
+	      this.$emit('pick', Number(this.year) - 10, false);
 	    },
 	    handleYearTableClick: function handleYearTableClick(event) {
 	      var target = event.target;
@@ -11719,8 +11706,6 @@ module.exports =
 
 	      var newDate = new Date(this.year, this.month, 1);
 
-	      var clickNormalCell = className.indexOf('prev') === -1 && className.indexOf('next') === -1;
-
 	      if (className.indexOf('prev') !== -1) {
 	        if (month === 0) {
 	          year = year - 1;
@@ -11743,7 +11728,7 @@ module.exports =
 
 	      newDate.setDate(parseInt(text, 10));
 
-	      if (clickNormalCell && this.selectionMode === 'range') {
+	      if (this.selectionMode === 'range') {
 	        if (this.minDate && this.maxDate) {
 	          var minDate = new Date(newDate.getTime());
 	          var maxDate = null;
@@ -11772,9 +11757,7 @@ module.exports =
 	          this.rangeState.selecting = true;
 	          this.markRange(this.minDate);
 	        }
-	      }
-
-	      if (selectionMode === 'day') {
+	      } else if (selectionMode === 'day') {
 	        this.$emit('pick', newDate);
 	      } else if (selectionMode === 'week') {
 	        var weekNumber = (0, _util.getWeekNumber)(newDate);
@@ -11877,54 +11860,36 @@ module.exports =
 	    staticClass: "el-date-picker__time-header"
 	  }, [_vm._h('span', {
 	    staticClass: "el-date-picker__editor-wrap"
-	  }, [_vm._h('input', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model.lazy",
-	      value: (_vm.visibleDate),
-	      expression: "visibleDate",
-	      modifiers: {
-	        "lazy": true
-	      }
-	    }],
-	    staticClass: "el-date-picker__editor",
+	  }, [_vm._h('el-input', {
 	    attrs: {
-	      "placehoder": _vm.t('el.datepicker.selectDate'),
-	      "type": "text"
+	      "placeholder": _vm.t('el.datepicker.selectDate'),
+	      "size": "small"
 	    },
 	    domProps: {
-	      "value": _vm._s(_vm.visibleDate)
+	      "value": _vm.visibleDate
 	    },
-	    on: {
+	    nativeOn: {
 	      "change": function($event) {
 	        _vm.visibleDate = $event.target.value
 	      }
 	    }
 	  })]), _vm._h('span', {
 	    staticClass: "el-date-picker__editor-wrap"
-	  }, [_vm._h('input', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model.lazy",
-	      value: (_vm.visibleTime),
-	      expression: "visibleTime",
-	      modifiers: {
-	        "lazy": true
-	      }
-	    }],
+	  }, [_vm._h('el-input', {
 	    ref: "input",
-	    staticClass: "el-date-picker__editor",
 	    attrs: {
-	      "placehoder": _vm.t('el.datepicker.selectTime'),
-	      "type": "text"
+	      "placeholder": _vm.t('el.datepicker.selectTime'),
+	      "size": "small"
 	    },
 	    domProps: {
-	      "value": _vm._s(_vm.visibleTime)
+	      "value": _vm.visibleTime
 	    },
 	    on: {
 	      "focus": function($event) {
 	        _vm.timePickerVisible = !_vm.timePickerVisible
-	      },
+	      }
+	    },
+	    nativeOn: {
 	      "change": function($event) {
 	        _vm.visibleTime = $event.target.value
 	      }
@@ -12134,149 +12099,19 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _time = __webpack_require__(143);
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	var _time2 = _interopRequireDefault(_time);
+
+	var _dateTable = __webpack_require__(155);
+
+	var _dateTable2 = _interopRequireDefault(_dateTable);
+
+	var _input = __webpack_require__(19);
+
+	var _input2 = _interopRequireDefault(_input);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	  mixins: [_locale2.default],
@@ -12361,8 +12196,8 @@ module.exports =
 
 	      if (!val) return;
 	      this.$nextTick(function (_) {
-	        var minInputElm = _this.$refs.minInput;
-	        var maxInputElm = _this.$refs.maxInput;
+	        var minInputElm = _this.$refs.minInput.$el;
+	        var maxInputElm = _this.$refs.maxInput.$el;
 	        if (minInputElm) {
 	          _this.minPickerWidth = minInputElm.getBoundingClientRect().width + 10;
 	        }
@@ -12403,6 +12238,7 @@ module.exports =
 	      } else if (Array.isArray(newVal)) {
 	        this.minDate = newVal[0] ? (0, _util.toDate)(newVal[0]) : null;
 	        this.maxDate = newVal[1] ? (0, _util.toDate)(newVal[1]) : null;
+	        this.date = new Date(this.minDate);
 	      }
 	    }
 	  },
@@ -12567,11 +12403,152 @@ module.exports =
 	    }
 	  },
 
-	  components: {
-	    TimePicker: __webpack_require__(143),
-	    DateTable: __webpack_require__(155)
-	  }
-	};
+	  components: { TimePicker: _time2.default, DateTable: _dateTable2.default, ElInput: _input2.default }
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 /* 161 */
@@ -12626,15 +12603,17 @@ module.exports =
 	    staticClass: "el-date-range-picker__editors-wrap"
 	  }, [_vm._h('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
-	  }, [_vm._h('input', {
+	  }, [_vm._h('el-input', {
+	    ref: "minInput",
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
+	      "size": "small",
 	      "placeholder": _vm.t('el.datepicker.startDate')
 	    },
 	    domProps: {
 	      "value": _vm.minVisibleDate
 	    },
-	    on: {
+	    nativeOn: {
 	      "input": function($event) {
 	        _vm.handleDateInput($event, 'min')
 	      },
@@ -12644,9 +12623,10 @@ module.exports =
 	    }
 	  })]), _vm._h('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
-	  }, [_vm._h('input', {
+	  }, [_vm._h('el-input', {
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
+	      "size": "small",
 	      "placeholder": _vm.t('el.datepicker.startTime')
 	    },
 	    domProps: {
@@ -12655,7 +12635,9 @@ module.exports =
 	    on: {
 	      "focus": function($event) {
 	        _vm.minTimePickerVisible = !_vm.minTimePickerVisible
-	      },
+	      }
+	    },
+	    nativeOn: {
 	      "change": function($event) {
 	        _vm.handleTimeChange($event, 'min')
 	      }
@@ -12670,23 +12652,21 @@ module.exports =
 	    on: {
 	      "pick": _vm.handleMinTimePick
 	    }
-	  })])]), _vm._h('span', {
-	    staticClass: "el-icon-arrow-right"
-	  }), _vm._h('span', {
+	  })])]), _vm._m(0), _vm._h('span', {
 	    staticClass: "el-date-range-picker__editors-wrap is-right"
 	  }, [_vm._h('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
-	  }, [_vm._h('input', {
-	    ref: "minInput",
+	  }, [_vm._h('el-input', {
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
+	      "size": "small",
 	      "placeholder": _vm.t('el.datepicker.endDate'),
 	      "readonly": !_vm.minDate
 	    },
 	    domProps: {
 	      "value": _vm.maxVisibleDate
 	    },
-	    on: {
+	    nativeOn: {
 	      "input": function($event) {
 	        _vm.handleDateInput($event, 'max')
 	      },
@@ -12696,10 +12676,11 @@ module.exports =
 	    }
 	  })]), _vm._h('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
-	  }, [_vm._h('input', {
+	  }, [_vm._h('el-input', {
 	    ref: "maxInput",
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
+	      "size": "small",
 	      "placeholder": _vm.t('el.datepicker.endTime'),
 	      "readonly": !_vm.minDate
 	    },
@@ -12709,7 +12690,9 @@ module.exports =
 	    on: {
 	      "focus": function($event) {
 	        _vm.minDate && (_vm.maxTimePickerVisible = !_vm.maxTimePickerVisible)
-	      },
+	      }
+	    },
+	    nativeOn: {
 	      "change": function($event) {
 	        _vm.handleTimeChange($event, 'max')
 	      }
@@ -12811,7 +12794,11 @@ module.exports =
 	      "click": _vm.handleConfirm
 	    }
 	  }, [_vm._s(_vm.t('el.datepicker.confirm'))])]) : _vm._e()])])
-	},staticRenderFns: []}
+	},staticRenderFns: [function (){var _vm=this;
+	  return _vm._h('span', {
+	    staticClass: "el-icon-arrow-right"
+	  })
+	}]}
 
 /***/ },
 /* 162 */
@@ -13171,8 +13158,19 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
+	var _timeSpinner = __webpack_require__(145);
+
+	var _timeSpinner2 = _interopRequireDefault(_timeSpinner);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var MIN_TIME = (0, _util.parseDate)('00:00:00', 'HH:mm:ss'); //
+	//
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -13225,7 +13223,6 @@ module.exports =
 	//
 	//
 
-	var MIN_TIME = (0, _util.parseDate)('00:00:00', 'HH:mm:ss');
 	var MAX_TIME = (0, _util.parseDate)('23:59:59', 'HH:mm:ss');
 	var isDisabled = function isDisabled(minTime, maxTime) {
 	  var minValue = minTime.getHours() * 3600 + minTime.getMinutes() * 60 + minTime.getSeconds();
@@ -13247,9 +13244,7 @@ module.exports =
 	exports.default = {
 	  mixins: [_locale2.default],
 
-	  components: {
-	    TimeSpinner: __webpack_require__(145)
-	  },
+	  components: { TimeSpinner: _timeSpinner2.default },
 
 	  computed: {
 	    showSeconds: function showSeconds() {
@@ -13258,26 +13253,6 @@ module.exports =
 	  },
 
 	  props: ['value'],
-
-	  watch: {
-	    value: function value(val) {
-	      var time = clacTime(val);
-	      if (time.minTime === this.minTime && time.maxTime === this.maxTime) {
-	        return;
-	      }
-
-	      this.handleMinChange({
-	        hours: time.minTime.getHours(),
-	        minutes: time.minTime.getMinutes(),
-	        seconds: time.minTime.getSeconds()
-	      });
-	      this.handleMaxChange({
-	        hours: time.maxTime.getHours(),
-	        minutes: time.maxTime.getMinutes(),
-	        seconds: time.maxTime.getSeconds()
-	      });
-	    }
-	  },
 
 	  data: function data() {
 	    var time = clacTime(this.$options.defaultValue);
@@ -13300,6 +13275,23 @@ module.exports =
 
 
 	  methods: {
+	    panelCreated: function panelCreated() {
+	      var time = clacTime(this.value);
+	      if (time.minTime === this.minTime && time.maxTime === this.maxTime) {
+	        return;
+	      }
+
+	      this.handleMinChange({
+	        hours: time.minTime.getHours(),
+	        minutes: time.minTime.getMinutes(),
+	        seconds: time.minTime.getSeconds()
+	      });
+	      this.handleMaxChange({
+	        hours: time.maxTime.getHours(),
+	        minutes: time.maxTime.getMinutes(),
+	        seconds: time.maxTime.getSeconds()
+	      });
+	    },
 	    handleClear: function handleClear() {
 	      this.handleCancel();
 	    },
@@ -13387,6 +13379,7 @@ module.exports =
 	      "name": "el-zoom-in-top"
 	    },
 	    on: {
+	      "before-enter": _vm.panelCreated,
 	      "after-leave": function($event) {
 	        _vm.$emit('dodestroy')
 	      }
@@ -13409,7 +13402,10 @@ module.exports =
 	  }, [_vm._h('div', {
 	    staticClass: "el-time-range-picker__header"
 	  }, [_vm._s(_vm.t('el.datepicker.startTime'))]), _vm._h('div', {
-	    staticClass: "el-time-range-picker__body el-time-panel__content"
+	    staticClass: "el-time-range-picker__body el-time-panel__content",
+	    class: {
+	      'has-seconds': _vm.showSeconds
+	    }
 	  }, [_vm._h('time-spinner', {
 	    ref: "minSpinner",
 	    attrs: {
@@ -13427,7 +13423,10 @@ module.exports =
 	  }, [_vm._h('div', {
 	    staticClass: "el-time-range-picker__header"
 	  }, [_vm._s(_vm.t('el.datepicker.endTime'))]), _vm._h('div', {
-	    staticClass: "el-time-range-picker__body el-time-panel__content"
+	    staticClass: "el-time-range-picker__body el-time-panel__content",
+	    class: {
+	      'has-seconds': _vm.showSeconds
+	    }
 	  }, [_vm._h('time-spinner', {
 	    ref: "maxSpinner",
 	    attrs: {
@@ -13482,7 +13481,7 @@ module.exports =
 
 	var _directive2 = _interopRequireDefault(_directive);
 
-	var _vue = __webpack_require__(119);
+	var _vue = __webpack_require__(120);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -13928,7 +13927,7 @@ module.exports =
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var _vue = __webpack_require__(119);
+	var _vue = __webpack_require__(120);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -15262,12 +15261,17 @@ module.exports =
 	        var nextChild = tabs[index];
 	        var prevChild = tabs[index - 1];
 
+	        while (prevChild && prevChild.disabled) {
+	          prevChild = tabs[tabs.indexOf(prevChild) - 1];
+	        }
+
 	        this.currentName = nextChild ? nextChild.index : prevChild ? prevChild.index : '-1';
 	      }
 	      this.$emit('tab-remove', tab);
 	      this.$forceUpdate();
 	    },
 	    handleTabClick: function handleTabClick(tab, event) {
+	      if (tab.disabled) return;
 	      this.currentName = tab.index;
 	      this.$emit('tab-click', tab, event);
 	    },
@@ -15431,7 +15435,8 @@ module.exports =
 	    label: String,
 	    labelContent: Function,
 	    name: String,
-	    closable: Boolean
+	    closable: Boolean,
+	    disabled: Boolean
 	  },
 
 	  data: function data() {
@@ -16587,7 +16592,7 @@ module.exports =
 
 	var _transition2 = _interopRequireDefault(_transition);
 
-	var _checkbox = __webpack_require__(124);
+	var _checkbox = __webpack_require__(117);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -17203,7 +17208,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(119);
+	var _vue = __webpack_require__(120);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -17897,7 +17902,7 @@ module.exports =
 
 	'use strict';
 
-	var _vue = __webpack_require__(119);
+	var _vue = __webpack_require__(120);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -18103,7 +18108,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(119);
+	var _vue = __webpack_require__(120);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -18776,7 +18781,7 @@ module.exports =
 	        headers: this.headers,
 	        name: this.name,
 	        data: this.data,
-	        accept: this.thumbnailMode ? 'image/*' : this.accept,
+	        accept: this.thumbnailMode ? 'image/gif, image/png, image/jpeg, image/bmp, image/webp' : this.accept,
 	        'on-start': this.handleStart,
 	        'on-progress': this.handleProgress,
 	        'on-success': this.handleSuccess,
@@ -18943,9 +18948,7 @@ module.exports =
 	          _vm.$emit('preview', file)
 	        }
 	      }
-	    }, [_vm._h('i', {
-	      staticClass: "el-icon-document"
-	    }), _vm._s(file.name) + "\n    "]), _vm._h('span', {
+	    }, [_vm._m(0, true), _vm._s(file.name) + "\n    "]), _vm._h('span', {
 	      directives: [{
 	        name: "show",
 	        rawName: "v-show",
@@ -18966,7 +18969,11 @@ module.exports =
 	      }
 	    }) : _vm._e()])
 	  })])
-	},staticRenderFns: []}
+	},staticRenderFns: [function (){var _vm=this;
+	  return _vm._h('i', {
+	    staticClass: "el-icon-document"
+	  })
+	}]}
 
 /***/ },
 /* 265 */
@@ -19260,9 +19267,9 @@ module.exports =
 
 	  var headers = option.headers || {};
 
-	  if (headers['X-Requested-With'] !== null) {
-	    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-	  }
+	  // if (headers['X-Requested-With'] !== null) {
+	  //   xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	  // }
 
 	  for (var item in headers) {
 	    if (headers.hasOwnProperty(item) && headers[item] !== null) {
@@ -19434,27 +19441,21 @@ module.exports =
 	        _vm.$parent.handleClick()
 	      }
 	    }
-	  }, [_vm._h('i', {
-	    staticClass: "el-icon-upload2"
-	  }), _vm._h('span', [_vm._s(_vm.t('el.upload.continue'))])]), _vm._h('span', {
+	  }, [_vm._m(0), _vm._h('span', [_vm._s(_vm.t('el.upload.continue'))])]), _vm._h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
 	        _vm.onPreview(_vm.image)
 	      }
 	    }
-	  }, [_vm._h('i', {
-	    staticClass: "el-icon-view"
-	  }), _vm._h('span', [_vm._s(_vm.t('el.upload.preview'))])]), _vm._h('span', {
+	  }, [_vm._m(1), _vm._h('span', [_vm._s(_vm.t('el.upload.preview'))])]), _vm._h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
 	        _vm.onRemove(_vm.image)
 	      }
 	    }
-	  }, [_vm._h('i', {
-	    staticClass: "el-icon-delete2"
-	  }), _vm._h('span', [_vm._s(_vm.t('el.upload.delete'))])])])])]), _vm._h('transition', {
+	  }, [_vm._m(2), _vm._h('span', [_vm._s(_vm.t('el.upload.delete'))])])])])]), _vm._h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-bottom"
 	    }
@@ -19467,7 +19468,19 @@ module.exports =
 	    }],
 	    staticClass: "el-dragger__cover__title"
 	  }, [_vm._s(_vm.image.name)])])]) : _vm._e()]) : _vm._e()
-	},staticRenderFns: []}
+	},staticRenderFns: [function (){var _vm=this;
+	  return _vm._h('i', {
+	    staticClass: "el-icon-upload2"
+	  })
+	},function (){var _vm=this;
+	  return _vm._h('i', {
+	    staticClass: "el-icon-view"
+	  })
+	},function (){var _vm=this;
+	  return _vm._h('i', {
+	    staticClass: "el-icon-delete2"
+	  })
+	}]}
 
 /***/ },
 /* 271 */
@@ -20144,7 +20157,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(119);
+	var _vue = __webpack_require__(120);
 
 	var _vue2 = _interopRequireDefault(_vue);
 

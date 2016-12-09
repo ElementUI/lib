@@ -339,9 +339,7 @@ module.exports =
 	    class: {
 	      'is-loading': _vm.loading
 	    }
-	  }, [(_vm.loading) ? _vm._h('li', [_vm._h('i', {
-	    staticClass: "el-icon-loading"
-	  })]) : _vm._l((_vm.suggestions), function(item, index) {
+	  }, [(_vm.loading) ? _vm._h('li', [_vm._m(0)]) : _vm._l((_vm.suggestions), function(item, index) {
 	    return [(!_vm.customItem) ? _vm._h('li', {
 	      class: {
 	        'highlighted': _vm.highlightedIndex === index
@@ -367,7 +365,11 @@ module.exports =
 	      }
 	    })]
 	  })]) : _vm._e()])])
-	},staticRenderFns: []}
+	},staticRenderFns: [function (){var _vm=this;
+	  return _vm._h('i', {
+	    staticClass: "el-icon-loading"
+	  })
+	}]}
 
 /***/ }
 /******/ ]);

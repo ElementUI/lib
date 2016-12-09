@@ -56,7 +56,12 @@ module.exports =
 /* 5 */,
 /* 6 */,
 /* 7 */,
-/* 8 */,
+/* 8 */
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/input");
+
+/***/ },
 /* 9 */
 /***/ function(module, exports) {
 
@@ -225,7 +230,37 @@ module.exports =
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
+	var _input = __webpack_require__(8);
+
+	var _input2 = _interopRequireDefault(_input);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	var NewPopper = {
 	  props: {
@@ -236,40 +271,7 @@ module.exports =
 	  methods: _vuePopper2.default.methods,
 	  data: _vuePopper2.default.data,
 	  beforeDestroy: _vuePopper2.default.beforeDestroy
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 	var RANGE_SEPARATOR = ' - ';
 	var DEFAULT_FORMATS = {
@@ -287,12 +289,6 @@ module.exports =
 	  return (0, _util.formatDate)(value, format);
 	};
 	var DATE_PARSER = function DATE_PARSER(text, format) {
-	  text = text.split(':');
-	  if (text.length > 1) text = text.map(function (item) {
-	    return item.slice(-2);
-	  });
-	  text = text.join(':');
-
 	  return (0, _util.parseDate)(text, format);
 	};
 	var RANGE_FORMATTER = function RANGE_FORMATTER(value, format) {
@@ -409,6 +405,7 @@ module.exports =
 	  mixins: [_emitter2.default, NewPopper],
 
 	  props: {
+	    size: String,
 	    format: String,
 	    readonly: Boolean,
 	    placeholder: String,
@@ -425,6 +422,8 @@ module.exports =
 	    haveTrigger: {},
 	    pickerOptions: {}
 	  },
+
+	  components: { ElInput: _input2.default },
 
 	  directives: { Clickoutside: _clickoutside2.default },
 
@@ -446,7 +445,6 @@ module.exports =
 	      if (!val && this.picker && typeof this.picker.handleClear === 'function') {
 	        this.picker.handleClear();
 	      }
-	      this.dispatch('ElFormItem', 'el.form.change');
 	    },
 
 	    value: {
@@ -458,10 +456,17 @@ module.exports =
 	  },
 
 	  computed: {
+	    reference: function reference() {
+	      return this.$refs.reference.$el;
+	    },
+	    refInput: function refInput() {
+	      if (this.reference) return this.reference.querySelector('input');
+	      return {};
+	    },
 	    valueIsEmpty: function valueIsEmpty() {
 	      var val = this.internalValue;
 	      if (Array.isArray(val)) {
-	        for (var i = 0, j = val.length; i < j; i++) {
+	        for (var i = 0, len = val.length; i < len; i++) {
 	          if (val[i]) {
 	            return false;
 	          }
@@ -498,6 +503,7 @@ module.exports =
 	    visualValue: {
 	      get: function get() {
 	        var value = this.internalValue;
+	        if (!value) return;
 	        var formatter = (TYPE_VALUE_RESOLVER_MAP[this.type] || TYPE_VALUE_RESOLVER_MAP['default']).formatter;
 	        var format = DEFAULT_FORMATS[this.type];
 
@@ -533,6 +539,7 @@ module.exports =
 	    handleMouseEnterIcon: function handleMouseEnterIcon() {
 	      if (this.readonly || this.disabled) return;
 	      if (!this.valueIsEmpty) {
+	        this.visualValue = this.refInput.value;
 	        this.showClose = true;
 	      }
 	    },
@@ -563,9 +570,6 @@ module.exports =
 	    handleKeydown: function handleKeydown(event) {
 	      var keyCode = event.keyCode;
 	      var target = event.target;
-	      var selectionStart = target.selectionStart;
-	      var selectionEnd = target.selectionEnd;
-	      var length = target.value.length;
 
 	      // tab
 	      if (keyCode === 9) {
@@ -574,30 +578,6 @@ module.exports =
 	      } else if (keyCode === 13) {
 	        this.pickerVisible = this.picker.visible = false;
 	        this.visualValue = target.value;
-	        target.blur();
-	        // left
-	      } else if (keyCode === 37) {
-	        event.preventDefault();
-
-	        if (selectionEnd === length && selectionStart === length) {
-	          target.selectionStart = length - 2;
-	        } else if (selectionStart >= 3) {
-	          target.selectionStart -= 3;
-	        } else {
-	          target.selectionStart = 0;
-	        }
-	        target.selectionEnd = target.selectionStart + 2;
-	        // right
-	      } else if (keyCode === 39) {
-	        event.preventDefault();
-	        if (selectionEnd === 0 && selectionStart === 0) {
-	          target.selectionEnd = 2;
-	        } else if (selectionEnd <= length - 3) {
-	          target.selectionEnd += 3;
-	        } else {
-	          target.selectionEnd = length;
-	        }
-	        target.selectionStart = target.selectionEnd - 2;
 	      }
 	    },
 	    hidePicker: function hidePicker() {
@@ -614,7 +594,7 @@ module.exports =
 	        this.panel.defaultValue = this.internalValue;
 	        this.picker = new _vue2.default(this.panel).$mount(document.createElement('div'));
 	        this.popperElm = this.picker.$el;
-	        this.picker.width = this.$refs.reference.getBoundingClientRect().width;
+	        this.picker.width = this.reference.getBoundingClientRect().width;
 	        this.picker.showTime = this.type === 'datetime' || this.type === 'datetimerange';
 	        this.picker.selectionMode = this.selectionMode;
 	        if (this.format) {
@@ -664,10 +644,8 @@ module.exports =
 	        });
 
 	        this.picker.$on('select-range', function (start, end) {
-	          setTimeout(function () {
-	            _this.$refs.reference.setSelectionRange(start, end);
-	            _this.$refs.reference.focus();
-	          }, 0);
+	          _this.refInput.setSelectionRange(start, end);
+	          _this.refInput.focus();
 	        });
 	      } else {
 	        this.pickerVisible = this.picker.visible = true;
@@ -677,10 +655,10 @@ module.exports =
 
 	      if (this.internalValue instanceof Date) {
 	        this.picker.date = new Date(this.internalValue.getTime());
-	        this.picker.resetView && this.picker.resetView();
 	      } else {
 	        this.picker.value = this.internalValue;
 	      }
+	      this.picker.resetView && this.picker.resetView();
 
 	      this.$nextTick(function () {
 	        _this.picker.ajustScrollTop && _this.picker.ajustScrollTop();
@@ -887,59 +865,42 @@ module.exports =
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
-	  return _vm._h('span', {
+	  return _vm._h('el-input', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
 	      value: (_vm.handleClose),
 	      expression: "handleClose"
 	    }],
-	    staticClass: "el-date-editor",
-	    class: {
-	      'is-have-trigger': _vm.haveTrigger,
-	      'is-active': _vm.pickerVisible,
-	      'is-filled': !!this.internalValue
-	    }
-	  }, [_vm._h('input', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model.lazy",
-	      value: (_vm.visualValue),
-	      expression: "visualValue",
-	      modifiers: {
-	        "lazy": true
-	      }
-	    }],
 	    ref: "reference",
-	    staticClass: "el-date-editor__editor",
-	    class: {
-	      'is-disabled': _vm.disabled
-	    },
+	    staticClass: "el-date-editor",
 	    attrs: {
 	      "readonly": !_vm.editable || _vm.readonly,
 	      "disabled": _vm.disabled,
-	      "type": "text",
+	      "size": _vm.size,
 	      "placeholder": _vm.placeholder
 	    },
 	    domProps: {
-	      "value": _vm._s(_vm.visualValue)
+	      "value": _vm.visualValue
 	    },
 	    on: {
 	      "focus": _vm.handleFocus,
-	      "blur": _vm.handleBlur,
-	      "keydown": _vm.handleKeydown,
+	      "blur": _vm.handleBlur
+	    },
+	    nativeOn: {
+	      "keydown": function($event) {
+	        _vm.handleKeydown($event)
+	      },
 	      "change": function($event) {
 	        _vm.visualValue = $event.target.value
 	      }
 	    }
-	  }), (_vm.haveTrigger) ? _vm._h('span', {
-	    staticClass: "el-date-editor__trigger el-icon",
+	  }, [(_vm.haveTrigger) ? _vm._h('i', {
+	    slot: "icon",
+	    staticClass: "el-input__icon",
 	    class: [_vm.showClose ? 'el-icon-close' : _vm.triggerClass],
 	    on: {
-	      "click": function($event) {
-	        $event.stopPropagation();
-	        _vm.handleClickIcon($event)
-	      },
+	      "click": _vm.handleClickIcon,
 	      "mouseenter": _vm.handleMouseEnterIcon,
 	      "mouseleave": function($event) {
 	        _vm.showClose = false
@@ -991,135 +952,27 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _input = __webpack_require__(8);
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	var _input2 = _interopRequireDefault(_input);
+
+	var _time = __webpack_require__(58);
+
+	var _time2 = _interopRequireDefault(_time);
+
+	var _yearTable = __webpack_require__(64);
+
+	var _yearTable2 = _interopRequireDefault(_yearTable);
+
+	var _monthTable = __webpack_require__(68);
+
+	var _monthTable2 = _interopRequireDefault(_monthTable);
+
+	var _dateTable = __webpack_require__(71);
+
+	var _dateTable2 = _interopRequireDefault(_dateTable);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	  mixins: [_locale2.default],
@@ -1131,7 +984,7 @@ module.exports =
 	      /* istanbul ignore if */
 	      if (!val) return;
 	      this.$nextTick(function (_) {
-	        var inputElm = _this.$refs.input;
+	        var inputElm = _this.$refs.input.$el;
 	        if (inputElm) {
 	          _this.pickerWidth = inputElm.getBoundingClientRect().width + 10;
 	        }
@@ -1325,10 +1178,7 @@ module.exports =
 	  },
 
 	  components: {
-	    TimePicker: __webpack_require__(58),
-	    YearTable: __webpack_require__(64),
-	    MonthTable: __webpack_require__(68),
-	    DateTable: __webpack_require__(71)
+	    TimePicker: _time2.default, YearTable: _yearTable2.default, MonthTable: _monthTable2.default, DateTable: _dateTable2.default, ElInput: _input2.default
 	  },
 
 	  mounted: function mounted() {
@@ -1414,7 +1264,133 @@ module.exports =
 	      return this.year + ' ' + yearTranslation;
 	    }
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 /* 57 */
@@ -1738,14 +1714,10 @@ module.exports =
 	      }
 	    },
 	    handleScroll: function handleScroll(type) {
-	      var _this = this;
+	      var ajust = {};
 
-	      window.setTimeout(function () {
-	        var ajust = {};
-
-	        ajust[type + 's'] = Math.min(Math.floor((_this.$refs[type].scrollTop - 80) / 32 + 3), 59);
-	        _this.$emit('change', ajust);
-	      }, 0);
+	      ajust[type + 's'] = Math.min(Math.floor((this.$refs[type].scrollTop - 80) / 32 + 3), 59);
+	      this.$emit('change', ajust);
 	    },
 	    ajustScrollTop: function ajustScrollTop() {
 	      this.$refs.hour.scrollTop = Math.max(0, (this.hours - 2.5) * 32 + 80);
@@ -1809,7 +1781,10 @@ module.exports =
 
 	module.exports={render:function (){var _vm=this;
 	  return _vm._h('div', {
-	    staticClass: "el-time-spinner"
+	    staticClass: "el-time-spinner",
+	    class: {
+	      'has-seconds': _vm.showSeconds
+	    }
 	  }, [_vm._h('div', {
 	    ref: "hour",
 	    staticClass: "el-time-spinner__wrapper",
@@ -1935,7 +1910,10 @@ module.exports =
 	      width: _vm.width + 'px'
 	    })
 	  }, [_vm._h('div', {
-	    staticClass: "el-time-panel__content"
+	    staticClass: "el-time-panel__content",
+	    class: {
+	      'has-seconds': _vm.showSeconds
+	    }
 	  }, [_vm._h('time-spinner', {
 	    ref: "spinner",
 	    attrs: {
@@ -2030,15 +2008,15 @@ module.exports =
 
 	      date.setFullYear(year);
 	      style.disabled = typeof this.disabledDate === 'function' && this.disabledDate(date);
-	      style.current = this.year === year;
+	      style.current = Number(this.year) === year;
 
 	      return style;
 	    },
 	    nextTenYear: function nextTenYear() {
-	      this.$emit('pick', this.year + 10, false);
+	      this.$emit('pick', Number(this.year) + 10, false);
 	    },
 	    prevTenYear: function prevTenYear() {
-	      this.$emit('pick', this.year - 10, false);
+	      this.$emit('pick', Number(this.year) - 10, false);
 	    },
 	    handleYearTableClick: function handleYearTableClick(event) {
 	      var target = event.target;
@@ -2759,8 +2737,6 @@ module.exports =
 
 	      var newDate = new Date(this.year, this.month, 1);
 
-	      var clickNormalCell = className.indexOf('prev') === -1 && className.indexOf('next') === -1;
-
 	      if (className.indexOf('prev') !== -1) {
 	        if (month === 0) {
 	          year = year - 1;
@@ -2783,7 +2759,7 @@ module.exports =
 
 	      newDate.setDate(parseInt(text, 10));
 
-	      if (clickNormalCell && this.selectionMode === 'range') {
+	      if (this.selectionMode === 'range') {
 	        if (this.minDate && this.maxDate) {
 	          var minDate = new Date(newDate.getTime());
 	          var maxDate = null;
@@ -2812,9 +2788,7 @@ module.exports =
 	          this.rangeState.selecting = true;
 	          this.markRange(this.minDate);
 	        }
-	      }
-
-	      if (selectionMode === 'day') {
+	      } else if (selectionMode === 'day') {
 	        this.$emit('pick', newDate);
 	      } else if (selectionMode === 'week') {
 	        var weekNumber = (0, _util.getWeekNumber)(newDate);
@@ -2917,54 +2891,36 @@ module.exports =
 	    staticClass: "el-date-picker__time-header"
 	  }, [_vm._h('span', {
 	    staticClass: "el-date-picker__editor-wrap"
-	  }, [_vm._h('input', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model.lazy",
-	      value: (_vm.visibleDate),
-	      expression: "visibleDate",
-	      modifiers: {
-	        "lazy": true
-	      }
-	    }],
-	    staticClass: "el-date-picker__editor",
+	  }, [_vm._h('el-input', {
 	    attrs: {
-	      "placehoder": _vm.t('el.datepicker.selectDate'),
-	      "type": "text"
+	      "placeholder": _vm.t('el.datepicker.selectDate'),
+	      "size": "small"
 	    },
 	    domProps: {
-	      "value": _vm._s(_vm.visibleDate)
+	      "value": _vm.visibleDate
 	    },
-	    on: {
+	    nativeOn: {
 	      "change": function($event) {
 	        _vm.visibleDate = $event.target.value
 	      }
 	    }
 	  })]), _vm._h('span', {
 	    staticClass: "el-date-picker__editor-wrap"
-	  }, [_vm._h('input', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model.lazy",
-	      value: (_vm.visibleTime),
-	      expression: "visibleTime",
-	      modifiers: {
-	        "lazy": true
-	      }
-	    }],
+	  }, [_vm._h('el-input', {
 	    ref: "input",
-	    staticClass: "el-date-picker__editor",
 	    attrs: {
-	      "placehoder": _vm.t('el.datepicker.selectTime'),
-	      "type": "text"
+	      "placeholder": _vm.t('el.datepicker.selectTime'),
+	      "size": "small"
 	    },
 	    domProps: {
-	      "value": _vm._s(_vm.visibleTime)
+	      "value": _vm.visibleTime
 	    },
 	    on: {
 	      "focus": function($event) {
 	        _vm.timePickerVisible = !_vm.timePickerVisible
-	      },
+	      }
+	    },
+	    nativeOn: {
 	      "change": function($event) {
 	        _vm.visibleTime = $event.target.value
 	      }
@@ -3174,149 +3130,19 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _time = __webpack_require__(58);
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	var _time2 = _interopRequireDefault(_time);
+
+	var _dateTable = __webpack_require__(71);
+
+	var _dateTable2 = _interopRequireDefault(_dateTable);
+
+	var _input = __webpack_require__(8);
+
+	var _input2 = _interopRequireDefault(_input);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	  mixins: [_locale2.default],
@@ -3401,8 +3227,8 @@ module.exports =
 
 	      if (!val) return;
 	      this.$nextTick(function (_) {
-	        var minInputElm = _this.$refs.minInput;
-	        var maxInputElm = _this.$refs.maxInput;
+	        var minInputElm = _this.$refs.minInput.$el;
+	        var maxInputElm = _this.$refs.maxInput.$el;
 	        if (minInputElm) {
 	          _this.minPickerWidth = minInputElm.getBoundingClientRect().width + 10;
 	        }
@@ -3443,6 +3269,7 @@ module.exports =
 	      } else if (Array.isArray(newVal)) {
 	        this.minDate = newVal[0] ? (0, _util.toDate)(newVal[0]) : null;
 	        this.maxDate = newVal[1] ? (0, _util.toDate)(newVal[1]) : null;
+	        this.date = new Date(this.minDate);
 	      }
 	    }
 	  },
@@ -3607,11 +3434,152 @@ module.exports =
 	    }
 	  },
 
-	  components: {
-	    TimePicker: __webpack_require__(58),
-	    DateTable: __webpack_require__(71)
-	  }
-	};
+	  components: { TimePicker: _time2.default, DateTable: _dateTable2.default, ElInput: _input2.default }
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 /* 77 */
@@ -3666,15 +3634,17 @@ module.exports =
 	    staticClass: "el-date-range-picker__editors-wrap"
 	  }, [_vm._h('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
-	  }, [_vm._h('input', {
+	  }, [_vm._h('el-input', {
+	    ref: "minInput",
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
+	      "size": "small",
 	      "placeholder": _vm.t('el.datepicker.startDate')
 	    },
 	    domProps: {
 	      "value": _vm.minVisibleDate
 	    },
-	    on: {
+	    nativeOn: {
 	      "input": function($event) {
 	        _vm.handleDateInput($event, 'min')
 	      },
@@ -3684,9 +3654,10 @@ module.exports =
 	    }
 	  })]), _vm._h('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
-	  }, [_vm._h('input', {
+	  }, [_vm._h('el-input', {
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
+	      "size": "small",
 	      "placeholder": _vm.t('el.datepicker.startTime')
 	    },
 	    domProps: {
@@ -3695,7 +3666,9 @@ module.exports =
 	    on: {
 	      "focus": function($event) {
 	        _vm.minTimePickerVisible = !_vm.minTimePickerVisible
-	      },
+	      }
+	    },
+	    nativeOn: {
 	      "change": function($event) {
 	        _vm.handleTimeChange($event, 'min')
 	      }
@@ -3710,23 +3683,21 @@ module.exports =
 	    on: {
 	      "pick": _vm.handleMinTimePick
 	    }
-	  })])]), _vm._h('span', {
-	    staticClass: "el-icon-arrow-right"
-	  }), _vm._h('span', {
+	  })])]), _vm._m(0), _vm._h('span', {
 	    staticClass: "el-date-range-picker__editors-wrap is-right"
 	  }, [_vm._h('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
-	  }, [_vm._h('input', {
-	    ref: "minInput",
+	  }, [_vm._h('el-input', {
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
+	      "size": "small",
 	      "placeholder": _vm.t('el.datepicker.endDate'),
 	      "readonly": !_vm.minDate
 	    },
 	    domProps: {
 	      "value": _vm.maxVisibleDate
 	    },
-	    on: {
+	    nativeOn: {
 	      "input": function($event) {
 	        _vm.handleDateInput($event, 'max')
 	      },
@@ -3736,10 +3707,11 @@ module.exports =
 	    }
 	  })]), _vm._h('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
-	  }, [_vm._h('input', {
+	  }, [_vm._h('el-input', {
 	    ref: "maxInput",
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
+	      "size": "small",
 	      "placeholder": _vm.t('el.datepicker.endTime'),
 	      "readonly": !_vm.minDate
 	    },
@@ -3749,7 +3721,9 @@ module.exports =
 	    on: {
 	      "focus": function($event) {
 	        _vm.minDate && (_vm.maxTimePickerVisible = !_vm.maxTimePickerVisible)
-	      },
+	      }
+	    },
+	    nativeOn: {
 	      "change": function($event) {
 	        _vm.handleTimeChange($event, 'max')
 	      }
@@ -3851,7 +3825,11 @@ module.exports =
 	      "click": _vm.handleConfirm
 	    }
 	  }, [_vm._s(_vm.t('el.datepicker.confirm'))])]) : _vm._e()])])
-	},staticRenderFns: []}
+	},staticRenderFns: [function (){var _vm=this;
+	  return _vm._h('span', {
+	    staticClass: "el-icon-arrow-right"
+	  })
+	}]}
 
 /***/ }
 /******/ ]);

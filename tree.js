@@ -65,7 +65,7 @@ module.exports =
 
 /***/ },
 
-/***/ 254:
+/***/ 248:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
@@ -1042,7 +1042,7 @@ module.exports =
 
 	var _transition2 = _interopRequireDefault(_transition);
 
-	var _checkbox = __webpack_require__(254);
+	var _checkbox = __webpack_require__(248);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 

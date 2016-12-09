@@ -79,13 +79,6 @@ module.exports =
 
 /***/ },
 
-/***/ 152:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/locale");
-
-/***/ },
-
 /***/ 174:
 /***/ function(module, exports) {
 
@@ -173,11 +166,15 @@ module.exports =
 
 	exports.__esModule = true;
 
+	var _checkbox = __webpack_require__(248);
+
+	var _checkbox2 = _interopRequireDefault(_checkbox);
+
 	var _migrating = __webpack_require__(174);
 
 	var _migrating2 = _interopRequireDefault(_migrating);
 
-	var _throttle = __webpack_require__(248);
+	var _throttle = __webpack_require__(249);
 
 	var _throttle2 = _interopRequireDefault(_throttle);
 
@@ -187,28 +184,31 @@ module.exports =
 
 	var _resizeEvent = __webpack_require__(212);
 
-	var _locale = __webpack_require__(152);
+	var _locale = __webpack_require__(57);
 
-	var _tableStore = __webpack_require__(249);
+	var _locale2 = _interopRequireDefault(_locale);
+
+	var _tableStore = __webpack_require__(250);
 
 	var _tableStore2 = _interopRequireDefault(_tableStore);
 
-	var _tableLayout = __webpack_require__(251);
+	var _tableLayout = __webpack_require__(252);
 
 	var _tableLayout2 = _interopRequireDefault(_tableLayout);
 
-	var _tableBody = __webpack_require__(252);
+	var _tableBody = __webpack_require__(253);
 
 	var _tableBody2 = _interopRequireDefault(_tableBody);
 
-	var _tableHeader = __webpack_require__(253);
+	var _tableHeader = __webpack_require__(254);
 
 	var _tableHeader2 = _interopRequireDefault(_tableHeader);
 
-	var _util = __webpack_require__(250);
+	var _util = __webpack_require__(251);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var tableIdSeed = 1; //
 	//
 	//
 	//
@@ -308,13 +308,13 @@ module.exports =
 	//
 	//
 	//
-
-	var tableIdSeed = 1;
+	//
+	//
 
 	exports.default = {
 	  name: 'el-table',
 
-	  mixins: [_migrating2.default],
+	  mixins: [_migrating2.default, _locale2.default],
 
 	  props: {
 	    data: {
@@ -352,17 +352,13 @@ module.exports =
 
 	    highlightCurrentRow: Boolean,
 
-	    emptyText: {
-	      type: String,
-	      default: function _default() {
-	        return (0, _locale.t)('el.table.emptyText');
-	      }
-	    }
+	    emptyText: String
 	  },
 
 	  components: {
 	    TableHeader: _tableHeader2.default,
-	    TableBody: _tableBody2.default
+	    TableBody: _tableBody2.default,
+	    ElCheckbox: _checkbox2.default
 	  },
 
 	  methods: {
@@ -523,11 +519,18 @@ module.exports =
 /***/ 248:
 /***/ function(module, exports) {
 
-	module.exports = require("throttle-debounce/throttle");
+	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
 /***/ 249:
+/***/ function(module, exports) {
+
+	module.exports = require("throttle-debounce/throttle");
+
+/***/ },
+
+/***/ 250:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -542,7 +545,7 @@ module.exports =
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _util = __webpack_require__(250);
+	var _util = __webpack_require__(251);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -974,7 +977,7 @@ module.exports =
 
 /***/ },
 
-/***/ 250:
+/***/ 251:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1103,14 +1106,14 @@ module.exports =
 
 /***/ },
 
-/***/ 251:
+/***/ 252:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(250);
+	var _util = __webpack_require__(251);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1313,16 +1316,26 @@ module.exports =
 
 /***/ },
 
-/***/ 252:
+/***/ 253:
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(250);
+	var _util = __webpack_require__(251);
+
+	var _checkbox = __webpack_require__(248);
+
+	var _checkbox2 = _interopRequireDefault(_checkbox);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
+	  components: {
+	    ElCheckbox: _checkbox2.default
+	  },
+
 	  props: {
 	    store: {
 	      required: true
@@ -1344,16 +1357,16 @@ module.exports =
 	      return _this.isColumnHidden(index);
 	    });
 	    return h(
-	      "table",
+	      'table',
 	      {
-	        "class": "el-table__body",
-	        attrs: { cellspacing: "0",
-	          cellpadding: "0",
-	          border: "0" }
+	        'class': 'el-table__body',
+	        attrs: { cellspacing: '0',
+	          cellpadding: '0',
+	          border: '0' }
 	      },
 	      [this._l(this.columns, function (column) {
 	        return h(
-	          "col",
+	          'col',
 	          {
 	            attrs: {
 	              name: column.id,
@@ -1363,47 +1376,47 @@ module.exports =
 	          []
 	        );
 	      }), h(
-	        "tbody",
+	        'tbody',
 	        null,
 	        [this._l(this.data, function (row, $index) {
 	          return h(
-	            "tr",
+	            'tr',
 	            {
 	              style: _this.rowStyle ? _this.getRowStyle(row, $index) : null,
 	              key: _this.$parent.rowKey ? _this.getKeyOfRow(row, $index) : $index,
 	              on: {
-	                "dblclick": function dblclick($event) {
+	                'dblclick': function dblclick($event) {
 	                  return _this.handleDoubleClick($event, row);
 	                },
-	                "click": function click($event) {
+	                'click': function click($event) {
 	                  return _this.handleClick($event, row);
 	                },
-	                "mouseenter": function mouseenter(_) {
+	                'mouseenter': function mouseenter(_) {
 	                  return _this.handleMouseEnter($index);
 	                },
-	                "mouseleave": function mouseleave(_) {
+	                'mouseleave': function mouseleave(_) {
 	                  return _this.handleMouseLeave();
 	                }
 	              },
 
-	              "class": _this.getRowClass(row, $index) },
+	              'class': _this.getRowClass(row, $index) },
 	            [_this._l(_this.columns, function (column, cellIndex) {
 	              return h(
-	                "td",
+	                'td',
 	                {
-	                  "class": [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden' : ''],
+	                  'class': [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden' : ''],
 	                  on: {
-	                    "mouseenter": function mouseenter($event) {
+	                    'mouseenter': function mouseenter($event) {
 	                      return _this.handleCellMouseEnter($event, row);
 	                    },
-	                    "mouseleave": _this.handleCellMouseLeave
+	                    'mouseleave': _this.handleCellMouseLeave
 	                  }
 	                },
 	                [column.renderCell.call(_this._renderProxy, h, { row: row, column: column, $index: $index, store: _this.store, _self: _this.context || _this.$parent.$vnode.context })]
 	              );
 	            }), !_this.fixed && _this.layout.scrollY && _this.layout.gutterWidth ? h(
-	              "td",
-	              { "class": "gutter" },
+	              'td',
+	              { 'class': 'gutter' },
 	              []
 	            ) : '']
 	          );
@@ -1558,14 +1571,14 @@ module.exports =
 
 /***/ },
 
-/***/ 253:
+/***/ 254:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(254);
+	var _checkbox = __webpack_require__(248);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -2002,13 +2015,6 @@ module.exports =
 
 /***/ },
 
-/***/ 254:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/checkbox");
-
-/***/ },
-
 /***/ 255:
 /***/ function(module, exports, __webpack_require__) {
 
@@ -2062,7 +2068,7 @@ module.exports =
 
 	var _dropdown2 = _interopRequireDefault(_dropdown);
 
-	var _checkbox = __webpack_require__(254);
+	var _checkbox = __webpack_require__(248);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -2461,7 +2467,7 @@ module.exports =
 	    staticClass: "el-table__empty-block"
 	  }, [_vm._h('span', {
 	    staticClass: "el-table__empty-text"
-	  }, [_vm._s(_vm.emptyText)])]) : _vm._e()]), (_vm.fixedColumns.length > 0) ? _vm._h('div', {
+	  }, [_vm._s(_vm.emptyText || _vm.t('el.table.emptyText'))])]) : _vm._e()]), (_vm.fixedColumns.length > 0) ? _vm._h('div', {
 	    ref: "fixedWrapper",
 	    staticClass: "el-table__fixed",
 	    style: ({
@@ -2506,7 +2512,7 @@ module.exports =
 	    style: ({
 	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : '',
 	      height: _vm.layout.viewportHeight ? _vm.layout.viewportHeight + 'px' : '',
-	      right: _vm.layout.scrollY ? _vm.layout.gutterWidth + 'px' : ''
+	      right: _vm.layout.scrollY ? (_vm.border ? _vm.layout.gutterWidth : (_vm.layout.gutterWidth || 1)) + 'px' : ''
 	    })
 	  }, [(_vm.showHeader) ? _vm._h('div', {
 	    ref: "rightFixedHeaderWrapper",
@@ -2540,7 +2546,13 @@ module.exports =
 	      "row-style": _vm.rowStyle,
 	      "highlight": _vm.highlightCurrentRow
 	    }
-	  })])]) : _vm._e(), _vm._h('div', {
+	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _vm._h('div', {
+	    staticClass: "el-table__fixed-right-patch",
+	    style: ({
+	      width: _vm.layout.scrollY ? _vm.layout.gutterWidth + 'px' : '0',
+	      height: _vm.layout.headerHeight + 'px'
+	    })
+	  }) : _vm._e(), _vm._h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",

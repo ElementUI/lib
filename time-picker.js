@@ -51,6 +51,13 @@ module.exports =
 
 /***/ },
 
+/***/ 8:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/input");
+
+/***/ },
+
 /***/ 9:
 /***/ function(module, exports) {
 
@@ -120,7 +127,37 @@ module.exports =
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
+	var _input = __webpack_require__(8);
+
+	var _input2 = _interopRequireDefault(_input);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	var NewPopper = {
 	  props: {
@@ -131,40 +168,7 @@ module.exports =
 	  methods: _vuePopper2.default.methods,
 	  data: _vuePopper2.default.data,
 	  beforeDestroy: _vuePopper2.default.beforeDestroy
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 	var RANGE_SEPARATOR = ' - ';
 	var DEFAULT_FORMATS = {
@@ -182,12 +186,6 @@ module.exports =
 	  return (0, _util.formatDate)(value, format);
 	};
 	var DATE_PARSER = function DATE_PARSER(text, format) {
-	  text = text.split(':');
-	  if (text.length > 1) text = text.map(function (item) {
-	    return item.slice(-2);
-	  });
-	  text = text.join(':');
-
 	  return (0, _util.parseDate)(text, format);
 	};
 	var RANGE_FORMATTER = function RANGE_FORMATTER(value, format) {
@@ -304,6 +302,7 @@ module.exports =
 	  mixins: [_emitter2.default, NewPopper],
 
 	  props: {
+	    size: String,
 	    format: String,
 	    readonly: Boolean,
 	    placeholder: String,
@@ -320,6 +319,8 @@ module.exports =
 	    haveTrigger: {},
 	    pickerOptions: {}
 	  },
+
+	  components: { ElInput: _input2.default },
 
 	  directives: { Clickoutside: _clickoutside2.default },
 
@@ -341,7 +342,6 @@ module.exports =
 	      if (!val && this.picker && typeof this.picker.handleClear === 'function') {
 	        this.picker.handleClear();
 	      }
-	      this.dispatch('ElFormItem', 'el.form.change');
 	    },
 
 	    value: {
@@ -353,10 +353,17 @@ module.exports =
 	  },
 
 	  computed: {
+	    reference: function reference() {
+	      return this.$refs.reference.$el;
+	    },
+	    refInput: function refInput() {
+	      if (this.reference) return this.reference.querySelector('input');
+	      return {};
+	    },
 	    valueIsEmpty: function valueIsEmpty() {
 	      var val = this.internalValue;
 	      if (Array.isArray(val)) {
-	        for (var i = 0, j = val.length; i < j; i++) {
+	        for (var i = 0, len = val.length; i < len; i++) {
 	          if (val[i]) {
 	            return false;
 	          }
@@ -393,6 +400,7 @@ module.exports =
 	    visualValue: {
 	      get: function get() {
 	        var value = this.internalValue;
+	        if (!value) return;
 	        var formatter = (TYPE_VALUE_RESOLVER_MAP[this.type] || TYPE_VALUE_RESOLVER_MAP['default']).formatter;
 	        var format = DEFAULT_FORMATS[this.type];
 
@@ -428,6 +436,7 @@ module.exports =
 	    handleMouseEnterIcon: function handleMouseEnterIcon() {
 	      if (this.readonly || this.disabled) return;
 	      if (!this.valueIsEmpty) {
+	        this.visualValue = this.refInput.value;
 	        this.showClose = true;
 	      }
 	    },
@@ -458,9 +467,6 @@ module.exports =
 	    handleKeydown: function handleKeydown(event) {
 	      var keyCode = event.keyCode;
 	      var target = event.target;
-	      var selectionStart = target.selectionStart;
-	      var selectionEnd = target.selectionEnd;
-	      var length = target.value.length;
 
 	      // tab
 	      if (keyCode === 9) {
@@ -469,30 +475,6 @@ module.exports =
 	      } else if (keyCode === 13) {
 	        this.pickerVisible = this.picker.visible = false;
 	        this.visualValue = target.value;
-	        target.blur();
-	        // left
-	      } else if (keyCode === 37) {
-	        event.preventDefault();
-
-	        if (selectionEnd === length && selectionStart === length) {
-	          target.selectionStart = length - 2;
-	        } else if (selectionStart >= 3) {
-	          target.selectionStart -= 3;
-	        } else {
-	          target.selectionStart = 0;
-	        }
-	        target.selectionEnd = target.selectionStart + 2;
-	        // right
-	      } else if (keyCode === 39) {
-	        event.preventDefault();
-	        if (selectionEnd === 0 && selectionStart === 0) {
-	          target.selectionEnd = 2;
-	        } else if (selectionEnd <= length - 3) {
-	          target.selectionEnd += 3;
-	        } else {
-	          target.selectionEnd = length;
-	        }
-	        target.selectionStart = target.selectionEnd - 2;
 	      }
 	    },
 	    hidePicker: function hidePicker() {
@@ -509,7 +491,7 @@ module.exports =
 	        this.panel.defaultValue = this.internalValue;
 	        this.picker = new _vue2.default(this.panel).$mount(document.createElement('div'));
 	        this.popperElm = this.picker.$el;
-	        this.picker.width = this.$refs.reference.getBoundingClientRect().width;
+	        this.picker.width = this.reference.getBoundingClientRect().width;
 	        this.picker.showTime = this.type === 'datetime' || this.type === 'datetimerange';
 	        this.picker.selectionMode = this.selectionMode;
 	        if (this.format) {
@@ -559,10 +541,8 @@ module.exports =
 	        });
 
 	        this.picker.$on('select-range', function (start, end) {
-	          setTimeout(function () {
-	            _this.$refs.reference.setSelectionRange(start, end);
-	            _this.$refs.reference.focus();
-	          }, 0);
+	          _this.refInput.setSelectionRange(start, end);
+	          _this.refInput.focus();
 	        });
 	      } else {
 	        this.pickerVisible = this.picker.visible = true;
@@ -572,10 +552,10 @@ module.exports =
 
 	      if (this.internalValue instanceof Date) {
 	        this.picker.date = new Date(this.internalValue.getTime());
-	        this.picker.resetView && this.picker.resetView();
 	      } else {
 	        this.picker.value = this.internalValue;
 	      }
+	      this.picker.resetView && this.picker.resetView();
 
 	      this.$nextTick(function () {
 	        _this.picker.ajustScrollTop && _this.picker.ajustScrollTop();
@@ -787,59 +767,42 @@ module.exports =
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;
-	  return _vm._h('span', {
+	  return _vm._h('el-input', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
 	      value: (_vm.handleClose),
 	      expression: "handleClose"
 	    }],
-	    staticClass: "el-date-editor",
-	    class: {
-	      'is-have-trigger': _vm.haveTrigger,
-	      'is-active': _vm.pickerVisible,
-	      'is-filled': !!this.internalValue
-	    }
-	  }, [_vm._h('input', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model.lazy",
-	      value: (_vm.visualValue),
-	      expression: "visualValue",
-	      modifiers: {
-	        "lazy": true
-	      }
-	    }],
 	    ref: "reference",
-	    staticClass: "el-date-editor__editor",
-	    class: {
-	      'is-disabled': _vm.disabled
-	    },
+	    staticClass: "el-date-editor",
 	    attrs: {
 	      "readonly": !_vm.editable || _vm.readonly,
 	      "disabled": _vm.disabled,
-	      "type": "text",
+	      "size": _vm.size,
 	      "placeholder": _vm.placeholder
 	    },
 	    domProps: {
-	      "value": _vm._s(_vm.visualValue)
+	      "value": _vm.visualValue
 	    },
 	    on: {
 	      "focus": _vm.handleFocus,
-	      "blur": _vm.handleBlur,
-	      "keydown": _vm.handleKeydown,
+	      "blur": _vm.handleBlur
+	    },
+	    nativeOn: {
+	      "keydown": function($event) {
+	        _vm.handleKeydown($event)
+	      },
 	      "change": function($event) {
 	        _vm.visualValue = $event.target.value
 	      }
 	    }
-	  }), (_vm.haveTrigger) ? _vm._h('span', {
-	    staticClass: "el-date-editor__trigger el-icon",
+	  }, [(_vm.haveTrigger) ? _vm._h('i', {
+	    slot: "icon",
+	    staticClass: "el-input__icon",
 	    class: [_vm.showClose ? 'el-icon-close' : _vm.triggerClass],
 	    on: {
-	      "click": function($event) {
-	        $event.stopPropagation();
-	        _vm.handleClickIcon($event)
-	      },
+	      "click": _vm.handleClickIcon,
 	      "mouseenter": _vm.handleMouseEnterIcon,
 	      "mouseleave": function($event) {
 	        _vm.showClose = false
@@ -1175,14 +1138,10 @@ module.exports =
 	      }
 	    },
 	    handleScroll: function handleScroll(type) {
-	      var _this = this;
+	      var ajust = {};
 
-	      window.setTimeout(function () {
-	        var ajust = {};
-
-	        ajust[type + 's'] = Math.min(Math.floor((_this.$refs[type].scrollTop - 80) / 32 + 3), 59);
-	        _this.$emit('change', ajust);
-	      }, 0);
+	      ajust[type + 's'] = Math.min(Math.floor((this.$refs[type].scrollTop - 80) / 32 + 3), 59);
+	      this.$emit('change', ajust);
 	    },
 	    ajustScrollTop: function ajustScrollTop() {
 	      this.$refs.hour.scrollTop = Math.max(0, (this.hours - 2.5) * 32 + 80);
@@ -1247,7 +1206,10 @@ module.exports =
 
 	module.exports={render:function (){var _vm=this;
 	  return _vm._h('div', {
-	    staticClass: "el-time-spinner"
+	    staticClass: "el-time-spinner",
+	    class: {
+	      'has-seconds': _vm.showSeconds
+	    }
 	  }, [_vm._h('div', {
 	    ref: "hour",
 	    staticClass: "el-time-spinner__wrapper",
@@ -1374,7 +1336,10 @@ module.exports =
 	      width: _vm.width + 'px'
 	    })
 	  }, [_vm._h('div', {
-	    staticClass: "el-time-panel__content"
+	    staticClass: "el-time-panel__content",
+	    class: {
+	      'has-seconds': _vm.showSeconds
+	    }
 	  }, [_vm._h('time-spinner', {
 	    ref: "spinner",
 	    attrs: {
@@ -1515,8 +1480,19 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
+	var _timeSpinner = __webpack_require__(60);
+
+	var _timeSpinner2 = _interopRequireDefault(_timeSpinner);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var MIN_TIME = (0, _util.parseDate)('00:00:00', 'HH:mm:ss'); //
+	//
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -1569,7 +1545,6 @@ module.exports =
 	//
 	//
 
-	var MIN_TIME = (0, _util.parseDate)('00:00:00', 'HH:mm:ss');
 	var MAX_TIME = (0, _util.parseDate)('23:59:59', 'HH:mm:ss');
 	var isDisabled = function isDisabled(minTime, maxTime) {
 	  var minValue = minTime.getHours() * 3600 + minTime.getMinutes() * 60 + minTime.getSeconds();
@@ -1591,9 +1566,7 @@ module.exports =
 	exports.default = {
 	  mixins: [_locale2.default],
 
-	  components: {
-	    TimeSpinner: __webpack_require__(60)
-	  },
+	  components: { TimeSpinner: _timeSpinner2.default },
 
 	  computed: {
 	    showSeconds: function showSeconds() {
@@ -1602,26 +1575,6 @@ module.exports =
 	  },
 
 	  props: ['value'],
-
-	  watch: {
-	    value: function value(val) {
-	      var time = clacTime(val);
-	      if (time.minTime === this.minTime && time.maxTime === this.maxTime) {
-	        return;
-	      }
-
-	      this.handleMinChange({
-	        hours: time.minTime.getHours(),
-	        minutes: time.minTime.getMinutes(),
-	        seconds: time.minTime.getSeconds()
-	      });
-	      this.handleMaxChange({
-	        hours: time.maxTime.getHours(),
-	        minutes: time.maxTime.getMinutes(),
-	        seconds: time.maxTime.getSeconds()
-	      });
-	    }
-	  },
 
 	  data: function data() {
 	    var time = clacTime(this.$options.defaultValue);
@@ -1644,6 +1597,23 @@ module.exports =
 
 
 	  methods: {
+	    panelCreated: function panelCreated() {
+	      var time = clacTime(this.value);
+	      if (time.minTime === this.minTime && time.maxTime === this.maxTime) {
+	        return;
+	      }
+
+	      this.handleMinChange({
+	        hours: time.minTime.getHours(),
+	        minutes: time.minTime.getMinutes(),
+	        seconds: time.minTime.getSeconds()
+	      });
+	      this.handleMaxChange({
+	        hours: time.maxTime.getHours(),
+	        minutes: time.maxTime.getMinutes(),
+	        seconds: time.maxTime.getSeconds()
+	      });
+	    },
 	    handleClear: function handleClear() {
 	      this.handleCancel();
 	    },
@@ -1732,6 +1702,7 @@ module.exports =
 	      "name": "el-zoom-in-top"
 	    },
 	    on: {
+	      "before-enter": _vm.panelCreated,
 	      "after-leave": function($event) {
 	        _vm.$emit('dodestroy')
 	      }
@@ -1754,7 +1725,10 @@ module.exports =
 	  }, [_vm._h('div', {
 	    staticClass: "el-time-range-picker__header"
 	  }, [_vm._s(_vm.t('el.datepicker.startTime'))]), _vm._h('div', {
-	    staticClass: "el-time-range-picker__body el-time-panel__content"
+	    staticClass: "el-time-range-picker__body el-time-panel__content",
+	    class: {
+	      'has-seconds': _vm.showSeconds
+	    }
 	  }, [_vm._h('time-spinner', {
 	    ref: "minSpinner",
 	    attrs: {
@@ -1772,7 +1746,10 @@ module.exports =
 	  }, [_vm._h('div', {
 	    staticClass: "el-time-range-picker__header"
 	  }, [_vm._s(_vm.t('el.datepicker.endTime'))]), _vm._h('div', {
-	    staticClass: "el-time-range-picker__body el-time-panel__content"
+	    staticClass: "el-time-range-picker__body el-time-panel__content",
+	    class: {
+	      'has-seconds': _vm.showSeconds
+	    }
 	  }, [_vm._h('time-spinner', {
 	    ref: "maxSpinner",
 	    attrs: {

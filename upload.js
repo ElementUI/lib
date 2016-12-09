@@ -327,7 +327,7 @@ module.exports =
 	        headers: this.headers,
 	        name: this.name,
 	        data: this.data,
-	        accept: this.thumbnailMode ? 'image/*' : this.accept,
+	        accept: this.thumbnailMode ? 'image/gif, image/png, image/jpeg, image/bmp, image/webp' : this.accept,
 	        'on-start': this.handleStart,
 	        'on-progress': this.handleProgress,
 	        'on-success': this.handleSuccess,
@@ -498,9 +498,7 @@ module.exports =
 	          _vm.$emit('preview', file)
 	        }
 	      }
-	    }, [_vm._h('i', {
-	      staticClass: "el-icon-document"
-	    }), _vm._s(file.name) + "\n    "]), _vm._h('span', {
+	    }, [_vm._m(0, true), _vm._s(file.name) + "\n    "]), _vm._h('span', {
 	      directives: [{
 	        name: "show",
 	        rawName: "v-show",
@@ -521,7 +519,11 @@ module.exports =
 	      }
 	    }) : _vm._e()])
 	  })])
-	},staticRenderFns: []}
+	},staticRenderFns: [function (){var _vm=this;
+	  return _vm._h('i', {
+	    staticClass: "el-icon-document"
+	  })
+	}]}
 
 /***/ },
 
@@ -818,9 +820,9 @@ module.exports =
 
 	  var headers = option.headers || {};
 
-	  if (headers['X-Requested-With'] !== null) {
-	    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-	  }
+	  // if (headers['X-Requested-With'] !== null) {
+	  //   xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	  // }
 
 	  for (var item in headers) {
 	    if (headers.hasOwnProperty(item) && headers[item] !== null) {
@@ -995,27 +997,21 @@ module.exports =
 	        _vm.$parent.handleClick()
 	      }
 	    }
-	  }, [_vm._h('i', {
-	    staticClass: "el-icon-upload2"
-	  }), _vm._h('span', [_vm._s(_vm.t('el.upload.continue'))])]), _vm._h('span', {
+	  }, [_vm._m(0), _vm._h('span', [_vm._s(_vm.t('el.upload.continue'))])]), _vm._h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
 	        _vm.onPreview(_vm.image)
 	      }
 	    }
-	  }, [_vm._h('i', {
-	    staticClass: "el-icon-view"
-	  }), _vm._h('span', [_vm._s(_vm.t('el.upload.preview'))])]), _vm._h('span', {
+	  }, [_vm._m(1), _vm._h('span', [_vm._s(_vm.t('el.upload.preview'))])]), _vm._h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
 	        _vm.onRemove(_vm.image)
 	      }
 	    }
-	  }, [_vm._h('i', {
-	    staticClass: "el-icon-delete2"
-	  }), _vm._h('span', [_vm._s(_vm.t('el.upload.delete'))])])])])]), _vm._h('transition', {
+	  }, [_vm._m(2), _vm._h('span', [_vm._s(_vm.t('el.upload.delete'))])])])])]), _vm._h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-bottom"
 	    }
@@ -1028,7 +1024,19 @@ module.exports =
 	    }],
 	    staticClass: "el-dragger__cover__title"
 	  }, [_vm._s(_vm.image.name)])])]) : _vm._e()]) : _vm._e()
-	},staticRenderFns: []}
+	},staticRenderFns: [function (){var _vm=this;
+	  return _vm._h('i', {
+	    staticClass: "el-icon-upload2"
+	  })
+	},function (){var _vm=this;
+	  return _vm._h('i', {
+	    staticClass: "el-icon-view"
+	  })
+	},function (){var _vm=this;
+	  return _vm._h('i', {
+	    staticClass: "el-icon-delete2"
+	  })
+	}]}
 
 /***/ },
 

@@ -65,7 +65,14 @@ module.exports =
 
 /***/ },
 
-/***/ 250:
+/***/ 248:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/checkbox");
+
+/***/ },
+
+/***/ 251:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -194,13 +201,6 @@ module.exports =
 
 /***/ },
 
-/***/ 254:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/checkbox");
-
-/***/ },
-
 /***/ 261:
 /***/ function(module, exports, __webpack_require__) {
 
@@ -230,7 +230,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(254);
+	var _checkbox = __webpack_require__(248);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -242,7 +242,7 @@ module.exports =
 
 	var _merge2 = _interopRequireDefault(_merge);
 
-	var _util = __webpack_require__(250);
+	var _util = __webpack_require__(251);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -256,7 +256,8 @@ module.exports =
 	    width: 48,
 	    minWidth: 48,
 	    realWidth: 48,
-	    order: ''
+	    order: '',
+	    className: 'el-table-column--selection'
 	  },
 	  index: {
 	    width: 48,
