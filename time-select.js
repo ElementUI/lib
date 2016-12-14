@@ -202,12 +202,9 @@ module.exports =
 	var RANGE_PARSER = function RANGE_PARSER(text, format) {
 	  var array = text.split(RANGE_SEPARATOR);
 	  if (array.length === 2) {
-	    var range1 = array[0].split(':').map(function (item) {
-	      return item.slice(-2);
-	    }).join(':');
-	    var range2 = array[1].split(':').map(function (item) {
-	      return item.slice(-2);
-	    }).join(':');
+	    var range1 = array[0];
+	    var range2 = array[1];
+
 	    return [(0, _util.parseDate)(range1, format), (0, _util.parseDate)(range2, format)];
 	  }
 	  return [];
@@ -436,7 +433,6 @@ module.exports =
 	    handleMouseEnterIcon: function handleMouseEnterIcon() {
 	      if (this.readonly || this.disabled) return;
 	      if (!this.valueIsEmpty) {
-	        this.visualValue = this.refInput.value;
 	        this.showClose = true;
 	      }
 	    },
@@ -466,15 +462,10 @@ module.exports =
 	    },
 	    handleKeydown: function handleKeydown(event) {
 	      var keyCode = event.keyCode;
-	      var target = event.target;
 
 	      // tab
 	      if (keyCode === 9) {
 	        this.pickerVisible = false;
-	        // enter
-	      } else if (keyCode === 13) {
-	        this.pickerVisible = this.picker.visible = false;
-	        this.visualValue = target.value;
 	      }
 	    },
 	    hidePicker: function hidePicker() {

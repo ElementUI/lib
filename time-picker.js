@@ -202,12 +202,9 @@ module.exports =
 	var RANGE_PARSER = function RANGE_PARSER(text, format) {
 	  var array = text.split(RANGE_SEPARATOR);
 	  if (array.length === 2) {
-	    var range1 = array[0].split(':').map(function (item) {
-	      return item.slice(-2);
-	    }).join(':');
-	    var range2 = array[1].split(':').map(function (item) {
-	      return item.slice(-2);
-	    }).join(':');
+	    var range1 = array[0];
+	    var range2 = array[1];
+
 	    return [(0, _util.parseDate)(range1, format), (0, _util.parseDate)(range2, format)];
 	  }
 	  return [];
@@ -436,7 +433,6 @@ module.exports =
 	    handleMouseEnterIcon: function handleMouseEnterIcon() {
 	      if (this.readonly || this.disabled) return;
 	      if (!this.valueIsEmpty) {
-	        this.visualValue = this.refInput.value;
 	        this.showClose = true;
 	      }
 	    },
@@ -466,15 +462,10 @@ module.exports =
 	    },
 	    handleKeydown: function handleKeydown(event) {
 	      var keyCode = event.keyCode;
-	      var target = event.target;
 
 	      // tab
 	      if (keyCode === 9) {
 	        this.pickerVisible = false;
-	        // enter
-	      } else if (keyCode === 13) {
-	        this.pickerVisible = this.picker.visible = false;
-	        this.visualValue = target.value;
 	      }
 	    },
 	    hidePicker: function hidePicker() {
@@ -922,6 +913,8 @@ module.exports =
 	      this.width = val;
 	    },
 	    value: function value(newVal) {
+	      var _this = this;
+
 	      var date = void 0;
 	      if (newVal instanceof Date) {
 	        date = (0, _util.limitRange)(newVal, this.selectableRange);
@@ -933,6 +926,9 @@ module.exports =
 	        hours: date.getHours(),
 	        minutes: date.getMinutes(),
 	        seconds: date.getSeconds()
+	      });
+	      this.$nextTick(function (_) {
+	        return _this.ajustScrollTop();
 	      });
 	    },
 	    selectableRange: function selectableRange(val) {
@@ -1006,10 +1002,10 @@ module.exports =
 	    this.seconds = this.currentDate.getSeconds();
 	  },
 	  mounted: function mounted() {
-	    var _this = this;
+	    var _this2 = this;
 
 	    this.$nextTick(function () {
-	      return _this.handleConfirm(true, true);
+	      return _this2.handleConfirm(true, true);
 	    });
 	  }
 	};
@@ -1596,6 +1592,17 @@ module.exports =
 	  },
 
 
+	  watch: {
+	    value: function value(newVal) {
+	      var _this = this;
+
+	      this.panelCreated();
+	      this.$nextTick(function (_) {
+	        return _this.ajustScrollTop();
+	      });
+	    }
+	  },
+
 	  methods: {
 	    panelCreated: function panelCreated() {
 	      var time = clacTime(this.value);
@@ -1683,10 +1690,10 @@ module.exports =
 	  },
 
 	  mounted: function mounted() {
-	    var _this = this;
+	    var _this2 = this;
 
 	    this.$nextTick(function () {
-	      return _this.handleConfirm(true, true);
+	      return _this2.handleConfirm(true, true);
 	    });
 	  }
 	};

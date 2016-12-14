@@ -128,6 +128,8 @@ module.exports =
 
 	  name: 'el-option-group',
 
+	  componentName: 'ElOptionGroup',
+
 	  props: {
 	    label: String,
 	    disabled: {
@@ -136,12 +138,30 @@ module.exports =
 	    }
 	  },
 
+	  data: function data() {
+	    return {
+	      visible: true
+	    };
+	  },
+
+
 	  watch: {
 	    disabled: function disabled(val) {
 	      this.broadcast('ElOption', 'handleGroupDisabled', val);
 	    }
 	  },
 
+	  methods: {
+	    queryChange: function queryChange() {
+	      this.visible = this.$children && Array.isArray(this.$children) && this.$children.some(function (option) {
+	        return option.visible === true;
+	      });
+	    }
+	  },
+
+	  created: function created() {
+	    this.$on('queryChange', this.queryChange);
+	  },
 	  mounted: function mounted() {
 	    if (this.disabled) {
 	      this.broadcast('ElOption', 'handleGroupDisabled', this.disabled);
@@ -168,6 +188,12 @@ module.exports =
 	  return _vm._h('ul', {
 	    staticClass: "el-select-group__wrap"
 	  }, [_vm._h('li', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (_vm.visible),
+	      expression: "visible"
+	    }],
 	    staticClass: "el-select-group__title"
 	  }, [_vm._s(_vm.label)]), _vm._h('li', [_vm._h('ul', {
 	    staticClass: "el-select-group"

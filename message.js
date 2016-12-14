@@ -206,6 +206,12 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  data: function data() {
@@ -214,6 +220,8 @@ module.exports =
 	      message: '',
 	      duration: 3000,
 	      type: 'info',
+	      iconClass: '',
+	      customClass: '',
 	      onClose: null,
 	      showClose: false,
 	      closed: false,
@@ -341,19 +349,26 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-message",
+	    class: _vm.customClass,
 	    on: {
 	      "mouseenter": _vm.clearTimer,
 	      "mouseleave": _vm.startTimer
 	    }
-	  }, [_vm._h('img', {
-	    staticClass: "el-message__icon",
+	  }, [(!_vm.iconClass) ? _vm._h('img', {
+	    staticClass: "el-message__img",
 	    attrs: {
 	      "src": _vm.typeImg,
 	      "alt": ""
 	    }
-	  }), _vm._h('div', {
-	    staticClass: "el-message__group"
-	  }, [_vm._h('p', [_vm._s(_vm.message)]), (_vm.showClose) ? _vm._h('div', {
+	  }) : _vm._e(), _vm._h('div', {
+	    staticClass: "el-message__group",
+	    class: {
+	      'is-with-icon': _vm.iconClass
+	    }
+	  }, [(_vm.iconClass) ? _vm._h('i', {
+	    staticClass: "el-message__icon",
+	    class: _vm.iconClass
+	  }) : _vm._e(), _vm._h('p', [_vm._s(_vm.message)]), (_vm.showClose) ? _vm._h('div', {
 	    staticClass: "el-message__closeBtn el-icon-close",
 	    on: {
 	      "click": _vm.close

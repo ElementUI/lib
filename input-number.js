@@ -165,6 +165,12 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElInputNumber',
@@ -246,7 +252,7 @@ module.exports =
 	    currentValue: function currentValue(newVal, oldVal) {
 	      var value = Number(newVal);
 	      if (value <= this.max && value >= this.min) {
-	        this.$emit('change', value);
+	        this.$emit('change', value, oldVal);
 	        this.$emit('input', value);
 	      }
 	    }
@@ -391,7 +397,11 @@ module.exports =
 	        _vm.decrease($event)
 	      }]
 	    }
-	  }), (_vm.controls) ? _vm._h('span', {
+	  }, [(_vm.$slots.prepend) ? _vm._h('template', {
+	    slot: "prepend"
+	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.$slots.append) ? _vm._h('template', {
+	    slot: "append"
+	  }, [_vm._t("append")]) : _vm._e()]), (_vm.controls) ? _vm._h('span', {
 	    directives: [{
 	      name: "repeat-click",
 	      rawName: "v-repeat-click",

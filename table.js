@@ -328,6 +328,8 @@ module.exports =
 
 	    height: [String, Number],
 
+	    maxHeight: [String, Number],
+
 	    fit: {
 	      type: Boolean,
 	      default: true
@@ -435,6 +437,8 @@ module.exports =
 	      this.$nextTick(function () {
 	        if (_this2.height) {
 	          _this2.layout.setHeight(_this2.height);
+	        } else if (_this2.maxHeight) {
+	          _this2.layout.setMaxHeight(_this2.maxHeight);
 	        } else if (_this2.shouldUpdateHeight) {
 	          _this2.layout.updateHeight();
 	        }
@@ -470,6 +474,57 @@ module.exports =
 	    },
 	    rightFixedColumns: function rightFixedColumns() {
 	      return this.store.states.rightFixedColumns;
+	    },
+	    bodyHeight: function bodyHeight() {
+	      var style = {};
+
+	      if (this.height) {
+	        style = {
+	          height: this.layout.bodyHeight ? this.layout.bodyHeight + 'px' : ''
+	        };
+	      } else if (this.maxHeight) {
+	        style = {
+	          'max-height': (this.showHeader ? this.maxHeight - this.layout.headerHeight : this.maxHeight) + 'px'
+	        };
+	      }
+
+	      return style;
+	    },
+	    fixedBodyHeight: function fixedBodyHeight() {
+	      var style = {};
+
+	      if (this.height) {
+	        style = {
+	          height: this.layout.fixedBodyHeight ? this.layout.fixedBodyHeight + 'px' : ''
+	        };
+	      } else if (this.maxHeight) {
+	        var maxHeight = this.layout.scrollX ? this.maxHeight - this.layout.gutterWidth : this.maxHeight;
+
+	        if (this.showHeader) {
+	          maxHeight -= this.layout.headerHeight;
+	        }
+
+	        style = {
+	          'max-height': maxHeight + 'px'
+	        };
+	      }
+
+	      return style;
+	    },
+	    fixedHeight: function fixedHeight() {
+	      var style = {};
+
+	      if (this.maxHeight) {
+	        style = {
+	          bottom: this.layout.scrollX && this.data.length ? this.layout.gutterWidth + 'px' : ''
+	        };
+	      } else {
+	        style = {
+	          height: this.layout.viewportHeight ? this.layout.viewportHeight + 'px' : ''
+	        };
+	      }
+
+	      return style;
 	    }
 	  },
 
@@ -1170,24 +1225,28 @@ module.exports =
 	    }
 	  };
 
-	  TableLayout.prototype.setHeight = function setHeight(height) {
+	  TableLayout.prototype.setHeight = function setHeight(value) {
+	    var prop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'height';
+
 	    var el = this.table.$el;
-	    if (typeof height === 'string') {
-	      if (/^\d+$/.test(height)) {
-	        height = Number(height);
-	      }
+	    if (typeof value === 'string' && /^\d+$/.test(value)) {
+	      value = Number(value);
 	    }
 
-	    this.height = height;
+	    this.height = value;
 
 	    if (!el) return;
-	    if (!isNaN(height)) {
-	      el.style.height = height + 'px';
+	    if (typeof value === 'number') {
+	      el.style[prop] = value + 'px';
 
 	      this.updateHeight();
-	    } else if (typeof height === 'string') {
+	    } else if (typeof value === 'string') {
 	      this.updateHeight();
 	    }
+	  };
+
+	  TableLayout.prototype.setMaxHeight = function setMaxHeight(value) {
+	    return this.setHeight(value, 'max-height');
 	  };
 
 	  TableLayout.prototype.updateHeight = function updateHeight() {
@@ -1201,7 +1260,6 @@ module.exports =
 	        this.bodyHeight = height;
 	      }
 	      this.fixedBodyHeight = this.scrollX ? height - this.gutterWidth : height;
-	      this.viewportHeight = this.scrollX ? height - this.gutterWidth : height;
 	    } else {
 	      var headerHeight = this.headerHeight = headerWrapper.offsetHeight;
 	      var bodyHeight = height - headerHeight;
@@ -1209,8 +1267,8 @@ module.exports =
 	        this.bodyHeight = bodyHeight;
 	      }
 	      this.fixedBodyHeight = this.scrollX ? bodyHeight - this.gutterWidth : bodyHeight;
-	      this.viewportHeight = this.scrollX ? height - this.gutterWidth : height;
 	    }
+	    this.viewportHeight = this.scrollX ? height - this.gutterWidth : height;
 	  };
 
 	  TableLayout.prototype.update = function update() {
@@ -1391,6 +1449,9 @@ module.exports =
 	                'click': function click($event) {
 	                  return _this.handleClick($event, row);
 	                },
+	                'contextmenu': function contextmenu($event) {
+	                  return _this.handleContextMenu($event, row);
+	                },
 	                'mouseenter': function mouseenter(_) {
 	                  return _this.handleMouseEnter($index);
 	                },
@@ -1546,6 +1607,10 @@ module.exports =
 	    },
 	    handleMouseLeave: function handleMouseLeave() {
 	      this.store.commit('setHoverRow', null);
+	    },
+	    handleContextMenu: function handleContextMenu(event, row) {
+	      var table = this.$parent;
+	      table.$emit('row-contextmenu', row, event);
 	    },
 	    handleDoubleClick: function handleDoubleClick(event, row) {
 	      var table = this.$parent;
@@ -2422,6 +2487,7 @@ module.exports =
 	      'el-table--fit': _vm.fit,
 	      'el-table--striped': _vm.stripe,
 	      'el-table--border': _vm.border,
+	      'el-table--fluid-height': _vm.maxHeight,
 	      'el-table--enable-row-hover': !_vm.store.states.isComplex,
 	        'el-table--enable-row-transition': true || (_vm.store.states.data || []).length !== 0 && (_vm.store.states.data || []).length < 100
 	    },
@@ -2448,9 +2514,7 @@ module.exports =
 	  })]) : _vm._e(), _vm._h('div', {
 	    ref: "bodyWrapper",
 	    staticClass: "el-table__body-wrapper",
-	    style: ({
-	      height: _vm.layout.bodyHeight ? _vm.layout.bodyHeight + 'px' : ''
-	    })
+	    style: ([_vm.bodyHeight])
 	  }, [_vm._h('table-body', {
 	    style: ({
 	      width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth - (_vm.layout.scrollY ? _vm.layout.gutterWidth : 0) + 'px' : ''
@@ -2467,13 +2531,14 @@ module.exports =
 	    staticClass: "el-table__empty-block"
 	  }, [_vm._h('span', {
 	    staticClass: "el-table__empty-text"
-	  }, [_vm._s(_vm.emptyText || _vm.t('el.table.emptyText'))])]) : _vm._e()]), (_vm.fixedColumns.length > 0) ? _vm._h('div', {
+	  }, [_vm._t("empty", [_vm._s(_vm.emptyText || _vm.t('el.table.emptyText'))])])]) : _vm._e()]), (_vm.fixedColumns.length > 0) ? _vm._h('div', {
 	    ref: "fixedWrapper",
 	    staticClass: "el-table__fixed",
-	    style: ({
-	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : '',
-	      height: _vm.layout.viewportHeight ? _vm.layout.viewportHeight + 'px' : ''
-	    })
+	    style: ([{
+	        width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
+	      },
+	      _vm.fixedHeight
+	    ])
 	  }, [(_vm.showHeader) ? _vm._h('div', {
 	    ref: "fixedHeaderWrapper",
 	    staticClass: "el-table__fixed-header-wrapper"
@@ -2490,10 +2555,11 @@ module.exports =
 	  })]) : _vm._e(), _vm._h('div', {
 	    ref: "fixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
-	    style: ({
-	      top: _vm.layout.headerHeight + 'px',
-	      height: _vm.layout.fixedBodyHeight ? _vm.layout.fixedBodyHeight + 'px' : ''
-	    })
+	    style: ([{
+	        top: _vm.layout.headerHeight + 'px'
+	      },
+	      _vm.fixedBodyHeight
+	    ])
 	  }, [_vm._h('table-body', {
 	    style: ({
 	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
@@ -2509,11 +2575,13 @@ module.exports =
 	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _vm._h('div', {
 	    ref: "rightFixedWrapper",
 	    staticClass: "el-table__fixed-right",
-	    style: ({
-	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : '',
-	      height: _vm.layout.viewportHeight ? _vm.layout.viewportHeight + 'px' : '',
-	      right: _vm.layout.scrollY ? (_vm.border ? _vm.layout.gutterWidth : (_vm.layout.gutterWidth || 1)) + 'px' : ''
-	    })
+	    style: ([{
+	        width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
+	      }, {
+	        right: _vm.layout.scrollY ? (_vm.border ? _vm.layout.gutterWidth : (_vm.layout.gutterWidth || 1)) + 'px' : ''
+	      },
+	      _vm.fixedHeight
+	    ])
 	  }, [(_vm.showHeader) ? _vm._h('div', {
 	    ref: "rightFixedHeaderWrapper",
 	    staticClass: "el-table__fixed-header-wrapper"
@@ -2530,10 +2598,11 @@ module.exports =
 	  })]) : _vm._e(), _vm._h('div', {
 	    ref: "rightFixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
-	    style: ({
-	      top: _vm.layout.headerHeight + 'px',
-	      height: _vm.layout.fixedBodyHeight ? _vm.layout.fixedBodyHeight + 'px' : ''
-	    })
+	    style: ([{
+	        top: _vm.layout.headerHeight + 'px'
+	      },
+	      _vm.fixedBodyHeight
+	    ])
 	  }, [_vm._h('table-body', {
 	    style: ({
 	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''

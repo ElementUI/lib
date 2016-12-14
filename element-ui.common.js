@@ -358,7 +358,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.0.6',
+	  version: '1.0.7',
 	  locale: _locale2.default.use,
 	  install: install,
 	  Loading: _loading2.default,
@@ -3297,6 +3297,12 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElInputNumber',
@@ -3378,7 +3384,7 @@ module.exports =
 	    currentValue: function currentValue(newVal, oldVal) {
 	      var value = Number(newVal);
 	      if (value <= this.max && value >= this.min) {
-	        this.$emit('change', value);
+	        this.$emit('change', value, oldVal);
 	        this.$emit('input', value);
 	      }
 	    }
@@ -3521,7 +3527,11 @@ module.exports =
 	        _vm.decrease($event)
 	      }]
 	    }
-	  }), (_vm.controls) ? _vm._h('span', {
+	  }, [(_vm.$slots.prepend) ? _vm._h('template', {
+	    slot: "prepend"
+	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.$slots.append) ? _vm._h('template', {
+	    slot: "append"
+	  }, [_vm._t("append")]) : _vm._e()]), (_vm.controls) ? _vm._h('span', {
 	    directives: [{
 	      name: "repeat-click",
 	      rawName: "v-repeat-click",
@@ -4757,6 +4767,95 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var sizeMap = {
+	  'large': 42,
+	  'small': 30,
+	  'mini': 22
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
 	exports.default = {
 	  mixins: [_emitter2.default, _locale2.default],
 
@@ -4810,6 +4909,7 @@ module.exports =
 	  props: {
 	    name: String,
 	    value: {},
+	    size: String,
 	    disabled: Boolean,
 	    clearable: Boolean,
 	    filterable: Boolean,
@@ -4847,6 +4947,7 @@ module.exports =
 	      selectedLabel: '',
 	      hoverIndex: -1,
 	      query: '',
+	      isForcedVisible: false,
 	      bottomOverflowBeforeHidden: 0,
 	      topOverflowBeforeHidden: 0,
 	      optionsAllDisabled: false,
@@ -4882,15 +4983,21 @@ module.exports =
 	      if (this.multiple && this.filterable) {
 	        this.resetInputHeight();
 	      }
+	      if (this.isForcedVisible) {
+	        this.isForcedVisible = false;
+	        return;
+	      }
 	      if (this.remote && typeof this.remoteMethod === 'function') {
 	        this.hoverIndex = -1;
 	        this.remoteMethod(val);
 	        this.broadcast('ElOption', 'resetIndex');
 	      } else if (typeof this.filterMethod === 'function') {
 	        this.filterMethod(val);
+	        this.broadcast('ElOptionGroup', 'queryChange');
 	      } else {
 	        this.filteredOptionsCount = this.optionsCount;
 	        this.broadcast('ElOption', 'queryChange', val);
+	        this.broadcast('ElOptionGroup', 'queryChange');
 	      }
 	    },
 	    visible: function visible(val) {
@@ -4925,6 +5032,10 @@ module.exports =
 	          if (this.multiple) {
 	            this.$refs.input.focus();
 	          } else {
+	            if (!this.remote) {
+	              this.isForcedVisible = true;
+	              this.broadcast('ElOption', 'queryChange', '');
+	            }
 	            this.broadcast('ElInput', 'inputSelect');
 	          }
 	        }
@@ -5065,6 +5176,7 @@ module.exports =
 	    resetInputState: function resetInputState(e) {
 	      if (e.keyCode !== 8) this.toggleLastOptionHitState(false);
 	      this.inputLength = this.$refs.input.value.length * 15 + 20;
+	      this.resetInputHeight();
 	    },
 	    resetInputHeight: function resetInputHeight() {
 	      var _this5 = this;
@@ -5074,7 +5186,7 @@ module.exports =
 	        var input = [].filter.call(inputChildNodes, function (item) {
 	          return item.tagName === 'INPUT';
 	        })[0];
-	        input.style.height = Math.max(_this5.$refs.tags.clientHeight + 6, _this5.size === 'small' ? 28 : 36) + 'px';
+	        input.style.height = Math.max(_this5.$refs.tags.clientHeight + 6, sizeMap[_this5.size] || 36) + 'px';
 	        _this5.broadcast('ElSelectDropdown', 'updatePopper');
 	      });
 	    },
@@ -5239,88 +5351,7 @@ module.exports =
 	  destroyed: function destroyed() {
 	    if (this.resetInputWidth) (0, _resizeEvent.removeResizeListener)(this.$el, this.resetInputWidth);
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 /* 89 */
@@ -5716,6 +5747,7 @@ module.exports =
 	    }],
 	    ref: "input",
 	    staticClass: "el-select__input",
+	    class: ("is-" + _vm.size),
 	    style: ({
 	      width: _vm.inputLength + 'px',
 	      'max-width': _vm.inputWidth - 42 + 'px'
@@ -5769,6 +5801,7 @@ module.exports =
 	      "type": "text",
 	      "placeholder": _vm.currentPlaceholder,
 	      "name": _vm.name,
+	      "size": _vm.size,
 	      "disabled": _vm.disabled,
 	      "readonly": !_vm.filterable || _vm.multiple,
 	      "icon": _vm.iconClass
@@ -5945,6 +5978,8 @@ module.exports =
 
 	  name: 'el-option-group',
 
+	  componentName: 'ElOptionGroup',
+
 	  props: {
 	    label: String,
 	    disabled: {
@@ -5953,12 +5988,30 @@ module.exports =
 	    }
 	  },
 
+	  data: function data() {
+	    return {
+	      visible: true
+	    };
+	  },
+
+
 	  watch: {
 	    disabled: function disabled(val) {
 	      this.broadcast('ElOption', 'handleGroupDisabled', val);
 	    }
 	  },
 
+	  methods: {
+	    queryChange: function queryChange() {
+	      this.visible = this.$children && Array.isArray(this.$children) && this.$children.some(function (option) {
+	        return option.visible === true;
+	      });
+	    }
+	  },
+
+	  created: function created() {
+	    this.$on('queryChange', this.queryChange);
+	  },
 	  mounted: function mounted() {
 	    if (this.disabled) {
 	      this.broadcast('ElOption', 'handleGroupDisabled', this.disabled);
@@ -5984,6 +6037,12 @@ module.exports =
 	  return _vm._h('ul', {
 	    staticClass: "el-select-group__wrap"
 	  }, [_vm._h('li', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (_vm.visible),
+	      expression: "visible"
+	    }],
 	    staticClass: "el-select-group__title"
 	  }, [_vm._s(_vm.label)]), _vm._h('li', [_vm._h('ul', {
 	    staticClass: "el-select-group"
@@ -6431,6 +6490,8 @@ module.exports =
 
 	    height: [String, Number],
 
+	    maxHeight: [String, Number],
+
 	    fit: {
 	      type: Boolean,
 	      default: true
@@ -6538,6 +6599,8 @@ module.exports =
 	      this.$nextTick(function () {
 	        if (_this2.height) {
 	          _this2.layout.setHeight(_this2.height);
+	        } else if (_this2.maxHeight) {
+	          _this2.layout.setMaxHeight(_this2.maxHeight);
 	        } else if (_this2.shouldUpdateHeight) {
 	          _this2.layout.updateHeight();
 	        }
@@ -6573,6 +6636,57 @@ module.exports =
 	    },
 	    rightFixedColumns: function rightFixedColumns() {
 	      return this.store.states.rightFixedColumns;
+	    },
+	    bodyHeight: function bodyHeight() {
+	      var style = {};
+
+	      if (this.height) {
+	        style = {
+	          height: this.layout.bodyHeight ? this.layout.bodyHeight + 'px' : ''
+	        };
+	      } else if (this.maxHeight) {
+	        style = {
+	          'max-height': (this.showHeader ? this.maxHeight - this.layout.headerHeight : this.maxHeight) + 'px'
+	        };
+	      }
+
+	      return style;
+	    },
+	    fixedBodyHeight: function fixedBodyHeight() {
+	      var style = {};
+
+	      if (this.height) {
+	        style = {
+	          height: this.layout.fixedBodyHeight ? this.layout.fixedBodyHeight + 'px' : ''
+	        };
+	      } else if (this.maxHeight) {
+	        var maxHeight = this.layout.scrollX ? this.maxHeight - this.layout.gutterWidth : this.maxHeight;
+
+	        if (this.showHeader) {
+	          maxHeight -= this.layout.headerHeight;
+	        }
+
+	        style = {
+	          'max-height': maxHeight + 'px'
+	        };
+	      }
+
+	      return style;
+	    },
+	    fixedHeight: function fixedHeight() {
+	      var style = {};
+
+	      if (this.maxHeight) {
+	        style = {
+	          bottom: this.layout.scrollX && this.data.length ? this.layout.gutterWidth + 'px' : ''
+	        };
+	      } else {
+	        style = {
+	          height: this.layout.viewportHeight ? this.layout.viewportHeight + 'px' : ''
+	        };
+	      }
+
+	      return style;
 	    }
 	  },
 
@@ -7274,24 +7388,28 @@ module.exports =
 	    }
 	  };
 
-	  TableLayout.prototype.setHeight = function setHeight(height) {
+	  TableLayout.prototype.setHeight = function setHeight(value) {
+	    var prop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'height';
+
 	    var el = this.table.$el;
-	    if (typeof height === 'string') {
-	      if (/^\d+$/.test(height)) {
-	        height = Number(height);
-	      }
+	    if (typeof value === 'string' && /^\d+$/.test(value)) {
+	      value = Number(value);
 	    }
 
-	    this.height = height;
+	    this.height = value;
 
 	    if (!el) return;
-	    if (!isNaN(height)) {
-	      el.style.height = height + 'px';
+	    if (typeof value === 'number') {
+	      el.style[prop] = value + 'px';
 
 	      this.updateHeight();
-	    } else if (typeof height === 'string') {
+	    } else if (typeof value === 'string') {
 	      this.updateHeight();
 	    }
+	  };
+
+	  TableLayout.prototype.setMaxHeight = function setMaxHeight(value) {
+	    return this.setHeight(value, 'max-height');
 	  };
 
 	  TableLayout.prototype.updateHeight = function updateHeight() {
@@ -7305,7 +7423,6 @@ module.exports =
 	        this.bodyHeight = height;
 	      }
 	      this.fixedBodyHeight = this.scrollX ? height - this.gutterWidth : height;
-	      this.viewportHeight = this.scrollX ? height - this.gutterWidth : height;
 	    } else {
 	      var headerHeight = this.headerHeight = headerWrapper.offsetHeight;
 	      var bodyHeight = height - headerHeight;
@@ -7313,8 +7430,8 @@ module.exports =
 	        this.bodyHeight = bodyHeight;
 	      }
 	      this.fixedBodyHeight = this.scrollX ? bodyHeight - this.gutterWidth : bodyHeight;
-	      this.viewportHeight = this.scrollX ? height - this.gutterWidth : height;
 	    }
+	    this.viewportHeight = this.scrollX ? height - this.gutterWidth : height;
 	  };
 
 	  TableLayout.prototype.update = function update() {
@@ -7494,6 +7611,9 @@ module.exports =
 	                'click': function click($event) {
 	                  return _this.handleClick($event, row);
 	                },
+	                'contextmenu': function contextmenu($event) {
+	                  return _this.handleContextMenu($event, row);
+	                },
 	                'mouseenter': function mouseenter(_) {
 	                  return _this.handleMouseEnter($index);
 	                },
@@ -7649,6 +7769,10 @@ module.exports =
 	    },
 	    handleMouseLeave: function handleMouseLeave() {
 	      this.store.commit('setHoverRow', null);
+	    },
+	    handleContextMenu: function handleContextMenu(event, row) {
+	      var table = this.$parent;
+	      table.$emit('row-contextmenu', row, event);
 	    },
 	    handleDoubleClick: function handleDoubleClick(event, row) {
 	      var table = this.$parent;
@@ -8518,6 +8642,7 @@ module.exports =
 	      'el-table--fit': _vm.fit,
 	      'el-table--striped': _vm.stripe,
 	      'el-table--border': _vm.border,
+	      'el-table--fluid-height': _vm.maxHeight,
 	      'el-table--enable-row-hover': !_vm.store.states.isComplex,
 	        'el-table--enable-row-transition': true || (_vm.store.states.data || []).length !== 0 && (_vm.store.states.data || []).length < 100
 	    },
@@ -8544,9 +8669,7 @@ module.exports =
 	  })]) : _vm._e(), _vm._h('div', {
 	    ref: "bodyWrapper",
 	    staticClass: "el-table__body-wrapper",
-	    style: ({
-	      height: _vm.layout.bodyHeight ? _vm.layout.bodyHeight + 'px' : ''
-	    })
+	    style: ([_vm.bodyHeight])
 	  }, [_vm._h('table-body', {
 	    style: ({
 	      width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth - (_vm.layout.scrollY ? _vm.layout.gutterWidth : 0) + 'px' : ''
@@ -8563,13 +8686,14 @@ module.exports =
 	    staticClass: "el-table__empty-block"
 	  }, [_vm._h('span', {
 	    staticClass: "el-table__empty-text"
-	  }, [_vm._s(_vm.emptyText || _vm.t('el.table.emptyText'))])]) : _vm._e()]), (_vm.fixedColumns.length > 0) ? _vm._h('div', {
+	  }, [_vm._t("empty", [_vm._s(_vm.emptyText || _vm.t('el.table.emptyText'))])])]) : _vm._e()]), (_vm.fixedColumns.length > 0) ? _vm._h('div', {
 	    ref: "fixedWrapper",
 	    staticClass: "el-table__fixed",
-	    style: ({
-	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : '',
-	      height: _vm.layout.viewportHeight ? _vm.layout.viewportHeight + 'px' : ''
-	    })
+	    style: ([{
+	        width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
+	      },
+	      _vm.fixedHeight
+	    ])
 	  }, [(_vm.showHeader) ? _vm._h('div', {
 	    ref: "fixedHeaderWrapper",
 	    staticClass: "el-table__fixed-header-wrapper"
@@ -8586,10 +8710,11 @@ module.exports =
 	  })]) : _vm._e(), _vm._h('div', {
 	    ref: "fixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
-	    style: ({
-	      top: _vm.layout.headerHeight + 'px',
-	      height: _vm.layout.fixedBodyHeight ? _vm.layout.fixedBodyHeight + 'px' : ''
-	    })
+	    style: ([{
+	        top: _vm.layout.headerHeight + 'px'
+	      },
+	      _vm.fixedBodyHeight
+	    ])
 	  }, [_vm._h('table-body', {
 	    style: ({
 	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
@@ -8605,11 +8730,13 @@ module.exports =
 	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _vm._h('div', {
 	    ref: "rightFixedWrapper",
 	    staticClass: "el-table__fixed-right",
-	    style: ({
-	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : '',
-	      height: _vm.layout.viewportHeight ? _vm.layout.viewportHeight + 'px' : '',
-	      right: _vm.layout.scrollY ? (_vm.border ? _vm.layout.gutterWidth : (_vm.layout.gutterWidth || 1)) + 'px' : ''
-	    })
+	    style: ([{
+	        width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
+	      }, {
+	        right: _vm.layout.scrollY ? (_vm.border ? _vm.layout.gutterWidth : (_vm.layout.gutterWidth || 1)) + 'px' : ''
+	      },
+	      _vm.fixedHeight
+	    ])
 	  }, [(_vm.showHeader) ? _vm._h('div', {
 	    ref: "rightFixedHeaderWrapper",
 	    staticClass: "el-table__fixed-header-wrapper"
@@ -8626,10 +8753,11 @@ module.exports =
 	  })]) : _vm._e(), _vm._h('div', {
 	    ref: "rightFixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
-	    style: ({
-	      top: _vm.layout.headerHeight + 'px',
-	      height: _vm.layout.fixedBodyHeight ? _vm.layout.fixedBodyHeight + 'px' : ''
-	    })
+	    style: ([{
+	        top: _vm.layout.headerHeight + 'px'
+	      },
+	      _vm.fixedBodyHeight
+	    ])
 	  }, [_vm._h('table-body', {
 	    style: ({
 	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
@@ -9298,12 +9426,9 @@ module.exports =
 	var RANGE_PARSER = function RANGE_PARSER(text, format) {
 	  var array = text.split(RANGE_SEPARATOR);
 	  if (array.length === 2) {
-	    var range1 = array[0].split(':').map(function (item) {
-	      return item.slice(-2);
-	    }).join(':');
-	    var range2 = array[1].split(':').map(function (item) {
-	      return item.slice(-2);
-	    }).join(':');
+	    var range1 = array[0];
+	    var range2 = array[1];
+
 	    return [(0, _util.parseDate)(range1, format), (0, _util.parseDate)(range2, format)];
 	  }
 	  return [];
@@ -9532,7 +9657,6 @@ module.exports =
 	    handleMouseEnterIcon: function handleMouseEnterIcon() {
 	      if (this.readonly || this.disabled) return;
 	      if (!this.valueIsEmpty) {
-	        this.visualValue = this.refInput.value;
 	        this.showClose = true;
 	      }
 	    },
@@ -9562,15 +9686,10 @@ module.exports =
 	    },
 	    handleKeydown: function handleKeydown(event) {
 	      var keyCode = event.keyCode;
-	      var target = event.target;
 
 	      // tab
 	      if (keyCode === 9) {
 	        this.pickerVisible = false;
-	        // enter
-	      } else if (keyCode === 13) {
-	        this.pickerVisible = this.picker.visible = false;
-	        this.visualValue = target.value;
 	      }
 	    },
 	    hidePicker: function hidePicker() {
@@ -9972,6 +10091,7 @@ module.exports =
 	      });
 	    },
 	    value: function value(newVal) {
+	      if (!newVal) return;
 	      newVal = new Date(newVal);
 	      if (!isNaN(newVal)) {
 	        if (typeof this.disabledDate === 'function' && this.disabledDate(new Date(newVal))) {
@@ -10475,6 +10595,8 @@ module.exports =
 	      this.width = val;
 	    },
 	    value: function value(newVal) {
+	      var _this = this;
+
 	      var date = void 0;
 	      if (newVal instanceof Date) {
 	        date = (0, _util.limitRange)(newVal, this.selectableRange);
@@ -10486,6 +10608,9 @@ module.exports =
 	        hours: date.getHours(),
 	        minutes: date.getMinutes(),
 	        seconds: date.getSeconds()
+	      });
+	      this.$nextTick(function (_) {
+	        return _this.ajustScrollTop();
 	      });
 	    },
 	    selectableRange: function selectableRange(val) {
@@ -10559,10 +10684,10 @@ module.exports =
 	    this.seconds = this.currentDate.getSeconds();
 	  },
 	  mounted: function mounted() {
-	    var _this = this;
+	    var _this2 = this;
 
 	    this.$nextTick(function () {
-	      return _this.handleConfirm(true, true);
+	      return _this2.handleConfirm(true, true);
 	    });
 	  }
 	};
@@ -12238,7 +12363,8 @@ module.exports =
 	      } else if (Array.isArray(newVal)) {
 	        this.minDate = newVal[0] ? (0, _util.toDate)(newVal[0]) : null;
 	        this.maxDate = newVal[1] ? (0, _util.toDate)(newVal[1]) : null;
-	        this.date = new Date(this.minDate);
+	        if (this.minDate) this.date = new Date(this.minDate);
+	        this.handleConfirm(true);
 	      }
 	    }
 	  },
@@ -12395,8 +12521,8 @@ module.exports =
 	      date.setFullYear(date.getFullYear() - 1);
 	      this.resetDate();
 	    },
-	    handleConfirm: function handleConfirm() {
-	      this.$emit('pick', [this.minDate, this.maxDate]);
+	    handleConfirm: function handleConfirm(visible) {
+	      this.$emit('pick', [this.minDate, this.maxDate], visible);
 	    },
 	    resetDate: function resetDate() {
 	      this.date = new Date(this.date);
@@ -13274,6 +13400,17 @@ module.exports =
 	  },
 
 
+	  watch: {
+	    value: function value(newVal) {
+	      var _this = this;
+
+	      this.panelCreated();
+	      this.$nextTick(function (_) {
+	        return _this.ajustScrollTop();
+	      });
+	    }
+	  },
+
 	  methods: {
 	    panelCreated: function panelCreated() {
 	      var time = clacTime(this.value);
@@ -13361,10 +13498,10 @@ module.exports =
 	  },
 
 	  mounted: function mounted() {
-	    var _this = this;
+	    var _this2 = this;
 
 	    this.$nextTick(function () {
-	      return _this.handleConfirm(true, true);
+	      return _this2.handleConfirm(true, true);
 	    });
 	  }
 	};
@@ -14362,6 +14499,7 @@ module.exports =
 	      title: undefined,
 	      message: '',
 	      type: '',
+	      customClass: '',
 	      showInput: false,
 	      inputValue: null,
 	      inputPlaceholder: '',
@@ -14411,7 +14549,8 @@ module.exports =
 	      }
 	    }
 	  }, [_vm._h('div', {
-	    staticClass: "el-message-box"
+	    staticClass: "el-message-box",
+	    class: _vm.customClass
 	  }, [(_vm.title !== undefined) ? _vm._h('div', {
 	    staticClass: "el-message-box__header"
 	  }, [_vm._h('div', {
@@ -15306,7 +15445,7 @@ module.exports =
 	  mounted: function mounted() {
 	    var _this2 = this;
 
-	    this.currentName = this.activeName || this.$children[0].index || '1';
+	    this.currentName = this.activeName || this.$children[0] && this.$children[0].index || '1';
 	    this.$nextTick(function () {
 	      _this2.$forceUpdate();
 	    });
@@ -15589,6 +15728,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	exports.default = {
 	  name: 'ElTag',
@@ -15597,7 +15737,8 @@ module.exports =
 	    closable: Boolean,
 	    type: String,
 	    hit: Boolean,
-	    closeTransition: Boolean
+	    closeTransition: Boolean,
+	    color: String
 	  },
 	  methods: {
 	    handleClose: function handleClose(event) {
@@ -15619,7 +15760,10 @@ module.exports =
 	    staticClass: "el-tag",
 	    class: [_vm.type ? 'el-tag--' + _vm.type : '', {
 	      'is-hit': _vm.hit
-	    }]
+	    }],
+	    style: ({
+	      backgroundColor: _vm.color
+	    })
 	  }, [_vm._t("default"), (_vm.closable) ? _vm._h('i', {
 	    staticClass: "el-tag__close el-icon-close",
 	    on: {
@@ -17337,6 +17481,16 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	var typeMap = {
 	  success: 'circle-check',
@@ -17353,6 +17507,8 @@ module.exports =
 	      message: '',
 	      duration: 4500,
 	      type: '',
+	      customClass: '',
+	      iconClass: '',
 	      onClose: null,
 	      closed: false,
 	      top: null,
@@ -17434,6 +17590,7 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-notification",
+	    class: _vm.customClass,
 	    style: ({
 	      top: _vm.top ? _vm.top + 'px' : 'auto'
 	    }),
@@ -17445,14 +17602,14 @@ module.exports =
 	        _vm.startTimer()
 	      }
 	    }
-	  }, [(_vm.type) ? _vm._h('i', {
+	  }, [(_vm.type || _vm.iconClass) ? _vm._h('i', {
 	    staticClass: "el-notification__icon",
-	    class: [_vm.typeClass]
+	    class: [_vm.typeClass, _vm.iconClass]
 	  }) : _vm._e(), _vm._h('div', {
 	    staticClass: "el-notification__group",
-	    style: ({
-	      'margin-left': _vm.typeClass ? '55px' : '0'
-	    })
+	    class: {
+	      'is-with-icon': _vm.typeClass || _vm.iconClass
+	    }
 	  }, [_vm._h('span', [_vm._s(_vm.title)]), _vm._h('p', [_vm._s(_vm.message)]), _vm._h('div', {
 	    staticClass: "el-notification__closeBtn el-icon-close",
 	    on: {
@@ -17688,6 +17845,7 @@ module.exports =
 	        this.setPosition(this.newPos);
 	        window.removeEventListener('mousemove', this.onDragging);
 	        window.removeEventListener('mouseup', this.onDragEnd);
+	        window.removeEventListener('contextmenu', this.onDragEnd);
 	      }
 	    },
 	    onButtonDown: function onButtonDown(event) {
@@ -17695,6 +17853,7 @@ module.exports =
 	      this.onDragStart(event);
 	      window.addEventListener('mousemove', this.onDragging);
 	      window.addEventListener('mouseup', this.onDragEnd);
+	      window.addEventListener('contextmenu', this.onDragEnd);
 	    }
 	  },
 
@@ -20272,6 +20431,12 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  data: function data() {
@@ -20280,6 +20445,8 @@ module.exports =
 	      message: '',
 	      duration: 3000,
 	      type: 'info',
+	      iconClass: '',
+	      customClass: '',
 	      onClose: null,
 	      showClose: false,
 	      closed: false,
@@ -20401,19 +20568,26 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-message",
+	    class: _vm.customClass,
 	    on: {
 	      "mouseenter": _vm.clearTimer,
 	      "mouseleave": _vm.startTimer
 	    }
-	  }, [_vm._h('img', {
-	    staticClass: "el-message__icon",
+	  }, [(!_vm.iconClass) ? _vm._h('img', {
+	    staticClass: "el-message__img",
 	    attrs: {
 	      "src": _vm.typeImg,
 	      "alt": ""
 	    }
-	  }), _vm._h('div', {
-	    staticClass: "el-message__group"
-	  }, [_vm._h('p', [_vm._s(_vm.message)]), (_vm.showClose) ? _vm._h('div', {
+	  }) : _vm._e(), _vm._h('div', {
+	    staticClass: "el-message__group",
+	    class: {
+	      'is-with-icon': _vm.iconClass
+	    }
+	  }, [(_vm.iconClass) ? _vm._h('i', {
+	    staticClass: "el-message__icon",
+	    class: _vm.iconClass
+	  }) : _vm._e(), _vm._h('p', [_vm._s(_vm.message)]), (_vm.showClose) ? _vm._h('div', {
 	    staticClass: "el-message__closeBtn el-icon-close",
 	    on: {
 	      "click": _vm.close

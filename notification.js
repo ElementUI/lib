@@ -220,6 +220,16 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	var typeMap = {
 	  success: 'circle-check',
@@ -236,6 +246,8 @@ module.exports =
 	      message: '',
 	      duration: 4500,
 	      type: '',
+	      customClass: '',
+	      iconClass: '',
 	      onClose: null,
 	      closed: false,
 	      top: null,
@@ -318,6 +330,7 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-notification",
+	    class: _vm.customClass,
 	    style: ({
 	      top: _vm.top ? _vm.top + 'px' : 'auto'
 	    }),
@@ -329,14 +342,14 @@ module.exports =
 	        _vm.startTimer()
 	      }
 	    }
-	  }, [(_vm.type) ? _vm._h('i', {
+	  }, [(_vm.type || _vm.iconClass) ? _vm._h('i', {
 	    staticClass: "el-notification__icon",
-	    class: [_vm.typeClass]
+	    class: [_vm.typeClass, _vm.iconClass]
 	  }) : _vm._e(), _vm._h('div', {
 	    staticClass: "el-notification__group",
-	    style: ({
-	      'margin-left': _vm.typeClass ? '55px' : '0'
-	    })
+	    class: {
+	      'is-with-icon': _vm.typeClass || _vm.iconClass
+	    }
 	  }, [_vm._h('span', [_vm._s(_vm.title)]), _vm._h('p', [_vm._s(_vm.message)]), _vm._h('div', {
 	    staticClass: "el-notification__closeBtn el-icon-close",
 	    on: {

@@ -189,7 +189,7 @@ module.exports =
 	  mounted: function mounted() {
 	    var _this2 = this;
 
-	    this.currentName = this.activeName || this.$children[0].index || '1';
+	    this.currentName = this.activeName || this.$children[0] && this.$children[0].index || '1';
 	    this.$nextTick(function () {
 	      _this2.$forceUpdate();
 	    });

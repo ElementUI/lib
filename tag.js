@@ -121,6 +121,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	exports.default = {
 	  name: 'ElTag',
@@ -129,7 +130,8 @@ module.exports =
 	    closable: Boolean,
 	    type: String,
 	    hit: Boolean,
-	    closeTransition: Boolean
+	    closeTransition: Boolean,
+	    color: String
 	  },
 	  methods: {
 	    handleClose: function handleClose(event) {
@@ -152,7 +154,10 @@ module.exports =
 	    staticClass: "el-tag",
 	    class: [_vm.type ? 'el-tag--' + _vm.type : '', {
 	      'is-hit': _vm.hit
-	    }]
+	    }],
+	    style: ({
+	      backgroundColor: _vm.color
+	    })
 	  }, [_vm._t("default"), (_vm.closable) ? _vm._h('i', {
 	    staticClass: "el-tag__close el-icon-close",
 	    on: {

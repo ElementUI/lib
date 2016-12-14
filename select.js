@@ -399,6 +399,95 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var sizeMap = {
+	  'large': 42,
+	  'small': 30,
+	  'mini': 22
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
 	exports.default = {
 	  mixins: [_emitter2.default, _locale2.default],
 
@@ -452,6 +541,7 @@ module.exports =
 	  props: {
 	    name: String,
 	    value: {},
+	    size: String,
 	    disabled: Boolean,
 	    clearable: Boolean,
 	    filterable: Boolean,
@@ -489,6 +579,7 @@ module.exports =
 	      selectedLabel: '',
 	      hoverIndex: -1,
 	      query: '',
+	      isForcedVisible: false,
 	      bottomOverflowBeforeHidden: 0,
 	      topOverflowBeforeHidden: 0,
 	      optionsAllDisabled: false,
@@ -524,15 +615,21 @@ module.exports =
 	      if (this.multiple && this.filterable) {
 	        this.resetInputHeight();
 	      }
+	      if (this.isForcedVisible) {
+	        this.isForcedVisible = false;
+	        return;
+	      }
 	      if (this.remote && typeof this.remoteMethod === 'function') {
 	        this.hoverIndex = -1;
 	        this.remoteMethod(val);
 	        this.broadcast('ElOption', 'resetIndex');
 	      } else if (typeof this.filterMethod === 'function') {
 	        this.filterMethod(val);
+	        this.broadcast('ElOptionGroup', 'queryChange');
 	      } else {
 	        this.filteredOptionsCount = this.optionsCount;
 	        this.broadcast('ElOption', 'queryChange', val);
+	        this.broadcast('ElOptionGroup', 'queryChange');
 	      }
 	    },
 	    visible: function visible(val) {
@@ -567,6 +664,10 @@ module.exports =
 	          if (this.multiple) {
 	            this.$refs.input.focus();
 	          } else {
+	            if (!this.remote) {
+	              this.isForcedVisible = true;
+	              this.broadcast('ElOption', 'queryChange', '');
+	            }
 	            this.broadcast('ElInput', 'inputSelect');
 	          }
 	        }
@@ -707,6 +808,7 @@ module.exports =
 	    resetInputState: function resetInputState(e) {
 	      if (e.keyCode !== 8) this.toggleLastOptionHitState(false);
 	      this.inputLength = this.$refs.input.value.length * 15 + 20;
+	      this.resetInputHeight();
 	    },
 	    resetInputHeight: function resetInputHeight() {
 	      var _this5 = this;
@@ -716,7 +818,7 @@ module.exports =
 	        var input = [].filter.call(inputChildNodes, function (item) {
 	          return item.tagName === 'INPUT';
 	        })[0];
-	        input.style.height = Math.max(_this5.$refs.tags.clientHeight + 6, _this5.size === 'small' ? 28 : 36) + 'px';
+	        input.style.height = Math.max(_this5.$refs.tags.clientHeight + 6, sizeMap[_this5.size] || 36) + 'px';
 	        _this5.broadcast('ElSelectDropdown', 'updatePopper');
 	      });
 	    },
@@ -881,88 +983,7 @@ module.exports =
 	  destroyed: function destroyed() {
 	    if (this.resetInputWidth) (0, _resizeEvent.removeResizeListener)(this.$el, this.resetInputWidth);
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 
@@ -1156,6 +1177,7 @@ module.exports =
 	    }],
 	    ref: "input",
 	    staticClass: "el-select__input",
+	    class: ("is-" + _vm.size),
 	    style: ({
 	      width: _vm.inputLength + 'px',
 	      'max-width': _vm.inputWidth - 42 + 'px'
@@ -1209,6 +1231,7 @@ module.exports =
 	      "type": "text",
 	      "placeholder": _vm.currentPlaceholder,
 	      "name": _vm.name,
+	      "size": _vm.size,
 	      "disabled": _vm.disabled,
 	      "readonly": !_vm.filterable || _vm.multiple,
 	      "icon": _vm.iconClass

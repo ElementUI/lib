@@ -557,6 +557,7 @@ module.exports =
 	      title: undefined,
 	      message: '',
 	      type: '',
+	      customClass: '',
 	      showInput: false,
 	      inputValue: null,
 	      inputPlaceholder: '',
@@ -615,7 +616,8 @@ module.exports =
 	      }
 	    }
 	  }, [_vm._h('div', {
-	    staticClass: "el-message-box"
+	    staticClass: "el-message-box",
+	    class: _vm.customClass
 	  }, [(_vm.title !== undefined) ? _vm._h('div', {
 	    staticClass: "el-message-box__header"
 	  }, [_vm._h('div', {
