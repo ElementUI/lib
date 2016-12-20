@@ -157,8 +157,8 @@ module.exports =
 /***/ 89:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('li', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('li', {
 	    staticClass: "el-dropdown-menu__item",
 	    class: {
 	      'is-disabled': _vm.disabled,

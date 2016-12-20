@@ -250,13 +250,13 @@ module.exports =
 /***/ 240:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('label', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('label', {
 	    staticClass: "el-switch",
 	    class: {
 	      'is-disabled': _vm.disabled, 'el-switch--wide': _vm.hasText
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -264,7 +264,7 @@ module.exports =
 	      expression: "disabled"
 	    }],
 	    staticClass: "el-switch__mask"
-	  }), _vm._h('input', {
+	  }), _h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -298,20 +298,20 @@ module.exports =
 	        }
 	      }, _vm.handleChange]
 	    }
-	  }), _vm._h('span', {
+	  }), _h('span', {
 	    ref: "core",
 	    staticClass: "el-switch__core",
 	    style: ({
 	      'width': _vm.coreWidth + 'px'
 	    })
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-switch__button",
 	    style: (_vm.buttonStyle)
-	  })]), _vm._h('transition', {
+	  })]), _h('transition', {
 	    attrs: {
 	      "name": "label-fade"
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -322,13 +322,13 @@ module.exports =
 	    style: ({
 	      'width': _vm.coreWidth + 'px'
 	    })
-	  }, [(_vm.onIconClass) ? _vm._h('i', {
+	  }, [(_vm.onIconClass) ? _h('i', {
 	    class: [_vm.onIconClass]
-	  }) : _vm._e(), (!_vm.onIconClass && _vm.onText) ? _vm._h('span', [_vm._s(_vm.onText)]) : _vm._e()])]), _vm._h('transition', {
+	  }) : _vm._e(), (!_vm.onIconClass && _vm.onText) ? _h('span', [_vm._s(_vm.onText)]) : _vm._e()])]), _h('transition', {
 	    attrs: {
 	      "name": "label-fade"
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -339,9 +339,9 @@ module.exports =
 	    style: ({
 	      'width': _vm.coreWidth + 'px'
 	    })
-	  }, [(_vm.offIconClass) ? _vm._h('i', {
+	  }, [(_vm.offIconClass) ? _h('i', {
 	    class: [_vm.offIconClass]
-	  }) : _vm._e(), (!_vm.offIconClass && _vm.offText) ? _vm._h('span', [_vm._s(_vm.offText)]) : _vm._e()])])])
+	  }) : _vm._e(), (!_vm.offIconClass && _vm.offText) ? _h('span', [_vm._s(_vm.offText)]) : _vm._e()])])])
 	},staticRenderFns: []}
 
 /***/ }

@@ -191,7 +191,7 @@ module.exports =
 	        []
 	      ),
 	      slot: h(
-	        'slot',
+	        'my-slot',
 	        null,
 	        []
 	      ),
@@ -237,6 +237,11 @@ module.exports =
 
 
 	  components: {
+	    MySlot: {
+	      render: function render(h) {
+	        return this.$parent.$slots.default ? this.$parent.$slots.default[0] : '';
+	      }
+	    },
 	    Prev: {
 	      render: function render(h) {
 	        return h(
@@ -702,18 +707,18 @@ module.exports =
 /***/ 171:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('ul', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('ul', {
 	    staticClass: "el-pager",
 	    on: {
 	      "click": _vm.onPagerClick
 	    }
-	  }, [(_vm.pageCount > 0) ? _vm._h('li', {
+	  }, [(_vm.pageCount > 0) ? _h('li', {
 	    staticClass: "number",
 	    class: {
 	      active: _vm.currentPage === 1
 	    }
-	  }, ["1"]) : _vm._e(), (_vm.showPrevMore) ? _vm._h('li', {
+	  }, ["1"]) : _vm._e(), (_vm.showPrevMore) ? _h('li', {
 	    staticClass: "el-icon more btn-quickprev",
 	    class: [_vm.quickprevIconClass],
 	    on: {
@@ -725,13 +730,13 @@ module.exports =
 	      }
 	    }
 	  }) : _vm._e(), _vm._l((_vm.pagers), function(pager) {
-	    return _vm._h('li', {
+	    return _h('li', {
 	      staticClass: "number",
 	      class: {
 	        active: _vm.currentPage === pager
 	      }
 	    }, [_vm._s(pager)])
-	  }), (_vm.showNextMore) ? _vm._h('li', {
+	  }), (_vm.showNextMore) ? _h('li', {
 	    staticClass: "el-icon more btn-quicknext",
 	    class: [_vm.quicknextIconClass],
 	    on: {
@@ -742,7 +747,7 @@ module.exports =
 	        _vm.quicknextIconClass = 'el-icon-more'
 	      }
 	    }
-	  }) : _vm._e(), (_vm.pageCount > 1) ? _vm._h('li', {
+	  }) : _vm._e(), (_vm.pageCount > 1) ? _h('li', {
 	    staticClass: "number",
 	    class: {
 	      active: _vm.currentPage === _vm.pageCount

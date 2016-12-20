@@ -148,7 +148,17 @@ module.exports =
 	  created: function created() {
 	    this.rootMenu.menuItems[this.index] = this;
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
@@ -176,6 +186,19 @@ module.exports =
 	        parent = parent.$parent;
 	      }
 	      return parent;
+	    },
+	    paddingStyle: function paddingStyle() {
+	      if (this.rootMenu.mode !== 'vertical') return {};
+
+	      var padding = 20;
+	      var parent = this.$parent;
+	      while (parent && parent.$options.componentName !== 'ElMenu') {
+	        if (parent.$options.componentName === 'ElSubmenu') {
+	          padding += 20;
+	        }
+	        parent = parent.$parent;
+	      }
+	      return { paddingLeft: padding + 'px' };
 	    }
 	  }
 	};
@@ -185,13 +208,14 @@ module.exports =
 /***/ 132:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('li', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('li', {
 	    staticClass: "el-menu-item",
 	    class: {
 	      'is-active': _vm.active,
 	      'is-disabled': _vm.disabled
 	    },
+	    style: (_vm.paddingStyle),
 	    on: {
 	      "click": _vm.handleClick
 	    }

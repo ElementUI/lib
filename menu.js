@@ -253,8 +253,8 @@ module.exports =
 /***/ 127:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('ul', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('ul', {
 	    staticClass: "el-menu",
 	    class: {
 	      'el-menu--horizontal': _vm.mode === 'horizontal',

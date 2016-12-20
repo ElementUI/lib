@@ -75,6 +75,19 @@ module.exports =
 	        parent = parent.$parent;
 	      }
 	      return parent;
+	    },
+	    paddingStyle: function paddingStyle() {
+	      if (this.rootMenu.mode !== 'vertical') return {};
+
+	      var padding = 20;
+	      var parent = this.$parent;
+	      while (parent && parent.$options.componentName !== 'ElMenu') {
+	        if (parent.$options.componentName === 'ElSubmenu') {
+	          padding += 20;
+	        }
+	        parent = parent.$parent;
+	      }
+	      return { paddingLeft: padding + 'px' };
 	    }
 	  }
 	};
@@ -240,34 +253,34 @@ module.exports =
 	//
 	//
 	//
-	//
 
 /***/ },
 
 /***/ 236:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('li', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('li', {
 	    class: {
 	      'el-submenu': true,
 	      'is-active': _vm.active,
 	      'is-opened': _vm.opened
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    ref: "submenu-title",
-	    staticClass: "el-submenu__title"
-	  }, [_vm._t("title"), _vm._h('i', {
+	    staticClass: "el-submenu__title",
+	    style: (_vm.paddingStyle)
+	  }, [_vm._t("title"), _h('i', {
 	    class: {
 	      'el-submenu__icon-arrow': true,
 	      'el-icon-arrow-down': _vm.rootMenu.mode === 'vertical',
 	        'el-icon-caret-bottom': _vm.rootMenu.mode === 'horizontal'
 	    }
-	  })]), _vm._h('transition', {
+	  })]), _h('transition', {
 	    attrs: {
 	      "name": _vm.rootMenu.mode === 'horizontal' ? 'el-zoom-in-top' : ''
 	    }
-	  }, [_vm._h('ul', {
+	  }, [_h('ul', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",

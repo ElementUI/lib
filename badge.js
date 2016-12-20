@@ -156,10 +156,10 @@ module.exports =
 /* 14 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-badge"
-	  }, [_vm._t("default"), _vm._h('sup', {
+	  }, [_vm._t("default"), _h('sup', {
 	    staticClass: "el-badge__content",
 	    class: {
 	      'is-fixed': _vm.$slots.default, 'is-dot': _vm.isDot

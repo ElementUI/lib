@@ -385,11 +385,11 @@ module.exports =
 /***/ 199:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-rate"
 	  }, [_vm._l((_vm.max), function(item) {
-	    return _vm._h('span', {
+	    return _h('span', {
 	      staticClass: "el-rate__item",
 	      style: ({
 	        cursor: _vm.disabled ? 'auto' : 'pointer'
@@ -403,18 +403,18 @@ module.exports =
 	          _vm.selectValue(item)
 	        }
 	      }
-	    }, [_vm._h('i', {
+	    }, [_h('i', {
 	      staticClass: "el-rate__icon",
 	      class: [_vm.classes[item - 1], {
 	        'hover': _vm.hoverIndex === item
 	      }],
 	      style: (_vm.getIconStyle(item))
-	    }, [(_vm.showDecimalIcon(item)) ? _vm._h('i', {
+	    }, [(_vm.showDecimalIcon(item)) ? _h('i', {
 	      staticClass: "el-rate__decimal",
 	      class: _vm.decimalIconClass,
 	      style: (_vm.decimalStyle)
 	    }) : _vm._e()])])
-	  }), (_vm.showText) ? _vm._h('span', {
+	  }), (_vm.showText) ? _h('span', {
 	    staticClass: "el-rate__text",
 	    style: ({
 	      color: _vm.textColor

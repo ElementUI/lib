@@ -209,12 +209,12 @@ module.exports =
 /* 4 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-alert-fade"
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -223,15 +223,15 @@ module.exports =
 	    }],
 	    staticClass: "el-alert",
 	    class: [_vm.typeClass]
-	  }, [(_vm.showIcon) ? _vm._h('i', {
+	  }, [(_vm.showIcon) ? _h('i', {
 	    staticClass: "el-alert__icon",
 	    class: [_vm.iconClass, _vm.isBigIcon]
-	  }) : _vm._e(), _vm._h('div', {
+	  }) : _vm._e(), _h('div', {
 	    staticClass: "el-alert__content"
-	  }, [(_vm.title) ? _vm._h('span', {
+	  }, [(_vm.title) ? _h('span', {
 	    staticClass: "el-alert__title",
 	    class: [_vm.isBoldTitle]
-	  }, [_vm._s(_vm.title)]) : _vm._e(), _vm._h('desc-content'), _vm._h('i', {
+	  }, [_vm._s(_vm.title)]) : _vm._e(), _h('desc-content'), _h('i', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",

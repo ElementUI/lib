@@ -187,6 +187,10 @@ module.exports =
 	      type: Function,
 	      default: noop
 	    },
+	    onProgress: {
+	      type: Function,
+	      default: noop
+	    },
 	    onError: {
 	      type: Function,
 	      default: noop
@@ -248,6 +252,7 @@ module.exports =
 	    },
 	    handleProgress: function handleProgress(ev, file) {
 	      var _file = this.getFile(file);
+	      this.onProgress(ev, _file, this.fileList);
 	      _file.percentage = ev.percent || 0;
 	    },
 	    handleSuccess: function handleSuccess(res, file) {
@@ -472,15 +477,15 @@ module.exports =
 /***/ 301:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition-group', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition-group', {
 	    staticClass: "el-upload__files",
 	    attrs: {
 	      "tag": "ul",
 	      "name": "list"
 	    }
 	  }, [_vm._l((_vm.files), function(file) {
-	    return _vm._h('li', {
+	    return _h('li', {
 	      key: file,
 	      staticClass: "el-upload__file",
 	      class: {
@@ -491,14 +496,14 @@ module.exports =
 	          _vm.$emit('clickFile', file)
 	        }
 	      }
-	    }, [_vm._h('a', {
+	    }, [_h('a', {
 	      staticClass: "el-upload__file__name",
 	      on: {
 	        "click": function($event) {
 	          _vm.$emit('preview', file)
 	        }
 	      }
-	    }, [_vm._m(0, true), _vm._s(file.name) + "\n    "]), _vm._h('span', {
+	    }, [_vm._m(0, true), _vm._s(file.name) + "\n    "]), _h('span', {
 	      directives: [{
 	        name: "show",
 	        rawName: "v-show",
@@ -511,7 +516,7 @@ module.exports =
 	          _vm.$emit('remove', file)
 	        }
 	      }
-	    }, [_vm._s(_vm.t('el.upload.delete'))]), (file.showProgress) ? _vm._h('el-progress', {
+	    }, [_vm._s(_vm.t('el.upload.delete'))]), (file.showProgress) ? _h('el-progress', {
 	      attrs: {
 	        "stroke-width": 2,
 	        "percentage": _vm.parsePercentage(file.percentage),
@@ -519,8 +524,8 @@ module.exports =
 	      }
 	    }) : _vm._e()])
 	  })])
-	},staticRenderFns: [function (){var _vm=this;
-	  return _vm._h('i', {
+	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('i', {
 	    staticClass: "el-icon-document"
 	  })
 	}]}
@@ -943,26 +948,26 @@ module.exports =
 /***/ 307:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return (_vm.image) ? _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return (_vm.image) ? _h('div', {
 	    staticClass: "el-dragger__cover",
 	    on: {
 	      "click": function($event) {
 	        $event.stopPropagation();
 	      }
 	    }
-	  }, [_vm._h('transition', {
+	  }, [_h('transition', {
 	    attrs: {
 	      "name": "el-fade-in"
 	    }
-	  }, [(_vm.image.status === 'uploading') ? _vm._h('el-progress', {
+	  }, [(_vm.image.status === 'uploading') ? _h('el-progress', {
 	    staticClass: "el-dragger__cover__progress",
 	    attrs: {
 	      "percentage": _vm.image.percentage,
 	      "show-text": false,
 	      "status": _vm.image.status === 'finished' ? 'success' : ''
 	    }
-	  }) : _vm._e()]), (_vm.image.status === 'finished') ? _vm._h('div', {
+	  }) : _vm._e()]), (_vm.image.status === 'finished') ? _h('div', {
 	    staticClass: "el-dragger__cover__content",
 	    on: {
 	      "mouseenter": function($event) {
@@ -972,15 +977,15 @@ module.exports =
 	        _vm.mouseover = false
 	      }
 	    }
-	  }, [_vm._h('img', {
+	  }, [_h('img', {
 	    attrs: {
 	      "src": _vm.image.url
 	    }
-	  }), _vm._h('transition', {
+	  }), _h('transition', {
 	    attrs: {
 	      "name": "el-fade-in"
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -988,34 +993,34 @@ module.exports =
 	      expression: "mouseover"
 	    }],
 	    staticClass: "el-dragger__cover__interact"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-draggeer__cover__btns"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
 	        _vm.$parent.handleClick()
 	      }
 	    }
-	  }, [_vm._m(0), _vm._h('span', [_vm._s(_vm.t('el.upload.continue'))])]), _vm._h('span', {
+	  }, [_vm._m(0), _h('span', [_vm._s(_vm.t('el.upload.continue'))])]), _h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
 	        _vm.onPreview(_vm.image)
 	      }
 	    }
-	  }, [_vm._m(1), _vm._h('span', [_vm._s(_vm.t('el.upload.preview'))])]), _vm._h('span', {
+	  }, [_vm._m(1), _h('span', [_vm._s(_vm.t('el.upload.preview'))])]), _h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
 	        _vm.onRemove(_vm.image)
 	      }
 	    }
-	  }, [_vm._m(2), _vm._h('span', [_vm._s(_vm.t('el.upload.delete'))])])])])]), _vm._h('transition', {
+	  }, [_vm._m(2), _h('span', [_vm._s(_vm.t('el.upload.delete'))])])])])]), _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-bottom"
 	    }
-	  }, [_vm._h('h4', {
+	  }, [_h('h4', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1024,16 +1029,16 @@ module.exports =
 	    }],
 	    staticClass: "el-dragger__cover__title"
 	  }, [_vm._s(_vm.image.name)])])]) : _vm._e()]) : _vm._e()
-	},staticRenderFns: [function (){var _vm=this;
-	  return _vm._h('i', {
+	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('i', {
 	    staticClass: "el-icon-upload2"
 	  })
-	},function (){var _vm=this;
-	  return _vm._h('i', {
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('i', {
 	    staticClass: "el-icon-view"
 	  })
-	},function (){var _vm=this;
-	  return _vm._h('i', {
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('i', {
 	    staticClass: "el-icon-delete2"
 	  })
 	}]}
@@ -1043,8 +1048,8 @@ module.exports =
 /***/ 308:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-upload__inner",
 	    class: {
 	      'el-dragger': _vm.type === 'drag',
@@ -1066,13 +1071,13 @@ module.exports =
 	        _vm.dragOver = false
 	      }
 	    }
-	  }, [(!_vm.showCover) ? _vm._t("default") : _vm._h('cover', {
+	  }, [(!_vm.showCover) ? _vm._t("default") : _h('cover', {
 	    attrs: {
 	      "image": _vm.lastestFile,
 	      "on-preview": _vm.onPreview,
 	      "on-remove": _vm.onRemove
 	    }
-	  }), _vm._h('input', {
+	  }), _h('input', {
 	    ref: "input",
 	    staticClass: "el-upload__input",
 	    attrs: {

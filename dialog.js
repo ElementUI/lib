@@ -252,12 +252,12 @@ module.exports =
 /***/ 82:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "dialog-fade"
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -271,27 +271,27 @@ module.exports =
 	        _vm.handleWrapperClick($event)
 	      }
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    ref: "dialog",
 	    staticClass: "el-dialog",
 	    class: [_vm.sizeClass, _vm.customClass],
 	    style: (_vm.style)
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-dialog__header"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-dialog__title"
-	  }, [_vm._s(_vm.title)]), _vm._h('div', {
+	  }, [_vm._s(_vm.title)]), _h('div', {
 	    staticClass: "el-dialog__headerbtn"
-	  }, [(_vm.showClose) ? _vm._h('i', {
+	  }, [(_vm.showClose) ? _h('i', {
 	    staticClass: "el-dialog__close el-icon el-icon-close",
 	    on: {
 	      "click": function($event) {
 	        _vm.close()
 	      }
 	    }
-	  }) : _vm._e()])]), (_vm.rendered) ? _vm._h('div', {
+	  }) : _vm._e()])]), (_vm.rendered) ? _h('div', {
 	    staticClass: "el-dialog__body"
-	  }, [_vm._t("default")]) : _vm._e(), (_vm.$slots.footer) ? _vm._h('div', {
+	  }, [_vm._t("default")]) : _vm._e(), (_vm.$slots.footer) ? _h('div', {
 	    staticClass: "el-dialog__footer"
 	  }, [_vm._t("footer")]) : _vm._e()])])])
 	},staticRenderFns: []}

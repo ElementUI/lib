@@ -317,12 +317,12 @@ module.exports =
 /***/ 158:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-notification-fade"
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -342,15 +342,15 @@ module.exports =
 	        _vm.startTimer()
 	      }
 	    }
-	  }, [(_vm.type || _vm.iconClass) ? _vm._h('i', {
+	  }, [(_vm.type || _vm.iconClass) ? _h('i', {
 	    staticClass: "el-notification__icon",
 	    class: [_vm.typeClass, _vm.iconClass]
-	  }) : _vm._e(), _vm._h('div', {
+	  }) : _vm._e(), _h('div', {
 	    staticClass: "el-notification__group",
 	    class: {
 	      'is-with-icon': _vm.typeClass || _vm.iconClass
 	    }
-	  }, [_vm._h('span', [_vm._s(_vm.title)]), _vm._h('p', [_vm._s(_vm.message)]), _vm._h('div', {
+	  }, [_h('span', [_vm._s(_vm.title)]), _h('p', [_vm._s(_vm.message)]), _h('div', {
 	    staticClass: "el-notification__closeBtn el-icon-close",
 	    on: {
 	      "click": _vm.close

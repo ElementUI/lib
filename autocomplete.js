@@ -289,8 +289,8 @@ module.exports =
 /* 10 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
@@ -298,7 +298,7 @@ module.exports =
 	      expression: "handleBlur"
 	    }],
 	    staticClass: "el-autocomplete"
-	  }, [_vm._h('el-input', {
+	  }, [_h('el-input', {
 	    attrs: {
 	      "disabled": _vm.disabled,
 	      "placeholder": _vm.placeholder,
@@ -325,22 +325,22 @@ module.exports =
 	        _vm.select(_vm.highlightedIndex)
 	      }]
 	    }
-	  }, [(_vm.$slots.prepend) ? _vm._h('template', {
+	  }, [(_vm.$slots.prepend) ? _h('template', {
 	    slot: "prepend"
-	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.$slots.append) ? _vm._h('template', {
+	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.$slots.append) ? _h('template', {
 	    slot: "append"
-	  }, [_vm._t("append")]) : _vm._e()]), _vm._h('transition', {
+	  }, [_vm._t("append")]) : _vm._e()]), _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    }
-	  }, [(_vm.suggestionVisible) ? _vm._h('ul', {
+	  }, [(_vm.suggestionVisible) ? _h('ul', {
 	    ref: "suggestions",
 	    staticClass: "el-autocomplete__suggestions",
 	    class: {
 	      'is-loading': _vm.loading
 	    }
-	  }, [(_vm.loading) ? _vm._h('li', [_vm._m(0)]) : _vm._l((_vm.suggestions), function(item, index) {
-	    return [(!_vm.customItem) ? _vm._h('li', {
+	  }, [(_vm.loading) ? _h('li', [_vm._m(0)]) : _vm._l((_vm.suggestions), function(item, index) {
+	    return [(!_vm.customItem) ? _h('li', {
 	      class: {
 	        'highlighted': _vm.highlightedIndex === index
 	      },
@@ -349,7 +349,7 @@ module.exports =
 	          _vm.select(index)
 	        }
 	      }
-	    }, ["\n          " + _vm._s(item.value) + "\n        "]) : _vm._h(_vm.customItem, {
+	    }, ["\n          " + _vm._s(item.value) + "\n        "]) : _h(_vm.customItem, {
 	      tag: "component",
 	      class: {
 	        'highlighted': _vm.highlightedIndex === index
@@ -365,8 +365,8 @@ module.exports =
 	      }
 	    })]
 	  })]) : _vm._e()])])
-	},staticRenderFns: [function (){var _vm=this;
-	  return _vm._h('i', {
+	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('i', {
 	    staticClass: "el-icon-loading"
 	  })
 	}]}

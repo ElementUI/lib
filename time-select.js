@@ -304,6 +304,7 @@ module.exports =
 	    readonly: Boolean,
 	    placeholder: String,
 	    disabled: Boolean,
+	    popperClass: String,
 	    editable: {
 	      type: Boolean,
 	      default: true
@@ -409,7 +410,7 @@ module.exports =
 	          var parser = (TYPE_VALUE_RESOLVER_MAP[type] || TYPE_VALUE_RESOLVER_MAP['default']).parser;
 	          var parsedValue = parser(value, this.format || DEFAULT_FORMATS[type]);
 
-	          if (parsedValue) {
+	          if (parsedValue && this.picker) {
 	            this.picker.value = parsedValue;
 	          }
 	          return;
@@ -481,6 +482,7 @@ module.exports =
 	      if (!this.picker) {
 	        this.panel.defaultValue = this.internalValue;
 	        this.picker = new _vue2.default(this.panel).$mount(document.createElement('div'));
+	        this.picker.popperClass = this.popperClass;
 	        this.popperElm = this.picker.$el;
 	        this.picker.width = this.reference.getBoundingClientRect().width;
 	        this.picker.showTime = this.type === 'datetime' || this.type === 'datetimerange';
@@ -757,8 +759,8 @@ module.exports =
 /***/ 54:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('el-input', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('el-input', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
@@ -788,7 +790,7 @@ module.exports =
 	        _vm.visualValue = $event.target.value
 	      }
 	    }
-	  }, [(_vm.haveTrigger) ? _vm._h('i', {
+	  }, [(_vm.haveTrigger) ? _h('i', {
 	    slot: "icon",
 	    staticClass: "el-input__icon",
 	    class: [_vm.showClose ? 'el-icon-close' : _vm.triggerClass],
@@ -909,6 +911,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	var parseTime = function parseTime(time) {
 	  var values = ('' || time).split(':');
@@ -983,6 +986,7 @@ module.exports =
 
 	  data: function data() {
 	    return {
+	      popperClass: '',
 	      start: '09:00',
 	      end: '18:00',
 	      step: '00:30',
@@ -1023,8 +1027,8 @@ module.exports =
 /***/ 279:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    },
@@ -1033,7 +1037,7 @@ module.exports =
 	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1041,13 +1045,14 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-picker-panel time-select",
+	    class: _vm.popperClass,
 	    style: ({
 	      width: _vm.width + 'px'
 	    })
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-picker-panel__content"
 	  }, [_vm._l((_vm.items), function(item) {
-	    return _vm._h('div', {
+	    return _h('div', {
 	      staticClass: "time-select-item",
 	      class: {
 	        selected: _vm.value === item.value, disabled: item.disabled

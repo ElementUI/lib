@@ -358,7 +358,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.0.7',
+	  version: '1.0.8',
 	  locale: _locale2.default.use,
 	  install: install,
 	  Loading: _loading2.default,
@@ -551,7 +551,7 @@ module.exports =
 	        []
 	      ),
 	      slot: h(
-	        'slot',
+	        'my-slot',
 	        null,
 	        []
 	      ),
@@ -597,6 +597,11 @@ module.exports =
 
 
 	  components: {
+	    MySlot: {
+	      render: function render(h) {
+	        return this.$parent.$slots.default ? this.$parent.$slots.default[0] : '';
+	      }
+	    },
 	    Prev: {
 	      render: function render(h) {
 	        return h(
@@ -1059,18 +1064,18 @@ module.exports =
 /* 6 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('ul', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('ul', {
 	    staticClass: "el-pager",
 	    on: {
 	      "click": _vm.onPagerClick
 	    }
-	  }, [(_vm.pageCount > 0) ? _vm._h('li', {
+	  }, [(_vm.pageCount > 0) ? _h('li', {
 	    staticClass: "number",
 	    class: {
 	      active: _vm.currentPage === 1
 	    }
-	  }, ["1"]) : _vm._e(), (_vm.showPrevMore) ? _vm._h('li', {
+	  }, ["1"]) : _vm._e(), (_vm.showPrevMore) ? _h('li', {
 	    staticClass: "el-icon more btn-quickprev",
 	    class: [_vm.quickprevIconClass],
 	    on: {
@@ -1082,13 +1087,13 @@ module.exports =
 	      }
 	    }
 	  }) : _vm._e(), _vm._l((_vm.pagers), function(pager) {
-	    return _vm._h('li', {
+	    return _h('li', {
 	      staticClass: "number",
 	      class: {
 	        active: _vm.currentPage === pager
 	      }
 	    }, [_vm._s(pager)])
-	  }), (_vm.showNextMore) ? _vm._h('li', {
+	  }), (_vm.showNextMore) ? _h('li', {
 	    staticClass: "el-icon more btn-quicknext",
 	    class: [_vm.quicknextIconClass],
 	    on: {
@@ -1099,7 +1104,7 @@ module.exports =
 	        _vm.quicknextIconClass = 'el-icon-more'
 	      }
 	    }
-	  }) : _vm._e(), (_vm.pageCount > 1) ? _vm._h('li', {
+	  }) : _vm._e(), (_vm.pageCount > 1) ? _h('li', {
 	    staticClass: "number",
 	    class: {
 	      active: _vm.currentPage === _vm.pageCount
@@ -1329,12 +1334,12 @@ module.exports =
 /* 15 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "dialog-fade"
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1348,27 +1353,27 @@ module.exports =
 	        _vm.handleWrapperClick($event)
 	      }
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    ref: "dialog",
 	    staticClass: "el-dialog",
 	    class: [_vm.sizeClass, _vm.customClass],
 	    style: (_vm.style)
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-dialog__header"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-dialog__title"
-	  }, [_vm._s(_vm.title)]), _vm._h('div', {
+	  }, [_vm._s(_vm.title)]), _h('div', {
 	    staticClass: "el-dialog__headerbtn"
-	  }, [(_vm.showClose) ? _vm._h('i', {
+	  }, [(_vm.showClose) ? _h('i', {
 	    staticClass: "el-dialog__close el-icon el-icon-close",
 	    on: {
 	      "click": function($event) {
 	        _vm.close()
 	      }
 	    }
-	  }) : _vm._e()])]), (_vm.rendered) ? _vm._h('div', {
+	  }) : _vm._e()])]), (_vm.rendered) ? _h('div', {
 	    staticClass: "el-dialog__body"
-	  }, [_vm._t("default")]) : _vm._e(), (_vm.$slots.footer) ? _vm._h('div', {
+	  }, [_vm._t("default")]) : _vm._e(), (_vm.$slots.footer) ? _h('div', {
 	    staticClass: "el-dialog__footer"
 	  }, [_vm._t("footer")]) : _vm._e()])])])
 	},staticRenderFns: []}
@@ -1610,8 +1615,8 @@ module.exports =
 /* 21 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
@@ -1619,7 +1624,7 @@ module.exports =
 	      expression: "handleBlur"
 	    }],
 	    staticClass: "el-autocomplete"
-	  }, [_vm._h('el-input', {
+	  }, [_h('el-input', {
 	    attrs: {
 	      "disabled": _vm.disabled,
 	      "placeholder": _vm.placeholder,
@@ -1646,22 +1651,22 @@ module.exports =
 	        _vm.select(_vm.highlightedIndex)
 	      }]
 	    }
-	  }, [(_vm.$slots.prepend) ? _vm._h('template', {
+	  }, [(_vm.$slots.prepend) ? _h('template', {
 	    slot: "prepend"
-	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.$slots.append) ? _vm._h('template', {
+	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.$slots.append) ? _h('template', {
 	    slot: "append"
-	  }, [_vm._t("append")]) : _vm._e()]), _vm._h('transition', {
+	  }, [_vm._t("append")]) : _vm._e()]), _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    }
-	  }, [(_vm.suggestionVisible) ? _vm._h('ul', {
+	  }, [(_vm.suggestionVisible) ? _h('ul', {
 	    ref: "suggestions",
 	    staticClass: "el-autocomplete__suggestions",
 	    class: {
 	      'is-loading': _vm.loading
 	    }
-	  }, [(_vm.loading) ? _vm._h('li', [_vm._m(0)]) : _vm._l((_vm.suggestions), function(item, index) {
-	    return [(!_vm.customItem) ? _vm._h('li', {
+	  }, [(_vm.loading) ? _h('li', [_vm._m(0)]) : _vm._l((_vm.suggestions), function(item, index) {
+	    return [(!_vm.customItem) ? _h('li', {
 	      class: {
 	        'highlighted': _vm.highlightedIndex === index
 	      },
@@ -1670,7 +1675,7 @@ module.exports =
 	          _vm.select(index)
 	        }
 	      }
-	    }, ["\n          " + _vm._s(item.value) + "\n        "]) : _vm._h(_vm.customItem, {
+	    }, ["\n          " + _vm._s(item.value) + "\n        "]) : _h(_vm.customItem, {
 	      tag: "component",
 	      class: {
 	        'highlighted': _vm.highlightedIndex === index
@@ -1686,8 +1691,8 @@ module.exports =
 	      }
 	    })]
 	  })]) : _vm._e()])])
-	},staticRenderFns: [function (){var _vm=this;
-	  return _vm._h('i', {
+	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('i', {
 	    staticClass: "el-icon-loading"
 	  })
 	}]}
@@ -1775,7 +1780,11 @@ module.exports =
 	    },
 	    type: String,
 	    size: String,
-	    splitButton: Boolean
+	    splitButton: Boolean,
+	    hideOnClick: {
+	      type: Boolean,
+	      default: true
+	    }
 	  },
 
 	  data: function data() {
@@ -1838,7 +1847,9 @@ module.exports =
 	      }
 	    },
 	    handleMenuItemClick: function handleMenuItemClick(command, instance) {
-	      this.visible = false;
+	      if (this.hideOnClick) {
+	        this.visible = false;
+	      }
 	      this.$emit('command', command, instance);
 	    }
 	  },
@@ -2005,15 +2016,15 @@ module.exports =
 /* 30 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    },
 	    on: {
 	      "after-leave": _vm.doDestroy
 	    }
-	  }, [_vm._h('ul', {
+	  }, [_h('ul', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -2121,8 +2132,8 @@ module.exports =
 /* 34 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('li', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('li', {
 	    staticClass: "el-dropdown-menu__item",
 	    class: {
 	      'is-disabled': _vm.disabled,
@@ -2327,8 +2338,8 @@ module.exports =
 /* 38 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('ul', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('ul', {
 	    staticClass: "el-menu",
 	    class: {
 	      'el-menu--horizontal': _vm.mode === 'horizontal',
@@ -2495,7 +2506,6 @@ module.exports =
 	//
 	//
 	//
-	//
 
 /***/ },
 /* 42 */
@@ -2522,6 +2532,19 @@ module.exports =
 	        parent = parent.$parent;
 	      }
 	      return parent;
+	    },
+	    paddingStyle: function paddingStyle() {
+	      if (this.rootMenu.mode !== 'vertical') return {};
+
+	      var padding = 20;
+	      var parent = this.$parent;
+	      while (parent && parent.$options.componentName !== 'ElMenu') {
+	        if (parent.$options.componentName === 'ElSubmenu') {
+	          padding += 20;
+	        }
+	        parent = parent.$parent;
+	      }
+	      return { paddingLeft: padding + 'px' };
 	    }
 	  }
 	};
@@ -2530,27 +2553,28 @@ module.exports =
 /* 43 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('li', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('li', {
 	    class: {
 	      'el-submenu': true,
 	      'is-active': _vm.active,
 	      'is-opened': _vm.opened
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    ref: "submenu-title",
-	    staticClass: "el-submenu__title"
-	  }, [_vm._t("title"), _vm._h('i', {
+	    staticClass: "el-submenu__title",
+	    style: (_vm.paddingStyle)
+	  }, [_vm._t("title"), _h('i', {
 	    class: {
 	      'el-submenu__icon-arrow': true,
 	      'el-icon-arrow-down': _vm.rootMenu.mode === 'vertical',
 	        'el-icon-caret-bottom': _vm.rootMenu.mode === 'horizontal'
 	    }
-	  })]), _vm._h('transition', {
+	  })]), _h('transition', {
 	    attrs: {
 	      "name": _vm.rootMenu.mode === 'horizontal' ? 'el-zoom-in-top' : ''
 	    }
-	  }, [_vm._h('ul', {
+	  }, [_h('ul', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -2657,19 +2681,30 @@ module.exports =
 	  created: function created() {
 	    this.rootMenu.menuItems[this.index] = this;
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 /* 47 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('li', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('li', {
 	    staticClass: "el-menu-item",
 	    class: {
 	      'is-active': _vm.active,
 	      'is-disabled': _vm.disabled
 	    },
+	    style: (_vm.paddingStyle),
 	    on: {
 	      "click": _vm.handleClick
 	    }
@@ -2748,24 +2783,19 @@ module.exports =
 	    };
 	  },
 
-	  methods: {
-	    initPadding: function initPadding() {
+	  computed: {
+	    levelPadding: function levelPadding() {
+	      var padding = 10;
 	      var parent = this.$parent;
-	      var level = 0;
-	      var component = parent.$options.componentName;
-
-	      while (component !== 'ElMenu') {
-	        if (component === 'ElSubmenu') {
-	          level++;
+	      while (parent && parent.$options.componentName !== 'ElMenu') {
+	        if (parent.$options.componentName === 'ElSubmenu') {
+	          padding += 20;
 	        }
 	        parent = parent.$parent;
-	        component = parent.$options.componentName;
 	      }
-	      this.paddingLeft += level * 10;
+	      padding === 10 && (padding = 20);
+	      return padding;
 	    }
-	  },
-	  mounted: function mounted() {
-	    this.initPadding();
 	  }
 	};
 
@@ -2773,15 +2803,15 @@ module.exports =
 /* 51 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('li', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('li', {
 	    staticClass: "el-menu-item-group"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-menu-item-group__title",
 	    style: ({
-	      'padding-left': _vm.paddingLeft + 'px'
+	      paddingLeft: _vm.levelPadding + 'px'
 	    })
-	  }, [(!_vm.$slots.title) ? [_vm._s(_vm.title)] : _vm._t("title")]), _vm._h('ul', [_vm._t("default")])])
+	  }, [(!_vm.$slots.title) ? [_vm._s(_vm.title)] : _vm._t("title")]), _h('ul', [_vm._t("default")])])
 	},staticRenderFns: []}
 
 /***/ },
@@ -3108,8 +3138,8 @@ module.exports =
 /* 56 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    class: [
 	      _vm.type === 'textarea' ? 'el-textarea' : 'el-input',
 	      _vm.size ? 'el-input--' + _vm.size : '', {
@@ -3119,15 +3149,15 @@ module.exports =
 	        'el-input-group--prepend': _vm.$slots.prepend
 	      }
 	    ]
-	  }, [(_vm.type !== 'textarea') ? [(_vm.$slots.prepend) ? _vm._h('div', {
+	  }, [(_vm.type !== 'textarea') ? [(_vm.$slots.prepend) ? _h('div', {
 	    staticClass: "el-input-group__prepend"
-	  }, [_vm._t("prepend")]) : _vm._e(), _vm._t("icon", [(_vm.icon) ? _vm._h('i', {
+	  }, [_vm._t("prepend")]) : _vm._e(), _vm._t("icon", [(_vm.icon) ? _h('i', {
 	    staticClass: "el-input__icon",
 	    class: 'el-icon-' + _vm.icon,
 	    on: {
 	      "click": _vm.handleIconClick
 	    }
-	  }) : _vm._e()]), (_vm.type !== 'textarea') ? _vm._h('input', {
+	  }) : _vm._e()]), (_vm.type !== 'textarea') ? _h('input', {
 	    ref: "input",
 	    staticClass: "el-input__inner",
 	    attrs: {
@@ -3152,11 +3182,11 @@ module.exports =
 	      "focus": _vm.handleFocus,
 	      "blur": _vm.handleBlur
 	    }
-	  }) : _vm._e(), (_vm.validating) ? _vm._h('i', {
+	  }) : _vm._e(), (_vm.validating) ? _h('i', {
 	    staticClass: "el-input__icon el-icon-loading"
-	  }) : _vm._e(), (_vm.$slots.append) ? _vm._h('div', {
+	  }) : _vm._e(), (_vm.$slots.append) ? _h('div', {
 	    staticClass: "el-input-group__append"
-	  }, [_vm._t("append")]) : _vm._e()] : _vm._h('textarea', {
+	  }, [_vm._t("append")]) : _vm._e()] : _h('textarea', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -3493,8 +3523,8 @@ module.exports =
 /* 61 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-input-number",
 	    class: [
 	      _vm.size ? 'el-input-number--' + _vm.size : '', {
@@ -3503,7 +3533,7 @@ module.exports =
 	        'is-without-controls': !_vm.controls
 	      }
 	    ]
-	  }, [_vm._h('el-input', {
+	  }, [_h('el-input', {
 	    class: {
 	      'is-active': _vm.inputActive
 	    },
@@ -3527,11 +3557,11 @@ module.exports =
 	        _vm.decrease($event)
 	      }]
 	    }
-	  }, [(_vm.$slots.prepend) ? _vm._h('template', {
+	  }, [(_vm.$slots.prepend) ? _h('template', {
 	    slot: "prepend"
-	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.$slots.append) ? _vm._h('template', {
+	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.$slots.append) ? _h('template', {
 	    slot: "append"
-	  }, [_vm._t("append")]) : _vm._e()]), (_vm.controls) ? _vm._h('span', {
+	  }, [_vm._t("append")]) : _vm._e()]), (_vm.controls) ? _h('span', {
 	    directives: [{
 	      name: "repeat-click",
 	      rawName: "v-repeat-click",
@@ -3550,7 +3580,7 @@ module.exports =
 	        _vm.inactiveInput(_vm.minDisabled)
 	      }
 	    }
-	  }) : _vm._e(), (_vm.controls) ? _vm._h('span', {
+	  }) : _vm._e(), (_vm.controls) ? _h('span', {
 	    directives: [{
 	      name: "repeat-click",
 	      rawName: "v-repeat-click",
@@ -3715,19 +3745,19 @@ module.exports =
 /* 65 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('label', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('label', {
 	    staticClass: "el-radio"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-radio__input"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-radio__inner",
 	    class: {
 	      'is-disabled': _vm.disabled,
 	      'is-checked': _vm.model === _vm.label,
 	        'is-focus': _vm.focus
 	    }
-	  }), _vm._h('input', {
+	  }), _h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -3755,7 +3785,7 @@ module.exports =
 	        _vm.model = _vm.label
 	      }
 	    }
-	  })]), _vm._h('span', {
+	  })]), _h('span', {
 	    staticClass: "el-radio__label"
 	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()])])
 	},staticRenderFns: []}
@@ -3855,8 +3885,8 @@ module.exports =
 /* 69 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-radio-group"
 	  }, [_vm._t("default")])
 	},staticRenderFns: []}
@@ -3963,15 +3993,15 @@ module.exports =
 /* 73 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('label', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('label', {
 	    staticClass: "el-radio-button",
 	    class: [
 	      _vm.size ? 'el-radio-button--' + _vm.size : '', {
 	        'is-active': _vm.value === _vm.label
 	      }
 	    ]
-	  }, [_vm._h('input', {
+	  }, [_h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -3993,7 +4023,7 @@ module.exports =
 	        _vm.value = _vm.label
 	      }
 	    }
-	  }), _vm._h('span', {
+	  }), _h('span', {
 	    staticClass: "el-radio-button__inner",
 	    style: (_vm.value === _vm.label ? _vm.activeStyle : null)
 	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()])])
@@ -4070,16 +4100,25 @@ module.exports =
 
 	  componentName: 'ElCheckbox',
 
+	  data: function data() {
+	    return {
+	      selfModel: false
+	    };
+	  },
+
+
 	  computed: {
 	    model: {
 	      get: function get() {
-	        return this.isGroup ? this.store : this.value;
+	        return this.isGroup ? this.store : this.value !== undefined ? this.value : this.selfModel;
 	      },
 	      set: function set(val) {
 	        if (this.isGroup) {
 	          this.dispatch('ElCheckboxGroup', 'input', [val]);
-	        } else {
+	        } else if (this.value !== undefined) {
 	          this.$emit('input', val);
+	        } else {
+	          this.selfModel = val;
 	        }
 	      }
 	    },
@@ -4106,7 +4145,7 @@ module.exports =
 	      return false;
 	    },
 	    store: function store() {
-	      return this._checkboxGroup.value;
+	      return this._checkboxGroup ? this._checkboxGroup.value : this.value;
 	    }
 	  },
 
@@ -4123,8 +4162,8 @@ module.exports =
 
 	  methods: {
 	    addToStore: function addToStore() {
-	      if (Array.isArray(this.model)) {
-	        this.model.indexOf(this.label) === -1 && this.model.push(this.label);
+	      if (Array.isArray(this.model) && this.model.indexOf(this.label) === -1) {
+	        this.model.push(this.label);
 	      } else {
 	        this.model = this.trueLabel || true;
 	      }
@@ -4180,12 +4219,12 @@ module.exports =
 /* 77 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('label', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('label', {
 	    staticClass: "el-checkbox"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-checkbox__input"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-checkbox__inner",
 	    class: {
 	      'is-disabled': _vm.disabled,
@@ -4193,7 +4232,7 @@ module.exports =
 	      'is-indeterminate': _vm.indeterminate,
 	      'is-focus': _vm.focus
 	    }
-	  }), (_vm.trueLabel || _vm.falseLabel) ? _vm._h('input', {
+	  }), (_vm.trueLabel || _vm.falseLabel) ? _h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -4237,7 +4276,7 @@ module.exports =
 	        _vm.focus = false
 	      }
 	    }
-	  }) : _vm._h('input', {
+	  }) : _h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -4280,7 +4319,7 @@ module.exports =
 	        _vm.focus = false
 	      }
 	    }
-	  })]), (_vm.$slots.default || _vm.label) ? _vm._h('span', {
+	  })]), (_vm.$slots.default || _vm.label) ? _h('span', {
 	    staticClass: "el-checkbox__label"
 	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()]) : _vm._e()])
 	},staticRenderFns: []}
@@ -4372,8 +4411,8 @@ module.exports =
 /* 81 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-checkbox-group"
 	  }, [_vm._t("default")])
 	},staticRenderFns: []}
@@ -4575,13 +4614,13 @@ module.exports =
 /* 85 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('label', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('label', {
 	    staticClass: "el-switch",
 	    class: {
 	      'is-disabled': _vm.disabled, 'el-switch--wide': _vm.hasText
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -4589,7 +4628,7 @@ module.exports =
 	      expression: "disabled"
 	    }],
 	    staticClass: "el-switch__mask"
-	  }), _vm._h('input', {
+	  }), _h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -4623,20 +4662,20 @@ module.exports =
 	        }
 	      }, _vm.handleChange]
 	    }
-	  }), _vm._h('span', {
+	  }), _h('span', {
 	    ref: "core",
 	    staticClass: "el-switch__core",
 	    style: ({
 	      'width': _vm.coreWidth + 'px'
 	    })
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-switch__button",
 	    style: (_vm.buttonStyle)
-	  })]), _vm._h('transition', {
+	  })]), _h('transition', {
 	    attrs: {
 	      "name": "label-fade"
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -4647,13 +4686,13 @@ module.exports =
 	    style: ({
 	      'width': _vm.coreWidth + 'px'
 	    })
-	  }, [(_vm.onIconClass) ? _vm._h('i', {
+	  }, [(_vm.onIconClass) ? _h('i', {
 	    class: [_vm.onIconClass]
-	  }) : _vm._e(), (!_vm.onIconClass && _vm.onText) ? _vm._h('span', [_vm._s(_vm.onText)]) : _vm._e()])]), _vm._h('transition', {
+	  }) : _vm._e(), (!_vm.onIconClass && _vm.onText) ? _h('span', [_vm._s(_vm.onText)]) : _vm._e()])]), _h('transition', {
 	    attrs: {
 	      "name": "label-fade"
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -4664,9 +4703,9 @@ module.exports =
 	    style: ({
 	      'width': _vm.coreWidth + 'px'
 	    })
-	  }, [(_vm.offIconClass) ? _vm._h('i', {
+	  }, [(_vm.offIconClass) ? _h('i', {
 	    class: [_vm.offIconClass]
-	  }) : _vm._e(), (!_vm.offIconClass && _vm.offText) ? _vm._h('span', [_vm._s(_vm.offText)]) : _vm._e()])])])
+	  }) : _vm._e(), (!_vm.offIconClass && _vm.offText) ? _h('span', [_vm._s(_vm.offText)]) : _vm._e()])])])
 	},staticRenderFns: []}
 
 /***/ },
@@ -4873,14 +4912,14 @@ module.exports =
 	    },
 	    emptyText: function emptyText() {
 	      if (this.loading) {
-	        return this.t('el.select.loading');
+	        return this.loadingText || this.t('el.select.loading');
 	      } else {
 	        if (this.remote && this.query === '' && this.options.length === 0) return false;
 	        if (this.filterable && this.options.length > 0 && this.filteredOptionsCount === 0) {
-	          return this.t('el.select.noMatch');
+	          return this.noMatchText || this.t('el.select.noMatch');
 	        }
 	        if (this.options.length === 0) {
-	          return this.t('el.select.noData');
+	          return this.noDataText || this.t('el.select.noData');
 	        }
 	      }
 	      return null;
@@ -4915,7 +4954,11 @@ module.exports =
 	    filterable: Boolean,
 	    allowCreate: Boolean,
 	    loading: Boolean,
+	    popperClass: String,
 	    remote: Boolean,
+	    loadingText: String,
+	    noMatchText: String,
+	    noDataText: String,
 	    remoteMethod: Function,
 	    filterMethod: Function,
 	    multiple: Boolean,
@@ -4947,7 +4990,6 @@ module.exports =
 	      selectedLabel: '',
 	      hoverIndex: -1,
 	      query: '',
-	      isForcedVisible: false,
 	      bottomOverflowBeforeHidden: 0,
 	      topOverflowBeforeHidden: 0,
 	      optionsAllDisabled: false,
@@ -4982,10 +5024,6 @@ module.exports =
 	      this.hoverIndex = -1;
 	      if (this.multiple && this.filterable) {
 	        this.resetInputHeight();
-	      }
-	      if (this.isForcedVisible) {
-	        this.isForcedVisible = false;
-	        return;
 	      }
 	      if (this.remote && typeof this.remoteMethod === 'function') {
 	        this.hoverIndex = -1;
@@ -5022,6 +5060,7 @@ module.exports =
 	          this.getOverflows();
 	          if (this.selected) {
 	            this.selectedLabel = this.selected.currentLabel;
+	            if (this.filterable) this.query = this.selectedLabel;
 	          }
 	        }
 	      } else {
@@ -5033,7 +5072,6 @@ module.exports =
 	            this.$refs.input.focus();
 	          } else {
 	            if (!this.remote) {
-	              this.isForcedVisible = true;
 	              this.broadcast('ElOption', 'queryChange', '');
 	            }
 	            this.broadcast('ElInput', 'inputSelect');
@@ -5049,6 +5087,7 @@ module.exports =
 	          this.setOverflow();
 	        }
 	      }
+	      this.$emit('visible-change', val);
 	    },
 	    options: function options(val) {
 	      this.optionsAllDisabled = val.length === val.filter(function (item) {
@@ -5187,7 +5226,9 @@ module.exports =
 	          return item.tagName === 'INPUT';
 	        })[0];
 	        input.style.height = Math.max(_this5.$refs.tags.clientHeight + 6, sizeMap[_this5.size] || 36) + 'px';
-	        _this5.broadcast('ElSelectDropdown', 'updatePopper');
+	        if (_this5.visible && _this5.emptyText !== false) {
+	          _this5.broadcast('ElSelectDropdown', 'updatePopper');
+	        }
 	      });
 	    },
 	    resetHoverIndex: function resetHoverIndex() {
@@ -5331,6 +5372,7 @@ module.exports =
 
 	    this.$on('handleOptionClick', this.handleOptionSelect);
 	    this.$on('onOptionDestroy', this.onOptionDestroy);
+	    this.$on('setSelected', this.setSelected);
 	  },
 	  mounted: function mounted() {
 	    var _this8 = this;
@@ -5429,6 +5471,12 @@ module.exports =
 	  },
 
 
+	  computed: {
+	    popperClass: function popperClass() {
+	      return this.$parent.popperClass;
+	    }
+	  },
+
 	  watch: {
 	    '$parent.inputWidth': function $parentInputWidth() {
 	      this.minWidth = this.$parent.$el.getBoundingClientRect().width + 'px';
@@ -5455,12 +5503,12 @@ module.exports =
 /* 91 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-select-dropdown",
-	    class: {
+	    class: [{
 	      'is-multiple': _vm.$parent.multiple
-	    },
+	    }, _vm.popperClass],
 	    style: ({
 	      minWidth: _vm.minWidth
 	    })
@@ -5573,6 +5621,22 @@ module.exports =
 	    }
 	  },
 
+	  watch: {
+	    currentLabel: function currentLabel() {
+	      this.dispatch('ElSelect', 'setSelected');
+	    },
+	    value: function value() {
+	      this.dispatch('ElSelect', 'setSelected');
+	    },
+	    visible: function visible() {
+	      var _this = this;
+
+	      this.$nextTick(function () {
+	        _this.dispatch('ElSelectDropdown', 'updatePopper');
+	      });
+	    }
+	  },
+
 	  methods: {
 	    handleGroupDisabled: function handleGroupDisabled(val) {
 	      this.groupDisabled = val;
@@ -5596,10 +5660,10 @@ module.exports =
 	      }
 	    },
 	    resetIndex: function resetIndex() {
-	      var _this = this;
+	      var _this2 = this;
 
 	      this.$nextTick(function () {
-	        _this.index = _this.parent.options.indexOf(_this);
+	        _this2.index = _this2.parent.options.indexOf(_this2);
 	      });
 	    }
 	  },
@@ -5640,8 +5704,8 @@ module.exports =
 /* 94 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('li', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('li', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -5661,7 +5725,7 @@ module.exports =
 	        _vm.selectOptionClick($event)
 	      }
 	    }
-	  }, [_vm._t("default", [_vm._h('span', [_vm._s(_vm.currentLabel)])])])
+	  }, [_vm._t("default", [_h('span', [_vm._s(_vm.currentLabel)])])])
 	},staticRenderFns: []}
 
 /***/ },
@@ -5698,8 +5762,8 @@ module.exports =
 /* 100 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
@@ -5707,7 +5771,7 @@ module.exports =
 	      expression: "handleClose"
 	    }],
 	    staticClass: "el-select"
-	  }, [(_vm.multiple) ? _vm._h('div', {
+	  }, [(_vm.multiple) ? _h('div', {
 	    ref: "tags",
 	    staticClass: "el-select__tags",
 	    style: ({
@@ -5719,12 +5783,12 @@ module.exports =
 	        _vm.toggleMenu($event)
 	      }
 	    }
-	  }, [_vm._h('transition-group', {
+	  }, [_h('transition-group', {
 	    on: {
 	      "after-leave": _vm.resetInputHeight
 	    }
 	  }, [_vm._l((_vm.selected), function(item) {
-	    return _vm._h('el-tag', {
+	    return _h('el-tag', {
 	      key: item.value,
 	      attrs: {
 	        "closable": "",
@@ -5738,7 +5802,7 @@ module.exports =
 	        }
 	      }
 	    }, ["\n        " + _vm._s(item.currentLabel) + "\n      "])
-	  })]), (_vm.filterable) ? _vm._h('input', {
+	  })]), (_vm.filterable) ? _h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -5789,7 +5853,7 @@ module.exports =
 	        _vm.query = $event.target.value
 	      }
 	    }
-	  }) : _vm._e()]) : _vm._e(), _vm._h('el-input', {
+	  }) : _vm._e()]) : _vm._e(), _h('el-input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -5850,14 +5914,14 @@ module.exports =
 	        _vm.inputHovering = false
 	      }
 	    }
-	  }), _vm._h('transition', {
+	  }), _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    },
 	    on: {
 	      "after-leave": _vm.doDestroy
 	    }
-	  }, [_vm._h('el-select-menu', {
+	  }, [_h('el-select-menu', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -5865,7 +5929,7 @@ module.exports =
 	      expression: "visible && emptyText !== false"
 	    }],
 	    ref: "popper"
-	  }, [_vm._h('ul', {
+	  }, [_h('ul', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -5876,14 +5940,14 @@ module.exports =
 	    class: {
 	      'is-empty': !_vm.allowCreate && _vm.filteredOptionsCount === 0
 	    }
-	  }, [(_vm.showNewOption) ? _vm._h('el-option', {
+	  }, [(_vm.showNewOption) ? _h('el-option', {
 	    attrs: {
 	      "created": ""
 	    },
 	    domProps: {
 	      "value": _vm.query
 	    }
-	  }) : _vm._e(), _vm._t("default")]), (_vm.emptyText && !_vm.allowCreate) ? _vm._h('p', {
+	  }) : _vm._e(), _vm._t("default")]), (_vm.emptyText && !_vm.allowCreate) ? _h('p', {
 	    staticClass: "el-select-dropdown__empty"
 	  }, [_vm._s(_vm.emptyText)]) : _vm._e()])])])
 	},staticRenderFns: []}
@@ -6033,10 +6097,10 @@ module.exports =
 /* 105 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('ul', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('ul', {
 	    staticClass: "el-select-group__wrap"
-	  }, [_vm._h('li', {
+	  }, [_h('li', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -6044,7 +6108,7 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-select-group__title"
-	  }, [_vm._s(_vm.label)]), _vm._h('li', [_vm._h('ul', {
+	  }, [_vm._s(_vm.label)]), _h('li', [_h('ul', {
 	    staticClass: "el-select-group"
 	  }, [_vm._t("default")])])])
 	},staticRenderFns: []}
@@ -6161,8 +6225,8 @@ module.exports =
 /* 109 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('button', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('button', {
 	    staticClass: "el-button",
 	    class: [
 	      _vm.type ? 'el-button--' + _vm.type : '',
@@ -6180,11 +6244,11 @@ module.exports =
 	    on: {
 	      "click": _vm.handleClick
 	    }
-	  }, [(_vm.loading) ? _vm._h('i', {
+	  }, [(_vm.loading) ? _h('i', {
 	    staticClass: "el-icon-loading"
-	  }) : _vm._e(), (_vm.icon && !_vm.loading) ? _vm._h('i', {
+	  }) : _vm._e(), (_vm.icon && !_vm.loading) ? _h('i', {
 	    class: 'el-icon-' + _vm.icon
-	  }) : _vm._e(), (_vm.$slots.default) ? _vm._h('span', [_vm._t("default")]) : _vm._e()])
+	  }) : _vm._e(), (_vm.$slots.default) ? _h('span', [_vm._t("default")]) : _vm._e()])
 	},staticRenderFns: []}
 
 /***/ },
@@ -6264,8 +6328,8 @@ module.exports =
 /* 113 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-button-group"
 	  }, [_vm._t("default")])
 	},staticRenderFns: []}
@@ -6935,6 +6999,8 @@ module.exports =
 
 	    states.filteredData = data;
 	    states.data = sortData(data, states);
+
+	    this.table.$emit('filter-change', filters);
 
 	    _vue2.default.nextTick(function () {
 	      return _this3.table.updateScrollY();
@@ -7781,9 +7847,9 @@ module.exports =
 	    handleClick: function handleClick(event, row) {
 	      var table = this.$parent;
 	      var cell = (0, _util.getCell)(event);
-
+	      var column = void 0;
 	      if (cell) {
-	        var column = (0, _util.getColumnByCell)(table, cell);
+	        column = (0, _util.getColumnByCell)(table, cell);
 	        if (column) {
 	          table.$emit('cell-click', row, column, cell, event);
 	        }
@@ -7791,7 +7857,7 @@ module.exports =
 
 	      this.store.commit('setCurrentRow', row);
 
-	      table.$emit('row-click', row, event);
+	      table.$emit('row-click', row, event, column);
 	    }
 	  }
 	};
@@ -8540,12 +8606,12 @@ module.exports =
 /* 129 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    }
-	  }, [(_vm.multiple) ? _vm._h('div', {
+	  }, [(_vm.multiple) ? _h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -8553,9 +8619,9 @@ module.exports =
 	      expression: "showPopper"
 	    }],
 	    staticClass: "el-table-filter"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-table-filter__content"
-	  }, [_vm._h('el-checkbox-group', {
+	  }, [_h('el-checkbox-group', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -8572,14 +8638,14 @@ module.exports =
 	      }
 	    }
 	  }, [_vm._l((_vm.filters), function(filter) {
-	    return _vm._h('el-checkbox', {
+	    return _h('el-checkbox', {
 	      attrs: {
 	        "label": filter.value
 	      }
 	    }, [_vm._s(filter.text)])
-	  })])]), _vm._h('div', {
+	  })])]), _h('div', {
 	    staticClass: "el-table-filter__bottom"
-	  }, [_vm._h('button', {
+	  }, [_h('button', {
 	    class: {
 	      'is-disabled': _vm.filteredValue.length === 0
 	    },
@@ -8589,11 +8655,11 @@ module.exports =
 	    on: {
 	      "click": _vm.handleConfirm
 	    }
-	  }, [_vm._s(_vm.t('el.table.confirmFilter'))]), _vm._h('button', {
+	  }, [_vm._s(_vm.t('el.table.confirmFilter'))]), _h('button', {
 	    on: {
 	      "click": _vm.handleReset
 	    }
-	  }, [_vm._s(_vm.t('el.table.resetFilter'))])])]) : _vm._h('div', {
+	  }, [_vm._s(_vm.t('el.table.resetFilter'))])])]) : _h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -8601,9 +8667,9 @@ module.exports =
 	      expression: "showPopper"
 	    }],
 	    staticClass: "el-table-filter"
-	  }, [_vm._h('ul', {
+	  }, [_h('ul', {
 	    staticClass: "el-table-filter__list"
-	  }, [_vm._h('li', {
+	  }, [_h('li', {
 	    staticClass: "el-table-filter__list-item",
 	    class: {
 	      'is-active': !_vm.filterValue
@@ -8614,7 +8680,7 @@ module.exports =
 	      }
 	    }
 	  }, [_vm._s(_vm.t('el.table.clearFilter'))]), _vm._l((_vm.filters), function(filter) {
-	    return _vm._h('li', {
+	    return _h('li', {
 	      staticClass: "el-table-filter__list-item",
 	      class: {
 	        'is-active': _vm.isActive(filter)
@@ -8635,8 +8701,8 @@ module.exports =
 /* 130 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-table",
 	    class: {
 	      'el-table--fit': _vm.fit,
@@ -8651,13 +8717,13 @@ module.exports =
 	        _vm.handleMouseLeave($event)
 	      }
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    ref: "hiddenColumns",
 	    staticClass: "hidden-columns"
-	  }, [_vm._t("default")]), (_vm.showHeader) ? _vm._h('div', {
+	  }, [_vm._t("default")]), (_vm.showHeader) ? _h('div', {
 	    ref: "headerWrapper",
 	    staticClass: "el-table__header-wrapper"
-	  }, [_vm._h('table-header', {
+	  }, [_h('table-header', {
 	    style: ({
 	      width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
 	    }),
@@ -8666,11 +8732,11 @@ module.exports =
 	      "layout": _vm.layout,
 	      "border": _vm.border
 	    }
-	  })]) : _vm._e(), _vm._h('div', {
+	  })]) : _vm._e(), _h('div', {
 	    ref: "bodyWrapper",
 	    staticClass: "el-table__body-wrapper",
 	    style: ([_vm.bodyHeight])
-	  }, [_vm._h('table-body', {
+	  }, [_h('table-body', {
 	    style: ({
 	      width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth - (_vm.layout.scrollY ? _vm.layout.gutterWidth : 0) + 'px' : ''
 	    }),
@@ -8682,11 +8748,11 @@ module.exports =
 	      "row-style": _vm.rowStyle,
 	      "highlight": _vm.highlightCurrentRow
 	    }
-	  }), (!_vm.data || _vm.data.length === 0) ? _vm._h('div', {
+	  }), (!_vm.data || _vm.data.length === 0) ? _h('div', {
 	    staticClass: "el-table__empty-block"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-table__empty-text"
-	  }, [_vm._t("empty", [_vm._s(_vm.emptyText || _vm.t('el.table.emptyText'))])])]) : _vm._e()]), (_vm.fixedColumns.length > 0) ? _vm._h('div', {
+	  }, [_vm._t("empty", [_vm._s(_vm.emptyText || _vm.t('el.table.emptyText'))])])]) : _vm._e()]), (_vm.fixedColumns.length > 0) ? _h('div', {
 	    ref: "fixedWrapper",
 	    staticClass: "el-table__fixed",
 	    style: ([{
@@ -8694,10 +8760,10 @@ module.exports =
 	      },
 	      _vm.fixedHeight
 	    ])
-	  }, [(_vm.showHeader) ? _vm._h('div', {
+	  }, [(_vm.showHeader) ? _h('div', {
 	    ref: "fixedHeaderWrapper",
 	    staticClass: "el-table__fixed-header-wrapper"
-	  }, [_vm._h('table-header', {
+	  }, [_h('table-header', {
 	    style: ({
 	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
 	    }),
@@ -8707,7 +8773,7 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout
 	    }
-	  })]) : _vm._e(), _vm._h('div', {
+	  })]) : _vm._e(), _h('div', {
 	    ref: "fixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
 	    style: ([{
@@ -8715,7 +8781,7 @@ module.exports =
 	      },
 	      _vm.fixedBodyHeight
 	    ])
-	  }, [_vm._h('table-body', {
+	  }, [_h('table-body', {
 	    style: ({
 	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
 	    }),
@@ -8727,7 +8793,7 @@ module.exports =
 	      "row-class-name": _vm.rowClassName,
 	      "row-style": _vm.rowStyle
 	    }
-	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _vm._h('div', {
+	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _h('div', {
 	    ref: "rightFixedWrapper",
 	    staticClass: "el-table__fixed-right",
 	    style: ([{
@@ -8737,10 +8803,10 @@ module.exports =
 	      },
 	      _vm.fixedHeight
 	    ])
-	  }, [(_vm.showHeader) ? _vm._h('div', {
+	  }, [(_vm.showHeader) ? _h('div', {
 	    ref: "rightFixedHeaderWrapper",
 	    staticClass: "el-table__fixed-header-wrapper"
-	  }, [_vm._h('table-header', {
+	  }, [_h('table-header', {
 	    style: ({
 	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
 	    }),
@@ -8750,7 +8816,7 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout
 	    }
-	  })]) : _vm._e(), _vm._h('div', {
+	  })]) : _vm._e(), _h('div', {
 	    ref: "rightFixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
 	    style: ([{
@@ -8758,7 +8824,7 @@ module.exports =
 	      },
 	      _vm.fixedBodyHeight
 	    ])
-	  }, [_vm._h('table-body', {
+	  }, [_h('table-body', {
 	    style: ({
 	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
 	    }),
@@ -8770,13 +8836,13 @@ module.exports =
 	      "row-style": _vm.rowStyle,
 	      "highlight": _vm.highlightCurrentRow
 	    }
-	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _vm._h('div', {
+	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _h('div', {
 	    staticClass: "el-table__fixed-right-patch",
 	    style: ({
 	      width: _vm.layout.scrollY ? _vm.layout.gutterWidth + 'px' : '0',
 	      height: _vm.layout.headerHeight + 'px'
 	    })
-	  }) : _vm._e(), _vm._h('div', {
+	  }) : _vm._e(), _h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -8980,6 +9046,7 @@ module.exports =
 	      default: true
 	    },
 	    context: {},
+	    columnKey: String,
 	    align: String,
 	    showTooltipWhenOverflow: Boolean,
 	    showOverflowTooltip: Boolean,
@@ -9042,7 +9109,7 @@ module.exports =
 	      );
 	    };
 
-	    var columnId = this.columnId = (this.$parent.tableId || this.$parent.columnId + '_') + 'column_' + columnIdSeed++;
+	    var columnId = this.columnId = this.columnKey || (this.$parent.tableId || this.$parent.columnId + '_') + 'column_' + columnIdSeed++;
 
 	    var parent = this.$parent;
 	    var owner = this.owner;
@@ -9528,6 +9595,7 @@ module.exports =
 	    readonly: Boolean,
 	    placeholder: String,
 	    disabled: Boolean,
+	    popperClass: String,
 	    editable: {
 	      type: Boolean,
 	      default: true
@@ -9633,7 +9701,7 @@ module.exports =
 	          var parser = (TYPE_VALUE_RESOLVER_MAP[type] || TYPE_VALUE_RESOLVER_MAP['default']).parser;
 	          var parsedValue = parser(value, this.format || DEFAULT_FORMATS[type]);
 
-	          if (parsedValue) {
+	          if (parsedValue && this.picker) {
 	            this.picker.value = parsedValue;
 	          }
 	          return;
@@ -9705,6 +9773,7 @@ module.exports =
 	      if (!this.picker) {
 	        this.panel.defaultValue = this.internalValue;
 	        this.picker = new _vue2.default(this.panel).$mount(document.createElement('div'));
+	        this.picker.popperClass = this.popperClass;
 	        this.popperElm = this.picker.$el;
 	        this.picker.width = this.reference.getBoundingClientRect().width;
 	        this.picker.showTime = this.type === 'datetime' || this.type === 'datetimerange';
@@ -9964,8 +10033,8 @@ module.exports =
 /* 140 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('el-input', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('el-input', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
@@ -9995,7 +10064,7 @@ module.exports =
 	        _vm.visualValue = $event.target.value
 	      }
 	    }
-	  }, [(_vm.haveTrigger) ? _vm._h('i', {
+	  }, [(_vm.haveTrigger) ? _h('i', {
 	    slot: "icon",
 	    staticClass: "el-input__icon",
 	    class: [_vm.showClose ? 'el-icon-close' : _vm.triggerClass],
@@ -10294,6 +10363,7 @@ module.exports =
 	  },
 	  data: function data() {
 	    return {
+	      popperClass: '',
 	      pickerWidth: 0,
 	      date: new Date(),
 	      value: '',
@@ -10569,6 +10639,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	exports.default = {
 	  mixins: [_locale2.default],
@@ -10620,6 +10691,7 @@ module.exports =
 
 	  data: function data() {
 	    return {
+	      popperClass: '',
 	      format: 'HH:mm:ss',
 	      value: '',
 	      hours: 0,
@@ -10879,13 +10951,13 @@ module.exports =
 /* 147 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-time-spinner",
 	    class: {
 	      'has-seconds': _vm.showSeconds
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    ref: "hour",
 	    staticClass: "el-time-spinner__wrapper",
 	    on: {
@@ -10896,10 +10968,10 @@ module.exports =
 	        _vm.handleScroll('hour')
 	      }
 	    }
-	  }, [_vm._h('ul', {
+	  }, [_h('ul', {
 	    staticClass: "el-time-spinner__list"
 	  }, [_vm._l((_vm.hoursList), function(disabled, hour) {
-	    return _vm._h('li', {
+	    return _h('li', {
 	      staticClass: "el-time-spinner__item",
 	      class: {
 	        'active': hour === _vm.hours, 'disabled': disabled
@@ -10919,7 +10991,7 @@ module.exports =
 	        }
 	      }
 	    })
-	  })])]), _vm._h('div', {
+	  })])]), _h('div', {
 	    ref: "minute",
 	    staticClass: "el-time-spinner__wrapper",
 	    on: {
@@ -10930,10 +11002,10 @@ module.exports =
 	        _vm.handleScroll('minute')
 	      }
 	    }
-	  }, [_vm._h('ul', {
+	  }, [_h('ul', {
 	    staticClass: "el-time-spinner__list"
 	  }, [_vm._l((60), function(minute, key) {
-	    return _vm._h('li', {
+	    return _h('li', {
 	      staticClass: "el-time-spinner__item",
 	      class: {
 	        'active': key === _vm.minutes
@@ -10947,7 +11019,7 @@ module.exports =
 	        }
 	      }
 	    })
-	  })])]), _vm._h('div', {
+	  })])]), _h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -10964,10 +11036,10 @@ module.exports =
 	        _vm.handleScroll('second')
 	      }
 	    }
-	  }, [_vm._h('ul', {
+	  }, [_h('ul', {
 	    staticClass: "el-time-spinner__list"
 	  }, [_vm._l((60), function(second, key) {
-	    return _vm._h('li', {
+	    return _h('li', {
 	      staticClass: "el-time-spinner__item",
 	      class: {
 	        'active': key === _vm.seconds
@@ -10988,8 +11060,8 @@ module.exports =
 /* 148 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    },
@@ -10998,7 +11070,7 @@ module.exports =
 	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -11006,15 +11078,16 @@ module.exports =
 	      expression: "currentVisible"
 	    }],
 	    staticClass: "el-time-panel",
+	    class: _vm.popperClass,
 	    style: ({
 	      width: _vm.width + 'px'
 	    })
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-time-panel__content",
 	    class: {
 	      'has-seconds': _vm.showSeconds
 	    }
-	  }, [_vm._h('time-spinner', {
+	  }, [_h('time-spinner', {
 	    ref: "spinner",
 	    attrs: {
 	      "show-seconds": _vm.showSeconds,
@@ -11026,9 +11099,9 @@ module.exports =
 	      "change": _vm.handleChange,
 	      "select-range": _vm.setSelectionRange
 	    }
-	  })]), _vm._h('div', {
+	  })]), _h('div', {
 	    staticClass: "el-time-panel__footer"
-	  }, [_vm._h('button', {
+	  }, [_h('button', {
 	    staticClass: "el-time-panel__btn cancel",
 	    attrs: {
 	      "type": "button"
@@ -11036,7 +11109,7 @@ module.exports =
 	    on: {
 	      "click": _vm.handleCancel
 	    }
-	  }, [_vm._s(_vm.t('el.datepicker.cancel'))]), _vm._h('button', {
+	  }, [_vm._s(_vm.t('el.datepicker.cancel'))]), _h('button', {
 	    staticClass: "el-time-panel__btn confirm",
 	    attrs: {
 	      "type": "button"
@@ -11177,67 +11250,67 @@ module.exports =
 /* 151 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('table', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('table', {
 	    staticClass: "el-year-table",
 	    on: {
 	      "click": _vm.handleYearTableClick
 	    }
-	  }, [_vm._h('tbody', [_vm._h('tr', [_vm._h('td', {
+	  }, [_h('tbody', [_h('tr', [_h('td', {
 	    staticClass: "available",
 	    class: _vm.getCellStyle(_vm.startYear + 0)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.startYear)])]), _vm._h('td', {
+	  }, [_vm._s(_vm.startYear)])]), _h('td', {
 	    staticClass: "available",
 	    class: _vm.getCellStyle(_vm.startYear + 1)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.startYear + 1)])]), _vm._h('td', {
+	  }, [_vm._s(_vm.startYear + 1)])]), _h('td', {
 	    staticClass: "available",
 	    class: _vm.getCellStyle(_vm.startYear + 2)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.startYear + 2)])]), _vm._h('td', {
+	  }, [_vm._s(_vm.startYear + 2)])]), _h('td', {
 	    staticClass: "available",
 	    class: _vm.getCellStyle(_vm.startYear + 3)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.startYear + 3)])])]), _vm._h('tr', [_vm._h('td', {
+	  }, [_vm._s(_vm.startYear + 3)])])]), _h('tr', [_h('td', {
 	    staticClass: "available",
 	    class: _vm.getCellStyle(_vm.startYear + 4)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.startYear + 4)])]), _vm._h('td', {
+	  }, [_vm._s(_vm.startYear + 4)])]), _h('td', {
 	    staticClass: "available",
 	    class: _vm.getCellStyle(_vm.startYear + 5)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.startYear + 5)])]), _vm._h('td', {
+	  }, [_vm._s(_vm.startYear + 5)])]), _h('td', {
 	    staticClass: "available",
 	    class: _vm.getCellStyle(_vm.startYear + 6)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.startYear + 6)])]), _vm._h('td', {
+	  }, [_vm._s(_vm.startYear + 6)])]), _h('td', {
 	    staticClass: "available",
 	    class: _vm.getCellStyle(_vm.startYear + 7)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.startYear + 7)])])]), _vm._h('tr', [_vm._h('td', {
+	  }, [_vm._s(_vm.startYear + 7)])])]), _h('tr', [_h('td', {
 	    staticClass: "available",
 	    class: _vm.getCellStyle(_vm.startYear + 8)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.startYear + 8)])]), _vm._h('td', {
+	  }, [_vm._s(_vm.startYear + 8)])]), _h('td', {
 	    staticClass: "available",
 	    class: _vm.getCellStyle(_vm.startYear + 9)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
 	  }, [_vm._s(_vm.startYear + 9)])]), _vm._m(0), _vm._m(1)])])])
-	},staticRenderFns: [function (){var _vm=this;
-	  return _vm._h('td')
-	},function (){var _vm=this;
-	  return _vm._h('td')
+	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('td')
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('td')
 	}]}
 
 /***/ },
@@ -11372,59 +11445,59 @@ module.exports =
 /* 154 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('table', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('table', {
 	    staticClass: "el-month-table",
 	    on: {
 	      "click": _vm.handleMonthTableClick
 	    }
-	  }, [_vm._h('tbody', [_vm._h('tr', [_vm._h('td', {
+	  }, [_h('tbody', [_h('tr', [_h('td', {
 	    class: _vm.getCellStyle(0)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.t('el.datepicker.months.jan'))])]), _vm._h('td', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.jan'))])]), _h('td', {
 	    class: _vm.getCellStyle(1)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.t('el.datepicker.months.feb'))])]), _vm._h('td', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.feb'))])]), _h('td', {
 	    class: _vm.getCellStyle(2)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.t('el.datepicker.months.mar'))])]), _vm._h('td', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.mar'))])]), _h('td', {
 	    class: _vm.getCellStyle(3)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.t('el.datepicker.months.apr'))])])]), _vm._h('tr', [_vm._h('td', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.apr'))])])]), _h('tr', [_h('td', {
 	    class: _vm.getCellStyle(4)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.t('el.datepicker.months.may'))])]), _vm._h('td', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.may'))])]), _h('td', {
 	    class: _vm.getCellStyle(5)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.t('el.datepicker.months.jun'))])]), _vm._h('td', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.jun'))])]), _h('td', {
 	    class: _vm.getCellStyle(6)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.t('el.datepicker.months.jul'))])]), _vm._h('td', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.jul'))])]), _h('td', {
 	    class: _vm.getCellStyle(7)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.t('el.datepicker.months.aug'))])])]), _vm._h('tr', [_vm._h('td', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.aug'))])])]), _h('tr', [_h('td', {
 	    class: _vm.getCellStyle(8)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.t('el.datepicker.months.sep'))])]), _vm._h('td', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.sep'))])]), _h('td', {
 	    class: _vm.getCellStyle(9)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.t('el.datepicker.months.oct'))])]), _vm._h('td', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.oct'))])]), _h('td', {
 	    class: _vm.getCellStyle(10)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
-	  }, [_vm._s(_vm.t('el.datepicker.months.nov'))])]), _vm._h('td', {
+	  }, [_vm._s(_vm.t('el.datepicker.months.nov'))])]), _h('td', {
 	    class: _vm.getCellStyle(11)
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "cell"
 	  }, [_vm._s(_vm.t('el.datepicker.months.dec'))])])])])])
 	},staticRenderFns: []}
@@ -11699,7 +11772,7 @@ module.exports =
 	        classes.push(cell.type);
 	      }
 
-	      if (selectionMode === 'day' && (cell.type === 'normal' || cell.type === 'today') && this.year === this.date.getFullYear() && this.month === this.date.getMonth() && monthDate === Number(cell.text)) {
+	      if (selectionMode === 'day' && (cell.type === 'normal' || cell.type === 'today') && Number(this.year) === this.date.getFullYear() && this.month === this.date.getMonth() && monthDate === Number(cell.text)) {
 	        classes.push('current');
 	      }
 
@@ -11903,8 +11976,8 @@ module.exports =
 /* 157 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('table', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('table', {
 	    staticClass: "el-date-table",
 	    class: {
 	      'is-week-mode': _vm.selectionMode === 'week'
@@ -11917,14 +11990,14 @@ module.exports =
 	      "click": _vm.handleClick,
 	      "mousemove": _vm.handleMouseMove
 	    }
-	  }, [_vm._h('tbody', [_vm._h('tr', [(_vm.showWeekNumber) ? _vm._h('th', [_vm._s(_vm.t('el.datepicker.week'))]) : _vm._e(), _vm._h('th', [_vm._s(_vm.t('el.datepicker.weeks.sun'))]), _vm._h('th', [_vm._s(_vm.t('el.datepicker.weeks.mon'))]), _vm._h('th', [_vm._s(_vm.t('el.datepicker.weeks.tue'))]), _vm._h('th', [_vm._s(_vm.t('el.datepicker.weeks.wed'))]), _vm._h('th', [_vm._s(_vm.t('el.datepicker.weeks.thu'))]), _vm._h('th', [_vm._s(_vm.t('el.datepicker.weeks.fri'))]), _vm._h('th', [_vm._s(_vm.t('el.datepicker.weeks.sat'))])]), _vm._l((_vm.rows), function(row) {
-	    return _vm._h('tr', {
+	  }, [_h('tbody', [_h('tr', [(_vm.showWeekNumber) ? _h('th', [_vm._s(_vm.t('el.datepicker.week'))]) : _vm._e(), _h('th', [_vm._s(_vm.t('el.datepicker.weeks.sun'))]), _h('th', [_vm._s(_vm.t('el.datepicker.weeks.mon'))]), _h('th', [_vm._s(_vm.t('el.datepicker.weeks.tue'))]), _h('th', [_vm._s(_vm.t('el.datepicker.weeks.wed'))]), _h('th', [_vm._s(_vm.t('el.datepicker.weeks.thu'))]), _h('th', [_vm._s(_vm.t('el.datepicker.weeks.fri'))]), _h('th', [_vm._s(_vm.t('el.datepicker.weeks.sat'))])]), _vm._l((_vm.rows), function(row) {
+	    return _h('tr', {
 	      staticClass: "el-date-table__row",
 	      class: {
 	        current: _vm.value && _vm.isWeekActive(row[1])
 	      }
 	    }, [_vm._l((row), function(cell) {
-	      return _vm._h('td', {
+	      return _h('td', {
 	        class: _vm.getCellClasses(cell),
 	        domProps: {
 	          "textContent": _vm._s(cell.type === 'today' ? _vm.t('el.datepicker.today') : cell.text)
@@ -11938,8 +12011,8 @@ module.exports =
 /* 158 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    },
@@ -11948,7 +12021,7 @@ module.exports =
 	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -11956,19 +12029,19 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-picker-panel el-date-picker",
-	    class: {
+	    class: [{
 	      'has-sidebar': _vm.$slots.sidebar || _vm.shortcuts,
-	        'has-time': _vm.showTime
-	    },
+	      'has-time': _vm.showTime
+	    }, _vm.popperClass],
 	    style: ({
 	      width: _vm.width + 'px'
 	    })
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-picker-panel__body-wrapper"
-	  }, [_vm._t("sidebar"), (_vm.shortcuts) ? _vm._h('div', {
+	  }, [_vm._t("sidebar"), (_vm.shortcuts) ? _h('div', {
 	    staticClass: "el-picker-panel__sidebar"
 	  }, [_vm._l((_vm.shortcuts), function(shortcut) {
-	    return _vm._h('button', {
+	    return _h('button', {
 	      staticClass: "el-picker-panel__shortcut",
 	      attrs: {
 	        "type": "button"
@@ -11979,13 +12052,13 @@ module.exports =
 	        }
 	      }
 	    }, [_vm._s(shortcut.text)])
-	  })]) : _vm._e(), _vm._h('div', {
+	  })]) : _vm._e(), _h('div', {
 	    staticClass: "el-picker-panel__body"
-	  }, [(_vm.showTime) ? _vm._h('div', {
+	  }, [(_vm.showTime) ? _h('div', {
 	    staticClass: "el-date-picker__time-header"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-date-picker__editor-wrap"
-	  }, [_vm._h('el-input', {
+	  }, [_h('el-input', {
 	    attrs: {
 	      "placeholder": _vm.t('el.datepicker.selectDate'),
 	      "size": "small"
@@ -11998,9 +12071,9 @@ module.exports =
 	        _vm.visibleDate = $event.target.value
 	      }
 	    }
-	  })]), _vm._h('span', {
+	  })]), _h('span', {
 	    staticClass: "el-date-picker__editor-wrap"
-	  }, [_vm._h('el-input', {
+	  }, [_h('el-input', {
 	    ref: "input",
 	    attrs: {
 	      "placeholder": _vm.t('el.datepicker.selectTime'),
@@ -12019,7 +12092,7 @@ module.exports =
 	        _vm.visibleTime = $event.target.value
 	      }
 	    }
-	  }), _vm._h('time-picker', {
+	  }), _h('time-picker', {
 	    ref: "timepicker",
 	    attrs: {
 	      "date": _vm.date,
@@ -12029,7 +12102,7 @@ module.exports =
 	    on: {
 	      "pick": _vm.handleTimePick
 	    }
-	  })])]) : _vm._e(), _vm._h('div', {
+	  })])]) : _vm._e(), _h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -12037,7 +12110,7 @@ module.exports =
 	      expression: "currentView !== 'time'"
 	    }],
 	    staticClass: "el-date-picker__header"
-	  }, [_vm._h('button', {
+	  }, [_h('button', {
 	    staticClass: "el-picker-panel__icon-btn el-date-picker__prev-btn el-icon-d-arrow-left",
 	    attrs: {
 	      "type": "button"
@@ -12045,7 +12118,7 @@ module.exports =
 	    on: {
 	      "click": _vm.prevYear
 	    }
-	  }), _vm._h('button', {
+	  }), _h('button', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -12059,12 +12132,12 @@ module.exports =
 	    on: {
 	      "click": _vm.prevMonth
 	    }
-	  }), _vm._h('span', {
+	  }), _h('span', {
 	    staticClass: "el-date-picker__header-label",
 	    on: {
 	      "click": _vm.showYearPicker
 	    }
-	  }, [_vm._s(_vm.yearLabel)]), _vm._h('span', {
+	  }, [_vm._s(_vm.yearLabel)]), _h('span', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -12078,7 +12151,7 @@ module.exports =
 	    on: {
 	      "click": _vm.showMonthPicker
 	    }
-	  }, [_vm._s(_vm.t(("el.datepicker.month" + (_vm.month + 1))))]), _vm._h('button', {
+	  }, [_vm._s(_vm.t(("el.datepicker.month" + (_vm.month + 1))))]), _h('button', {
 	    staticClass: "el-picker-panel__icon-btn el-date-picker__next-btn el-icon-d-arrow-right",
 	    attrs: {
 	      "type": "button"
@@ -12086,7 +12159,7 @@ module.exports =
 	    on: {
 	      "click": _vm.nextYear
 	    }
-	  }), _vm._h('button', {
+	  }), _h('button', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -12100,9 +12173,9 @@ module.exports =
 	    on: {
 	      "click": _vm.nextMonth
 	    }
-	  })]), _vm._h('div', {
+	  })]), _h('div', {
 	    staticClass: "el-picker-panel__content"
-	  }, [_vm._h('date-table', {
+	  }, [_h('date-table', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -12123,7 +12196,7 @@ module.exports =
 	    on: {
 	      "pick": _vm.handleDatePick
 	    }
-	  }), _vm._h('year-table', {
+	  }), _h('year-table', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -12139,7 +12212,7 @@ module.exports =
 	    on: {
 	      "pick": _vm.handleYearPick
 	    }
-	  }), _vm._h('month-table', {
+	  }), _h('month-table', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -12154,7 +12227,7 @@ module.exports =
 	    on: {
 	      "pick": _vm.handleMonthPick
 	    }
-	  })])])]), _vm._h('div', {
+	  })])])]), _h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -12162,7 +12235,7 @@ module.exports =
 	      expression: "footerVisible && currentView === 'date'"
 	    }],
 	    staticClass: "el-picker-panel__footer"
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "el-picker-panel__link-btn",
 	    attrs: {
 	      "href": "JavaScript:"
@@ -12170,7 +12243,7 @@ module.exports =
 	    on: {
 	      "click": _vm.changeToNow
 	    }
-	  }, [_vm._s(_vm.t('el.datepicker.now'))]), _vm._h('button', {
+	  }, [_vm._s(_vm.t('el.datepicker.now'))]), _h('button', {
 	    staticClass: "el-picker-panel__btn",
 	    attrs: {
 	      "type": "button"
@@ -12292,6 +12365,7 @@ module.exports =
 
 	  data: function data() {
 	    return {
+	      popperClass: '',
 	      minPickerWidth: 0,
 	      maxPickerWidth: 0,
 	      date: new Date(),
@@ -12680,8 +12754,8 @@ module.exports =
 /* 161 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    },
@@ -12690,7 +12764,7 @@ module.exports =
 	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -12698,19 +12772,19 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-picker-panel el-date-range-picker",
-	    class: {
+	    class: [{
 	      'has-sidebar': _vm.$slots.sidebar || _vm.shortcuts,
-	        'has-time': _vm.showTime
-	    },
+	      'has-time': _vm.showTime
+	    }, _vm.popperClass],
 	    style: ({
 	      width: _vm.width + 'px'
 	    })
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-picker-panel__body-wrapper"
-	  }, [_vm._t("sidebar"), (_vm.shortcuts) ? _vm._h('div', {
+	  }, [_vm._t("sidebar"), (_vm.shortcuts) ? _h('div', {
 	    staticClass: "el-picker-panel__sidebar"
 	  }, [_vm._l((_vm.shortcuts), function(shortcut) {
-	    return _vm._h('button', {
+	    return _h('button', {
 	      staticClass: "el-picker-panel__shortcut",
 	      attrs: {
 	        "type": "button"
@@ -12721,15 +12795,15 @@ module.exports =
 	        }
 	      }
 	    }, [_vm._s(shortcut.text)])
-	  })]) : _vm._e(), _vm._h('div', {
+	  })]) : _vm._e(), _h('div', {
 	    staticClass: "el-picker-panel__body"
-	  }, [(_vm.showTime) ? _vm._h('div', {
+	  }, [(_vm.showTime) ? _h('div', {
 	    staticClass: "el-date-range-picker__time-header"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-date-range-picker__editors-wrap"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
-	  }, [_vm._h('el-input', {
+	  }, [_h('el-input', {
 	    ref: "minInput",
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
@@ -12747,9 +12821,9 @@ module.exports =
 	        _vm.handleDateChange($event, 'min')
 	      }
 	    }
-	  })]), _vm._h('span', {
+	  })]), _h('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
-	  }, [_vm._h('el-input', {
+	  }, [_h('el-input', {
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
 	      "size": "small",
@@ -12768,7 +12842,7 @@ module.exports =
 	        _vm.handleTimeChange($event, 'min')
 	      }
 	    }
-	  }), _vm._h('time-picker', {
+	  }), _h('time-picker', {
 	    ref: "minTimePicker",
 	    attrs: {
 	      "picker-width": _vm.minPickerWidth,
@@ -12778,11 +12852,11 @@ module.exports =
 	    on: {
 	      "pick": _vm.handleMinTimePick
 	    }
-	  })])]), _vm._m(0), _vm._h('span', {
+	  })])]), _vm._m(0), _h('span', {
 	    staticClass: "el-date-range-picker__editors-wrap is-right"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
-	  }, [_vm._h('el-input', {
+	  }, [_h('el-input', {
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
 	      "size": "small",
@@ -12800,9 +12874,9 @@ module.exports =
 	        _vm.handleDateChange($event, 'max')
 	      }
 	    }
-	  })]), _vm._h('span', {
+	  })]), _h('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
-	  }, [_vm._h('el-input', {
+	  }, [_h('el-input', {
 	    ref: "maxInput",
 	    staticClass: "el-date-range-picker__editor",
 	    attrs: {
@@ -12823,7 +12897,7 @@ module.exports =
 	        _vm.handleTimeChange($event, 'max')
 	      }
 	    }
-	  }), _vm._h('time-picker', {
+	  }), _h('time-picker', {
 	    ref: "maxTimePicker",
 	    attrs: {
 	      "picker-width": _vm.maxPickerWidth,
@@ -12833,11 +12907,11 @@ module.exports =
 	    on: {
 	      "pick": _vm.handleMaxTimePick
 	    }
-	  })])])]) : _vm._e(), _vm._h('div', {
+	  })])])]) : _vm._e(), _h('div', {
 	    staticClass: "el-picker-panel__content el-date-range-picker__content is-left"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-date-range-picker__header"
-	  }, [_vm._h('button', {
+	  }, [_h('button', {
 	    staticClass: "el-picker-panel__icon-btn el-icon-d-arrow-left",
 	    attrs: {
 	      "type": "button"
@@ -12845,7 +12919,7 @@ module.exports =
 	    on: {
 	      "click": _vm.prevYear
 	    }
-	  }), _vm._h('button', {
+	  }), _h('button', {
 	    staticClass: "el-picker-panel__icon-btn el-icon-arrow-left",
 	    attrs: {
 	      "type": "button"
@@ -12853,7 +12927,7 @@ module.exports =
 	    on: {
 	      "click": _vm.prevMonth
 	    }
-	  }), _vm._h('div', [_vm._s(_vm.leftLabel)])]), _vm._h('date-table', {
+	  }), _h('div', [_vm._s(_vm.leftLabel)])]), _h('date-table', {
 	    attrs: {
 	      "selection-mode": "range",
 	      "date": _vm.date,
@@ -12868,11 +12942,11 @@ module.exports =
 	      "changerange": _vm.handleChangeRange,
 	      "pick": _vm.handleRangePick
 	    }
-	  })]), _vm._h('div', {
+	  })]), _h('div', {
 	    staticClass: "el-picker-panel__content el-date-range-picker__content is-right"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-date-range-picker__header"
-	  }, [_vm._h('button', {
+	  }, [_h('button', {
 	    staticClass: "el-picker-panel__icon-btn el-icon-d-arrow-right",
 	    attrs: {
 	      "type": "button"
@@ -12880,7 +12954,7 @@ module.exports =
 	    on: {
 	      "click": _vm.nextYear
 	    }
-	  }), _vm._h('button', {
+	  }), _h('button', {
 	    staticClass: "el-picker-panel__icon-btn el-icon-arrow-right",
 	    attrs: {
 	      "type": "button"
@@ -12888,7 +12962,7 @@ module.exports =
 	    on: {
 	      "click": _vm.nextMonth
 	    }
-	  }), _vm._h('div', [_vm._s(_vm.rightLabel)])]), _vm._h('date-table', {
+	  }), _h('div', [_vm._s(_vm.rightLabel)])]), _h('date-table', {
 	    attrs: {
 	      "selection-mode": "range",
 	      "date": _vm.rightDate,
@@ -12903,25 +12977,27 @@ module.exports =
 	      "changerange": _vm.handleChangeRange,
 	      "pick": _vm.handleRangePick
 	    }
-	  })])])]), (_vm.showTime) ? _vm._h('div', {
+	  })])])]), (_vm.showTime) ? _h('div', {
 	    staticClass: "el-picker-panel__footer"
-	  }, [_vm._h('a', {
+	  }, [_h('a', {
 	    staticClass: "el-picker-panel__link-btn",
 	    on: {
 	      "click": _vm.handleClear
 	    }
-	  }, [_vm._s(_vm.t('el.datepicker.clear'))]), _vm._h('button', {
+	  }, [_vm._s(_vm.t('el.datepicker.clear'))]), _h('button', {
 	    staticClass: "el-picker-panel__btn",
 	    attrs: {
 	      "type": "button",
 	      "disabled": _vm.btnDisabled
 	    },
 	    on: {
-	      "click": _vm.handleConfirm
+	      "click": function($event) {
+	        _vm.handleConfirm()
+	      }
 	    }
 	  }, [_vm._s(_vm.t('el.datepicker.confirm'))])]) : _vm._e()])])
-	},staticRenderFns: [function (){var _vm=this;
-	  return _vm._h('span', {
+	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('span', {
 	    staticClass: "el-icon-arrow-right"
 	  })
 	}]}
@@ -13029,6 +13105,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	var parseTime = function parseTime(time) {
 	  var values = ('' || time).split(':');
@@ -13103,6 +13180,7 @@ module.exports =
 
 	  data: function data() {
 	    return {
+	      popperClass: '',
 	      start: '09:00',
 	      end: '18:00',
 	      step: '00:30',
@@ -13142,8 +13220,8 @@ module.exports =
 /* 166 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    },
@@ -13152,7 +13230,7 @@ module.exports =
 	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -13160,13 +13238,14 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-picker-panel time-select",
+	    class: _vm.popperClass,
 	    style: ({
 	      width: _vm.width + 'px'
 	    })
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-picker-panel__content"
 	  }, [_vm._l((_vm.items), function(item) {
-	    return _vm._h('div', {
+	    return _h('div', {
 	      staticClass: "time-select-item",
 	      class: {
 	        selected: _vm.value === item.value, disabled: item.disabled
@@ -13348,6 +13427,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	var MAX_TIME = (0, _util.parseDate)('23:59:59', 'HH:mm:ss');
 	var isDisabled = function isDisabled(minTime, maxTime) {
@@ -13384,6 +13464,7 @@ module.exports =
 	    var time = clacTime(this.$options.defaultValue);
 
 	    return {
+	      popperClass: '',
 	      minTime: time.minTime,
 	      maxTime: time.maxTime,
 	      btnDisabled: isDisabled(time.minTime, time.maxTime),
@@ -13510,8 +13591,8 @@ module.exports =
 /* 171 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    },
@@ -13521,7 +13602,7 @@ module.exports =
 	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -13529,21 +13610,22 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-time-range-picker el-picker-panel",
+	    class: _vm.popperClass,
 	    style: ({
 	      width: _vm.width + 'px'
 	    })
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-time-range-picker__content"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-time-range-picker__cell"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-time-range-picker__header"
-	  }, [_vm._s(_vm.t('el.datepicker.startTime'))]), _vm._h('div', {
+	  }, [_vm._s(_vm.t('el.datepicker.startTime'))]), _h('div', {
 	    staticClass: "el-time-range-picker__body el-time-panel__content",
 	    class: {
 	      'has-seconds': _vm.showSeconds
 	    }
-	  }, [_vm._h('time-spinner', {
+	  }, [_h('time-spinner', {
 	    ref: "minSpinner",
 	    attrs: {
 	      "show-seconds": _vm.showSeconds,
@@ -13555,16 +13637,16 @@ module.exports =
 	      "change": _vm.handleMinChange,
 	      "select-range": _vm.setMinSelectionRange
 	    }
-	  })])]), _vm._h('div', {
+	  })])]), _h('div', {
 	    staticClass: "el-time-range-picker__cell"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-time-range-picker__header"
-	  }, [_vm._s(_vm.t('el.datepicker.endTime'))]), _vm._h('div', {
+	  }, [_vm._s(_vm.t('el.datepicker.endTime'))]), _h('div', {
 	    staticClass: "el-time-range-picker__body el-time-panel__content",
 	    class: {
 	      'has-seconds': _vm.showSeconds
 	    }
-	  }, [_vm._h('time-spinner', {
+	  }, [_h('time-spinner', {
 	    ref: "maxSpinner",
 	    attrs: {
 	      "show-seconds": _vm.showSeconds,
@@ -13576,9 +13658,9 @@ module.exports =
 	      "change": _vm.handleMaxChange,
 	      "select-range": _vm.setMaxSelectionRange
 	    }
-	  })])])]), _vm._h('div', {
+	  })])])]), _h('div', {
 	    staticClass: "el-time-panel__footer"
-	  }, [_vm._h('button', {
+	  }, [_h('button', {
 	    staticClass: "el-time-panel__btn cancel",
 	    attrs: {
 	      "type": "button"
@@ -13588,7 +13670,7 @@ module.exports =
 	        _vm.handleCancel()
 	      }
 	    }
-	  }, [_vm._s(_vm.t('el.datepicker.cancel'))]), _vm._h('button', {
+	  }, [_vm._s(_vm.t('el.datepicker.cancel'))]), _h('button', {
 	    staticClass: "el-time-panel__btn confirm",
 	    attrs: {
 	      "type": "button",
@@ -13822,15 +13904,15 @@ module.exports =
 /* 175 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('span', [_vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('span', [_h('transition', {
 	    attrs: {
 	      "name": _vm.transition
 	    },
 	    on: {
 	      "after-leave": _vm.doDestroy
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -13843,7 +13925,7 @@ module.exports =
 	    style: ({
 	      width: _vm.width + 'px'
 	    })
-	  }, [(_vm.title) ? _vm._h('div', {
+	  }, [(_vm.title) ? _h('div', {
 	    staticClass: "el-popover__title",
 	    domProps: {
 	      "textContent": _vm._s(_vm.title)
@@ -13944,6 +14026,7 @@ module.exports =
 	      type: String,
 	      default: 'dark'
 	    },
+	    popperClass: String,
 	    content: String,
 	    visibleArrow: {
 	      default: true
@@ -14003,24 +14086,24 @@ module.exports =
 /* 180 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-tooltip",
 	    on: {
 	      "mouseenter": _vm.handleShowPopper,
 	      "mouseleave": _vm.handleClosePopper
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    ref: "reference",
 	    staticClass: "el-tooltip__rel"
-	  }, [_vm._t("default")]), _vm._h('transition', {
+	  }, [_vm._t("default")]), _h('transition', {
 	    attrs: {
 	      "name": _vm.transition
 	    },
 	    on: {
 	      "after-leave": _vm.doDestroy
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -14029,8 +14112,8 @@ module.exports =
 	    }],
 	    ref: "popper",
 	    staticClass: "el-tooltip__popper",
-	    class: ['is-' + _vm.effect]
-	  }, [_vm._t("content", [_vm._h('div', {
+	    class: ['is-' + _vm.effect, _vm.popperClass]
+	  }, [_vm._t("content", [_h('div', {
 	    domProps: {
 	      "textContent": _vm._s(_vm.content)
 	    }
@@ -14529,12 +14612,12 @@ module.exports =
 /* 186 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "msgbox-fade"
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -14548,31 +14631,31 @@ module.exports =
 	        _vm.handleWrapperClick($event)
 	      }
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-message-box",
 	    class: _vm.customClass
-	  }, [(_vm.title !== undefined) ? _vm._h('div', {
+	  }, [(_vm.title !== undefined) ? _h('div', {
 	    staticClass: "el-message-box__header"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-message-box__title"
-	  }, [_vm._s(_vm.title || _vm.t('el.messagebox.title'))]), (_vm.showClose) ? _vm._h('i', {
+	  }, [_vm._s(_vm.title || _vm.t('el.messagebox.title'))]), (_vm.showClose) ? _h('i', {
 	    staticClass: "el-message-box__close el-icon-close",
 	    on: {
 	      "click": function($event) {
 	        _vm.handleAction('cancel')
 	      }
 	    }
-	  }) : _vm._e()]) : _vm._e(), (_vm.message !== '') ? _vm._h('div', {
+	  }) : _vm._e()]) : _vm._e(), (_vm.message !== '') ? _h('div', {
 	    staticClass: "el-message-box__content"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-message-box__status",
 	    class: [_vm.typeClass]
-	  }), _vm._h('div', {
+	  }), _h('div', {
 	    staticClass: "el-message-box__message",
 	    style: ({
 	      'margin-left': _vm.typeClass ? '50px' : '0'
 	    })
-	  }, [_vm._h('p', [_vm._s(_vm.message)])]), _vm._h('div', {
+	  }, [_h('p', [_vm._s(_vm.message)])]), _h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -14580,7 +14663,7 @@ module.exports =
 	      expression: "showInput"
 	    }],
 	    staticClass: "el-message-box__input"
-	  }, [_vm._h('el-input', {
+	  }, [_h('el-input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -14599,14 +14682,14 @@ module.exports =
 	        _vm.inputValue = $event
 	      }
 	    }
-	  }), _vm._h('div', {
+	  }), _h('div', {
 	    staticClass: "el-message-box__errormsg",
 	    style: ({
 	      visibility: !!_vm.editorErrorMessage ? 'visible' : 'hidden'
 	    })
-	  }, [_vm._s(_vm.editorErrorMessage)])])]) : _vm._e(), _vm._h('div', {
+	  }, [_vm._s(_vm.editorErrorMessage)])])]) : _vm._e(), _h('div', {
 	    staticClass: "el-message-box__btns"
-	  }, [_vm._h('el-button', {
+	  }, [_h('el-button', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -14619,7 +14702,7 @@ module.exports =
 	        _vm.handleAction('cancel')
 	      }
 	    }
-	  }, [_vm._s(_vm.cancelButtonText || _vm.t('el.messagebox.cancel'))]), _vm._h('el-button', {
+	  }, [_vm._s(_vm.cancelButtonText || _vm.t('el.messagebox.cancel'))]), _h('el-button', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -14714,8 +14797,8 @@ module.exports =
 /* 190 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-breadcrumb"
 	  }, [_vm._t("default")])
 	},staticRenderFns: []}
@@ -14813,13 +14896,13 @@ module.exports =
 /* 194 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('span', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('span', {
 	    staticClass: "el-breadcrumb__item"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    ref: "link",
 	    staticClass: "el-breadcrumb__item__inner"
-	  }, [_vm._t("default")]), _vm._h('span', {
+	  }, [_vm._t("default")]), _h('span', {
 	    staticClass: "el-breadcrumb__separator"
 	  }, [_vm._s(_vm.separator)])])
 	},staticRenderFns: []}
@@ -14970,8 +15053,8 @@ module.exports =
 /* 198 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('form', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('form', {
 	    staticClass: "el-form",
 	    class: [
 	      _vm.labelPosition ? 'el-form--label-' + _vm.labelPosition : '', {
@@ -15285,25 +15368,25 @@ module.exports =
 /* 203 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-form-item",
 	    class: {
 	      'is-error': _vm.validateState === 'error',
 	        'is-validating': _vm.validateState === 'validating',
 	        'is-required': _vm.isRequired || _vm.required
 	    }
-	  }, [(_vm.label) ? _vm._h('label', {
+	  }, [(_vm.label) ? _h('label', {
 	    staticClass: "el-form-item__label",
 	    style: (_vm.labelStyle)
-	  }, ["\n    " + _vm._s(_vm.label + _vm.form.labelSuffix) + "\n  "]) : _vm._e(), _vm._h('div', {
+	  }, ["\n    " + _vm._s(_vm.label + _vm.form.labelSuffix) + "\n  "]) : _vm._e(), _h('div', {
 	    staticClass: "el-form-item__content",
 	    style: (_vm.contentStyle)
-	  }, [_vm._t("default"), _vm._h('transition', {
+	  }, [_vm._t("default"), _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    }
-	  }, [(_vm.validateState === 'error') ? _vm._h('div', {
+	  }, [(_vm.validateState === 'error') ? _h('div', {
 	    staticClass: "el-form-item__error"
 	  }, [_vm._s(_vm.validateMessage)]) : _vm._e()])])])
 	},staticRenderFns: []}
@@ -15488,7 +15571,7 @@ module.exports =
 	        on: { click: function click(ev) {
 	            handleTabClick(tab, ev);
 	          } }
-	      }, [tab.labelContent ? tab.labelContent.call(_this3._renderProxy, h) : tab.label, tab.isClosable ? btnClose : null, index === 0 ? activeBar : null]);
+	      }, [tab.labelContent ? tab.labelContent.call(_this3._renderProxy, h, tab) : tab.label, tab.isClosable ? btnClose : null, index === 0 ? activeBar : null]);
 	      return _tab;
 	    });
 	    return h(
@@ -15639,6 +15722,9 @@ module.exports =
 	      if (this.index === oldValue) {
 	        this.transition = oldValue > newValue ? 'slideInRight' : 'slideInLeft';
 	      }
+	    },
+	    label: function label() {
+	      this.$parent.$forceUpdate();
 	    }
 	  }
 	};
@@ -15647,8 +15733,8 @@ module.exports =
 /* 210 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -15751,12 +15837,12 @@ module.exports =
 /* 214 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": _vm.closeTransition ? '' : 'el-zoom-in-center'
 	    }
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-tag",
 	    class: [_vm.type ? 'el-tag--' + _vm.type : '', {
 	      'is-hit': _vm.hit
@@ -15764,7 +15850,7 @@ module.exports =
 	    style: ({
 	      backgroundColor: _vm.color
 	    })
-	  }, [_vm._t("default"), (_vm.closable) ? _vm._h('i', {
+	  }, [_vm._t("default"), (_vm.closable) ? _h('i', {
 	    staticClass: "el-tag__close el-icon-close",
 	    on: {
 	      "click": _vm.handleClose
@@ -15870,6 +15956,10 @@ module.exports =
 	    nodeKey: String,
 	    checkStrictly: Boolean,
 	    defaultExpandAll: Boolean,
+	    expandOnClickNode: {
+	      type: Boolean,
+	      default: true
+	    },
 	    autoExpandParent: {
 	      type: Boolean,
 	      default: true
@@ -15895,6 +15985,7 @@ module.exports =
 	      default: false
 	    },
 	    highlightCurrent: Boolean,
+	    currentNodeKey: [String, Number],
 	    load: Function,
 	    filterNodeMethod: Function
 	  },
@@ -15908,6 +15999,7 @@ module.exports =
 	      lazy: this.lazy,
 	      props: this.props,
 	      load: this.load,
+	      currentNodeKey: this.currentNodeKey,
 	      checkStrictly: this.checkStrictly,
 	      defaultCheckedKeys: this.defaultCheckedKeys,
 	      defaultExpandedKeys: this.defaultExpandedKeys,
@@ -15950,6 +16042,9 @@ module.exports =
 	    defaultExpandedKeys: function defaultExpandedKeys(newVal) {
 	      this.store.defaultExpandedKeys = newVal;
 	      this.store.setDefaultExpandedKeys(newVal);
+	    },
+	    currentNodeKey: function currentNodeKey(newVal) {
+	      this.store.setCurrentNodeKey(newVal);
 	    },
 	    data: function data(newVal) {
 	      this.store.setData(newVal);
@@ -16013,6 +16108,9 @@ module.exports =
 	    var _this = this;
 
 	    _classCallCheck(this, TreeStore);
+
+	    this.currentNode = null;
+	    this.currentNodeKey = null;
 
 	    for (var option in options) {
 	      if (options.hasOwnProperty(option)) {
@@ -16257,6 +16355,21 @@ module.exports =
 	    }
 	  };
 
+	  TreeStore.prototype.getCurrentNode = function getCurrentNode() {
+	    return this.currentNode;
+	  };
+
+	  TreeStore.prototype.setCurrentNode = function setCurrentNode(node) {
+	    this.currentNode = node;
+	  };
+
+	  TreeStore.prototype.setCurrentNodeKey = function setCurrentNodeKey(key) {
+	    var node = this.getNode(key);
+	    if (node) {
+	      this.currentNode = node;
+	    }
+	  };
+
 	  return TreeStore;
 	}();
 
@@ -16382,6 +16495,10 @@ module.exports =
 	    var key = store.key;
 	    if (key && defaultExpandedKeys && defaultExpandedKeys.indexOf(this.key) !== -1) {
 	      this.expand(null, store.autoExpandParent);
+	    }
+
+	    if (key && store.currentNodeKey && this.key === store.currentNodeKey) {
+	      store.currentNode = this;
 	    }
 
 	    if (store.lazy) {
@@ -16782,6 +16899,10 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'el-tree-node',
@@ -16862,17 +16983,21 @@ module.exports =
 	      this.indeterminate = indeterminate;
 	    },
 	    handleClick: function handleClick() {
+	      var store = this.tree.store;
+	      store.setCurrentNode(this.node);
+	      this.tree.$emit('current-change', store.currentNode ? store.currentNode.data : null, store.currentNode);
 	      this.tree.currentNode = this;
+	      if (this.tree.expandOnClickNode) {
+	        this.handleExpandIconClick(event);
+	      }
+	      this.tree.$emit('node-click', this.node.data, this.node, this);
 	    },
 	    handleExpandIconClick: function handleExpandIconClick(event) {
-	      var target = event.target;
-	      if (target.tagName.toUpperCase() !== 'DIV' && target.parentNode.nodeName.toUpperCase() !== 'DIV' || target.nodeName.toUpperCase() === 'LABEL') return;
 	      if (this.expanded) {
 	        this.node.collapse();
 	      } else {
 	        this.node.expand();
 	      }
-	      this.tree.$emit('node-click', this.node.data, this.node, this);
 	    },
 	    handleUserClick: function handleUserClick() {
 	      if (this.node.indeterminate) {
@@ -17020,8 +17145,8 @@ module.exports =
 /* 224 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -17030,7 +17155,9 @@ module.exports =
 	    }],
 	    staticClass: "el-tree-node",
 	    class: {
-	      'is-expanded': _vm.childNodeRendered && _vm.expanded, 'is-current': _vm.tree.currentNode === _vm._self, 'is-hidden': !_vm.node.visible
+	      'is-expanded': _vm.childNodeRendered && _vm.expanded,
+	        'is-current': _vm.tree.store.currentNode === _vm.node,
+	        'is-hidden': !_vm.node.visible
 	    },
 	    on: {
 	      "click": function($event) {
@@ -17038,20 +17165,23 @@ module.exports =
 	        _vm.handleClick($event)
 	      }
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-tree-node__content",
 	    style: ({
 	      'padding-left': (_vm.node.level - 1) * 16 + 'px'
-	    }),
-	    on: {
-	      "click": _vm.handleExpandIconClick
-	    }
-	  }, [_vm._h('span', {
+	    })
+	  }, [_h('span', {
 	    staticClass: "el-tree-node__expand-icon",
 	    class: {
 	      'is-leaf': _vm.node.isLeaf, expanded: !_vm.node.isLeaf && _vm.expanded
+	    },
+	    on: {
+	      "click": function($event) {
+	        $event.stopPropagation();
+	        _vm.handleExpandIconClick($event)
+	      }
 	    }
-	  }), (_vm.showCheckbox) ? _vm._h('el-checkbox', {
+	  }), (_vm.showCheckbox) ? _h('el-checkbox', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -17075,13 +17205,13 @@ module.exports =
 	        _vm.handleUserClick($event)
 	      }
 	    }
-	  }) : _vm._e(), (_vm.node.loading) ? _vm._h('span', {
+	  }) : _vm._e(), (_vm.node.loading) ? _h('span', {
 	    staticClass: "el-tree-node__loading-icon el-icon-loading"
-	  }) : _vm._e(), _vm._h('node-content', {
+	  }) : _vm._e(), _h('node-content', {
 	    attrs: {
 	      "node": _vm.node
 	    }
-	  })]), _vm._h('collapse-transition', [_vm._h('div', {
+	  })]), _h('collapse-transition', [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -17090,7 +17220,7 @@ module.exports =
 	    }],
 	    staticClass: "el-tree-node__children"
 	  }, [_vm._l((_vm.node.childNodes), function(child) {
-	    return _vm._h('el-tree-node', {
+	    return _h('el-tree-node', {
 	      key: _vm.getNodeKey(child),
 	      attrs: {
 	        "render-content": _vm.renderContent,
@@ -17104,14 +17234,14 @@ module.exports =
 /* 225 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-tree",
 	    class: {
 	      'el-tree--highlight-current': _vm.highlightCurrent
 	    }
 	  }, [_vm._l((_vm.root.childNodes), function(child) {
-	    return _vm._h('el-tree-node', {
+	    return _h('el-tree-node', {
 	      key: _vm.getNodeKey(child),
 	      attrs: {
 	        "node": child,
@@ -17119,9 +17249,9 @@ module.exports =
 	        "render-content": _vm.renderContent
 	      }
 	    })
-	  }), (!_vm.root.childNodes || _vm.root.childNodes.length === 0) ? _vm._h('div', {
+	  }), (!_vm.root.childNodes || _vm.root.childNodes.length === 0) ? _h('div', {
 	    staticClass: "el-tree__empty-block"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-tree__empty-text"
 	  }, [_vm._s(_vm.emptyText)])]) : _vm._e()])
 	},staticRenderFns: []}
@@ -17287,12 +17417,12 @@ module.exports =
 /* 229 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-alert-fade"
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -17301,15 +17431,15 @@ module.exports =
 	    }],
 	    staticClass: "el-alert",
 	    class: [_vm.typeClass]
-	  }, [(_vm.showIcon) ? _vm._h('i', {
+	  }, [(_vm.showIcon) ? _h('i', {
 	    staticClass: "el-alert__icon",
 	    class: [_vm.iconClass, _vm.isBigIcon]
-	  }) : _vm._e(), _vm._h('div', {
+	  }) : _vm._e(), _h('div', {
 	    staticClass: "el-alert__content"
-	  }, [(_vm.title) ? _vm._h('span', {
+	  }, [(_vm.title) ? _h('span', {
 	    staticClass: "el-alert__title",
 	    class: [_vm.isBoldTitle]
-	  }, [_vm._s(_vm.title)]) : _vm._e(), _vm._h('desc-content'), _vm._h('i', {
+	  }, [_vm._s(_vm.title)]) : _vm._e(), _h('desc-content'), _h('i', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -17577,12 +17707,12 @@ module.exports =
 /* 234 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-notification-fade"
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -17602,15 +17732,15 @@ module.exports =
 	        _vm.startTimer()
 	      }
 	    }
-	  }, [(_vm.type || _vm.iconClass) ? _vm._h('i', {
+	  }, [(_vm.type || _vm.iconClass) ? _h('i', {
 	    staticClass: "el-notification__icon",
 	    class: [_vm.typeClass, _vm.iconClass]
-	  }) : _vm._e(), _vm._h('div', {
+	  }) : _vm._e(), _h('div', {
 	    staticClass: "el-notification__group",
 	    class: {
 	      'is-with-icon': _vm.typeClass || _vm.iconClass
 	    }
-	  }, [_vm._h('span', [_vm._s(_vm.title)]), _vm._h('p', [_vm._s(_vm.message)]), _vm._h('div', {
+	  }, [_h('span', [_vm._s(_vm.title)]), _h('p', [_vm._s(_vm.message)]), _h('div', {
 	    staticClass: "el-notification__closeBtn el-icon-close",
 	    on: {
 	      "click": _vm.close
@@ -17840,9 +17970,9 @@ module.exports =
 	         */
 	        setTimeout(function () {
 	          _this2.dragging = false;
+	          _this2.$refs.tooltip.showPopper = false;
+	          _this2.setPosition(_this2.newPos);
 	        }, 0);
-	        this.$refs.tooltip.showPopper = false;
-	        this.setPosition(this.newPos);
 	        window.removeEventListener('mousemove', this.onDragging);
 	        window.removeEventListener('mouseup', this.onDragEnd);
 	        window.removeEventListener('contextmenu', this.onDragEnd);
@@ -17945,10 +18075,10 @@ module.exports =
 /* 241 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-slider"
-	  }, [(_vm.showInput) ? _vm._h('el-input-number', {
+	  }, [(_vm.showInput) ? _h('el-input-number', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -17977,7 +18107,7 @@ module.exports =
 	        _vm.onInputChange($event)
 	      }
 	    }
-	  }) : _vm._e(), _vm._h('div', {
+	  }) : _vm._e(), _h('div', {
 	    ref: "slider",
 	    staticClass: "el-slider__runway",
 	    class: {
@@ -17986,12 +18116,12 @@ module.exports =
 	    on: {
 	      "click": _vm.onSliderClick
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-slider__bar",
 	    style: ({
 	      width: _vm.currentPosition
 	    })
-	  }), _vm._h('div', {
+	  }), _h('div', {
 	    ref: "button",
 	    staticClass: "el-slider__button-wrapper",
 	    class: {
@@ -18005,20 +18135,20 @@ module.exports =
 	      "mouseleave": _vm.handleMouseLeave,
 	      "mousedown": _vm.onButtonDown
 	    }
-	  }, [_vm._h('el-tooltip', {
+	  }, [_h('el-tooltip', {
 	    ref: "tooltip",
 	    attrs: {
 	      "placement": "top"
 	    }
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    slot: "content"
-	  }, [_vm._s(_vm.value)]), _vm._h('div', {
+	  }, [_vm._s(_vm.value)]), _h('div', {
 	    staticClass: "el-slider__button",
 	    class: {
 	      'hover': _vm.hovering, 'dragging': _vm.dragging
 	    }
 	  })])]), _vm._l((_vm.stops), function(item) {
-	    return (_vm.showStops) ? _vm._h('div', {
+	    return (_vm.showStops) ? _h('div', {
 	      staticClass: "el-slider__stop",
 	      style: ({
 	        'left': item + '%'
@@ -18233,20 +18363,20 @@ module.exports =
 /* 246 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-loading-mask",
 	    class: [_vm.customClass, {
 	      'is-fullscreen': _vm.fullscreen
 	    }]
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-loading-spinner"
-	  }, [_vm._h('svg', {
+	  }, [_h('svg', {
 	    staticClass: "circular",
 	    attrs: {
 	      "viewBox": "25 25 50 50"
 	    }
-	  }, [_vm._h('circle', {
+	  }, [_h('circle', {
 	    staticClass: "path",
 	    attrs: {
 	      "cx": "50",
@@ -18254,7 +18384,7 @@ module.exports =
 	      "r": "20",
 	      "fill": "none"
 	    }
-	  })]), (_vm.text) ? _vm._h('p', {
+	  })]), (_vm.text) ? _h('p', {
 	    staticClass: "el-loading-text"
 	  }, [_vm._s(_vm.text)]) : _vm._e()])])
 	},staticRenderFns: []}
@@ -18447,8 +18577,8 @@ module.exports =
 /* 251 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('i', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('i', {
 	    class: 'el-icon-' + _vm.name
 	  })
 	},staticRenderFns: []}
@@ -18560,8 +18690,8 @@ module.exports =
 /* 255 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-row",
 	    class: [
 	      _vm.justify !== 'start' ? 'is-justify-' + _vm.justify : '',
@@ -18800,6 +18930,10 @@ module.exports =
 	      type: Function,
 	      default: noop
 	    },
+	    onProgress: {
+	      type: Function,
+	      default: noop
+	    },
 	    onError: {
 	      type: Function,
 	      default: noop
@@ -18861,6 +18995,7 @@ module.exports =
 	    },
 	    handleProgress: function handleProgress(ev, file) {
 	      var _file = this.getFile(file);
+	      this.onProgress(ev, _file, this.fileList);
 	      _file.percentage = ev.percent || 0;
 	    },
 	    handleSuccess: function handleSuccess(res, file) {
@@ -19081,15 +19216,15 @@ module.exports =
 /* 264 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition-group', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition-group', {
 	    staticClass: "el-upload__files",
 	    attrs: {
 	      "tag": "ul",
 	      "name": "list"
 	    }
 	  }, [_vm._l((_vm.files), function(file) {
-	    return _vm._h('li', {
+	    return _h('li', {
 	      key: file,
 	      staticClass: "el-upload__file",
 	      class: {
@@ -19100,14 +19235,14 @@ module.exports =
 	          _vm.$emit('clickFile', file)
 	        }
 	      }
-	    }, [_vm._h('a', {
+	    }, [_h('a', {
 	      staticClass: "el-upload__file__name",
 	      on: {
 	        "click": function($event) {
 	          _vm.$emit('preview', file)
 	        }
 	      }
-	    }, [_vm._m(0, true), _vm._s(file.name) + "\n    "]), _vm._h('span', {
+	    }, [_vm._m(0, true), _vm._s(file.name) + "\n    "]), _h('span', {
 	      directives: [{
 	        name: "show",
 	        rawName: "v-show",
@@ -19120,7 +19255,7 @@ module.exports =
 	          _vm.$emit('remove', file)
 	        }
 	      }
-	    }, [_vm._s(_vm.t('el.upload.delete'))]), (file.showProgress) ? _vm._h('el-progress', {
+	    }, [_vm._s(_vm.t('el.upload.delete'))]), (file.showProgress) ? _h('el-progress', {
 	      attrs: {
 	        "stroke-width": 2,
 	        "percentage": _vm.parsePercentage(file.percentage),
@@ -19128,8 +19263,8 @@ module.exports =
 	      }
 	    }) : _vm._e()])
 	  })])
-	},staticRenderFns: [function (){var _vm=this;
-	  return _vm._h('i', {
+	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('i', {
 	    staticClass: "el-icon-document"
 	  })
 	}]}
@@ -19546,26 +19681,26 @@ module.exports =
 /* 270 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return (_vm.image) ? _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return (_vm.image) ? _h('div', {
 	    staticClass: "el-dragger__cover",
 	    on: {
 	      "click": function($event) {
 	        $event.stopPropagation();
 	      }
 	    }
-	  }, [_vm._h('transition', {
+	  }, [_h('transition', {
 	    attrs: {
 	      "name": "el-fade-in"
 	    }
-	  }, [(_vm.image.status === 'uploading') ? _vm._h('el-progress', {
+	  }, [(_vm.image.status === 'uploading') ? _h('el-progress', {
 	    staticClass: "el-dragger__cover__progress",
 	    attrs: {
 	      "percentage": _vm.image.percentage,
 	      "show-text": false,
 	      "status": _vm.image.status === 'finished' ? 'success' : ''
 	    }
-	  }) : _vm._e()]), (_vm.image.status === 'finished') ? _vm._h('div', {
+	  }) : _vm._e()]), (_vm.image.status === 'finished') ? _h('div', {
 	    staticClass: "el-dragger__cover__content",
 	    on: {
 	      "mouseenter": function($event) {
@@ -19575,15 +19710,15 @@ module.exports =
 	        _vm.mouseover = false
 	      }
 	    }
-	  }, [_vm._h('img', {
+	  }, [_h('img', {
 	    attrs: {
 	      "src": _vm.image.url
 	    }
-	  }), _vm._h('transition', {
+	  }), _h('transition', {
 	    attrs: {
 	      "name": "el-fade-in"
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -19591,34 +19726,34 @@ module.exports =
 	      expression: "mouseover"
 	    }],
 	    staticClass: "el-dragger__cover__interact"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-draggeer__cover__btns"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
 	        _vm.$parent.handleClick()
 	      }
 	    }
-	  }, [_vm._m(0), _vm._h('span', [_vm._s(_vm.t('el.upload.continue'))])]), _vm._h('span', {
+	  }, [_vm._m(0), _h('span', [_vm._s(_vm.t('el.upload.continue'))])]), _h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
 	        _vm.onPreview(_vm.image)
 	      }
 	    }
-	  }, [_vm._m(1), _vm._h('span', [_vm._s(_vm.t('el.upload.preview'))])]), _vm._h('span', {
+	  }, [_vm._m(1), _h('span', [_vm._s(_vm.t('el.upload.preview'))])]), _h('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
 	        _vm.onRemove(_vm.image)
 	      }
 	    }
-	  }, [_vm._m(2), _vm._h('span', [_vm._s(_vm.t('el.upload.delete'))])])])])]), _vm._h('transition', {
+	  }, [_vm._m(2), _h('span', [_vm._s(_vm.t('el.upload.delete'))])])])])]), _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-bottom"
 	    }
-	  }, [_vm._h('h4', {
+	  }, [_h('h4', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -19627,16 +19762,16 @@ module.exports =
 	    }],
 	    staticClass: "el-dragger__cover__title"
 	  }, [_vm._s(_vm.image.name)])])]) : _vm._e()]) : _vm._e()
-	},staticRenderFns: [function (){var _vm=this;
-	  return _vm._h('i', {
+	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('i', {
 	    staticClass: "el-icon-upload2"
 	  })
-	},function (){var _vm=this;
-	  return _vm._h('i', {
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('i', {
 	    staticClass: "el-icon-view"
 	  })
-	},function (){var _vm=this;
-	  return _vm._h('i', {
+	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('i', {
 	    staticClass: "el-icon-delete2"
 	  })
 	}]}
@@ -19645,8 +19780,8 @@ module.exports =
 /* 271 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-upload__inner",
 	    class: {
 	      'el-dragger': _vm.type === 'drag',
@@ -19668,13 +19803,13 @@ module.exports =
 	        _vm.dragOver = false
 	      }
 	    }
-	  }, [(!_vm.showCover) ? _vm._t("default") : _vm._h('cover', {
+	  }, [(!_vm.showCover) ? _vm._t("default") : _h('cover', {
 	    attrs: {
 	      "image": _vm.lastestFile,
 	      "on-preview": _vm.onPreview,
 	      "on-remove": _vm.onRemove
 	    }
-	  }), _vm._h('input', {
+	  }), _h('input', {
 	    ref: "input",
 	    staticClass: "el-upload__input",
 	    attrs: {
@@ -20119,8 +20254,8 @@ module.exports =
 /* 277 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-progress",
 	    class: [
 	      'el-progress--' + _vm.type,
@@ -20129,29 +20264,29 @@ module.exports =
 	        'el-progress--text-inside': _vm.textInside,
 	      }
 	    ]
-	  }, [(_vm.type === 'line') ? _vm._h('div', {
+	  }, [(_vm.type === 'line') ? _h('div', {
 	    staticClass: "el-progress-bar"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-progress-bar__outer",
 	    style: ({
 	      height: _vm.strokeWidth + 'px'
 	    })
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-progress-bar__inner",
 	    style: (_vm.barStyle)
-	  }, [(_vm.showText && _vm.textInside) ? _vm._h('div', {
+	  }, [(_vm.showText && _vm.textInside) ? _h('div', {
 	    staticClass: "el-progress-bar__innerText"
-	  }, [_vm._s(_vm.percentage) + "%"]) : _vm._e()])])]) : _vm._h('div', {
+	  }, [_vm._s(_vm.percentage) + "%"]) : _vm._e()])])]) : _h('div', {
 	    staticClass: "el-progress-circle",
 	    style: ({
 	      height: _vm.width + 'px',
 	      width: _vm.width + 'px'
 	    })
-	  }, [_vm._h('svg', {
+	  }, [_h('svg', {
 	    attrs: {
 	      "viewBox": "0 0 100 100"
 	    }
-	  }, [_vm._h('path', {
+	  }, [_h('path', {
 	    staticClass: "el-progress-circle__track",
 	    attrs: {
 	      "d": _vm.trackPath,
@@ -20159,7 +20294,7 @@ module.exports =
 	      "stroke-width": _vm.relativeStrokeWidth,
 	      "fill": "none"
 	    }
-	  }), _vm._h('path', {
+	  }), _h('path', {
 	    staticClass: "el-progress-circle__path",
 	    style: (_vm.circlePathStyle),
 	    attrs: {
@@ -20169,12 +20304,12 @@ module.exports =
 	      "stroke-width": _vm.relativeStrokeWidth,
 	      "fill": "none"
 	    }
-	  })])]), (_vm.showText && !_vm.textInside) ? _vm._h('div', {
+	  })])]), (_vm.showText && !_vm.textInside) ? _h('div', {
 	    staticClass: "el-progress__text",
 	    style: ({
 	      fontSize: _vm.progressTextSize + 'px'
 	    })
-	  }, [(!_vm.status) ? [_vm._s(_vm.percentage) + "%"] : _vm._h('i', {
+	  }, [(!_vm.status) ? [_vm._s(_vm.percentage) + "%"] : _h('i', {
 	    class: _vm.iconClass
 	  })]) : _vm._e()])
 	},staticRenderFns: []}
@@ -20267,10 +20402,10 @@ module.exports =
 /* 281 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('span', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('span', {
 	    staticClass: "el-spinner"
-	  }, [_vm._h('svg', {
+	  }, [_h('svg', {
 	    staticClass: "el-spinner-inner",
 	    style: ({
 	      width: _vm.radius / 2 + 'px',
@@ -20279,7 +20414,7 @@ module.exports =
 	    attrs: {
 	      "viewBox": "0 0 50 50"
 	    }
-	  }, [_vm._h('circle', {
+	  }, [_h('circle', {
 	    staticClass: "path",
 	    attrs: {
 	      "cx": "25",
@@ -20555,12 +20690,12 @@ module.exports =
 /* 291 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-message-fade"
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -20573,21 +20708,21 @@ module.exports =
 	      "mouseenter": _vm.clearTimer,
 	      "mouseleave": _vm.startTimer
 	    }
-	  }, [(!_vm.iconClass) ? _vm._h('img', {
+	  }, [(!_vm.iconClass) ? _h('img', {
 	    staticClass: "el-message__img",
 	    attrs: {
 	      "src": _vm.typeImg,
 	      "alt": ""
 	    }
-	  }) : _vm._e(), _vm._h('div', {
+	  }) : _vm._e(), _h('div', {
 	    staticClass: "el-message__group",
 	    class: {
 	      'is-with-icon': _vm.iconClass
 	    }
-	  }, [(_vm.iconClass) ? _vm._h('i', {
+	  }, [(_vm.iconClass) ? _h('i', {
 	    staticClass: "el-message__icon",
 	    class: _vm.iconClass
-	  }) : _vm._e(), _vm._h('p', [_vm._s(_vm.message)]), (_vm.showClose) ? _vm._h('div', {
+	  }) : _vm._e(), _h('p', [_vm._s(_vm.message)]), (_vm.showClose) ? _h('div', {
 	    staticClass: "el-message__closeBtn el-icon-close",
 	    on: {
 	      "click": _vm.close
@@ -20693,10 +20828,10 @@ module.exports =
 /* 295 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-badge"
-	  }, [_vm._t("default"), _vm._h('sup', {
+	  }, [_vm._t("default"), _h('sup', {
 	    staticClass: "el-badge__content",
 	    class: {
 	      'is-fixed': _vm.$slots.default, 'is-dot': _vm.isDot
@@ -20786,12 +20921,12 @@ module.exports =
 /* 299 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-card"
-	  }, [(_vm.$slots.header || _vm.header) ? _vm._h('div', {
+	  }, [(_vm.$slots.header || _vm.header) ? _h('div', {
 	    staticClass: "el-card__header"
-	  }, [_vm._t("header", [_vm._s(_vm.header)])]) : _vm._e(), _vm._h('div', {
+	  }, [_vm._t("header", [_vm._s(_vm.header)])]) : _vm._e(), _h('div', {
 	    staticClass: "el-card__body",
 	    style: (_vm.bodyStyle)
 	  }, [_vm._t("default")])])
@@ -21122,11 +21257,11 @@ module.exports =
 /* 303 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-rate"
 	  }, [_vm._l((_vm.max), function(item) {
-	    return _vm._h('span', {
+	    return _h('span', {
 	      staticClass: "el-rate__item",
 	      style: ({
 	        cursor: _vm.disabled ? 'auto' : 'pointer'
@@ -21140,18 +21275,18 @@ module.exports =
 	          _vm.selectValue(item)
 	        }
 	      }
-	    }, [_vm._h('i', {
+	    }, [_h('i', {
 	      staticClass: "el-rate__icon",
 	      class: [_vm.classes[item - 1], {
 	        'hover': _vm.hoverIndex === item
 	      }],
 	      style: (_vm.getIconStyle(item))
-	    }, [(_vm.showDecimalIcon(item)) ? _vm._h('i', {
+	    }, [(_vm.showDecimalIcon(item)) ? _h('i', {
 	      staticClass: "el-rate__decimal",
 	      class: _vm.decimalIconClass,
 	      style: (_vm.decimalStyle)
 	    }) : _vm._e()])])
-	  }), (_vm.showText) ? _vm._h('span', {
+	  }), (_vm.showText) ? _h('span', {
 	    staticClass: "el-rate__text",
 	    style: ({
 	      color: _vm.textColor
@@ -21266,8 +21401,8 @@ module.exports =
 /* 307 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-steps",
 	    class: ['is-' + _vm.direction]
 	  }, [_vm._t("default")])
@@ -21463,40 +21598,40 @@ module.exports =
 /* 311 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-step",
 	    class: ['is-' + _vm.$parent.direction],
 	    style: (_vm.style)
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-step__head",
 	    class: ['is-' + _vm.currentStatus, {
 	      'is-text': !_vm.icon
 	    }]
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-step__line",
 	    class: ['is-' + _vm.$parent.direction, {
 	      'is-icon': _vm.icon
 	    }]
-	  }, [_vm._h('i', {
+	  }, [_h('i', {
 	    staticClass: "el-step__line-inner",
 	    style: (_vm.lineStyle)
-	  })]), _vm._h('span', {
+	  })]), _h('span', {
 	    staticClass: "el-step__icon"
-	  }, [(_vm.currentStatus !== 'success' && _vm.currentStatus !== 'error') ? _vm._t("icon", [(_vm.icon) ? _vm._h('i', {
+	  }, [(_vm.currentStatus !== 'success' && _vm.currentStatus !== 'error') ? _vm._t("icon", [(_vm.icon) ? _h('i', {
 	    class: ['el-icon-' + _vm.icon]
-	  }) : _vm._h('div', [_vm._s(_vm.index + 1)])]) : _vm._h('i', {
+	  }) : _h('div', [_vm._s(_vm.index + 1)])]) : _h('i', {
 	    class: ['el-icon-' + (_vm.currentStatus === 'success' ? 'check' : 'close')]
-	  })])]), _vm._h('div', {
+	  })])]), _h('div', {
 	    staticClass: "el-step__main",
 	    style: ({
 	      marginLeft: _vm.mainOffset
 	    })
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    ref: "title",
 	    staticClass: "el-step__title",
 	    class: ['is-' + _vm.currentStatus]
-	  }, [_vm._t("title", [_vm._s(_vm.title)])]), _vm._h('div', {
+	  }, [_vm._t("title", [_vm._s(_vm.title)])]), _h('div', {
 	    staticClass: "el-step__description",
 	    class: ['is-' + _vm.currentStatus]
 	  }, [_vm._t("description", [_vm._s(_vm.description)])])])])

@@ -124,24 +124,19 @@ module.exports =
 	    };
 	  },
 
-	  methods: {
-	    initPadding: function initPadding() {
+	  computed: {
+	    levelPadding: function levelPadding() {
+	      var padding = 10;
 	      var parent = this.$parent;
-	      var level = 0;
-	      var component = parent.$options.componentName;
-
-	      while (component !== 'ElMenu') {
-	        if (component === 'ElSubmenu') {
-	          level++;
+	      while (parent && parent.$options.componentName !== 'ElMenu') {
+	        if (parent.$options.componentName === 'ElSubmenu') {
+	          padding += 20;
 	        }
 	        parent = parent.$parent;
-	        component = parent.$options.componentName;
 	      }
-	      this.paddingLeft += level * 10;
+	      padding === 10 && (padding = 20);
+	      return padding;
 	    }
-	  },
-	  mounted: function mounted() {
-	    this.initPadding();
 	  }
 	};
 
@@ -150,15 +145,15 @@ module.exports =
 /***/ 136:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('li', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('li', {
 	    staticClass: "el-menu-item-group"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-menu-item-group__title",
 	    style: ({
-	      'padding-left': _vm.paddingLeft + 'px'
+	      paddingLeft: _vm.levelPadding + 'px'
 	    })
-	  }, [(!_vm.$slots.title) ? [_vm._s(_vm.title)] : _vm._t("title")]), _vm._h('ul', [_vm._t("default")])])
+	  }, [(!_vm.$slots.title) ? [_vm._s(_vm.title)] : _vm._t("title")]), _h('ul', [_vm._t("default")])])
 	},staticRenderFns: []}
 
 /***/ }

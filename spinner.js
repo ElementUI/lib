@@ -141,10 +141,10 @@ module.exports =
 /***/ 224:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('span', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('span', {
 	    staticClass: "el-spinner"
-	  }, [_vm._h('svg', {
+	  }, [_h('svg', {
 	    staticClass: "el-spinner-inner",
 	    style: ({
 	      width: _vm.radius / 2 + 'px',
@@ -153,7 +153,7 @@ module.exports =
 	    attrs: {
 	      "viewBox": "0 0 50 50"
 	    }
-	  }, [_vm._h('circle', {
+	  }, [_h('circle', {
 	    staticClass: "path",
 	    attrs: {
 	      "cx": "25",

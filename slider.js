@@ -274,9 +274,9 @@ module.exports =
 	         */
 	        setTimeout(function () {
 	          _this2.dragging = false;
+	          _this2.$refs.tooltip.showPopper = false;
+	          _this2.setPosition(_this2.newPos);
 	        }, 0);
-	        this.$refs.tooltip.showPopper = false;
-	        this.setPosition(this.newPos);
 	        window.removeEventListener('mousemove', this.onDragging);
 	        window.removeEventListener('mouseup', this.onDragEnd);
 	        window.removeEventListener('contextmenu', this.onDragEnd);
@@ -383,10 +383,10 @@ module.exports =
 /***/ 220:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-slider"
-	  }, [(_vm.showInput) ? _vm._h('el-input-number', {
+	  }, [(_vm.showInput) ? _h('el-input-number', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -415,7 +415,7 @@ module.exports =
 	        _vm.onInputChange($event)
 	      }
 	    }
-	  }) : _vm._e(), _vm._h('div', {
+	  }) : _vm._e(), _h('div', {
 	    ref: "slider",
 	    staticClass: "el-slider__runway",
 	    class: {
@@ -424,12 +424,12 @@ module.exports =
 	    on: {
 	      "click": _vm.onSliderClick
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-slider__bar",
 	    style: ({
 	      width: _vm.currentPosition
 	    })
-	  }), _vm._h('div', {
+	  }), _h('div', {
 	    ref: "button",
 	    staticClass: "el-slider__button-wrapper",
 	    class: {
@@ -443,20 +443,20 @@ module.exports =
 	      "mouseleave": _vm.handleMouseLeave,
 	      "mousedown": _vm.onButtonDown
 	    }
-	  }, [_vm._h('el-tooltip', {
+	  }, [_h('el-tooltip', {
 	    ref: "tooltip",
 	    attrs: {
 	      "placement": "top"
 	    }
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    slot: "content"
-	  }, [_vm._s(_vm.value)]), _vm._h('div', {
+	  }, [_vm._s(_vm.value)]), _h('div', {
 	    staticClass: "el-slider__button",
 	    class: {
 	      'hover': _vm.hovering, 'dragging': _vm.dragging
 	    }
 	  })])]), _vm._l((_vm.stops), function(item) {
-	    return (_vm.showStops) ? _vm._h('div', {
+	    return (_vm.showStops) ? _h('div', {
 	      staticClass: "el-slider__stop",
 	      style: ({
 	        'left': item + '%'

@@ -241,8 +241,8 @@ module.exports =
 /***/ 183:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-progress",
 	    class: [
 	      'el-progress--' + _vm.type,
@@ -251,29 +251,29 @@ module.exports =
 	        'el-progress--text-inside': _vm.textInside,
 	      }
 	    ]
-	  }, [(_vm.type === 'line') ? _vm._h('div', {
+	  }, [(_vm.type === 'line') ? _h('div', {
 	    staticClass: "el-progress-bar"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-progress-bar__outer",
 	    style: ({
 	      height: _vm.strokeWidth + 'px'
 	    })
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-progress-bar__inner",
 	    style: (_vm.barStyle)
-	  }, [(_vm.showText && _vm.textInside) ? _vm._h('div', {
+	  }, [(_vm.showText && _vm.textInside) ? _h('div', {
 	    staticClass: "el-progress-bar__innerText"
-	  }, [_vm._s(_vm.percentage) + "%"]) : _vm._e()])])]) : _vm._h('div', {
+	  }, [_vm._s(_vm.percentage) + "%"]) : _vm._e()])])]) : _h('div', {
 	    staticClass: "el-progress-circle",
 	    style: ({
 	      height: _vm.width + 'px',
 	      width: _vm.width + 'px'
 	    })
-	  }, [_vm._h('svg', {
+	  }, [_h('svg', {
 	    attrs: {
 	      "viewBox": "0 0 100 100"
 	    }
-	  }, [_vm._h('path', {
+	  }, [_h('path', {
 	    staticClass: "el-progress-circle__track",
 	    attrs: {
 	      "d": _vm.trackPath,
@@ -281,7 +281,7 @@ module.exports =
 	      "stroke-width": _vm.relativeStrokeWidth,
 	      "fill": "none"
 	    }
-	  }), _vm._h('path', {
+	  }), _h('path', {
 	    staticClass: "el-progress-circle__path",
 	    style: (_vm.circlePathStyle),
 	    attrs: {
@@ -291,12 +291,12 @@ module.exports =
 	      "stroke-width": _vm.relativeStrokeWidth,
 	      "fill": "none"
 	    }
-	  })])]), (_vm.showText && !_vm.textInside) ? _vm._h('div', {
+	  })])]), (_vm.showText && !_vm.textInside) ? _h('div', {
 	    staticClass: "el-progress__text",
 	    style: ({
 	      fontSize: _vm.progressTextSize + 'px'
 	    })
-	  }, [(!_vm.status) ? [_vm._s(_vm.percentage) + "%"] : _vm._h('i', {
+	  }, [(!_vm.status) ? [_vm._s(_vm.percentage) + "%"] : _h('i', {
 	    class: _vm.iconClass
 	  })]) : _vm._e()])
 	},staticRenderFns: []}

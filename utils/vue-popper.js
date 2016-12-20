@@ -10,6 +10,10 @@ var _vuePopup = require('vue-popup');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var stop = function stop(e) {
+  return e.stopPropagation();
+};
+
 /**
  * @param {HTMLElement} [reference=$refs.reference] - The reference element used to position the popper.
  * @param {HTMLElement} [popper=$refs.popper] - The HTML element used as popper, or a configuration used to generate the popper.
@@ -103,6 +107,7 @@ exports.default = {
         _this.$nextTick(_this.updatePopper);
       });
       this.popperJS._popper.style.zIndex = _vuePopup.PopupManager.nextZIndex();
+      this.popperElm.addEventListener('click', stop);
     },
     updatePopper: function updatePopper() {
       this.popperJS ? this.popperJS.update() : this.createPopper();
@@ -152,7 +157,10 @@ exports.default = {
 
   beforeDestroy: function beforeDestroy() {
     this.doDestroy();
-    this.popperElm && this.popperElm.parentNode === document.body && document.body.removeChild(this.popperElm);
+    if (this.popperElm && this.popperElm.parentNode === document.body) {
+      this.popperElm.removeEventListener('click', stop);
+      document.body.removeChild(this.popperElm);
+    }
   },
 
 

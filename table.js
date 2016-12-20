@@ -777,6 +777,8 @@ module.exports =
 	    states.filteredData = data;
 	    states.data = sortData(data, states);
 
+	    this.table.$emit('filter-change', filters);
+
 	    _vue2.default.nextTick(function () {
 	      return _this3.table.updateScrollY();
 	    });
@@ -1619,9 +1621,9 @@ module.exports =
 	    handleClick: function handleClick(event, row) {
 	      var table = this.$parent;
 	      var cell = (0, _util.getCell)(event);
-
+	      var column = void 0;
 	      if (cell) {
-	        var column = (0, _util.getColumnByCell)(table, cell);
+	        column = (0, _util.getColumnByCell)(table, cell);
 	        if (column) {
 	          table.$emit('cell-click', row, column, cell, event);
 	        }
@@ -1629,7 +1631,7 @@ module.exports =
 
 	      this.store.commit('setCurrentRow', row);
 
-	      table.$emit('row-click', row, event);
+	      table.$emit('row-click', row, event, column);
 	    }
 	  }
 	};
@@ -2384,12 +2386,12 @@ module.exports =
 /***/ 259:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    }
-	  }, [(_vm.multiple) ? _vm._h('div', {
+	  }, [(_vm.multiple) ? _h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -2397,9 +2399,9 @@ module.exports =
 	      expression: "showPopper"
 	    }],
 	    staticClass: "el-table-filter"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-table-filter__content"
-	  }, [_vm._h('el-checkbox-group', {
+	  }, [_h('el-checkbox-group', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -2416,14 +2418,14 @@ module.exports =
 	      }
 	    }
 	  }, [_vm._l((_vm.filters), function(filter) {
-	    return _vm._h('el-checkbox', {
+	    return _h('el-checkbox', {
 	      attrs: {
 	        "label": filter.value
 	      }
 	    }, [_vm._s(filter.text)])
-	  })])]), _vm._h('div', {
+	  })])]), _h('div', {
 	    staticClass: "el-table-filter__bottom"
-	  }, [_vm._h('button', {
+	  }, [_h('button', {
 	    class: {
 	      'is-disabled': _vm.filteredValue.length === 0
 	    },
@@ -2433,11 +2435,11 @@ module.exports =
 	    on: {
 	      "click": _vm.handleConfirm
 	    }
-	  }, [_vm._s(_vm.t('el.table.confirmFilter'))]), _vm._h('button', {
+	  }, [_vm._s(_vm.t('el.table.confirmFilter'))]), _h('button', {
 	    on: {
 	      "click": _vm.handleReset
 	    }
-	  }, [_vm._s(_vm.t('el.table.resetFilter'))])])]) : _vm._h('div', {
+	  }, [_vm._s(_vm.t('el.table.resetFilter'))])])]) : _h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -2445,9 +2447,9 @@ module.exports =
 	      expression: "showPopper"
 	    }],
 	    staticClass: "el-table-filter"
-	  }, [_vm._h('ul', {
+	  }, [_h('ul', {
 	    staticClass: "el-table-filter__list"
-	  }, [_vm._h('li', {
+	  }, [_h('li', {
 	    staticClass: "el-table-filter__list-item",
 	    class: {
 	      'is-active': !_vm.filterValue
@@ -2458,7 +2460,7 @@ module.exports =
 	      }
 	    }
 	  }, [_vm._s(_vm.t('el.table.clearFilter'))]), _vm._l((_vm.filters), function(filter) {
-	    return _vm._h('li', {
+	    return _h('li', {
 	      staticClass: "el-table-filter__list-item",
 	      class: {
 	        'is-active': _vm.isActive(filter)
@@ -2480,8 +2482,8 @@ module.exports =
 /***/ 260:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-table",
 	    class: {
 	      'el-table--fit': _vm.fit,
@@ -2496,13 +2498,13 @@ module.exports =
 	        _vm.handleMouseLeave($event)
 	      }
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    ref: "hiddenColumns",
 	    staticClass: "hidden-columns"
-	  }, [_vm._t("default")]), (_vm.showHeader) ? _vm._h('div', {
+	  }, [_vm._t("default")]), (_vm.showHeader) ? _h('div', {
 	    ref: "headerWrapper",
 	    staticClass: "el-table__header-wrapper"
-	  }, [_vm._h('table-header', {
+	  }, [_h('table-header', {
 	    style: ({
 	      width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
 	    }),
@@ -2511,11 +2513,11 @@ module.exports =
 	      "layout": _vm.layout,
 	      "border": _vm.border
 	    }
-	  })]) : _vm._e(), _vm._h('div', {
+	  })]) : _vm._e(), _h('div', {
 	    ref: "bodyWrapper",
 	    staticClass: "el-table__body-wrapper",
 	    style: ([_vm.bodyHeight])
-	  }, [_vm._h('table-body', {
+	  }, [_h('table-body', {
 	    style: ({
 	      width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth - (_vm.layout.scrollY ? _vm.layout.gutterWidth : 0) + 'px' : ''
 	    }),
@@ -2527,11 +2529,11 @@ module.exports =
 	      "row-style": _vm.rowStyle,
 	      "highlight": _vm.highlightCurrentRow
 	    }
-	  }), (!_vm.data || _vm.data.length === 0) ? _vm._h('div', {
+	  }), (!_vm.data || _vm.data.length === 0) ? _h('div', {
 	    staticClass: "el-table__empty-block"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-table__empty-text"
-	  }, [_vm._t("empty", [_vm._s(_vm.emptyText || _vm.t('el.table.emptyText'))])])]) : _vm._e()]), (_vm.fixedColumns.length > 0) ? _vm._h('div', {
+	  }, [_vm._t("empty", [_vm._s(_vm.emptyText || _vm.t('el.table.emptyText'))])])]) : _vm._e()]), (_vm.fixedColumns.length > 0) ? _h('div', {
 	    ref: "fixedWrapper",
 	    staticClass: "el-table__fixed",
 	    style: ([{
@@ -2539,10 +2541,10 @@ module.exports =
 	      },
 	      _vm.fixedHeight
 	    ])
-	  }, [(_vm.showHeader) ? _vm._h('div', {
+	  }, [(_vm.showHeader) ? _h('div', {
 	    ref: "fixedHeaderWrapper",
 	    staticClass: "el-table__fixed-header-wrapper"
-	  }, [_vm._h('table-header', {
+	  }, [_h('table-header', {
 	    style: ({
 	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
 	    }),
@@ -2552,7 +2554,7 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout
 	    }
-	  })]) : _vm._e(), _vm._h('div', {
+	  })]) : _vm._e(), _h('div', {
 	    ref: "fixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
 	    style: ([{
@@ -2560,7 +2562,7 @@ module.exports =
 	      },
 	      _vm.fixedBodyHeight
 	    ])
-	  }, [_vm._h('table-body', {
+	  }, [_h('table-body', {
 	    style: ({
 	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
 	    }),
@@ -2572,7 +2574,7 @@ module.exports =
 	      "row-class-name": _vm.rowClassName,
 	      "row-style": _vm.rowStyle
 	    }
-	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _vm._h('div', {
+	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _h('div', {
 	    ref: "rightFixedWrapper",
 	    staticClass: "el-table__fixed-right",
 	    style: ([{
@@ -2582,10 +2584,10 @@ module.exports =
 	      },
 	      _vm.fixedHeight
 	    ])
-	  }, [(_vm.showHeader) ? _vm._h('div', {
+	  }, [(_vm.showHeader) ? _h('div', {
 	    ref: "rightFixedHeaderWrapper",
 	    staticClass: "el-table__fixed-header-wrapper"
-	  }, [_vm._h('table-header', {
+	  }, [_h('table-header', {
 	    style: ({
 	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
 	    }),
@@ -2595,7 +2597,7 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout
 	    }
-	  })]) : _vm._e(), _vm._h('div', {
+	  })]) : _vm._e(), _h('div', {
 	    ref: "rightFixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
 	    style: ([{
@@ -2603,7 +2605,7 @@ module.exports =
 	      },
 	      _vm.fixedBodyHeight
 	    ])
-	  }, [_vm._h('table-body', {
+	  }, [_h('table-body', {
 	    style: ({
 	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
 	    }),
@@ -2615,13 +2617,13 @@ module.exports =
 	      "row-style": _vm.rowStyle,
 	      "highlight": _vm.highlightCurrentRow
 	    }
-	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _vm._h('div', {
+	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _h('div', {
 	    staticClass: "el-table__fixed-right-patch",
 	    style: ({
 	      width: _vm.layout.scrollY ? _vm.layout.gutterWidth + 'px' : '0',
 	      height: _vm.layout.headerHeight + 'px'
 	    })
-	  }) : _vm._e(), _vm._h('div', {
+	  }) : _vm._e(), _h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",

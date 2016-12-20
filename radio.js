@@ -203,19 +203,19 @@ module.exports =
 /***/ 187:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('label', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('label', {
 	    staticClass: "el-radio"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-radio__input"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-radio__inner",
 	    class: {
 	      'is-disabled': _vm.disabled,
 	      'is-checked': _vm.model === _vm.label,
 	        'is-focus': _vm.focus
 	    }
-	  }), _vm._h('input', {
+	  }), _h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -243,7 +243,7 @@ module.exports =
 	        _vm.model = _vm.label
 	      }
 	    }
-	  })]), _vm._h('span', {
+	  })]), _h('span', {
 	    staticClass: "el-radio__label"
 	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()])])
 	},staticRenderFns: []}

@@ -165,8 +165,8 @@ module.exports =
 /***/ 26:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('button', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('button', {
 	    staticClass: "el-button",
 	    class: [
 	      _vm.type ? 'el-button--' + _vm.type : '',
@@ -184,11 +184,11 @@ module.exports =
 	    on: {
 	      "click": _vm.handleClick
 	    }
-	  }, [(_vm.loading) ? _vm._h('i', {
+	  }, [(_vm.loading) ? _h('i', {
 	    staticClass: "el-icon-loading"
-	  }) : _vm._e(), (_vm.icon && !_vm.loading) ? _vm._h('i', {
+	  }) : _vm._e(), (_vm.icon && !_vm.loading) ? _h('i', {
 	    class: 'el-icon-' + _vm.icon
-	  }) : _vm._e(), (_vm.$slots.default) ? _vm._h('span', [_vm._t("default")]) : _vm._e()])
+	  }) : _vm._e(), (_vm.$slots.default) ? _h('span', [_vm._t("default")]) : _vm._e()])
 	},staticRenderFns: []}
 
 /***/ }

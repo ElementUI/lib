@@ -139,6 +139,7 @@ module.exports =
 	      type: String,
 	      default: 'dark'
 	    },
+	    popperClass: String,
 	    content: String,
 	    visibleArrow: {
 	      default: true
@@ -199,24 +200,24 @@ module.exports =
 /***/ 283:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-tooltip",
 	    on: {
 	      "mouseenter": _vm.handleShowPopper,
 	      "mouseleave": _vm.handleClosePopper
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    ref: "reference",
 	    staticClass: "el-tooltip__rel"
-	  }, [_vm._t("default")]), _vm._h('transition', {
+	  }, [_vm._t("default")]), _h('transition', {
 	    attrs: {
 	      "name": _vm.transition
 	    },
 	    on: {
 	      "after-leave": _vm.doDestroy
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -225,8 +226,8 @@ module.exports =
 	    }],
 	    ref: "popper",
 	    staticClass: "el-tooltip__popper",
-	    class: ['is-' + _vm.effect]
-	  }, [_vm._t("content", [_vm._h('div', {
+	    class: ['is-' + _vm.effect, _vm.popperClass]
+	  }, [_vm._t("content", [_h('div', {
 	    domProps: {
 	      "textContent": _vm._s(_vm.content)
 	    }

@@ -26,8 +26,8 @@ exports.default = {
     var documentHandler = function documentHandler(e) {
       if (!vnode.context || el.contains(e.target) || vnode.context.popperElm && vnode.context.popperElm.contains(e.target)) return;
 
-      if (binding.expression) {
-        el[ctx].methodName && vnode.context[el[ctx].methodName] && vnode.context[el[ctx].methodName]();
+      if (binding.expression && el[ctx].methodName && vnode.context[el[ctx].methodName]) {
+        vnode.context[el[ctx].methodName]();
       } else {
         el[ctx].bindingFn && el[ctx].bindingFn();
       }

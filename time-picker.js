@@ -304,6 +304,7 @@ module.exports =
 	    readonly: Boolean,
 	    placeholder: String,
 	    disabled: Boolean,
+	    popperClass: String,
 	    editable: {
 	      type: Boolean,
 	      default: true
@@ -409,7 +410,7 @@ module.exports =
 	          var parser = (TYPE_VALUE_RESOLVER_MAP[type] || TYPE_VALUE_RESOLVER_MAP['default']).parser;
 	          var parsedValue = parser(value, this.format || DEFAULT_FORMATS[type]);
 
-	          if (parsedValue) {
+	          if (parsedValue && this.picker) {
 	            this.picker.value = parsedValue;
 	          }
 	          return;
@@ -481,6 +482,7 @@ module.exports =
 	      if (!this.picker) {
 	        this.panel.defaultValue = this.internalValue;
 	        this.picker = new _vue2.default(this.panel).$mount(document.createElement('div'));
+	        this.picker.popperClass = this.popperClass;
 	        this.popperElm = this.picker.$el;
 	        this.picker.width = this.reference.getBoundingClientRect().width;
 	        this.picker.showTime = this.type === 'datetime' || this.type === 'datetimerange';
@@ -757,8 +759,8 @@ module.exports =
 /***/ 54:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('el-input', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('el-input', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
@@ -788,7 +790,7 @@ module.exports =
 	        _vm.visualValue = $event.target.value
 	      }
 	    }
-	  }, [(_vm.haveTrigger) ? _vm._h('i', {
+	  }, [(_vm.haveTrigger) ? _h('i', {
 	    slot: "icon",
 	    staticClass: "el-input__icon",
 	    class: [_vm.showClose ? 'el-icon-close' : _vm.triggerClass],
@@ -887,6 +889,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	exports.default = {
 	  mixins: [_locale2.default],
@@ -938,6 +941,7 @@ module.exports =
 
 	  data: function data() {
 	    return {
+	      popperClass: '',
 	      format: 'HH:mm:ss',
 	      value: '',
 	      hours: 0,
@@ -1200,13 +1204,13 @@ module.exports =
 /***/ 62:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-time-spinner",
 	    class: {
 	      'has-seconds': _vm.showSeconds
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    ref: "hour",
 	    staticClass: "el-time-spinner__wrapper",
 	    on: {
@@ -1217,10 +1221,10 @@ module.exports =
 	        _vm.handleScroll('hour')
 	      }
 	    }
-	  }, [_vm._h('ul', {
+	  }, [_h('ul', {
 	    staticClass: "el-time-spinner__list"
 	  }, [_vm._l((_vm.hoursList), function(disabled, hour) {
-	    return _vm._h('li', {
+	    return _h('li', {
 	      staticClass: "el-time-spinner__item",
 	      class: {
 	        'active': hour === _vm.hours, 'disabled': disabled
@@ -1240,7 +1244,7 @@ module.exports =
 	        }
 	      }
 	    })
-	  })])]), _vm._h('div', {
+	  })])]), _h('div', {
 	    ref: "minute",
 	    staticClass: "el-time-spinner__wrapper",
 	    on: {
@@ -1251,10 +1255,10 @@ module.exports =
 	        _vm.handleScroll('minute')
 	      }
 	    }
-	  }, [_vm._h('ul', {
+	  }, [_h('ul', {
 	    staticClass: "el-time-spinner__list"
 	  }, [_vm._l((60), function(minute, key) {
-	    return _vm._h('li', {
+	    return _h('li', {
 	      staticClass: "el-time-spinner__item",
 	      class: {
 	        'active': key === _vm.minutes
@@ -1268,7 +1272,7 @@ module.exports =
 	        }
 	      }
 	    })
-	  })])]), _vm._h('div', {
+	  })])]), _h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1285,10 +1289,10 @@ module.exports =
 	        _vm.handleScroll('second')
 	      }
 	    }
-	  }, [_vm._h('ul', {
+	  }, [_h('ul', {
 	    staticClass: "el-time-spinner__list"
 	  }, [_vm._l((60), function(second, key) {
-	    return _vm._h('li', {
+	    return _h('li', {
 	      staticClass: "el-time-spinner__item",
 	      class: {
 	        'active': key === _vm.seconds
@@ -1310,8 +1314,8 @@ module.exports =
 /***/ 63:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    },
@@ -1320,7 +1324,7 @@ module.exports =
 	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1328,15 +1332,16 @@ module.exports =
 	      expression: "currentVisible"
 	    }],
 	    staticClass: "el-time-panel",
+	    class: _vm.popperClass,
 	    style: ({
 	      width: _vm.width + 'px'
 	    })
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-time-panel__content",
 	    class: {
 	      'has-seconds': _vm.showSeconds
 	    }
-	  }, [_vm._h('time-spinner', {
+	  }, [_h('time-spinner', {
 	    ref: "spinner",
 	    attrs: {
 	      "show-seconds": _vm.showSeconds,
@@ -1348,9 +1353,9 @@ module.exports =
 	      "change": _vm.handleChange,
 	      "select-range": _vm.setSelectionRange
 	    }
-	  })]), _vm._h('div', {
+	  })]), _h('div', {
 	    staticClass: "el-time-panel__footer"
-	  }, [_vm._h('button', {
+	  }, [_h('button', {
 	    staticClass: "el-time-panel__btn cancel",
 	    attrs: {
 	      "type": "button"
@@ -1358,7 +1363,7 @@ module.exports =
 	    on: {
 	      "click": _vm.handleCancel
 	    }
-	  }, [_vm._s(_vm.t('el.datepicker.cancel'))]), _vm._h('button', {
+	  }, [_vm._s(_vm.t('el.datepicker.cancel'))]), _h('button', {
 	    staticClass: "el-time-panel__btn confirm",
 	    attrs: {
 	      "type": "button"
@@ -1540,6 +1545,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	var MAX_TIME = (0, _util.parseDate)('23:59:59', 'HH:mm:ss');
 	var isDisabled = function isDisabled(minTime, maxTime) {
@@ -1576,6 +1582,7 @@ module.exports =
 	    var time = clacTime(this.$options.defaultValue);
 
 	    return {
+	      popperClass: '',
 	      minTime: time.minTime,
 	      maxTime: time.maxTime,
 	      btnDisabled: isDisabled(time.minTime, time.maxTime),
@@ -1703,8 +1710,8 @@ module.exports =
 /***/ 274:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    },
@@ -1714,7 +1721,7 @@ module.exports =
 	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1722,21 +1729,22 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-time-range-picker el-picker-panel",
+	    class: _vm.popperClass,
 	    style: ({
 	      width: _vm.width + 'px'
 	    })
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-time-range-picker__content"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-time-range-picker__cell"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-time-range-picker__header"
-	  }, [_vm._s(_vm.t('el.datepicker.startTime'))]), _vm._h('div', {
+	  }, [_vm._s(_vm.t('el.datepicker.startTime'))]), _h('div', {
 	    staticClass: "el-time-range-picker__body el-time-panel__content",
 	    class: {
 	      'has-seconds': _vm.showSeconds
 	    }
-	  }, [_vm._h('time-spinner', {
+	  }, [_h('time-spinner', {
 	    ref: "minSpinner",
 	    attrs: {
 	      "show-seconds": _vm.showSeconds,
@@ -1748,16 +1756,16 @@ module.exports =
 	      "change": _vm.handleMinChange,
 	      "select-range": _vm.setMinSelectionRange
 	    }
-	  })])]), _vm._h('div', {
+	  })])]), _h('div', {
 	    staticClass: "el-time-range-picker__cell"
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-time-range-picker__header"
-	  }, [_vm._s(_vm.t('el.datepicker.endTime'))]), _vm._h('div', {
+	  }, [_vm._s(_vm.t('el.datepicker.endTime'))]), _h('div', {
 	    staticClass: "el-time-range-picker__body el-time-panel__content",
 	    class: {
 	      'has-seconds': _vm.showSeconds
 	    }
-	  }, [_vm._h('time-spinner', {
+	  }, [_h('time-spinner', {
 	    ref: "maxSpinner",
 	    attrs: {
 	      "show-seconds": _vm.showSeconds,
@@ -1769,9 +1777,9 @@ module.exports =
 	      "change": _vm.handleMaxChange,
 	      "select-range": _vm.setMaxSelectionRange
 	    }
-	  })])])]), _vm._h('div', {
+	  })])])]), _h('div', {
 	    staticClass: "el-time-panel__footer"
-	  }, [_vm._h('button', {
+	  }, [_h('button', {
 	    staticClass: "el-time-panel__btn cancel",
 	    attrs: {
 	      "type": "button"
@@ -1781,7 +1789,7 @@ module.exports =
 	        _vm.handleCancel()
 	      }
 	    }
-	  }, [_vm._s(_vm.t('el.datepicker.cancel'))]), _vm._h('button', {
+	  }, [_vm._s(_vm.t('el.datepicker.cancel'))]), _h('button', {
 	    staticClass: "el-time-panel__btn confirm",
 	    attrs: {
 	      "type": "button",

@@ -127,8 +127,8 @@ module.exports =
 /***/ 106:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('i', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('i', {
 	    class: 'el-icon-' + _vm.name
 	  })
 	},staticRenderFns: []}

@@ -393,6 +393,7 @@ module.exports =
 	      default: true
 	    },
 	    context: {},
+	    columnKey: String,
 	    align: String,
 	    showTooltipWhenOverflow: Boolean,
 	    showOverflowTooltip: Boolean,
@@ -455,7 +456,7 @@ module.exports =
 	      );
 	    };
 
-	    var columnId = this.columnId = (this.$parent.tableId || this.$parent.columnId + '_') + 'column_' + columnIdSeed++;
+	    var columnId = this.columnId = this.columnKey || (this.$parent.tableId || this.$parent.columnId + '_') + 'column_' + columnIdSeed++;
 
 	    var parent = this.$parent;
 	    var owner = this.owner;

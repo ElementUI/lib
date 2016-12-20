@@ -123,16 +123,25 @@ module.exports =
 
 	  componentName: 'ElCheckbox',
 
+	  data: function data() {
+	    return {
+	      selfModel: false
+	    };
+	  },
+
+
 	  computed: {
 	    model: {
 	      get: function get() {
-	        return this.isGroup ? this.store : this.value;
+	        return this.isGroup ? this.store : this.value !== undefined ? this.value : this.selfModel;
 	      },
 	      set: function set(val) {
 	        if (this.isGroup) {
 	          this.dispatch('ElCheckboxGroup', 'input', [val]);
-	        } else {
+	        } else if (this.value !== undefined) {
 	          this.$emit('input', val);
+	        } else {
+	          this.selfModel = val;
 	        }
 	      }
 	    },
@@ -159,7 +168,7 @@ module.exports =
 	      return false;
 	    },
 	    store: function store() {
-	      return this._checkboxGroup.value;
+	      return this._checkboxGroup ? this._checkboxGroup.value : this.value;
 	    }
 	  },
 
@@ -176,8 +185,8 @@ module.exports =
 
 	  methods: {
 	    addToStore: function addToStore() {
-	      if (Array.isArray(this.model)) {
-	        this.model.indexOf(this.label) === -1 && this.model.push(this.label);
+	      if (Array.isArray(this.model) && this.model.indexOf(this.label) === -1) {
+	        this.model.push(this.label);
 	      } else {
 	        this.model = this.trueLabel || true;
 	      }
@@ -241,12 +250,12 @@ module.exports =
 /***/ 39:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('label', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('label', {
 	    staticClass: "el-checkbox"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-checkbox__input"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-checkbox__inner",
 	    class: {
 	      'is-disabled': _vm.disabled,
@@ -254,7 +263,7 @@ module.exports =
 	      'is-indeterminate': _vm.indeterminate,
 	      'is-focus': _vm.focus
 	    }
-	  }), (_vm.trueLabel || _vm.falseLabel) ? _vm._h('input', {
+	  }), (_vm.trueLabel || _vm.falseLabel) ? _h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -298,7 +307,7 @@ module.exports =
 	        _vm.focus = false
 	      }
 	    }
-	  }) : _vm._h('input', {
+	  }) : _h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -341,7 +350,7 @@ module.exports =
 	        _vm.focus = false
 	      }
 	    }
-	  })]), (_vm.$slots.default || _vm.label) ? _vm._h('span', {
+	  })]), (_vm.$slots.default || _vm.label) ? _h('span', {
 	    staticClass: "el-checkbox__label"
 	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()]) : _vm._e()])
 	},staticRenderFns: []}

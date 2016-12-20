@@ -363,8 +363,8 @@ module.exports =
 /***/ 116:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-input-number",
 	    class: [
 	      _vm.size ? 'el-input-number--' + _vm.size : '', {
@@ -373,7 +373,7 @@ module.exports =
 	        'is-without-controls': !_vm.controls
 	      }
 	    ]
-	  }, [_vm._h('el-input', {
+	  }, [_h('el-input', {
 	    class: {
 	      'is-active': _vm.inputActive
 	    },
@@ -397,11 +397,11 @@ module.exports =
 	        _vm.decrease($event)
 	      }]
 	    }
-	  }, [(_vm.$slots.prepend) ? _vm._h('template', {
+	  }, [(_vm.$slots.prepend) ? _h('template', {
 	    slot: "prepend"
-	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.$slots.append) ? _vm._h('template', {
+	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.$slots.append) ? _h('template', {
 	    slot: "append"
-	  }, [_vm._t("append")]) : _vm._e()]), (_vm.controls) ? _vm._h('span', {
+	  }, [_vm._t("append")]) : _vm._e()]), (_vm.controls) ? _h('span', {
 	    directives: [{
 	      name: "repeat-click",
 	      rawName: "v-repeat-click",
@@ -420,7 +420,7 @@ module.exports =
 	        _vm.inactiveInput(_vm.minDisabled)
 	      }
 	    }
-	  }) : _vm._e(), (_vm.controls) ? _vm._h('span', {
+	  }) : _vm._e(), (_vm.controls) ? _h('span', {
 	    directives: [{
 	      name: "repeat-click",
 	      rawName: "v-repeat-click",

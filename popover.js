@@ -294,15 +294,15 @@ module.exports =
 /***/ 178:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('span', [_vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('span', [_h('transition', {
 	    attrs: {
 	      "name": _vm.transition
 	    },
 	    on: {
 	      "after-leave": _vm.doDestroy
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -315,7 +315,7 @@ module.exports =
 	    style: ({
 	      width: _vm.width + 'px'
 	    })
-	  }, [(_vm.title) ? _vm._h('div', {
+	  }, [(_vm.title) ? _h('div', {
 	    staticClass: "el-popover__title",
 	    domProps: {
 	      "textContent": _vm._s(_vm.title)

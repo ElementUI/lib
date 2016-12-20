@@ -186,6 +186,22 @@ module.exports =
 	    }
 	  },
 
+	  watch: {
+	    currentLabel: function currentLabel() {
+	      this.dispatch('ElSelect', 'setSelected');
+	    },
+	    value: function value() {
+	      this.dispatch('ElSelect', 'setSelected');
+	    },
+	    visible: function visible() {
+	      var _this = this;
+
+	      this.$nextTick(function () {
+	        _this.dispatch('ElSelectDropdown', 'updatePopper');
+	      });
+	    }
+	  },
+
 	  methods: {
 	    handleGroupDisabled: function handleGroupDisabled(val) {
 	      this.groupDisabled = val;
@@ -209,10 +225,10 @@ module.exports =
 	      }
 	    },
 	    resetIndex: function resetIndex() {
-	      var _this = this;
+	      var _this2 = this;
 
 	      this.$nextTick(function () {
-	        _this.index = _this.parent.options.indexOf(_this);
+	        _this2.index = _this2.parent.options.indexOf(_this2);
 	      });
 	    }
 	  },
@@ -254,8 +270,8 @@ module.exports =
 /***/ 162:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('li', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('li', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -275,7 +291,7 @@ module.exports =
 	        _vm.selectOptionClick($event)
 	      }
 	    }
-	  }, [_vm._t("default", [_vm._h('span', [_vm._s(_vm.currentLabel)])])])
+	  }, [_vm._t("default", [_h('span', [_vm._s(_vm.currentLabel)])])])
 	},staticRenderFns: []}
 
 /***/ }

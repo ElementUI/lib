@@ -336,12 +336,12 @@ module.exports =
 /***/ 146:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": "el-message-fade"
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -354,21 +354,21 @@ module.exports =
 	      "mouseenter": _vm.clearTimer,
 	      "mouseleave": _vm.startTimer
 	    }
-	  }, [(!_vm.iconClass) ? _vm._h('img', {
+	  }, [(!_vm.iconClass) ? _h('img', {
 	    staticClass: "el-message__img",
 	    attrs: {
 	      "src": _vm.typeImg,
 	      "alt": ""
 	    }
-	  }) : _vm._e(), _vm._h('div', {
+	  }) : _vm._e(), _h('div', {
 	    staticClass: "el-message__group",
 	    class: {
 	      'is-with-icon': _vm.iconClass
 	    }
-	  }, [(_vm.iconClass) ? _vm._h('i', {
+	  }, [(_vm.iconClass) ? _h('i', {
 	    staticClass: "el-message__icon",
 	    class: _vm.iconClass
-	  }) : _vm._e(), _vm._h('p', [_vm._s(_vm.message)]), (_vm.showClose) ? _vm._h('div', {
+	  }) : _vm._e(), _h('p', [_vm._s(_vm.message)]), (_vm.showClose) ? _h('div', {
 	    staticClass: "el-message__closeBtn el-icon-close",
 	    on: {
 	      "click": _vm.close

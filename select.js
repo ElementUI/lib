@@ -206,6 +206,22 @@ module.exports =
 	    }
 	  },
 
+	  watch: {
+	    currentLabel: function currentLabel() {
+	      this.dispatch('ElSelect', 'setSelected');
+	    },
+	    value: function value() {
+	      this.dispatch('ElSelect', 'setSelected');
+	    },
+	    visible: function visible() {
+	      var _this = this;
+
+	      this.$nextTick(function () {
+	        _this.dispatch('ElSelectDropdown', 'updatePopper');
+	      });
+	    }
+	  },
+
 	  methods: {
 	    handleGroupDisabled: function handleGroupDisabled(val) {
 	      this.groupDisabled = val;
@@ -229,10 +245,10 @@ module.exports =
 	      }
 	    },
 	    resetIndex: function resetIndex() {
-	      var _this = this;
+	      var _this2 = this;
 
 	      this.$nextTick(function () {
-	        _this.index = _this.parent.options.indexOf(_this);
+	        _this2.index = _this2.parent.options.indexOf(_this2);
 	      });
 	    }
 	  },
@@ -274,8 +290,8 @@ module.exports =
 /***/ 162:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('li', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('li', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -295,7 +311,7 @@ module.exports =
 	        _vm.selectOptionClick($event)
 	      }
 	    }
-	  }, [_vm._t("default", [_vm._h('span', [_vm._s(_vm.currentLabel)])])])
+	  }, [_vm._t("default", [_h('span', [_vm._s(_vm.currentLabel)])])])
 	},staticRenderFns: []}
 
 /***/ },
@@ -505,14 +521,14 @@ module.exports =
 	    },
 	    emptyText: function emptyText() {
 	      if (this.loading) {
-	        return this.t('el.select.loading');
+	        return this.loadingText || this.t('el.select.loading');
 	      } else {
 	        if (this.remote && this.query === '' && this.options.length === 0) return false;
 	        if (this.filterable && this.options.length > 0 && this.filteredOptionsCount === 0) {
-	          return this.t('el.select.noMatch');
+	          return this.noMatchText || this.t('el.select.noMatch');
 	        }
 	        if (this.options.length === 0) {
-	          return this.t('el.select.noData');
+	          return this.noDataText || this.t('el.select.noData');
 	        }
 	      }
 	      return null;
@@ -547,7 +563,11 @@ module.exports =
 	    filterable: Boolean,
 	    allowCreate: Boolean,
 	    loading: Boolean,
+	    popperClass: String,
 	    remote: Boolean,
+	    loadingText: String,
+	    noMatchText: String,
+	    noDataText: String,
 	    remoteMethod: Function,
 	    filterMethod: Function,
 	    multiple: Boolean,
@@ -579,7 +599,6 @@ module.exports =
 	      selectedLabel: '',
 	      hoverIndex: -1,
 	      query: '',
-	      isForcedVisible: false,
 	      bottomOverflowBeforeHidden: 0,
 	      topOverflowBeforeHidden: 0,
 	      optionsAllDisabled: false,
@@ -614,10 +633,6 @@ module.exports =
 	      this.hoverIndex = -1;
 	      if (this.multiple && this.filterable) {
 	        this.resetInputHeight();
-	      }
-	      if (this.isForcedVisible) {
-	        this.isForcedVisible = false;
-	        return;
 	      }
 	      if (this.remote && typeof this.remoteMethod === 'function') {
 	        this.hoverIndex = -1;
@@ -654,6 +669,7 @@ module.exports =
 	          this.getOverflows();
 	          if (this.selected) {
 	            this.selectedLabel = this.selected.currentLabel;
+	            if (this.filterable) this.query = this.selectedLabel;
 	          }
 	        }
 	      } else {
@@ -665,7 +681,6 @@ module.exports =
 	            this.$refs.input.focus();
 	          } else {
 	            if (!this.remote) {
-	              this.isForcedVisible = true;
 	              this.broadcast('ElOption', 'queryChange', '');
 	            }
 	            this.broadcast('ElInput', 'inputSelect');
@@ -681,6 +696,7 @@ module.exports =
 	          this.setOverflow();
 	        }
 	      }
+	      this.$emit('visible-change', val);
 	    },
 	    options: function options(val) {
 	      this.optionsAllDisabled = val.length === val.filter(function (item) {
@@ -819,7 +835,9 @@ module.exports =
 	          return item.tagName === 'INPUT';
 	        })[0];
 	        input.style.height = Math.max(_this5.$refs.tags.clientHeight + 6, sizeMap[_this5.size] || 36) + 'px';
-	        _this5.broadcast('ElSelectDropdown', 'updatePopper');
+	        if (_this5.visible && _this5.emptyText !== false) {
+	          _this5.broadcast('ElSelectDropdown', 'updatePopper');
+	        }
 	      });
 	    },
 	    resetHoverIndex: function resetHoverIndex() {
@@ -963,6 +981,7 @@ module.exports =
 
 	    this.$on('handleOptionClick', this.handleOptionSelect);
 	    this.$on('onOptionDestroy', this.onOptionDestroy);
+	    this.$on('setSelected', this.setSelected);
 	  },
 	  mounted: function mounted() {
 	    var _this8 = this;
@@ -1063,6 +1082,12 @@ module.exports =
 	  },
 
 
+	  computed: {
+	    popperClass: function popperClass() {
+	      return this.$parent.popperClass;
+	    }
+	  },
+
 	  watch: {
 	    '$parent.inputWidth': function $parentInputWidth() {
 	      this.minWidth = this.$parent.$el.getBoundingClientRect().width + 'px';
@@ -1090,12 +1115,12 @@ module.exports =
 /***/ 209:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-select-dropdown",
-	    class: {
+	    class: [{
 	      'is-multiple': _vm.$parent.multiple
-	    },
+	    }, _vm.popperClass],
 	    style: ({
 	      minWidth: _vm.minWidth
 	    })
@@ -1128,8 +1153,8 @@ module.exports =
 /***/ 213:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
@@ -1137,7 +1162,7 @@ module.exports =
 	      expression: "handleClose"
 	    }],
 	    staticClass: "el-select"
-	  }, [(_vm.multiple) ? _vm._h('div', {
+	  }, [(_vm.multiple) ? _h('div', {
 	    ref: "tags",
 	    staticClass: "el-select__tags",
 	    style: ({
@@ -1149,12 +1174,12 @@ module.exports =
 	        _vm.toggleMenu($event)
 	      }
 	    }
-	  }, [_vm._h('transition-group', {
+	  }, [_h('transition-group', {
 	    on: {
 	      "after-leave": _vm.resetInputHeight
 	    }
 	  }, [_vm._l((_vm.selected), function(item) {
-	    return _vm._h('el-tag', {
+	    return _h('el-tag', {
 	      key: item.value,
 	      attrs: {
 	        "closable": "",
@@ -1168,7 +1193,7 @@ module.exports =
 	        }
 	      }
 	    }, ["\n        " + _vm._s(item.currentLabel) + "\n      "])
-	  })]), (_vm.filterable) ? _vm._h('input', {
+	  })]), (_vm.filterable) ? _h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -1219,7 +1244,7 @@ module.exports =
 	        _vm.query = $event.target.value
 	      }
 	    }
-	  }) : _vm._e()]) : _vm._e(), _vm._h('el-input', {
+	  }) : _vm._e()]) : _vm._e(), _h('el-input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -1280,14 +1305,14 @@ module.exports =
 	        _vm.inputHovering = false
 	      }
 	    }
-	  }), _vm._h('transition', {
+	  }), _h('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    },
 	    on: {
 	      "after-leave": _vm.doDestroy
 	    }
-	  }, [_vm._h('el-select-menu', {
+	  }, [_h('el-select-menu', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1295,7 +1320,7 @@ module.exports =
 	      expression: "visible && emptyText !== false"
 	    }],
 	    ref: "popper"
-	  }, [_vm._h('ul', {
+	  }, [_h('ul', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1306,14 +1331,14 @@ module.exports =
 	    class: {
 	      'is-empty': !_vm.allowCreate && _vm.filteredOptionsCount === 0
 	    }
-	  }, [(_vm.showNewOption) ? _vm._h('el-option', {
+	  }, [(_vm.showNewOption) ? _h('el-option', {
 	    attrs: {
 	      "created": ""
 	    },
 	    domProps: {
 	      "value": _vm.query
 	    }
-	  }) : _vm._e(), _vm._t("default")]), (_vm.emptyText && !_vm.allowCreate) ? _vm._h('p', {
+	  }) : _vm._e(), _vm._t("default")]), (_vm.emptyText && !_vm.allowCreate) ? _h('p', {
 	    staticClass: "el-select-dropdown__empty"
 	  }, [_vm._s(_vm.emptyText)]) : _vm._e()])])])
 	},staticRenderFns: []}

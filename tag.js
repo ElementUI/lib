@@ -145,12 +145,12 @@ module.exports =
 /***/ 269:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('transition', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('transition', {
 	    attrs: {
 	      "name": _vm.closeTransition ? '' : 'el-zoom-in-center'
 	    }
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-tag",
 	    class: [_vm.type ? 'el-tag--' + _vm.type : '', {
 	      'is-hit': _vm.hit
@@ -158,7 +158,7 @@ module.exports =
 	    style: ({
 	      backgroundColor: _vm.color
 	    })
-	  }, [_vm._t("default"), (_vm.closable) ? _vm._h('i', {
+	  }, [_vm._t("default"), (_vm.closable) ? _h('i', {
 	    staticClass: "el-tag__close el-icon-close",
 	    on: {
 	      "click": _vm.handleClose

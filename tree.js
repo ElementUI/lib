@@ -171,6 +171,10 @@ module.exports =
 	    nodeKey: String,
 	    checkStrictly: Boolean,
 	    defaultExpandAll: Boolean,
+	    expandOnClickNode: {
+	      type: Boolean,
+	      default: true
+	    },
 	    autoExpandParent: {
 	      type: Boolean,
 	      default: true
@@ -196,6 +200,7 @@ module.exports =
 	      default: false
 	    },
 	    highlightCurrent: Boolean,
+	    currentNodeKey: [String, Number],
 	    load: Function,
 	    filterNodeMethod: Function
 	  },
@@ -209,6 +214,7 @@ module.exports =
 	      lazy: this.lazy,
 	      props: this.props,
 	      load: this.load,
+	      currentNodeKey: this.currentNodeKey,
 	      checkStrictly: this.checkStrictly,
 	      defaultCheckedKeys: this.defaultCheckedKeys,
 	      defaultExpandedKeys: this.defaultExpandedKeys,
@@ -251,6 +257,9 @@ module.exports =
 	    defaultExpandedKeys: function defaultExpandedKeys(newVal) {
 	      this.store.defaultExpandedKeys = newVal;
 	      this.store.setDefaultExpandedKeys(newVal);
+	    },
+	    currentNodeKey: function currentNodeKey(newVal) {
+	      this.store.setCurrentNodeKey(newVal);
 	    },
 	    data: function data(newVal) {
 	      this.store.setData(newVal);
@@ -315,6 +324,9 @@ module.exports =
 	    var _this = this;
 
 	    _classCallCheck(this, TreeStore);
+
+	    this.currentNode = null;
+	    this.currentNodeKey = null;
 
 	    for (var option in options) {
 	      if (options.hasOwnProperty(option)) {
@@ -559,6 +571,21 @@ module.exports =
 	    }
 	  };
 
+	  TreeStore.prototype.getCurrentNode = function getCurrentNode() {
+	    return this.currentNode;
+	  };
+
+	  TreeStore.prototype.setCurrentNode = function setCurrentNode(node) {
+	    this.currentNode = node;
+	  };
+
+	  TreeStore.prototype.setCurrentNodeKey = function setCurrentNodeKey(key) {
+	    var node = this.getNode(key);
+	    if (node) {
+	      this.currentNode = node;
+	    }
+	  };
+
 	  return TreeStore;
 	}();
 
@@ -685,6 +712,10 @@ module.exports =
 	    var key = store.key;
 	    if (key && defaultExpandedKeys && defaultExpandedKeys.indexOf(this.key) !== -1) {
 	      this.expand(null, store.autoExpandParent);
+	    }
+
+	    if (key && store.currentNodeKey && this.key === store.currentNodeKey) {
+	      store.currentNode = this;
 	    }
 
 	    if (store.lazy) {
@@ -1088,6 +1119,10 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'el-tree-node',
@@ -1168,17 +1203,21 @@ module.exports =
 	      this.indeterminate = indeterminate;
 	    },
 	    handleClick: function handleClick() {
+	      var store = this.tree.store;
+	      store.setCurrentNode(this.node);
+	      this.tree.$emit('current-change', store.currentNode ? store.currentNode.data : null, store.currentNode);
 	      this.tree.currentNode = this;
+	      if (this.tree.expandOnClickNode) {
+	        this.handleExpandIconClick(event);
+	      }
+	      this.tree.$emit('node-click', this.node.data, this.node, this);
 	    },
 	    handleExpandIconClick: function handleExpandIconClick(event) {
-	      var target = event.target;
-	      if (target.tagName.toUpperCase() !== 'DIV' && target.parentNode.nodeName.toUpperCase() !== 'DIV' || target.nodeName.toUpperCase() === 'LABEL') return;
 	      if (this.expanded) {
 	        this.node.collapse();
 	      } else {
 	        this.node.expand();
 	      }
-	      this.tree.$emit('node-click', this.node.data, this.node, this);
 	    },
 	    handleUserClick: function handleUserClick() {
 	      if (this.node.indeterminate) {
@@ -1328,8 +1367,8 @@ module.exports =
 /***/ 293:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1338,7 +1377,9 @@ module.exports =
 	    }],
 	    staticClass: "el-tree-node",
 	    class: {
-	      'is-expanded': _vm.childNodeRendered && _vm.expanded, 'is-current': _vm.tree.currentNode === _vm._self, 'is-hidden': !_vm.node.visible
+	      'is-expanded': _vm.childNodeRendered && _vm.expanded,
+	        'is-current': _vm.tree.store.currentNode === _vm.node,
+	        'is-hidden': !_vm.node.visible
 	    },
 	    on: {
 	      "click": function($event) {
@@ -1346,20 +1387,23 @@ module.exports =
 	        _vm.handleClick($event)
 	      }
 	    }
-	  }, [_vm._h('div', {
+	  }, [_h('div', {
 	    staticClass: "el-tree-node__content",
 	    style: ({
 	      'padding-left': (_vm.node.level - 1) * 16 + 'px'
-	    }),
-	    on: {
-	      "click": _vm.handleExpandIconClick
-	    }
-	  }, [_vm._h('span', {
+	    })
+	  }, [_h('span', {
 	    staticClass: "el-tree-node__expand-icon",
 	    class: {
 	      'is-leaf': _vm.node.isLeaf, expanded: !_vm.node.isLeaf && _vm.expanded
+	    },
+	    on: {
+	      "click": function($event) {
+	        $event.stopPropagation();
+	        _vm.handleExpandIconClick($event)
+	      }
 	    }
-	  }), (_vm.showCheckbox) ? _vm._h('el-checkbox', {
+	  }), (_vm.showCheckbox) ? _h('el-checkbox', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -1383,13 +1427,13 @@ module.exports =
 	        _vm.handleUserClick($event)
 	      }
 	    }
-	  }) : _vm._e(), (_vm.node.loading) ? _vm._h('span', {
+	  }) : _vm._e(), (_vm.node.loading) ? _h('span', {
 	    staticClass: "el-tree-node__loading-icon el-icon-loading"
-	  }) : _vm._e(), _vm._h('node-content', {
+	  }) : _vm._e(), _h('node-content', {
 	    attrs: {
 	      "node": _vm.node
 	    }
-	  })]), _vm._h('collapse-transition', [_vm._h('div', {
+	  })]), _h('collapse-transition', [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1398,7 +1442,7 @@ module.exports =
 	    }],
 	    staticClass: "el-tree-node__children"
 	  }, [_vm._l((_vm.node.childNodes), function(child) {
-	    return _vm._h('el-tree-node', {
+	    return _h('el-tree-node', {
 	      key: _vm.getNodeKey(child),
 	      attrs: {
 	        "render-content": _vm.renderContent,
@@ -1413,14 +1457,14 @@ module.exports =
 /***/ 294:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;
-	  return _vm._h('div', {
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('div', {
 	    staticClass: "el-tree",
 	    class: {
 	      'el-tree--highlight-current': _vm.highlightCurrent
 	    }
 	  }, [_vm._l((_vm.root.childNodes), function(child) {
-	    return _vm._h('el-tree-node', {
+	    return _h('el-tree-node', {
 	      key: _vm.getNodeKey(child),
 	      attrs: {
 	        "node": child,
@@ -1428,9 +1472,9 @@ module.exports =
 	        "render-content": _vm.renderContent
 	      }
 	    })
-	  }), (!_vm.root.childNodes || _vm.root.childNodes.length === 0) ? _vm._h('div', {
+	  }), (!_vm.root.childNodes || _vm.root.childNodes.length === 0) ? _h('div', {
 	    staticClass: "el-tree__empty-block"
-	  }, [_vm._h('span', {
+	  }, [_h('span', {
 	    staticClass: "el-tree__empty-text"
 	  }, [_vm._s(_vm.emptyText)])]) : _vm._e()])
 	},staticRenderFns: []}
