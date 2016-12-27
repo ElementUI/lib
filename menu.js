@@ -222,6 +222,15 @@ module.exports =
 	      var _this = this;
 
 	      var index = this.activeIndex;
+	      // 选中用户指定的路由对应的menu
+	      if (this.router) {
+	        var userSpecifiedIndexs = Object.keys(this.menuItems).filter(function (k) {
+	          return _this.menuItems[k].route;
+	        }).filter(function (k) {
+	          return _this.menuItems[k].route.path === _this.$route.path;
+	        });
+	        userSpecifiedIndexs.length && (index = this.activeIndex = userSpecifiedIndexs[0]);
+	      }
 	      if (!this.menuItems[index]) return;
 	      if (index && this.mode === 'vertical') {
 	        var indexPath = this.menuItems[index].indexPath;

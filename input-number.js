@@ -165,38 +165,9 @@ module.exports =
 	//
 	//
 	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	exports.default = {
 	  name: 'ElInputNumber',
-	  props: {
-	    step: {
-	      type: Number,
-	      default: 1
-	    },
-	    max: {
-	      type: Number,
-	      default: Infinity
-	    },
-	    min: {
-	      type: Number,
-	      default: 0
-	    },
-	    value: {
-	      default: 0
-	    },
-	    disabled: Boolean,
-	    size: String,
-	    controls: {
-	      type: Boolean,
-	      default: true
-	    }
-	  },
 	  directives: {
 	    repeatClick: {
 	      bind: function bind(el, binding, vnode) {
@@ -228,6 +199,29 @@ module.exports =
 	  components: {
 	    ElInput: _input2.default
 	  },
+	  props: {
+	    step: {
+	      type: Number,
+	      default: 1
+	    },
+	    max: {
+	      type: Number,
+	      default: Infinity
+	    },
+	    min: {
+	      type: Number,
+	      default: 0
+	    },
+	    value: {
+	      default: 0
+	    },
+	    disabled: Boolean,
+	    size: String,
+	    controls: {
+	      type: Boolean,
+	      default: true
+	    }
+	  },
 	  data: function data() {
 	    // correct the init value
 	    var value = this.value;
@@ -240,8 +234,7 @@ module.exports =
 	      value = this.max;
 	    }
 	    return {
-	      currentValue: value,
-	      inputActive: false
+	      currentValue: value
 	    };
 	  },
 
@@ -250,19 +243,18 @@ module.exports =
 	      this.currentValue = val;
 	    },
 	    currentValue: function currentValue(newVal, oldVal) {
-	      var value = Number(newVal);
-	      if (value <= this.max && value >= this.min) {
-	        this.$emit('change', value, oldVal);
-	        this.$emit('input', value);
+	      if (newVal <= this.max && newVal >= this.min) {
+	        this.$emit('change', newVal, oldVal);
+	        this.$emit('input', newVal);
 	      }
 	    }
 	  },
 	  computed: {
 	    minDisabled: function minDisabled() {
-	      return this.value - this.step < this.min;
+	      return this.accSub(this.value, this.step) < this.min;
 	    },
 	    maxDisabled: function maxDisabled() {
-	      return this.value + this.step > this.max;
+	      return this.accAdd(this.value, this.step) > this.max;
 	    }
 	  },
 	  methods: {
@@ -312,41 +304,19 @@ module.exports =
 	      return (arg1 + arg2) / m;
 	    },
 	    increase: function increase() {
+	      if (this.maxDisabled) return;
 	      var value = this.value || 0;
-	      if (value + this.step > this.max || this.disabled) return;
+	      if (this.accAdd(value, this.step) > this.max || this.disabled) return;
 	      this.currentValue = this.accAdd(this.step, value);
-	      if (this.maxDisabled) {
-	        this.inputActive = false;
-	      }
 	    },
 	    decrease: function decrease() {
+	      if (this.minDisabled) return;
 	      var value = this.value || 0;
-	      if (value - this.step < this.min || this.disabled) return;
+	      if (this.accSub(value, this.step) < this.min || this.disabled) return;
 	      this.currentValue = this.accSub(value, this.step);
-	      if (this.minDisabled) {
-	        this.inputActive = false;
-	      }
 	    },
-	    activeInput: function activeInput(disabled) {
-	      if (!this.disabled && !disabled) {
-	        this.inputActive = true;
-	      }
-	    },
-	    inactiveInput: function inactiveInput(disabled) {
-	      if (!this.disabled && !disabled) {
-	        this.inputActive = false;
-	      }
-	    },
-	    handleBlur: function handleBlur(event) {
-	      var value = Number(this.currentValue);
-	      if (isNaN(value) || value > this.max || value < this.min) {
-	        this.currentValue = this.value;
-	      } else {
-	        this.currentValue = value;
-	      }
-	    },
-	    handleInput: function handleInput(value) {
-	      this.currentValue = value;
+	    handleBlur: function handleBlur() {
+	      this.$refs.input.setCurrentValue(this.currentValue);
 	    }
 	  }
 	};
@@ -373,20 +343,51 @@ module.exports =
 	        'is-without-controls': !_vm.controls
 	      }
 	    ]
-	  }, [_h('el-input', {
+	  }, [(_vm.controls) ? _h('span', {
+	    directives: [{
+	      name: "repeat-click",
+	      rawName: "v-repeat-click",
+	      value: (_vm.decrease),
+	      expression: "decrease"
+	    }],
+	    staticClass: "el-input-number__decrease el-icon-minus",
 	    class: {
-	      'is-active': _vm.inputActive
-	    },
+	      'is-disabled': _vm.minDisabled
+	    }
+	  }) : _vm._e(), (_vm.controls) ? _h('span', {
+	    directives: [{
+	      name: "repeat-click",
+	      rawName: "v-repeat-click",
+	      value: (_vm.increase),
+	      expression: "increase"
+	    }],
+	    staticClass: "el-input-number__increase el-icon-plus",
+	    class: {
+	      'is-disabled': _vm.maxDisabled
+	    }
+	  }) : _vm._e(), _h('el-input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model.number",
+	      value: (_vm.currentValue),
+	      expression: "currentValue",
+	      modifiers: {
+	        "number": true
+	      }
+	    }],
+	    ref: "input",
 	    attrs: {
 	      "disabled": _vm.disabled,
 	      "size": _vm.size
 	    },
 	    domProps: {
-	      "value": _vm.currentValue
+	      "value": (_vm.currentValue)
 	    },
 	    on: {
 	      "blur": _vm.handleBlur,
-	      "input": _vm.handleInput
+	      "input": function($event) {
+	        _vm.currentValue = _vm._n($event)
+	      }
 	    },
 	    nativeOn: {
 	      "keydown": [function($event) {
@@ -401,45 +402,7 @@ module.exports =
 	    slot: "prepend"
 	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.$slots.append) ? _h('template', {
 	    slot: "append"
-	  }, [_vm._t("append")]) : _vm._e()]), (_vm.controls) ? _h('span', {
-	    directives: [{
-	      name: "repeat-click",
-	      rawName: "v-repeat-click",
-	      value: (_vm.decrease),
-	      expression: "decrease"
-	    }],
-	    staticClass: "el-input-number__decrease el-icon-minus",
-	    class: {
-	      'is-disabled': _vm.minDisabled
-	    },
-	    on: {
-	      "mouseenter": function($event) {
-	        _vm.activeInput(_vm.minDisabled)
-	      },
-	      "mouseleave": function($event) {
-	        _vm.inactiveInput(_vm.minDisabled)
-	      }
-	    }
-	  }) : _vm._e(), (_vm.controls) ? _h('span', {
-	    directives: [{
-	      name: "repeat-click",
-	      rawName: "v-repeat-click",
-	      value: (_vm.increase),
-	      expression: "increase"
-	    }],
-	    staticClass: "el-input-number__increase el-icon-plus",
-	    class: {
-	      'is-disabled': _vm.maxDisabled
-	    },
-	    on: {
-	      "mouseenter": function($event) {
-	        _vm.activeInput(_vm.maxDisabled)
-	      },
-	      "mouseleave": function($event) {
-	        _vm.inactiveInput(_vm.maxDisabled)
-	      }
-	    }
-	  }) : _vm._e()])
+	  }, [_vm._t("append")]) : _vm._e()])])
 	},staticRenderFns: []}
 
 /***/ }

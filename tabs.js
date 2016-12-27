@@ -108,70 +108,90 @@ module.exports =
 
 	  props: {
 	    type: String,
-	    tabPosition: String,
 	    activeName: String,
-	    closable: false,
-	    tabWidth: 0
+	    closable: {
+	      type: Boolean,
+	      default: false
+	    },
+	    value: {}
 	  },
 
 	  data: function data() {
 	    return {
 	      children: null,
-	      activeTab: null,
-	      currentName: 0,
-	      panes: []
+	      currentName: this.value || this.activeName
 	    };
 	  },
 
 
 	  watch: {
-	    activeName: {
-	      handler: function handler(val) {
-	        this.currentName = val;
-	      }
+	    activeName: function activeName(val) {
+	      this.currentName = val;
+	    },
+	    value: function value(val) {
+	      this.currentName = val;
+	    },
+	    currentName: function currentName(val) {
+	      this.$emit('input', val);
 	    }
 	  },
 
 	  methods: {
 	    handleTabRemove: function handleTabRemove(tab, event) {
+	      var _this = this;
+
 	      event.stopPropagation();
 	      var tabs = this.$children;
 
 	      var index = tabs.indexOf(tab);
-	      tab.$destroy(true);
+	      tab.$destroy();
 
-	      if (tab.index === this.currentName) {
-	        var nextChild = tabs[index];
-	        var prevChild = tabs[index - 1];
-
-	        while (prevChild && prevChild.disabled) {
-	          prevChild = tabs[tabs.indexOf(prevChild) - 1];
-	        }
-
-	        this.currentName = nextChild ? nextChild.index : prevChild ? prevChild.index : '-1';
-	      }
 	      this.$emit('tab-remove', tab);
 	      this.$forceUpdate();
-	    },
-	    handleTabClick: function handleTabClick(tab, event) {
-	      if (tab.disabled) return;
-	      this.currentName = tab.index;
-	      this.$emit('tab-click', tab, event);
-	    },
-	    calcBarStyle: function calcBarStyle() {
-	      var _this = this;
 
-	      if (this.type || !this.$refs.tabs) return {};
+	      this.$nextTick(function (_) {
+	        if (tab.active) {
+	          var nextChild = tabs[index];
+	          var prevChild = tabs[index - 1];
+	          var nextActiveTab = nextChild || prevChild || null;
+
+	          if (nextActiveTab) {
+	            _this.currentName = nextActiveTab.name || nextActiveTab.index;
+	          }
+	        }
+	      });
+	    },
+	    handleTabClick: function handleTabClick(tab, tabName, event) {
+	      if (tab.disabled) return;
+	      this.currentName = tabName;
+	      this.$emit('tab-click', tab, event);
+	    }
+	  },
+	  mounted: function mounted() {
+	    this.$forceUpdate();
+	  },
+	  render: function render(h) {
+	    var _this2 = this;
+
+	    var type = this.type,
+	        handleTabRemove = this.handleTabRemove,
+	        handleTabClick = this.handleTabClick,
+	        currentName = this.currentName;
+
+
+	    var getBarStyle = function getBarStyle() {
+	      if (_this2.type || !_this2.$refs.tabs) return {};
 	      var style = {};
 	      var offset = 0;
 	      var tabWidth = 0;
 
-	      this.$children.every(function (panel, index) {
-	        var $el = _this.$refs.tabs[index];
+	      _this2.$children.every(function (tab, index) {
+	        var $el = _this2.$refs.tabs[index];
 	        if (!$el) {
 	          return false;
 	        }
-	        if (panel.index !== _this.currentName) {
+
+	        if (!tab.active) {
 	          offset += $el.clientWidth;
 	          return true;
 	        } else {
@@ -184,56 +204,54 @@ module.exports =
 	      style.transform = 'translateX(' + offset + 'px)';
 
 	      return style;
-	    }
-	  },
-	  mounted: function mounted() {
-	    var _this2 = this;
-
-	    this.currentName = this.activeName || this.$children[0] && this.$children[0].index || '1';
-	    this.$nextTick(function () {
-	      _this2.$forceUpdate();
-	    });
-	  },
-	  render: function render(h) {
-	    var _this3 = this;
-
-	    var type = this.type,
-	        panes = this.panes,
-	        handleTabRemove = this.handleTabRemove,
-	        handleTabClick = this.handleTabClick,
-	        currentName = this.currentName;
-
-
-	    var barStyle = this.calcBarStyle();
-	    var activeBar = !type ? h(
-	      'div',
-	      { 'class': 'el-tabs__active-bar', style: barStyle },
-	      []
-	    ) : null;
+	    };
 
 	    var tabs = this.$children.map(function (tab, index) {
-	      var btnClose = h('span', {
-	        class: {
-	          'el-icon-close': true
+	      var tabName = tab.name || tab.index || index;
+	      if (currentName === undefined && index === 0) {
+	        _this2.currentName = tabName;
+	      }
+
+	      tab.index = index;
+
+	      var activeBar = !type && index === 0 ? h(
+	        'div',
+	        { 'class': 'el-tabs__active-bar', style: getBarStyle() },
+	        []
+	      ) : null;
+
+	      var btnClose = tab.isClosable ? h(
+	        'span',
+	        { 'class': 'el-icon-close', on: {
+	            'click': function click(ev) {
+	              handleTabRemove(tab, ev);
+	            }
+	          }
 	        },
-	        on: { click: function click(ev) {
-	            handleTabRemove(tab, ev);
-	          } }
-	      });
-	      var _tab = h('div', {
-	        class: {
-	          'el-tabs__item': true,
-	          'is-active': currentName === tab.index,
-	          'is-disabled': tab.disabled,
-	          'is-closable': tab.isClosable
+	        []
+	      ) : null;
+
+	      var tabLabelContent = tab.labelContent ? tab.labelContent.call(_this2._renderProxy, h, tab) : tab.label;
+
+	      return h(
+	        'div',
+	        {
+	          'class': {
+	            'el-tabs__item': true,
+	            'is-active': tab.active,
+	            'is-disabled': tab.disabled,
+	            'is-closable': tab.isClosable
+	          },
+	          ref: 'tabs',
+	          refInFor: true,
+	          on: {
+	            'click': function click(ev) {
+	              handleTabClick(tab, tabName, ev);
+	            }
+	          }
 	        },
-	        ref: 'tabs',
-	        refInFor: true,
-	        on: { click: function click(ev) {
-	            handleTabClick(tab, ev);
-	          } }
-	      }, [tab.labelContent ? tab.labelContent.call(_this3._renderProxy, h, tab) : tab.label, tab.isClosable ? btnClose : null, index === 0 ? activeBar : null]);
-	      return _tab;
+	        [tabLabelContent, btnClose, activeBar]
+	      );
 	    });
 	    return h(
 	      'div',

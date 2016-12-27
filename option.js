@@ -192,13 +192,6 @@ module.exports =
 	    },
 	    value: function value() {
 	      this.dispatch('ElSelect', 'setSelected');
-	    },
-	    visible: function visible() {
-	      var _this = this;
-
-	      this.$nextTick(function () {
-	        _this.dispatch('ElSelectDropdown', 'updatePopper');
-	      });
 	    }
 	  },
 
@@ -225,10 +218,10 @@ module.exports =
 	      }
 	    },
 	    resetIndex: function resetIndex() {
-	      var _this2 = this;
+	      var _this = this;
 
 	      this.$nextTick(function () {
-	        _this2.index = _this2.parent.options.indexOf(_this2);
+	        _this.index = _this.parent.options.indexOf(_this);
 	      });
 	    }
 	  },

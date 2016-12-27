@@ -194,6 +194,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	exports.default = {
 	  name: 'ElInput',
@@ -201,6 +202,14 @@ module.exports =
 	  componentName: 'ElInput',
 
 	  mixins: [_emitter2.default],
+
+	  data: function data() {
+	    return {
+	      currentValue: this.value,
+	      textareaStyle: {}
+	    };
+	  },
+
 
 	  props: {
 	    value: [String, Number],
@@ -234,6 +243,18 @@ module.exports =
 	    min: {}
 	  },
 
+	  computed: {
+	    validating: function validating() {
+	      return this.$parent.validateState === 'validating';
+	    }
+	  },
+
+	  watch: {
+	    'value': function value(val, oldValue) {
+	      this.setCurrentValue(val);
+	    }
+	  },
+
 	  methods: {
 	    handleBlur: function handleBlur(event) {
 	      this.$emit('blur', event);
@@ -258,47 +279,30 @@ module.exports =
 	      this.$emit('focus', event);
 	    },
 	    handleInput: function handleInput(event) {
-	      this.currentValue = event.target.value;
+	      this.setCurrentValue(event.target.value);
 	    },
 	    handleIconClick: function handleIconClick(event) {
 	      this.$emit('click', event);
+	    },
+	    setCurrentValue: function setCurrentValue(value) {
+	      var _this = this;
+
+	      if (value === this.currentValue) return;
+	      this.$nextTick(function (_) {
+	        _this.resizeTextarea();
+	      });
+	      this.currentValue = value;
+	      this.$emit('input', value);
+	      this.$emit('change', value);
+	      this.dispatch('ElFormItem', 'el.form.change', [value]);
 	    }
 	  },
 
-	  data: function data() {
-	    return {
-	      currentValue: this.value,
-	      textareaStyle: {}
-	    };
-	  },
 	  created: function created() {
 	    this.$on('inputSelect', this.inputSelect);
 	  },
 	  mounted: function mounted() {
 	    this.resizeTextarea();
-	  },
-
-
-	  computed: {
-	    validating: function validating() {
-	      return this.$parent.validateState === 'validating';
-	    }
-	  },
-
-	  watch: {
-	    'value': function value(val, oldValue) {
-	      this.currentValue = val;
-	    },
-	    'currentValue': function currentValue(val) {
-	      var _this = this;
-
-	      this.$nextTick(function (_) {
-	        _this.resizeTextarea();
-	      });
-	      this.$emit('input', val);
-	      this.$emit('change', val);
-	      this.dispatch('ElFormItem', 'el.form.change', [val]);
-	    }
 	  }
 	};
 
@@ -422,7 +426,7 @@ module.exports =
 	      "form": _vm.form
 	    },
 	    domProps: {
-	      "value": _vm.value
+	      "value": _vm.currentValue
 	    },
 	    on: {
 	      "input": _vm.handleInput,
@@ -434,12 +438,6 @@ module.exports =
 	  }) : _vm._e(), (_vm.$slots.append) ? _h('div', {
 	    staticClass: "el-input-group__append"
 	  }, [_vm._t("append")]) : _vm._e()] : _h('textarea', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: (_vm.currentValue),
-	      expression: "currentValue"
-	    }],
 	    ref: "textarea",
 	    staticClass: "el-textarea__inner",
 	    style: (_vm.textareaStyle),
@@ -455,15 +453,12 @@ module.exports =
 	      "minlength": _vm.minlength
 	    },
 	    domProps: {
-	      "value": _vm._s(_vm.currentValue)
+	      "value": _vm.currentValue
 	    },
 	    on: {
+	      "input": _vm.handleInput,
 	      "focus": _vm.handleFocus,
-	      "blur": _vm.handleBlur,
-	      "input": function($event) {
-	        if ($event.target.composing) { return; }
-	        _vm.currentValue = $event.target.value
-	      }
+	      "blur": _vm.handleBlur
 	    }
 	  })])
 	},staticRenderFns: []}

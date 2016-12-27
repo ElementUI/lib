@@ -1208,11 +1208,11 @@ module.exports =
 	      this.tree.$emit('current-change', store.currentNode ? store.currentNode.data : null, store.currentNode);
 	      this.tree.currentNode = this;
 	      if (this.tree.expandOnClickNode) {
-	        this.handleExpandIconClick(event);
+	        this.handleExpandIconClick();
 	      }
 	      this.tree.$emit('node-click', this.node.data, this.node, this);
 	    },
-	    handleExpandIconClick: function handleExpandIconClick(event) {
+	    handleExpandIconClick: function handleExpandIconClick() {
 	      if (this.expanded) {
 	        this.node.collapse();
 	      } else {

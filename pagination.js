@@ -247,6 +247,9 @@ module.exports =
 	        return h(
 	          'button',
 	          {
+	            attrs: {
+	              type: 'button'
+	            },
 	            'class': ['btn-prev', { disabled: this.$parent.internalCurrentPage <= 1 }],
 	            on: {
 	              'click': this.$parent.prev
@@ -266,6 +269,9 @@ module.exports =
 	        return h(
 	          'button',
 	          {
+	            attrs: {
+	              type: 'button'
+	            },
 	            'class': ['btn-next', { disabled: this.$parent.internalCurrentPage === this.$parent.internalPageCount || this.$parent.internalPageCount === 0 }],
 	            on: {
 	              'click': this.$parent.next

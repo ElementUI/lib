@@ -108,6 +108,14 @@ module.exports =
 
 	'use strict';
 
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
 	module.exports = {
 	  name: 'el-tab-pane',
 
@@ -121,66 +129,31 @@ module.exports =
 
 	  data: function data() {
 	    return {
-	      counter: 0,
-	      transition: '',
-	      paneStyle: {
-	        position: 'relative'
-	      },
-	      isClosable: null,
-	      index: ''
+	      index: null
 	    };
-	  },
-	  created: function created() {
-	    var propsData = this.$options.propsData;
-	    if (propsData && typeof propsData.closable !== 'undefined') {
-	      this.isClosable = propsData.closable === '' || propsData.closable;
-	    } else {
-	      this.isClosable = this.$parent.closable;
-	    }
-	    if (!this.index) {
-	      this.index = this.$parent.$children.indexOf(this) + 1 + '';
-	    }
-	    if (this.$parent.panes) {
-	      this.$parent.panes.push(this);
-	    }
 	  },
 
 
 	  computed: {
-	    show: function show() {
-	      return this.$parent.currentName === this.index;
+	    isClosable: function isClosable() {
+	      return this.closable || this.$parent.closable;
+	    },
+	    active: function active() {
+	      return this.$parent.currentName === (this.name || this.index);
 	    }
 	  },
 
+	  created: function created() {
+	    this.$parent.$forceUpdate();
+	  },
 	  destroyed: function destroyed() {
 	    if (this.$el && this.$el.parentNode) {
 	      this.$el.parentNode.removeChild(this.$el);
-	    }
-	    var panes = this.$parent.panes;
-	    if (panes) {
-	      panes.splice(this, panes.indexOf(this));
 	    }
 	  },
 
 
 	  watch: {
-	    name: {
-	      immediate: true,
-	      handler: function handler(val) {
-	        this.index = val;
-	      }
-	    },
-	    closable: function closable(val) {
-	      this.isClosable = val;
-	    },
-	    '$parent.currentName': function $parentCurrentName(newValue, oldValue) {
-	      if (this.index === newValue) {
-	        this.transition = newValue > oldValue ? 'slideInRight' : 'slideInLeft';
-	      }
-	      if (this.index === oldValue) {
-	        this.transition = oldValue > newValue ? 'slideInRight' : 'slideInLeft';
-	      }
-	    },
 	    label: function label() {
 	      this.$parent.$forceUpdate();
 	    }
@@ -194,14 +167,16 @@ module.exports =
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
 	  return _h('div', {
+	    staticClass: "el-tab-pane"
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (_vm.show && _vm.$slots.default),
-	      expression: "show && $slots.default"
+	      value: (_vm.active),
+	      expression: "active"
 	    }],
-	    staticClass: "el-tab-pane"
-	  }, [_vm._t("default")])
+	    staticClass: "el-tab-pane__content"
+	  }, [_vm._t("default")])])
 	},staticRenderFns: []}
 
 /***/ }

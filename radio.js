@@ -197,6 +197,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 /***/ },
 
@@ -207,15 +208,13 @@ module.exports =
 	  return _h('label', {
 	    staticClass: "el-radio"
 	  }, [_h('span', {
-	    staticClass: "el-radio__input"
-	  }, [_h('span', {
-	    staticClass: "el-radio__inner",
+	    staticClass: "el-radio__input",
 	    class: {
 	      'is-disabled': _vm.disabled,
 	      'is-checked': _vm.model === _vm.label,
 	        'is-focus': _vm.focus
 	    }
-	  }), _h('input', {
+	  }, [_vm._m(0), _h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -246,7 +245,11 @@ module.exports =
 	  })]), _h('span', {
 	    staticClass: "el-radio__label"
 	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()])])
-	},staticRenderFns: []}
+	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('span', {
+	    staticClass: "el-radio__inner"
+	  })
+	}]}
 
 /***/ }
 

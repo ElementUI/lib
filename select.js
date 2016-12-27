@@ -212,13 +212,6 @@ module.exports =
 	    },
 	    value: function value() {
 	      this.dispatch('ElSelect', 'setSelected');
-	    },
-	    visible: function visible() {
-	      var _this = this;
-
-	      this.$nextTick(function () {
-	        _this.dispatch('ElSelectDropdown', 'updatePopper');
-	      });
 	    }
 	  },
 
@@ -245,10 +238,10 @@ module.exports =
 	      }
 	    },
 	    resetIndex: function resetIndex() {
-	      var _this2 = this;
+	      var _this = this;
 
 	      this.$nextTick(function () {
-	        _this2.index = _this2.parent.options.indexOf(_this2);
+	        _this.index = _this.parent.options.indexOf(_this);
 	      });
 	    }
 	  },
@@ -629,7 +622,11 @@ module.exports =
 	      this.$emit('change', val);
 	    },
 	    query: function query(val) {
-	      this.broadcast('ElSelectDropdown', 'updatePopper');
+	      var _this2 = this;
+
+	      this.$nextTick(function () {
+	        _this2.broadcast('ElSelectDropdown', 'updatePopper');
+	      });
 	      this.hoverIndex = -1;
 	      if (this.multiple && this.filterable) {
 	        this.resetInputHeight();
@@ -648,7 +645,7 @@ module.exports =
 	      }
 	    },
 	    visible: function visible(val) {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      if (!val) {
 	        this.$refs.reference.$el.querySelector('input').blur();
@@ -661,8 +658,8 @@ module.exports =
 	        this.selectedLabel = '';
 	        this.resetHoverIndex();
 	        this.$nextTick(function () {
-	          if (_this2.$refs.input && _this2.$refs.input.value === '' && _this2.selected.length === 0) {
-	            _this2.currentPlaceholder = _this2.cachedPlaceHolder;
+	          if (_this3.$refs.input && _this3.$refs.input.value === '' && _this3.selected.length === 0) {
+	            _this3.currentPlaceholder = _this3.cachedPlaceHolder;
 	          }
 	        });
 	        if (!this.multiple) {
@@ -734,15 +731,15 @@ module.exports =
 	      }
 	    },
 	    setOverflow: function setOverflow() {
-	      var _this3 = this;
+	      var _this4 = this;
 
 	      if (this.bottomOverflowBeforeHidden > 0) {
 	        this.$nextTick(function () {
-	          _this3.dropdownUl.scrollTop += _this3.bottomOverflowBeforeHidden;
+	          _this4.dropdownUl.scrollTop += _this4.bottomOverflowBeforeHidden;
 	        });
 	      } else if (this.topOverflowBeforeHidden < 0) {
 	        this.$nextTick(function () {
-	          _this3.dropdownUl.scrollTop += _this3.topOverflowBeforeHidden;
+	          _this4.dropdownUl.scrollTop += _this4.topOverflowBeforeHidden;
 	        });
 	      }
 	    },
@@ -762,7 +759,7 @@ module.exports =
 	      return newOption;
 	    },
 	    setSelected: function setSelected() {
-	      var _this4 = this;
+	      var _this5 = this;
 
 	      if (!this.multiple) {
 	        var option = this.getOption(this.value);
@@ -773,7 +770,7 @@ module.exports =
 	      var result = [];
 	      if (Array.isArray(this.value)) {
 	        this.value.forEach(function (value) {
-	          result.push(_this4.getOption(value));
+	          result.push(_this5.getOption(value));
 	        });
 	      }
 	      this.selected = result;
@@ -827,32 +824,32 @@ module.exports =
 	      this.resetInputHeight();
 	    },
 	    resetInputHeight: function resetInputHeight() {
-	      var _this5 = this;
+	      var _this6 = this;
 
 	      this.$nextTick(function () {
-	        var inputChildNodes = _this5.$refs.reference.$el.childNodes;
+	        var inputChildNodes = _this6.$refs.reference.$el.childNodes;
 	        var input = [].filter.call(inputChildNodes, function (item) {
 	          return item.tagName === 'INPUT';
 	        })[0];
-	        input.style.height = Math.max(_this5.$refs.tags.clientHeight + 6, sizeMap[_this5.size] || 36) + 'px';
-	        if (_this5.visible && _this5.emptyText !== false) {
-	          _this5.broadcast('ElSelectDropdown', 'updatePopper');
+	        input.style.height = Math.max(_this6.$refs.tags.clientHeight + 6, sizeMap[_this6.size] || 36) + 'px';
+	        if (_this6.visible && _this6.emptyText !== false) {
+	          _this6.broadcast('ElSelectDropdown', 'updatePopper');
 	        }
 	      });
 	    },
 	    resetHoverIndex: function resetHoverIndex() {
-	      var _this6 = this;
+	      var _this7 = this;
 
 	      setTimeout(function () {
-	        if (!_this6.multiple) {
-	          _this6.hoverIndex = _this6.options.indexOf(_this6.selected);
+	        if (!_this7.multiple) {
+	          _this7.hoverIndex = _this7.options.indexOf(_this7.selected);
 	        } else {
-	          if (_this6.selected.length > 0) {
-	            _this6.hoverIndex = Math.min.apply(null, _this6.selected.map(function (item) {
-	              return _this6.options.indexOf(item);
+	          if (_this7.selected.length > 0) {
+	            _this7.hoverIndex = Math.min.apply(null, _this7.selected.map(function (item) {
+	              return _this7.options.indexOf(item);
 	            }));
 	          } else {
-	            _this6.hoverIndex = -1;
+	            _this7.hoverIndex = -1;
 	          }
 	        }
 	      }, 300);
@@ -939,7 +936,7 @@ module.exports =
 	    },
 	    deleteTag: function deleteTag(event, tag) {
 	      var index = this.selected.indexOf(tag);
-	      if (index > -1) {
+	      if (index > -1 && !this.disabled) {
 	        this.value.splice(index, 1);
 	      }
 	      event.stopPropagation();
@@ -964,7 +961,7 @@ module.exports =
 	  },
 
 	  created: function created() {
-	    var _this7 = this;
+	    var _this8 = this;
 
 	    this.cachedPlaceHolder = this.currentPlaceholder = this.placeholder;
 	    if (this.multiple && !Array.isArray(this.value)) {
@@ -976,7 +973,7 @@ module.exports =
 	    this.setSelected();
 
 	    this.debouncedOnInputChange = (0, _debounce2.default)(this.debounce, function () {
-	      _this7.onInputChange();
+	      _this8.onInputChange();
 	    });
 
 	    this.$on('handleOptionClick', this.handleOptionSelect);
@@ -984,7 +981,7 @@ module.exports =
 	    this.$on('setSelected', this.setSelected);
 	  },
 	  mounted: function mounted() {
-	    var _this8 = this;
+	    var _this9 = this;
 
 	    if (this.multiple && Array.isArray(this.value) && this.value.length > 0) {
 	      this.currentPlaceholder = '';
@@ -994,8 +991,8 @@ module.exports =
 	      this.resetInputHeight();
 	    }
 	    this.$nextTick(function () {
-	      if (_this8.$refs.reference.$el) {
-	        _this8.inputWidth = _this8.$refs.reference.$el.getBoundingClientRect().width;
+	      if (_this9.$refs.reference.$el) {
+	        _this9.inputWidth = _this9.$refs.reference.$el.getBoundingClientRect().width;
 	      }
 	    });
 	  },

@@ -170,12 +170,13 @@ module.exports =
 	      var _this2 = this;
 
 	      var valid = true;
+	      var count = 0;
 	      this.fields.forEach(function (field, index) {
 	        field.validate('', function (errors) {
 	          if (errors) {
 	            valid = false;
 	          }
-	          if (typeof callback === 'function' && index === _this2.fields.length - 1) {
+	          if (typeof callback === 'function' && ++count === _this2.fields.length) {
 	            callback(valid);
 	          }
 	        });

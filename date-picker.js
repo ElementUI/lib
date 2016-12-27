@@ -407,6 +407,10 @@ module.exports =
 	    readonly: Boolean,
 	    placeholder: String,
 	    disabled: Boolean,
+	    clearable: {
+	      type: Boolean,
+	      default: true
+	    },
 	    popperClass: String,
 	    editable: {
 	      type: Boolean,
@@ -516,9 +520,10 @@ module.exports =
 	          if (parsedValue && this.picker) {
 	            this.picker.value = parsedValue;
 	          }
-	          return;
+	        } else {
+	          this.picker.value = value;
 	        }
-	        this.picker.value = value;
+	        this.$forceUpdate();
 	      }
 	    }
 	  },
@@ -536,18 +541,31 @@ module.exports =
 	  methods: {
 	    handleMouseEnterIcon: function handleMouseEnterIcon() {
 	      if (this.readonly || this.disabled) return;
-	      if (!this.valueIsEmpty) {
+	      if (!this.valueIsEmpty && this.clearable) {
 	        this.showClose = true;
 	      }
 	    },
 	    handleClickIcon: function handleClickIcon() {
 	      if (this.readonly || this.disabled) return;
-	      if (this.valueIsEmpty) {
-	        this.pickerVisible = !this.pickerVisible;
-	      } else {
+	      if (this.showClose) {
 	        this.internalValue = '';
-	        this.$emit('input', '');
+	      } else {
+	        this.pickerVisible = !this.pickerVisible;
 	      }
+	    },
+	    dateIsUpdated: function dateIsUpdated(date) {
+	      var updated = true;
+
+	      if (Array.isArray(date)) {
+	        if ((0, _util.equalDate)(this.cacheDateMin, date[0]) && (0, _util.equalDate)(this.cacheDateMax, date[1])) updated = false;
+	        this.cacheDateMin = date[0];
+	        this.cacheDateMax = date[1];
+	      } else {
+	        if ((0, _util.equalDate)(this.cacheDate, date)) updated = false;
+	        this.cacheDate = date;
+	      }
+
+	      return updated;
 	    },
 	    handleClose: function handleClose() {
 	      this.pickerVisible = false;
@@ -631,7 +649,11 @@ module.exports =
 	        this.picker.$on('pick', function (date) {
 	          var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-	          _this.$emit('input', date);
+	          if (_this.dateIsUpdated(date)) _this.$emit('input', date);
+
+	          _this.$nextTick(function () {
+	            return _this.$emit('change', _this.visualValue);
+	          });
 	          _this.pickerVisible = _this.picker.visible = visible;
 	          _this.picker.resetView && _this.picker.resetView();
 	        });
@@ -673,7 +695,7 @@ module.exports =
 	'use strict';
 
 	exports.__esModule = true;
-	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.toDate = undefined;
+	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.toDate = exports.equalDate = undefined;
 
 	var _date = __webpack_require__(52);
 
@@ -687,6 +709,10 @@ module.exports =
 	    result.push(i);
 	  }
 	  return result;
+	};
+
+	var equalDate = exports.equalDate = function equalDate(dateA, dateB) {
+	  return new Date(dateA).getTime() === new Date(dateB).getTime();
 	};
 
 	var toDate = exports.toDate = function toDate(date) {
@@ -1023,7 +1049,7 @@ module.exports =
 	  methods: {
 	    handleClear: function handleClear() {
 	      this.date = new Date();
-	      this.$emit('pick', '');
+	      this.$emit('pick');
 	    },
 	    resetDate: function resetDate() {
 	      this.date = new Date(this.date);
@@ -1543,7 +1569,7 @@ module.exports =
 
 	  methods: {
 	    handleClear: function handleClear() {
-	      this.$emit('pick', '');
+	      this.$emit('pick');
 	    },
 	    handleCancel: function handleCancel() {
 	      this.$emit('pick');
@@ -3283,7 +3309,7 @@ module.exports =
 	    handleClear: function handleClear() {
 	      this.minDate = null;
 	      this.maxDate = null;
-	      this.handleConfirm();
+	      this.handleConfirm(false);
 	    },
 	    handleDateInput: function handleDateInput(event, type) {
 	      var value = event.target.value;
@@ -3362,10 +3388,8 @@ module.exports =
 	      this.maxDate = val.maxDate;
 	      this.minDate = val.minDate;
 
-	      if (!close) return;
-	      if (!this.showTime) {
-	        this.$emit('pick', [this.minDate, this.maxDate]);
-	      }
+	      if (!close || this.showTime) return;
+	      this.handleConfirm();
 	    },
 	    changeToToday: function changeToToday() {
 	      this.date = new Date();
@@ -3431,7 +3455,9 @@ module.exports =
 	      date.setFullYear(date.getFullYear() - 1);
 	      this.resetDate();
 	    },
-	    handleConfirm: function handleConfirm(visible) {
+	    handleConfirm: function handleConfirm() {
+	      var visible = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
 	      this.$emit('pick', [this.minDate, this.maxDate], visible);
 	    },
 	    resetDate: function resetDate() {

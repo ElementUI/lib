@@ -358,7 +358,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.0.8',
+	  version: '1.0.9',
 	  locale: _locale2.default.use,
 	  install: install,
 	  Loading: _loading2.default,
@@ -607,6 +607,9 @@ module.exports =
 	        return h(
 	          'button',
 	          {
+	            attrs: {
+	              type: 'button'
+	            },
 	            'class': ['btn-prev', { disabled: this.$parent.internalCurrentPage <= 1 }],
 	            on: {
 	              'click': this.$parent.prev
@@ -626,6 +629,9 @@ module.exports =
 	        return h(
 	          'button',
 	          {
+	            attrs: {
+	              type: 'button'
+	            },
 	            'class': ['btn-next', { disabled: this.$parent.internalCurrentPage === this.$parent.internalPageCount || this.$parent.internalPageCount === 0 }],
 	            on: {
 	              'click': this.$parent.next
@@ -2308,6 +2314,15 @@ module.exports =
 	      var _this = this;
 
 	      var index = this.activeIndex;
+	      // 选中用户指定的路由对应的menu
+	      if (this.router) {
+	        var userSpecifiedIndexs = Object.keys(this.menuItems).filter(function (k) {
+	          return _this.menuItems[k].route;
+	        }).filter(function (k) {
+	          return _this.menuItems[k].route.path === _this.$route.path;
+	        });
+	        userSpecifiedIndexs.length && (index = this.activeIndex = userSpecifiedIndexs[0]);
+	      }
 	      if (!this.menuItems[index]) return;
 	      if (index && this.mode === 'vertical') {
 	        var indexPath = this.menuItems[index].indexPath;
@@ -2949,6 +2964,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	exports.default = {
 	  name: 'ElInput',
@@ -2956,6 +2972,14 @@ module.exports =
 	  componentName: 'ElInput',
 
 	  mixins: [_emitter2.default],
+
+	  data: function data() {
+	    return {
+	      currentValue: this.value,
+	      textareaStyle: {}
+	    };
+	  },
+
 
 	  props: {
 	    value: [String, Number],
@@ -2989,6 +3013,18 @@ module.exports =
 	    min: {}
 	  },
 
+	  computed: {
+	    validating: function validating() {
+	      return this.$parent.validateState === 'validating';
+	    }
+	  },
+
+	  watch: {
+	    'value': function value(val, oldValue) {
+	      this.setCurrentValue(val);
+	    }
+	  },
+
 	  methods: {
 	    handleBlur: function handleBlur(event) {
 	      this.$emit('blur', event);
@@ -3013,47 +3049,30 @@ module.exports =
 	      this.$emit('focus', event);
 	    },
 	    handleInput: function handleInput(event) {
-	      this.currentValue = event.target.value;
+	      this.setCurrentValue(event.target.value);
 	    },
 	    handleIconClick: function handleIconClick(event) {
 	      this.$emit('click', event);
+	    },
+	    setCurrentValue: function setCurrentValue(value) {
+	      var _this = this;
+
+	      if (value === this.currentValue) return;
+	      this.$nextTick(function (_) {
+	        _this.resizeTextarea();
+	      });
+	      this.currentValue = value;
+	      this.$emit('input', value);
+	      this.$emit('change', value);
+	      this.dispatch('ElFormItem', 'el.form.change', [value]);
 	    }
 	  },
 
-	  data: function data() {
-	    return {
-	      currentValue: this.value,
-	      textareaStyle: {}
-	    };
-	  },
 	  created: function created() {
 	    this.$on('inputSelect', this.inputSelect);
 	  },
 	  mounted: function mounted() {
 	    this.resizeTextarea();
-	  },
-
-
-	  computed: {
-	    validating: function validating() {
-	      return this.$parent.validateState === 'validating';
-	    }
-	  },
-
-	  watch: {
-	    'value': function value(val, oldValue) {
-	      this.currentValue = val;
-	    },
-	    'currentValue': function currentValue(val) {
-	      var _this = this;
-
-	      this.$nextTick(function (_) {
-	        _this.resizeTextarea();
-	      });
-	      this.$emit('input', val);
-	      this.$emit('change', val);
-	      this.dispatch('ElFormItem', 'el.form.change', [val]);
-	    }
 	  }
 	};
 
@@ -3175,7 +3194,7 @@ module.exports =
 	      "form": _vm.form
 	    },
 	    domProps: {
-	      "value": _vm.value
+	      "value": _vm.currentValue
 	    },
 	    on: {
 	      "input": _vm.handleInput,
@@ -3187,12 +3206,6 @@ module.exports =
 	  }) : _vm._e(), (_vm.$slots.append) ? _h('div', {
 	    staticClass: "el-input-group__append"
 	  }, [_vm._t("append")]) : _vm._e()] : _h('textarea', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: (_vm.currentValue),
-	      expression: "currentValue"
-	    }],
 	    ref: "textarea",
 	    staticClass: "el-textarea__inner",
 	    style: (_vm.textareaStyle),
@@ -3208,15 +3221,12 @@ module.exports =
 	      "minlength": _vm.minlength
 	    },
 	    domProps: {
-	      "value": _vm._s(_vm.currentValue)
+	      "value": _vm.currentValue
 	    },
 	    on: {
+	      "input": _vm.handleInput,
 	      "focus": _vm.handleFocus,
-	      "blur": _vm.handleBlur,
-	      "input": function($event) {
-	        if ($event.target.composing) { return; }
-	        _vm.currentValue = $event.target.value
-	      }
+	      "blur": _vm.handleBlur
 	    }
 	  })])
 	},staticRenderFns: []}
@@ -3327,38 +3337,9 @@ module.exports =
 	//
 	//
 	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	exports.default = {
 	  name: 'ElInputNumber',
-	  props: {
-	    step: {
-	      type: Number,
-	      default: 1
-	    },
-	    max: {
-	      type: Number,
-	      default: Infinity
-	    },
-	    min: {
-	      type: Number,
-	      default: 0
-	    },
-	    value: {
-	      default: 0
-	    },
-	    disabled: Boolean,
-	    size: String,
-	    controls: {
-	      type: Boolean,
-	      default: true
-	    }
-	  },
 	  directives: {
 	    repeatClick: {
 	      bind: function bind(el, binding, vnode) {
@@ -3390,6 +3371,29 @@ module.exports =
 	  components: {
 	    ElInput: _input2.default
 	  },
+	  props: {
+	    step: {
+	      type: Number,
+	      default: 1
+	    },
+	    max: {
+	      type: Number,
+	      default: Infinity
+	    },
+	    min: {
+	      type: Number,
+	      default: 0
+	    },
+	    value: {
+	      default: 0
+	    },
+	    disabled: Boolean,
+	    size: String,
+	    controls: {
+	      type: Boolean,
+	      default: true
+	    }
+	  },
 	  data: function data() {
 	    // correct the init value
 	    var value = this.value;
@@ -3402,8 +3406,7 @@ module.exports =
 	      value = this.max;
 	    }
 	    return {
-	      currentValue: value,
-	      inputActive: false
+	      currentValue: value
 	    };
 	  },
 
@@ -3412,19 +3415,18 @@ module.exports =
 	      this.currentValue = val;
 	    },
 	    currentValue: function currentValue(newVal, oldVal) {
-	      var value = Number(newVal);
-	      if (value <= this.max && value >= this.min) {
-	        this.$emit('change', value, oldVal);
-	        this.$emit('input', value);
+	      if (newVal <= this.max && newVal >= this.min) {
+	        this.$emit('change', newVal, oldVal);
+	        this.$emit('input', newVal);
 	      }
 	    }
 	  },
 	  computed: {
 	    minDisabled: function minDisabled() {
-	      return this.value - this.step < this.min;
+	      return this.accSub(this.value, this.step) < this.min;
 	    },
 	    maxDisabled: function maxDisabled() {
-	      return this.value + this.step > this.max;
+	      return this.accAdd(this.value, this.step) > this.max;
 	    }
 	  },
 	  methods: {
@@ -3474,41 +3476,19 @@ module.exports =
 	      return (arg1 + arg2) / m;
 	    },
 	    increase: function increase() {
+	      if (this.maxDisabled) return;
 	      var value = this.value || 0;
-	      if (value + this.step > this.max || this.disabled) return;
+	      if (this.accAdd(value, this.step) > this.max || this.disabled) return;
 	      this.currentValue = this.accAdd(this.step, value);
-	      if (this.maxDisabled) {
-	        this.inputActive = false;
-	      }
 	    },
 	    decrease: function decrease() {
+	      if (this.minDisabled) return;
 	      var value = this.value || 0;
-	      if (value - this.step < this.min || this.disabled) return;
+	      if (this.accSub(value, this.step) < this.min || this.disabled) return;
 	      this.currentValue = this.accSub(value, this.step);
-	      if (this.minDisabled) {
-	        this.inputActive = false;
-	      }
 	    },
-	    activeInput: function activeInput(disabled) {
-	      if (!this.disabled && !disabled) {
-	        this.inputActive = true;
-	      }
-	    },
-	    inactiveInput: function inactiveInput(disabled) {
-	      if (!this.disabled && !disabled) {
-	        this.inputActive = false;
-	      }
-	    },
-	    handleBlur: function handleBlur(event) {
-	      var value = Number(this.currentValue);
-	      if (isNaN(value) || value > this.max || value < this.min) {
-	        this.currentValue = this.value;
-	      } else {
-	        this.currentValue = value;
-	      }
-	    },
-	    handleInput: function handleInput(value) {
-	      this.currentValue = value;
+	    handleBlur: function handleBlur() {
+	      this.$refs.input.setCurrentValue(this.currentValue);
 	    }
 	  }
 	};
@@ -3533,20 +3513,51 @@ module.exports =
 	        'is-without-controls': !_vm.controls
 	      }
 	    ]
-	  }, [_h('el-input', {
+	  }, [(_vm.controls) ? _h('span', {
+	    directives: [{
+	      name: "repeat-click",
+	      rawName: "v-repeat-click",
+	      value: (_vm.decrease),
+	      expression: "decrease"
+	    }],
+	    staticClass: "el-input-number__decrease el-icon-minus",
 	    class: {
-	      'is-active': _vm.inputActive
-	    },
+	      'is-disabled': _vm.minDisabled
+	    }
+	  }) : _vm._e(), (_vm.controls) ? _h('span', {
+	    directives: [{
+	      name: "repeat-click",
+	      rawName: "v-repeat-click",
+	      value: (_vm.increase),
+	      expression: "increase"
+	    }],
+	    staticClass: "el-input-number__increase el-icon-plus",
+	    class: {
+	      'is-disabled': _vm.maxDisabled
+	    }
+	  }) : _vm._e(), _h('el-input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model.number",
+	      value: (_vm.currentValue),
+	      expression: "currentValue",
+	      modifiers: {
+	        "number": true
+	      }
+	    }],
+	    ref: "input",
 	    attrs: {
 	      "disabled": _vm.disabled,
 	      "size": _vm.size
 	    },
 	    domProps: {
-	      "value": _vm.currentValue
+	      "value": (_vm.currentValue)
 	    },
 	    on: {
 	      "blur": _vm.handleBlur,
-	      "input": _vm.handleInput
+	      "input": function($event) {
+	        _vm.currentValue = _vm._n($event)
+	      }
 	    },
 	    nativeOn: {
 	      "keydown": [function($event) {
@@ -3561,45 +3572,7 @@ module.exports =
 	    slot: "prepend"
 	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.$slots.append) ? _h('template', {
 	    slot: "append"
-	  }, [_vm._t("append")]) : _vm._e()]), (_vm.controls) ? _h('span', {
-	    directives: [{
-	      name: "repeat-click",
-	      rawName: "v-repeat-click",
-	      value: (_vm.decrease),
-	      expression: "decrease"
-	    }],
-	    staticClass: "el-input-number__decrease el-icon-minus",
-	    class: {
-	      'is-disabled': _vm.minDisabled
-	    },
-	    on: {
-	      "mouseenter": function($event) {
-	        _vm.activeInput(_vm.minDisabled)
-	      },
-	      "mouseleave": function($event) {
-	        _vm.inactiveInput(_vm.minDisabled)
-	      }
-	    }
-	  }) : _vm._e(), (_vm.controls) ? _h('span', {
-	    directives: [{
-	      name: "repeat-click",
-	      rawName: "v-repeat-click",
-	      value: (_vm.increase),
-	      expression: "increase"
-	    }],
-	    staticClass: "el-input-number__increase el-icon-plus",
-	    class: {
-	      'is-disabled': _vm.maxDisabled
-	    },
-	    on: {
-	      "mouseenter": function($event) {
-	        _vm.activeInput(_vm.maxDisabled)
-	      },
-	      "mouseleave": function($event) {
-	        _vm.inactiveInput(_vm.maxDisabled)
-	      }
-	    }
-	  }) : _vm._e()])
+	  }, [_vm._t("append")]) : _vm._e()])])
 	},staticRenderFns: []}
 
 /***/ },
@@ -3740,6 +3713,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 /***/ },
 /* 65 */
@@ -3749,15 +3723,13 @@ module.exports =
 	  return _h('label', {
 	    staticClass: "el-radio"
 	  }, [_h('span', {
-	    staticClass: "el-radio__input"
-	  }, [_h('span', {
-	    staticClass: "el-radio__inner",
+	    staticClass: "el-radio__input",
 	    class: {
 	      'is-disabled': _vm.disabled,
 	      'is-checked': _vm.model === _vm.label,
 	        'is-focus': _vm.focus
 	    }
-	  }), _h('input', {
+	  }, [_vm._m(0), _h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -3788,7 +3760,11 @@ module.exports =
 	  })]), _h('span', {
 	    staticClass: "el-radio__label"
 	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()])])
-	},staticRenderFns: []}
+	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('span', {
+	    staticClass: "el-radio__inner"
+	  })
+	}]}
 
 /***/ },
 /* 66 */
@@ -4102,7 +4078,8 @@ module.exports =
 
 	  data: function data() {
 	    return {
-	      selfModel: false
+	      selfModel: false,
+	      focus: false
 	    };
 	  },
 
@@ -4223,16 +4200,14 @@ module.exports =
 	  return _h('label', {
 	    staticClass: "el-checkbox"
 	  }, [_h('span', {
-	    staticClass: "el-checkbox__input"
-	  }, [_h('span', {
-	    staticClass: "el-checkbox__inner",
+	    staticClass: "el-checkbox__input",
 	    class: {
 	      'is-disabled': _vm.disabled,
 	      'is-checked': _vm.isChecked,
 	      'is-indeterminate': _vm.indeterminate,
 	      'is-focus': _vm.focus
 	    }
-	  }), (_vm.trueLabel || _vm.falseLabel) ? _h('input', {
+	  }, [_vm._m(0), (_vm.trueLabel || _vm.falseLabel) ? _h('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -4322,7 +4297,11 @@ module.exports =
 	  })]), (_vm.$slots.default || _vm.label) ? _h('span', {
 	    staticClass: "el-checkbox__label"
 	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()]) : _vm._e()])
-	},staticRenderFns: []}
+	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	  return _h('span', {
+	    staticClass: "el-checkbox__inner"
+	  })
+	}]}
 
 /***/ },
 /* 78 */
@@ -5020,7 +4999,11 @@ module.exports =
 	      this.$emit('change', val);
 	    },
 	    query: function query(val) {
-	      this.broadcast('ElSelectDropdown', 'updatePopper');
+	      var _this2 = this;
+
+	      this.$nextTick(function () {
+	        _this2.broadcast('ElSelectDropdown', 'updatePopper');
+	      });
 	      this.hoverIndex = -1;
 	      if (this.multiple && this.filterable) {
 	        this.resetInputHeight();
@@ -5039,7 +5022,7 @@ module.exports =
 	      }
 	    },
 	    visible: function visible(val) {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      if (!val) {
 	        this.$refs.reference.$el.querySelector('input').blur();
@@ -5052,8 +5035,8 @@ module.exports =
 	        this.selectedLabel = '';
 	        this.resetHoverIndex();
 	        this.$nextTick(function () {
-	          if (_this2.$refs.input && _this2.$refs.input.value === '' && _this2.selected.length === 0) {
-	            _this2.currentPlaceholder = _this2.cachedPlaceHolder;
+	          if (_this3.$refs.input && _this3.$refs.input.value === '' && _this3.selected.length === 0) {
+	            _this3.currentPlaceholder = _this3.cachedPlaceHolder;
 	          }
 	        });
 	        if (!this.multiple) {
@@ -5125,15 +5108,15 @@ module.exports =
 	      }
 	    },
 	    setOverflow: function setOverflow() {
-	      var _this3 = this;
+	      var _this4 = this;
 
 	      if (this.bottomOverflowBeforeHidden > 0) {
 	        this.$nextTick(function () {
-	          _this3.dropdownUl.scrollTop += _this3.bottomOverflowBeforeHidden;
+	          _this4.dropdownUl.scrollTop += _this4.bottomOverflowBeforeHidden;
 	        });
 	      } else if (this.topOverflowBeforeHidden < 0) {
 	        this.$nextTick(function () {
-	          _this3.dropdownUl.scrollTop += _this3.topOverflowBeforeHidden;
+	          _this4.dropdownUl.scrollTop += _this4.topOverflowBeforeHidden;
 	        });
 	      }
 	    },
@@ -5153,7 +5136,7 @@ module.exports =
 	      return newOption;
 	    },
 	    setSelected: function setSelected() {
-	      var _this4 = this;
+	      var _this5 = this;
 
 	      if (!this.multiple) {
 	        var option = this.getOption(this.value);
@@ -5164,7 +5147,7 @@ module.exports =
 	      var result = [];
 	      if (Array.isArray(this.value)) {
 	        this.value.forEach(function (value) {
-	          result.push(_this4.getOption(value));
+	          result.push(_this5.getOption(value));
 	        });
 	      }
 	      this.selected = result;
@@ -5218,32 +5201,32 @@ module.exports =
 	      this.resetInputHeight();
 	    },
 	    resetInputHeight: function resetInputHeight() {
-	      var _this5 = this;
+	      var _this6 = this;
 
 	      this.$nextTick(function () {
-	        var inputChildNodes = _this5.$refs.reference.$el.childNodes;
+	        var inputChildNodes = _this6.$refs.reference.$el.childNodes;
 	        var input = [].filter.call(inputChildNodes, function (item) {
 	          return item.tagName === 'INPUT';
 	        })[0];
-	        input.style.height = Math.max(_this5.$refs.tags.clientHeight + 6, sizeMap[_this5.size] || 36) + 'px';
-	        if (_this5.visible && _this5.emptyText !== false) {
-	          _this5.broadcast('ElSelectDropdown', 'updatePopper');
+	        input.style.height = Math.max(_this6.$refs.tags.clientHeight + 6, sizeMap[_this6.size] || 36) + 'px';
+	        if (_this6.visible && _this6.emptyText !== false) {
+	          _this6.broadcast('ElSelectDropdown', 'updatePopper');
 	        }
 	      });
 	    },
 	    resetHoverIndex: function resetHoverIndex() {
-	      var _this6 = this;
+	      var _this7 = this;
 
 	      setTimeout(function () {
-	        if (!_this6.multiple) {
-	          _this6.hoverIndex = _this6.options.indexOf(_this6.selected);
+	        if (!_this7.multiple) {
+	          _this7.hoverIndex = _this7.options.indexOf(_this7.selected);
 	        } else {
-	          if (_this6.selected.length > 0) {
-	            _this6.hoverIndex = Math.min.apply(null, _this6.selected.map(function (item) {
-	              return _this6.options.indexOf(item);
+	          if (_this7.selected.length > 0) {
+	            _this7.hoverIndex = Math.min.apply(null, _this7.selected.map(function (item) {
+	              return _this7.options.indexOf(item);
 	            }));
 	          } else {
-	            _this6.hoverIndex = -1;
+	            _this7.hoverIndex = -1;
 	          }
 	        }
 	      }, 300);
@@ -5330,7 +5313,7 @@ module.exports =
 	    },
 	    deleteTag: function deleteTag(event, tag) {
 	      var index = this.selected.indexOf(tag);
-	      if (index > -1) {
+	      if (index > -1 && !this.disabled) {
 	        this.value.splice(index, 1);
 	      }
 	      event.stopPropagation();
@@ -5355,7 +5338,7 @@ module.exports =
 	  },
 
 	  created: function created() {
-	    var _this7 = this;
+	    var _this8 = this;
 
 	    this.cachedPlaceHolder = this.currentPlaceholder = this.placeholder;
 	    if (this.multiple && !Array.isArray(this.value)) {
@@ -5367,7 +5350,7 @@ module.exports =
 	    this.setSelected();
 
 	    this.debouncedOnInputChange = (0, _debounce2.default)(this.debounce, function () {
-	      _this7.onInputChange();
+	      _this8.onInputChange();
 	    });
 
 	    this.$on('handleOptionClick', this.handleOptionSelect);
@@ -5375,7 +5358,7 @@ module.exports =
 	    this.$on('setSelected', this.setSelected);
 	  },
 	  mounted: function mounted() {
-	    var _this8 = this;
+	    var _this9 = this;
 
 	    if (this.multiple && Array.isArray(this.value) && this.value.length > 0) {
 	      this.currentPlaceholder = '';
@@ -5385,8 +5368,8 @@ module.exports =
 	      this.resetInputHeight();
 	    }
 	    this.$nextTick(function () {
-	      if (_this8.$refs.reference.$el) {
-	        _this8.inputWidth = _this8.$refs.reference.$el.getBoundingClientRect().width;
+	      if (_this9.$refs.reference.$el) {
+	        _this9.inputWidth = _this9.$refs.reference.$el.getBoundingClientRect().width;
 	      }
 	    });
 	  },
@@ -5627,13 +5610,6 @@ module.exports =
 	    },
 	    value: function value() {
 	      this.dispatch('ElSelect', 'setSelected');
-	    },
-	    visible: function visible() {
-	      var _this = this;
-
-	      this.$nextTick(function () {
-	        _this.dispatch('ElSelectDropdown', 'updatePopper');
-	      });
 	    }
 	  },
 
@@ -5660,10 +5636,10 @@ module.exports =
 	      }
 	    },
 	    resetIndex: function resetIndex() {
-	      var _this2 = this;
+	      var _this = this;
 
 	      this.$nextTick(function () {
-	        _this2.index = _this2.parent.options.indexOf(_this2);
+	        _this.index = _this.parent.options.indexOf(_this);
 	      });
 	    }
 	  },
@@ -7740,6 +7716,10 @@ module.exports =
 	      var newRow = rows[data.indexOf(newVal)];
 	      if (oldRow) {
 	        oldRow.classList.remove('current-row');
+	      } else if (rows) {
+	        [].forEach.call(rows, function (row) {
+	          return row.classList.remove('current-row');
+	        });
 	      }
 	      if (newRow) {
 	        newRow.classList.add('current-row');
@@ -8014,25 +7994,30 @@ module.exports =
 	                    }
 	                  },
 
-	                  'class': [column.id, column.order, column.align, column.className || '', rowIndex === 0 && _this.isCellHidden(cellIndex) ? 'is-hidden' : '', !column.children ? 'is-leaf' : ''] },
+	                  'class': [column.id, column.order, column.headerAlign, column.className || '', rowIndex === 0 && _this.isCellHidden(cellIndex) ? 'is-hidden' : '', !column.children ? 'is-leaf' : ''] },
 	                [h(
 	                  'div',
 	                  { 'class': ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : ''] },
 	                  [column.renderHeader ? column.renderHeader.call(_this._renderProxy, h, { column: column, $index: cellIndex, store: _this.store, _self: _this.$parent.$vnode.context }) : column.label, column.sortable ? h(
 	                    'span',
-	                    { 'class': 'caret-wrapper', on: {
-	                        'click': function click($event) {
-	                          return _this.handleHeaderClick($event, column);
-	                        }
-	                      }
-	                    },
+	                    { 'class': 'caret-wrapper' },
 	                    [h(
 	                      'i',
-	                      { 'class': 'sort-caret ascending' },
+	                      { 'class': 'sort-caret ascending', on: {
+	                          'click': function click($event) {
+	                            return _this.handleHeaderClick($event, column, 'ascending');
+	                          }
+	                        }
+	                      },
 	                      []
 	                    ), h(
 	                      'i',
-	                      { 'class': 'sort-caret descending' },
+	                      { 'class': 'sort-caret descending', on: {
+	                          'click': function click($event) {
+	                            return _this.handleHeaderClick($event, column, 'descending');
+	                          }
+	                        }
+	                      },
 	                      []
 	                    )]
 	                  ) : '', column.filterable ? h(
@@ -8252,7 +8237,7 @@ module.exports =
 	    handleMouseOut: function handleMouseOut() {
 	      document.body.style.cursor = '';
 	    },
-	    handleHeaderClick: function handleHeaderClick(event, column) {
+	    handleHeaderClick: function handleHeaderClick(event, column, order) {
 	      var target = event.target;
 	      while (target && target.tagName !== 'TH') {
 	        target = target.parentNode;
@@ -8280,15 +8265,14 @@ module.exports =
 	        sortProp = column.property;
 	      }
 
-	      if (!column.order) {
-	        sortOrder = column.order = 'ascending';
-	      } else if (column.order === 'ascending') {
-	        sortOrder = column.order = 'descending';
-	      } else {
+	      if (column.order === order) {
 	        sortOrder = column.order = null;
 	        states.sortingColumn = null;
 	        sortProp = null;
+	      } else {
+	        sortOrder = column.order = order;
 	      }
+
 	      states.sortProp = sortProp;
 	      states.sortOrder = sortOrder;
 
@@ -9048,6 +9032,7 @@ module.exports =
 	    context: {},
 	    columnKey: String,
 	    align: String,
+	    headerAlign: String,
 	    showTooltipWhenOverflow: Boolean,
 	    showOverflowTooltip: Boolean,
 	    fixed: [Boolean, String],
@@ -9148,6 +9133,7 @@ module.exports =
 	      isColumnGroup: isColumnGroup,
 	      context: this.context,
 	      align: this.align ? 'is-' + this.align : null,
+	      headerAlign: this.headerAlign ? 'is-' + this.headerAlign : this.align ? 'is-' + this.align : null,
 	      sortable: this.sortable,
 	      sortMethod: this.sortMethod,
 	      resizable: this.resizable,
@@ -9253,6 +9239,11 @@ module.exports =
 	    align: function align(newVal) {
 	      if (this.columnConfig) {
 	        this.columnConfig.align = newVal ? 'is-' + newVal : null;
+	      }
+	    },
+	    headerAlign: function headerAlign(newVal) {
+	      if (this.columnConfig) {
+	        this.columnConfig.headerAlign = newVal ? 'is-' + newVal : this.align;
 	      }
 	    },
 	    width: function width(newVal) {
@@ -9595,6 +9586,10 @@ module.exports =
 	    readonly: Boolean,
 	    placeholder: String,
 	    disabled: Boolean,
+	    clearable: {
+	      type: Boolean,
+	      default: true
+	    },
 	    popperClass: String,
 	    editable: {
 	      type: Boolean,
@@ -9704,9 +9699,10 @@ module.exports =
 	          if (parsedValue && this.picker) {
 	            this.picker.value = parsedValue;
 	          }
-	          return;
+	        } else {
+	          this.picker.value = value;
 	        }
-	        this.picker.value = value;
+	        this.$forceUpdate();
 	      }
 	    }
 	  },
@@ -9724,18 +9720,31 @@ module.exports =
 	  methods: {
 	    handleMouseEnterIcon: function handleMouseEnterIcon() {
 	      if (this.readonly || this.disabled) return;
-	      if (!this.valueIsEmpty) {
+	      if (!this.valueIsEmpty && this.clearable) {
 	        this.showClose = true;
 	      }
 	    },
 	    handleClickIcon: function handleClickIcon() {
 	      if (this.readonly || this.disabled) return;
-	      if (this.valueIsEmpty) {
-	        this.pickerVisible = !this.pickerVisible;
-	      } else {
+	      if (this.showClose) {
 	        this.internalValue = '';
-	        this.$emit('input', '');
+	      } else {
+	        this.pickerVisible = !this.pickerVisible;
 	      }
+	    },
+	    dateIsUpdated: function dateIsUpdated(date) {
+	      var updated = true;
+
+	      if (Array.isArray(date)) {
+	        if ((0, _util.equalDate)(this.cacheDateMin, date[0]) && (0, _util.equalDate)(this.cacheDateMax, date[1])) updated = false;
+	        this.cacheDateMin = date[0];
+	        this.cacheDateMax = date[1];
+	      } else {
+	        if ((0, _util.equalDate)(this.cacheDate, date)) updated = false;
+	        this.cacheDate = date;
+	      }
+
+	      return updated;
 	    },
 	    handleClose: function handleClose() {
 	      this.pickerVisible = false;
@@ -9819,7 +9828,11 @@ module.exports =
 	        this.picker.$on('pick', function (date) {
 	          var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-	          _this.$emit('input', date);
+	          if (_this.dateIsUpdated(date)) _this.$emit('input', date);
+
+	          _this.$nextTick(function () {
+	            return _this.$emit('change', _this.visualValue);
+	          });
 	          _this.pickerVisible = _this.picker.visible = visible;
 	          _this.picker.resetView && _this.picker.resetView();
 	        });
@@ -9855,7 +9868,7 @@ module.exports =
 	'use strict';
 
 	exports.__esModule = true;
-	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.toDate = undefined;
+	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.toDate = exports.equalDate = undefined;
 
 	var _date = __webpack_require__(139);
 
@@ -9869,6 +9882,10 @@ module.exports =
 	    result.push(i);
 	  }
 	  return result;
+	};
+
+	var equalDate = exports.equalDate = function equalDate(dateA, dateB) {
+	  return new Date(dateA).getTime() === new Date(dateB).getTime();
 	};
 
 	var toDate = exports.toDate = function toDate(date) {
@@ -10199,7 +10216,7 @@ module.exports =
 	  methods: {
 	    handleClear: function handleClear() {
 	      this.date = new Date();
-	      this.$emit('pick', '');
+	      this.$emit('pick');
 	    },
 	    resetDate: function resetDate() {
 	      this.date = new Date(this.date);
@@ -10713,7 +10730,7 @@ module.exports =
 
 	  methods: {
 	    handleClear: function handleClear() {
-	      this.$emit('pick', '');
+	      this.$emit('pick');
 	    },
 	    handleCancel: function handleCancel() {
 	      this.$emit('pick');
@@ -12447,7 +12464,7 @@ module.exports =
 	    handleClear: function handleClear() {
 	      this.minDate = null;
 	      this.maxDate = null;
-	      this.handleConfirm();
+	      this.handleConfirm(false);
 	    },
 	    handleDateInput: function handleDateInput(event, type) {
 	      var value = event.target.value;
@@ -12526,10 +12543,8 @@ module.exports =
 	      this.maxDate = val.maxDate;
 	      this.minDate = val.minDate;
 
-	      if (!close) return;
-	      if (!this.showTime) {
-	        this.$emit('pick', [this.minDate, this.maxDate]);
-	      }
+	      if (!close || this.showTime) return;
+	      this.handleConfirm();
 	    },
 	    changeToToday: function changeToToday() {
 	      this.date = new Date();
@@ -12595,7 +12610,9 @@ module.exports =
 	      date.setFullYear(date.getFullYear() - 1);
 	      this.resetDate();
 	    },
-	    handleConfirm: function handleConfirm(visible) {
+	    handleConfirm: function handleConfirm() {
+	      var visible = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
 	      this.$emit('pick', [this.minDate, this.maxDate], visible);
 	    },
 	    resetDate: function resetDate() {
@@ -13174,7 +13191,7 @@ module.exports =
 	      }
 	    },
 	    handleClear: function handleClear() {
-	      this.$emit('pick', '');
+	      this.$emit('pick');
 	    }
 	  },
 
@@ -15025,12 +15042,13 @@ module.exports =
 	      var _this2 = this;
 
 	      var valid = true;
+	      var count = 0;
 	      this.fields.forEach(function (field, index) {
 	        field.validate('', function (errors) {
 	          if (errors) {
 	            valid = false;
 	          }
-	          if (typeof callback === 'function' && index === _this2.fields.length - 1) {
+	          if (typeof callback === 'function' && ++count === _this2.fields.length) {
 	            callback(valid);
 	          }
 	        });
@@ -15447,70 +15465,90 @@ module.exports =
 
 	  props: {
 	    type: String,
-	    tabPosition: String,
 	    activeName: String,
-	    closable: false,
-	    tabWidth: 0
+	    closable: {
+	      type: Boolean,
+	      default: false
+	    },
+	    value: {}
 	  },
 
 	  data: function data() {
 	    return {
 	      children: null,
-	      activeTab: null,
-	      currentName: 0,
-	      panes: []
+	      currentName: this.value || this.activeName
 	    };
 	  },
 
 
 	  watch: {
-	    activeName: {
-	      handler: function handler(val) {
-	        this.currentName = val;
-	      }
+	    activeName: function activeName(val) {
+	      this.currentName = val;
+	    },
+	    value: function value(val) {
+	      this.currentName = val;
+	    },
+	    currentName: function currentName(val) {
+	      this.$emit('input', val);
 	    }
 	  },
 
 	  methods: {
 	    handleTabRemove: function handleTabRemove(tab, event) {
+	      var _this = this;
+
 	      event.stopPropagation();
 	      var tabs = this.$children;
 
 	      var index = tabs.indexOf(tab);
-	      tab.$destroy(true);
+	      tab.$destroy();
 
-	      if (tab.index === this.currentName) {
-	        var nextChild = tabs[index];
-	        var prevChild = tabs[index - 1];
-
-	        while (prevChild && prevChild.disabled) {
-	          prevChild = tabs[tabs.indexOf(prevChild) - 1];
-	        }
-
-	        this.currentName = nextChild ? nextChild.index : prevChild ? prevChild.index : '-1';
-	      }
 	      this.$emit('tab-remove', tab);
 	      this.$forceUpdate();
-	    },
-	    handleTabClick: function handleTabClick(tab, event) {
-	      if (tab.disabled) return;
-	      this.currentName = tab.index;
-	      this.$emit('tab-click', tab, event);
-	    },
-	    calcBarStyle: function calcBarStyle() {
-	      var _this = this;
 
-	      if (this.type || !this.$refs.tabs) return {};
+	      this.$nextTick(function (_) {
+	        if (tab.active) {
+	          var nextChild = tabs[index];
+	          var prevChild = tabs[index - 1];
+	          var nextActiveTab = nextChild || prevChild || null;
+
+	          if (nextActiveTab) {
+	            _this.currentName = nextActiveTab.name || nextActiveTab.index;
+	          }
+	        }
+	      });
+	    },
+	    handleTabClick: function handleTabClick(tab, tabName, event) {
+	      if (tab.disabled) return;
+	      this.currentName = tabName;
+	      this.$emit('tab-click', tab, event);
+	    }
+	  },
+	  mounted: function mounted() {
+	    this.$forceUpdate();
+	  },
+	  render: function render(h) {
+	    var _this2 = this;
+
+	    var type = this.type,
+	        handleTabRemove = this.handleTabRemove,
+	        handleTabClick = this.handleTabClick,
+	        currentName = this.currentName;
+
+
+	    var getBarStyle = function getBarStyle() {
+	      if (_this2.type || !_this2.$refs.tabs) return {};
 	      var style = {};
 	      var offset = 0;
 	      var tabWidth = 0;
 
-	      this.$children.every(function (panel, index) {
-	        var $el = _this.$refs.tabs[index];
+	      _this2.$children.every(function (tab, index) {
+	        var $el = _this2.$refs.tabs[index];
 	        if (!$el) {
 	          return false;
 	        }
-	        if (panel.index !== _this.currentName) {
+
+	        if (!tab.active) {
 	          offset += $el.clientWidth;
 	          return true;
 	        } else {
@@ -15523,56 +15561,54 @@ module.exports =
 	      style.transform = 'translateX(' + offset + 'px)';
 
 	      return style;
-	    }
-	  },
-	  mounted: function mounted() {
-	    var _this2 = this;
-
-	    this.currentName = this.activeName || this.$children[0] && this.$children[0].index || '1';
-	    this.$nextTick(function () {
-	      _this2.$forceUpdate();
-	    });
-	  },
-	  render: function render(h) {
-	    var _this3 = this;
-
-	    var type = this.type,
-	        panes = this.panes,
-	        handleTabRemove = this.handleTabRemove,
-	        handleTabClick = this.handleTabClick,
-	        currentName = this.currentName;
-
-
-	    var barStyle = this.calcBarStyle();
-	    var activeBar = !type ? h(
-	      'div',
-	      { 'class': 'el-tabs__active-bar', style: barStyle },
-	      []
-	    ) : null;
+	    };
 
 	    var tabs = this.$children.map(function (tab, index) {
-	      var btnClose = h('span', {
-	        class: {
-	          'el-icon-close': true
+	      var tabName = tab.name || tab.index || index;
+	      if (currentName === undefined && index === 0) {
+	        _this2.currentName = tabName;
+	      }
+
+	      tab.index = index;
+
+	      var activeBar = !type && index === 0 ? h(
+	        'div',
+	        { 'class': 'el-tabs__active-bar', style: getBarStyle() },
+	        []
+	      ) : null;
+
+	      var btnClose = tab.isClosable ? h(
+	        'span',
+	        { 'class': 'el-icon-close', on: {
+	            'click': function click(ev) {
+	              handleTabRemove(tab, ev);
+	            }
+	          }
 	        },
-	        on: { click: function click(ev) {
-	            handleTabRemove(tab, ev);
-	          } }
-	      });
-	      var _tab = h('div', {
-	        class: {
-	          'el-tabs__item': true,
-	          'is-active': currentName === tab.index,
-	          'is-disabled': tab.disabled,
-	          'is-closable': tab.isClosable
+	        []
+	      ) : null;
+
+	      var tabLabelContent = tab.labelContent ? tab.labelContent.call(_this2._renderProxy, h, tab) : tab.label;
+
+	      return h(
+	        'div',
+	        {
+	          'class': {
+	            'el-tabs__item': true,
+	            'is-active': tab.active,
+	            'is-disabled': tab.disabled,
+	            'is-closable': tab.isClosable
+	          },
+	          ref: 'tabs',
+	          refInFor: true,
+	          on: {
+	            'click': function click(ev) {
+	              handleTabClick(tab, tabName, ev);
+	            }
+	          }
 	        },
-	        ref: 'tabs',
-	        refInFor: true,
-	        on: { click: function click(ev) {
-	            handleTabClick(tab, ev);
-	          } }
-	      }, [tab.labelContent ? tab.labelContent.call(_this3._renderProxy, h, tab) : tab.label, tab.isClosable ? btnClose : null, index === 0 ? activeBar : null]);
-	      return _tab;
+	        [tabLabelContent, btnClose, activeBar]
+	      );
 	    });
 	    return h(
 	      'div',
@@ -15650,6 +15686,14 @@ module.exports =
 
 	'use strict';
 
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
 	module.exports = {
 	  name: 'el-tab-pane',
 
@@ -15663,66 +15707,31 @@ module.exports =
 
 	  data: function data() {
 	    return {
-	      counter: 0,
-	      transition: '',
-	      paneStyle: {
-	        position: 'relative'
-	      },
-	      isClosable: null,
-	      index: ''
+	      index: null
 	    };
-	  },
-	  created: function created() {
-	    var propsData = this.$options.propsData;
-	    if (propsData && typeof propsData.closable !== 'undefined') {
-	      this.isClosable = propsData.closable === '' || propsData.closable;
-	    } else {
-	      this.isClosable = this.$parent.closable;
-	    }
-	    if (!this.index) {
-	      this.index = this.$parent.$children.indexOf(this) + 1 + '';
-	    }
-	    if (this.$parent.panes) {
-	      this.$parent.panes.push(this);
-	    }
 	  },
 
 
 	  computed: {
-	    show: function show() {
-	      return this.$parent.currentName === this.index;
+	    isClosable: function isClosable() {
+	      return this.closable || this.$parent.closable;
+	    },
+	    active: function active() {
+	      return this.$parent.currentName === (this.name || this.index);
 	    }
 	  },
 
+	  created: function created() {
+	    this.$parent.$forceUpdate();
+	  },
 	  destroyed: function destroyed() {
 	    if (this.$el && this.$el.parentNode) {
 	      this.$el.parentNode.removeChild(this.$el);
-	    }
-	    var panes = this.$parent.panes;
-	    if (panes) {
-	      panes.splice(this, panes.indexOf(this));
 	    }
 	  },
 
 
 	  watch: {
-	    name: {
-	      immediate: true,
-	      handler: function handler(val) {
-	        this.index = val;
-	      }
-	    },
-	    closable: function closable(val) {
-	      this.isClosable = val;
-	    },
-	    '$parent.currentName': function $parentCurrentName(newValue, oldValue) {
-	      if (this.index === newValue) {
-	        this.transition = newValue > oldValue ? 'slideInRight' : 'slideInLeft';
-	      }
-	      if (this.index === oldValue) {
-	        this.transition = oldValue > newValue ? 'slideInRight' : 'slideInLeft';
-	      }
-	    },
 	    label: function label() {
 	      this.$parent.$forceUpdate();
 	    }
@@ -15735,14 +15744,16 @@ module.exports =
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
 	  return _h('div', {
+	    staticClass: "el-tab-pane"
+	  }, [_h('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (_vm.show && _vm.$slots.default),
-	      expression: "show && $slots.default"
+	      value: (_vm.active),
+	      expression: "active"
 	    }],
-	    staticClass: "el-tab-pane"
-	  }, [_vm._t("default")])
+	    staticClass: "el-tab-pane__content"
+	  }, [_vm._t("default")])])
 	},staticRenderFns: []}
 
 /***/ },
@@ -16988,11 +16999,11 @@ module.exports =
 	      this.tree.$emit('current-change', store.currentNode ? store.currentNode.data : null, store.currentNode);
 	      this.tree.currentNode = this;
 	      if (this.tree.expandOnClickNode) {
-	        this.handleExpandIconClick(event);
+	        this.handleExpandIconClick();
 	      }
 	      this.tree.$emit('node-click', this.node.data, this.node, this);
 	    },
-	    handleExpandIconClick: function handleExpandIconClick(event) {
+	    handleExpandIconClick: function handleExpandIconClick() {
 	      if (this.expanded) {
 	        this.node.collapse();
 	      } else {

@@ -1514,6 +1514,10 @@ module.exports =
 	      var newRow = rows[data.indexOf(newVal)];
 	      if (oldRow) {
 	        oldRow.classList.remove('current-row');
+	      } else if (rows) {
+	        [].forEach.call(rows, function (row) {
+	          return row.classList.remove('current-row');
+	        });
 	      }
 	      if (newRow) {
 	        newRow.classList.add('current-row');
@@ -1789,25 +1793,30 @@ module.exports =
 	                    }
 	                  },
 
-	                  'class': [column.id, column.order, column.align, column.className || '', rowIndex === 0 && _this.isCellHidden(cellIndex) ? 'is-hidden' : '', !column.children ? 'is-leaf' : ''] },
+	                  'class': [column.id, column.order, column.headerAlign, column.className || '', rowIndex === 0 && _this.isCellHidden(cellIndex) ? 'is-hidden' : '', !column.children ? 'is-leaf' : ''] },
 	                [h(
 	                  'div',
 	                  { 'class': ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : ''] },
 	                  [column.renderHeader ? column.renderHeader.call(_this._renderProxy, h, { column: column, $index: cellIndex, store: _this.store, _self: _this.$parent.$vnode.context }) : column.label, column.sortable ? h(
 	                    'span',
-	                    { 'class': 'caret-wrapper', on: {
-	                        'click': function click($event) {
-	                          return _this.handleHeaderClick($event, column);
-	                        }
-	                      }
-	                    },
+	                    { 'class': 'caret-wrapper' },
 	                    [h(
 	                      'i',
-	                      { 'class': 'sort-caret ascending' },
+	                      { 'class': 'sort-caret ascending', on: {
+	                          'click': function click($event) {
+	                            return _this.handleHeaderClick($event, column, 'ascending');
+	                          }
+	                        }
+	                      },
 	                      []
 	                    ), h(
 	                      'i',
-	                      { 'class': 'sort-caret descending' },
+	                      { 'class': 'sort-caret descending', on: {
+	                          'click': function click($event) {
+	                            return _this.handleHeaderClick($event, column, 'descending');
+	                          }
+	                        }
+	                      },
 	                      []
 	                    )]
 	                  ) : '', column.filterable ? h(
@@ -2027,7 +2036,7 @@ module.exports =
 	    handleMouseOut: function handleMouseOut() {
 	      document.body.style.cursor = '';
 	    },
-	    handleHeaderClick: function handleHeaderClick(event, column) {
+	    handleHeaderClick: function handleHeaderClick(event, column, order) {
 	      var target = event.target;
 	      while (target && target.tagName !== 'TH') {
 	        target = target.parentNode;
@@ -2055,15 +2064,14 @@ module.exports =
 	        sortProp = column.property;
 	      }
 
-	      if (!column.order) {
-	        sortOrder = column.order = 'ascending';
-	      } else if (column.order === 'ascending') {
-	        sortOrder = column.order = 'descending';
-	      } else {
+	      if (column.order === order) {
 	        sortOrder = column.order = null;
 	        states.sortingColumn = null;
 	        sortProp = null;
+	      } else {
+	        sortOrder = column.order = order;
 	      }
+
 	      states.sortProp = sortProp;
 	      states.sortOrder = sortOrder;
 
