@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(15);
+	module.exports = __webpack_require__(20);
 
 
 /***/ },
 
-/***/ 15:
+/***/ 20:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _breadcrumb = __webpack_require__(16);
+	var _breadcrumb = __webpack_require__(21);
 
 	var _breadcrumb2 = _interopRequireDefault(_breadcrumb);
 
@@ -73,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 16:
+/***/ 21:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(17)
+	__vue_exports__ = __webpack_require__(22)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(18)
+	var __vue_template__ = __webpack_require__(23)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,7 +103,7 @@ module.exports =
 
 /***/ },
 
-/***/ 17:
+/***/ 22:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -128,13 +128,13 @@ module.exports =
 
 /***/ },
 
-/***/ 18:
+/***/ 23:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('div', {
+	  return _c('div', {
 	    staticClass: "el-breadcrumb"
-	  }, [_vm._t("default")])
+	  }, [_vm._t("default")], true)
 	},staticRenderFns: []}
 
 /***/ }

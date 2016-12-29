@@ -46,48 +46,48 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(175);
+	module.exports = __webpack_require__(196);
 
 
 /***/ },
 
-/***/ 50:
-/***/ function(module, exports) {
-
-	module.exports = require("vue");
-
-/***/ },
-
-/***/ 53:
+/***/ 12:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 
-/***/ 115:
+/***/ 68:
 /***/ function(module, exports) {
 
-	module.exports = require("wind-dom/src/event");
+	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 175:
+/***/ 74:
+/***/ function(module, exports) {
+
+	module.exports = require("vue");
+
+/***/ },
+
+/***/ 196:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(176);
+	var _main = __webpack_require__(197);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _directive = __webpack_require__(179);
+	var _directive = __webpack_require__(200);
 
 	var _directive2 = _interopRequireDefault(_directive);
 
-	var _vue = __webpack_require__(50);
+	var _vue = __webpack_require__(74);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -106,17 +106,17 @@ module.exports =
 
 /***/ },
 
-/***/ 176:
+/***/ 197:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(177)
+	__vue_exports__ = __webpack_require__(198)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(178)
+	var __vue_template__ = __webpack_require__(199)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -136,18 +136,18 @@ module.exports =
 
 /***/ },
 
-/***/ 177:
+/***/ 198:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(53);
+	var _vuePopper = __webpack_require__(12);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _event = __webpack_require__(115);
+	var _dom = __webpack_require__(68);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -212,18 +212,18 @@ module.exports =
 	      reference = this.referenceElm = this.$slots.reference[0].elm;
 	    }
 	    if (this.trigger === 'click') {
-	      (0, _event.on)(reference, 'click', function () {
+	      (0, _dom.on)(reference, 'click', function () {
 	        _this.showPopper = !_this.showPopper;
 	      });
-	      (0, _event.on)(document, 'click', function (e) {
+	      (0, _dom.on)(document, 'click', function (e) {
 	        if (!_this.$el || !reference || _this.$el.contains(e.target) || reference.contains(e.target) || !popper || popper.contains(e.target)) return;
 	        _this.showPopper = false;
 	      });
 	    } else if (this.trigger === 'hover') {
-	      (0, _event.on)(reference, 'mouseenter', this.handleMouseEnter);
-	      (0, _event.on)(popper, 'mouseenter', this.handleMouseEnter);
-	      (0, _event.on)(reference, 'mouseleave', this.handleMouseLeave);
-	      (0, _event.on)(popper, 'mouseleave', this.handleMouseLeave);
+	      (0, _dom.on)(reference, 'mouseenter', this.handleMouseEnter);
+	      (0, _dom.on)(popper, 'mouseenter', this.handleMouseEnter);
+	      (0, _dom.on)(reference, 'mouseleave', this.handleMouseLeave);
+	      (0, _dom.on)(popper, 'mouseleave', this.handleMouseLeave);
 	    } else if (this.trigger === 'focus') {
 	      var found = false;
 
@@ -232,10 +232,10 @@ module.exports =
 	        var len = children.length;
 	        for (var i = 0; i < len; i++) {
 	          if (children[i].nodeName === 'INPUT' || children[i].nodeName === 'TEXTAREA') {
-	            (0, _event.on)(children[i], 'focus', function () {
+	            (0, _dom.on)(children[i], 'focus', function () {
 	              _this.showPopper = true;
 	            });
-	            (0, _event.on)(children[i], 'blur', function () {
+	            (0, _dom.on)(children[i], 'blur', function () {
 	              _this.showPopper = false;
 	            });
 	            found = true;
@@ -245,17 +245,17 @@ module.exports =
 	      }
 	      if (found) return;
 	      if (reference.nodeName === 'INPUT' || reference.nodeName === 'TEXTAREA') {
-	        (0, _event.on)(reference, 'focus', function () {
+	        (0, _dom.on)(reference, 'focus', function () {
 	          _this.showPopper = true;
 	        });
-	        (0, _event.on)(reference, 'blur', function () {
+	        (0, _dom.on)(reference, 'blur', function () {
 	          _this.showPopper = false;
 	        });
 	      } else {
-	        (0, _event.on)(reference, 'mousedown', function () {
+	        (0, _dom.on)(reference, 'mousedown', function () {
 	          _this.showPopper = true;
 	        });
-	        (0, _event.on)(reference, 'mouseup', function () {
+	        (0, _dom.on)(reference, 'mouseup', function () {
 	          _this.showPopper = false;
 	        });
 	      }
@@ -280,29 +280,29 @@ module.exports =
 	  destroyed: function destroyed() {
 	    var reference = this.reference;
 
-	    (0, _event.off)(reference, 'mouseup');
-	    (0, _event.off)(reference, 'mousedown');
-	    (0, _event.off)(reference, 'focus');
-	    (0, _event.off)(reference, 'blur');
-	    (0, _event.off)(reference, 'mouseleave');
-	    (0, _event.off)(reference, 'mouseenter');
+	    (0, _dom.off)(reference, 'mouseup');
+	    (0, _dom.off)(reference, 'mousedown');
+	    (0, _dom.off)(reference, 'focus');
+	    (0, _dom.off)(reference, 'blur');
+	    (0, _dom.off)(reference, 'mouseleave');
+	    (0, _dom.off)(reference, 'mouseenter');
 	  }
 	};
 
 /***/ },
 
-/***/ 178:
+/***/ 199:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('span', [_h('transition', {
+	  return _c('span', [_c('transition', {
 	    attrs: {
 	      "name": _vm.transition
 	    },
 	    on: {
 	      "after-leave": _vm.doDestroy
 	    }
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -315,17 +315,17 @@ module.exports =
 	    style: ({
 	      width: _vm.width + 'px'
 	    })
-	  }, [(_vm.title) ? _h('div', {
+	  }, [(_vm.title) ? _c('div', {
 	    staticClass: "el-popover__title",
 	    domProps: {
 	      "textContent": _vm._s(_vm.title)
 	    }
-	  }) : _vm._e(), _vm._t("default", [_vm._s(_vm.content)])])]), _vm._t("reference")])
+	  }) : _vm._e(), _vm._t("default", [_vm._v(_vm._s(_vm.content))])], true)]), _vm._t("reference")], true)
 	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 179:
+/***/ 200:
 /***/ function(module, exports) {
 
 	"use strict";

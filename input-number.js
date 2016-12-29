@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(112);
+	module.exports = __webpack_require__(135);
 
 
 /***/ },
@@ -58,14 +58,21 @@ module.exports =
 
 /***/ },
 
-/***/ 112:
+/***/ 68:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/dom");
+
+/***/ },
+
+/***/ 135:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _inputNumber = __webpack_require__(113);
+	var _inputNumber = __webpack_require__(136);
 
 	var _inputNumber2 = _interopRequireDefault(_inputNumber);
 
@@ -80,17 +87,17 @@ module.exports =
 
 /***/ },
 
-/***/ 113:
+/***/ 136:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(114)
+	__vue_exports__ = __webpack_require__(137)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(116)
+	var __vue_template__ = __webpack_require__(138)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,7 +117,7 @@ module.exports =
 
 /***/ },
 
-/***/ 114:
+/***/ 137:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -121,7 +128,7 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _event = __webpack_require__(115);
+	var _dom = __webpack_require__(68);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -175,9 +182,8 @@ module.exports =
 	        var startTime = void 0;
 
 	        var handler = function handler() {
-	          vnode.context[binding.expression]();
+	          return vnode.context[binding.expression]();
 	        };
-
 	        var clear = function clear() {
 	          if (new Date() - startTime < 100) {
 	            handler();
@@ -186,12 +192,10 @@ module.exports =
 	          interval = null;
 	        };
 
-	        (0, _event.on)(el, 'mousedown', function () {
+	        (0, _dom.on)(el, 'mousedown', function () {
 	          startTime = new Date();
-	          (0, _event.once)(document, 'mouseup', clear);
-	          interval = setInterval(function () {
-	            handler();
-	          }, 100);
+	          (0, _dom.once)(document, 'mouseup', clear);
+	          interval = setInterval(handler, 100);
 	        });
 	      }
 	    }
@@ -307,7 +311,7 @@ module.exports =
 	      if (this.maxDisabled) return;
 	      var value = this.value || 0;
 	      if (this.accAdd(value, this.step) > this.max || this.disabled) return;
-	      this.currentValue = this.accAdd(this.step, value);
+	      this.currentValue = this.accAdd(value, this.step);
 	    },
 	    decrease: function decrease() {
 	      if (this.minDisabled) return;
@@ -323,18 +327,11 @@ module.exports =
 
 /***/ },
 
-/***/ 115:
-/***/ function(module, exports) {
-
-	module.exports = require("wind-dom/src/event");
-
-/***/ },
-
-/***/ 116:
+/***/ 138:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('div', {
+	  return _c('div', {
 	    staticClass: "el-input-number",
 	    class: [
 	      _vm.size ? 'el-input-number--' + _vm.size : '', {
@@ -343,7 +340,7 @@ module.exports =
 	        'is-without-controls': !_vm.controls
 	      }
 	    ]
-	  }, [(_vm.controls) ? _h('span', {
+	  }, [(_vm.controls) ? _c('span', {
 	    directives: [{
 	      name: "repeat-click",
 	      rawName: "v-repeat-click",
@@ -354,7 +351,7 @@ module.exports =
 	    class: {
 	      'is-disabled': _vm.minDisabled
 	    }
-	  }) : _vm._e(), (_vm.controls) ? _h('span', {
+	  }) : _vm._e(), (_vm.controls) ? _c('span', {
 	    directives: [{
 	      name: "repeat-click",
 	      rawName: "v-repeat-click",
@@ -365,7 +362,7 @@ module.exports =
 	    class: {
 	      'is-disabled': _vm.maxDisabled
 	    }
-	  }) : _vm._e(), _h('el-input', {
+	  }) : _vm._e(), _c('el-input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model.number",
@@ -384,25 +381,27 @@ module.exports =
 	      "value": (_vm.currentValue)
 	    },
 	    on: {
-	      "blur": _vm.handleBlur,
+	      "blur": [_vm.handleBlur, function($event) {
+	        _vm.$forceUpdate()
+	      }],
 	      "input": function($event) {
 	        _vm.currentValue = _vm._n($event)
 	      }
 	    },
 	    nativeOn: {
 	      "keydown": [function($event) {
-	        if ($event.keyCode !== 38) { return; }
+	        if (_vm._k($event.keyCode, "up", 38)) { return; }
 	        _vm.increase($event)
 	      }, function($event) {
-	        if ($event.keyCode !== 40) { return; }
+	        if (_vm._k($event.keyCode, "down", 40)) { return; }
 	        _vm.decrease($event)
 	      }]
 	    }
-	  }, [(_vm.$slots.prepend) ? _h('template', {
+	  }, [(_vm.$slots.prepend) ? _c('template', {
 	    slot: "prepend"
-	  }, [_vm._t("prepend")]) : _vm._e(), (_vm.$slots.append) ? _h('template', {
+	  }, [_vm._t("prepend")], true) : _vm._e(), (_vm.$slots.append) ? _c('template', {
 	    slot: "append"
-	  }, [_vm._t("append")]) : _vm._e()])])
+	  }, [_vm._t("append")], true) : _vm._e()], true)])
 	},staticRenderFns: []}
 
 /***/ }

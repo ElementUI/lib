@@ -118,6 +118,8 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
 
 	var TYPE_CLASSES_MAP = {
 	  'success': 'el-icon-circle-check',
@@ -152,8 +154,7 @@ module.exports =
 	    showIcon: {
 	      type: Boolean,
 	      default: false
-	    },
-	    renderContent: Function
+	    }
 	  },
 
 	  data: function data() {
@@ -162,25 +163,6 @@ module.exports =
 	    };
 	  },
 
-
-	  components: {
-	    descContent: {
-	      render: function render(h) {
-	        var parent = this.$parent;
-	        if (parent.renderContent) {
-	          return parent.renderContent(h);
-	        } else if (parent.description) {
-	          return h(
-	            'p',
-	            { 'class': 'el-alert__description' },
-	            [parent.description]
-	          );
-	        } else {
-	          return '';
-	        }
-	      }
-	    }
-	  },
 
 	  methods: {
 	    close: function close() {
@@ -210,11 +192,11 @@ module.exports =
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('transition', {
+	  return _c('transition', {
 	    attrs: {
 	      "name": "el-alert-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -223,15 +205,17 @@ module.exports =
 	    }],
 	    staticClass: "el-alert",
 	    class: [_vm.typeClass]
-	  }, [(_vm.showIcon) ? _h('i', {
+	  }, [(_vm.showIcon) ? _c('i', {
 	    staticClass: "el-alert__icon",
 	    class: [_vm.iconClass, _vm.isBigIcon]
-	  }) : _vm._e(), _h('div', {
+	  }) : _vm._e(), _c('div', {
 	    staticClass: "el-alert__content"
-	  }, [(_vm.title) ? _h('span', {
+	  }, [(_vm.title) ? _c('span', {
 	    staticClass: "el-alert__title",
 	    class: [_vm.isBoldTitle]
-	  }, [_vm._s(_vm.title)]) : _vm._e(), _h('desc-content'), _h('i', {
+	  }, [_vm._v(_vm._s(_vm.title))]) : _vm._e(), _vm._t("default", [(_vm.description) ? _c('p', {
+	    staticClass: "el-alert__description"
+	  }, [_vm._v(_vm._s(_vm.description))]) : _vm._e()]), _c('i', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -247,7 +231,7 @@ module.exports =
 	        _vm.close()
 	      }
 	    }
-	  }, [_vm._s(_vm.closeText)])])])])
+	  }, [_vm._v(_vm._s(_vm.closeText))])], true)])])
 	},staticRenderFns: []}
 
 /***/ }

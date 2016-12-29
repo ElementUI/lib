@@ -46,26 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(163);
+	module.exports = __webpack_require__(185);
 
 
 /***/ },
 
-/***/ 38:
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 163:
+/***/ 185:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _optionGroup = __webpack_require__(164);
+	var _optionGroup = __webpack_require__(186);
 
 	var _optionGroup2 = _interopRequireDefault(_optionGroup);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 164:
+/***/ 186:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(165)
+	__vue_exports__ = __webpack_require__(187)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(166)
+	var __vue_template__ = __webpack_require__(188)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,14 +110,14 @@ module.exports =
 
 /***/ },
 
-/***/ 165:
+/***/ 187:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(38);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -181,13 +181,13 @@ module.exports =
 
 /***/ },
 
-/***/ 166:
+/***/ 188:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('ul', {
+	  return _c('ul', {
 	    staticClass: "el-select-group__wrap"
-	  }, [_h('li', {
+	  }, [_c('li', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -195,9 +195,9 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-select-group__title"
-	  }, [_vm._s(_vm.label)]), _h('li', [_h('ul', {
+	  }, [_vm._v(_vm._s(_vm.label))]), _c('li', [_c('ul', {
 	    staticClass: "el-select-group"
-	  }, [_vm._t("default")])])])
+	  }, [_vm._t("default")], true)])])
 	},staticRenderFns: []}
 
 /***/ }

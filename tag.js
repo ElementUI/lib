@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(266);
+	module.exports = __webpack_require__(288);
 
 
 /***/ },
 
-/***/ 266:
+/***/ 288:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tag = __webpack_require__(267);
+	var _tag = __webpack_require__(289);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
@@ -73,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 267:
+/***/ 289:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(268)
+	__vue_exports__ = __webpack_require__(290)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(269)
+	var __vue_template__ = __webpack_require__(291)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,7 +103,7 @@ module.exports =
 
 /***/ },
 
-/***/ 268:
+/***/ 290:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -142,15 +142,15 @@ module.exports =
 
 /***/ },
 
-/***/ 269:
+/***/ 291:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('transition', {
+	  return _c('transition', {
 	    attrs: {
 	      "name": _vm.closeTransition ? '' : 'el-zoom-in-center'
 	    }
-	  }, [_h('span', {
+	  }, [_c('span', {
 	    staticClass: "el-tag",
 	    class: [_vm.type ? 'el-tag--' + _vm.type : '', {
 	      'is-hit': _vm.hit
@@ -158,12 +158,12 @@ module.exports =
 	    style: ({
 	      backgroundColor: _vm.color
 	    })
-	  }, [_vm._t("default"), (_vm.closable) ? _h('i', {
+	  }, [_vm._t("default"), (_vm.closable) ? _c('i', {
 	    staticClass: "el-tag__close el-icon-close",
 	    on: {
 	      "click": _vm.handleClose
 	    }
-	  }) : _vm._e()])])
+	  }) : _vm._e()], true)])
 	},staticRenderFns: []}
 
 /***/ }

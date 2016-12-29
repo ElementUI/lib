@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(78);
+	module.exports = __webpack_require__(101);
 
 
 /***/ },
 
-/***/ 78:
+/***/ 101:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _component = __webpack_require__(79);
+	var _component = __webpack_require__(102);
 
 	var _component2 = _interopRequireDefault(_component);
 
@@ -73,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 79:
+/***/ 102:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(80)
+	__vue_exports__ = __webpack_require__(103)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(82)
+	var __vue_template__ = __webpack_require__(105)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,23 +103,23 @@ module.exports =
 
 /***/ },
 
-/***/ 80:
+/***/ 103:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopup = __webpack_require__(81);
+	var _popup = __webpack_require__(104);
 
-	var _vuePopup2 = _interopRequireDefault(_vuePopup);
+	var _popup2 = _interopRequireDefault(_popup);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	  name: 'el-dialog',
 
-	  mixins: [_vuePopup2.default],
+	  mixins: [_popup2.default],
 
 	  props: {
 	    title: {
@@ -242,22 +242,22 @@ module.exports =
 
 /***/ },
 
-/***/ 81:
+/***/ 104:
 /***/ function(module, exports) {
 
-	module.exports = require("vue-popup");
+	module.exports = require("element-ui/lib/utils/popup");
 
 /***/ },
 
-/***/ 82:
+/***/ 105:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('transition', {
+	  return _c('transition', {
 	    attrs: {
 	      "name": "dialog-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -271,29 +271,29 @@ module.exports =
 	        _vm.handleWrapperClick($event)
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    ref: "dialog",
 	    staticClass: "el-dialog",
 	    class: [_vm.sizeClass, _vm.customClass],
 	    style: (_vm.style)
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    staticClass: "el-dialog__header"
-	  }, [_h('span', {
+	  }, [_c('span', {
 	    staticClass: "el-dialog__title"
-	  }, [_vm._s(_vm.title)]), _h('div', {
+	  }, [_vm._v(_vm._s(_vm.title))]), _c('div', {
 	    staticClass: "el-dialog__headerbtn"
-	  }, [(_vm.showClose) ? _h('i', {
+	  }, [(_vm.showClose) ? _c('i', {
 	    staticClass: "el-dialog__close el-icon el-icon-close",
 	    on: {
 	      "click": function($event) {
 	        _vm.close()
 	      }
 	    }
-	  }) : _vm._e()])]), (_vm.rendered) ? _h('div', {
+	  }) : _vm._e()])]), (_vm.rendered) ? _c('div', {
 	    staticClass: "el-dialog__body"
-	  }, [_vm._t("default")]) : _vm._e(), (_vm.$slots.footer) ? _h('div', {
+	  }, [_vm._t("default")], true) : _vm._e(), (_vm.$slots.footer) ? _c('div', {
 	    staticClass: "el-dialog__footer"
-	  }, [_vm._t("footer")]) : _vm._e()])])])
+	  }, [_vm._t("footer")], true) : _vm._e()])])])
 	},staticRenderFns: []}
 
 /***/ }

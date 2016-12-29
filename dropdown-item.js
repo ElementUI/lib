@@ -46,26 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(86);
+	module.exports = __webpack_require__(109);
 
 
 /***/ },
 
-/***/ 38:
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 86:
+/***/ 109:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _dropdownItem = __webpack_require__(87);
+	var _dropdownItem = __webpack_require__(110);
 
 	var _dropdownItem2 = _interopRequireDefault(_dropdownItem);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 87:
+/***/ 110:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(88)
+	__vue_exports__ = __webpack_require__(111)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(89)
+	var __vue_template__ = __webpack_require__(112)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,14 +110,14 @@ module.exports =
 
 /***/ },
 
-/***/ 88:
+/***/ 111:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(38);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -154,11 +154,11 @@ module.exports =
 
 /***/ },
 
-/***/ 89:
+/***/ 112:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('li', {
+	  return _c('li', {
 	    staticClass: "el-dropdown-menu__item",
 	    class: {
 	      'is-disabled': _vm.disabled,
@@ -167,7 +167,7 @@ module.exports =
 	    on: {
 	      "click": _vm.handleClick
 	    }
-	  }, [_vm._t("default")])
+	  }, [_vm._t("default")], true)
 	},staticRenderFns: []}
 
 /***/ }

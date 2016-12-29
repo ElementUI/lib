@@ -2,12 +2,18 @@
 
 exports.__esModule = true;
 
-var _event = require('wind-dom/src/event');
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _dom = require('element-ui/lib/utils/dom');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var nodeList = [];
 var ctx = '@@clickoutsideContext';
 
-(0, _event.on)(document, 'click', function (e) {
+!_vue2.default.prototype.$isServer && (0, _dom.on)(document, 'click', function (e) {
   nodeList.forEach(function (node) {
     return node[ctx].documentHandler(e);
   });

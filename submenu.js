@@ -46,12 +46,12 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(233);
+	module.exports = __webpack_require__(256);
 
 
 /***/ },
 
-/***/ 131:
+/***/ 153:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -94,14 +94,14 @@ module.exports =
 
 /***/ },
 
-/***/ 233:
+/***/ 256:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _submenu = __webpack_require__(234);
+	var _submenu = __webpack_require__(257);
 
 	var _submenu2 = _interopRequireDefault(_submenu);
 
@@ -116,17 +116,17 @@ module.exports =
 
 /***/ },
 
-/***/ 234:
+/***/ 257:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(235)
+	__vue_exports__ = __webpack_require__(258)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(236)
+	var __vue_template__ = __webpack_require__(259)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -146,12 +146,12 @@ module.exports =
 
 /***/ },
 
-/***/ 235:
+/***/ 258:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _menuMixin = __webpack_require__(131);
+	var _menuMixin = __webpack_require__(153);
 
 	var _menuMixin2 = _interopRequireDefault(_menuMixin);
 
@@ -256,31 +256,31 @@ module.exports =
 
 /***/ },
 
-/***/ 236:
+/***/ 259:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('li', {
+	  return _c('li', {
 	    class: {
 	      'el-submenu': true,
 	      'is-active': _vm.active,
 	      'is-opened': _vm.opened
 	    }
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    ref: "submenu-title",
 	    staticClass: "el-submenu__title",
 	    style: (_vm.paddingStyle)
-	  }, [_vm._t("title"), _h('i', {
+	  }, [_vm._t("title"), _c('i', {
 	    class: {
 	      'el-submenu__icon-arrow': true,
 	      'el-icon-arrow-down': _vm.rootMenu.mode === 'vertical',
 	        'el-icon-caret-bottom': _vm.rootMenu.mode === 'horizontal'
 	    }
-	  })]), _h('transition', {
+	  })], true), _c('transition', {
 	    attrs: {
 	      "name": _vm.rootMenu.mode === 'horizontal' ? 'el-zoom-in-top' : ''
 	    }
-	  }, [_h('ul', {
+	  }, [_c('ul', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -288,7 +288,7 @@ module.exports =
 	      expression: "opened"
 	    }],
 	    staticClass: "el-menu"
-	  }, [_vm._t("default")])])])
+	  }, [_vm._t("default")], true)])])
 	},staticRenderFns: []}
 
 /***/ }

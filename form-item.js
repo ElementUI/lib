@@ -46,26 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(98);
+	module.exports = __webpack_require__(121);
 
 
 /***/ },
 
-/***/ 38:
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 98:
+/***/ 121:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _formItem = __webpack_require__(99);
+	var _formItem = __webpack_require__(122);
 
 	var _formItem2 = _interopRequireDefault(_formItem);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 99:
+/***/ 122:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(100)
+	__vue_exports__ = __webpack_require__(123)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(102)
+	var __vue_template__ = __webpack_require__(125)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,18 +110,18 @@ module.exports =
 
 /***/ },
 
-/***/ 100:
+/***/ 123:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _asyncValidator = __webpack_require__(101);
+	var _asyncValidator = __webpack_require__(124);
 
 	var _asyncValidator2 = _interopRequireDefault(_asyncValidator);
 
-	var _emitter = __webpack_require__(38);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -273,7 +273,7 @@ module.exports =
 	        _this.validateState = !errors ? 'success' : 'error';
 	        _this.validateMessage = errors ? errors[0].message : '';
 
-	        callback(errors);
+	        callback(_this.validateMessage);
 	      });
 	    },
 	    resetField: function resetField() {
@@ -355,37 +355,37 @@ module.exports =
 
 /***/ },
 
-/***/ 101:
+/***/ 124:
 /***/ function(module, exports) {
 
 	module.exports = require("async-validator");
 
 /***/ },
 
-/***/ 102:
+/***/ 125:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('div', {
+	  return _c('div', {
 	    staticClass: "el-form-item",
 	    class: {
 	      'is-error': _vm.validateState === 'error',
 	        'is-validating': _vm.validateState === 'validating',
 	        'is-required': _vm.isRequired || _vm.required
 	    }
-	  }, [(_vm.label) ? _h('label', {
+	  }, [(_vm.label) ? _c('label', {
 	    staticClass: "el-form-item__label",
 	    style: (_vm.labelStyle)
-	  }, ["\n    " + _vm._s(_vm.label + _vm.form.labelSuffix) + "\n  "]) : _vm._e(), _h('div', {
+	  }, [_vm._v("\n    " + _vm._s(_vm.label + _vm.form.labelSuffix) + "\n  ")]) : _vm._e(), _c('div', {
 	    staticClass: "el-form-item__content",
 	    style: (_vm.contentStyle)
-	  }, [_vm._t("default"), _h('transition', {
+	  }, [_vm._t("default"), _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    }
-	  }, [(_vm.validateState === 'error') ? _h('div', {
+	  }, [(_vm.validateState === 'error') ? _c('div', {
 	    staticClass: "el-form-item__error"
-	  }, [_vm._s(_vm.validateMessage)]) : _vm._e()])])])
+	  }, [_vm._v(_vm._s(_vm.validateMessage))]) : _vm._e()])], true)])
 	},staticRenderFns: []}
 
 /***/ }

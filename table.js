@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(245);
+	module.exports = __webpack_require__(268);
 
 
 /***/ },
@@ -58,63 +58,70 @@ module.exports =
 
 /***/ },
 
-/***/ 50:
-/***/ function(module, exports) {
-
-	module.exports = require("vue");
-
-/***/ },
-
-/***/ 53:
+/***/ 12:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 
-/***/ 57:
+/***/ 43:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/mixins/locale");
+	module.exports = require("throttle-debounce/throttle");
 
 /***/ },
 
-/***/ 174:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/mixins/migrating");
-
-/***/ },
-
-/***/ 210:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/tag");
-
-/***/ },
-
-/***/ 211:
+/***/ 44:
 /***/ function(module, exports) {
 
 	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
 
-/***/ 212:
+/***/ 45:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ },
 
-/***/ 245:
+/***/ 74:
+/***/ function(module, exports) {
+
+	module.exports = require("vue");
+
+/***/ },
+
+/***/ 80:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/mixins/locale");
+
+/***/ },
+
+/***/ 227:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/scrollbar-width");
+
+/***/ },
+
+/***/ 236:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/tag");
+
+/***/ },
+
+/***/ 268:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _table = __webpack_require__(246);
+	var _table = __webpack_require__(269);
 
 	var _table2 = _interopRequireDefault(_table);
 
@@ -129,17 +136,17 @@ module.exports =
 
 /***/ },
 
-/***/ 246:
+/***/ 269:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(247)
+	__vue_exports__ = __webpack_require__(270)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(260)
+	var __vue_template__ = __webpack_require__(282)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -159,56 +166,51 @@ module.exports =
 
 /***/ },
 
-/***/ 247:
+/***/ 270:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(248);
+	var _checkbox = __webpack_require__(271);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _migrating = __webpack_require__(174);
-
-	var _migrating2 = _interopRequireDefault(_migrating);
-
-	var _throttle = __webpack_require__(249);
+	var _throttle = __webpack_require__(43);
 
 	var _throttle2 = _interopRequireDefault(_throttle);
 
-	var _debounce = __webpack_require__(211);
+	var _debounce = __webpack_require__(44);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _resizeEvent = __webpack_require__(212);
+	var _resizeEvent = __webpack_require__(45);
 
-	var _locale = __webpack_require__(57);
+	var _locale = __webpack_require__(80);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _tableStore = __webpack_require__(250);
+	var _tableStore = __webpack_require__(272);
 
 	var _tableStore2 = _interopRequireDefault(_tableStore);
 
-	var _tableLayout = __webpack_require__(252);
+	var _tableLayout = __webpack_require__(274);
 
 	var _tableLayout2 = _interopRequireDefault(_tableLayout);
 
-	var _tableBody = __webpack_require__(253);
+	var _tableBody = __webpack_require__(275);
 
 	var _tableBody2 = _interopRequireDefault(_tableBody);
 
-	var _tableHeader = __webpack_require__(254);
+	var _tableHeader = __webpack_require__(276);
 
 	var _tableHeader2 = _interopRequireDefault(_tableHeader);
 
-	var _util = __webpack_require__(251);
+	var _util = __webpack_require__(273);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var tableIdSeed = 1; //
 	//
 	//
 	//
@@ -310,11 +312,18 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+
+	var tableIdSeed = 1;
 
 	exports.default = {
 	  name: 'el-table',
 
-	  mixins: [_migrating2.default, _locale2.default],
+	  mixins: [_locale2.default],
 
 	  props: {
 	    data: {
@@ -325,6 +334,8 @@ module.exports =
 	    },
 
 	    width: [String, Number],
+
+	    virtualScrollbar: Boolean,
 
 	    height: [String, Number],
 
@@ -354,7 +365,13 @@ module.exports =
 
 	    highlightCurrentRow: Boolean,
 
-	    emptyText: String
+	    currentRowKey: [String, Number],
+
+	    emptyText: String,
+
+	    expandRowKeys: Array,
+
+	    defaultExpandAll: Boolean
 	  },
 
 	  components: {
@@ -364,23 +381,6 @@ module.exports =
 	  },
 
 	  methods: {
-	    getMigratingConfig: function getMigratingConfig() {
-	      return {
-	        props: {
-	          'allow-no-selection': 'Table: allow-no-selection has been removed.',
-	          'selection-mode': 'Table: selection-mode has been removed.',
-	          'fixed-column-count': 'Table: fixed-column-count has been removed. Use fixed prop in TableColumn instead.',
-	          'custom-criteria': 'Table: custom-criteria has been removed. Use row-class-name instead.',
-	          'custom-background-colors': 'custom-background-colors has been removed. Use row-class-name instead.'
-	        },
-	        events: {
-	          selectionchange: 'Table: selectionchange has been renamed to selection-change.',
-	          cellmouseenter: 'Table: cellmouseenter has been renamed to cell-mouse-enter.',
-	          cellmouseleave: 'Table: cellmouseleave has been renamed to cell-mouse-leave.',
-	          cellclick: 'Table: cellclick has been renamed to cell-click.'
-	        }
-	      };
-	    },
 	    toggleRowSelection: function toggleRowSelection(row, selected) {
 	      this.store.toggleRowSelection(row, selected);
 	      this.store.updateAllSelected();
@@ -398,12 +398,10 @@ module.exports =
 	    bindEvents: function bindEvents() {
 	      var _this = this;
 
-	      var _$refs = this.$refs,
-	          bodyWrapper = _$refs.bodyWrapper,
-	          headerWrapper = _$refs.headerWrapper;
+	      var headerWrapper = this.$refs.headerWrapper;
 
 	      var refs = this.$refs;
-	      bodyWrapper.addEventListener('scroll', function () {
+	      this.bodyWrapper.addEventListener('scroll', function () {
 	        if (headerWrapper) headerWrapper.scrollLeft = this.scrollLeft;
 	        if (refs.fixedBodyWrapper) refs.fixedBodyWrapper.scrollTop = this.scrollTop;
 	        if (refs.rightFixedBodyWrapper) refs.rightFixedBodyWrapper.scrollTop = this.scrollTop;
@@ -414,9 +412,9 @@ module.exports =
 	          var deltaX = event.deltaX;
 
 	          if (deltaX > 0) {
-	            bodyWrapper.scrollLeft = bodyWrapper.scrollLeft + 10;
+	            _this.bodyWrapper.scrollLeft += 10;
 	          } else {
-	            bodyWrapper.scrollLeft = bodyWrapper.scrollLeft - 10;
+	            _this.bodyWrapper.scrollLeft -= 10;
 	          }
 	        }));
 	      }
@@ -457,6 +455,9 @@ module.exports =
 
 
 	  computed: {
+	    bodyWrapper: function bodyWrapper() {
+	      return this.$refs.bodyWrapper.wrap;
+	    },
 	    shouldUpdateHeight: function shouldUpdateHeight() {
 	      return typeof this.height === 'number' || this.fixedColumns.length > 0 || this.rightFixedColumns.length > 0;
 	    },
@@ -532,6 +533,9 @@ module.exports =
 	    height: function height(value) {
 	      this.layout.setHeight(value);
 	    },
+	    currentRowKey: function currentRowKey(newVal) {
+	      this.store.setCurrentRowKey(newVal);
+	    },
 
 
 	    data: {
@@ -539,6 +543,10 @@ module.exports =
 	      handler: function handler(val) {
 	        this.store.commit('setData', val);
 	      }
+	    },
+
+	    expandRowKeys: function expandRowKeys(newVal) {
+	      this.store.setExpandRowKeys(newVal);
 	    }
 	  },
 
@@ -553,7 +561,8 @@ module.exports =
 	  },
 	  data: function data() {
 	    var store = new _tableStore2.default(this, {
-	      rowKey: this.rowKey
+	      rowKey: this.rowKey,
+	      defaultExpandAll: this.defaultExpandAll
 	    });
 	    var layout = new _tableLayout2.default({
 	      store: store,
@@ -564,6 +573,7 @@ module.exports =
 	    return {
 	      store: store,
 	      layout: layout,
+	      renderExpanded: null,
 	      resizeProxyVisible: false
 	    };
 	  }
@@ -571,36 +581,29 @@ module.exports =
 
 /***/ },
 
-/***/ 248:
+/***/ 271:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 249:
-/***/ function(module, exports) {
-
-	module.exports = require("throttle-debounce/throttle");
-
-/***/ },
-
-/***/ 250:
+/***/ 272:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(50);
+	var _vue = __webpack_require__(74);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _debounce = __webpack_require__(211);
+	var _debounce = __webpack_require__(44);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _util = __webpack_require__(251);
+	var _util = __webpack_require__(273);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -673,7 +676,9 @@ module.exports =
 	    selectable: null,
 	    currentRow: null,
 	    hoverRow: null,
-	    filters: {}
+	    filters: {},
+	    expandRows: [],
+	    defaultExpandAll: false
 	  };
 
 	  for (var prop in initialState) {
@@ -690,6 +695,15 @@ module.exports =
 	    var dataInstanceChanged = states._data !== data;
 	    states._data = data;
 	    states.data = sortData(data || [], states);
+
+	    states.data.forEach(function (item) {
+	      if (!item.$extra) {
+	        Object.defineProperty(item, '$extra', {
+	          value: {},
+	          enumerable: false
+	        });
+	      }
+	    });
 
 	    this.updateCurrentRow();
 
@@ -722,6 +736,11 @@ module.exports =
 	          console.warn('WARN: rowKey is required when reserve-selection is enabled.');
 	        }
 	      })();
+	    }
+
+	    var defaultExpandAll = states.defaultExpandAll;
+	    if (defaultExpandAll) {
+	      this.states.expandRows = (states.data || []).slice(0);
 	    }
 
 	    _vue2.default.nextTick(function () {
@@ -836,6 +855,26 @@ module.exports =
 	  },
 
 
+	  toggleRowExpanded: function toggleRowExpanded(states, row, expanded) {
+	    var expandRows = states.expandRows;
+	    if (typeof expanded !== 'undefined') {
+	      var index = expandRows.indexOf(row);
+	      if (expanded) {
+	        if (index === -1) expandRows.push(row);
+	      } else {
+	        if (index !== -1) expandRows.splice(index, 1);
+	      }
+	    } else {
+	      var _index = expandRows.indexOf(row);
+	      if (_index === -1) {
+	        expandRows.push(row);
+	      } else {
+	        expandRows.splice(_index, 1);
+	      }
+	    }
+	    this.table.$emit('expand', row, expandRows.indexOf(row) !== -1);
+	  },
+
 	  toggleAllSelection: (0, _debounce2.default)(10, function (states) {
 	    var data = states.data || [];
 	    var value = !states.isAllSelected;
@@ -908,6 +947,22 @@ module.exports =
 	  if (oldSelection.length > 0) {
 	    this.table.$emit('selection-change', states.selection);
 	  }
+	};
+
+	TableStore.prototype.setExpandRowKeys = function (rowKeys) {
+	  var expandRows = [];
+	  var data = this.states.data;
+	  var rowKey = this.states.rowKey;
+	  if (!rowKey) throw new Error('[Table] prop row-key should not be empty.');
+	  var keysMap = getKeysMap(data, rowKey);
+	  rowKeys.forEach(function (key) {
+	    var info = keysMap[key];
+	    if (info) {
+	      expandRows.push(info.row);
+	    }
+	  });
+
+	  this.states.expandRows = expandRows;
 	};
 
 	TableStore.prototype.toggleRowSelection = function (row, selected) {
@@ -1004,6 +1059,18 @@ module.exports =
 	  this.table.debouncedLayout();
 	};
 
+	TableStore.prototype.setCurrentRowKey = function (key) {
+	  var states = this.states;
+	  var rowKey = states.rowKey;
+	  if (!rowKey) throw new Error('[Table] row-key should not be empty.');
+	  var data = states.data || [];
+	  var keysMap = getKeysMap(data, rowKey);
+	  var info = keysMap[key];
+	  if (info) {
+	    states.currentRow = info.row;
+	  }
+	};
+
 	TableStore.prototype.updateCurrentRow = function () {
 	  var states = this.states;
 	  var table = this.table;
@@ -1027,6 +1094,8 @@ module.exports =
 	    }
 
 	    mutations[name].apply(this, [this.states].concat(args));
+	  } else {
+	    throw new Error('Action not found: ' + name);
 	  }
 	};
 
@@ -1034,7 +1103,7 @@ module.exports =
 
 /***/ },
 
-/***/ 251:
+/***/ 273:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1042,31 +1111,6 @@ module.exports =
 	exports.__esModule = true;
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-	var scrollBarWidth = void 0;
-
-	var getScrollBarWidth = exports.getScrollBarWidth = function getScrollBarWidth() {
-	  if (scrollBarWidth !== undefined) return scrollBarWidth;
-
-	  var outer = document.createElement('div');
-	  outer.style.visibility = 'hidden';
-	  outer.style.width = '100px';
-	  outer.style.position = 'absolute';
-	  outer.style.top = '-9999px';
-	  document.body.appendChild(outer);
-
-	  var widthNoScroll = outer.offsetWidth;
-	  outer.style.overflow = 'scroll';
-
-	  var inner = document.createElement('div');
-	  inner.style.width = '100%';
-	  outer.appendChild(inner);
-
-	  var widthWithScroll = inner.offsetWidth;
-	  outer.parentNode.removeChild(outer);
-
-	  return widthNoScroll - widthWithScroll;
-	};
 
 	var getCell = exports.getCell = function getCell(event) {
 	  var cell = event.target;
@@ -1144,7 +1188,7 @@ module.exports =
 	  return null;
 	};
 
-	var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+	var isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
 	var mousewheel = exports.mousewheel = function mousewheel(element, callback) {
 	  if (element && element.addEventListener) {
@@ -1163,18 +1207,20 @@ module.exports =
 
 /***/ },
 
-/***/ 252:
+/***/ 274:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(251);
+	var _scrollbarWidth = __webpack_require__(227);
+
+	var _scrollbarWidth2 = _interopRequireDefault(_scrollbarWidth);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var GUTTER_WIDTH = void 0;
 
 	var TableLayout = function () {
 	  function TableLayout(options) {
@@ -1197,11 +1243,7 @@ module.exports =
 	    this.viewportHeight = null; // Table Height - Scroll Bar Height
 	    this.bodyHeight = null; // Table Height - Table Header Height
 	    this.fixedBodyHeight = null; // Table Height - Table Header Height - Scroll Bar Height
-
-	    if (GUTTER_WIDTH === undefined) {
-	      GUTTER_WIDTH = (0, _util.getScrollBarWidth)();
-	    }
-	    this.gutterWidth = GUTTER_WIDTH;
+	    this.gutterWidth = (0, _scrollbarWidth2.default)();
 
 	    for (var name in options) {
 	      if (options.hasOwnProperty(name)) {
@@ -1220,7 +1262,7 @@ module.exports =
 	  TableLayout.prototype.updateScrollY = function updateScrollY() {
 	    var height = this.height;
 	    if (typeof height !== 'string' && typeof height !== 'number') return;
-	    var bodyWrapper = this.table.$refs.bodyWrapper;
+	    var bodyWrapper = this.table.bodyWrapper;
 	    if (this.table.$el && bodyWrapper) {
 	      var body = bodyWrapper.querySelector('.el-table__body');
 	      this.scrollY = body.offsetHeight > bodyWrapper.offsetHeight;
@@ -1376,16 +1418,16 @@ module.exports =
 
 /***/ },
 
-/***/ 253:
+/***/ 275:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(251);
+	var _util = __webpack_require__(273);
 
-	var _checkbox = __webpack_require__(248);
+	var _checkbox = __webpack_require__(271);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -1439,11 +1481,11 @@ module.exports =
 	        'tbody',
 	        null,
 	        [this._l(this.data, function (row, $index) {
-	          return h(
+	          return [h(
 	            'tr',
 	            {
 	              style: _this.rowStyle ? _this.getRowStyle(row, $index) : null,
-	              key: _this.$parent.rowKey ? _this.getKeyOfRow(row, $index) : $index,
+	              key: _this.table.rowKey ? _this.getKeyOfRow(row, $index) : $index,
 	              on: {
 	                'dblclick': function dblclick($event) {
 	                  return _this.handleDoubleClick($event, row);
@@ -1462,7 +1504,7 @@ module.exports =
 	                }
 	              },
 
-	              'class': _this.getRowClass(row, $index) },
+	              'class': [_this.getRowClass(row, $index)] },
 	            [_this._l(_this.columns, function (column, cellIndex) {
 	              return h(
 	                'td',
@@ -1475,14 +1517,24 @@ module.exports =
 	                    'mouseleave': _this.handleCellMouseLeave
 	                  }
 	                },
-	                [column.renderCell.call(_this._renderProxy, h, { row: row, column: column, $index: $index, store: _this.store, _self: _this.context || _this.$parent.$vnode.context })]
+	                [column.renderCell.call(_this._renderProxy, h, { row: row, column: column, $index: $index, store: _this.store, _self: _this.context || _this.table.$vnode.context })]
 	              );
 	            }), !_this.fixed && _this.layout.scrollY && _this.layout.gutterWidth ? h(
 	              'td',
 	              { 'class': 'gutter' },
 	              []
 	            ) : '']
-	          );
+	          ), _this.store.states.expandRows.indexOf(row) > -1 ? h(
+	            'tr',
+	            null,
+	            [h(
+	              'td',
+	              {
+	                attrs: { colspan: _this.columns.length },
+	                'class': 'el-table__expanded-cell' },
+	              [_this.table.renderExpanded ? _this.table.renderExpanded(h, { row: row, $index: $index, store: _this.store }) : '']
+	            )]
+	          ) : ''];
 	        })]
 	      )]
 	    );
@@ -1526,6 +1578,9 @@ module.exports =
 	  },
 
 	  computed: {
+	    table: function table() {
+	      return this.$parent.$parent.columns ? this.$parent.$parent : this.$parent;
+	    },
 	    data: function data() {
 	      return this.store.states.data;
 	    },
@@ -1552,7 +1607,7 @@ module.exports =
 
 	  methods: {
 	    getKeyOfRow: function getKeyOfRow(row, index) {
-	      var rowKey = this.$parent.rowKey;
+	      var rowKey = this.table.rowKey;
 	      if (rowKey) {
 	        return (0, _util.getRowIdentity)(row, rowKey);
 	      }
@@ -1587,7 +1642,7 @@ module.exports =
 	      return classes.join(' ');
 	    },
 	    handleCellMouseEnter: function handleCellMouseEnter(event, row) {
-	      var table = this.$parent;
+	      var table = this.table;
 	      var cell = (0, _util.getCell)(event);
 
 	      if (cell) {
@@ -1605,8 +1660,8 @@ module.exports =
 	      var cell = (0, _util.getCell)(event);
 	      if (!cell) return;
 
-	      var oldHoverState = this.$parent.hoverState;
-	      this.$parent.$emit('cell-mouse-leave', oldHoverState.row, oldHoverState.column, oldHoverState.cell, event);
+	      var oldHoverState = this.table.hoverState;
+	      this.table.$emit('cell-mouse-leave', oldHoverState.row, oldHoverState.column, oldHoverState.cell, event);
 	    },
 	    handleMouseEnter: function handleMouseEnter(index) {
 	      this.store.commit('setHoverRow', index);
@@ -1615,15 +1670,15 @@ module.exports =
 	      this.store.commit('setHoverRow', null);
 	    },
 	    handleContextMenu: function handleContextMenu(event, row) {
-	      var table = this.$parent;
+	      var table = this.table;
 	      table.$emit('row-contextmenu', row, event);
 	    },
 	    handleDoubleClick: function handleDoubleClick(event, row) {
-	      var table = this.$parent;
+	      var table = this.table;
 	      table.$emit('row-dblclick', row, event);
 	    },
 	    handleClick: function handleClick(event, row) {
-	      var table = this.$parent;
+	      var table = this.table;
 	      var cell = (0, _util.getCell)(event);
 	      var column = void 0;
 	      if (cell) {
@@ -1636,32 +1691,35 @@ module.exports =
 	      this.store.commit('setCurrentRow', row);
 
 	      table.$emit('row-click', row, event, column);
+	    },
+	    handleExpandClick: function handleExpandClick(row) {
+	      this.store.commit('toggleRowExpanded', row);
 	    }
 	  }
 	};
 
 /***/ },
 
-/***/ 254:
+/***/ 276:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(248);
+	var _checkbox = __webpack_require__(271);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(210);
+	var _tag = __webpack_require__(236);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _vue = __webpack_require__(50);
+	var _vue = __webpack_require__(74);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _filterPanel = __webpack_require__(255);
+	var _filterPanel = __webpack_require__(277);
 
 	var _filterPanel2 = _interopRequireDefault(_filterPanel);
 
@@ -1927,7 +1985,7 @@ module.exports =
 	        filterPanel.table = table;
 	        filterPanel.cell = cell;
 	        filterPanel.column = column;
-	        filterPanel.$mount(document.createElement('div'));
+	        !this.$isServer && filterPanel.$mount(document.createElement('div'));
 	      }
 
 	      setTimeout(function () {
@@ -1940,6 +1998,7 @@ module.exports =
 	    handleMouseDown: function handleMouseDown(event, column) {
 	      var _this2 = this;
 
+	      if (this.$isServer) return;
 	      if (column.children && column.children.length > 0) return;
 	      /* istanbul ignore if */
 	      if (this.draggingColumn && this.border) {
@@ -2034,6 +2093,7 @@ module.exports =
 	      }
 	    },
 	    handleMouseOut: function handleMouseOut() {
+	      if (this.$isServer) return;
 	      document.body.style.cursor = '';
 	    },
 	    handleHeaderClick: function handleHeaderClick(event, column, order) {
@@ -2090,17 +2150,17 @@ module.exports =
 
 /***/ },
 
-/***/ 255:
+/***/ 277:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(256)
+	__vue_exports__ = __webpack_require__(278)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(259)
+	var __vue_template__ = __webpack_require__(281)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -2120,18 +2180,18 @@ module.exports =
 
 /***/ },
 
-/***/ 256:
+/***/ 278:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(53);
+	var _vuePopper = __webpack_require__(12);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _locale = __webpack_require__(57);
+	var _locale = __webpack_require__(80);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -2139,15 +2199,15 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _dropdown = __webpack_require__(257);
+	var _dropdown = __webpack_require__(279);
 
 	var _dropdown2 = _interopRequireDefault(_dropdown);
 
-	var _checkbox = __webpack_require__(248);
+	var _checkbox = __webpack_require__(271);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _checkboxGroup = __webpack_require__(258);
+	var _checkboxGroup = __webpack_require__(280);
 
 	var _checkboxGroup2 = _interopRequireDefault(_checkboxGroup);
 
@@ -2332,7 +2392,7 @@ module.exports =
 
 	    this.popperElm = this.$el;
 	    this.referenceElm = this.cell;
-	    this.table.$refs.bodyWrapper.addEventListener('scroll', function () {
+	    this.table.bodyWrapper.addEventListener('scroll', function () {
 	      _this.updatePopper();
 	    });
 
@@ -2349,15 +2409,22 @@ module.exports =
 
 /***/ },
 
-/***/ 257:
-/***/ function(module, exports) {
+/***/ 279:
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
+
+	var _vue = __webpack_require__(74);
+
+	var _vue2 = _interopRequireDefault(_vue);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var dropdowns = [];
 
-	document.addEventListener('click', function (event) {
+	!_vue2.default.prototype.$isServer && document.addEventListener('click', function (event) {
 	  dropdowns.forEach(function (dropdown) {
 	    var target = event.target;
 	    if (!dropdown || !dropdown.$el) return;
@@ -2384,22 +2451,22 @@ module.exports =
 
 /***/ },
 
-/***/ 258:
+/***/ 280:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox-group");
 
 /***/ },
 
-/***/ 259:
+/***/ 281:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('transition', {
+	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    }
-	  }, [(_vm.multiple) ? _h('div', {
+	  }, [(_vm.multiple) ? _c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -2407,9 +2474,9 @@ module.exports =
 	      expression: "showPopper"
 	    }],
 	    staticClass: "el-table-filter"
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    staticClass: "el-table-filter__content"
-	  }, [_h('el-checkbox-group', {
+	  }, [_c('el-checkbox-group', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -2425,15 +2492,15 @@ module.exports =
 	        _vm.filteredValue = $event
 	      }
 	    }
-	  }, [_vm._l((_vm.filters), function(filter) {
-	    return _h('el-checkbox', {
+	  }, _vm._l((_vm.filters), function(filter) {
+	    return _c('el-checkbox', {
 	      attrs: {
 	        "label": filter.value
 	      }
-	    }, [_vm._s(filter.text)])
-	  })])]), _h('div', {
+	    }, [_vm._v(_vm._s(filter.text))])
+	  }))]), _c('div', {
 	    staticClass: "el-table-filter__bottom"
-	  }, [_h('button', {
+	  }, [_c('button', {
 	    class: {
 	      'is-disabled': _vm.filteredValue.length === 0
 	    },
@@ -2443,11 +2510,11 @@ module.exports =
 	    on: {
 	      "click": _vm.handleConfirm
 	    }
-	  }, [_vm._s(_vm.t('el.table.confirmFilter'))]), _h('button', {
+	  }, [_vm._v(_vm._s(_vm.t('el.table.confirmFilter')))]), _c('button', {
 	    on: {
 	      "click": _vm.handleReset
 	    }
-	  }, [_vm._s(_vm.t('el.table.resetFilter'))])])]) : _h('div', {
+	  }, [_vm._v(_vm._s(_vm.t('el.table.resetFilter')))])])]) : _c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -2455,9 +2522,9 @@ module.exports =
 	      expression: "showPopper"
 	    }],
 	    staticClass: "el-table-filter"
-	  }, [_h('ul', {
+	  }, [_c('ul', {
 	    staticClass: "el-table-filter__list"
-	  }, [_h('li', {
+	  }, [_c('li', {
 	    staticClass: "el-table-filter__list-item",
 	    class: {
 	      'is-active': !_vm.filterValue
@@ -2467,8 +2534,8 @@ module.exports =
 	        _vm.handleSelect(null)
 	      }
 	    }
-	  }, [_vm._s(_vm.t('el.table.clearFilter'))]), _vm._l((_vm.filters), function(filter) {
-	    return _h('li', {
+	  }, [_vm._v(_vm._s(_vm.t('el.table.clearFilter')))]), _vm._l((_vm.filters), function(filter) {
+	    return _c('li', {
 	      staticClass: "el-table-filter__list-item",
 	      class: {
 	        'is-active': _vm.isActive(filter)
@@ -2481,17 +2548,17 @@ module.exports =
 	          _vm.handleSelect(filter.value)
 	        }
 	      }
-	    }, [_vm._s(filter.text)])
-	  })])])])
+	    }, [_vm._v(_vm._s(filter.text))])
+	  })], true)])])
 	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 260:
+/***/ 282:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('div', {
+	  return _c('div', {
 	    staticClass: "el-table",
 	    class: {
 	      'el-table--fit': _vm.fit,
@@ -2506,13 +2573,13 @@ module.exports =
 	        _vm.handleMouseLeave($event)
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    ref: "hiddenColumns",
 	    staticClass: "hidden-columns"
-	  }, [_vm._t("default")]), (_vm.showHeader) ? _h('div', {
+	  }, [_vm._t("default")], true), (_vm.showHeader) ? _c('div', {
 	    ref: "headerWrapper",
 	    staticClass: "el-table__header-wrapper"
-	  }, [_h('table-header', {
+	  }, [_c('table-header', {
 	    style: ({
 	      width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
 	    }),
@@ -2521,11 +2588,14 @@ module.exports =
 	      "layout": _vm.layout,
 	      "border": _vm.border
 	    }
-	  })]) : _vm._e(), _h('div', {
+	  })]) : _vm._e(), _c('el-scrollbar', {
 	    ref: "bodyWrapper",
 	    staticClass: "el-table__body-wrapper",
-	    style: ([_vm.bodyHeight])
-	  }, [_h('table-body', {
+	    attrs: {
+	      "native": !_vm.virtualScrollbar,
+	      "wrap-style": [_vm.bodyHeight]
+	    }
+	  }, [_c('table-body', {
 	    style: ({
 	      width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth - (_vm.layout.scrollY ? _vm.layout.gutterWidth : 0) + 'px' : ''
 	    }),
@@ -2537,11 +2607,11 @@ module.exports =
 	      "row-style": _vm.rowStyle,
 	      "highlight": _vm.highlightCurrentRow
 	    }
-	  }), (!_vm.data || _vm.data.length === 0) ? _h('div', {
+	  }), (!_vm.data || _vm.data.length === 0) ? _c('div', {
 	    staticClass: "el-table__empty-block"
-	  }, [_h('span', {
+	  }, [_c('span', {
 	    staticClass: "el-table__empty-text"
-	  }, [_vm._t("empty", [_vm._s(_vm.emptyText || _vm.t('el.table.emptyText'))])])]) : _vm._e()]), (_vm.fixedColumns.length > 0) ? _h('div', {
+	  }, [_vm._t("empty", [_vm._v(_vm._s(_vm.emptyText || _vm.t('el.table.emptyText')))])], true)]) : _vm._e()]), (_vm.fixedColumns.length > 0) ? _c('div', {
 	    ref: "fixedWrapper",
 	    staticClass: "el-table__fixed",
 	    style: ([{
@@ -2549,10 +2619,10 @@ module.exports =
 	      },
 	      _vm.fixedHeight
 	    ])
-	  }, [(_vm.showHeader) ? _h('div', {
+	  }, [(_vm.showHeader) ? _c('div', {
 	    ref: "fixedHeaderWrapper",
 	    staticClass: "el-table__fixed-header-wrapper"
-	  }, [_h('table-header', {
+	  }, [_c('table-header', {
 	    style: ({
 	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
 	    }),
@@ -2562,7 +2632,7 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout
 	    }
-	  })]) : _vm._e(), _h('div', {
+	  })]) : _vm._e(), _c('div', {
 	    ref: "fixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
 	    style: ([{
@@ -2570,7 +2640,7 @@ module.exports =
 	      },
 	      _vm.fixedBodyHeight
 	    ])
-	  }, [_h('table-body', {
+	  }, [_c('table-body', {
 	    style: ({
 	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
 	    }),
@@ -2582,7 +2652,7 @@ module.exports =
 	      "row-class-name": _vm.rowClassName,
 	      "row-style": _vm.rowStyle
 	    }
-	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _h('div', {
+	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _c('div', {
 	    ref: "rightFixedWrapper",
 	    staticClass: "el-table__fixed-right",
 	    style: ([{
@@ -2592,10 +2662,10 @@ module.exports =
 	      },
 	      _vm.fixedHeight
 	    ])
-	  }, [(_vm.showHeader) ? _h('div', {
+	  }, [(_vm.showHeader) ? _c('div', {
 	    ref: "rightFixedHeaderWrapper",
 	    staticClass: "el-table__fixed-header-wrapper"
-	  }, [_h('table-header', {
+	  }, [_c('table-header', {
 	    style: ({
 	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
 	    }),
@@ -2605,7 +2675,7 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout
 	    }
-	  })]) : _vm._e(), _h('div', {
+	  })]) : _vm._e(), _c('div', {
 	    ref: "rightFixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
 	    style: ([{
@@ -2613,7 +2683,7 @@ module.exports =
 	      },
 	      _vm.fixedBodyHeight
 	    ])
-	  }, [_h('table-body', {
+	  }, [_c('table-body', {
 	    style: ({
 	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
 	    }),
@@ -2625,13 +2695,13 @@ module.exports =
 	      "row-style": _vm.rowStyle,
 	      "highlight": _vm.highlightCurrentRow
 	    }
-	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _h('div', {
+	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _c('div', {
 	    staticClass: "el-table__fixed-right-patch",
 	    style: ({
 	      width: _vm.layout.scrollY ? _vm.layout.gutterWidth + 'px' : '0',
 	      height: _vm.layout.headerHeight + 'px'
 	    })
-	  }) : _vm._e(), _h('div', {
+	  }) : _vm._e(), _c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",

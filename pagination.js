@@ -46,26 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(167);
+	module.exports = __webpack_require__(189);
 
 
 /***/ },
 
-/***/ 57:
+/***/ 80:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 167:
+/***/ 189:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _pagination = __webpack_require__(168);
+	var _pagination = __webpack_require__(190);
 
 	var _pagination2 = _interopRequireDefault(_pagination);
 
@@ -80,30 +80,26 @@ module.exports =
 
 /***/ },
 
-/***/ 168:
+/***/ 190:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _pager = __webpack_require__(169);
+	var _pager = __webpack_require__(191);
 
 	var _pager2 = _interopRequireDefault(_pager);
 
-	var _select = __webpack_require__(172);
+	var _select = __webpack_require__(194);
 
 	var _select2 = _interopRequireDefault(_select);
 
-	var _option = __webpack_require__(173);
+	var _option = __webpack_require__(195);
 
 	var _option2 = _interopRequireDefault(_option);
 
-	var _migrating = __webpack_require__(174);
-
-	var _migrating2 = _interopRequireDefault(_migrating);
-
-	var _locale = __webpack_require__(57);
+	var _locale = __webpack_require__(80);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -111,8 +107,6 @@ module.exports =
 
 	exports.default = {
 	  name: 'ElPagination',
-
-	  mixins: [_migrating2.default],
 
 	  props: {
 	    pageSize: {
@@ -417,15 +411,6 @@ module.exports =
 	  },
 
 	  methods: {
-	    getMigratingConfig: function getMigratingConfig() {
-	      return {
-	        props: {},
-	        events: {
-	          'currentchange': 'Pagination: currentchange has been renamed to current-change',
-	          'sizechange': 'Pagination: sizechange has been renamed to size-change'
-	        }
-	      };
-	    },
 	    handleCurrentChange: function handleCurrentChange(val) {
 	      this.internalCurrentPage = this.getValidCurrentPage(val);
 	    },
@@ -526,17 +511,17 @@ module.exports =
 
 /***/ },
 
-/***/ 169:
+/***/ 191:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(170)
+	__vue_exports__ = __webpack_require__(192)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(171)
+	var __vue_template__ = __webpack_require__(193)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -556,7 +541,7 @@ module.exports =
 
 /***/ },
 
-/***/ 170:
+/***/ 192:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -710,21 +695,21 @@ module.exports =
 
 /***/ },
 
-/***/ 171:
+/***/ 193:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('ul', {
+	  return _c('ul', {
 	    staticClass: "el-pager",
 	    on: {
 	      "click": _vm.onPagerClick
 	    }
-	  }, [(_vm.pageCount > 0) ? _h('li', {
+	  }, [(_vm.pageCount > 0) ? _c('li', {
 	    staticClass: "number",
 	    class: {
 	      active: _vm.currentPage === 1
 	    }
-	  }, ["1"]) : _vm._e(), (_vm.showPrevMore) ? _h('li', {
+	  }, [_vm._v("1")]) : _vm._e(), (_vm.showPrevMore) ? _c('li', {
 	    staticClass: "el-icon more btn-quickprev",
 	    class: [_vm.quickprevIconClass],
 	    on: {
@@ -736,13 +721,13 @@ module.exports =
 	      }
 	    }
 	  }) : _vm._e(), _vm._l((_vm.pagers), function(pager) {
-	    return _h('li', {
+	    return _c('li', {
 	      staticClass: "number",
 	      class: {
 	        active: _vm.currentPage === pager
 	      }
-	    }, [_vm._s(pager)])
-	  }), (_vm.showNextMore) ? _h('li', {
+	    }, [_vm._v(_vm._s(pager))])
+	  }), (_vm.showNextMore) ? _c('li', {
 	    staticClass: "el-icon more btn-quicknext",
 	    class: [_vm.quicknextIconClass],
 	    on: {
@@ -753,34 +738,27 @@ module.exports =
 	        _vm.quicknextIconClass = 'el-icon-more'
 	      }
 	    }
-	  }) : _vm._e(), (_vm.pageCount > 1) ? _h('li', {
+	  }) : _vm._e(), (_vm.pageCount > 1) ? _c('li', {
 	    staticClass: "number",
 	    class: {
 	      active: _vm.currentPage === _vm.pageCount
 	    }
-	  }, [_vm._s(_vm.pageCount)]) : _vm._e()])
+	  }, [_vm._v(_vm._s(_vm.pageCount))]) : _vm._e()], true)
 	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 172:
+/***/ 194:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/select");
 
 /***/ },
 
-/***/ 173:
+/***/ 195:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/option");
-
-/***/ },
-
-/***/ 174:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }
 

@@ -46,40 +46,40 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(284);
+	module.exports = __webpack_require__(306);
 
 
 /***/ },
 
-/***/ 123:
+/***/ 145:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 152:
+/***/ 174:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 248:
+/***/ 271:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 284:
+/***/ 306:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tree = __webpack_require__(285);
+	var _tree = __webpack_require__(307);
 
 	var _tree2 = _interopRequireDefault(_tree);
 
@@ -94,17 +94,17 @@ module.exports =
 
 /***/ },
 
-/***/ 285:
+/***/ 307:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(286)
+	__vue_exports__ = __webpack_require__(308)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(294)
+	var __vue_template__ = __webpack_require__(316)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -124,18 +124,18 @@ module.exports =
 
 /***/ },
 
-/***/ 286:
+/***/ 308:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _treeStore = __webpack_require__(287);
+	var _treeStore = __webpack_require__(309);
 
 	var _treeStore2 = _interopRequireDefault(_treeStore);
 
-	var _locale = __webpack_require__(152);
+	var _locale = __webpack_require__(174);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -235,7 +235,7 @@ module.exports =
 
 
 	  components: {
-	    ElTreeNode: __webpack_require__(290)
+	    ElTreeNode: __webpack_require__(312)
 	  },
 
 	  computed: {
@@ -300,7 +300,7 @@ module.exports =
 
 /***/ },
 
-/***/ 287:
+/***/ 309:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -309,11 +309,11 @@ module.exports =
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var _node = __webpack_require__(288);
+	var _node = __webpack_require__(310);
 
 	var _node2 = _interopRequireDefault(_node);
 
-	var _util = __webpack_require__(289);
+	var _util = __webpack_require__(311);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -594,7 +594,7 @@ module.exports =
 
 /***/ },
 
-/***/ 288:
+/***/ 310:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -603,11 +603,11 @@ module.exports =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _merge = __webpack_require__(123);
+	var _merge = __webpack_require__(145);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
-	var _util = __webpack_require__(289);
+	var _util = __webpack_require__(311);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1007,7 +1007,7 @@ module.exports =
 
 /***/ },
 
-/***/ 289:
+/***/ 311:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1032,17 +1032,17 @@ module.exports =
 
 /***/ },
 
-/***/ 290:
+/***/ 312:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(291)
+	__vue_exports__ = __webpack_require__(313)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(293)
+	var __vue_template__ = __webpack_require__(315)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -1062,18 +1062,18 @@ module.exports =
 
 /***/ },
 
-/***/ 291:
+/***/ 313:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _transition = __webpack_require__(292);
+	var _transition = __webpack_require__(314);
 
 	var _transition2 = _interopRequireDefault(_transition);
 
-	var _checkbox = __webpack_require__(248);
+	var _checkbox = __webpack_require__(271);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -1265,7 +1265,7 @@ module.exports =
 
 /***/ },
 
-/***/ 292:
+/***/ 314:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1364,11 +1364,11 @@ module.exports =
 
 /***/ },
 
-/***/ 293:
+/***/ 315:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('div', {
+	  return _c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1387,12 +1387,12 @@ module.exports =
 	        _vm.handleClick($event)
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    staticClass: "el-tree-node__content",
 	    style: ({
 	      'padding-left': (_vm.node.level - 1) * 16 + 'px'
 	    })
-	  }, [_h('span', {
+	  }, [_c('span', {
 	    staticClass: "el-tree-node__expand-icon",
 	    class: {
 	      'is-leaf': _vm.node.isLeaf, expanded: !_vm.node.isLeaf && _vm.expanded
@@ -1403,7 +1403,7 @@ module.exports =
 	        _vm.handleExpandIconClick($event)
 	      }
 	    }
-	  }), (_vm.showCheckbox) ? _h('el-checkbox', {
+	  }), (_vm.showCheckbox) ? _c('el-checkbox', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -1427,13 +1427,13 @@ module.exports =
 	        _vm.handleUserClick($event)
 	      }
 	    }
-	  }) : _vm._e(), (_vm.node.loading) ? _h('span', {
+	  }) : _vm._e(), (_vm.node.loading) ? _c('span', {
 	    staticClass: "el-tree-node__loading-icon el-icon-loading"
-	  }) : _vm._e(), _h('node-content', {
+	  }) : _vm._e(), _c('node-content', {
 	    attrs: {
 	      "node": _vm.node
 	    }
-	  })]), _h('collapse-transition', [_h('div', {
+	  })]), _c('collapse-transition', [_c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1441,30 +1441,30 @@ module.exports =
 	      expression: "expanded"
 	    }],
 	    staticClass: "el-tree-node__children"
-	  }, [_vm._l((_vm.node.childNodes), function(child) {
-	    return _h('el-tree-node', {
+	  }, _vm._l((_vm.node.childNodes), function(child) {
+	    return _c('el-tree-node', {
 	      key: _vm.getNodeKey(child),
 	      attrs: {
 	        "render-content": _vm.renderContent,
 	        "node": child
 	      }
 	    })
-	  })])])])
+	  }))])])
 	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 294:
+/***/ 316:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('div', {
+	  return _c('div', {
 	    staticClass: "el-tree",
 	    class: {
 	      'el-tree--highlight-current': _vm.highlightCurrent
 	    }
 	  }, [_vm._l((_vm.root.childNodes), function(child) {
-	    return _h('el-tree-node', {
+	    return _c('el-tree-node', {
 	      key: _vm.getNodeKey(child),
 	      attrs: {
 	        "node": child,
@@ -1472,11 +1472,11 @@ module.exports =
 	        "render-content": _vm.renderContent
 	      }
 	    })
-	  }), (!_vm.root.childNodes || _vm.root.childNodes.length === 0) ? _h('div', {
+	  }), (!_vm.root.childNodes || _vm.root.childNodes.length === 0) ? _c('div', {
 	    staticClass: "el-tree__empty-block"
-	  }, [_h('span', {
+	  }, [_c('span', {
 	    staticClass: "el-tree__empty-text"
-	  }, [_vm._s(_vm.emptyText)])]) : _vm._e()])
+	  }, [_vm._v(_vm._s(_vm.emptyText))])]) : _vm._e()], true)
 	},staticRenderFns: []}
 
 /***/ }

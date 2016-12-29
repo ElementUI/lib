@@ -46,33 +46,33 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(261);
+	module.exports = __webpack_require__(283);
 
 
 /***/ },
 
-/***/ 123:
+/***/ 145:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 210:
+/***/ 236:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 248:
+/***/ 271:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 251:
+/***/ 273:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -80,31 +80,6 @@ module.exports =
 	exports.__esModule = true;
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-	var scrollBarWidth = void 0;
-
-	var getScrollBarWidth = exports.getScrollBarWidth = function getScrollBarWidth() {
-	  if (scrollBarWidth !== undefined) return scrollBarWidth;
-
-	  var outer = document.createElement('div');
-	  outer.style.visibility = 'hidden';
-	  outer.style.width = '100px';
-	  outer.style.position = 'absolute';
-	  outer.style.top = '-9999px';
-	  document.body.appendChild(outer);
-
-	  var widthNoScroll = outer.offsetWidth;
-	  outer.style.overflow = 'scroll';
-
-	  var inner = document.createElement('div');
-	  inner.style.width = '100%';
-	  outer.appendChild(inner);
-
-	  var widthWithScroll = inner.offsetWidth;
-	  outer.parentNode.removeChild(outer);
-
-	  return widthNoScroll - widthWithScroll;
-	};
 
 	var getCell = exports.getCell = function getCell(event) {
 	  var cell = event.target;
@@ -182,7 +157,7 @@ module.exports =
 	  return null;
 	};
 
-	var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+	var isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
 	var mousewheel = exports.mousewheel = function mousewheel(element, callback) {
 	  if (element && element.addEventListener) {
@@ -201,14 +176,14 @@ module.exports =
 
 /***/ },
 
-/***/ 261:
+/***/ 283:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tableColumn = __webpack_require__(262);
+	var _tableColumn = __webpack_require__(284);
 
 	var _tableColumn2 = _interopRequireDefault(_tableColumn);
 
@@ -223,28 +198,30 @@ module.exports =
 
 /***/ },
 
-/***/ 262:
+/***/ 284:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(248);
+	var _checkbox = __webpack_require__(271);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(210);
+	var _tag = __webpack_require__(236);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _merge = __webpack_require__(123);
+	var _merge = __webpack_require__(145);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
-	var _util = __webpack_require__(251);
+	var _util = __webpack_require__(273);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 	var columnIdSeed = 1;
 
@@ -258,6 +235,12 @@ module.exports =
 	    realWidth: 48,
 	    order: '',
 	    className: 'el-table-column--selection'
+	  },
+	  expand: {
+	    width: 48,
+	    minWidth: 48,
+	    realWidth: 48,
+	    order: ''
 	  },
 	  index: {
 	    width: 48,
@@ -326,6 +309,37 @@ module.exports =
 	      );
 	    },
 	    sortable: false
+	  },
+	  expand: {
+	    renderHeader: function renderHeader(h, _ref4) {
+	      _objectDestructuringEmpty(_ref4);
+
+	      return '';
+	    },
+	    renderCell: function renderCell(h, _ref5, proxy) {
+	      var row = _ref5.row,
+	          store = _ref5.store;
+
+	      var expanded = store.states.expandRows.indexOf(row) > -1;
+	      return h(
+	        'div',
+	        { 'class': 'el-table__expand-icon ' + (expanded ? 'el-table__expand-icon--expanded' : ''),
+	          on: {
+	            'click': function click() {
+	              return proxy.handleExpandClick(row);
+	            }
+	          }
+	        },
+	        [h(
+	          'i',
+	          { 'class': 'el-icon el-icon-arrow-right' },
+	          []
+	        )]
+	      );
+	    },
+	    sortable: false,
+	    resizable: false,
+	    className: 'el-table__expand-column'
 	  }
 	};
 
@@ -352,9 +366,9 @@ module.exports =
 	  return column;
 	};
 
-	var DEFAULT_RENDER_CELL = function DEFAULT_RENDER_CELL(h, _ref4) {
-	  var row = _ref4.row,
-	      column = _ref4.column;
+	var DEFAULT_RENDER_CELL = function DEFAULT_RENDER_CELL(h, _ref6) {
+	  var row = _ref6.row,
+	      column = _ref6.column;
 
 	  var property = column.property;
 	  if (column && column.formatter) {
@@ -410,13 +424,6 @@ module.exports =
 	    }
 	  },
 
-	  render: function render() {
-	    return h(
-	      'div',
-	      null,
-	      [this._t('default')]
-	    );
-	  },
 	  data: function data() {
 	    return {
 	      isSubColumn: false,
@@ -450,11 +457,7 @@ module.exports =
 
 	    this.customRender = this.$options.render;
 	    this.$options.render = function (h) {
-	      return h(
-	        'div',
-	        null,
-	        [_this._t('default')]
-	      );
+	      return h('div', _this.$slots.default);
 	    };
 
 	    var columnId = this.columnId = this.columnKey || (this.$parent.tableId || this.$parent.columnId + '_') + 'column_' + columnIdSeed++;
@@ -515,17 +518,35 @@ module.exports =
 
 	    (0, _merge2.default)(column, forced[type] || {});
 
+	    this.columnConfig = column;
+
 	    var renderCell = column.renderCell;
 	    var _self = this;
 
+	    if (type === 'expand') {
+	      owner.renderExpanded = function (h, data) {
+	        return _self.$scopedSlots.default ? _self.$scopedSlots.default(data) : _self.$slots.default;
+	      };
+
+	      column.renderCell = function (h, data) {
+	        return h(
+	          'div',
+	          { 'class': 'cell' },
+	          [renderCell(h, data, this._renderProxy)]
+	        );
+	      };
+
+	      return;
+	    }
+
 	    column.renderCell = function (h, data) {
+	      // 未来版本移除
 	      if (_self.$vnode.data.inlineTemplate) {
 	        renderCell = function renderCell() {
 	          data._self = _self.context || data._self;
 	          if (Object.prototype.toString.call(data._self) === '[object Object]') {
 	            for (var prop in data._self) {
 	              if (!data.hasOwnProperty(prop)) {
-	                // _self.$set(data, prop, data._self[prop]);
 	                data[prop] = data._self[prop];
 	              }
 	            }
@@ -534,6 +555,10 @@ module.exports =
 	          data._staticTrees = _self._staticTrees;
 	          data.$options.staticRenderFns = _self.$options.staticRenderFns;
 	          return _self.customRender.call(data);
+	        };
+	      } else if (_self.$scopedSlots.default) {
+	        renderCell = function renderCell() {
+	          return _self.$scopedSlots.default(data);
 	        };
 	      }
 
@@ -564,8 +589,6 @@ module.exports =
 	        [renderCell(h, data)]
 	      );
 	    };
-
-	    this.columnConfig = column;
 	  },
 	  destroyed: function destroyed() {
 	    if (!this.$parent) return;

@@ -46,26 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(295);
+	module.exports = __webpack_require__(317);
 
 
 /***/ },
 
-/***/ 57:
+/***/ 80:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 295:
+/***/ 317:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _src = __webpack_require__(296);
+	var _src = __webpack_require__(318);
 
 	var _src2 = _interopRequireDefault(_src);
 
@@ -80,14 +80,14 @@ module.exports =
 
 /***/ },
 
-/***/ 296:
+/***/ 318:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(297)
+	__vue_exports__ = __webpack_require__(319)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -105,26 +105,26 @@ module.exports =
 
 /***/ },
 
-/***/ 297:
+/***/ 319:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _uploadList = __webpack_require__(298);
+	var _uploadList = __webpack_require__(320);
 
 	var _uploadList2 = _interopRequireDefault(_uploadList);
 
-	var _upload = __webpack_require__(302);
+	var _upload = __webpack_require__(324);
 
 	var _upload2 = _interopRequireDefault(_upload);
 
-	var _iframeUpload = __webpack_require__(309);
+	var _iframeUpload = __webpack_require__(331);
 
 	var _iframeUpload2 = _interopRequireDefault(_iframeUpload);
 
-	var _progress = __webpack_require__(300);
+	var _progress = __webpack_require__(322);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -343,7 +343,7 @@ module.exports =
 	      ref: 'upload-inner'
 	    };
 
-	    var uploadComponent = typeof FormData !== 'undefined' ? h(
+	    var uploadComponent = typeof FormData !== 'undefined' || this.$isServer ? h(
 	      'upload',
 	      props,
 	      [this.$slots.default]
@@ -373,17 +373,17 @@ module.exports =
 
 /***/ },
 
-/***/ 298:
+/***/ 320:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(299)
+	__vue_exports__ = __webpack_require__(321)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(301)
+	var __vue_template__ = __webpack_require__(323)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -403,18 +403,18 @@ module.exports =
 
 /***/ },
 
-/***/ 299:
+/***/ 321:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _locale = __webpack_require__(57);
+	var _locale = __webpack_require__(80);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _progress = __webpack_require__(300);
+	var _progress = __webpack_require__(322);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -467,25 +467,25 @@ module.exports =
 
 /***/ },
 
-/***/ 300:
+/***/ 322:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/progress");
 
 /***/ },
 
-/***/ 301:
+/***/ 323:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('transition-group', {
+	  return _c('transition-group', {
 	    staticClass: "el-upload__files",
 	    attrs: {
 	      "tag": "ul",
 	      "name": "list"
 	    }
-	  }, [_vm._l((_vm.files), function(file) {
-	    return _h('li', {
+	  }, _vm._l((_vm.files), function(file) {
+	    return _c('li', {
 	      key: file,
 	      staticClass: "el-upload__file",
 	      class: {
@@ -496,14 +496,16 @@ module.exports =
 	          _vm.$emit('clickFile', file)
 	        }
 	      }
-	    }, [_h('a', {
+	    }, [_c('a', {
 	      staticClass: "el-upload__file__name",
 	      on: {
 	        "click": function($event) {
 	          _vm.$emit('preview', file)
 	        }
 	      }
-	    }, [_vm._m(0, true), _vm._s(file.name) + "\n    "]), _h('span', {
+	    }, [_c('i', {
+	      staticClass: "el-icon-document"
+	    }), _vm._v(_vm._s(file.name) + "\n    ")]), _c('span', {
 	      directives: [{
 	        name: "show",
 	        rawName: "v-show",
@@ -516,33 +518,29 @@ module.exports =
 	          _vm.$emit('remove', file)
 	        }
 	      }
-	    }, [_vm._s(_vm.t('el.upload.delete'))]), (file.showProgress) ? _h('el-progress', {
+	    }, [_vm._v(_vm._s(_vm.t('el.upload.delete')))]), (file.showProgress) ? _c('el-progress', {
 	      attrs: {
 	        "stroke-width": 2,
 	        "percentage": _vm.parsePercentage(file.percentage),
 	        "status": file.status === 'finished' && file.showProgress ? 'success' : ''
 	      }
 	    }) : _vm._e()])
-	  })])
-	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('i', {
-	    staticClass: "el-icon-document"
-	  })
-	}]}
+	  }))
+	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 302:
+/***/ 324:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(303)
+	__vue_exports__ = __webpack_require__(325)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(308)
+	var __vue_template__ = __webpack_require__(330)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -562,18 +560,18 @@ module.exports =
 
 /***/ },
 
-/***/ 303:
+/***/ 325:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _ajax = __webpack_require__(304);
+	var _ajax = __webpack_require__(326);
 
 	var _ajax2 = _interopRequireDefault(_ajax);
 
-	var _cover = __webpack_require__(305);
+	var _cover = __webpack_require__(327);
 
 	var _cover2 = _interopRequireDefault(_cover);
 
@@ -749,7 +747,7 @@ module.exports =
 
 /***/ },
 
-/***/ 304:
+/***/ 326:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -839,17 +837,17 @@ module.exports =
 
 /***/ },
 
-/***/ 305:
+/***/ 327:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(306)
+	__vue_exports__ = __webpack_require__(328)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(307)
+	var __vue_template__ = __webpack_require__(329)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -869,18 +867,18 @@ module.exports =
 
 /***/ },
 
-/***/ 306:
+/***/ 328:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _locale = __webpack_require__(57);
+	var _locale = __webpack_require__(80);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _progress = __webpack_require__(300);
+	var _progress = __webpack_require__(322);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -945,29 +943,29 @@ module.exports =
 
 /***/ },
 
-/***/ 307:
+/***/ 329:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return (_vm.image) ? _h('div', {
+	  return (_vm.image) ? _c('div', {
 	    staticClass: "el-dragger__cover",
 	    on: {
 	      "click": function($event) {
 	        $event.stopPropagation();
 	      }
 	    }
-	  }, [_h('transition', {
+	  }, [_c('transition', {
 	    attrs: {
 	      "name": "el-fade-in"
 	    }
-	  }, [(_vm.image.status === 'uploading') ? _h('el-progress', {
+	  }, [(_vm.image.status === 'uploading') ? _c('el-progress', {
 	    staticClass: "el-dragger__cover__progress",
 	    attrs: {
 	      "percentage": _vm.image.percentage,
 	      "show-text": false,
 	      "status": _vm.image.status === 'finished' ? 'success' : ''
 	    }
-	  }) : _vm._e()]), (_vm.image.status === 'finished') ? _h('div', {
+	  }) : _vm._e()]), (_vm.image.status === 'finished') ? _c('div', {
 	    staticClass: "el-dragger__cover__content",
 	    on: {
 	      "mouseenter": function($event) {
@@ -977,15 +975,15 @@ module.exports =
 	        _vm.mouseover = false
 	      }
 	    }
-	  }, [_h('img', {
+	  }, [_c('img', {
 	    attrs: {
 	      "src": _vm.image.url
 	    }
-	  }), _h('transition', {
+	  }), _c('transition', {
 	    attrs: {
 	      "name": "el-fade-in"
 	    }
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -993,34 +991,40 @@ module.exports =
 	      expression: "mouseover"
 	    }],
 	    staticClass: "el-dragger__cover__interact"
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    staticClass: "el-draggeer__cover__btns"
-	  }, [_h('span', {
+	  }, [_c('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
 	        _vm.$parent.handleClick()
 	      }
 	    }
-	  }, [_vm._m(0), _h('span', [_vm._s(_vm.t('el.upload.continue'))])]), _h('span', {
+	  }, [_c('i', {
+	    staticClass: "el-icon-upload2"
+	  }), _c('span', [_vm._v(_vm._s(_vm.t('el.upload.continue')))])]), _c('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
 	        _vm.onPreview(_vm.image)
 	      }
 	    }
-	  }, [_vm._m(1), _h('span', [_vm._s(_vm.t('el.upload.preview'))])]), _h('span', {
+	  }, [_c('i', {
+	    staticClass: "el-icon-view"
+	  }), _c('span', [_vm._v(_vm._s(_vm.t('el.upload.preview')))])]), _c('span', {
 	    staticClass: "btn",
 	    on: {
 	      "click": function($event) {
 	        _vm.onRemove(_vm.image)
 	      }
 	    }
-	  }, [_vm._m(2), _h('span', [_vm._s(_vm.t('el.upload.delete'))])])])])]), _h('transition', {
+	  }, [_c('i', {
+	    staticClass: "el-icon-delete2"
+	  }), _c('span', [_vm._v(_vm._s(_vm.t('el.upload.delete')))])])])])]), _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-bottom"
 	    }
-	  }, [_h('h4', {
+	  }, [_c('h4', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1028,28 +1032,16 @@ module.exports =
 	      expression: "mouseover"
 	    }],
 	    staticClass: "el-dragger__cover__title"
-	  }, [_vm._s(_vm.image.name)])])]) : _vm._e()]) : _vm._e()
-	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('i', {
-	    staticClass: "el-icon-upload2"
-	  })
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('i', {
-	    staticClass: "el-icon-view"
-	  })
-	},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('i', {
-	    staticClass: "el-icon-delete2"
-	  })
-	}]}
+	  }, [_vm._v(_vm._s(_vm.image.name))])])]) : _vm._e()]) : _vm._e()
+	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 308:
+/***/ 330:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('div', {
+	  return _c('div', {
 	    staticClass: "el-upload__inner",
 	    class: {
 	      'el-dragger': _vm.type === 'drag',
@@ -1071,13 +1063,13 @@ module.exports =
 	        _vm.dragOver = false
 	      }
 	    }
-	  }, [(!_vm.showCover) ? _vm._t("default") : _h('cover', {
+	  }, [(!_vm.showCover) ? _vm._t("default") : _c('cover', {
 	    attrs: {
 	      "image": _vm.lastestFile,
 	      "on-preview": _vm.onPreview,
 	      "on-remove": _vm.onRemove
 	    }
-	  }), _h('input', {
+	  }), _c('input', {
 	    ref: "input",
 	    staticClass: "el-upload__input",
 	    attrs: {
@@ -1088,19 +1080,19 @@ module.exports =
 	    on: {
 	      "change": _vm.handleChange
 	    }
-	  })])
+	  })], true)
 	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 309:
+/***/ 331:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(310)
+	__vue_exports__ = __webpack_require__(332)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -1118,14 +1110,14 @@ module.exports =
 
 /***/ },
 
-/***/ 310:
+/***/ 332:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _cover = __webpack_require__(305);
+	var _cover = __webpack_require__(327);
 
 	var _cover2 = _interopRequireDefault(_cover);
 
@@ -1246,7 +1238,7 @@ module.exports =
 	  mounted: function mounted() {
 	    var _this = this;
 
-	    window.addEventListener('message', function (event) {
+	    !this.$isServer && window.addEventListener('message', function (event) {
 	      var targetOrigin = new URL(_this.action).origin;
 	      if (event.origin !== targetOrigin) {
 	        return false;
@@ -1323,7 +1315,7 @@ module.exports =
 	        ), h(
 	          'input',
 	          {
-	            attrs: { type: 'hidden', name: 'documentDomain', value: document.domain }
+	            attrs: { type: 'hidden', name: 'documentDomain', value: this.$isServer ? '' : document.domain }
 	          },
 	          []
 	        ), h(

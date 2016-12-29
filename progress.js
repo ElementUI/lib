@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(180);
+	module.exports = __webpack_require__(201);
 
 
 /***/ },
 
-/***/ 180:
+/***/ 201:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _progress = __webpack_require__(181);
+	var _progress = __webpack_require__(202);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -73,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 181:
+/***/ 202:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(182)
+	__vue_exports__ = __webpack_require__(203)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(183)
+	var __vue_template__ = __webpack_require__(204)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,7 +103,7 @@ module.exports =
 
 /***/ },
 
-/***/ 182:
+/***/ 203:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -238,11 +238,11 @@ module.exports =
 
 /***/ },
 
-/***/ 183:
+/***/ 204:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('div', {
+	  return _c('div', {
 	    staticClass: "el-progress",
 	    class: [
 	      'el-progress--' + _vm.type,
@@ -251,29 +251,29 @@ module.exports =
 	        'el-progress--text-inside': _vm.textInside,
 	      }
 	    ]
-	  }, [(_vm.type === 'line') ? _h('div', {
+	  }, [(_vm.type === 'line') ? _c('div', {
 	    staticClass: "el-progress-bar"
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    staticClass: "el-progress-bar__outer",
 	    style: ({
 	      height: _vm.strokeWidth + 'px'
 	    })
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    staticClass: "el-progress-bar__inner",
 	    style: (_vm.barStyle)
-	  }, [(_vm.showText && _vm.textInside) ? _h('div', {
+	  }, [(_vm.showText && _vm.textInside) ? _c('div', {
 	    staticClass: "el-progress-bar__innerText"
-	  }, [_vm._s(_vm.percentage) + "%"]) : _vm._e()])])]) : _h('div', {
+	  }, [_vm._v(_vm._s(_vm.percentage) + "%")]) : _vm._e()])])]) : _c('div', {
 	    staticClass: "el-progress-circle",
 	    style: ({
 	      height: _vm.width + 'px',
 	      width: _vm.width + 'px'
 	    })
-	  }, [_h('svg', {
+	  }, [_c('svg', {
 	    attrs: {
 	      "viewBox": "0 0 100 100"
 	    }
-	  }, [_h('path', {
+	  }, [_c('path', {
 	    staticClass: "el-progress-circle__track",
 	    attrs: {
 	      "d": _vm.trackPath,
@@ -281,7 +281,7 @@ module.exports =
 	      "stroke-width": _vm.relativeStrokeWidth,
 	      "fill": "none"
 	    }
-	  }), _h('path', {
+	  }), _c('path', {
 	    staticClass: "el-progress-circle__path",
 	    style: (_vm.circlePathStyle),
 	    attrs: {
@@ -291,14 +291,14 @@ module.exports =
 	      "stroke-width": _vm.relativeStrokeWidth,
 	      "fill": "none"
 	    }
-	  })])]), (_vm.showText && !_vm.textInside) ? _h('div', {
+	  })])]), (_vm.showText && !_vm.textInside) ? _c('div', {
 	    staticClass: "el-progress__text",
 	    style: ({
 	      fontSize: _vm.progressTextSize + 'px'
 	    })
-	  }, [(!_vm.status) ? [_vm._s(_vm.percentage) + "%"] : _h('i', {
+	  }, [(!_vm.status) ? [_vm._v(_vm._s(_vm.percentage) + "%")] : _c('i', {
 	    class: _vm.iconClass
-	  })]) : _vm._e()])
+	  })], true) : _vm._e()])
 	},staticRenderFns: []}
 
 /***/ }

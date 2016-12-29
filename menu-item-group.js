@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(133);
+	module.exports = __webpack_require__(155);
 
 
 /***/ },
 
-/***/ 133:
+/***/ 155:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _menuItemGroup = __webpack_require__(134);
+	var _menuItemGroup = __webpack_require__(156);
 
 	var _menuItemGroup2 = _interopRequireDefault(_menuItemGroup);
 
@@ -73,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 134:
+/***/ 156:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(135)
+	__vue_exports__ = __webpack_require__(157)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(136)
+	var __vue_template__ = __webpack_require__(158)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,7 +103,7 @@ module.exports =
 
 /***/ },
 
-/***/ 135:
+/***/ 157:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -142,18 +142,18 @@ module.exports =
 
 /***/ },
 
-/***/ 136:
+/***/ 158:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('li', {
+	  return _c('li', {
 	    staticClass: "el-menu-item-group"
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    staticClass: "el-menu-item-group__title",
 	    style: ({
 	      paddingLeft: _vm.levelPadding + 'px'
 	    })
-	  }, [(!_vm.$slots.title) ? [_vm._s(_vm.title)] : _vm._t("title")]), _h('ul', [_vm._t("default")])])
+	  }, [(!_vm.$slots.title) ? [_vm._v(_vm._s(_vm.title))] : _vm._t("title")], true), _c('ul', [_vm._t("default")], true)])
 	},staticRenderFns: []}
 
 /***/ }

@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(204);
+	module.exports = __webpack_require__(230);
 
 
 /***/ },
@@ -65,52 +65,73 @@ module.exports =
 
 /***/ },
 
-/***/ 38:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/mixins/emitter");
-
-/***/ },
-
-/***/ 53:
+/***/ 12:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 
-/***/ 57:
+/***/ 14:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ },
+
+/***/ 44:
+/***/ function(module, exports) {
+
+	module.exports = require("throttle-debounce/debounce");
+
+/***/ },
+
+/***/ 45:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/resize-event");
+
+/***/ },
+
+/***/ 68:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/dom");
+
+/***/ },
+
+/***/ 80:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 66:
+/***/ 85:
 /***/ function(module, exports) {
 
-	module.exports = require("wind-dom/src/class");
+	module.exports = require("element-ui/lib/scrollbar");
 
 /***/ },
 
-/***/ 152:
+/***/ 174:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 160:
+/***/ 182:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(161)
+	__vue_exports__ = __webpack_require__(183)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(162)
+	var __vue_template__ = __webpack_require__(184)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -130,14 +151,14 @@ module.exports =
 
 /***/ },
 
-/***/ 161:
+/***/ 183:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(38);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -280,11 +301,11 @@ module.exports =
 
 /***/ },
 
-/***/ 162:
+/***/ 184:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('li', {
+	  return _c('li', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -304,19 +325,19 @@ module.exports =
 	        _vm.selectOptionClick($event)
 	      }
 	    }
-	  }, [_vm._t("default", [_h('span', [_vm._s(_vm.currentLabel)])])])
+	  }, [_vm._t("default", [_c('span', [_vm._v(_vm._s(_vm.currentLabel))])])], true)
 	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 204:
+/***/ 230:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _select = __webpack_require__(205);
+	var _select = __webpack_require__(231);
 
 	var _select2 = _interopRequireDefault(_select);
 
@@ -331,17 +352,17 @@ module.exports =
 
 /***/ },
 
-/***/ 205:
+/***/ 231:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(206)
+	__vue_exports__ = __webpack_require__(232)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(213)
+	var __vue_template__ = __webpack_require__(237)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -361,18 +382,18 @@ module.exports =
 
 /***/ },
 
-/***/ 206:
+/***/ 232:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(38);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _locale = __webpack_require__(57);
+	var _locale = __webpack_require__(80);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -380,19 +401,23 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _selectDropdown = __webpack_require__(207);
+	var _selectDropdown = __webpack_require__(233);
 
 	var _selectDropdown2 = _interopRequireDefault(_selectDropdown);
 
-	var _option = __webpack_require__(160);
+	var _option = __webpack_require__(182);
 
 	var _option2 = _interopRequireDefault(_option);
 
-	var _tag = __webpack_require__(210);
+	var _tag = __webpack_require__(236);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _debounce = __webpack_require__(211);
+	var _scrollbar = __webpack_require__(85);
+
+	var _scrollbar2 = _interopRequireDefault(_scrollbar);
+
+	var _debounce = __webpack_require__(44);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -400,102 +425,106 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _class = __webpack_require__(66);
+	var _dom = __webpack_require__(68);
 
-	var _resizeEvent = __webpack_require__(212);
+	var _resizeEvent = __webpack_require__(45);
 
-	var _locale3 = __webpack_require__(152);
+	var _locale3 = __webpack_require__(174);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	var sizeMap = {
 	  'large': 42,
 	  'small': 30,
 	  'mini': 22
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 	exports.default = {
 	  mixins: [_emitter2.default, _locale2.default],
@@ -542,7 +571,8 @@ module.exports =
 	    ElInput: _input2.default,
 	    ElSelectMenu: _selectDropdown2.default,
 	    ElOption: _option2.default,
-	    ElTag: _tag2.default
+	    ElTag: _tag2.default,
+	    ElScrollbar: _scrollbar2.default
 	  },
 
 	  directives: { Clickoutside: _clickoutside2.default },
@@ -696,6 +726,7 @@ module.exports =
 	      this.$emit('visible-change', val);
 	    },
 	    options: function options(val) {
+	      if (this.$isServer) return;
 	      this.optionsAllDisabled = val.length === val.filter(function (item) {
 	        return item.disabled === true;
 	      }).length;
@@ -713,13 +744,13 @@ module.exports =
 	    handleIconHide: function handleIconHide() {
 	      var icon = this.$el.querySelector('.el-input__icon');
 	      if (icon) {
-	        (0, _class.removeClass)(icon, 'is-reverse');
+	        (0, _dom.removeClass)(icon, 'is-reverse');
 	      }
 	    },
 	    handleIconShow: function handleIconShow() {
 	      var icon = this.$el.querySelector('.el-input__icon');
-	      if (icon && !(0, _class.hasClass)(icon, 'el-icon-circle-close')) {
-	        (0, _class.addClass)(icon, 'is-reverse');
+	      if (icon && !(0, _dom.hasClass)(icon, 'el-icon-circle-close')) {
+	        (0, _dom.addClass)(icon, 'is-reverse');
 	      }
 	    },
 	    getOverflows: function getOverflows() {
@@ -1003,17 +1034,17 @@ module.exports =
 
 /***/ },
 
-/***/ 207:
+/***/ 233:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(208)
+	__vue_exports__ = __webpack_require__(234)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(209)
+	var __vue_template__ = __webpack_require__(235)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -1033,14 +1064,14 @@ module.exports =
 
 /***/ },
 
-/***/ 208:
+/***/ 234:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(53);
+	var _vuePopper = __webpack_require__(12);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -1109,11 +1140,11 @@ module.exports =
 
 /***/ },
 
-/***/ 209:
+/***/ 235:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('div', {
+	  return _c('div', {
 	    staticClass: "el-select-dropdown",
 	    class: [{
 	      'is-multiple': _vm.$parent.multiple
@@ -1121,37 +1152,23 @@ module.exports =
 	    style: ({
 	      minWidth: _vm.minWidth
 	    })
-	  }, [_vm._t("default")])
+	  }, [_vm._t("default")], true)
 	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 210:
+/***/ 236:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 211:
-/***/ function(module, exports) {
-
-	module.exports = require("throttle-debounce/debounce");
-
-/***/ },
-
-/***/ 212:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/resize-event");
-
-/***/ },
-
-/***/ 213:
+/***/ 237:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('div', {
+	  return _c('div', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
@@ -1159,7 +1176,7 @@ module.exports =
 	      expression: "handleClose"
 	    }],
 	    staticClass: "el-select"
-	  }, [(_vm.multiple) ? _h('div', {
+	  }, [(_vm.multiple) ? _c('div', {
 	    ref: "tags",
 	    staticClass: "el-select__tags",
 	    style: ({
@@ -1171,12 +1188,12 @@ module.exports =
 	        _vm.toggleMenu($event)
 	      }
 	    }
-	  }, [_h('transition-group', {
+	  }, [_c('transition-group', {
 	    on: {
 	      "after-leave": _vm.resetInputHeight
 	    }
-	  }, [_vm._l((_vm.selected), function(item) {
-	    return _h('el-tag', {
+	  }, _vm._l((_vm.selected), function(item) {
+	    return _c('el-tag', {
 	      key: item.value,
 	      attrs: {
 	        "closable": "",
@@ -1189,8 +1206,8 @@ module.exports =
 	          _vm.deleteTag($event, item)
 	        }
 	      }
-	    }, ["\n        " + _vm._s(item.currentLabel) + "\n      "])
-	  })]), (_vm.filterable) ? _h('input', {
+	    }, [_vm._v("\n        " + _vm._s(item.currentLabel) + "\n      ")])
+	  })), (_vm.filterable) ? _c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -1217,23 +1234,23 @@ module.exports =
 	      },
 	      "keyup": _vm.managePlaceholder,
 	      "keydown": [_vm.resetInputState, function($event) {
-	        if ($event.keyCode !== 40) { return; }
+	        if (_vm._k($event.keyCode, "down", 40)) { return; }
 	        $event.preventDefault();
 	        _vm.navigateOptions('next')
 	      }, function($event) {
-	        if ($event.keyCode !== 38) { return; }
+	        if (_vm._k($event.keyCode, "up", 38)) { return; }
 	        $event.preventDefault();
 	        _vm.navigateOptions('prev')
 	      }, function($event) {
-	        if ($event.keyCode !== 13) { return; }
+	        if (_vm._k($event.keyCode, "enter", 13)) { return; }
 	        $event.preventDefault();
 	        _vm.selectOption($event)
 	      }, function($event) {
-	        if ($event.keyCode !== 27) { return; }
+	        if (_vm._k($event.keyCode, "esc", 27)) { return; }
 	        $event.preventDefault();
 	        _vm.visible = false
 	      }, function($event) {
-	        if ($event.keyCode !== 8 && $event.keyCode !== 46) { return; }
+	        if (_vm._k($event.keyCode, "delete", [8, 46])) { return; }
 	        _vm.deletePrevTag($event)
 	      }],
 	      "input": function($event) {
@@ -1241,7 +1258,7 @@ module.exports =
 	        _vm.query = $event.target.value
 	      }
 	    }
-	  }) : _vm._e()]) : _vm._e(), _h('el-input', {
+	  }) : _vm._e()]) : _vm._e(), _c('el-input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -1276,23 +1293,23 @@ module.exports =
 	        _vm.debouncedOnInputChange($event)
 	      },
 	      "keydown": [function($event) {
-	        if ($event.keyCode !== 40) { return; }
+	        if (_vm._k($event.keyCode, "down", 40)) { return; }
 	        $event.preventDefault();
 	        _vm.navigateOptions('next')
 	      }, function($event) {
-	        if ($event.keyCode !== 38) { return; }
+	        if (_vm._k($event.keyCode, "up", 38)) { return; }
 	        $event.preventDefault();
 	        _vm.navigateOptions('prev')
 	      }, function($event) {
-	        if ($event.keyCode !== 13) { return; }
+	        if (_vm._k($event.keyCode, "enter", 13)) { return; }
 	        $event.preventDefault();
 	        _vm.selectOption($event)
 	      }, function($event) {
-	        if ($event.keyCode !== 27) { return; }
+	        if (_vm._k($event.keyCode, "esc", 27)) { return; }
 	        $event.preventDefault();
 	        _vm.visible = false
 	      }, function($event) {
-	        if ($event.keyCode !== 9) { return; }
+	        if (_vm._k($event.keyCode, "tab", 9)) { return; }
 	        _vm.visible = false
 	      }],
 	      "mouseenter": function($event) {
@@ -1302,14 +1319,14 @@ module.exports =
 	        _vm.inputHovering = false
 	      }
 	    }
-	  }), _h('transition', {
+	  }), _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    },
 	    on: {
 	      "after-leave": _vm.doDestroy
 	    }
-	  }, [_h('el-select-menu', {
+	  }, [_c('el-select-menu', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1317,27 +1334,29 @@ module.exports =
 	      expression: "visible && emptyText !== false"
 	    }],
 	    ref: "popper"
-	  }, [_h('ul', {
+	  }, [_c('el-scrollbar', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
 	      value: (_vm.options.length > 0 && !_vm.loading),
 	      expression: "options.length > 0 && !loading"
 	    }],
-	    staticClass: "el-select-dropdown__list",
 	    class: {
 	      'is-empty': !_vm.allowCreate && _vm.filteredOptionsCount === 0
-	    }
-	  }, [(_vm.showNewOption) ? _h('el-option', {
-	    attrs: {
-	      "created": ""
 	    },
-	    domProps: {
-	      "value": _vm.query
+	    attrs: {
+	      "tag": "ul",
+	      "wrap-class": "el-select-dropdown__wrap",
+	      "view-class": "el-select-dropdown__list"
 	    }
-	  }) : _vm._e(), _vm._t("default")]), (_vm.emptyText && !_vm.allowCreate) ? _h('p', {
+	  }, [(_vm.showNewOption) ? _c('el-option', {
+	    attrs: {
+	      "value": _vm.query,
+	      "created": ""
+	    }
+	  }) : _vm._e(), _vm._t("default")], true), (_vm.emptyText && !_vm.allowCreate) ? _c('p', {
 	    staticClass: "el-select-dropdown__empty"
-	  }, [_vm._s(_vm.emptyText)]) : _vm._e()])])])
+	  }, [_vm._v(_vm._s(_vm.emptyText))]) : _vm._e()])])])
 	},staticRenderFns: []}
 
 /***/ }

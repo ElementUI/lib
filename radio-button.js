@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(188);
+	module.exports = __webpack_require__(209);
 
 
 /***/ },
 
-/***/ 188:
+/***/ 209:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _radioButton = __webpack_require__(189);
+	var _radioButton = __webpack_require__(210);
 
 	var _radioButton2 = _interopRequireDefault(_radioButton);
 
@@ -73,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 189:
+/***/ 210:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(190)
+	__vue_exports__ = __webpack_require__(211)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(191)
+	var __vue_template__ = __webpack_require__(212)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,7 +103,7 @@ module.exports =
 
 /***/ },
 
-/***/ 190:
+/***/ 211:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -152,18 +152,18 @@ module.exports =
 
 /***/ },
 
-/***/ 191:
+/***/ 212:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('label', {
+	  return _c('label', {
 	    staticClass: "el-radio-button",
 	    class: [
 	      _vm.size ? 'el-radio-button--' + _vm.size : '', {
 	        'is-active': _vm.value === _vm.label
 	      }
 	    ]
-	  }, [_h('input', {
+	  }, [_c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -185,10 +185,10 @@ module.exports =
 	        _vm.value = _vm.label
 	      }
 	    }
-	  }), _h('span', {
+	  }), _c('span', {
 	    staticClass: "el-radio-button__inner",
 	    style: (_vm.value === _vm.label ? _vm.activeStyle : null)
-	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()])])
+	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._v(_vm._s(_vm.label))] : _vm._e()], true)])
 	},staticRenderFns: []}
 
 /***/ }

@@ -46,26 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(107);
+	module.exports = __webpack_require__(130);
 
 
 /***/ },
 
-/***/ 38:
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 107:
+/***/ 130:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _input = __webpack_require__(108);
+	var _input = __webpack_require__(131);
 
 	var _input2 = _interopRequireDefault(_input);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 108:
+/***/ 131:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(109)
+	__vue_exports__ = __webpack_require__(132)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(111)
+	var __vue_template__ = __webpack_require__(134)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,18 +110,18 @@ module.exports =
 
 /***/ },
 
-/***/ 109:
+/***/ 132:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(38);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _calcTextareaHeight = __webpack_require__(110);
+	var _calcTextareaHeight = __webpack_require__(133);
 
 	var _calcTextareaHeight2 = _interopRequireDefault(_calcTextareaHeight);
 
@@ -264,12 +264,11 @@ module.exports =
 	      this.$refs.input.select();
 	    },
 	    resizeTextarea: function resizeTextarea() {
+	      if (this.$isServer) return;
 	      var autosize = this.autosize,
 	          type = this.type;
 
-	      if (!autosize || type !== 'textarea') {
-	        return;
-	      }
+	      if (!autosize || type !== 'textarea') return;
 	      var minRows = autosize.minRows;
 	      var maxRows = autosize.maxRows;
 
@@ -308,7 +307,7 @@ module.exports =
 
 /***/ },
 
-/***/ 110:
+/***/ 133:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -386,11 +385,11 @@ module.exports =
 
 /***/ },
 
-/***/ 111:
+/***/ 134:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('div', {
+	  return _c('div', {
 	    class: [
 	      _vm.type === 'textarea' ? 'el-textarea' : 'el-input',
 	      _vm.size ? 'el-input--' + _vm.size : '', {
@@ -400,15 +399,15 @@ module.exports =
 	        'el-input-group--prepend': _vm.$slots.prepend
 	      }
 	    ]
-	  }, [(_vm.type !== 'textarea') ? [(_vm.$slots.prepend) ? _h('div', {
+	  }, [(_vm.type !== 'textarea') ? [(_vm.$slots.prepend) ? _c('div', {
 	    staticClass: "el-input-group__prepend"
-	  }, [_vm._t("prepend")]) : _vm._e(), _vm._t("icon", [(_vm.icon) ? _h('i', {
+	  }, [_vm._t("prepend")], true) : _vm._e(), _vm._t("icon", [(_vm.icon) ? _c('i', {
 	    staticClass: "el-input__icon",
 	    class: 'el-icon-' + _vm.icon,
 	    on: {
 	      "click": _vm.handleIconClick
 	    }
-	  }) : _vm._e()]), (_vm.type !== 'textarea') ? _h('input', {
+	  }) : _vm._e()]), (_vm.type !== 'textarea') ? _c('input', {
 	    ref: "input",
 	    staticClass: "el-input__inner",
 	    attrs: {
@@ -433,11 +432,11 @@ module.exports =
 	      "focus": _vm.handleFocus,
 	      "blur": _vm.handleBlur
 	    }
-	  }) : _vm._e(), (_vm.validating) ? _h('i', {
+	  }) : _vm._e(), (_vm.validating) ? _c('i', {
 	    staticClass: "el-input__icon el-icon-loading"
-	  }) : _vm._e(), (_vm.$slots.append) ? _h('div', {
+	  }) : _vm._e(), (_vm.$slots.append) ? _c('div', {
 	    staticClass: "el-input-group__append"
-	  }, [_vm._t("append")]) : _vm._e()] : _h('textarea', {
+	  }, [_vm._t("append")], true) : _vm._e()] : _c('textarea', {
 	    ref: "textarea",
 	    staticClass: "el-textarea__inner",
 	    style: (_vm.textareaStyle),
@@ -460,7 +459,7 @@ module.exports =
 	      "focus": _vm.handleFocus,
 	      "blur": _vm.handleBlur
 	    }
-	  })])
+	  })], true)
 	},staticRenderFns: []}
 
 /***/ }

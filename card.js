@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(31);
+	module.exports = __webpack_require__(36);
 
 
 /***/ },
 
-/***/ 31:
+/***/ 36:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(32);
+	var _main = __webpack_require__(37);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -73,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 32:
+/***/ 37:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(33)
+	__vue_exports__ = __webpack_require__(38)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(34)
+	var __vue_template__ = __webpack_require__(39)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,7 +103,7 @@ module.exports =
 
 /***/ },
 
-/***/ 33:
+/***/ 38:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -129,18 +129,18 @@ module.exports =
 
 /***/ },
 
-/***/ 34:
+/***/ 39:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('div', {
+	  return _c('div', {
 	    staticClass: "el-card"
-	  }, [(_vm.$slots.header || _vm.header) ? _h('div', {
+	  }, [(_vm.$slots.header || _vm.header) ? _c('div', {
 	    staticClass: "el-card__header"
-	  }, [_vm._t("header", [_vm._s(_vm.header)])]) : _vm._e(), _h('div', {
+	  }, [_vm._t("header", [_vm._v(_vm._s(_vm.header))])], true) : _vm._e(), _c('div', {
 	    staticClass: "el-card__body",
 	    style: (_vm.bodyStyle)
-	  }, [_vm._t("default")])])
+	  }, [_vm._t("default")], true)])
 	},staticRenderFns: []}
 
 /***/ }

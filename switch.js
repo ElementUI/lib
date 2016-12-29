@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(237);
+	module.exports = __webpack_require__(260);
 
 
 /***/ },
 
-/***/ 237:
+/***/ 260:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _component = __webpack_require__(238);
+	var _component = __webpack_require__(261);
 
 	var _component2 = _interopRequireDefault(_component);
 
@@ -73,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 238:
+/***/ 261:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(239)
+	__vue_exports__ = __webpack_require__(262)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(240)
+	var __vue_template__ = __webpack_require__(263)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,7 +103,7 @@ module.exports =
 
 /***/ },
 
-/***/ 239:
+/***/ 262:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -247,16 +247,16 @@ module.exports =
 
 /***/ },
 
-/***/ 240:
+/***/ 263:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('label', {
+	  return _c('label', {
 	    staticClass: "el-switch",
 	    class: {
 	      'is-disabled': _vm.disabled, 'el-switch--wide': _vm.hasText
 	    }
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -264,7 +264,7 @@ module.exports =
 	      expression: "disabled"
 	    }],
 	    staticClass: "el-switch__mask"
-	  }), _h('input', {
+	  }), _c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -298,20 +298,20 @@ module.exports =
 	        }
 	      }, _vm.handleChange]
 	    }
-	  }), _h('span', {
+	  }), _c('span', {
 	    ref: "core",
 	    staticClass: "el-switch__core",
 	    style: ({
 	      'width': _vm.coreWidth + 'px'
 	    })
-	  }, [_h('span', {
+	  }, [_c('span', {
 	    staticClass: "el-switch__button",
 	    style: (_vm.buttonStyle)
-	  })]), _h('transition', {
+	  })]), _c('transition', {
 	    attrs: {
 	      "name": "label-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -322,13 +322,13 @@ module.exports =
 	    style: ({
 	      'width': _vm.coreWidth + 'px'
 	    })
-	  }, [(_vm.onIconClass) ? _h('i', {
+	  }, [(_vm.onIconClass) ? _c('i', {
 	    class: [_vm.onIconClass]
-	  }) : _vm._e(), (!_vm.onIconClass && _vm.onText) ? _h('span', [_vm._s(_vm.onText)]) : _vm._e()])]), _h('transition', {
+	  }) : _vm._e(), (!_vm.onIconClass && _vm.onText) ? _c('span', [_vm._v(_vm._s(_vm.onText))]) : _vm._e()])]), _c('transition', {
 	    attrs: {
 	      "name": "label-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -339,9 +339,9 @@ module.exports =
 	    style: ({
 	      'width': _vm.coreWidth + 'px'
 	    })
-	  }, [(_vm.offIconClass) ? _h('i', {
+	  }, [(_vm.offIconClass) ? _c('i', {
 	    class: [_vm.offIconClass]
-	  }) : _vm._e(), (!_vm.offIconClass && _vm.offText) ? _h('span', [_vm._s(_vm.offText)]) : _vm._e()])])])
+	  }) : _vm._e(), (!_vm.offIconClass && _vm.offText) ? _c('span', [_vm._v(_vm._s(_vm.offText))]) : _vm._e()])])])
 	},staticRenderFns: []}
 
 /***/ }

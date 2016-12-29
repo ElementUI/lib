@@ -46,26 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(196);
+	module.exports = __webpack_require__(217);
 
 
 /***/ },
 
-/***/ 66:
+/***/ 68:
 /***/ function(module, exports) {
 
-	module.exports = require("wind-dom/src/class");
+	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 196:
+/***/ 217:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(197);
+	var _main = __webpack_require__(218);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 197:
+/***/ 218:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(198)
+	__vue_exports__ = __webpack_require__(219)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(199)
+	var __vue_template__ = __webpack_require__(220)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,14 +110,14 @@ module.exports =
 
 /***/ },
 
-/***/ 198:
+/***/ 219:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _class = __webpack_require__(66);
+	var _dom = __webpack_require__(68);
 
 	exports.default = {
 	  name: 'el-rate',
@@ -126,7 +126,6 @@ module.exports =
 	    return {
 	      classMap: {},
 	      colorMap: {},
-	      classes: null,
 	      pointerAtLeftHalf: false,
 	      currentValue: this.value,
 	      hoverIndex: -1
@@ -310,10 +309,10 @@ module.exports =
 	      /* istanbul ignore if */
 	      if (this.allowHalf) {
 	        var target = event.target;
-	        if ((0, _class.hasClass)(target, 'el-rate__item')) {
+	        if ((0, _dom.hasClass)(target, 'el-rate__item')) {
 	          target = target.querySelector('.el-rate__icon');
 	        }
-	        if ((0, _class.hasClass)(target, 'el-rate__decimal')) {
+	        if ((0, _dom.hasClass)(target, 'el-rate__decimal')) {
 	          target = target.parentNode;
 	        }
 	        this.pointerAtLeftHalf = event.offsetX * 2 <= target.clientWidth;
@@ -382,14 +381,14 @@ module.exports =
 
 /***/ },
 
-/***/ 199:
+/***/ 220:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('div', {
+	  return _c('div', {
 	    staticClass: "el-rate"
 	  }, [_vm._l((_vm.max), function(item) {
-	    return _h('span', {
+	    return _c('span', {
 	      staticClass: "el-rate__item",
 	      style: ({
 	        cursor: _vm.disabled ? 'auto' : 'pointer'
@@ -403,23 +402,23 @@ module.exports =
 	          _vm.selectValue(item)
 	        }
 	      }
-	    }, [_h('i', {
+	    }, [_c('i', {
 	      staticClass: "el-rate__icon",
 	      class: [_vm.classes[item - 1], {
 	        'hover': _vm.hoverIndex === item
 	      }],
 	      style: (_vm.getIconStyle(item))
-	    }, [(_vm.showDecimalIcon(item)) ? _h('i', {
+	    }, [(_vm.showDecimalIcon(item)) ? _c('i', {
 	      staticClass: "el-rate__decimal",
 	      class: _vm.decimalIconClass,
 	      style: (_vm.decimalStyle)
 	    }) : _vm._e()])])
-	  }), (_vm.showText) ? _h('span', {
+	  }), (_vm.showText) ? _c('span', {
 	    staticClass: "el-rate__text",
 	    style: ({
 	      color: _vm.textColor
 	    })
-	  }, [_vm._s(_vm.text)]) : _vm._e()])
+	  }, [_vm._v(_vm._s(_vm.text))]) : _vm._e()], true)
 	},staticRenderFns: []}
 
 /***/ }

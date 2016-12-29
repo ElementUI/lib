@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(229);
+	module.exports = __webpack_require__(252);
 
 
 /***/ },
 
-/***/ 229:
+/***/ 252:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _steps = __webpack_require__(230);
+	var _steps = __webpack_require__(253);
 
 	var _steps2 = _interopRequireDefault(_steps);
 
@@ -73,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 230:
+/***/ 253:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(231)
+	__vue_exports__ = __webpack_require__(254)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(232)
+	var __vue_template__ = __webpack_require__(255)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,7 +103,7 @@ module.exports =
 
 /***/ },
 
-/***/ 231:
+/***/ 254:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -157,14 +157,14 @@ module.exports =
 
 /***/ },
 
-/***/ 232:
+/***/ 255:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('div', {
+	  return _c('div', {
 	    staticClass: "el-steps",
 	    class: ['is-' + _vm.direction]
-	  }, [_vm._t("default")])
+	  }, [_vm._t("default")], true)
 	},staticRenderFns: []}
 
 /***/ }

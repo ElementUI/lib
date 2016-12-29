@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(147);
+	module.exports = __webpack_require__(169);
 
 
 /***/ },
@@ -58,49 +58,49 @@ module.exports =
 
 /***/ },
 
-/***/ 50:
+/***/ 68:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/dom");
+
+/***/ },
+
+/***/ 74:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 57:
+/***/ 80:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 66:
+/***/ 104:
 /***/ function(module, exports) {
 
-	module.exports = require("wind-dom/src/class");
+	module.exports = require("element-ui/lib/utils/popup");
 
 /***/ },
 
-/***/ 81:
-/***/ function(module, exports) {
-
-	module.exports = require("vue-popup");
-
-/***/ },
-
-/***/ 123:
+/***/ 145:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 147:
+/***/ 169:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(148);
+	var _main = __webpack_require__(170);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -110,7 +110,7 @@ module.exports =
 
 /***/ },
 
-/***/ 148:
+/***/ 170:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -120,15 +120,15 @@ module.exports =
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var _vue = __webpack_require__(50);
+	var _vue = __webpack_require__(74);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _main = __webpack_require__(149);
+	var _main = __webpack_require__(171);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _merge = __webpack_require__(123);
+	var _merge = __webpack_require__(145);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
@@ -235,6 +235,7 @@ module.exports =
 	};
 
 	var MessageBox = function MessageBox(options, callback) {
+	  if (_vue2.default.prototype.$isServer) return;
 	  if (typeof options === 'string') {
 	    options = {
 	      message: options
@@ -327,17 +328,17 @@ module.exports =
 
 /***/ },
 
-/***/ 149:
+/***/ 171:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(150)
+	__vue_exports__ = __webpack_require__(172)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(153)
+	var __vue_template__ = __webpack_require__(175)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -357,18 +358,18 @@ module.exports =
 
 /***/ },
 
-/***/ 150:
+/***/ 172:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopup = __webpack_require__(81);
+	var _popup = __webpack_require__(104);
 
-	var _vuePopup2 = _interopRequireDefault(_vuePopup);
+	var _popup2 = _interopRequireDefault(_popup);
 
-	var _locale = __webpack_require__(57);
+	var _locale = __webpack_require__(80);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -376,13 +377,13 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _button = __webpack_require__(151);
+	var _button = __webpack_require__(173);
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _class = __webpack_require__(66);
+	var _dom = __webpack_require__(68);
 
-	var _locale3 = __webpack_require__(152);
+	var _locale3 = __webpack_require__(174);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -420,7 +421,7 @@ module.exports =
 	};
 
 	exports.default = {
-	  mixins: [_vuePopup2.default, _locale2.default],
+	  mixins: [_popup2.default, _locale2.default],
 
 	  props: {
 	    modal: {
@@ -501,7 +502,7 @@ module.exports =
 	        var inputPattern = this.inputPattern;
 	        if (inputPattern && !inputPattern.test(this.inputValue || '')) {
 	          this.editorErrorMessage = this.inputErrorMessage || (0, _locale3.t)('el.messagebox.error');
-	          (0, _class.addClass)(this.$refs.input.$el.querySelector('input'), 'invalid');
+	          (0, _dom.addClass)(this.$refs.input.$el.querySelector('input'), 'invalid');
 	          return false;
 	        }
 	        var inputValidator = this.inputValidator;
@@ -509,7 +510,7 @@ module.exports =
 	          var validateResult = inputValidator(this.inputValue);
 	          if (validateResult === false) {
 	            this.editorErrorMessage = this.inputErrorMessage || (0, _locale3.t)('el.messagebox.error');
-	            (0, _class.addClass)(this.$refs.input.$el.querySelector('input'), 'invalid');
+	            (0, _dom.addClass)(this.$refs.input.$el.querySelector('input'), 'invalid');
 	            return false;
 	          }
 	          if (typeof validateResult === 'string') {
@@ -519,7 +520,7 @@ module.exports =
 	        }
 	      }
 	      this.editorErrorMessage = '';
-	      (0, _class.removeClass)(this.$refs.input.$el.querySelector('input'), 'invalid');
+	      (0, _dom.removeClass)(this.$refs.input.$el.querySelector('input'), 'invalid');
 	      return true;
 	    }
 	  },
@@ -547,7 +548,7 @@ module.exports =
 	        }, 500);
 	      } else {
 	        this.editorErrorMessage = '';
-	        (0, _class.removeClass)(this.$refs.input.$el.querySelector('input'), 'invalid');
+	        (0, _dom.removeClass)(this.$refs.input.$el.querySelector('input'), 'invalid');
 	      }
 	    }
 	  },
@@ -579,29 +580,29 @@ module.exports =
 
 /***/ },
 
-/***/ 151:
+/***/ 173:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/button");
 
 /***/ },
 
-/***/ 152:
+/***/ 174:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 153:
+/***/ 175:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('transition', {
+	  return _c('transition', {
 	    attrs: {
 	      "name": "msgbox-fade"
 	    }
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -615,31 +616,31 @@ module.exports =
 	        _vm.handleWrapperClick($event)
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    staticClass: "el-message-box",
 	    class: _vm.customClass
-	  }, [(_vm.title !== undefined) ? _h('div', {
+	  }, [(_vm.title !== undefined) ? _c('div', {
 	    staticClass: "el-message-box__header"
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    staticClass: "el-message-box__title"
-	  }, [_vm._s(_vm.title || _vm.t('el.messagebox.title'))]), (_vm.showClose) ? _h('i', {
+	  }, [_vm._v(_vm._s(_vm.title || _vm.t('el.messagebox.title')))]), (_vm.showClose) ? _c('i', {
 	    staticClass: "el-message-box__close el-icon-close",
 	    on: {
 	      "click": function($event) {
 	        _vm.handleAction('cancel')
 	      }
 	    }
-	  }) : _vm._e()]) : _vm._e(), (_vm.message !== '') ? _h('div', {
+	  }) : _vm._e()]) : _vm._e(), (_vm.message !== '') ? _c('div', {
 	    staticClass: "el-message-box__content"
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    staticClass: "el-message-box__status",
 	    class: [_vm.typeClass]
-	  }), _h('div', {
+	  }), _c('div', {
 	    staticClass: "el-message-box__message",
 	    style: ({
 	      'margin-left': _vm.typeClass ? '50px' : '0'
 	    })
-	  }, [_h('p', [_vm._s(_vm.message)])]), _h('div', {
+	  }, [_c('p', [_vm._v(_vm._s(_vm.message))])]), _c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -647,7 +648,7 @@ module.exports =
 	      expression: "showInput"
 	    }],
 	    staticClass: "el-message-box__input"
-	  }, [_h('el-input', {
+	  }, [_c('el-input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -666,14 +667,14 @@ module.exports =
 	        _vm.inputValue = $event
 	      }
 	    }
-	  }), _h('div', {
+	  }), _c('div', {
 	    staticClass: "el-message-box__errormsg",
 	    style: ({
 	      visibility: !!_vm.editorErrorMessage ? 'visible' : 'hidden'
 	    })
-	  }, [_vm._s(_vm.editorErrorMessage)])])]) : _vm._e(), _h('div', {
+	  }, [_vm._v(_vm._s(_vm.editorErrorMessage))])])]) : _vm._e(), _c('div', {
 	    staticClass: "el-message-box__btns"
-	  }, [_h('el-button', {
+	  }, [_c('el-button', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -686,7 +687,7 @@ module.exports =
 	        _vm.handleAction('cancel')
 	      }
 	    }
-	  }, [_vm._s(_vm.cancelButtonText || _vm.t('el.messagebox.cancel'))]), _h('el-button', {
+	  }, [_vm._v(_vm._s(_vm.cancelButtonText || _vm.t('el.messagebox.cancel')))]), _c('el-button', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -700,7 +701,7 @@ module.exports =
 	        _vm.handleAction('confirm')
 	      }
 	    }
-	  }, [_vm._s(_vm.confirmButtonText || _vm.t('el.messagebox.confirm'))])])])])])
+	  }, [_vm._v(_vm._s(_vm.confirmButtonText || _vm.t('el.messagebox.confirm')))])])])])])
 	},staticRenderFns: []}
 
 /***/ }

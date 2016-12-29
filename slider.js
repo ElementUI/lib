@@ -46,19 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(214);
+	module.exports = __webpack_require__(238);
 
 
 /***/ },
 
-/***/ 214:
+/***/ 68:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/dom");
+
+/***/ },
+
+/***/ 238:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(215);
+	var _main = __webpack_require__(239);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -73,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 215:
+/***/ 239:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(216)
+	__vue_exports__ = __webpack_require__(240)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(220)
+	var __vue_template__ = __webpack_require__(243)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,22 +110,22 @@ module.exports =
 
 /***/ },
 
-/***/ 216:
+/***/ 240:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _inputNumber = __webpack_require__(217);
+	var _inputNumber = __webpack_require__(241);
 
 	var _inputNumber2 = _interopRequireDefault(_inputNumber);
 
-	var _tooltip = __webpack_require__(218);
+	var _tooltip = __webpack_require__(242);
 
 	var _tooltip2 = _interopRequireDefault(_tooltip);
 
-	var _style = __webpack_require__(219);
+	var _dom = __webpack_require__(68);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -293,7 +300,7 @@ module.exports =
 
 	  computed: {
 	    $sliderWidth: function $sliderWidth() {
-	      return parseInt((0, _style.getStyle)(this.$refs.slider, 'width'), 10);
+	      return parseInt((0, _dom.getStyle)(this.$refs.slider, 'width'), 10);
 	    },
 	    stops: function stops() {
 	      var stopCount = (this.max - this.value) / this.step;
@@ -359,34 +366,27 @@ module.exports =
 
 /***/ },
 
-/***/ 217:
+/***/ 241:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input-number");
 
 /***/ },
 
-/***/ 218:
+/***/ 242:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tooltip");
 
 /***/ },
 
-/***/ 219:
-/***/ function(module, exports) {
-
-	module.exports = require("wind-dom/src/style");
-
-/***/ },
-
-/***/ 220:
+/***/ 243:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('div', {
+	  return _c('div', {
 	    staticClass: "el-slider"
-	  }, [(_vm.showInput) ? _h('el-input-number', {
+	  }, [(_vm.showInput) ? _c('el-input-number', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -415,7 +415,7 @@ module.exports =
 	        _vm.onInputChange($event)
 	      }
 	    }
-	  }) : _vm._e(), _h('div', {
+	  }) : _vm._e(), _c('div', {
 	    ref: "slider",
 	    staticClass: "el-slider__runway",
 	    class: {
@@ -424,12 +424,12 @@ module.exports =
 	    on: {
 	      "click": _vm.onSliderClick
 	    }
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    staticClass: "el-slider__bar",
 	    style: ({
 	      width: _vm.currentPosition
 	    })
-	  }), _h('div', {
+	  }), _c('div', {
 	    ref: "button",
 	    staticClass: "el-slider__button-wrapper",
 	    class: {
@@ -443,26 +443,26 @@ module.exports =
 	      "mouseleave": _vm.handleMouseLeave,
 	      "mousedown": _vm.onButtonDown
 	    }
-	  }, [_h('el-tooltip', {
+	  }, [_c('el-tooltip', {
 	    ref: "tooltip",
 	    attrs: {
 	      "placement": "top"
 	    }
-	  }, [_h('span', {
+	  }, [_c('span', {
 	    slot: "content"
-	  }, [_vm._s(_vm.value)]), _h('div', {
+	  }, [_vm._v(_vm._s(_vm.value))]), _c('div', {
 	    staticClass: "el-slider__button",
 	    class: {
 	      'hover': _vm.hovering, 'dragging': _vm.dragging
 	    }
 	  })])]), _vm._l((_vm.stops), function(item) {
-	    return (_vm.showStops) ? _h('div', {
+	    return (_vm.showStops) ? _c('div', {
 	      staticClass: "el-slider__stop",
 	      style: ({
 	        'left': item + '%'
 	      })
 	    }) : _vm._e()
-	  })])])
+	  })], true)])
 	},staticRenderFns: []}
 
 /***/ }

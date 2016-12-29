@@ -6,9 +6,11 @@ exports.__esModule = true;
 *
 * version: 0.5.3
 **/
+var isServer = typeof window === 'undefined';
 
 /* istanbul ignore next */
 var requestFrame = function () {
+  if (isServer) return;
   var raf = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || function (fn) {
     return window.setTimeout(fn, 20);
   };
@@ -19,6 +21,7 @@ var requestFrame = function () {
 
 /* istanbul ignore next */
 var cancelFrame = function () {
+  if (isServer) return;
   var cancel = window.cancelAnimationFrame || window.mozCancelAnimationFrame || window.webkitCancelAnimationFrame || window.clearTimeout;
   return function (id) {
     return cancel(id);
@@ -63,7 +66,7 @@ var scrollListener = function scrollListener(event) {
 };
 
 /* Detect CSS Animations support to detect element display/re-attach */
-var attachEvent = document.attachEvent;
+var attachEvent = isServer ? {} : document.attachEvent;
 var DOM_PREFIXES = 'Webkit Moz O ms'.split(' ');
 var START_EVENTS = 'webkitAnimationStart animationstart oAnimationStart MSAnimationStart'.split(' ');
 var RESIZE_ANIMATION_NAME = 'resizeanim';
@@ -72,7 +75,7 @@ var keyFramePrefix = '';
 var animationStartEvent = 'animationstart';
 
 /* istanbul ignore next */
-if (!attachEvent) {
+if (!attachEvent && !isServer) {
   var testElement = document.createElement('fakeelement');
   if (testElement.style.animationName !== undefined) {
     animation = true;
@@ -95,7 +98,7 @@ if (!attachEvent) {
 var stylesCreated = false;
 /* istanbul ignore next */
 var createStyles = function createStyles() {
-  if (!stylesCreated) {
+  if (!stylesCreated && !isServer) {
     var animationKeyframes = '@' + keyFramePrefix + 'keyframes ' + RESIZE_ANIMATION_NAME + ' { from { opacity: 0; } to { opacity: 0; } } ';
     var animationStyle = keyFramePrefix + 'animation: 1ms ' + RESIZE_ANIMATION_NAME + ';';
 
@@ -119,6 +122,7 @@ var createStyles = function createStyles() {
 
 /* istanbul ignore next */
 var addResizeListener = exports.addResizeListener = function addResizeListener(element, fn) {
+  if (isServer) return;
   if (attachEvent) {
     element.attachEvent('onresize', fn);
   } else {

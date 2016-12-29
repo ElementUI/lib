@@ -41,32 +41,24 @@ module.exports =
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(11);
+	module.exports = __webpack_require__(16);
 
 
 /***/ },
-/* 1 */,
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */
+
+/***/ 16:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(12);
+	var _main = __webpack_require__(17);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -80,17 +72,18 @@ module.exports =
 	exports.default = _main2.default;
 
 /***/ },
-/* 12 */
+
+/***/ 17:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(13)
+	__vue_exports__ = __webpack_require__(18)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(14)
+	var __vue_template__ = __webpack_require__(19)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -109,12 +102,16 @@ module.exports =
 
 
 /***/ },
-/* 13 */
+
+/***/ 18:
 /***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
+	//
+	//
+	//
 	//
 	//
 	//
@@ -133,7 +130,8 @@ module.exports =
 	  props: {
 	    value: {},
 	    max: Number,
-	    isDot: Boolean
+	    isDot: Boolean,
+	    hidden: Boolean
 	  },
 
 	  computed: {
@@ -153,13 +151,24 @@ module.exports =
 	};
 
 /***/ },
-/* 14 */
+
+/***/ 19:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('div', {
+	  return _c('div', {
 	    staticClass: "el-badge"
-	  }, [_vm._t("default"), _h('sup', {
+	  }, [_vm._t("default"), _c('transition', {
+	    attrs: {
+	      "name": "el-zoom-in-center"
+	    }
+	  }, [_c('sup', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (!_vm.hidden),
+	      expression: "!hidden"
+	    }],
 	    staticClass: "el-badge__content",
 	    class: {
 	      'is-fixed': _vm.$slots.default, 'is-dot': _vm.isDot
@@ -167,8 +176,9 @@ module.exports =
 	    domProps: {
 	      "textContent": _vm._s(_vm.content)
 	    }
-	  })])
+	  })])], true)
 	},staticRenderFns: []}
 
 /***/ }
-/******/ ]);
+
+/******/ });

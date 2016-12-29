@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(23);
+	module.exports = __webpack_require__(28);
 
 
 /***/ },
 
-/***/ 23:
+/***/ 28:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _button = __webpack_require__(24);
+	var _button = __webpack_require__(29);
 
 	var _button2 = _interopRequireDefault(_button);
 
@@ -73,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 24:
+/***/ 29:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(25)
+	__vue_exports__ = __webpack_require__(30)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(26)
+	var __vue_template__ = __webpack_require__(31)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,7 +103,7 @@ module.exports =
 
 /***/ },
 
-/***/ 25:
+/***/ 30:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -162,11 +162,11 @@ module.exports =
 
 /***/ },
 
-/***/ 26:
+/***/ 31:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('button', {
+	  return _c('button', {
 	    staticClass: "el-button",
 	    class: [
 	      _vm.type ? 'el-button--' + _vm.type : '',
@@ -184,11 +184,11 @@ module.exports =
 	    on: {
 	      "click": _vm.handleClick
 	    }
-	  }, [(_vm.loading) ? _h('i', {
+	  }, [(_vm.loading) ? _c('i', {
 	    staticClass: "el-icon-loading"
-	  }) : _vm._e(), (_vm.icon && !_vm.loading) ? _h('i', {
+	  }) : _vm._e(), (_vm.icon && !_vm.loading) ? _c('i', {
 	    class: 'el-icon-' + _vm.icon
-	  }) : _vm._e(), (_vm.$slots.default) ? _h('span', [_vm._t("default")]) : _vm._e()])
+	  }) : _vm._e(), (_vm.$slots.default) ? _c('span', [_vm._t("default")], true) : _vm._e()])
 	},staticRenderFns: []}
 
 /***/ }

@@ -46,26 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(90);
+	module.exports = __webpack_require__(113);
 
 
 /***/ },
 
-/***/ 53:
+/***/ 12:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 
-/***/ 90:
+/***/ 113:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _dropdownMenu = __webpack_require__(91);
+	var _dropdownMenu = __webpack_require__(114);
 
 	var _dropdownMenu2 = _interopRequireDefault(_dropdownMenu);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 91:
+/***/ 114:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(92)
+	__vue_exports__ = __webpack_require__(115)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(93)
+	var __vue_template__ = __webpack_require__(116)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,14 +110,14 @@ module.exports =
 
 /***/ },
 
-/***/ 92:
+/***/ 115:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(53);
+	var _vuePopper = __webpack_require__(12);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -143,9 +143,12 @@ module.exports =
 	  },
 
 
-	  computed: {
-	    placement: function placement() {
-	      return 'bottom-' + this.$parent.menuAlign;
+	  watch: {
+	    '$parent.menuAlign': {
+	      immediate: true,
+	      handler: function handler(val) {
+	        this.currentPlacement = 'bottom-' + val;
+	      }
 	    }
 	  }
 	}; //
@@ -158,18 +161,18 @@ module.exports =
 
 /***/ },
 
-/***/ 93:
+/***/ 116:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('transition', {
+	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    },
 	    on: {
 	      "after-leave": _vm.doDestroy
 	    }
-	  }, [_h('ul', {
+	  }, [_c('ul', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -177,7 +180,7 @@ module.exports =
 	      expression: "showPopper"
 	    }],
 	    staticClass: "el-dropdown-menu"
-	  }, [_vm._t("default")])])
+	  }, [_vm._t("default")], true)])
 	},staticRenderFns: []}
 
 /***/ }

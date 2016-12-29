@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(275);
+	module.exports = __webpack_require__(297);
 
 
 /***/ },
@@ -65,24 +65,31 @@ module.exports =
 
 /***/ },
 
-/***/ 38:
+/***/ 12:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/vue-popper");
+
+/***/ },
+
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 48:
+/***/ 72:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(49)
+	__vue_exports__ = __webpack_require__(73)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(54)
+	var __vue_template__ = __webpack_require__(77)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -102,14 +109,14 @@ module.exports =
 
 /***/ },
 
-/***/ 49:
+/***/ 73:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(50);
+	var _vue = __webpack_require__(74);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -117,13 +124,13 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _util = __webpack_require__(51);
+	var _util = __webpack_require__(75);
 
-	var _vuePopper = __webpack_require__(53);
+	var _vuePopper = __webpack_require__(12);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _emitter = __webpack_require__(38);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -133,6 +140,7 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
 	//
 	//
 	//
@@ -318,7 +326,6 @@ module.exports =
 	      default: 'left'
 	    },
 	    value: {},
-	    haveTrigger: {},
 	    pickerOptions: {}
 	  },
 
@@ -426,6 +433,9 @@ module.exports =
 	  },
 
 	  created: function created() {
+	    this.cachePicker = {};
+	    this.cacheChange = {};
+
 	    // vue-popper
 	    this.options = {
 	      boundariesPadding: 0,
@@ -450,16 +460,16 @@ module.exports =
 	        this.pickerVisible = !this.pickerVisible;
 	      }
 	    },
-	    dateIsUpdated: function dateIsUpdated(date) {
+	    dateIsUpdated: function dateIsUpdated(date, cache) {
 	      var updated = true;
 
 	      if (Array.isArray(date)) {
-	        if ((0, _util.equalDate)(this.cacheDateMin, date[0]) && (0, _util.equalDate)(this.cacheDateMax, date[1])) updated = false;
-	        this.cacheDateMin = date[0];
-	        this.cacheDateMax = date[1];
+	        if ((0, _util.equalDate)(cache.cacheDateMin, date[0]) && (0, _util.equalDate)(cache.cacheDateMax, date[1])) updated = false;
+	        cache.cacheDateMin = date[0];
+	        cache.cacheDateMax = date[1];
 	      } else {
-	        if ((0, _util.equalDate)(this.cacheDate, date)) updated = false;
-	        this.cacheDate = date;
+	        if ((0, _util.equalDate)(cache.cacheDate, date)) updated = false;
+	        cache.cacheDate = date;
 	      }
 
 	      return updated;
@@ -497,68 +507,77 @@ module.exports =
 	    showPicker: function showPicker() {
 	      var _this = this;
 
+	      if (this.$isServer) return;
 	      if (!this.picker) {
-	        this.panel.defaultValue = this.internalValue;
-	        this.picker = new _vue2.default(this.panel).$mount(document.createElement('div'));
-	        this.picker.popperClass = this.popperClass;
-	        this.popperElm = this.picker.$el;
-	        this.picker.width = this.reference.getBoundingClientRect().width;
-	        this.picker.showTime = this.type === 'datetime' || this.type === 'datetimerange';
-	        this.picker.selectionMode = this.selectionMode;
-	        if (this.format) {
-	          this.picker.format = this.format;
-	        }
-
-	        var options = this.pickerOptions;
-
-	        if (options && options.selectableRange) {
-	          (function () {
-	            var ranges = options.selectableRange;
-	            var parser = TYPE_VALUE_RESOLVER_MAP.datetimerange.parser;
-	            var format = DEFAULT_FORMATS.timerange;
-
-	            ranges = Array.isArray(ranges) ? ranges : [ranges];
-	            _this.picker.selectableRange = ranges.map(function (range) {
-	              return parser(range, format);
-	            });
-	          })();
-	        }
-
-	        if (this.type === 'time-select' && options) {
-	          this.$watch('pickerOptions.minTime', function (val) {
-	            _this.picker.minTime = val;
-	          });
-	        }
-
-	        for (var option in options) {
-	          if (options.hasOwnProperty(option) &&
-	          // 忽略 time-picker 的该配置项
-	          option !== 'selectableRange') {
-	            this.picker[option] = options[option];
+	        (function () {
+	          _this.panel.defaultValue = _this.internalValue;
+	          _this.picker = new _vue2.default(_this.panel).$mount(document.createElement('div'));
+	          _this.picker.popperClass = _this.popperClass;
+	          _this.popperElm = _this.picker.$el;
+	          _this.picker.width = _this.reference.getBoundingClientRect().width;
+	          _this.picker.showTime = _this.type === 'datetime' || _this.type === 'datetimerange';
+	          _this.picker.selectionMode = _this.selectionMode;
+	          if (_this.format) {
+	            _this.picker.format = _this.format;
 	          }
-	        }
 
-	        this.$el.appendChild(this.picker.$el);
-	        this.pickerVisible = this.picker.visible = true;
-	        this.picker.resetView && this.picker.resetView();
+	          var updateOptions = function updateOptions() {
+	            var options = _this.pickerOptions;
 
-	        this.picker.$on('dodestroy', this.doDestroy);
-	        this.picker.$on('pick', function (date) {
-	          var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+	            if (options && options.selectableRange) {
+	              (function () {
+	                var ranges = options.selectableRange;
+	                var parser = TYPE_VALUE_RESOLVER_MAP.datetimerange.parser;
+	                var format = DEFAULT_FORMATS.timerange;
 
-	          if (_this.dateIsUpdated(date)) _this.$emit('input', date);
+	                ranges = Array.isArray(ranges) ? ranges : [ranges];
+	                _this.picker.selectableRange = ranges.map(function (range) {
+	                  return parser(range, format);
+	                });
+	              })();
+	            }
 
-	          _this.$nextTick(function () {
-	            return _this.$emit('change', _this.visualValue);
-	          });
-	          _this.pickerVisible = _this.picker.visible = visible;
+	            if (_this.type === 'time-select' && options) {
+	              _this.$watch('pickerOptions.minTime', function (val) {
+	                _this.picker.minTime = val;
+	              });
+	            }
+
+	            for (var option in options) {
+	              if (options.hasOwnProperty(option) &&
+	              // 忽略 time-picker 的该配置项
+	              option !== 'selectableRange') {
+	                _this.picker[option] = options[option];
+	              }
+	            }
+	          };
+	          updateOptions();
+	          _this.$watch('pickerOptions', function () {
+	            return updateOptions();
+	          }, { deep: true });
+
+	          _this.$el.appendChild(_this.picker.$el);
+	          _this.pickerVisible = _this.picker.visible = true;
 	          _this.picker.resetView && _this.picker.resetView();
-	        });
 
-	        this.picker.$on('select-range', function (start, end) {
-	          _this.refInput.setSelectionRange(start, end);
-	          _this.refInput.focus();
-	        });
+	          _this.picker.$on('dodestroy', _this.doDestroy);
+	          _this.picker.$on('pick', function (date) {
+	            var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+	            if (_this.dateIsUpdated(date, _this.cachePicker)) _this.$emit('input', date);
+
+	            _this.$nextTick(function () {
+	              return _this.dateIsUpdated(date, _this.cacheChange) && _this.$emit('change', _this.visualValue);
+	            });
+	            _this.pickerVisible = _this.picker.visible = visible;
+	            _this.picker.resetView && _this.picker.resetView();
+	          });
+
+	          _this.picker.$on('select-range', function (start, end) {
+	            _this.refInput.setSelectionRange(start, end);
+	            _this.refInput.focus();
+	          });
+	        })();
 	      } else {
 	        this.pickerVisible = this.picker.visible = true;
 	      }
@@ -581,14 +600,14 @@ module.exports =
 
 /***/ },
 
-/***/ 50:
+/***/ 74:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 51:
+/***/ 75:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -596,7 +615,7 @@ module.exports =
 	exports.__esModule = true;
 	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.toDate = exports.equalDate = undefined;
 
-	var _date = __webpack_require__(52);
+	var _date = __webpack_require__(76);
 
 	var _date2 = _interopRequireDefault(_date);
 
@@ -611,7 +630,7 @@ module.exports =
 	};
 
 	var equalDate = exports.equalDate = function equalDate(dateA, dateB) {
-	  return new Date(dateA).getTime() === new Date(dateB).getTime();
+	  return dateA === dateB || new Date(dateA).getTime() === new Date(dateB).getTime();
 	};
 
 	var toDate = exports.toDate = function toDate(date) {
@@ -768,25 +787,18 @@ module.exports =
 
 /***/ },
 
-/***/ 52:
+/***/ 76:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/date");
 
 /***/ },
 
-/***/ 53:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/vue-popper");
-
-/***/ },
-
-/***/ 54:
+/***/ 77:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('el-input', {
+	  return _c('el-input', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
@@ -795,13 +807,12 @@ module.exports =
 	    }],
 	    ref: "reference",
 	    staticClass: "el-date-editor",
+	    class: 'el-date-editor--' + _vm.type,
 	    attrs: {
 	      "readonly": !_vm.editable || _vm.readonly,
 	      "disabled": _vm.disabled,
 	      "size": _vm.size,
-	      "placeholder": _vm.placeholder
-	    },
-	    domProps: {
+	      "placeholder": _vm.placeholder,
 	      "value": _vm.visualValue
 	    },
 	    on: {
@@ -816,8 +827,7 @@ module.exports =
 	        _vm.visualValue = $event.target.value
 	      }
 	    }
-	  }, [(_vm.haveTrigger) ? _h('i', {
-	    slot: "icon",
+	  }, [(_vm.haveTrigger) ? _c('i', {
 	    staticClass: "el-input__icon",
 	    class: [_vm.showClose ? 'el-icon-close' : _vm.triggerClass],
 	    on: {
@@ -826,20 +836,28 @@ module.exports =
 	      "mouseleave": function($event) {
 	        _vm.showClose = false
 	      }
-	    }
+	    },
+	    slot: "icon"
 	  }) : _vm._e()])
 	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 275:
+/***/ 85:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/scrollbar");
+
+/***/ },
+
+/***/ 297:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _timeSelect = __webpack_require__(276);
+	var _timeSelect = __webpack_require__(298);
 
 	var _timeSelect2 = _interopRequireDefault(_timeSelect);
 
@@ -854,18 +872,18 @@ module.exports =
 
 /***/ },
 
-/***/ 276:
+/***/ 298:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _picker = __webpack_require__(48);
+	var _picker = __webpack_require__(72);
 
 	var _picker2 = _interopRequireDefault(_picker);
 
-	var _timeSelect = __webpack_require__(277);
+	var _timeSelect = __webpack_require__(299);
 
 	var _timeSelect2 = _interopRequireDefault(_timeSelect);
 
@@ -884,17 +902,17 @@ module.exports =
 
 /***/ },
 
-/***/ 277:
+/***/ 299:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(278)
+	__vue_exports__ = __webpack_require__(300)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(279)
+	var __vue_template__ = __webpack_require__(301)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -914,30 +932,18 @@ module.exports =
 
 /***/ },
 
-/***/ 278:
-/***/ function(module, exports) {
+/***/ 300:
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+
+	var _scrollbar = __webpack_require__(85);
+
+	var _scrollbar2 = _interopRequireDefault(_scrollbar);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var parseTime = function parseTime(time) {
 	  var values = ('' || time).split(':');
@@ -952,7 +958,24 @@ module.exports =
 	  }
 	  /* istanbul ignore next */
 	  return null;
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	var compareTime = function compareTime(time1, time2) {
 	  var value1 = parseTime(time1);
@@ -991,9 +1014,14 @@ module.exports =
 	};
 
 	exports.default = {
+	  components: { ElScrollbar: _scrollbar2.default },
+
 	  watch: {
-	    minTime: function minTime(val) {
-	      if (this.value && val && compareTime(this.value, val) === -1) {
+	    value: function value(val) {
+	      if (!val) return;
+	      if (this.minTime && compareTime(val, this.minTime) < 0) {
+	        this.$emit('pick');
+	      } else if (this.maxTime && compareTime(val, this.maxTime) > 0) {
 	        this.$emit('pick');
 	      }
 	    }
@@ -1019,6 +1047,7 @@ module.exports =
 	      value: '',
 	      visible: false,
 	      minTime: '',
+	      maxTime: '',
 	      width: 0
 	    };
 	  },
@@ -1037,7 +1066,7 @@ module.exports =
 	        while (compareTime(current, end) <= 0) {
 	          result.push({
 	            value: current,
-	            disabled: compareTime(current, this.minTime || '-1:-1') <= 0
+	            disabled: compareTime(current, this.minTime || '-1:-1') <= 0 || compareTime(current, this.maxTime || '100:100') > 0
 	          });
 	          current = nextTime(current, step);
 	        }
@@ -1050,11 +1079,11 @@ module.exports =
 
 /***/ },
 
-/***/ 279:
+/***/ 301:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('transition', {
+	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    },
@@ -1063,7 +1092,7 @@ module.exports =
 	        _vm.$emit('dodestroy')
 	      }
 	    }
-	  }, [_h('div', {
+	  }, [_c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1075,10 +1104,13 @@ module.exports =
 	    style: ({
 	      width: _vm.width + 'px'
 	    })
-	  }, [_h('div', {
-	    staticClass: "el-picker-panel__content"
-	  }, [_vm._l((_vm.items), function(item) {
-	    return _h('div', {
+	  }, [_c('el-scrollbar', {
+	    attrs: {
+	      "noresize": "",
+	      "wrap-class": "el-picker-panel__content"
+	    }
+	  }, _vm._l((_vm.items), function(item) {
+	    return _c('div', {
 	      staticClass: "time-select-item",
 	      class: {
 	        selected: _vm.value === item.value, disabled: item.disabled
@@ -1091,8 +1123,8 @@ module.exports =
 	          _vm.handleClick(item)
 	        }
 	      }
-	    }, [_vm._s(item.value)])
-	  })])])])
+	    }, [_vm._v(_vm._s(item.value))])
+	  }))])])
 	},staticRenderFns: []}
 
 /***/ }

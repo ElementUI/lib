@@ -46,26 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(184);
+	module.exports = __webpack_require__(205);
 
 
 /***/ },
 
-/***/ 38:
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 184:
+/***/ 205:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _radio = __webpack_require__(185);
+	var _radio = __webpack_require__(206);
 
 	var _radio2 = _interopRequireDefault(_radio);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 185:
+/***/ 206:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(186)
+	__vue_exports__ = __webpack_require__(207)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(187)
+	var __vue_template__ = __webpack_require__(208)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,14 +110,14 @@ module.exports =
 
 /***/ },
 
-/***/ 186:
+/***/ 207:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(38);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -201,20 +201,22 @@ module.exports =
 
 /***/ },
 
-/***/ 187:
+/***/ 208:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('label', {
+	  return _c('label', {
 	    staticClass: "el-radio"
-	  }, [_h('span', {
+	  }, [_c('span', {
 	    staticClass: "el-radio__input",
 	    class: {
 	      'is-disabled': _vm.disabled,
 	      'is-checked': _vm.model === _vm.label,
 	        'is-focus': _vm.focus
 	    }
-	  }, [_vm._m(0), _h('input', {
+	  }, [_c('span', {
+	    staticClass: "el-radio__inner"
+	  }), _c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -242,14 +244,10 @@ module.exports =
 	        _vm.model = _vm.label
 	      }
 	    }
-	  })]), _h('span', {
+	  })]), _c('span', {
 	    staticClass: "el-radio__label"
-	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()])])
-	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('span', {
-	    staticClass: "el-radio__inner"
-	  })
-	}]}
+	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._v(_vm._s(_vm.label))] : _vm._e()], true)])
+	},staticRenderFns: []}
 
 /***/ }
 

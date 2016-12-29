@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(263);
+	module.exports = __webpack_require__(285);
 
 
 /***/ },
 
-/***/ 263:
+/***/ 285:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tabs = __webpack_require__(264);
+	var _tabs = __webpack_require__(286);
 
 	var _tabs2 = _interopRequireDefault(_tabs);
 
@@ -73,14 +73,14 @@ module.exports =
 
 /***/ },
 
-/***/ 264:
+/***/ 286:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(265)
+	__vue_exports__ = __webpack_require__(287)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -98,7 +98,7 @@ module.exports =
 
 /***/ },
 
-/***/ 265:
+/***/ 287:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -231,7 +231,7 @@ module.exports =
 	        []
 	      ) : null;
 
-	      var tabLabelContent = tab.labelContent ? tab.labelContent.call(_this2._renderProxy, h, tab) : tab.label;
+	      var tabLabelContent = tab.$slots.label || tab.label;
 
 	      return h(
 	        'div',

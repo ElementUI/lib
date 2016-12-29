@@ -46,19 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(35);
+	module.exports = __webpack_require__(51);
 
 
 /***/ },
 
-/***/ 35:
+/***/ 14:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ },
+
+/***/ 51:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(36);
+	var _checkbox = __webpack_require__(52);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -73,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 36:
+/***/ 52:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(37)
+	__vue_exports__ = __webpack_require__(53)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(39)
+	var __vue_template__ = __webpack_require__(54)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,14 +110,14 @@ module.exports =
 
 /***/ },
 
-/***/ 37:
+/***/ 53:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(38);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -241,20 +248,13 @@ module.exports =
 
 /***/ },
 
-/***/ 38:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/mixins/emitter");
-
-/***/ },
-
-/***/ 39:
+/***/ 54:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('label', {
+	  return _c('label', {
 	    staticClass: "el-checkbox"
-	  }, [_h('span', {
+	  }, [_c('span', {
 	    staticClass: "el-checkbox__input",
 	    class: {
 	      'is-disabled': _vm.disabled,
@@ -262,7 +262,9 @@ module.exports =
 	      'is-indeterminate': _vm.indeterminate,
 	      'is-focus': _vm.focus
 	    }
-	  }, [_vm._m(0), (_vm.trueLabel || _vm.falseLabel) ? _h('input', {
+	  }, [_c('span', {
+	    staticClass: "el-checkbox__inner"
+	  }), (_vm.trueLabel || _vm.falseLabel) ? _c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -306,7 +308,7 @@ module.exports =
 	        _vm.focus = false
 	      }
 	    }
-	  }) : _h('input', {
+	  }) : _c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -349,14 +351,10 @@ module.exports =
 	        _vm.focus = false
 	      }
 	    }
-	  })]), (_vm.$slots.default || _vm.label) ? _h('span', {
+	  })]), (_vm.$slots.default || _vm.label) ? _c('span', {
 	    staticClass: "el-checkbox__label"
-	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._s(_vm.label)] : _vm._e()]) : _vm._e()])
-	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-	  return _h('span', {
-	    staticClass: "el-checkbox__inner"
-	  })
-	}]}
+	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._v(_vm._s(_vm.label))] : _vm._e()], true) : _vm._e()])
+	},staticRenderFns: []}
 
 /***/ }
 

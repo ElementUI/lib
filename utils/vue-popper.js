@@ -2,14 +2,15 @@
 
 exports.__esModule = true;
 
-var _popper = require('./popper');
+var _vue = require('vue');
 
-var _popper2 = _interopRequireDefault(_popper);
+var _vue2 = _interopRequireDefault(_vue);
 
-var _vuePopup = require('vue-popup');
+var _popup = require('element-ui/lib/utils/popup');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var PopperJS = _vue2.default.prototype.$isServer ? function () {} : require('./popper');
 var stop = function stop(e) {
   return e.stopPropagation();
 };
@@ -56,7 +57,8 @@ exports.default = {
 
   data: function data() {
     return {
-      showPopper: false
+      showPopper: false,
+      currentPlacement: ''
     };
   },
 
@@ -80,7 +82,9 @@ exports.default = {
     createPopper: function createPopper() {
       var _this = this;
 
-      if (!/^(top|bottom|left|right)(-start|-end)?$/g.test(this.placement)) {
+      if (this.$isServer) return;
+      this.currentPlacement = this.currentPlacement || this.placement;
+      if (!/^(top|bottom|left|right)(-start|-end)?$/g.test(this.currentPlacement)) {
         return;
       }
 
@@ -98,15 +102,15 @@ exports.default = {
         this.popperJS.destroy();
       }
 
-      options.placement = this.placement;
+      options.placement = this.currentPlacement;
       options.offset = this.offset;
-      this.popperJS = new _popper2.default(reference, popper, options);
+      this.popperJS = new PopperJS(reference, popper, options);
       this.popperJS.onCreate(function (_) {
         _this.$emit('created', _this);
         _this.resetTransformOrigin();
         _this.$nextTick(_this.updatePopper);
       });
-      this.popperJS._popper.style.zIndex = _vuePopup.PopupManager.nextZIndex();
+      this.popperJS._popper.style.zIndex = _popup.PopupManager.nextZIndex();
       this.popperElm.addEventListener('click', stop);
     },
     updatePopper: function updatePopper() {
