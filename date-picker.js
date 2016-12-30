@@ -595,11 +595,11 @@ module.exports =
 
 	      if (Array.isArray(date)) {
 	        if ((0, _util.equalDate)(cache.cacheDateMin, date[0]) && (0, _util.equalDate)(cache.cacheDateMax, date[1])) updated = false;
-	        cache.cacheDateMin = date[0];
-	        cache.cacheDateMax = date[1];
+	        cache.cacheDateMin = new Date(date[0]);
+	        cache.cacheDateMax = new Date(date[1]);
 	      } else {
 	        if ((0, _util.equalDate)(cache.cacheDate, date)) updated = false;
-	        cache.cacheDate = date;
+	        cache.cacheDate = new Date(date);
 	      }
 
 	      return updated;
@@ -923,7 +923,7 @@ module.exports =
 /* 77 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('el-input', {
 	    directives: [{
 	      name: "clickoutside",
@@ -1879,7 +1879,7 @@ module.exports =
 /* 86 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-time-spinner",
 	    class: {
@@ -1993,14 +1993,14 @@ module.exports =
 	        }
 	      }
 	    })
-	  }))])
+	  }))], 1)
 	},staticRenderFns: []}
 
 /***/ },
 /* 87 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
@@ -2039,7 +2039,7 @@ module.exports =
 	      "change": _vm.handleChange,
 	      "select-range": _vm.setSelectionRange
 	    }
-	  })]), _c('div', {
+	  })], 1), _c('div', {
 	    staticClass: "el-time-panel__footer"
 	  }, [_c('button', {
 	    staticClass: "el-time-panel__btn cancel",
@@ -2190,7 +2190,7 @@ module.exports =
 /* 90 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('table', {
 	    staticClass: "el-year-table",
 	    on: {
@@ -2381,7 +2381,7 @@ module.exports =
 /* 93 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('table', {
 	    staticClass: "el-month-table",
 	    on: {
@@ -2926,7 +2926,7 @@ module.exports =
 /* 96 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('table', {
 	    staticClass: "el-date-table",
 	    class: {
@@ -2942,7 +2942,7 @@ module.exports =
 	    }
 	  }, [_c('tbody', [_c('tr', [(_vm.showWeekNumber) ? _c('th', [_vm._v(_vm._s(_vm.t('el.datepicker.week')))]) : _vm._e(), _vm._l((_vm.WEEKS), function(week) {
 	    return _c('th', [_vm._v(_vm._s(_vm.t('el.datepicker.weeks.' + week)))])
-	  })], true), _vm._l((_vm.rows), function(row) {
+	  })], 2), _vm._l((_vm.rows), function(row) {
 	    return _c('tr', {
 	      staticClass: "el-date-table__row",
 	      class: {
@@ -2956,14 +2956,14 @@ module.exports =
 	        }
 	      })
 	    }))
-	  })], true)])
+	  })], 2)])
 	},staticRenderFns: []}
 
 /***/ },
 /* 97 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
@@ -3021,7 +3021,7 @@ module.exports =
 	        _vm.visibleDate = $event.target.value
 	      }
 	    }
-	  })]), _c('span', {
+	  })], 1), _c('span', {
 	    staticClass: "el-date-picker__editor-wrap"
 	  }, [_c('el-input', {
 	    ref: "input",
@@ -3050,7 +3050,7 @@ module.exports =
 	    on: {
 	      "pick": _vm.handleTimePick
 	    }
-	  })])]) : _vm._e(), _c('div', {
+	  })], 1)]) : _vm._e(), _c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -3174,7 +3174,7 @@ module.exports =
 	    on: {
 	      "pick": _vm.handleMonthPick
 	    }
-	  })])])], true), _c('div', {
+	  })], 1)])], 2), _c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -3701,7 +3701,7 @@ module.exports =
 /* 100 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
@@ -3766,7 +3766,7 @@ module.exports =
 	        _vm.handleDateChange($event, 'min')
 	      }
 	    }
-	  })]), _c('span', {
+	  })], 1), _c('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
 	  }, [_c('el-input', {
 	    staticClass: "el-date-range-picker__editor",
@@ -3795,7 +3795,7 @@ module.exports =
 	    on: {
 	      "pick": _vm.handleMinTimePick
 	    }
-	  })])]), _c('span', {
+	  })], 1)]), _c('span', {
 	    staticClass: "el-icon-arrow-right"
 	  }), _c('span', {
 	    staticClass: "el-date-range-picker__editors-wrap is-right"
@@ -3817,7 +3817,7 @@ module.exports =
 	        _vm.handleDateChange($event, 'max')
 	      }
 	    }
-	  })]), _c('span', {
+	  })], 1), _c('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
 	  }, [_c('el-input', {
 	    ref: "maxInput",
@@ -3848,7 +3848,7 @@ module.exports =
 	    on: {
 	      "pick": _vm.handleMaxTimePick
 	    }
-	  })])])]) : _vm._e(), _c('div', {
+	  })], 1)])]) : _vm._e(), _c('div', {
 	    staticClass: "el-picker-panel__content el-date-range-picker__content is-left"
 	  }, [_c('div', {
 	    staticClass: "el-date-range-picker__header"
@@ -3883,7 +3883,7 @@ module.exports =
 	      "changerange": _vm.handleChangeRange,
 	      "pick": _vm.handleRangePick
 	    }
-	  })]), _c('div', {
+	  })], 1), _c('div', {
 	    staticClass: "el-picker-panel__content el-date-range-picker__content is-right"
 	  }, [_c('div', {
 	    staticClass: "el-date-range-picker__header"
@@ -3918,7 +3918,7 @@ module.exports =
 	      "changerange": _vm.handleChangeRange,
 	      "pick": _vm.handleRangePick
 	    }
-	  })])])], true), (_vm.showTime) ? _c('div', {
+	  })], 1)])], 2), (_vm.showTime) ? _c('div', {
 	    staticClass: "el-picker-panel__footer"
 	  }, [_c('a', {
 	    staticClass: "el-picker-panel__link-btn",

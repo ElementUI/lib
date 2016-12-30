@@ -383,7 +383,7 @@ module.exports =
 /***/ 243:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-slider"
 	  }, [(_vm.showInput) ? _c('el-input-number', {
@@ -455,14 +455,14 @@ module.exports =
 	    class: {
 	      'hover': _vm.hovering, 'dragging': _vm.dragging
 	    }
-	  })])]), _vm._l((_vm.stops), function(item) {
+	  })])], 1), _vm._l((_vm.stops), function(item) {
 	    return (_vm.showStops) ? _c('div', {
 	      staticClass: "el-slider__stop",
 	      style: ({
 	        'left': item + '%'
 	      })
 	    }) : _vm._e()
-	  })], true)])
+	  })], 2)], 1)
 	},staticRenderFns: []}
 
 /***/ }

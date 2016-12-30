@@ -304,7 +304,7 @@ module.exports =
 /***/ 184:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('li', {
 	    directives: [{
 	      name: "show",
@@ -325,7 +325,7 @@ module.exports =
 	        _vm.selectOptionClick($event)
 	      }
 	    }
-	  }, [_vm._t("default", [_c('span', [_vm._v(_vm._s(_vm.currentLabel))])])], true)
+	  }, [_vm._t("default", [_c('span', [_vm._v(_vm._s(_vm.currentLabel))])])], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -433,6 +433,7 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
 	//
 	//
 	//
@@ -643,13 +644,13 @@ module.exports =
 	        } else {
 	          this.currentPlaceholder = this.cachedPlaceHolder;
 	        }
-	        this.dispatch('ElFormItem', 'el.form.change', val);
 	      }
 	      this.setSelected();
 	      if (this.filterable && !this.multiple) {
 	        this.inputLength = 20;
 	      }
 	      this.$emit('change', val);
+	      this.dispatch('ElFormItem', 'el.form.change', val);
 	    },
 	    query: function query(val) {
 	      var _this2 = this;
@@ -714,10 +715,7 @@ module.exports =
 	          }
 	        }
 	        if (!this.dropdownUl) {
-	          var dropdownChildNodes = this.$refs.popper.$el.childNodes;
-	          this.dropdownUl = [].filter.call(dropdownChildNodes, function (item) {
-	            return item.tagName === 'UL';
-	          })[0];
+	          this.dropdownUl = this.$refs.popper.$el.querySelector('.el-select-dropdown__wrap');
 	        }
 	        if (!this.multiple && this.dropdownUl) {
 	          this.setOverflow();
@@ -1143,7 +1141,7 @@ module.exports =
 /***/ 235:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-select-dropdown",
 	    class: [{
@@ -1152,7 +1150,7 @@ module.exports =
 	    style: ({
 	      minWidth: _vm.minWidth
 	    })
-	  }, [_vm._t("default")], true)
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -1167,7 +1165,7 @@ module.exports =
 /***/ 237:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    directives: [{
 	      name: "clickoutside",
@@ -1258,7 +1256,7 @@ module.exports =
 	        _vm.query = $event.target.value
 	      }
 	    }
-	  }) : _vm._e()]) : _vm._e(), _c('el-input', {
+	  }) : _vm._e()], 1) : _vm._e(), _c('el-input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -1273,6 +1271,7 @@ module.exports =
 	      "size": _vm.size,
 	      "disabled": _vm.disabled,
 	      "readonly": !_vm.filterable || _vm.multiple,
+	      "validate-event": false,
 	      "icon": _vm.iconClass
 	    },
 	    domProps: {
@@ -1354,9 +1353,9 @@ module.exports =
 	      "value": _vm.query,
 	      "created": ""
 	    }
-	  }) : _vm._e(), _vm._t("default")], true), (_vm.emptyText && !_vm.allowCreate) ? _c('p', {
+	  }) : _vm._e(), _vm._t("default")], 2), (_vm.emptyText && !_vm.allowCreate) ? _c('p', {
 	    staticClass: "el-select-dropdown__empty"
-	  }, [_vm._v(_vm._s(_vm.emptyText))]) : _vm._e()])])])
+	  }, [_vm._v(_vm._s(_vm.emptyText))]) : _vm._e()], 1)], 1)], 1)
 	},staticRenderFns: []}
 
 /***/ }

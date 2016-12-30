@@ -263,7 +263,7 @@ module.exports =
 /***/ 184:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('li', {
 	    directives: [{
 	      name: "show",
@@ -284,7 +284,7 @@ module.exports =
 	        _vm.selectOptionClick($event)
 	      }
 	    }
-	  }, [_vm._t("default", [_c('span', [_vm._v(_vm._s(_vm.currentLabel))])])], true)
+	  }, [_vm._t("default", [_c('span', [_vm._v(_vm._s(_vm.currentLabel))])])], 2)
 	},staticRenderFns: []}
 
 /***/ }

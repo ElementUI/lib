@@ -259,7 +259,7 @@ module.exports =
 /***/ 259:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('li', {
 	    class: {
 	      'el-submenu': true,
@@ -276,7 +276,7 @@ module.exports =
 	      'el-icon-arrow-down': _vm.rootMenu.mode === 'vertical',
 	        'el-icon-caret-bottom': _vm.rootMenu.mode === 'horizontal'
 	    }
-	  })], true), _c('transition', {
+	  })], 2), _c('transition', {
 	    attrs: {
 	      "name": _vm.rootMenu.mode === 'horizontal' ? 'el-zoom-in-top' : ''
 	    }
@@ -288,7 +288,7 @@ module.exports =
 	      expression: "opened"
 	    }],
 	    staticClass: "el-menu"
-	  }, [_vm._t("default")], true)])])
+	  }, [_vm._t("default")], 2)])], 1)
 	},staticRenderFns: []}
 
 /***/ }

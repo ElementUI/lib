@@ -243,7 +243,7 @@ module.exports =
 /***/ 251:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-step",
 	    class: ['is-' + _vm.$parent.direction],
@@ -267,7 +267,7 @@ module.exports =
 	    class: ['el-icon-' + _vm.icon]
 	  }) : _c('div', [_vm._v(_vm._s(_vm.index + 1))])]) : _c('i', {
 	    class: ['el-icon-' + (_vm.currentStatus === 'success' ? 'check' : 'close')]
-	  })], true)]), _c('div', {
+	  })], 2)]), _c('div', {
 	    staticClass: "el-step__main",
 	    style: ({
 	      marginLeft: _vm.mainOffset
@@ -276,10 +276,10 @@ module.exports =
 	    ref: "title",
 	    staticClass: "el-step__title",
 	    class: ['is-' + _vm.currentStatus]
-	  }, [_vm._t("title", [_vm._v(_vm._s(_vm.title))])], true), _c('div', {
+	  }, [_vm._t("title", [_vm._v(_vm._s(_vm.title))])], 2), _c('div', {
 	    staticClass: "el-step__description",
 	    class: ['is-' + _vm.currentStatus]
-	  }, [_vm._t("description", [_vm._v(_vm._s(_vm.description))])], true)])])
+	  }, [_vm._t("description", [_vm._v(_vm._s(_vm.description))])], 2)])])
 	},staticRenderFns: []}
 
 /***/ }

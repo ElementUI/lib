@@ -383,7 +383,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.1.0',
+	  version: '1.1.2',
 	  locale: _locale2.default.use,
 	  install: install,
 	  Loading: _loading2.default,
@@ -1085,7 +1085,7 @@ module.exports =
 /* 6 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('ul', {
 	    staticClass: "el-pager",
 	    on: {
@@ -1130,7 +1130,7 @@ module.exports =
 	    class: {
 	      active: _vm.currentPage === _vm.pageCount
 	    }
-	  }, [_vm._v(_vm._s(_vm.pageCount))]) : _vm._e()], true)
+	  }, [_vm._v(_vm._s(_vm.pageCount))]) : _vm._e()], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -1349,7 +1349,7 @@ module.exports =
 /* 14 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "dialog-fade"
@@ -1388,9 +1388,9 @@ module.exports =
 	    }
 	  }) : _vm._e()])]), (_vm.rendered) ? _c('div', {
 	    staticClass: "el-dialog__body"
-	  }, [_vm._t("default")], true) : _vm._e(), (_vm.$slots.footer) ? _c('div', {
+	  }, [_vm._t("default")], 2) : _vm._e(), (_vm.$slots.footer) ? _c('div', {
 	    staticClass: "el-dialog__footer"
-	  }, [_vm._t("footer")], true) : _vm._e()])])])
+	  }, [_vm._t("footer")], 2) : _vm._e()])])])
 	},staticRenderFns: []}
 
 /***/ },
@@ -1498,6 +1498,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	exports.default = {
 	  name: 'ElAutocomplete',
@@ -1536,7 +1537,7 @@ module.exports =
 
 	  watch: {
 	    suggestionVisible: function suggestionVisible(val) {
-	      this.broadcast('ElAutocompleteSuggestions', 'visible', [val, this.$el.offsetWidth]);
+	      this.broadcast('ElAutocompleteSuggestions', 'visible', [val, this.$refs.input.$refs.input.offsetWidth]);
 	    }
 	  },
 	  methods: {
@@ -1693,7 +1694,7 @@ module.exports =
 
 	  mounted: function mounted() {
 	    this.popperElm = this.$el;
-	    this.referenceElm = this.$parent.$el;
+	    this.referenceElm = this.$parent.$refs.input.$refs.input;
 	  },
 	  created: function created() {
 	    var _this = this;
@@ -1743,7 +1744,7 @@ module.exports =
 /* 23 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
@@ -1792,7 +1793,7 @@ module.exports =
 	        }
 	      }
 	    })]
-	  })], true)])
+	  })], 2)])
 	},staticRenderFns: []}
 
 /***/ },
@@ -1805,7 +1806,7 @@ module.exports =
 /* 25 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    directives: [{
 	      name: "clickoutside",
@@ -1815,6 +1816,7 @@ module.exports =
 	    }],
 	    staticClass: "el-autocomplete"
 	  }, [_c('el-input', {
+	    ref: "input",
 	    attrs: {
 	      "value": _vm.value,
 	      "disabled": _vm.disabled,
@@ -1841,15 +1843,15 @@ module.exports =
 	    }
 	  }, [(_vm.$slots.prepend) ? _c('template', {
 	    slot: "prepend"
-	  }, [_vm._t("prepend")], true) : _vm._e(), (_vm.$slots.append) ? _c('template', {
+	  }, [_vm._t("prepend")], 2) : _vm._e(), (_vm.$slots.append) ? _c('template', {
 	    slot: "append"
-	  }, [_vm._t("append")], true) : _vm._e()], true), _c('el-autocomplete-suggestions', {
+	  }, [_vm._t("append")], 2) : _vm._e()], 2), _c('el-autocomplete-suggestions', {
 	    ref: "suggestions",
 	    class: [_vm.popperClass ? _vm.popperClass : ''],
 	    attrs: {
 	      "suggestions": _vm.suggestions
 	    }
-	  })])
+	  })], 1)
 	},staticRenderFns: []}
 
 /***/ },
@@ -2162,7 +2164,7 @@ module.exports =
 /* 32 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
@@ -2178,7 +2180,7 @@ module.exports =
 	      expression: "showPopper"
 	    }],
 	    staticClass: "el-dropdown-menu"
-	  }, [_vm._t("default")], true)])
+	  }, [_vm._t("default")], 2)])
 	},staticRenderFns: []}
 
 /***/ },
@@ -2278,7 +2280,7 @@ module.exports =
 /* 36 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('li', {
 	    staticClass: "el-dropdown-menu__item",
 	    class: {
@@ -2288,7 +2290,7 @@ module.exports =
 	    on: {
 	      "click": _vm.handleClick
 	    }
-	  }, [_vm._t("default")], true)
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -2493,14 +2495,14 @@ module.exports =
 /* 40 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('ul', {
 	    staticClass: "el-menu",
 	    class: {
 	      'el-menu--horizontal': _vm.mode === 'horizontal',
 	        'el-menu--dark': _vm.theme === 'dark'
 	    }
-	  }, [_vm._t("default")], true)
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -2708,7 +2710,7 @@ module.exports =
 /* 45 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('li', {
 	    class: {
 	      'el-submenu': true,
@@ -2725,7 +2727,7 @@ module.exports =
 	      'el-icon-arrow-down': _vm.rootMenu.mode === 'vertical',
 	        'el-icon-caret-bottom': _vm.rootMenu.mode === 'horizontal'
 	    }
-	  })], true), _c('transition', {
+	  })], 2), _c('transition', {
 	    attrs: {
 	      "name": _vm.rootMenu.mode === 'horizontal' ? 'el-zoom-in-top' : ''
 	    }
@@ -2737,7 +2739,7 @@ module.exports =
 	      expression: "opened"
 	    }],
 	    staticClass: "el-menu"
-	  }, [_vm._t("default")], true)])])
+	  }, [_vm._t("default")], 2)])], 1)
 	},staticRenderFns: []}
 
 /***/ },
@@ -2852,7 +2854,7 @@ module.exports =
 /* 49 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('li', {
 	    staticClass: "el-menu-item",
 	    class: {
@@ -2863,7 +2865,7 @@ module.exports =
 	    on: {
 	      "click": _vm.handleClick
 	    }
-	  }, [_vm._t("default")], true)
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -2958,7 +2960,7 @@ module.exports =
 /* 53 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('li', {
 	    staticClass: "el-menu-item-group"
 	  }, [_c('div', {
@@ -2966,7 +2968,7 @@ module.exports =
 	    style: ({
 	      paddingLeft: _vm.levelPadding + 'px'
 	    })
-	  }, [(!_vm.$slots.title) ? [_vm._v(_vm._s(_vm.title))] : _vm._t("title")], true), _c('ul', [_vm._t("default")], true)])
+	  }, [(!_vm.$slots.title) ? [_vm._v(_vm._s(_vm.title))] : _vm._t("title")], 2), _c('ul', [_vm._t("default")], 2)])
 	},staticRenderFns: []}
 
 /***/ },
@@ -3150,7 +3152,11 @@ module.exports =
 	    maxlength: Number,
 	    minlength: Number,
 	    max: {},
-	    min: {}
+	    min: {},
+	    validateEvent: {
+	      type: Boolean,
+	      default: true
+	    }
 	  },
 
 	  computed: {
@@ -3168,7 +3174,9 @@ module.exports =
 	  methods: {
 	    handleBlur: function handleBlur(event) {
 	      this.$emit('blur', event);
-	      this.dispatch('ElFormItem', 'el.form.blur', [this.currentValue]);
+	      if (this.validateEvent) {
+	        this.dispatch('ElFormItem', 'el.form.blur', [this.currentValue]);
+	      }
 	    },
 	    inputSelect: function inputSelect() {
 	      this.$refs.input.select();
@@ -3203,7 +3211,9 @@ module.exports =
 	      this.currentValue = value;
 	      this.$emit('input', value);
 	      this.$emit('change', value);
-	      this.dispatch('ElFormItem', 'el.form.change', [value]);
+	      if (this.validateEvent) {
+	        this.dispatch('ElFormItem', 'el.form.change', [value]);
+	      }
 	    }
 	  },
 
@@ -3296,7 +3306,7 @@ module.exports =
 /* 58 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    class: [
 	      _vm.type === 'textarea' ? 'el-textarea' : 'el-input',
@@ -3309,7 +3319,7 @@ module.exports =
 	    ]
 	  }, [(_vm.type !== 'textarea') ? [(_vm.$slots.prepend) ? _c('div', {
 	    staticClass: "el-input-group__prepend"
-	  }, [_vm._t("prepend")], true) : _vm._e(), _vm._t("icon", [(_vm.icon) ? _c('i', {
+	  }, [_vm._t("prepend")], 2) : _vm._e(), _vm._t("icon", [(_vm.icon) ? _c('i', {
 	    staticClass: "el-input__icon",
 	    class: 'el-icon-' + _vm.icon,
 	    on: {
@@ -3344,7 +3354,7 @@ module.exports =
 	    staticClass: "el-input__icon el-icon-loading"
 	  }) : _vm._e(), (_vm.$slots.append) ? _c('div', {
 	    staticClass: "el-input-group__append"
-	  }, [_vm._t("append")], true) : _vm._e()] : _c('textarea', {
+	  }, [_vm._t("append")], 2) : _vm._e()] : _c('textarea', {
 	    ref: "textarea",
 	    staticClass: "el-textarea__inner",
 	    style: (_vm.textareaStyle),
@@ -3367,7 +3377,7 @@ module.exports =
 	      "focus": _vm.handleFocus,
 	      "blur": _vm.handleBlur
 	    }
-	  })], true)
+	  })], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -3554,6 +3564,8 @@ module.exports =
 	      if (newVal <= this.max && newVal >= this.min) {
 	        this.$emit('change', newVal, oldVal);
 	        this.$emit('input', newVal);
+	      } else {
+	        this.currentValue = oldVal;
 	      }
 	    }
 	  },
@@ -3639,7 +3651,7 @@ module.exports =
 /* 63 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-input-number",
 	    class: [
@@ -3708,9 +3720,9 @@ module.exports =
 	    }
 	  }, [(_vm.$slots.prepend) ? _c('template', {
 	    slot: "prepend"
-	  }, [_vm._t("prepend")], true) : _vm._e(), (_vm.$slots.append) ? _c('template', {
+	  }, [_vm._t("prepend")], 2) : _vm._e(), (_vm.$slots.append) ? _c('template', {
 	    slot: "append"
-	  }, [_vm._t("append")], true) : _vm._e()], true)])
+	  }, [_vm._t("append")], 2) : _vm._e()], 2)], 1)
 	},staticRenderFns: []}
 
 /***/ },
@@ -3857,7 +3869,7 @@ module.exports =
 /* 67 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('label', {
 	    staticClass: "el-radio"
 	  }, [_c('span', {
@@ -3899,7 +3911,7 @@ module.exports =
 	    }
 	  })]), _c('span', {
 	    staticClass: "el-radio__label"
-	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._v(_vm._s(_vm.label))] : _vm._e()], true)])
+	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._v(_vm._s(_vm.label))] : _vm._e()], 2)])
 	},staticRenderFns: []}
 
 /***/ },
@@ -3997,10 +4009,10 @@ module.exports =
 /* 71 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-radio-group"
-	  }, [_vm._t("default")], true)
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -4105,7 +4117,7 @@ module.exports =
 /* 75 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('label', {
 	    staticClass: "el-radio-button",
 	    class: [
@@ -4138,7 +4150,7 @@ module.exports =
 	  }), _c('span', {
 	    staticClass: "el-radio-button__inner",
 	    style: (_vm.value === _vm.label ? _vm.activeStyle : null)
-	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._v(_vm._s(_vm.label))] : _vm._e()], true)])
+	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._v(_vm._s(_vm.label))] : _vm._e()], 2)])
 	},staticRenderFns: []}
 
 /***/ },
@@ -4332,7 +4344,7 @@ module.exports =
 /* 79 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('label', {
 	    staticClass: "el-checkbox"
 	  }, [_c('span', {
@@ -4404,7 +4416,7 @@ module.exports =
 	    },
 	    domProps: {
 	      "value": _vm.label,
-	      "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, _vm.label) > -1 : _vm._q(_vm.model, true)
+	      "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, _vm.label) > -1 : (_vm.model)
 	    },
 	    on: {
 	      "change": [function($event) {
@@ -4434,7 +4446,7 @@ module.exports =
 	    }
 	  })]), (_vm.$slots.default || _vm.label) ? _c('span', {
 	    staticClass: "el-checkbox__label"
-	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._v(_vm._s(_vm.label))] : _vm._e()], true) : _vm._e()])
+	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._v(_vm._s(_vm.label))] : _vm._e()], 2) : _vm._e()])
 	},staticRenderFns: []}
 
 /***/ },
@@ -4524,10 +4536,10 @@ module.exports =
 /* 83 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-checkbox-group"
-	  }, [_vm._t("default")], true)
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -4727,7 +4739,7 @@ module.exports =
 /* 87 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('label', {
 	    staticClass: "el-switch",
 	    class: {
@@ -4755,7 +4767,7 @@ module.exports =
 	      "disabled": _vm.disabled
 	    },
 	    domProps: {
-	      "checked": Array.isArray(_vm._value) ? _vm._i(_vm._value, null) > -1 : _vm._q(_vm._value, true)
+	      "checked": Array.isArray(_vm._value) ? _vm._i(_vm._value, null) > -1 : (_vm._value)
 	    },
 	    on: {
 	      "change": [function($event) {
@@ -4818,7 +4830,7 @@ module.exports =
 	    })
 	  }, [(_vm.offIconClass) ? _c('i', {
 	    class: [_vm.offIconClass]
-	  }) : _vm._e(), (!_vm.offIconClass && _vm.offText) ? _c('span', [_vm._v(_vm._s(_vm.offText))]) : _vm._e()])])])
+	  }) : _vm._e(), (!_vm.offIconClass && _vm.offText) ? _c('span', [_vm._v(_vm._s(_vm.offText))]) : _vm._e()])])], 1)
 	},staticRenderFns: []}
 
 /***/ },
@@ -4923,6 +4935,7 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
 	//
 	//
 	//
@@ -5133,13 +5146,13 @@ module.exports =
 	        } else {
 	          this.currentPlaceholder = this.cachedPlaceHolder;
 	        }
-	        this.dispatch('ElFormItem', 'el.form.change', val);
 	      }
 	      this.setSelected();
 	      if (this.filterable && !this.multiple) {
 	        this.inputLength = 20;
 	      }
 	      this.$emit('change', val);
+	      this.dispatch('ElFormItem', 'el.form.change', val);
 	    },
 	    query: function query(val) {
 	      var _this2 = this;
@@ -5204,10 +5217,7 @@ module.exports =
 	          }
 	        }
 	        if (!this.dropdownUl) {
-	          var dropdownChildNodes = this.$refs.popper.$el.childNodes;
-	          this.dropdownUl = [].filter.call(dropdownChildNodes, function (item) {
-	            return item.tagName === 'UL';
-	          })[0];
+	          this.dropdownUl = this.$refs.popper.$el.querySelector('.el-select-dropdown__wrap');
 	        }
 	        if (!this.multiple && this.dropdownUl) {
 	          this.setOverflow();
@@ -5630,7 +5640,7 @@ module.exports =
 /* 93 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-select-dropdown",
 	    class: [{
@@ -5639,7 +5649,7 @@ module.exports =
 	    style: ({
 	      minWidth: _vm.minWidth
 	    })
-	  }, [_vm._t("default")], true)
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -5824,7 +5834,7 @@ module.exports =
 /* 96 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('li', {
 	    directives: [{
 	      name: "show",
@@ -5845,7 +5855,7 @@ module.exports =
 	        _vm.selectOptionClick($event)
 	      }
 	    }
-	  }, [_vm._t("default", [_c('span', [_vm._v(_vm._s(_vm.currentLabel))])])], true)
+	  }, [_vm._t("default", [_c('span', [_vm._v(_vm._s(_vm.currentLabel))])])], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -5882,7 +5892,7 @@ module.exports =
 /* 102 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    directives: [{
 	      name: "clickoutside",
@@ -5973,7 +5983,7 @@ module.exports =
 	        _vm.query = $event.target.value
 	      }
 	    }
-	  }) : _vm._e()]) : _vm._e(), _c('el-input', {
+	  }) : _vm._e()], 1) : _vm._e(), _c('el-input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
@@ -5988,6 +5998,7 @@ module.exports =
 	      "size": _vm.size,
 	      "disabled": _vm.disabled,
 	      "readonly": !_vm.filterable || _vm.multiple,
+	      "validate-event": false,
 	      "icon": _vm.iconClass
 	    },
 	    domProps: {
@@ -6069,9 +6080,9 @@ module.exports =
 	      "value": _vm.query,
 	      "created": ""
 	    }
-	  }) : _vm._e(), _vm._t("default")], true), (_vm.emptyText && !_vm.allowCreate) ? _c('p', {
+	  }) : _vm._e(), _vm._t("default")], 2), (_vm.emptyText && !_vm.allowCreate) ? _c('p', {
 	    staticClass: "el-select-dropdown__empty"
-	  }, [_vm._v(_vm._s(_vm.emptyText))]) : _vm._e()])])])
+	  }, [_vm._v(_vm._s(_vm.emptyText))]) : _vm._e()], 1)], 1)], 1)
 	},staticRenderFns: []}
 
 /***/ },
@@ -6219,7 +6230,7 @@ module.exports =
 /* 107 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('ul', {
 	    staticClass: "el-select-group__wrap"
 	  }, [_c('li', {
@@ -6232,7 +6243,7 @@ module.exports =
 	    staticClass: "el-select-group__title"
 	  }, [_vm._v(_vm._s(_vm.label))]), _c('li', [_c('ul', {
 	    staticClass: "el-select-group"
-	  }, [_vm._t("default")], true)])])
+	  }, [_vm._t("default")], 2)])])
 	},staticRenderFns: []}
 
 /***/ },
@@ -6347,7 +6358,7 @@ module.exports =
 /* 111 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('button', {
 	    staticClass: "el-button",
 	    class: [
@@ -6370,7 +6381,7 @@ module.exports =
 	    staticClass: "el-icon-loading"
 	  }) : _vm._e(), (_vm.icon && !_vm.loading) ? _c('i', {
 	    class: 'el-icon-' + _vm.icon
-	  }) : _vm._e(), (_vm.$slots.default) ? _c('span', [_vm._t("default")], true) : _vm._e()])
+	  }) : _vm._e(), (_vm.$slots.default) ? _c('span', [_vm._t("default")], 2) : _vm._e()])
 	},staticRenderFns: []}
 
 /***/ },
@@ -6450,10 +6461,10 @@ module.exports =
 /* 115 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-button-group"
-	  }, [_vm._t("default")], true)
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -6657,7 +6668,6 @@ module.exports =
 	//
 	//
 	//
-	//
 
 	var tableIdSeed = 1;
 
@@ -6675,8 +6685,6 @@ module.exports =
 	    },
 
 	    width: [String, Number],
-
-	    virtualScrollbar: Boolean,
 
 	    height: [String, Number],
 
@@ -6797,7 +6805,7 @@ module.exports =
 
 	  computed: {
 	    bodyWrapper: function bodyWrapper() {
-	      return this.$refs.bodyWrapper.wrap;
+	      return this.$refs.bodyWrapper;
 	    },
 	    shouldUpdateHeight: function shouldUpdateHeight() {
 	      return typeof this.height === 'number' || this.fixedColumns.length > 0 || this.rightFixedColumns.length > 0;
@@ -8809,7 +8817,7 @@ module.exports =
 /* 132 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
@@ -8846,7 +8854,7 @@ module.exports =
 	        "label": filter.value
 	      }
 	    }, [_vm._v(_vm._s(filter.text))])
-	  }))]), _c('div', {
+	  }))], 1), _c('div', {
 	    staticClass: "el-table-filter__bottom"
 	  }, [_c('button', {
 	    class: {
@@ -8897,14 +8905,14 @@ module.exports =
 	        }
 	      }
 	    }, [_vm._v(_vm._s(filter.text))])
-	  })], true)])])
+	  })], 2)])])
 	},staticRenderFns: []}
 
 /***/ },
 /* 133 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-table",
 	    class: {
@@ -8923,7 +8931,7 @@ module.exports =
 	  }, [_c('div', {
 	    ref: "hiddenColumns",
 	    staticClass: "hidden-columns"
-	  }, [_vm._t("default")], true), (_vm.showHeader) ? _c('div', {
+	  }, [_vm._t("default")], 2), (_vm.showHeader) ? _c('div', {
 	    ref: "headerWrapper",
 	    staticClass: "el-table__header-wrapper"
 	  }, [_c('table-header', {
@@ -8935,13 +8943,10 @@ module.exports =
 	      "layout": _vm.layout,
 	      "border": _vm.border
 	    }
-	  })]) : _vm._e(), _c('el-scrollbar', {
+	  })], 1) : _vm._e(), _c('div', {
 	    ref: "bodyWrapper",
 	    staticClass: "el-table__body-wrapper",
-	    attrs: {
-	      "native": !_vm.virtualScrollbar,
-	      "wrap-style": [_vm.bodyHeight]
-	    }
+	    style: ([_vm.bodyHeight])
 	  }, [_c('table-body', {
 	    style: ({
 	      width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth - (_vm.layout.scrollY ? _vm.layout.gutterWidth : 0) + 'px' : ''
@@ -8958,7 +8963,7 @@ module.exports =
 	    staticClass: "el-table__empty-block"
 	  }, [_c('span', {
 	    staticClass: "el-table__empty-text"
-	  }, [_vm._t("empty", [_vm._v(_vm._s(_vm.emptyText || _vm.t('el.table.emptyText')))])], true)]) : _vm._e()]), (_vm.fixedColumns.length > 0) ? _c('div', {
+	  }, [_vm._t("empty", [_vm._v(_vm._s(_vm.emptyText || _vm.t('el.table.emptyText')))])], 2)]) : _vm._e()], 1), (_vm.fixedColumns.length > 0) ? _c('div', {
 	    ref: "fixedWrapper",
 	    staticClass: "el-table__fixed",
 	    style: ([{
@@ -8979,7 +8984,7 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout
 	    }
-	  })]) : _vm._e(), _c('div', {
+	  })], 1) : _vm._e(), _c('div', {
 	    ref: "fixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
 	    style: ([{
@@ -8999,7 +9004,7 @@ module.exports =
 	      "row-class-name": _vm.rowClassName,
 	      "row-style": _vm.rowStyle
 	    }
-	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _c('div', {
+	  })], 1)]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _c('div', {
 	    ref: "rightFixedWrapper",
 	    staticClass: "el-table__fixed-right",
 	    style: ([{
@@ -9022,7 +9027,7 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout
 	    }
-	  })]) : _vm._e(), _c('div', {
+	  })], 1) : _vm._e(), _c('div', {
 	    ref: "rightFixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
 	    style: ([{
@@ -9042,7 +9047,7 @@ module.exports =
 	      "row-style": _vm.rowStyle,
 	      "highlight": _vm.highlightCurrentRow
 	    }
-	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _c('div', {
+	  })], 1)]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _c('div', {
 	    staticClass: "el-table__fixed-right-patch",
 	    style: ({
 	      width: _vm.layout.scrollY ? _vm.layout.gutterWidth + 'px' : '0',
@@ -9282,7 +9287,7 @@ module.exports =
 	    minWidth: {},
 	    renderHeader: Function,
 	    sortable: {
-	      type: [Boolean, String],
+	      type: [String, Boolean],
 	      default: false
 	    },
 	    sortMethod: Function,
@@ -9384,14 +9389,14 @@ module.exports =
 	      context: this.context,
 	      align: this.align ? 'is-' + this.align : null,
 	      headerAlign: this.headerAlign ? 'is-' + this.headerAlign : this.align ? 'is-' + this.align : null,
-	      sortable: this.sortable,
+	      sortable: this.sortable === '' ? true : this.sortable,
 	      sortMethod: this.sortMethod,
 	      resizable: this.resizable,
 	      showOverflowTooltip: this.showOverflowTooltip || this.showTooltipWhenOverflow,
 	      formatter: this.formatter,
 	      selectable: this.selectable,
 	      reserveSelection: this.reserveSelection,
-	      fixed: this.fixed,
+	      fixed: this.fixed === '' ? true : this.fixed,
 	      filterMethod: this.filterMethod,
 	      filters: this.filters,
 	      filterable: this.filters || this.filterMethod,
@@ -10010,11 +10015,11 @@ module.exports =
 
 	      if (Array.isArray(date)) {
 	        if ((0, _util.equalDate)(cache.cacheDateMin, date[0]) && (0, _util.equalDate)(cache.cacheDateMax, date[1])) updated = false;
-	        cache.cacheDateMin = date[0];
-	        cache.cacheDateMax = date[1];
+	        cache.cacheDateMin = new Date(date[0]);
+	        cache.cacheDateMax = new Date(date[1]);
 	      } else {
 	        if ((0, _util.equalDate)(cache.cacheDate, date)) updated = false;
-	        cache.cacheDate = date;
+	        cache.cacheDate = new Date(date);
 	      }
 
 	      return updated;
@@ -10332,7 +10337,7 @@ module.exports =
 /* 143 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('el-input', {
 	    directives: [{
 	      name: "clickoutside",
@@ -11276,7 +11281,7 @@ module.exports =
 /* 150 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-time-spinner",
 	    class: {
@@ -11390,14 +11395,14 @@ module.exports =
 	        }
 	      }
 	    })
-	  }))])
+	  }))], 1)
 	},staticRenderFns: []}
 
 /***/ },
 /* 151 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
@@ -11436,7 +11441,7 @@ module.exports =
 	      "change": _vm.handleChange,
 	      "select-range": _vm.setSelectionRange
 	    }
-	  })]), _c('div', {
+	  })], 1), _c('div', {
 	    staticClass: "el-time-panel__footer"
 	  }, [_c('button', {
 	    staticClass: "el-time-panel__btn cancel",
@@ -11587,7 +11592,7 @@ module.exports =
 /* 154 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('table', {
 	    staticClass: "el-year-table",
 	    on: {
@@ -11778,7 +11783,7 @@ module.exports =
 /* 157 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('table', {
 	    staticClass: "el-month-table",
 	    on: {
@@ -12323,7 +12328,7 @@ module.exports =
 /* 160 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('table', {
 	    staticClass: "el-date-table",
 	    class: {
@@ -12339,7 +12344,7 @@ module.exports =
 	    }
 	  }, [_c('tbody', [_c('tr', [(_vm.showWeekNumber) ? _c('th', [_vm._v(_vm._s(_vm.t('el.datepicker.week')))]) : _vm._e(), _vm._l((_vm.WEEKS), function(week) {
 	    return _c('th', [_vm._v(_vm._s(_vm.t('el.datepicker.weeks.' + week)))])
-	  })], true), _vm._l((_vm.rows), function(row) {
+	  })], 2), _vm._l((_vm.rows), function(row) {
 	    return _c('tr', {
 	      staticClass: "el-date-table__row",
 	      class: {
@@ -12353,14 +12358,14 @@ module.exports =
 	        }
 	      })
 	    }))
-	  })], true)])
+	  })], 2)])
 	},staticRenderFns: []}
 
 /***/ },
 /* 161 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
@@ -12418,7 +12423,7 @@ module.exports =
 	        _vm.visibleDate = $event.target.value
 	      }
 	    }
-	  })]), _c('span', {
+	  })], 1), _c('span', {
 	    staticClass: "el-date-picker__editor-wrap"
 	  }, [_c('el-input', {
 	    ref: "input",
@@ -12447,7 +12452,7 @@ module.exports =
 	    on: {
 	      "pick": _vm.handleTimePick
 	    }
-	  })])]) : _vm._e(), _c('div', {
+	  })], 1)]) : _vm._e(), _c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -12571,7 +12576,7 @@ module.exports =
 	    on: {
 	      "pick": _vm.handleMonthPick
 	    }
-	  })])])], true), _c('div', {
+	  })], 1)])], 2), _c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -13098,7 +13103,7 @@ module.exports =
 /* 164 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
@@ -13163,7 +13168,7 @@ module.exports =
 	        _vm.handleDateChange($event, 'min')
 	      }
 	    }
-	  })]), _c('span', {
+	  })], 1), _c('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
 	  }, [_c('el-input', {
 	    staticClass: "el-date-range-picker__editor",
@@ -13192,7 +13197,7 @@ module.exports =
 	    on: {
 	      "pick": _vm.handleMinTimePick
 	    }
-	  })])]), _c('span', {
+	  })], 1)]), _c('span', {
 	    staticClass: "el-icon-arrow-right"
 	  }), _c('span', {
 	    staticClass: "el-date-range-picker__editors-wrap is-right"
@@ -13214,7 +13219,7 @@ module.exports =
 	        _vm.handleDateChange($event, 'max')
 	      }
 	    }
-	  })]), _c('span', {
+	  })], 1), _c('span', {
 	    staticClass: "el-date-range-picker__time-picker-wrap"
 	  }, [_c('el-input', {
 	    ref: "maxInput",
@@ -13245,7 +13250,7 @@ module.exports =
 	    on: {
 	      "pick": _vm.handleMaxTimePick
 	    }
-	  })])])]) : _vm._e(), _c('div', {
+	  })], 1)])]) : _vm._e(), _c('div', {
 	    staticClass: "el-picker-panel__content el-date-range-picker__content is-left"
 	  }, [_c('div', {
 	    staticClass: "el-date-range-picker__header"
@@ -13280,7 +13285,7 @@ module.exports =
 	      "changerange": _vm.handleChangeRange,
 	      "pick": _vm.handleRangePick
 	    }
-	  })]), _c('div', {
+	  })], 1), _c('div', {
 	    staticClass: "el-picker-panel__content el-date-range-picker__content is-right"
 	  }, [_c('div', {
 	    staticClass: "el-date-range-picker__header"
@@ -13315,7 +13320,7 @@ module.exports =
 	      "changerange": _vm.handleChangeRange,
 	      "pick": _vm.handleRangePick
 	    }
-	  })])])], true), (_vm.showTime) ? _c('div', {
+	  })], 1)])], 2), (_vm.showTime) ? _c('div', {
 	    staticClass: "el-picker-panel__footer"
 	  }, [_c('a', {
 	    staticClass: "el-picker-panel__link-btn",
@@ -13565,7 +13570,7 @@ module.exports =
 /* 169 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
@@ -13607,7 +13612,7 @@ module.exports =
 	        }
 	      }
 	    }, [_vm._v(_vm._s(item.value))])
-	  }))])])
+	  }))], 1)])
 	},staticRenderFns: []}
 
 /***/ },
@@ -13939,7 +13944,7 @@ module.exports =
 /* 174 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
@@ -13985,7 +13990,7 @@ module.exports =
 	      "change": _vm.handleMinChange,
 	      "select-range": _vm.setMinSelectionRange
 	    }
-	  })])]), _c('div', {
+	  })], 1)]), _c('div', {
 	    staticClass: "el-time-range-picker__cell"
 	  }, [_c('div', {
 	    staticClass: "el-time-range-picker__header"
@@ -14006,7 +14011,7 @@ module.exports =
 	      "change": _vm.handleMaxChange,
 	      "select-range": _vm.setMaxSelectionRange
 	    }
-	  })])])]), _c('div', {
+	  })], 1)])]), _c('div', {
 	    staticClass: "el-time-panel__footer"
 	  }, [_c('button', {
 	    staticClass: "el-time-panel__btn cancel",
@@ -14252,7 +14257,7 @@ module.exports =
 /* 178 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('span', [_c('transition', {
 	    attrs: {
 	      "name": _vm.transition
@@ -14278,7 +14283,7 @@ module.exports =
 	    domProps: {
 	      "textContent": _vm._s(_vm.title)
 	    }
-	  }) : _vm._e(), _vm._t("default", [_vm._v(_vm._s(_vm.content))])], true)]), _vm._t("reference")], true)
+	  }) : _vm._e(), _vm._t("default", [_vm._v(_vm._s(_vm.content))])], 2)]), _vm._t("reference")], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -14434,7 +14439,7 @@ module.exports =
 /* 183 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-tooltip",
 	    on: {
@@ -14444,7 +14449,7 @@ module.exports =
 	  }, [_c('div', {
 	    ref: "reference",
 	    staticClass: "el-tooltip__rel"
-	  }, [_vm._t("default")], true), _c('transition', {
+	  }, [_vm._t("default")], 2), _c('transition', {
 	    attrs: {
 	      "name": _vm.transition
 	    },
@@ -14465,7 +14470,7 @@ module.exports =
 	    domProps: {
 	      "textContent": _vm._s(_vm.content)
 	    }
-	  })])], true)])])
+	  })])], 2)])], 1)
 	},staticRenderFns: []}
 
 /***/ },
@@ -14961,7 +14966,7 @@ module.exports =
 /* 189 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "msgbox-fade"
@@ -15036,7 +15041,7 @@ module.exports =
 	    style: ({
 	      visibility: !!_vm.editorErrorMessage ? 'visible' : 'hidden'
 	    })
-	  }, [_vm._v(_vm._s(_vm.editorErrorMessage))])])]) : _vm._e(), _c('div', {
+	  }, [_vm._v(_vm._s(_vm.editorErrorMessage))])], 1)]) : _vm._e(), _c('div', {
 	    staticClass: "el-message-box__btns"
 	  }, [_c('el-button', {
 	    directives: [{
@@ -15065,7 +15070,7 @@ module.exports =
 	        _vm.handleAction('confirm')
 	      }
 	    }
-	  }, [_vm._v(_vm._s(_vm.confirmButtonText || _vm.t('el.messagebox.confirm')))])])])])])
+	  }, [_vm._v(_vm._s(_vm.confirmButtonText || _vm.t('el.messagebox.confirm')))])], 1)])])])
 	},staticRenderFns: []}
 
 /***/ },
@@ -15146,10 +15151,10 @@ module.exports =
 /* 193 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-breadcrumb"
-	  }, [_vm._t("default")], true)
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -15245,13 +15250,13 @@ module.exports =
 /* 197 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('span', {
 	    staticClass: "el-breadcrumb__item"
 	  }, [_c('span', {
 	    ref: "link",
 	    staticClass: "el-breadcrumb__item__inner"
-	  }, [_vm._t("default")], true), _c('span', {
+	  }, [_vm._t("default")], 2), _c('span', {
 	    staticClass: "el-breadcrumb__separator"
 	  }, [_vm._v(_vm._s(_vm.separator))])])
 	},staticRenderFns: []}
@@ -15403,7 +15408,7 @@ module.exports =
 /* 201 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('form', {
 	    staticClass: "el-form",
 	    class: [
@@ -15411,7 +15416,7 @@ module.exports =
 	        'el-form--inline': _vm.inline
 	      }
 	    ]
-	  }, [_vm._t("default")], true)
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -15718,7 +15723,7 @@ module.exports =
 /* 206 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-form-item",
 	    class: {
@@ -15738,7 +15743,7 @@ module.exports =
 	    }
 	  }, [(_vm.validateState === 'error') ? _c('div', {
 	    staticClass: "el-form-item__error"
-	  }, [_vm._v(_vm._s(_vm.validateMessage))]) : _vm._e()])], true)])
+	  }, [_vm._v(_vm._s(_vm.validateMessage))]) : _vm._e()])], 2)])
 	},staticRenderFns: []}
 
 /***/ },
@@ -15814,23 +15819,36 @@ module.exports =
 
 
 	  watch: {
-	    activeName: function activeName(val) {
-	      this.currentName = val;
+	    activeName: function activeName(value) {
+	      this.setCurrentName(value);
 	    },
-	    value: function value(val) {
-	      this.currentName = val;
-	    },
-	    currentName: function currentName(val) {
-	      this.$emit('input', val);
+	    value: function value(_value) {
+	      this.setCurrentName(_value);
+	    }
+	  },
+
+	  computed: {
+	    currentTab: function currentTab() {
+	      var _this = this;
+
+	      if (!this.$children) return;
+	      var result = void 0;
+	      this.$children.forEach(function (tab) {
+	        if (_this.currentName === (tab.name || tab.index)) {
+	          result = tab;
+	        }
+	      });
+	      return result;
 	    }
 	  },
 
 	  methods: {
 	    handleTabRemove: function handleTabRemove(tab, event) {
-	      var _this = this;
+	      var _this2 = this;
 
 	      event.stopPropagation();
 	      var tabs = this.$children;
+	      var currentTab = this.currentTab;
 
 	      var index = tabs.indexOf(tab);
 	      tab.$destroy();
@@ -15845,22 +15863,29 @@ module.exports =
 	          var nextActiveTab = nextChild || prevChild || null;
 
 	          if (nextActiveTab) {
-	            _this.currentName = nextActiveTab.name || nextActiveTab.index;
+	            _this2.setCurrentName(nextActiveTab.name || nextActiveTab.index);
 	          }
+	          return;
+	        } else {
+	          _this2.setCurrentName(currentTab.name || currentTab.index);
 	        }
 	      });
 	    },
 	    handleTabClick: function handleTabClick(tab, tabName, event) {
 	      if (tab.disabled) return;
-	      this.currentName = tabName;
+	      this.setCurrentName(tabName);
 	      this.$emit('tab-click', tab, event);
+	    },
+	    setCurrentName: function setCurrentName(value) {
+	      this.currentName = value;
+	      this.$emit('input', value);
 	    }
 	  },
 	  mounted: function mounted() {
 	    this.$forceUpdate();
 	  },
 	  render: function render(h) {
-	    var _this2 = this;
+	    var _this3 = this;
 
 	    var type = this.type,
 	        handleTabRemove = this.handleTabRemove,
@@ -15869,13 +15894,13 @@ module.exports =
 
 
 	    var getBarStyle = function getBarStyle() {
-	      if (_this2.type || !_this2.$refs.tabs) return {};
+	      if (_this3.type || !_this3.$refs.tabs) return {};
 	      var style = {};
 	      var offset = 0;
 	      var tabWidth = 0;
 
-	      _this2.$children.every(function (tab, index) {
-	        var $el = _this2.$refs.tabs[index];
+	      _this3.$children.every(function (tab, index) {
+	        var $el = _this3.$refs.tabs[index];
 	        if (!$el) {
 	          return false;
 	        }
@@ -15898,7 +15923,7 @@ module.exports =
 	    var tabs = this.$children.map(function (tab, index) {
 	      var tabName = tab.name || tab.index || index;
 	      if (currentName === undefined && index === 0) {
-	        _this2.currentName = tabName;
+	        _this3.setCurrentName(tabName);
 	      }
 
 	      tab.index = index;
@@ -16074,7 +16099,7 @@ module.exports =
 /* 213 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-tab-pane"
 	  }, [_c('div', {
@@ -16085,7 +16110,7 @@ module.exports =
 	      expression: "active"
 	    }],
 	    staticClass: "el-tab-pane__content"
-	  }, [_vm._t("default")], true)])
+	  }, [_vm._t("default")], 2)])
 	},staticRenderFns: []}
 
 /***/ },
@@ -16180,7 +16205,7 @@ module.exports =
 /* 217 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": _vm.closeTransition ? '' : 'el-zoom-in-center'
@@ -16198,7 +16223,7 @@ module.exports =
 	    on: {
 	      "click": _vm.handleClose
 	    }
-	  }) : _vm._e()], true)])
+	  }) : _vm._e()], 2)])
 	},staticRenderFns: []}
 
 /***/ },
@@ -17488,7 +17513,7 @@ module.exports =
 /* 227 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    directives: [{
 	      name: "show",
@@ -17554,7 +17579,7 @@ module.exports =
 	    attrs: {
 	      "node": _vm.node
 	    }
-	  })]), _c('collapse-transition', [_c('div', {
+	  })], 1), _c('collapse-transition', [_c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -17570,14 +17595,14 @@ module.exports =
 	        "node": child
 	      }
 	    })
-	  }))])])
+	  }))])], 1)
 	},staticRenderFns: []}
 
 /***/ },
 /* 228 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-tree",
 	    class: {
@@ -17596,7 +17621,7 @@ module.exports =
 	    staticClass: "el-tree__empty-block"
 	  }, [_c('span', {
 	    staticClass: "el-tree__empty-text"
-	  }, [_vm._v(_vm._s(_vm.emptyText))])]) : _vm._e()], true)
+	  }, [_vm._v(_vm._s(_vm.emptyText))])]) : _vm._e()], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -17742,7 +17767,7 @@ module.exports =
 /* 232 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-alert-fade"
@@ -17782,7 +17807,7 @@ module.exports =
 	        _vm.close()
 	      }
 	    }
-	  }, [_vm._v(_vm._s(_vm.closeText))])], true)])])
+	  }, [_vm._v(_vm._s(_vm.closeText))])], 2)])])
 	},staticRenderFns: []}
 
 /***/ },
@@ -18035,7 +18060,7 @@ module.exports =
 /* 237 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-notification-fade"
@@ -18397,7 +18422,7 @@ module.exports =
 /* 243 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-slider"
 	  }, [(_vm.showInput) ? _c('el-input-number', {
@@ -18469,14 +18494,14 @@ module.exports =
 	    class: {
 	      'hover': _vm.hovering, 'dragging': _vm.dragging
 	    }
-	  })])]), _vm._l((_vm.stops), function(item) {
+	  })])], 1), _vm._l((_vm.stops), function(item) {
 	    return (_vm.showStops) ? _c('div', {
 	      staticClass: "el-slider__stop",
 	      style: ({
 	        'left': item + '%'
 	      })
 	    }) : _vm._e()
-	  })], true)])
+	  })], 2)], 1)
 	},staticRenderFns: []}
 
 /***/ },
@@ -18686,7 +18711,7 @@ module.exports =
 /* 248 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-loading-mask",
 	    class: [_vm.customClass, {
@@ -18901,7 +18926,7 @@ module.exports =
 /* 253 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('i', {
 	    class: 'el-icon-' + _vm.name
 	  })
@@ -19014,7 +19039,7 @@ module.exports =
 /* 257 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-row",
 	    class: [
@@ -19024,7 +19049,7 @@ module.exports =
 	      }
 	    ],
 	    style: (_vm.style)
-	  }, [_vm._t("default")], true)
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -19540,7 +19565,7 @@ module.exports =
 /* 266 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition-group', {
 	    staticClass: "el-upload__files",
 	    attrs: {
@@ -19587,7 +19612,7 @@ module.exports =
 	        "percentage": _vm.parsePercentage(file.percentage),
 	        "status": file.status === 'finished' && file.showProgress ? 'success' : ''
 	      }
-	    }) : _vm._e()])
+	    }) : _vm._e()], 1)
 	  }))
 	},staticRenderFns: []}
 
@@ -20003,7 +20028,7 @@ module.exports =
 /* 272 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return (_vm.image) ? _c('div', {
 	    staticClass: "el-dragger__cover",
 	    on: {
@@ -20022,7 +20047,7 @@ module.exports =
 	      "show-text": false,
 	      "status": _vm.image.status === 'finished' ? 'success' : ''
 	    }
-	  }) : _vm._e()]), (_vm.image.status === 'finished') ? _c('div', {
+	  }) : _vm._e()], 1), (_vm.image.status === 'finished') ? _c('div', {
 	    staticClass: "el-dragger__cover__content",
 	    on: {
 	      "mouseenter": function($event) {
@@ -20089,14 +20114,14 @@ module.exports =
 	      expression: "mouseover"
 	    }],
 	    staticClass: "el-dragger__cover__title"
-	  }, [_vm._v(_vm._s(_vm.image.name))])])]) : _vm._e()]) : _vm._e()
+	  }, [_vm._v(_vm._s(_vm.image.name))])])], 1) : _vm._e()], 1) : _vm._e()
 	},staticRenderFns: []}
 
 /***/ },
 /* 273 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-upload__inner",
 	    class: {
@@ -20136,7 +20161,7 @@ module.exports =
 	    on: {
 	      "change": _vm.handleChange
 	    }
-	  })], true)
+	  })], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -20570,7 +20595,7 @@ module.exports =
 /* 279 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-progress",
 	    class: [
@@ -20627,7 +20652,7 @@ module.exports =
 	    })
 	  }, [(!_vm.status) ? [_vm._v(_vm._s(_vm.percentage) + "%")] : _c('i', {
 	    class: _vm.iconClass
-	  })], true) : _vm._e()])
+	  })], 2) : _vm._e()])
 	},staticRenderFns: []}
 
 /***/ },
@@ -20718,7 +20743,7 @@ module.exports =
 /* 283 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('span', {
 	    staticClass: "el-spinner"
 	  }, [_c('svg', {
@@ -21007,7 +21032,7 @@ module.exports =
 /* 293 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-message-fade"
@@ -21149,7 +21174,7 @@ module.exports =
 /* 297 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-badge"
 	  }, [_vm._t("default"), _c('transition', {
@@ -21170,7 +21195,7 @@ module.exports =
 	    domProps: {
 	      "textContent": _vm._s(_vm.content)
 	    }
-	  })])], true)
+	  })])], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -21252,15 +21277,15 @@ module.exports =
 /* 301 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-card"
 	  }, [(_vm.$slots.header || _vm.header) ? _c('div', {
 	    staticClass: "el-card__header"
-	  }, [_vm._t("header", [_vm._v(_vm._s(_vm.header))])], true) : _vm._e(), _c('div', {
+	  }, [_vm._t("header", [_vm._v(_vm._s(_vm.header))])], 2) : _vm._e(), _c('div', {
 	    staticClass: "el-card__body",
 	    style: (_vm.bodyStyle)
-	  }, [_vm._t("default")], true)])
+	  }, [_vm._t("default")], 2)])
 	},staticRenderFns: []}
 
 /***/ },
@@ -21587,7 +21612,7 @@ module.exports =
 /* 305 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-rate"
 	  }, [_vm._l((_vm.max), function(item) {
@@ -21621,7 +21646,7 @@ module.exports =
 	    style: ({
 	      color: _vm.textColor
 	    })
-	  }, [_vm._v(_vm._s(_vm.text))]) : _vm._e()], true)
+	  }, [_vm._v(_vm._s(_vm.text))]) : _vm._e()], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -21731,11 +21756,11 @@ module.exports =
 /* 309 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-steps",
 	    class: ['is-' + _vm.direction]
-	  }, [_vm._t("default")], true)
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -21928,7 +21953,7 @@ module.exports =
 /* 313 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-step",
 	    class: ['is-' + _vm.$parent.direction],
@@ -21952,7 +21977,7 @@ module.exports =
 	    class: ['el-icon-' + _vm.icon]
 	  }) : _c('div', [_vm._v(_vm._s(_vm.index + 1))])]) : _c('i', {
 	    class: ['el-icon-' + (_vm.currentStatus === 'success' ? 'check' : 'close')]
-	  })], true)]), _c('div', {
+	  })], 2)]), _c('div', {
 	    staticClass: "el-step__main",
 	    style: ({
 	      marginLeft: _vm.mainOffset
@@ -21961,10 +21986,10 @@ module.exports =
 	    ref: "title",
 	    staticClass: "el-step__title",
 	    class: ['is-' + _vm.currentStatus]
-	  }, [_vm._t("title", [_vm._v(_vm._s(_vm.title))])], true), _c('div', {
+	  }, [_vm._t("title", [_vm._v(_vm._s(_vm.title))])], 2), _c('div', {
 	    staticClass: "el-step__description",
 	    class: ['is-' + _vm.currentStatus]
-	  }, [_vm._t("description", [_vm._v(_vm._s(_vm.description))])], true)])])
+	  }, [_vm._t("description", [_vm._v(_vm._s(_vm.description))])], 2)])])
 	},staticRenderFns: []}
 
 /***/ },
@@ -22271,7 +22296,7 @@ module.exports =
 /* 317 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-carousel",
 	    class: {
@@ -22340,7 +22365,7 @@ module.exports =
 	    }
 	  }, [_c('i', {
 	    staticClass: "el-icon-arrow-right"
-	  })]) : _vm._e()]), _vm._t("default")], true), (_vm.indicatorPosition !== 'none') ? _c('ul', {
+	  })]) : _vm._e()]), _vm._t("default")], 2), (_vm.indicatorPosition !== 'none') ? _c('ul', {
 	    staticClass: "el-carousel__indicators",
 	    class: {
 	      'el-carousel__indicators--outside': _vm.indicatorPosition === 'outside' || _vm.type === 'card'
@@ -22413,6 +22438,7 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	/* istanbul ignore next */
 	// reference https://github.com/noeldelgado/gemini-scrollbar/blob/master/index.js
 
 	exports.default = {
@@ -22615,6 +22641,7 @@ module.exports =
 
 	var _util = __webpack_require__(320);
 
+	/* istanbul ignore next */
 	exports.default = {
 	  name: 'Bar',
 
@@ -22874,7 +22901,7 @@ module.exports =
 /* 325 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    directives: [{
 	      name: "show",
@@ -22905,7 +22932,7 @@ module.exports =
 	      expression: "!active"
 	    }],
 	    staticClass: "el-carousel__mask"
-	  }) : _vm._e(), _vm._t("default")], true)
+	  }) : _vm._e(), _vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -23033,10 +23060,10 @@ module.exports =
 /* 329 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-collapse"
-	  }, [_vm._t("default")], true)
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -23233,7 +23260,7 @@ module.exports =
 /* 333 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-collapse-item",
 	    class: {
@@ -23246,15 +23273,13 @@ module.exports =
 	    }
 	  }, [_c('i', {
 	    staticClass: "el-collapse-item__header__arrow el-icon-arrow-right"
-	  }), _vm._t("title", [_vm._v(_vm._s(_vm.title))], {
-	    title: _vm.title
-	  })], true), _c('div', {
+	  }), _vm._t("title", [_vm._v(_vm._s(_vm.title))])], 2), _c('div', {
 	    ref: "contentWrap",
 	    staticClass: "el-collapse-item__wrap"
 	  }, [_c('div', {
 	    ref: "content",
 	    staticClass: "el-collapse-item__content"
-	  }, [_vm._t("default")], true)])])
+	  }, [_vm._t("default")], 2)])])
 	},staticRenderFns: []}
 
 /***/ }

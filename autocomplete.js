@@ -157,6 +157,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	exports.default = {
 	  name: 'ElAutocomplete',
@@ -195,7 +196,7 @@ module.exports =
 
 	  watch: {
 	    suggestionVisible: function suggestionVisible(val) {
-	      this.broadcast('ElAutocompleteSuggestions', 'visible', [val, this.$el.offsetWidth]);
+	      this.broadcast('ElAutocompleteSuggestions', 'visible', [val, this.$refs.input.$refs.input.offsetWidth]);
 	    }
 	  },
 	  methods: {
@@ -352,7 +353,7 @@ module.exports =
 
 	  mounted: function mounted() {
 	    this.popperElm = this.$el;
-	    this.referenceElm = this.$parent.$el;
+	    this.referenceElm = this.$parent.$refs.input.$refs.input;
 	  },
 	  created: function created() {
 	    var _this = this;
@@ -402,7 +403,7 @@ module.exports =
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
@@ -451,7 +452,7 @@ module.exports =
 	        }
 	      }
 	    })]
-	  })], true)])
+	  })], 2)])
 	},staticRenderFns: []}
 
 /***/ },
@@ -464,7 +465,7 @@ module.exports =
 /* 15 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    directives: [{
 	      name: "clickoutside",
@@ -474,6 +475,7 @@ module.exports =
 	    }],
 	    staticClass: "el-autocomplete"
 	  }, [_c('el-input', {
+	    ref: "input",
 	    attrs: {
 	      "value": _vm.value,
 	      "disabled": _vm.disabled,
@@ -500,15 +502,15 @@ module.exports =
 	    }
 	  }, [(_vm.$slots.prepend) ? _c('template', {
 	    slot: "prepend"
-	  }, [_vm._t("prepend")], true) : _vm._e(), (_vm.$slots.append) ? _c('template', {
+	  }, [_vm._t("prepend")], 2) : _vm._e(), (_vm.$slots.append) ? _c('template', {
 	    slot: "append"
-	  }, [_vm._t("append")], true) : _vm._e()], true), _c('el-autocomplete-suggestions', {
+	  }, [_vm._t("append")], 2) : _vm._e()], 2), _c('el-autocomplete-suggestions', {
 	    ref: "suggestions",
 	    class: [_vm.popperClass ? _vm.popperClass : ''],
 	    attrs: {
 	      "suggestions": _vm.suggestions
 	    }
-	  })])
+	  })], 1)
 	},staticRenderFns: []}
 
 /***/ }

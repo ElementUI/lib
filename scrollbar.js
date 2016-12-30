@@ -119,6 +119,7 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	/* istanbul ignore next */
 	// reference https://github.com/noeldelgado/gemini-scrollbar/blob/master/index.js
 
 	exports.default = {
@@ -330,6 +331,7 @@ module.exports =
 
 	var _util = __webpack_require__(228);
 
+	/* istanbul ignore next */
 	exports.default = {
 	  name: 'Bar',
 

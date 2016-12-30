@@ -200,7 +200,7 @@ module.exports =
 /***/ 305:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-tooltip",
 	    on: {
@@ -210,7 +210,7 @@ module.exports =
 	  }, [_c('div', {
 	    ref: "reference",
 	    staticClass: "el-tooltip__rel"
-	  }, [_vm._t("default")], true), _c('transition', {
+	  }, [_vm._t("default")], 2), _c('transition', {
 	    attrs: {
 	      "name": _vm.transition
 	    },
@@ -231,7 +231,7 @@ module.exports =
 	    domProps: {
 	      "textContent": _vm._s(_vm.content)
 	    }
-	  })])], true)])])
+	  })])], 2)])], 1)
 	},staticRenderFns: []}
 
 /***/ }

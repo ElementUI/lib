@@ -146,13 +146,13 @@ module.exports =
 /***/ 27:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('span', {
 	    staticClass: "el-breadcrumb__item"
 	  }, [_c('span', {
 	    ref: "link",
 	    staticClass: "el-breadcrumb__item__inner"
-	  }, [_vm._t("default")], true), _c('span', {
+	  }, [_vm._t("default")], 2), _c('span', {
 	    staticClass: "el-breadcrumb__separator"
 	  }, [_vm._v(_vm._s(_vm.separator))])])
 	},staticRenderFns: []}

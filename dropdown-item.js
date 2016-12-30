@@ -157,7 +157,7 @@ module.exports =
 /***/ 112:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('li', {
 	    staticClass: "el-dropdown-menu__item",
 	    class: {
@@ -167,7 +167,7 @@ module.exports =
 	    on: {
 	      "click": _vm.handleClick
 	    }
-	  }, [_vm._t("default")], true)
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ }

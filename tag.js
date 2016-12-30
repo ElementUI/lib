@@ -145,7 +145,7 @@ module.exports =
 /***/ 291:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": _vm.closeTransition ? '' : 'el-zoom-in-center'
@@ -163,7 +163,7 @@ module.exports =
 	    on: {
 	      "click": _vm.handleClose
 	    }
-	  }) : _vm._e()], true)])
+	  }) : _vm._e()], 2)])
 	},staticRenderFns: []}
 
 /***/ }

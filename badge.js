@@ -155,7 +155,7 @@ module.exports =
 /***/ 19:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-badge"
 	  }, [_vm._t("default"), _c('transition', {
@@ -176,7 +176,7 @@ module.exports =
 	    domProps: {
 	      "textContent": _vm._s(_vm.content)
 	    }
-	  })])], true)
+	  })])], 2)
 	},staticRenderFns: []}
 
 /***/ }

@@ -125,23 +125,36 @@ module.exports =
 
 
 	  watch: {
-	    activeName: function activeName(val) {
-	      this.currentName = val;
+	    activeName: function activeName(value) {
+	      this.setCurrentName(value);
 	    },
-	    value: function value(val) {
-	      this.currentName = val;
-	    },
-	    currentName: function currentName(val) {
-	      this.$emit('input', val);
+	    value: function value(_value) {
+	      this.setCurrentName(_value);
+	    }
+	  },
+
+	  computed: {
+	    currentTab: function currentTab() {
+	      var _this = this;
+
+	      if (!this.$children) return;
+	      var result = void 0;
+	      this.$children.forEach(function (tab) {
+	        if (_this.currentName === (tab.name || tab.index)) {
+	          result = tab;
+	        }
+	      });
+	      return result;
 	    }
 	  },
 
 	  methods: {
 	    handleTabRemove: function handleTabRemove(tab, event) {
-	      var _this = this;
+	      var _this2 = this;
 
 	      event.stopPropagation();
 	      var tabs = this.$children;
+	      var currentTab = this.currentTab;
 
 	      var index = tabs.indexOf(tab);
 	      tab.$destroy();
@@ -156,22 +169,29 @@ module.exports =
 	          var nextActiveTab = nextChild || prevChild || null;
 
 	          if (nextActiveTab) {
-	            _this.currentName = nextActiveTab.name || nextActiveTab.index;
+	            _this2.setCurrentName(nextActiveTab.name || nextActiveTab.index);
 	          }
+	          return;
+	        } else {
+	          _this2.setCurrentName(currentTab.name || currentTab.index);
 	        }
 	      });
 	    },
 	    handleTabClick: function handleTabClick(tab, tabName, event) {
 	      if (tab.disabled) return;
-	      this.currentName = tabName;
+	      this.setCurrentName(tabName);
 	      this.$emit('tab-click', tab, event);
+	    },
+	    setCurrentName: function setCurrentName(value) {
+	      this.currentName = value;
+	      this.$emit('input', value);
 	    }
 	  },
 	  mounted: function mounted() {
 	    this.$forceUpdate();
 	  },
 	  render: function render(h) {
-	    var _this2 = this;
+	    var _this3 = this;
 
 	    var type = this.type,
 	        handleTabRemove = this.handleTabRemove,
@@ -180,13 +200,13 @@ module.exports =
 
 
 	    var getBarStyle = function getBarStyle() {
-	      if (_this2.type || !_this2.$refs.tabs) return {};
+	      if (_this3.type || !_this3.$refs.tabs) return {};
 	      var style = {};
 	      var offset = 0;
 	      var tabWidth = 0;
 
-	      _this2.$children.every(function (tab, index) {
-	        var $el = _this2.$refs.tabs[index];
+	      _this3.$children.every(function (tab, index) {
+	        var $el = _this3.$refs.tabs[index];
 	        if (!$el) {
 	          return false;
 	        }
@@ -209,7 +229,7 @@ module.exports =
 	    var tabs = this.$children.map(function (tab, index) {
 	      var tabName = tab.name || tab.index || index;
 	      if (currentName === undefined && index === 0) {
-	        _this2.currentName = tabName;
+	        _this3.setCurrentName(tabName);
 	      }
 
 	      tab.index = index;

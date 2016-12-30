@@ -477,7 +477,7 @@ module.exports =
 /***/ 323:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition-group', {
 	    staticClass: "el-upload__files",
 	    attrs: {
@@ -524,7 +524,7 @@ module.exports =
 	        "percentage": _vm.parsePercentage(file.percentage),
 	        "status": file.status === 'finished' && file.showProgress ? 'success' : ''
 	      }
-	    }) : _vm._e()])
+	    }) : _vm._e()], 1)
 	  }))
 	},staticRenderFns: []}
 
@@ -946,7 +946,7 @@ module.exports =
 /***/ 329:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return (_vm.image) ? _c('div', {
 	    staticClass: "el-dragger__cover",
 	    on: {
@@ -965,7 +965,7 @@ module.exports =
 	      "show-text": false,
 	      "status": _vm.image.status === 'finished' ? 'success' : ''
 	    }
-	  }) : _vm._e()]), (_vm.image.status === 'finished') ? _c('div', {
+	  }) : _vm._e()], 1), (_vm.image.status === 'finished') ? _c('div', {
 	    staticClass: "el-dragger__cover__content",
 	    on: {
 	      "mouseenter": function($event) {
@@ -1032,7 +1032,7 @@ module.exports =
 	      expression: "mouseover"
 	    }],
 	    staticClass: "el-dragger__cover__title"
-	  }, [_vm._v(_vm._s(_vm.image.name))])])]) : _vm._e()]) : _vm._e()
+	  }, [_vm._v(_vm._s(_vm.image.name))])])], 1) : _vm._e()], 1) : _vm._e()
 	},staticRenderFns: []}
 
 /***/ },
@@ -1040,7 +1040,7 @@ module.exports =
 /***/ 330:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-upload__inner",
 	    class: {
@@ -1080,7 +1080,7 @@ module.exports =
 	    on: {
 	      "change": _vm.handleChange
 	    }
-	  })], true)
+	  })], 2)
 	},staticRenderFns: []}
 
 /***/ },

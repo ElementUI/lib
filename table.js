@@ -316,7 +316,6 @@ module.exports =
 	//
 	//
 	//
-	//
 
 	var tableIdSeed = 1;
 
@@ -334,8 +333,6 @@ module.exports =
 	    },
 
 	    width: [String, Number],
-
-	    virtualScrollbar: Boolean,
 
 	    height: [String, Number],
 
@@ -456,7 +453,7 @@ module.exports =
 
 	  computed: {
 	    bodyWrapper: function bodyWrapper() {
-	      return this.$refs.bodyWrapper.wrap;
+	      return this.$refs.bodyWrapper;
 	    },
 	    shouldUpdateHeight: function shouldUpdateHeight() {
 	      return typeof this.height === 'number' || this.fixedColumns.length > 0 || this.rightFixedColumns.length > 0;
@@ -2461,7 +2458,7 @@ module.exports =
 /***/ 281:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
@@ -2498,7 +2495,7 @@ module.exports =
 	        "label": filter.value
 	      }
 	    }, [_vm._v(_vm._s(filter.text))])
-	  }))]), _c('div', {
+	  }))], 1), _c('div', {
 	    staticClass: "el-table-filter__bottom"
 	  }, [_c('button', {
 	    class: {
@@ -2549,7 +2546,7 @@ module.exports =
 	        }
 	      }
 	    }, [_vm._v(_vm._s(filter.text))])
-	  })], true)])])
+	  })], 2)])])
 	},staticRenderFns: []}
 
 /***/ },
@@ -2557,7 +2554,7 @@ module.exports =
 /***/ 282:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-table",
 	    class: {
@@ -2576,7 +2573,7 @@ module.exports =
 	  }, [_c('div', {
 	    ref: "hiddenColumns",
 	    staticClass: "hidden-columns"
-	  }, [_vm._t("default")], true), (_vm.showHeader) ? _c('div', {
+	  }, [_vm._t("default")], 2), (_vm.showHeader) ? _c('div', {
 	    ref: "headerWrapper",
 	    staticClass: "el-table__header-wrapper"
 	  }, [_c('table-header', {
@@ -2588,13 +2585,10 @@ module.exports =
 	      "layout": _vm.layout,
 	      "border": _vm.border
 	    }
-	  })]) : _vm._e(), _c('el-scrollbar', {
+	  })], 1) : _vm._e(), _c('div', {
 	    ref: "bodyWrapper",
 	    staticClass: "el-table__body-wrapper",
-	    attrs: {
-	      "native": !_vm.virtualScrollbar,
-	      "wrap-style": [_vm.bodyHeight]
-	    }
+	    style: ([_vm.bodyHeight])
 	  }, [_c('table-body', {
 	    style: ({
 	      width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth - (_vm.layout.scrollY ? _vm.layout.gutterWidth : 0) + 'px' : ''
@@ -2611,7 +2605,7 @@ module.exports =
 	    staticClass: "el-table__empty-block"
 	  }, [_c('span', {
 	    staticClass: "el-table__empty-text"
-	  }, [_vm._t("empty", [_vm._v(_vm._s(_vm.emptyText || _vm.t('el.table.emptyText')))])], true)]) : _vm._e()]), (_vm.fixedColumns.length > 0) ? _c('div', {
+	  }, [_vm._t("empty", [_vm._v(_vm._s(_vm.emptyText || _vm.t('el.table.emptyText')))])], 2)]) : _vm._e()], 1), (_vm.fixedColumns.length > 0) ? _c('div', {
 	    ref: "fixedWrapper",
 	    staticClass: "el-table__fixed",
 	    style: ([{
@@ -2632,7 +2626,7 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout
 	    }
-	  })]) : _vm._e(), _c('div', {
+	  })], 1) : _vm._e(), _c('div', {
 	    ref: "fixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
 	    style: ([{
@@ -2652,7 +2646,7 @@ module.exports =
 	      "row-class-name": _vm.rowClassName,
 	      "row-style": _vm.rowStyle
 	    }
-	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _c('div', {
+	  })], 1)]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _c('div', {
 	    ref: "rightFixedWrapper",
 	    staticClass: "el-table__fixed-right",
 	    style: ([{
@@ -2675,7 +2669,7 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout
 	    }
-	  })]) : _vm._e(), _c('div', {
+	  })], 1) : _vm._e(), _c('div', {
 	    ref: "rightFixedBodyWrapper",
 	    staticClass: "el-table__fixed-body-wrapper",
 	    style: ([{
@@ -2695,7 +2689,7 @@ module.exports =
 	      "row-style": _vm.rowStyle,
 	      "highlight": _vm.highlightCurrentRow
 	    }
-	  })])]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _c('div', {
+	  })], 1)]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _c('div', {
 	    staticClass: "el-table__fixed-right-patch",
 	    style: ({
 	      width: _vm.layout.scrollY ? _vm.layout.gutterWidth + 'px' : '0',

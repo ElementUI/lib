@@ -1367,7 +1367,7 @@ module.exports =
 /***/ 315:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    directives: [{
 	      name: "show",
@@ -1433,7 +1433,7 @@ module.exports =
 	    attrs: {
 	      "node": _vm.node
 	    }
-	  })]), _c('collapse-transition', [_c('div', {
+	  })], 1), _c('collapse-transition', [_c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1449,7 +1449,7 @@ module.exports =
 	        "node": child
 	      }
 	    })
-	  }))])])
+	  }))])], 1)
 	},staticRenderFns: []}
 
 /***/ },
@@ -1457,7 +1457,7 @@ module.exports =
 /***/ 316:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-tree",
 	    class: {
@@ -1476,7 +1476,7 @@ module.exports =
 	    staticClass: "el-tree__empty-block"
 	  }, [_c('span', {
 	    staticClass: "el-tree__empty-text"
-	  }, [_vm._v(_vm._s(_vm.emptyText))])]) : _vm._e()], true)
+	  }, [_vm._v(_vm._s(_vm.emptyText))])]) : _vm._e()], 2)
 	},staticRenderFns: []}
 
 /***/ }

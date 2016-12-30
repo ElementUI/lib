@@ -251,7 +251,7 @@ module.exports =
 /***/ 54:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('label', {
 	    staticClass: "el-checkbox"
 	  }, [_c('span', {
@@ -323,7 +323,7 @@ module.exports =
 	    },
 	    domProps: {
 	      "value": _vm.label,
-	      "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, _vm.label) > -1 : _vm._q(_vm.model, true)
+	      "checked": Array.isArray(_vm.model) ? _vm._i(_vm.model, _vm.label) > -1 : (_vm.model)
 	    },
 	    on: {
 	      "change": [function($event) {
@@ -353,7 +353,7 @@ module.exports =
 	    }
 	  })]), (_vm.$slots.default || _vm.label) ? _c('span', {
 	    staticClass: "el-checkbox__label"
-	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._v(_vm._s(_vm.label))] : _vm._e()], true) : _vm._e()])
+	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._v(_vm._s(_vm.label))] : _vm._e()], 2) : _vm._e()])
 	},staticRenderFns: []}
 
 /***/ }

@@ -145,7 +145,7 @@ module.exports =
 /***/ 158:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('li', {
 	    staticClass: "el-menu-item-group"
 	  }, [_c('div', {
@@ -153,7 +153,7 @@ module.exports =
 	    style: ({
 	      paddingLeft: _vm.levelPadding + 'px'
 	    })
-	  }, [(!_vm.$slots.title) ? [_vm._v(_vm._s(_vm.title))] : _vm._t("title")], true), _c('ul', [_vm._t("default")], true)])
+	  }, [(!_vm.$slots.title) ? [_vm._v(_vm._s(_vm.title))] : _vm._t("title")], 2), _c('ul', [_vm._t("default")], 2)])
 	},staticRenderFns: []}
 
 /***/ }

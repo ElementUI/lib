@@ -252,7 +252,7 @@ module.exports =
 /***/ 105:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "dialog-fade"
@@ -291,9 +291,9 @@ module.exports =
 	    }
 	  }) : _vm._e()])]), (_vm.rendered) ? _c('div', {
 	    staticClass: "el-dialog__body"
-	  }, [_vm._t("default")], true) : _vm._e(), (_vm.$slots.footer) ? _c('div', {
+	  }, [_vm._t("default")], 2) : _vm._e(), (_vm.$slots.footer) ? _c('div', {
 	    staticClass: "el-dialog__footer"
-	  }, [_vm._t("footer")], true) : _vm._e()])])])
+	  }, [_vm._t("footer")], 2) : _vm._e()])])])
 	},staticRenderFns: []}
 
 /***/ }

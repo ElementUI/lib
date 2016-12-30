@@ -250,6 +250,8 @@ module.exports =
 	      if (newVal <= this.max && newVal >= this.min) {
 	        this.$emit('change', newVal, oldVal);
 	        this.$emit('input', newVal);
+	      } else {
+	        this.currentValue = oldVal;
 	      }
 	    }
 	  },
@@ -330,7 +332,7 @@ module.exports =
 /***/ 138:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-input-number",
 	    class: [
@@ -399,9 +401,9 @@ module.exports =
 	    }
 	  }, [(_vm.$slots.prepend) ? _c('template', {
 	    slot: "prepend"
-	  }, [_vm._t("prepend")], true) : _vm._e(), (_vm.$slots.append) ? _c('template', {
+	  }, [_vm._t("prepend")], 2) : _vm._e(), (_vm.$slots.append) ? _c('template', {
 	    slot: "append"
-	  }, [_vm._t("append")], true) : _vm._e()], true)])
+	  }, [_vm._t("append")], 2) : _vm._e()], 2)], 1)
 	},staticRenderFns: []}
 
 /***/ }

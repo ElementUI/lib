@@ -250,7 +250,7 @@ module.exports =
 /***/ 263:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('label', {
 	    staticClass: "el-switch",
 	    class: {
@@ -278,7 +278,7 @@ module.exports =
 	      "disabled": _vm.disabled
 	    },
 	    domProps: {
-	      "checked": Array.isArray(_vm._value) ? _vm._i(_vm._value, null) > -1 : _vm._q(_vm._value, true)
+	      "checked": Array.isArray(_vm._value) ? _vm._i(_vm._value, null) > -1 : (_vm._value)
 	    },
 	    on: {
 	      "change": [function($event) {
@@ -341,7 +341,7 @@ module.exports =
 	    })
 	  }, [(_vm.offIconClass) ? _c('i', {
 	    class: [_vm.offIconClass]
-	  }) : _vm._e(), (!_vm.offIconClass && _vm.offText) ? _c('span', [_vm._v(_vm._s(_vm.offText))]) : _vm._e()])])])
+	  }) : _vm._e(), (!_vm.offIconClass && _vm.offText) ? _c('span', [_vm._v(_vm._s(_vm.offText))]) : _vm._e()])])], 1)
 	},staticRenderFns: []}
 
 /***/ }

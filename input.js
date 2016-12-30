@@ -240,7 +240,11 @@ module.exports =
 	    maxlength: Number,
 	    minlength: Number,
 	    max: {},
-	    min: {}
+	    min: {},
+	    validateEvent: {
+	      type: Boolean,
+	      default: true
+	    }
 	  },
 
 	  computed: {
@@ -258,7 +262,9 @@ module.exports =
 	  methods: {
 	    handleBlur: function handleBlur(event) {
 	      this.$emit('blur', event);
-	      this.dispatch('ElFormItem', 'el.form.blur', [this.currentValue]);
+	      if (this.validateEvent) {
+	        this.dispatch('ElFormItem', 'el.form.blur', [this.currentValue]);
+	      }
 	    },
 	    inputSelect: function inputSelect() {
 	      this.$refs.input.select();
@@ -293,7 +299,9 @@ module.exports =
 	      this.currentValue = value;
 	      this.$emit('input', value);
 	      this.$emit('change', value);
-	      this.dispatch('ElFormItem', 'el.form.change', [value]);
+	      if (this.validateEvent) {
+	        this.dispatch('ElFormItem', 'el.form.change', [value]);
+	      }
 	    }
 	  },
 
@@ -388,7 +396,7 @@ module.exports =
 /***/ 134:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    class: [
 	      _vm.type === 'textarea' ? 'el-textarea' : 'el-input',
@@ -401,7 +409,7 @@ module.exports =
 	    ]
 	  }, [(_vm.type !== 'textarea') ? [(_vm.$slots.prepend) ? _c('div', {
 	    staticClass: "el-input-group__prepend"
-	  }, [_vm._t("prepend")], true) : _vm._e(), _vm._t("icon", [(_vm.icon) ? _c('i', {
+	  }, [_vm._t("prepend")], 2) : _vm._e(), _vm._t("icon", [(_vm.icon) ? _c('i', {
 	    staticClass: "el-input__icon",
 	    class: 'el-icon-' + _vm.icon,
 	    on: {
@@ -436,7 +444,7 @@ module.exports =
 	    staticClass: "el-input__icon el-icon-loading"
 	  }) : _vm._e(), (_vm.$slots.append) ? _c('div', {
 	    staticClass: "el-input-group__append"
-	  }, [_vm._t("append")], true) : _vm._e()] : _c('textarea', {
+	  }, [_vm._t("append")], 2) : _vm._e()] : _c('textarea', {
 	    ref: "textarea",
 	    staticClass: "el-textarea__inner",
 	    style: (_vm.textareaStyle),
@@ -459,7 +467,7 @@ module.exports =
 	      "focus": _vm.handleFocus,
 	      "blur": _vm.handleBlur
 	    }
-	  })], true)
+	  })], 2)
 	},staticRenderFns: []}
 
 /***/ }

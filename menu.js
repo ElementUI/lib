@@ -262,14 +262,14 @@ module.exports =
 /***/ 149:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('ul', {
 	    staticClass: "el-menu",
 	    class: {
 	      'el-menu--horizontal': _vm.mode === 'horizontal',
 	        'el-menu--dark': _vm.theme === 'dark'
 	    }
-	  }, [_vm._t("default")], true)
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ }

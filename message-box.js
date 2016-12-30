@@ -597,7 +597,7 @@ module.exports =
 /***/ 175:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "msgbox-fade"
@@ -672,7 +672,7 @@ module.exports =
 	    style: ({
 	      visibility: !!_vm.editorErrorMessage ? 'visible' : 'hidden'
 	    })
-	  }, [_vm._v(_vm._s(_vm.editorErrorMessage))])])]) : _vm._e(), _c('div', {
+	  }, [_vm._v(_vm._s(_vm.editorErrorMessage))])], 1)]) : _vm._e(), _c('div', {
 	    staticClass: "el-message-box__btns"
 	  }, [_c('el-button', {
 	    directives: [{
@@ -701,7 +701,7 @@ module.exports =
 	        _vm.handleAction('confirm')
 	      }
 	    }
-	  }, [_vm._v(_vm._s(_vm.confirmButtonText || _vm.t('el.messagebox.confirm')))])])])])])
+	  }, [_vm._v(_vm._s(_vm.confirmButtonText || _vm.t('el.messagebox.confirm')))])], 1)])])])
 	},staticRenderFns: []}
 
 /***/ }

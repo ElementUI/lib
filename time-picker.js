@@ -465,11 +465,11 @@ module.exports =
 
 	      if (Array.isArray(date)) {
 	        if ((0, _util.equalDate)(cache.cacheDateMin, date[0]) && (0, _util.equalDate)(cache.cacheDateMax, date[1])) updated = false;
-	        cache.cacheDateMin = date[0];
-	        cache.cacheDateMax = date[1];
+	        cache.cacheDateMin = new Date(date[0]);
+	        cache.cacheDateMax = new Date(date[1]);
 	      } else {
 	        if ((0, _util.equalDate)(cache.cacheDate, date)) updated = false;
-	        cache.cacheDate = date;
+	        cache.cacheDate = new Date(date);
 	      }
 
 	      return updated;
@@ -797,7 +797,7 @@ module.exports =
 /***/ 77:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('el-input', {
 	    directives: [{
 	      name: "clickoutside",
@@ -1273,7 +1273,7 @@ module.exports =
 /***/ 86:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-time-spinner",
 	    class: {
@@ -1387,7 +1387,7 @@ module.exports =
 	        }
 	      }
 	    })
-	  }))])
+	  }))], 1)
 	},staticRenderFns: []}
 
 /***/ },
@@ -1395,7 +1395,7 @@ module.exports =
 /***/ 87:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
@@ -1434,7 +1434,7 @@ module.exports =
 	      "change": _vm.handleChange,
 	      "select-range": _vm.setSelectionRange
 	    }
-	  })]), _c('div', {
+	  })], 1), _c('div', {
 	    staticClass: "el-time-panel__footer"
 	  }, [_c('button', {
 	    staticClass: "el-time-panel__btn cancel",
@@ -1791,7 +1791,7 @@ module.exports =
 /***/ 296:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
@@ -1837,7 +1837,7 @@ module.exports =
 	      "change": _vm.handleMinChange,
 	      "select-range": _vm.setMinSelectionRange
 	    }
-	  })])]), _c('div', {
+	  })], 1)]), _c('div', {
 	    staticClass: "el-time-range-picker__cell"
 	  }, [_c('div', {
 	    staticClass: "el-time-range-picker__header"
@@ -1858,7 +1858,7 @@ module.exports =
 	      "change": _vm.handleMaxChange,
 	      "select-range": _vm.setMaxSelectionRange
 	    }
-	  })])])]), _c('div', {
+	  })], 1)])]), _c('div', {
 	    staticClass: "el-time-panel__footer"
 	  }, [_c('button', {
 	    staticClass: "el-time-panel__btn cancel",

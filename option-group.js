@@ -184,7 +184,7 @@ module.exports =
 /***/ 188:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('ul', {
 	    staticClass: "el-select-group__wrap"
 	  }, [_c('li', {
@@ -197,7 +197,7 @@ module.exports =
 	    staticClass: "el-select-group__title"
 	  }, [_vm._v(_vm._s(_vm.label))]), _c('li', [_c('ul', {
 	    staticClass: "el-select-group"
-	  }, [_vm._t("default")], true)])])
+	  }, [_vm._t("default")], 2)])])
 	},staticRenderFns: []}
 
 /***/ }

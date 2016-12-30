@@ -204,7 +204,7 @@ module.exports =
 /***/ 208:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('label', {
 	    staticClass: "el-radio"
 	  }, [_c('span', {
@@ -246,7 +246,7 @@ module.exports =
 	    }
 	  })]), _c('span', {
 	    staticClass: "el-radio__label"
-	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._v(_vm._s(_vm.label))] : _vm._e()], true)])
+	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._v(_vm._s(_vm.label))] : _vm._e()], 2)])
 	},staticRenderFns: []}
 
 /***/ }

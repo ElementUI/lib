@@ -465,11 +465,11 @@ module.exports =
 
 	      if (Array.isArray(date)) {
 	        if ((0, _util.equalDate)(cache.cacheDateMin, date[0]) && (0, _util.equalDate)(cache.cacheDateMax, date[1])) updated = false;
-	        cache.cacheDateMin = date[0];
-	        cache.cacheDateMax = date[1];
+	        cache.cacheDateMin = new Date(date[0]);
+	        cache.cacheDateMax = new Date(date[1]);
 	      } else {
 	        if ((0, _util.equalDate)(cache.cacheDate, date)) updated = false;
-	        cache.cacheDate = date;
+	        cache.cacheDate = new Date(date);
 	      }
 
 	      return updated;
@@ -797,7 +797,7 @@ module.exports =
 /***/ 77:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('el-input', {
 	    directives: [{
 	      name: "clickoutside",
@@ -1082,7 +1082,7 @@ module.exports =
 /***/ 301:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-zoom-in-top"
@@ -1124,7 +1124,7 @@ module.exports =
 	        }
 	      }
 	    }, [_vm._v(_vm._s(item.value))])
-	  }))])])
+	  }))], 1)])
 	},staticRenderFns: []}
 
 /***/ }

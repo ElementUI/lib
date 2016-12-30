@@ -261,7 +261,7 @@ module.exports =
 /***/ 69:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-collapse-item",
 	    class: {
@@ -274,15 +274,13 @@ module.exports =
 	    }
 	  }, [_c('i', {
 	    staticClass: "el-collapse-item__header__arrow el-icon-arrow-right"
-	  }), _vm._t("title", [_vm._v(_vm._s(_vm.title))], {
-	    title: _vm.title
-	  })], true), _c('div', {
+	  }), _vm._t("title", [_vm._v(_vm._s(_vm.title))])], 2), _c('div', {
 	    ref: "contentWrap",
 	    staticClass: "el-collapse-item__wrap"
 	  }, [_c('div', {
 	    ref: "content",
 	    staticClass: "el-collapse-item__content"
-	  }, [_vm._t("default")], true)])])
+	  }, [_vm._t("default")], 2)])])
 	},staticRenderFns: []}
 
 /***/ }

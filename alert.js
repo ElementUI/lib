@@ -191,7 +191,7 @@ module.exports =
 /* 4 */
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
 	      "name": "el-alert-fade"
@@ -231,7 +231,7 @@ module.exports =
 	        _vm.close()
 	      }
 	    }
-	  }, [_vm._v(_vm._s(_vm.closeText))])], true)])])
+	  }, [_vm._v(_vm._s(_vm.closeText))])], 2)])])
 	},staticRenderFns: []}
 
 /***/ }

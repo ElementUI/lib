@@ -165,7 +165,7 @@ module.exports =
 /***/ 267:
 /***/ function(module, exports) {
 
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-tab-pane"
 	  }, [_c('div', {
@@ -176,7 +176,7 @@ module.exports =
 	      expression: "active"
 	    }],
 	    staticClass: "el-tab-pane__content"
-	  }, [_vm._t("default")], true)])
+	  }, [_vm._t("default")], 2)])
 	},staticRenderFns: []}
 
 /***/ }
