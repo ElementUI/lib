@@ -46,19 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(150);
+	module.exports = __webpack_require__(152);
 
 
 /***/ },
 
-/***/ 150:
+/***/ 13:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ },
+
+/***/ 152:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _menuItem = __webpack_require__(151);
+	var _menuItem = __webpack_require__(153);
 
 	var _menuItem2 = _interopRequireDefault(_menuItem);
 
@@ -73,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 151:
+/***/ 153:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(152)
+	__vue_exports__ = __webpack_require__(154)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(154)
+	var __vue_template__ = __webpack_require__(156)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,23 +110,39 @@ module.exports =
 
 /***/ },
 
-/***/ 152:
+/***/ 154:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _menuMixin = __webpack_require__(153);
+	var _menuMixin = __webpack_require__(155);
 
 	var _menuMixin2 = _interopRequireDefault(_menuMixin);
 
+	var _emitter = __webpack_require__(13);
+
+	var _emitter2 = _interopRequireDefault(_emitter);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	module.exports = {
 	  name: 'ElMenuItem',
 
 	  componentName: 'ElMenuItem',
 
-	  mixins: [_menuMixin2.default],
+	  mixins: [_menuMixin2.default, _emitter2.default],
 
 	  props: {
 	    index: {
@@ -137,32 +160,27 @@ module.exports =
 	  },
 	  computed: {
 	    active: function active() {
-	      return this.index === this.rootMenu.activeIndex;
+	      return this.index === this.rootMenu.activedIndex;
 	    }
 	  },
 	  methods: {
 	    handleClick: function handleClick() {
-	      this.rootMenu.handleSelect(this.index, this.indexPath, this.route || this.index, this);
+	      this.dispatch('ElMenu', 'item-click', this);
 	    }
 	  },
 	  created: function created() {
-	    this.rootMenu.menuItems[this.index] = this;
+	    this.parentMenu.addItem(this);
+	    this.rootMenu.addItem(this);
+	  },
+	  beforeDestroy: function beforeDestroy() {
+	    this.parentMenu.removeItem(this);
+	    this.rootMenu.removeItem(this);
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 
-/***/ 153:
+/***/ 155:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -182,7 +200,14 @@ module.exports =
 	    },
 	    rootMenu: function rootMenu() {
 	      var parent = this.$parent;
-	      while (parent.$options.componentName !== 'ElMenu') {
+	      while (parent && parent.$options.componentName !== 'ElMenu') {
+	        parent = parent.$parent;
+	      }
+	      return parent;
+	    },
+	    parentMenu: function parentMenu() {
+	      var parent = this.$parent;
+	      while (parent && ['ElMenu', 'ElSubmenu'].indexOf(parent.$options.componentName) === -1) {
 	        parent = parent.$parent;
 	      }
 	      return parent;
@@ -205,7 +230,7 @@ module.exports =
 
 /***/ },
 
-/***/ 154:
+/***/ 156:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(135);
+	module.exports = __webpack_require__(138);
 
 
 /***/ },
@@ -65,14 +65,14 @@ module.exports =
 
 /***/ },
 
-/***/ 135:
+/***/ 138:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _inputNumber = __webpack_require__(136);
+	var _inputNumber = __webpack_require__(139);
 
 	var _inputNumber2 = _interopRequireDefault(_inputNumber);
 
@@ -87,17 +87,17 @@ module.exports =
 
 /***/ },
 
-/***/ 136:
+/***/ 139:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(137)
+	__vue_exports__ = __webpack_require__(140)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(138)
+	var __vue_template__ = __webpack_require__(141)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -117,7 +117,7 @@ module.exports =
 
 /***/ },
 
-/***/ 137:
+/***/ 140:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -172,6 +172,8 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElInputNumber',
@@ -180,9 +182,8 @@ module.exports =
 	      bind: function bind(el, binding, vnode) {
 	        var interval = null;
 	        var startTime = void 0;
-
 	        var handler = function handler() {
-	          return vnode.context[binding.expression]();
+	          return vnode.context[binding.expression].apply();
 	        };
 	        var clear = function clear() {
 	          if (new Date() - startTime < 100) {
@@ -214,7 +215,7 @@ module.exports =
 	    },
 	    min: {
 	      type: Number,
-	      default: 0
+	      default: -Infinity
 	    },
 	    value: {
 	      default: 0
@@ -237,6 +238,7 @@ module.exports =
 	      this.$emit('input', this.max);
 	      value = this.max;
 	    }
+
 	    return {
 	      currentValue: value
 	    };
@@ -257,69 +259,60 @@ module.exports =
 	  },
 	  computed: {
 	    minDisabled: function minDisabled() {
-	      return this.accSub(this.value, this.step) < this.min;
+	      return this._decrease(this.value, this.step) < this.min;
 	    },
 	    maxDisabled: function maxDisabled() {
-	      return this.accAdd(this.value, this.step) > this.max;
+	      return this._increase(this.value, this.step) > this.max;
+	    },
+	    precision: function precision() {
+	      var value = this.value,
+	          step = this.step,
+	          getPrecision = this.getPrecision;
+
+	      return Math.max(getPrecision(value), getPrecision(step));
 	    }
 	  },
 	  methods: {
-	    accSub: function accSub(arg1, arg2) {
-	      var r1, r2, m, n;
-	      try {
-	        r1 = arg1.toString().split('.')[1].length;
-	      } catch (e) {
-	        r1 = 0;
-	      }
-	      try {
-	        r2 = arg2.toString().split('.')[1].length;
-	      } catch (e) {
-	        r2 = 0;
-	      }
-	      m = Math.pow(10, Math.max(r1, r2));
-	      n = r1 >= r2 ? r1 : r2;
-	      return parseFloat(((arg1 * m - arg2 * m) / m).toFixed(n));
+	    toPrecision: function toPrecision(num, precision) {
+	      if (precision === undefined) precision = this.precision;
+	      return parseFloat(parseFloat(Number(num).toFixed(precision)));
 	    },
-	    accAdd: function accAdd(arg1, arg2) {
-	      var r1, r2, m, c;
-	      try {
-	        r1 = arg1.toString().split('.')[1].length;
-	      } catch (e) {
-	        r1 = 0;
+	    getPrecision: function getPrecision(value) {
+	      var valueString = value.toString();
+	      var dotPosition = valueString.indexOf('.');
+	      var precision = 0;
+	      if (dotPosition !== -1) {
+	        precision = valueString.length - dotPosition - 1;
 	      }
-	      try {
-	        r2 = arg2.toString().split('.')[1].length;
-	      } catch (e) {
-	        r2 = 0;
-	      }
-	      c = Math.abs(r1 - r2);
-	      m = Math.pow(10, Math.max(r1, r2));
-	      if (c > 0) {
-	        var cm = Math.pow(10, c);
-	        if (r1 > r2) {
-	          arg1 = Number(arg1.toString().replace('.', ''));
-	          arg2 = Number(arg2.toString().replace('.', '')) * cm;
-	        } else {
-	          arg1 = Number(arg1.toString().replace('.', '')) * cm;
-	          arg2 = Number(arg2.toString().replace('.', ''));
-	        }
-	      } else {
-	        arg1 = Number(arg1.toString().replace('.', ''));
-	        arg2 = Number(arg2.toString().replace('.', ''));
-	      }
-	      return (arg1 + arg2) / m;
+	      return precision;
+	    },
+	    _increase: function _increase(val, step) {
+	      if (typeof val !== 'number') return this.currentValue;
+
+	      var precisionFactor = Math.pow(10, this.precision);
+
+	      return this.toPrecision((precisionFactor * val + precisionFactor * step) / precisionFactor);
+	    },
+	    _decrease: function _decrease(val, step) {
+	      if (typeof val !== 'number') return this.currentValue;
+
+	      var precisionFactor = Math.pow(10, this.precision);
+
+	      return this.toPrecision((precisionFactor * val - precisionFactor * step) / precisionFactor);
 	    },
 	    increase: function increase() {
-	      if (this.maxDisabled) return;
+	      if (this.disabled || this.maxDisabled) return;
 	      var value = this.value || 0;
-	      if (this.accAdd(value, this.step) > this.max || this.disabled) return;
-	      this.currentValue = this.accAdd(value, this.step);
+	      var newVal = this._increase(value, this.step);
+	      if (newVal > this.max) return;
+	      this.currentValue = newVal;
 	    },
 	    decrease: function decrease() {
-	      if (this.minDisabled) return;
+	      if (this.disabled || this.minDisabled) return;
 	      var value = this.value || 0;
-	      if (this.accSub(value, this.step) < this.min || this.disabled) return;
-	      this.currentValue = this.accSub(value, this.step);
+	      var newVal = this._decrease(value, this.step);
+	      if (newVal < this.min) return;
+	      this.currentValue = newVal;
 	    },
 	    handleBlur: function handleBlur() {
 	      this.$refs.input.setCurrentValue(this.currentValue);
@@ -329,7 +322,7 @@ module.exports =
 
 /***/ },
 
-/***/ 138:
+/***/ 141:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -377,7 +370,9 @@ module.exports =
 	    ref: "input",
 	    attrs: {
 	      "disabled": _vm.disabled,
-	      "size": _vm.size
+	      "size": _vm.size,
+	      "max": _vm.max,
+	      "min": _vm.min
 	    },
 	    domProps: {
 	      "value": (_vm.currentValue)

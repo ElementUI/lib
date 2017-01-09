@@ -46,12 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(256);
+	module.exports = __webpack_require__(258);
 
 
 /***/ },
 
-/***/ 153:
+/***/ 13:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ },
+
+/***/ 155:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -71,7 +78,14 @@ module.exports =
 	    },
 	    rootMenu: function rootMenu() {
 	      var parent = this.$parent;
-	      while (parent.$options.componentName !== 'ElMenu') {
+	      while (parent && parent.$options.componentName !== 'ElMenu') {
+	        parent = parent.$parent;
+	      }
+	      return parent;
+	    },
+	    parentMenu: function parentMenu() {
+	      var parent = this.$parent;
+	      while (parent && ['ElMenu', 'ElSubmenu'].indexOf(parent.$options.componentName) === -1) {
 	        parent = parent.$parent;
 	      }
 	      return parent;
@@ -94,14 +108,14 @@ module.exports =
 
 /***/ },
 
-/***/ 256:
+/***/ 258:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _submenu = __webpack_require__(257);
+	var _submenu = __webpack_require__(259);
 
 	var _submenu2 = _interopRequireDefault(_submenu);
 
@@ -116,17 +130,17 @@ module.exports =
 
 /***/ },
 
-/***/ 257:
+/***/ 259:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(258)
+	__vue_exports__ = __webpack_require__(260)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(259)
+	var __vue_template__ = __webpack_require__(262)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -146,14 +160,22 @@ module.exports =
 
 /***/ },
 
-/***/ 258:
+/***/ 260:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _menuMixin = __webpack_require__(153);
+	var _menuMixin = __webpack_require__(155);
 
 	var _menuMixin2 = _interopRequireDefault(_menuMixin);
+
+	var _emitter = __webpack_require__(13);
+
+	var _emitter2 = _interopRequireDefault(_emitter);
+
+	var _collapseTransition = __webpack_require__(261);
+
+	var _collapseTransition2 = _interopRequireDefault(_collapseTransition);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -162,7 +184,11 @@ module.exports =
 
 	  componentName: 'ElSubmenu',
 
-	  mixins: [_menuMixin2.default],
+	  mixins: [_menuMixin2.default, _emitter2.default],
+
+	  components: {
+	    CollapseTransition: _collapseTransition2.default
+	  },
 
 	  props: {
 	    index: {
@@ -173,18 +199,54 @@ module.exports =
 	  data: function data() {
 	    return {
 	      timeout: null,
-	      active: false
+	      items: {},
+	      submenus: {}
 	    };
 	  },
 
 	  computed: {
 	    opened: function opened() {
-	      return this.rootMenu.openedMenus.indexOf(this.index) !== -1;
+	      return this.rootMenu.openedMenus.indexOf(this.index) > -1;
+	    },
+
+	    active: {
+	      cache: false,
+	      get: function get() {
+	        var isActive = false;
+	        var submenus = this.submenus;
+	        var items = this.items;
+
+	        Object.keys(items).forEach(function (index) {
+	          if (items[index].active) {
+	            isActive = true;
+	          }
+	        });
+
+	        Object.keys(submenus).forEach(function (index) {
+	          if (submenus[index].active) {
+	            isActive = true;
+	          }
+	        });
+
+	        return isActive;
+	      }
 	    }
 	  },
 	  methods: {
+	    addItem: function addItem(item) {
+	      this.$set(this.items, item.index, item);
+	    },
+	    removeItem: function removeItem(item) {
+	      delete this.items[item.index];
+	    },
+	    addSubmenu: function addSubmenu(item) {
+	      this.$set(this.submenus, item.index, item);
+	    },
+	    removeSubmenu: function removeSubmenu(item) {
+	      delete this.submenus[item.index];
+	    },
 	    handleClick: function handleClick() {
-	      this.rootMenu.handleSubmenuClick(this.index, this.indexPath);
+	      this.dispatch('ElMenu', 'submenu-click', this);
 	    },
 	    handleMouseenter: function handleMouseenter() {
 	      var _this = this;
@@ -221,14 +283,14 @@ module.exports =
 	    }
 	  },
 	  created: function created() {
-	    this.rootMenu.submenus[this.index] = this;
+	    this.parentMenu.addSubmenu(this);
+	    this.rootMenu.addSubmenu(this);
+	  },
+	  beforeDestroy: function beforeDestroy() {
+	    this.parentMenu.removeSubmenu(this);
+	    this.rootMenu.removeSubmenu(this);
 	  },
 	  mounted: function mounted() {
-	    var _this3 = this;
-
-	    this.$on('item-select', function (index, indexPath) {
-	      _this3.active = indexPath.indexOf(_this3.index) !== -1;
-	    });
 	    this.initEvents();
 	  }
 	}; //
@@ -253,10 +315,22 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
-/***/ 259:
+/***/ 261:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/transitions/collapse-transition");
+
+/***/ },
+
+/***/ 262:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -276,9 +350,9 @@ module.exports =
 	      'el-icon-arrow-down': _vm.rootMenu.mode === 'vertical',
 	        'el-icon-caret-bottom': _vm.rootMenu.mode === 'horizontal'
 	    }
-	  })], 2), _c('transition', {
+	  })], 2), (_vm.rootMenu.mode === 'horizontal') ? [_c('transition', {
 	    attrs: {
-	      "name": _vm.rootMenu.mode === 'horizontal' ? 'el-zoom-in-top' : ''
+	      "name": "el-zoom-in-top"
 	    }
 	  }, [_c('ul', {
 	    directives: [{
@@ -288,7 +362,15 @@ module.exports =
 	      expression: "opened"
 	    }],
 	    staticClass: "el-menu"
-	  }, [_vm._t("default")], 2)])], 1)
+	  }, [_vm._t("default")], 2)])] : _c('collapse-transition', [_c('ul', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (_vm.opened),
+	      expression: "opened"
+	    }],
+	    staticClass: "el-menu"
+	  }, [_vm._t("default")], 2)])], 2)
 	},staticRenderFns: []}
 
 /***/ }

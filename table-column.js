@@ -46,33 +46,33 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(283);
+	module.exports = __webpack_require__(286);
 
 
 /***/ },
 
-/***/ 145:
+/***/ 136:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 236:
+/***/ 238:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 271:
+/***/ 274:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 273:
+/***/ 276:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -176,14 +176,14 @@ module.exports =
 
 /***/ },
 
-/***/ 283:
+/***/ 286:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tableColumn = __webpack_require__(284);
+	var _tableColumn = __webpack_require__(287);
 
 	var _tableColumn2 = _interopRequireDefault(_tableColumn);
 
@@ -198,26 +198,26 @@ module.exports =
 
 /***/ },
 
-/***/ 284:
+/***/ 287:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(271);
+	var _checkbox = __webpack_require__(274);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(236);
+	var _tag = __webpack_require__(238);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _merge = __webpack_require__(145);
+	var _merge = __webpack_require__(136);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
-	var _util = __webpack_require__(273);
+	var _util = __webpack_require__(276);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -383,7 +383,7 @@ module.exports =
 	};
 
 	exports.default = {
-	  name: 'el-table-column',
+	  name: 'ElTableColumn',
 
 	  props: {
 	    type: {
@@ -625,11 +625,15 @@ module.exports =
 	    align: function align(newVal) {
 	      if (this.columnConfig) {
 	        this.columnConfig.align = newVal ? 'is-' + newVal : null;
+
+	        if (!this.headerAlign) {
+	          this.columnConfig.headerAlign = newVal ? 'is-' + newVal : null;
+	        }
 	      }
 	    },
 	    headerAlign: function headerAlign(newVal) {
 	      if (this.columnConfig) {
-	        this.columnConfig.headerAlign = newVal ? 'is-' + newVal : this.align;
+	        this.columnConfig.headerAlign = 'is-' + (newVal ? newVal : this.align);
 	      }
 	    },
 	    width: function width(newVal) {

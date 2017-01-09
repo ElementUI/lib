@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(176);
+	module.exports = __webpack_require__(177);
 
 
 /***/ },
@@ -65,14 +65,14 @@ module.exports =
 
 /***/ },
 
-/***/ 176:
+/***/ 177:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(177);
+	var _main = __webpack_require__(178);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -82,7 +82,7 @@ module.exports =
 
 /***/ },
 
-/***/ 177:
+/***/ 178:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -95,9 +95,11 @@ module.exports =
 
 	var _popup = __webpack_require__(104);
 
+	var _vdom = __webpack_require__(179);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var NotificationConstructor = _vue2.default.extend(__webpack_require__(178));
+	var NotificationConstructor = _vue2.default.extend(__webpack_require__(180));
 
 	var instance = void 0;
 	var instances = [];
@@ -116,6 +118,11 @@ module.exports =
 	  instance = new NotificationConstructor({
 	    data: options
 	  });
+
+	  if ((0, _vdom.isVNode)(options.message)) {
+	    instance.$slots.default = [options.message];
+	    options.message = '';
+	  }
 	  instance.id = id;
 	  instance.vm = instance.$mount();
 	  document.body.appendChild(instance.vm.$el);
@@ -136,7 +143,7 @@ module.exports =
 
 	['success', 'warning', 'info', 'error'].forEach(function (type) {
 	  Notification[type] = function (options) {
-	    if (typeof options === 'string') {
+	    if (typeof options === 'string' || (0, _vdom.isVNode)(options)) {
 	      options = {
 	        message: options
 	      };
@@ -172,17 +179,24 @@ module.exports =
 
 /***/ },
 
-/***/ 178:
+/***/ 179:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/vdom");
+
+/***/ },
+
+/***/ 180:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(179)
+	__vue_exports__ = __webpack_require__(181)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(180)
+	var __vue_template__ = __webpack_require__(182)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -202,7 +216,7 @@ module.exports =
 
 /***/ },
 
-/***/ 179:
+/***/ 181:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -315,7 +329,7 @@ module.exports =
 
 /***/ },
 
-/***/ 180:
+/***/ 182:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -351,7 +365,14 @@ module.exports =
 	    class: {
 	      'is-with-icon': _vm.typeClass || _vm.iconClass
 	    }
-	  }, [_c('span', [_vm._v(_vm._s(_vm.title))]), _c('p', [_vm._v(_vm._s(_vm.message))]), _c('div', {
+	  }, [_c('h2', {
+	    staticClass: "el-notification__title",
+	    domProps: {
+	      "textContent": _vm._s(_vm.title)
+	    }
+	  }), _c('div', {
+	    staticClass: "el-notification__content"
+	  }, [_vm._t("default", [_vm._v(_vm._s(_vm.message))])], 2), _c('div', {
 	    staticClass: "el-notification__closeBtn el-icon-close",
 	    on: {
 	      "click": _vm.close

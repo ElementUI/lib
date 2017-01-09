@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(217);
+	module.exports = __webpack_require__(219);
 
 
 /***/ },
@@ -58,14 +58,14 @@ module.exports =
 
 /***/ },
 
-/***/ 217:
+/***/ 219:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(218);
+	var _main = __webpack_require__(220);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 218:
+/***/ 220:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(219)
+	__vue_exports__ = __webpack_require__(221)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(220)
+	var __vue_template__ = __webpack_require__(222)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,7 +110,7 @@ module.exports =
 
 /***/ },
 
-/***/ 219:
+/***/ 221:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -120,7 +120,7 @@ module.exports =
 	var _dom = __webpack_require__(68);
 
 	exports.default = {
-	  name: 'el-rate',
+	  name: 'ElRate',
 
 	  data: function data() {
 	    return {
@@ -381,7 +381,7 @@ module.exports =
 
 /***/ },
 
-/***/ 220:
+/***/ 222:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

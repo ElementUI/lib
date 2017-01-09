@@ -122,7 +122,7 @@ module.exports =
 	//
 
 	exports.default = {
-	  name: 'el-card',
+	  name: 'ElCard',
 
 	  props: ['header', 'bodyStyle']
 	};

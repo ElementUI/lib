@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(264);
+	module.exports = __webpack_require__(267);
 
 
 /***/ },
 
-/***/ 264:
+/***/ 267:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tabPane = __webpack_require__(265);
+	var _tabPane = __webpack_require__(268);
 
 	var _tabPane2 = _interopRequireDefault(_tabPane);
 
@@ -73,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 265:
+/***/ 268:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(266)
+	__vue_exports__ = __webpack_require__(269)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(267)
+	var __vue_template__ = __webpack_require__(270)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,7 +103,7 @@ module.exports =
 
 /***/ },
 
-/***/ 266:
+/***/ 269:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -113,11 +113,11 @@ module.exports =
 	//
 	//
 	//
-	//
-	//
 
 	module.exports = {
-	  name: 'el-tab-pane',
+	  name: 'ElTabPane',
+
+	  componentName: 'ElTabPane',
 
 	  props: {
 	    label: String,
@@ -143,13 +143,14 @@ module.exports =
 	    }
 	  },
 
-	  created: function created() {
-	    this.$parent.$forceUpdate();
+	  mounted: function mounted() {
+	    this.$parent.addPanes(this);
 	  },
 	  destroyed: function destroyed() {
 	    if (this.$el && this.$el.parentNode) {
 	      this.$el.parentNode.removeChild(this.$el);
 	    }
+	    this.$parent.removePanes(this);
 	  },
 
 
@@ -162,21 +163,19 @@ module.exports =
 
 /***/ },
 
-/***/ 267:
+/***/ 270:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
-	    staticClass: "el-tab-pane"
-	  }, [_c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
 	      value: (_vm.active),
 	      expression: "active"
 	    }],
-	    staticClass: "el-tab-pane__content"
-	  }, [_vm._t("default")], 2)])
+	    staticClass: "el-tab-pane"
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ }

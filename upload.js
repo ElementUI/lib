@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(317);
+	module.exports = __webpack_require__(322);
 
 
 /***/ },
@@ -58,14 +58,14 @@ module.exports =
 
 /***/ },
 
-/***/ 317:
+/***/ 322:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _src = __webpack_require__(318);
+	var _src = __webpack_require__(323);
 
 	var _src2 = _interopRequireDefault(_src);
 
@@ -80,14 +80,14 @@ module.exports =
 
 /***/ },
 
-/***/ 318:
+/***/ 323:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(319)
+	__vue_exports__ = __webpack_require__(324)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -105,26 +105,26 @@ module.exports =
 
 /***/ },
 
-/***/ 319:
+/***/ 324:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _uploadList = __webpack_require__(320);
+	var _uploadList = __webpack_require__(325);
 
 	var _uploadList2 = _interopRequireDefault(_uploadList);
 
-	var _upload = __webpack_require__(324);
+	var _upload = __webpack_require__(329);
 
 	var _upload2 = _interopRequireDefault(_upload);
 
-	var _iframeUpload = __webpack_require__(331);
+	var _iframeUpload = __webpack_require__(336);
 
 	var _iframeUpload2 = _interopRequireDefault(_iframeUpload);
 
-	var _progress = __webpack_require__(322);
+	var _progress = __webpack_require__(327);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -133,7 +133,7 @@ module.exports =
 	function noop() {}
 
 	exports.default = {
-	  name: 'el-upload',
+	  name: 'ElUpload',
 
 	  components: {
 	    ElProgress: _progress2.default,
@@ -373,17 +373,17 @@ module.exports =
 
 /***/ },
 
-/***/ 320:
+/***/ 325:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(321)
+	__vue_exports__ = __webpack_require__(326)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(323)
+	var __vue_template__ = __webpack_require__(328)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -403,7 +403,7 @@ module.exports =
 
 /***/ },
 
-/***/ 321:
+/***/ 326:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -414,7 +414,7 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _progress = __webpack_require__(322);
+	var _progress = __webpack_require__(327);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -467,14 +467,14 @@ module.exports =
 
 /***/ },
 
-/***/ 322:
+/***/ 327:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/progress");
 
 /***/ },
 
-/***/ 323:
+/***/ 328:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -530,17 +530,17 @@ module.exports =
 
 /***/ },
 
-/***/ 324:
+/***/ 329:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(325)
+	__vue_exports__ = __webpack_require__(330)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(330)
+	var __vue_template__ = __webpack_require__(335)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -560,18 +560,18 @@ module.exports =
 
 /***/ },
 
-/***/ 325:
+/***/ 330:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _ajax = __webpack_require__(326);
+	var _ajax = __webpack_require__(331);
 
 	var _ajax2 = _interopRequireDefault(_ajax);
 
-	var _cover = __webpack_require__(327);
+	var _cover = __webpack_require__(332);
 
 	var _cover2 = _interopRequireDefault(_cover);
 
@@ -747,7 +747,7 @@ module.exports =
 
 /***/ },
 
-/***/ 326:
+/***/ 331:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -837,17 +837,17 @@ module.exports =
 
 /***/ },
 
-/***/ 327:
+/***/ 332:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(328)
+	__vue_exports__ = __webpack_require__(333)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(329)
+	var __vue_template__ = __webpack_require__(334)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -867,7 +867,7 @@ module.exports =
 
 /***/ },
 
-/***/ 328:
+/***/ 333:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -878,7 +878,7 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _progress = __webpack_require__(322);
+	var _progress = __webpack_require__(327);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -943,7 +943,7 @@ module.exports =
 
 /***/ },
 
-/***/ 329:
+/***/ 334:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1037,7 +1037,7 @@ module.exports =
 
 /***/ },
 
-/***/ 330:
+/***/ 335:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1085,14 +1085,14 @@ module.exports =
 
 /***/ },
 
-/***/ 331:
+/***/ 336:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(332)
+	__vue_exports__ = __webpack_require__(337)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -1110,14 +1110,14 @@ module.exports =
 
 /***/ },
 
-/***/ 332:
+/***/ 337:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _cover = __webpack_require__(327);
+	var _cover = __webpack_require__(332);
 
 	var _cover2 = _interopRequireDefault(_cover);
 

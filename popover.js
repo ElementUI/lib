@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(196);
+	module.exports = __webpack_require__(198);
 
 
 /***/ },
@@ -72,18 +72,18 @@ module.exports =
 
 /***/ },
 
-/***/ 196:
+/***/ 198:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(197);
+	var _main = __webpack_require__(199);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _directive = __webpack_require__(200);
+	var _directive = __webpack_require__(202);
 
 	var _directive2 = _interopRequireDefault(_directive);
 
@@ -106,17 +106,17 @@ module.exports =
 
 /***/ },
 
-/***/ 197:
+/***/ 199:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(198)
+	__vue_exports__ = __webpack_require__(200)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(199)
+	var __vue_template__ = __webpack_require__(201)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -136,7 +136,7 @@ module.exports =
 
 /***/ },
 
-/***/ 198:
+/***/ 200:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -170,7 +170,7 @@ module.exports =
 	//
 
 	exports.default = {
-	  name: 'el-popover',
+	  name: 'ElPopover',
 
 	  mixins: [_vuePopper2.default],
 
@@ -183,6 +183,7 @@ module.exports =
 	      }
 	    },
 	    title: String,
+	    disabled: Boolean,
 	    content: String,
 	    reference: {},
 	    popperClass: String,
@@ -291,7 +292,7 @@ module.exports =
 
 /***/ },
 
-/***/ 199:
+/***/ 201:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -306,8 +307,8 @@ module.exports =
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (_vm.showPopper),
-	      expression: "showPopper"
+	      value: (!_vm.disabled && _vm.showPopper),
+	      expression: "!disabled && showPopper"
 	    }],
 	    ref: "popper",
 	    staticClass: "el-popover",
@@ -325,7 +326,7 @@ module.exports =
 
 /***/ },
 
-/***/ 200:
+/***/ 202:
 /***/ function(module, exports) {
 
 	"use strict";

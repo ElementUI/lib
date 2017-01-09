@@ -117,7 +117,7 @@ module.exports =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
-	  name: 'el-dialog',
+	  name: 'ElDialog',
 
 	  mixins: [_popup2.default],
 

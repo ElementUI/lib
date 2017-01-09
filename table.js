@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(268);
+	module.exports = __webpack_require__(271);
 
 
 /***/ },
@@ -100,28 +100,28 @@ module.exports =
 
 /***/ },
 
-/***/ 227:
+/***/ 229:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/scrollbar-width");
 
 /***/ },
 
-/***/ 236:
+/***/ 238:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 268:
+/***/ 271:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _table = __webpack_require__(269);
+	var _table = __webpack_require__(272);
 
 	var _table2 = _interopRequireDefault(_table);
 
@@ -136,17 +136,17 @@ module.exports =
 
 /***/ },
 
-/***/ 269:
+/***/ 272:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(270)
+	__vue_exports__ = __webpack_require__(273)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(282)
+	var __vue_template__ = __webpack_require__(285)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -166,14 +166,14 @@ module.exports =
 
 /***/ },
 
-/***/ 270:
+/***/ 273:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(271);
+	var _checkbox = __webpack_require__(274);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -191,26 +191,28 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _tableStore = __webpack_require__(272);
+	var _tableStore = __webpack_require__(275);
 
 	var _tableStore2 = _interopRequireDefault(_tableStore);
 
-	var _tableLayout = __webpack_require__(274);
+	var _tableLayout = __webpack_require__(277);
 
 	var _tableLayout2 = _interopRequireDefault(_tableLayout);
 
-	var _tableBody = __webpack_require__(275);
+	var _tableBody = __webpack_require__(278);
 
 	var _tableBody2 = _interopRequireDefault(_tableBody);
 
-	var _tableHeader = __webpack_require__(276);
+	var _tableHeader = __webpack_require__(279);
 
 	var _tableHeader2 = _interopRequireDefault(_tableHeader);
 
-	var _util = __webpack_require__(273);
+	var _util = __webpack_require__(276);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
+	//
 	//
 	//
 	//
@@ -320,7 +322,7 @@ module.exports =
 	var tableIdSeed = 1;
 
 	exports.default = {
-	  name: 'el-table',
+	  name: 'ElTable',
 
 	  mixins: [_locale2.default],
 
@@ -368,7 +370,11 @@ module.exports =
 
 	    expandRowKeys: Array,
 
-	    defaultExpandAll: Boolean
+	    defaultExpandAll: Boolean,
+
+	    defaultSortProp: String,
+
+	    defaultSortOrder: String
 	  },
 
 	  components: {
@@ -578,14 +584,14 @@ module.exports =
 
 /***/ },
 
-/***/ 271:
+/***/ 274:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 272:
+/***/ 275:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -600,7 +606,7 @@ module.exports =
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _util = __webpack_require__(273);
+	var _util = __webpack_require__(276);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1100,7 +1106,7 @@ module.exports =
 
 /***/ },
 
-/***/ 273:
+/***/ 276:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1204,14 +1210,14 @@ module.exports =
 
 /***/ },
 
-/***/ 274:
+/***/ 277:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _scrollbarWidth = __webpack_require__(227);
+	var _scrollbarWidth = __webpack_require__(229);
 
 	var _scrollbarWidth2 = _interopRequireDefault(_scrollbarWidth);
 
@@ -1415,16 +1421,16 @@ module.exports =
 
 /***/ },
 
-/***/ 275:
+/***/ 278:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(273);
+	var _util = __webpack_require__(276);
 
-	var _checkbox = __webpack_require__(271);
+	var _checkbox = __webpack_require__(274);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -1463,18 +1469,22 @@ module.exports =
 	          cellpadding: '0',
 	          border: '0' }
 	      },
-	      [this._l(this.columns, function (column) {
-	        return h(
-	          'col',
-	          {
-	            attrs: {
-	              name: column.id,
-	              width: column.realWidth || column.width
-	            }
-	          },
-	          []
-	        );
-	      }), h(
+	      [h(
+	        'colgroup',
+	        null,
+	        [this._l(this.columns, function (column) {
+	          return h(
+	            'col',
+	            {
+	              attrs: {
+	                name: column.id,
+	                width: column.realWidth || column.width
+	              }
+	            },
+	            []
+	          );
+	        })]
+	      ), h(
 	        'tbody',
 	        null,
 	        [this._l(this.data, function (row, $index) {
@@ -1697,18 +1707,18 @@ module.exports =
 
 /***/ },
 
-/***/ 276:
+/***/ 279:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(271);
+	var _checkbox = __webpack_require__(274);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(236);
+	var _tag = __webpack_require__(238);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
@@ -1716,7 +1726,7 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _filterPanel = __webpack_require__(277);
+	var _filterPanel = __webpack_require__(280);
 
 	var _filterPanel2 = _interopRequireDefault(_filterPanel);
 
@@ -1787,7 +1797,7 @@ module.exports =
 	};
 
 	exports.default = {
-	  name: 'el-table-header',
+	  name: 'ElTableHeader',
 
 	  render: function render(h) {
 	    var _this = this;
@@ -1803,24 +1813,28 @@ module.exports =
 	          cellpadding: '0',
 	          border: '0' }
 	      },
-	      [this._l(this.columns, function (column) {
-	        return h(
+	      [h(
+	        'colgroup',
+	        null,
+	        [this._l(this.columns, function (column) {
+	          return h(
+	            'col',
+	            {
+	              attrs: {
+	                name: column.id,
+	                width: column.realWidth || column.width
+	              }
+	            },
+	            []
+	          );
+	        }), !this.fixed && this.layout.gutterWidth ? h(
 	          'col',
 	          {
-	            attrs: {
-	              name: column.id,
-	              width: column.realWidth || column.width
-	            }
+	            attrs: { name: 'gutter', width: this.layout.scrollY ? this.layout.gutterWidth : '' }
 	          },
 	          []
-	        );
-	      }), !this.fixed && this.layout.gutterWidth ? h(
-	        'col',
-	        {
-	          attrs: { name: 'gutter', width: this.layout.scrollY ? this.layout.gutterWidth : '' }
-	        },
-	        []
-	      ) : '', h(
+	        ) : '']
+	      ), h(
 	        'thead',
 	        null,
 	        [this._l(columnRows, function (columns, rowIndex) {
@@ -1854,24 +1868,19 @@ module.exports =
 	                  { 'class': ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : ''] },
 	                  [column.renderHeader ? column.renderHeader.call(_this._renderProxy, h, { column: column, $index: cellIndex, store: _this.store, _self: _this.$parent.$vnode.context }) : column.label, column.sortable ? h(
 	                    'span',
-	                    { 'class': 'caret-wrapper' },
+	                    { 'class': 'caret-wrapper', on: {
+	                        'click': function click($event) {
+	                          return _this.handleHeaderClick($event, column);
+	                        }
+	                      }
+	                    },
 	                    [h(
 	                      'i',
-	                      { 'class': 'sort-caret ascending', on: {
-	                          'click': function click($event) {
-	                            return _this.handleHeaderClick($event, column, 'ascending');
-	                          }
-	                        }
-	                      },
+	                      { 'class': 'sort-caret ascending' },
 	                      []
 	                    ), h(
 	                      'i',
-	                      { 'class': 'sort-caret descending', on: {
-	                          'click': function click($event) {
-	                            return _this.handleHeaderClick($event, column, 'descending');
-	                          }
-	                        }
-	                      },
+	                      { 'class': 'sort-caret descending' },
 	                      []
 	                    )]
 	                  ) : '', column.filterable ? h(
@@ -1910,7 +1919,12 @@ module.exports =
 	    layout: {
 	      required: true
 	    },
-	    border: Boolean
+	    border: Boolean,
+	    defaultSortProp: String,
+	    defaultSortOrder: {
+	      type: String,
+	      default: 'ascending'
+	    }
 	  },
 
 	  components: {
@@ -1938,6 +1952,24 @@ module.exports =
 
 	  created: function created() {
 	    this.filterPanels = {};
+	  },
+	  mounted: function mounted() {
+	    var _this2 = this;
+
+	    var states = this.store.states;
+	    states.sortProp = this.defaultSortProp;
+	    states.sortOrder = this.defaultSortOrder;
+
+	    this.$nextTick(function (_) {
+	      for (var i = 0, length = _this2.columns.length; i < length; i++) {
+	        if (_this2.columns[i].property === _this2.defaultSortProp) {
+	          _this2.columns[i].order = _this2.defaultSortOrder;
+	          break;
+	        }
+	      }
+
+	      _this2.store.commit('changeSortCondition');
+	    });
 	  },
 	  beforeDestroy: function beforeDestroy() {
 	    var panels = this.filterPanels;
@@ -1993,34 +2025,34 @@ module.exports =
 	      this.$parent.$emit('header-click', column, event);
 	    },
 	    handleMouseDown: function handleMouseDown(event, column) {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      if (this.$isServer) return;
 	      if (column.children && column.children.length > 0) return;
 	      /* istanbul ignore if */
 	      if (this.draggingColumn && this.border) {
 	        (function () {
-	          _this2.dragging = true;
+	          _this3.dragging = true;
 
-	          _this2.$parent.resizeProxyVisible = true;
+	          _this3.$parent.resizeProxyVisible = true;
 
-	          var tableEl = _this2.$parent.$el;
+	          var tableEl = _this3.$parent.$el;
 	          var tableLeft = tableEl.getBoundingClientRect().left;
-	          var columnEl = _this2.$el.querySelector('th.' + column.id);
+	          var columnEl = _this3.$el.querySelector('th.' + column.id);
 	          var columnRect = columnEl.getBoundingClientRect();
 	          var minLeft = columnRect.left - tableLeft + 30;
 
 	          columnEl.classList.add('noclick');
 
-	          _this2.dragState = {
+	          _this3.dragState = {
 	            startMouseLeft: event.clientX,
 	            startLeft: columnRect.right - tableLeft,
 	            startColumnLeft: columnRect.left - tableLeft,
 	            tableLeft: tableLeft
 	          };
 
-	          var resizeProxy = _this2.$parent.$refs.resizeProxy;
-	          resizeProxy.style.left = _this2.dragState.startLeft + 'px';
+	          var resizeProxy = _this3.$parent.$refs.resizeProxy;
+	          resizeProxy.style.left = _this3.dragState.startLeft + 'px';
 
 	          document.onselectstart = function () {
 	            return false;
@@ -2030,26 +2062,26 @@ module.exports =
 	          };
 
 	          var handleMouseMove = function handleMouseMove(event) {
-	            var deltaLeft = event.clientX - _this2.dragState.startMouseLeft;
-	            var proxyLeft = _this2.dragState.startLeft + deltaLeft;
+	            var deltaLeft = event.clientX - _this3.dragState.startMouseLeft;
+	            var proxyLeft = _this3.dragState.startLeft + deltaLeft;
 
 	            resizeProxy.style.left = Math.max(minLeft, proxyLeft) + 'px';
 	          };
 
 	          var handleMouseUp = function handleMouseUp() {
-	            if (_this2.dragging) {
+	            if (_this3.dragging) {
 	              var finalLeft = parseInt(resizeProxy.style.left, 10);
-	              var columnWidth = finalLeft - _this2.dragState.startColumnLeft;
+	              var columnWidth = finalLeft - _this3.dragState.startColumnLeft;
 	              column.width = column.realWidth = columnWidth;
 
-	              _this2.store.scheduleLayout();
+	              _this3.store.scheduleLayout();
 
 	              document.body.style.cursor = '';
-	              _this2.dragging = false;
-	              _this2.draggingColumn = null;
-	              _this2.dragState = {};
+	              _this3.dragging = false;
+	              _this3.draggingColumn = null;
+	              _this3.dragState = {};
 
-	              _this2.$parent.resizeProxyVisible = false;
+	              _this3.$parent.resizeProxyVisible = false;
 	            }
 
 	            document.removeEventListener('mousemove', handleMouseMove);
@@ -2093,7 +2125,15 @@ module.exports =
 	      if (this.$isServer) return;
 	      document.body.style.cursor = '';
 	    },
-	    handleHeaderClick: function handleHeaderClick(event, column, order) {
+	    toggleOrder: function toggleOrder(column) {
+	      if (column.order === 'ascending') {
+	        return 'descending';
+	      }
+	      return 'ascending';
+	    },
+	    handleHeaderClick: function handleHeaderClick(event, column) {
+	      var order = this.toggleOrder(column);
+
 	      var target = event.target;
 	      while (target && target.tagName !== 'TH') {
 	        target = target.parentNode;
@@ -2147,17 +2187,17 @@ module.exports =
 
 /***/ },
 
-/***/ 277:
+/***/ 280:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(278)
+	__vue_exports__ = __webpack_require__(281)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(281)
+	var __vue_template__ = __webpack_require__(284)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -2177,7 +2217,7 @@ module.exports =
 
 /***/ },
 
-/***/ 278:
+/***/ 281:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2196,15 +2236,15 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _dropdown = __webpack_require__(279);
+	var _dropdown = __webpack_require__(282);
 
 	var _dropdown2 = _interopRequireDefault(_dropdown);
 
-	var _checkbox = __webpack_require__(271);
+	var _checkbox = __webpack_require__(274);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _checkboxGroup = __webpack_require__(280);
+	var _checkboxGroup = __webpack_require__(283);
 
 	var _checkboxGroup2 = _interopRequireDefault(_checkboxGroup);
 
@@ -2244,7 +2284,7 @@ module.exports =
 	//
 
 	exports.default = {
-	  name: 'el-table-filter-panel',
+	  name: 'ElTableFilterPanel',
 
 	  mixins: [_vuePopper2.default, _locale2.default],
 
@@ -2406,7 +2446,7 @@ module.exports =
 
 /***/ },
 
-/***/ 279:
+/***/ 282:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2448,14 +2488,14 @@ module.exports =
 
 /***/ },
 
-/***/ 280:
+/***/ 283:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox-group");
 
 /***/ },
 
-/***/ 281:
+/***/ 284:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2551,7 +2591,7 @@ module.exports =
 
 /***/ },
 
-/***/ 282:
+/***/ 285:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2583,7 +2623,9 @@ module.exports =
 	    attrs: {
 	      "store": _vm.store,
 	      "layout": _vm.layout,
-	      "border": _vm.border
+	      "border": _vm.border,
+	      "default-sort-prop": _vm.defaultSortProp,
+	      "default-sort-order": _vm.defaultSortOrder
 	    }
 	  })], 1) : _vm._e(), _c('div', {
 	    ref: "bodyWrapper",

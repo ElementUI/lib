@@ -46,26 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(130);
+	module.exports = __webpack_require__(132);
 
 
 /***/ },
 
-/***/ 14:
+/***/ 13:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 130:
+/***/ 132:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _input = __webpack_require__(131);
+	var _input = __webpack_require__(133);
 
 	var _input2 = _interopRequireDefault(_input);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 131:
+/***/ 133:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(132)
+	__vue_exports__ = __webpack_require__(134)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(134)
+	var __vue_template__ = __webpack_require__(137)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,18 +110,18 @@ module.exports =
 
 /***/ },
 
-/***/ 132:
+/***/ 134:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(13);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _calcTextareaHeight = __webpack_require__(133);
+	var _calcTextareaHeight = __webpack_require__(135);
 
 	var _calcTextareaHeight2 = _interopRequireDefault(_calcTextareaHeight);
 
@@ -215,6 +215,7 @@ module.exports =
 	    value: [String, Number],
 	    placeholder: String,
 	    size: String,
+	    resize: String,
 	    readonly: Boolean,
 	    autofocus: Boolean,
 	    icon: String,
@@ -278,7 +279,10 @@ module.exports =
 	      var minRows = autosize.minRows;
 	      var maxRows = autosize.maxRows;
 
-	      this.textareaStyle = (0, _calcTextareaHeight2.default)(this.$refs.textarea, minRows, maxRows);
+	      var options = {
+	        resize: this.resize
+	      };
+	      this.textareaStyle = (0, _calcTextareaHeight2.default)(this.$refs.textarea, minRows, maxRows, options);
 	    },
 	    handleFocus: function handleFocus(event) {
 	      this.$emit('focus', event);
@@ -315,13 +319,20 @@ module.exports =
 
 /***/ },
 
-/***/ 133:
-/***/ function(module, exports) {
+/***/ 135:
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 	exports.default = calcTextareaHeight;
+
+	var _merge = __webpack_require__(136);
+
+	var _merge2 = _interopRequireDefault(_merge);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var hiddenTextarea = void 0;
 
 	var HIDDEN_STYLE = '\n  height:0 !important;\n  visibility:hidden !important;\n  overflow:hidden !important;\n  position:absolute !important;\n  z-index:-1000 !important;\n  top:0 !important;\n  right:0 !important\n';
@@ -347,6 +358,7 @@ module.exports =
 	function calcTextareaHeight(targetNode) {
 	  var minRows = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 	  var maxRows = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+	  var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
 
 	  if (!hiddenTextarea) {
 	    hiddenTextarea = document.createElement('textarea');
@@ -388,12 +400,19 @@ module.exports =
 	    height = Math.min(maxHeight, height);
 	  }
 
-	  return { height: height + 'px' };
+	  return (0, _merge2.default)({ height: height + 'px' }, options);
 	};
 
 /***/ },
 
-/***/ 134:
+/***/ 136:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/merge");
+
+/***/ },
+
+/***/ 137:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

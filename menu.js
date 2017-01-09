@@ -46,26 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(146);
+	module.exports = __webpack_require__(148);
 
 
 /***/ },
 
-/***/ 14:
+/***/ 13:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 146:
+/***/ 148:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _menu = __webpack_require__(147);
+	var _menu = __webpack_require__(149);
 
 	var _menu2 = _interopRequireDefault(_menu);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 147:
+/***/ 149:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(148)
+	__vue_exports__ = __webpack_require__(150)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(149)
+	var __vue_template__ = __webpack_require__(151)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,14 +110,14 @@ module.exports =
 
 /***/ },
 
-/***/ 148:
+/***/ 150:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(13);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -153,27 +153,38 @@ module.exports =
 	  },
 	  data: function data() {
 	    return {
-	      activeIndex: this.defaultActive,
+	      activedIndex: this.defaultActive,
 	      openedMenus: this.defaultOpeneds ? this.defaultOpeneds.slice(0) : [],
-	      menuItems: {},
+	      items: {},
 	      submenus: {}
 	    };
 	  },
 
 	  watch: {
 	    defaultActive: function defaultActive(value) {
-	      this.activeIndex = value;
-	      if (!this.menuItems[value]) return;
-	      var menuItem = this.menuItems[value];
-	      var indexPath = menuItem.indexPath;
+	      var item = this.items[value];
+	      if (!item) return;
 
-	      this.handleSelect(value, indexPath, null, menuItem);
+	      this.activedIndex = item.index;
+	      this.initOpenedMenu();
 	    },
 	    defaultOpeneds: function defaultOpeneds(value) {
 	      this.openedMenus = value;
 	    }
 	  },
 	  methods: {
+	    addItem: function addItem(item) {
+	      this.$set(this.items, item.index, item);
+	    },
+	    removeItem: function removeItem(item) {
+	      delete this.items[item.index];
+	    },
+	    addSubmenu: function addSubmenu(item) {
+	      this.$set(this.submenus, item.index, item);
+	    },
+	    removeSubmenu: function removeSubmenu(item) {
+	      delete this.submenus[item.index];
+	    },
 	    openMenu: function openMenu(index, indexPath) {
 	      var openedMenus = this.openedMenus;
 	      if (openedMenus.indexOf(index) !== -1) return;
@@ -188,7 +199,10 @@ module.exports =
 	    closeMenu: function closeMenu(index, indexPath) {
 	      this.openedMenus.splice(this.openedMenus.indexOf(index), 1);
 	    },
-	    handleSubmenuClick: function handleSubmenuClick(index, indexPath) {
+	    handleSubmenuClick: function handleSubmenuClick(submenu) {
+	      var index = submenu.index,
+	          indexPath = submenu.indexPath;
+
 	      var isOpened = this.openedMenus.indexOf(index) !== -1;
 
 	      if (isOpened) {
@@ -199,52 +213,51 @@ module.exports =
 	        this.$emit('open', index, indexPath);
 	      }
 	    },
-	    handleSelect: function handleSelect(index, indexPath, route, instance) {
-	      this.activeIndex = index;
-	      this.$emit('select', index, indexPath, instance);
+	    handleItemClick: function handleItemClick(item) {
+	      var index = item.index,
+	          indexPath = item.indexPath;
+
+	      this.activedIndex = item.index;
+	      this.$emit('select', index, indexPath, item);
 
 	      if (this.mode === 'horizontal') {
-	        this.broadcast('ElSubmenu', 'item-select', [index, indexPath]);
 	        this.openedMenus = [];
-	      } else {
-	        this.openActiveItemMenus();
 	      }
 
-	      if (this.router && route) {
-	        try {
-	          this.$router.push(route);
-	        } catch (e) {
-	          console.error(e);
-	        }
+	      if (this.router) {
+	        this.routeToItem(item);
 	      }
 	    },
-	    openActiveItemMenus: function openActiveItemMenus() {
+
+	    // 初始化展开菜单
+	    initOpenedMenu: function initOpenedMenu() {
 	      var _this = this;
 
-	      var index = this.activeIndex;
-	      // 选中用户指定的路由对应的menu
-	      if (this.router) {
-	        var userSpecifiedIndexs = Object.keys(this.menuItems).filter(function (k) {
-	          return _this.menuItems[k].route;
-	        }).filter(function (k) {
-	          return _this.menuItems[k].route.path === _this.$route.path;
-	        });
-	        userSpecifiedIndexs.length && (index = this.activeIndex = userSpecifiedIndexs[0]);
-	      }
-	      if (!this.menuItems[index]) return;
-	      if (index && this.mode === 'vertical') {
-	        var indexPath = this.menuItems[index].indexPath;
+	      var index = this.activedIndex;
+	      var activeItem = this.items[index];
+	      if (!activeItem || this.mode === 'horizontal') return;
 
-	        // 展开该菜单项的路径上所有子菜单
-	        indexPath.forEach(function (index) {
-	          var submenu = _this.submenus[index];
-	          submenu && _this.openMenu(index, submenu.indexPath);
-	        });
+	      var indexPath = activeItem.indexPath;
+
+	      // 展开该菜单项的路径上所有子菜单
+	      indexPath.forEach(function (index) {
+	        var submenu = _this.submenus[index];
+	        submenu && _this.openMenu(index, submenu.indexPath);
+	      });
+	    },
+	    routeToItem: function routeToItem(item) {
+	      var route = item.route || item.index;
+	      try {
+	        this.$router.push(route);
+	      } catch (e) {
+	        console.error(e);
 	      }
 	    }
 	  },
 	  mounted: function mounted() {
-	    this.openActiveItemMenus();
+	    this.initOpenedMenu();
+	    this.$on('item-click', this.handleItemClick);
+	    this.$on('submenu-click', this.handleSubmenuClick);
 	  }
 	}; //
 	//
@@ -259,7 +272,7 @@ module.exports =
 
 /***/ },
 
-/***/ 149:
+/***/ 151:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

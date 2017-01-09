@@ -58,7 +58,7 @@ module.exports =
 
 /***/ },
 
-/***/ 14:
+/***/ 13:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
@@ -123,9 +123,17 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(13);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
+
+	var _button = __webpack_require__(109);
+
+	var _button2 = _interopRequireDefault(_button);
+
+	var _buttonGroup = __webpack_require__(110);
+
+	var _buttonGroup2 = _interopRequireDefault(_buttonGroup);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -137,6 +145,11 @@ module.exports =
 	  mixins: [_emitter2.default],
 
 	  directives: { Clickoutside: _clickoutside2.default },
+
+	  components: {
+	    ElButton: _button2.default,
+	    ElButtonGroup: _buttonGroup2.default
+	  },
 
 	  props: {
 	    trigger: {
@@ -271,6 +284,20 @@ module.exports =
 	    );
 	  }
 	};
+
+/***/ },
+
+/***/ 109:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/button");
+
+/***/ },
+
+/***/ 110:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/button-group");
 
 /***/ }
 

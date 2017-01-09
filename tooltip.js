@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(302);
+	module.exports = __webpack_require__(308);
 
 
 /***/ },
@@ -58,14 +58,14 @@ module.exports =
 
 /***/ },
 
-/***/ 302:
+/***/ 308:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(303);
+	var _main = __webpack_require__(309);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 303:
+/***/ 309:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(304)
+	__vue_exports__ = __webpack_require__(310)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(305)
+	var __vue_template__ = __webpack_require__(311)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,7 +110,7 @@ module.exports =
 
 /***/ },
 
-/***/ 304:
+/***/ 310:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -124,7 +124,7 @@ module.exports =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
-	  name: 'el-tooltip',
+	  name: 'ElTooltip',
 
 	  mixins: [_vuePopper2.default],
 
@@ -197,7 +197,7 @@ module.exports =
 
 /***/ },
 
-/***/ 305:
+/***/ 311:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

@@ -127,7 +127,7 @@ module.exports =
 	  'error': 'el-icon-circle-cross'
 	};
 	exports.default = {
-	  name: 'el-alert',
+	  name: 'ElAlert',
 
 	  props: {
 	    title: {

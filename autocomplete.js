@@ -122,12 +122,13 @@ module.exports =
 
 	var _autocompleteSuggestions2 = _interopRequireDefault(_autocompleteSuggestions);
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(13);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
 	//
 	//
 	//
@@ -164,6 +165,8 @@ module.exports =
 
 	  mixins: [_emitter2.default],
 
+	  componentName: 'ElAutocomplete',
+
 	  components: {
 	    ElInput: _input2.default,
 	    ElAutocompleteSuggestions: _autocompleteSuggestions2.default
@@ -178,6 +181,7 @@ module.exports =
 	    name: String,
 	    size: String,
 	    value: String,
+	    autofocus: Boolean,
 	    fetchSuggestions: Function,
 	    triggerOnFocus: {
 	      type: Boolean,
@@ -187,58 +191,72 @@ module.exports =
 	  },
 	  data: function data() {
 	    return {
+	      isFocus: false,
 	      suggestions: [],
-	      suggestionVisible: false,
 	      loading: false,
 	      highlightedIndex: -1
 	    };
 	  },
 
+	  computed: {
+	    suggestionVisible: function suggestionVisible() {
+	      var suggestions = this.suggestions;
+	      var isValidData = Array.isArray(suggestions) && suggestions.length > 0;
+	      return (isValidData || this.loading) && this.isFocus;
+	    }
+	  },
 	  watch: {
 	    suggestionVisible: function suggestionVisible(val) {
 	      this.broadcast('ElAutocompleteSuggestions', 'visible', [val, this.$refs.input.$refs.input.offsetWidth]);
 	    }
 	  },
 	  methods: {
+	    getData: function getData(queryString) {
+	      var _this = this;
+
+	      this.loading = true;
+	      this.fetchSuggestions(queryString, function (suggestions) {
+	        _this.loading = false;
+	        if (Array.isArray(suggestions)) {
+	          _this.suggestions = suggestions;
+	        } else {
+	          console.error('autocomplete suggestions must be an array');
+	        }
+	      });
+	    },
 	    handleChange: function handleChange(value) {
 	      this.$emit('input', value);
-	      this.showSuggestions(value);
+	      this.getData(value);
 	    },
 	    handleFocus: function handleFocus() {
+	      this.isFocus = true;
 	      if (this.triggerOnFocus) {
-	        this.showSuggestions(this.value);
+	        this.getData(this.value);
 	      }
 	    },
 	    handleBlur: function handleBlur() {
-	      this.hideSuggestions();
-	    },
-	    select: function select(index) {
-	      var _this = this;
-
-	      if (this.suggestions && this.suggestions[index]) {
-	        this.$emit('input', this.suggestions[index].value);
-	        this.$emit('select', this.suggestions[index]);
-	        this.$nextTick(function () {
-	          _this.hideSuggestions();
-	        });
-	      }
-	    },
-	    hideSuggestions: function hideSuggestions() {
-	      this.suggestionVisible = false;
-	      this.loading = false;
-	    },
-	    showSuggestions: function showSuggestions(value) {
 	      var _this2 = this;
 
-	      this.suggestionVisible = true;
-	      this.loading = true;
-	      this.fetchSuggestions(value, function (suggestions) {
-	        _this2.loading = false;
-	        if (Array.isArray(suggestions) && suggestions.length > 0) {
-	          _this2.suggestions = suggestions;
-	        } else {
-	          _this2.hideSuggestions();
-	        }
+	      // 因为 blur 事件处理优先于 select 事件执行
+	      setTimeout(function (_) {
+	        _this2.isFocus = false;
+	      }, 100);
+	    },
+	    handleKeyEnter: function handleKeyEnter() {
+	      if (this.suggestionVisible) {
+	        this.select(this.suggestions[this.highlightedIndex]);
+	      }
+	    },
+	    handleClickoutside: function handleClickoutside() {
+	      this.isFocus = false;
+	    },
+	    select: function select(item) {
+	      var _this3 = this;
+
+	      this.$emit('input', item.value);
+	      this.$emit('select', item);
+	      this.$nextTick(function (_) {
+	        _this3.suggestions = [];
 	      });
 	    },
 	    highlight: function highlight(index) {
@@ -265,6 +283,13 @@ module.exports =
 
 	      this.highlightedIndex = index;
 	    }
+	  },
+	  mounted: function mounted() {
+	    var _this4 = this;
+
+	    this.$on('item-click', function (item) {
+	      _this4.select(item);
+	    });
 	  },
 	  beforeDestroy: function beforeDestroy() {
 	    this.$refs.suggestions.$destroy();
@@ -294,7 +319,7 @@ module.exports =
 	__vue_exports__ = __webpack_require__(11)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(13)
+	var __vue_template__ = __webpack_require__(14)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -324,10 +349,44 @@ module.exports =
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
+	var _emitter = __webpack_require__(13);
+
+	var _emitter2 = _interopRequireDefault(_emitter);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
 	exports.default = {
-	  mixins: [_vuePopper2.default],
+	  mixins: [_vuePopper2.default, _emitter2.default],
 
 	  componentName: 'ElAutocompleteSuggestions',
 
@@ -351,6 +410,12 @@ module.exports =
 	    }
 	  },
 
+	  methods: {
+	    select: function select(item) {
+	      this.dispatch('ElAutocomplete', 'item-click', item);
+	    }
+	  },
+
 	  mounted: function mounted() {
 	    this.popperElm = this.$el;
 	    this.referenceElm = this.$parent.$refs.input.$refs.input;
@@ -363,35 +428,7 @@ module.exports =
 	      _this.showPopper = val;
 	    });
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 /* 12 */
@@ -401,6 +438,12 @@ module.exports =
 
 /***/ },
 /* 13 */
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ },
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -434,7 +477,7 @@ module.exports =
 	      },
 	      on: {
 	        "click": function($event) {
-	          _vm.parent.select(index)
+	          _vm.select(item)
 	        }
 	      }
 	    }, [_vm._v("\n        " + _vm._s(item.value) + "\n      ")]) : _c(_vm.parent.customItem, {
@@ -448,18 +491,12 @@ module.exports =
 	      },
 	      on: {
 	        "click": function($event) {
-	          _vm.parent.select(index)
+	          _vm.select(item)
 	        }
 	      }
 	    })]
 	  })], 2)])
 	},staticRenderFns: []}
-
-/***/ },
-/* 14 */
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 /* 15 */
@@ -470,8 +507,8 @@ module.exports =
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
-	      value: (_vm.handleBlur),
-	      expression: "handleBlur"
+	      value: (_vm.handleClickoutside),
+	      expression: "handleClickoutside"
 	    }],
 	    staticClass: "el-autocomplete"
 	  }, [_c('el-input', {
@@ -485,7 +522,8 @@ module.exports =
 	    },
 	    on: {
 	      "change": _vm.handleChange,
-	      "focus": _vm.handleFocus
+	      "focus": _vm.handleFocus,
+	      "blur": _vm.handleBlur
 	    },
 	    nativeOn: {
 	      "keydown": [function($event) {
@@ -497,7 +535,7 @@ module.exports =
 	      }, function($event) {
 	        if (_vm._k($event.keyCode, "enter", 13)) { return; }
 	        $event.stopPropagation();
-	        _vm.select(_vm.highlightedIndex)
+	        _vm.handleKeyEnter($event)
 	      }]
 	    }
 	  }, [(_vm.$slots.prepend) ? _c('template', {

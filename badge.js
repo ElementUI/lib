@@ -125,7 +125,7 @@ module.exports =
 	//
 
 	exports.default = {
-	  name: 'el-badge',
+	  name: 'ElBadge',
 
 	  props: {
 	    value: {},

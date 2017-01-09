@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(230);
+	module.exports = __webpack_require__(232);
 
 
 /***/ },
@@ -72,7 +72,7 @@ module.exports =
 
 /***/ },
 
-/***/ 14:
+/***/ 13:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
@@ -114,24 +114,31 @@ module.exports =
 
 /***/ },
 
-/***/ 174:
+/***/ 136:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/merge");
+
+/***/ },
+
+/***/ 175:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 182:
+/***/ 184:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(183)
+	__vue_exports__ = __webpack_require__(185)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(184)
+	var __vue_template__ = __webpack_require__(186)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -151,14 +158,14 @@ module.exports =
 
 /***/ },
 
-/***/ 183:
+/***/ 185:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(13);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -167,7 +174,7 @@ module.exports =
 	exports.default = {
 	  mixins: [_emitter2.default],
 
-	  name: 'el-option',
+	  name: 'ElOption',
 
 	  componentName: 'ElOption',
 
@@ -229,10 +236,10 @@ module.exports =
 
 	  watch: {
 	    currentLabel: function currentLabel() {
-	      this.dispatch('ElSelect', 'setSelected');
+	      if (!this.created) this.dispatch('ElSelect', 'setSelected');
 	    },
 	    value: function value() {
-	      this.dispatch('ElSelect', 'setSelected');
+	      if (!this.created) this.dispatch('ElSelect', 'setSelected');
 	    }
 	  },
 
@@ -301,7 +308,7 @@ module.exports =
 
 /***/ },
 
-/***/ 184:
+/***/ 186:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -330,14 +337,14 @@ module.exports =
 
 /***/ },
 
-/***/ 230:
+/***/ 232:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _select = __webpack_require__(231);
+	var _select = __webpack_require__(233);
 
 	var _select2 = _interopRequireDefault(_select);
 
@@ -352,17 +359,17 @@ module.exports =
 
 /***/ },
 
-/***/ 231:
+/***/ 233:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(232)
+	__vue_exports__ = __webpack_require__(234)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(237)
+	var __vue_template__ = __webpack_require__(239)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -382,14 +389,14 @@ module.exports =
 
 /***/ },
 
-/***/ 232:
+/***/ 234:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(13);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -401,15 +408,15 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _selectDropdown = __webpack_require__(233);
+	var _selectDropdown = __webpack_require__(235);
 
 	var _selectDropdown2 = _interopRequireDefault(_selectDropdown);
 
-	var _option = __webpack_require__(182);
+	var _option = __webpack_require__(184);
 
 	var _option2 = _interopRequireDefault(_option);
 
-	var _tag = __webpack_require__(236);
+	var _tag = __webpack_require__(238);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
@@ -429,103 +436,105 @@ module.exports =
 
 	var _resizeEvent = __webpack_require__(45);
 
-	var _locale3 = __webpack_require__(174);
+	var _locale3 = __webpack_require__(175);
+
+	var _merge = __webpack_require__(136);
+
+	var _merge2 = _interopRequireDefault(_merge);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	var sizeMap = {
 	  'large': 42,
 	  'small': 30,
 	  'mini': 22
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  mixins: [_emitter2.default, _locale2.default],
@@ -611,6 +620,8 @@ module.exports =
 	    return {
 	      options: [],
 	      cachedOptions: [],
+	      createdOption: null,
+	      createdSelected: false,
 	      selected: this.multiple ? [] : {},
 	      isSelect: true,
 	      inputLength: 20,
@@ -696,7 +707,11 @@ module.exports =
 	        if (!this.multiple) {
 	          this.getOverflows();
 	          if (this.selected) {
-	            this.selectedLabel = this.selected.currentLabel;
+	            if (this.filterable && this.allowCreate && this.createdSelected && this.createdOption) {
+	              this.selectedLabel = this.createdOption.currentLabel;
+	            } else {
+	              this.selectedLabel = this.selected.currentLabel;
+	            }
 	            if (this.filterable) this.query = this.selectedLabel;
 	          }
 	        }
@@ -792,8 +807,15 @@ module.exports =
 
 	      if (!this.multiple) {
 	        var option = this.getOption(this.value);
+	        if (option.created) {
+	          this.createdOption = (0, _merge2.default)({}, option);
+	          this.createdSelected = true;
+	        } else {
+	          this.createdSelected = false;
+	        }
 	        this.selectedLabel = option.currentLabel;
 	        this.selected = option;
+	        if (this.filterable) this.query = this.selectedLabel;
 	        return;
 	      }
 	      var result = [];
@@ -803,6 +825,9 @@ module.exports =
 	        });
 	      }
 	      this.selected = result;
+	      this.$nextTick(function () {
+	        _this5.resetInputHeight();
+	      });
 	    },
 	    handleIconClick: function handleIconClick(event) {
 	      if (this.iconClass.indexOf('circle-close') > -1) {
@@ -1032,17 +1057,17 @@ module.exports =
 
 /***/ },
 
-/***/ 233:
+/***/ 235:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(234)
+	__vue_exports__ = __webpack_require__(236)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(235)
+	var __vue_template__ = __webpack_require__(237)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -1062,7 +1087,7 @@ module.exports =
 
 /***/ },
 
-/***/ 234:
+/***/ 236:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1076,7 +1101,7 @@ module.exports =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
-	  name: 'el-select-dropdown',
+	  name: 'ElSelectDropdown',
 
 	  componentName: 'ElSelectDropdown',
 
@@ -1138,7 +1163,7 @@ module.exports =
 
 /***/ },
 
-/***/ 235:
+/***/ 237:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1155,14 +1180,14 @@ module.exports =
 
 /***/ },
 
-/***/ 236:
+/***/ 238:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 237:
+/***/ 239:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(260);
+	module.exports = __webpack_require__(263);
 
 
 /***/ },
 
-/***/ 260:
+/***/ 263:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _component = __webpack_require__(261);
+	var _component = __webpack_require__(264);
 
 	var _component2 = _interopRequireDefault(_component);
 
@@ -73,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 261:
+/***/ 264:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(262)
+	__vue_exports__ = __webpack_require__(265)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(263)
+	var __vue_template__ = __webpack_require__(266)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,7 +103,7 @@ module.exports =
 
 /***/ },
 
-/***/ 262:
+/***/ 265:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -145,7 +145,7 @@ module.exports =
 	//
 
 	exports.default = {
-	  name: 'el-switch',
+	  name: 'ElSwitch',
 	  props: {
 	    value: {
 	      type: Boolean,
@@ -247,7 +247,7 @@ module.exports =
 
 /***/ },
 
-/***/ 263:
+/***/ 266:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

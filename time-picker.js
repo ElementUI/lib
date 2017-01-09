@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(292);
+	module.exports = __webpack_require__(298);
 
 
 /***/ },
@@ -72,7 +72,7 @@ module.exports =
 
 /***/ },
 
-/***/ 14:
+/***/ 13:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
@@ -130,7 +130,7 @@ module.exports =
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(13);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -337,7 +337,7 @@ module.exports =
 	    return {
 	      pickerVisible: false,
 	      showClose: false,
-	      internalValue: ''
+	      currentValue: ''
 	    };
 	  },
 
@@ -347,17 +347,23 @@ module.exports =
 	      if (this.readonly || this.disabled) return;
 	      val ? this.showPicker() : this.hidePicker();
 	    },
-	    internalValue: function internalValue(val) {
-	      if (!val && this.picker && typeof this.picker.handleClear === 'function') {
+	    currentValue: function currentValue(val) {
+	      if (val) return;
+	      if (this.picker && typeof this.picker.handleClear === 'function') {
 	        this.picker.handleClear();
+	      } else {
+	        this.$emit('input');
 	      }
 	    },
 
 	    value: {
 	      immediate: true,
 	      handler: function handler(val) {
-	        this.internalValue = val;
+	        this.currentValue = (0, _util.isDate)(val) ? new Date(val) : val;
 	      }
+	    },
+	    displayValue: function displayValue(val) {
+	      this.$emit('change', val);
 	    }
 	  },
 
@@ -370,7 +376,7 @@ module.exports =
 	      return {};
 	    },
 	    valueIsEmpty: function valueIsEmpty() {
-	      var val = this.internalValue;
+	      var val = this.currentValue;
 	      if (Array.isArray(val)) {
 	        for (var i = 0, len = val.length; i < len; i++) {
 	          if (val[i]) {
@@ -406,9 +412,9 @@ module.exports =
 	    },
 
 
-	    visualValue: {
+	    displayValue: {
 	      get: function get() {
-	        var value = this.internalValue;
+	        var value = this.currentValue;
 	        if (!value) return;
 	        var formatter = (TYPE_VALUE_RESOLVER_MAP[this.type] || TYPE_VALUE_RESOLVER_MAP['default']).formatter;
 	        var format = DEFAULT_FORMATS[this.type];
@@ -433,9 +439,6 @@ module.exports =
 	  },
 
 	  created: function created() {
-	    this.cachePicker = {};
-	    this.cacheChange = {};
-
 	    // vue-popper
 	    this.options = {
 	      boundariesPadding: 0,
@@ -455,24 +458,24 @@ module.exports =
 	    handleClickIcon: function handleClickIcon() {
 	      if (this.readonly || this.disabled) return;
 	      if (this.showClose) {
-	        this.internalValue = '';
+	        this.currentValue = '';
+	        this.showClose = false;
 	      } else {
 	        this.pickerVisible = !this.pickerVisible;
 	      }
 	    },
-	    dateIsUpdated: function dateIsUpdated(date, cache) {
-	      var updated = true;
-
-	      if (Array.isArray(date)) {
-	        if ((0, _util.equalDate)(cache.cacheDateMin, date[0]) && (0, _util.equalDate)(cache.cacheDateMax, date[1])) updated = false;
-	        cache.cacheDateMin = new Date(date[0]);
-	        cache.cacheDateMax = new Date(date[1]);
+	    dateChanged: function dateChanged(dateA, dateB) {
+	      if (Array.isArray(dateA)) {
+	        var len = dateA.length;
+	        if (!dateB) return true;
+	        while (len--) {
+	          if (!(0, _util.equalDate)(dateA[len], dateB[len])) return true;
+	        }
 	      } else {
-	        if ((0, _util.equalDate)(cache.cacheDate, date)) updated = false;
-	        cache.cacheDate = new Date(date);
+	        if (!(0, _util.equalDate)(dateA, dateB)) return true;
 	      }
 
-	      return updated;
+	      return false;
 	    },
 	    handleClose: function handleClose() {
 	      this.pickerVisible = false;
@@ -510,7 +513,7 @@ module.exports =
 	      if (this.$isServer) return;
 	      if (!this.picker) {
 	        (function () {
-	          _this.panel.defaultValue = _this.internalValue;
+	          _this.panel.defaultValue = _this.currentValue;
 	          _this.picker = new _vue2.default(_this.panel).$mount(document.createElement('div'));
 	          _this.picker.popperClass = _this.popperClass;
 	          _this.popperElm = _this.picker.$el;
@@ -537,12 +540,6 @@ module.exports =
 	              })();
 	            }
 
-	            if (_this.type === 'time-select' && options) {
-	              _this.$watch('pickerOptions.minTime', function (val) {
-	                _this.picker.minTime = val;
-	              });
-	            }
-
 	            for (var option in options) {
 	              if (options.hasOwnProperty(option) &&
 	              // 忽略 time-picker 的该配置项
@@ -564,11 +561,7 @@ module.exports =
 	          _this.picker.$on('pick', function (date) {
 	            var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-	            if (_this.dateIsUpdated(date, _this.cachePicker)) _this.$emit('input', date);
-
-	            _this.$nextTick(function () {
-	              return _this.dateIsUpdated(date, _this.cacheChange) && _this.$emit('change', _this.visualValue);
-	            });
+	            if (_this.dateChanged(date, _this.value)) _this.$emit('input', date);
 	            _this.pickerVisible = _this.picker.visible = visible;
 	            _this.picker.resetView && _this.picker.resetView();
 	          });
@@ -584,10 +577,10 @@ module.exports =
 
 	      this.updatePopper();
 
-	      if (this.internalValue instanceof Date) {
-	        this.picker.date = new Date(this.internalValue.getTime());
+	      if (this.currentValue instanceof Date) {
+	        this.picker.date = new Date(this.currentValue.getTime());
 	      } else {
-	        this.picker.value = this.internalValue;
+	        this.picker.value = this.currentValue;
 	      }
 	      this.picker.resetView && this.picker.resetView();
 
@@ -613,7 +606,7 @@ module.exports =
 	'use strict';
 
 	exports.__esModule = true;
-	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.toDate = exports.equalDate = undefined;
+	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDate = exports.toDate = exports.equalDate = undefined;
 
 	var _date = __webpack_require__(76);
 
@@ -634,9 +627,13 @@ module.exports =
 	};
 
 	var toDate = exports.toDate = function toDate(date) {
+	  return isDate(date) ? date : null;
+	};
+
+	var isDate = exports.isDate = function isDate(date) {
 	  date = new Date(date);
-	  if (isNaN(date.getTime())) return null;
-	  return date;
+	  if (isNaN(date.getTime())) return false;
+	  return true;
 	};
 
 	var formatDate = exports.formatDate = function formatDate(date, format) {
@@ -813,7 +810,7 @@ module.exports =
 	      "disabled": _vm.disabled,
 	      "size": _vm.size,
 	      "placeholder": _vm.placeholder,
-	      "value": _vm.visualValue
+	      "value": _vm.displayValue
 	    },
 	    on: {
 	      "focus": _vm.handleFocus,
@@ -824,7 +821,7 @@ module.exports =
 	        _vm.handleKeydown($event)
 	      },
 	      "change": function($event) {
-	        _vm.visualValue = $event.target.value
+	        _vm.displayValue = $event.target.value
 	      }
 	    }
 	  }, [(_vm.haveTrigger) ? _c('i', {
@@ -1459,14 +1456,14 @@ module.exports =
 
 /***/ },
 
-/***/ 292:
+/***/ 298:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _timePicker = __webpack_require__(293);
+	var _timePicker = __webpack_require__(299);
 
 	var _timePicker2 = _interopRequireDefault(_timePicker);
 
@@ -1481,7 +1478,7 @@ module.exports =
 
 /***/ },
 
-/***/ 293:
+/***/ 299:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1496,7 +1493,7 @@ module.exports =
 
 	var _time2 = _interopRequireDefault(_time);
 
-	var _timeRange = __webpack_require__(294);
+	var _timeRange = __webpack_require__(300);
 
 	var _timeRange2 = _interopRequireDefault(_timeRange);
 
@@ -1511,6 +1508,11 @@ module.exports =
 	    isRange: Boolean
 	  },
 
+	  data: function data() {
+	    return {
+	      type: ''
+	    };
+	  },
 	  created: function created() {
 	    this.type = this.isRange ? 'timerange' : 'time';
 	    this.panel = this.isRange ? _timeRange2.default : _time2.default;
@@ -1519,17 +1521,17 @@ module.exports =
 
 /***/ },
 
-/***/ 294:
+/***/ 300:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(295)
+	__vue_exports__ = __webpack_require__(301)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(296)
+	var __vue_template__ = __webpack_require__(302)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -1549,7 +1551,7 @@ module.exports =
 
 /***/ },
 
-/***/ 295:
+/***/ 301:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1788,7 +1790,7 @@ module.exports =
 
 /***/ },
 
-/***/ 296:
+/***/ 302:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

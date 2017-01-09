@@ -46,26 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(181);
+	module.exports = __webpack_require__(183);
 
 
 /***/ },
 
-/***/ 14:
+/***/ 13:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 181:
+/***/ 183:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _option = __webpack_require__(182);
+	var _option = __webpack_require__(184);
 
 	var _option2 = _interopRequireDefault(_option);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 182:
+/***/ 184:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(183)
+	__vue_exports__ = __webpack_require__(185)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(184)
+	var __vue_template__ = __webpack_require__(186)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,14 +110,14 @@ module.exports =
 
 /***/ },
 
-/***/ 183:
+/***/ 185:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(13);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -126,7 +126,7 @@ module.exports =
 	exports.default = {
 	  mixins: [_emitter2.default],
 
-	  name: 'el-option',
+	  name: 'ElOption',
 
 	  componentName: 'ElOption',
 
@@ -188,10 +188,10 @@ module.exports =
 
 	  watch: {
 	    currentLabel: function currentLabel() {
-	      this.dispatch('ElSelect', 'setSelected');
+	      if (!this.created) this.dispatch('ElSelect', 'setSelected');
 	    },
 	    value: function value() {
-	      this.dispatch('ElSelect', 'setSelected');
+	      if (!this.created) this.dispatch('ElSelect', 'setSelected');
 	    }
 	  },
 
@@ -260,7 +260,7 @@ module.exports =
 
 /***/ },
 
-/***/ 184:
+/***/ 186:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
