@@ -135,7 +135,7 @@ module.exports =
 	      type: String,
 	      default: 'hover'
 	    },
-	    autoPlay: {
+	    autoplay: {
 	      type: Boolean,
 	      default: true
 	    },
@@ -235,7 +235,7 @@ module.exports =
 	      clearInterval(this.timer);
 	    },
 	    startTimer: function startTimer() {
-	      if (this.interval <= 0 || !this.autoPlay) return;
+	      if (this.interval <= 0 || !this.autoplay) return;
 	      this.timer = setInterval(this.playSlides, this.interval);
 	    },
 	    setActiveItem: function setActiveItem(index) {

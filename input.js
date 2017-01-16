@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(132);
+	module.exports = __webpack_require__(133);
 
 
 /***/ },
@@ -58,14 +58,14 @@ module.exports =
 
 /***/ },
 
-/***/ 132:
+/***/ 133:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _input = __webpack_require__(133);
+	var _input = __webpack_require__(134);
 
 	var _input2 = _interopRequireDefault(_input);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 133:
+/***/ 134:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(134)
+	__vue_exports__ = __webpack_require__(135)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(137)
+	var __vue_template__ = __webpack_require__(138)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,7 +110,7 @@ module.exports =
 
 /***/ },
 
-/***/ 134:
+/***/ 135:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -121,12 +121,19 @@ module.exports =
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _calcTextareaHeight = __webpack_require__(135);
+	var _calcTextareaHeight = __webpack_require__(136);
 
 	var _calcTextareaHeight2 = _interopRequireDefault(_calcTextareaHeight);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -245,7 +252,8 @@ module.exports =
 	    validateEvent: {
 	      type: Boolean,
 	      default: true
-	    }
+	    },
+	    onIconClick: Function
 	  },
 
 	  computed: {
@@ -291,6 +299,9 @@ module.exports =
 	      this.setCurrentValue(event.target.value);
 	    },
 	    handleIconClick: function handleIconClick(event) {
+	      if (this.onIconClick) {
+	        this.onIconClick(event);
+	      }
 	      this.$emit('click', event);
 	    },
 	    setCurrentValue: function setCurrentValue(value) {
@@ -319,7 +330,7 @@ module.exports =
 
 /***/ },
 
-/***/ 135:
+/***/ 136:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -327,7 +338,7 @@ module.exports =
 	exports.__esModule = true;
 	exports.default = calcTextareaHeight;
 
-	var _merge = __webpack_require__(136);
+	var _merge = __webpack_require__(137);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
@@ -405,14 +416,14 @@ module.exports =
 
 /***/ },
 
-/***/ 136:
+/***/ 137:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 137:
+/***/ 138:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -430,7 +441,10 @@ module.exports =
 	    staticClass: "el-input-group__prepend"
 	  }, [_vm._t("prepend")], 2) : _vm._e(), _vm._t("icon", [(_vm.icon) ? _c('i', {
 	    staticClass: "el-input__icon",
-	    class: 'el-icon-' + _vm.icon,
+	    class: [
+	      'el-icon-' + _vm.icon,
+	      _vm.onIconClick ? 'is-clickable' : ''
+	    ],
 	    on: {
 	      "click": _vm.handleIconClick
 	    }

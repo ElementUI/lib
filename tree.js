@@ -51,24 +51,31 @@ module.exports =
 
 /***/ },
 
-/***/ 136:
+/***/ 13:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ },
+
+/***/ 68:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/transitions/collapse-transition");
+
+/***/ },
+
+/***/ 137:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 175:
+/***/ 176:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
-
-/***/ },
-
-/***/ 261:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/transitions/collapse-transition");
 
 /***/ },
 
@@ -142,28 +149,31 @@ module.exports =
 
 	var _treeStore2 = _interopRequireDefault(_treeStore);
 
-	var _locale = __webpack_require__(175);
+	var _locale = __webpack_require__(176);
+
+	var _emitter = __webpack_require__(13);
+
+	var _emitter2 = _interopRequireDefault(_emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
 	exports.default = {
 	  name: 'ElTree',
+
+	  mixins: [_emitter2.default],
+
+	  components: {
+	    ElTreeNode: __webpack_require__(318)
+	  },
+
+	  data: function data() {
+	    return {
+	      store: null,
+	      root: null,
+	      currentNode: null
+	    };
+	  },
+
 
 	  props: {
 	    data: {
@@ -209,40 +219,8 @@ module.exports =
 	    highlightCurrent: Boolean,
 	    currentNodeKey: [String, Number],
 	    load: Function,
-	    filterNodeMethod: Function
-	  },
-
-	  created: function created() {
-	    this.isTree = true;
-
-	    this.store = new _treeStore2.default({
-	      key: this.nodeKey,
-	      data: this.data,
-	      lazy: this.lazy,
-	      props: this.props,
-	      load: this.load,
-	      currentNodeKey: this.currentNodeKey,
-	      checkStrictly: this.checkStrictly,
-	      defaultCheckedKeys: this.defaultCheckedKeys,
-	      defaultExpandedKeys: this.defaultExpandedKeys,
-	      autoExpandParent: this.autoExpandParent,
-	      defaultExpandAll: this.defaultExpandAll,
-	      filterNodeMethod: this.filterNodeMethod
-	    });
-
-	    this.root = this.store.root;
-	  },
-	  data: function data() {
-	    return {
-	      store: null,
-	      root: null,
-	      currentNode: null
-	    };
-	  },
-
-
-	  components: {
-	    ElTreeNode: __webpack_require__(318)
+	    filterNodeMethod: Function,
+	    accordion: Boolean
 	  },
 
 	  computed: {
@@ -301,9 +279,48 @@ module.exports =
 	    },
 	    setChecked: function setChecked(data, checked, deep) {
 	      this.store.setChecked(data, checked, deep);
+	    },
+	    handleNodeExpand: function handleNodeExpand(nodeData, node, instance) {
+	      this.broadcast('ElTreeNode', 'tree-node-expand', node);
 	    }
+	  },
+
+	  created: function created() {
+	    this.isTree = true;
+
+	    this.store = new _treeStore2.default({
+	      key: this.nodeKey,
+	      data: this.data,
+	      lazy: this.lazy,
+	      props: this.props,
+	      load: this.load,
+	      currentNodeKey: this.currentNodeKey,
+	      checkStrictly: this.checkStrictly,
+	      defaultCheckedKeys: this.defaultCheckedKeys,
+	      defaultExpandedKeys: this.defaultExpandedKeys,
+	      autoExpandParent: this.autoExpandParent,
+	      defaultExpandAll: this.defaultExpandAll,
+	      filterNodeMethod: this.filterNodeMethod
+	    });
+
+	    this.root = this.store.root;
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
@@ -610,7 +627,7 @@ module.exports =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _merge = __webpack_require__(136);
+	var _merge = __webpack_require__(137);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
@@ -1076,7 +1093,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _collapseTransition = __webpack_require__(261);
+	var _collapseTransition = __webpack_require__(68);
 
 	var _collapseTransition2 = _interopRequireDefault(_collapseTransition);
 
@@ -1084,55 +1101,18 @@ module.exports =
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _emitter = __webpack_require__(13);
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	var _emitter2 = _interopRequireDefault(_emitter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	  name: 'ElTreeNode',
+
+	  componentName: 'ElTreeNode',
+
+	  mixins: [_emitter2.default],
 
 	  props: {
 	    node: {
@@ -1224,6 +1204,7 @@ module.exports =
 	        this.node.collapse();
 	      } else {
 	        this.node.expand();
+	        this.$emit('node-expand', this.node.data, this.node, this);
 	      }
 	    },
 	    handleUserClick: function handleUserClick() {
@@ -1235,6 +1216,9 @@ module.exports =
 	      if (!this.node.indeterminate) {
 	        this.node.setChecked(ev.target.checked, !this.tree.checkStrictly);
 	      }
+	    },
+	    handleChildNodeExpand: function handleChildNodeExpand(node) {
+	      this.broadcast('ElTreeNode', 'tree-node-expand', node);
 	    }
 	  },
 
@@ -1267,8 +1251,60 @@ module.exports =
 	      this.expanded = true;
 	      this.childNodeRendered = true;
 	    }
+
+	    if (this.tree.accordion) {
+	      this.$on('tree-node-expand', function (node) {
+	        if (_this.node !== node) {
+	          _this.node.collapse();
+	        }
+	      });
+	    }
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
@@ -1356,6 +1392,11 @@ module.exports =
 	      attrs: {
 	        "render-content": _vm.renderContent,
 	        "node": child
+	      },
+	      on: {
+	        "node-expand": function($event) {
+	          _vm.handleChildNodeExpand(child)
+	        }
 	      }
 	    })
 	  }))])], 1)
@@ -1379,6 +1420,9 @@ module.exports =
 	        "node": child,
 	        "props": _vm.props,
 	        "render-content": _vm.renderContent
+	      },
+	      on: {
+	        "node-expand": _vm.handleNodeExpand
 	      }
 	    })
 	  }), (!_vm.root.childNodes || _vm.root.childNodes.length === 0) ? _c('div', {

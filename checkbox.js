@@ -198,6 +198,16 @@ module.exports =
 	      } else {
 	        this.model = this.trueLabel || true;
 	      }
+	    },
+	    handleChange: function handleChange(ev) {
+	      var _this = this;
+
+	      this.$emit('change', ev);
+	      if (this.isGroup) {
+	        this.$nextTick(function (_) {
+	          _this.dispatch('ElCheckboxGroup', 'change', [_this._checkboxGroup.value]);
+	        });
+	      }
 	    }
 	  },
 
@@ -298,9 +308,7 @@ module.exports =
 	        } else {
 	          _vm.model = $$c
 	        }
-	      }, function($event) {
-	        _vm.$emit('change', $event)
-	      }],
+	      }, _vm.handleChange],
 	      "focus": function($event) {
 	        _vm.focus = true
 	      },
@@ -341,9 +349,7 @@ module.exports =
 	        } else {
 	          _vm.model = $$c
 	        }
-	      }, function($event) {
-	        _vm.$emit('change', $event)
-	      }],
+	      }, _vm.handleChange],
 	      "focus": function($event) {
 	        _vm.focus = true
 	      },

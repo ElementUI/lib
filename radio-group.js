@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(215);
+	module.exports = __webpack_require__(216);
 
 
 /***/ },
@@ -58,14 +58,14 @@ module.exports =
 
 /***/ },
 
-/***/ 215:
+/***/ 216:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _radioGroup = __webpack_require__(216);
+	var _radioGroup = __webpack_require__(217);
 
 	var _radioGroup2 = _interopRequireDefault(_radioGroup);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 216:
+/***/ 217:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(217)
+	__vue_exports__ = __webpack_require__(218)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(218)
+	var __vue_template__ = __webpack_require__(219)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,7 +110,7 @@ module.exports =
 
 /***/ },
 
-/***/ 217:
+/***/ 218:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -133,14 +133,9 @@ module.exports =
 	  props: {
 	    value: [String, Number],
 	    size: String,
-	    fill: {
-	      type: String,
-	      default: '#20a0ff'
-	    },
-	    textColor: {
-	      type: String,
-	      default: '#fff'
-	    }
+	    fill: String,
+	    textColor: String,
+	    disabled: Boolean
 	  },
 	  watch: {
 	    value: function value(_value) {
@@ -148,11 +143,15 @@ module.exports =
 	      this.dispatch('ElFormItem', 'el.form.change', [this.value]);
 	    }
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
 
 /***/ },
 
-/***/ 218:
+/***/ 219:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

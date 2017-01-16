@@ -370,7 +370,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @method
      * @memberof Popper
      * @param config {HTMLElement} popper element
-     * @returns {HTMLElement} reference element
+     * @param reference {HTMLElement} reference element
+     * @returns {String} position
      */
     Popper.prototype._getPosition = function (popper, reference) {
         var container = getOffsetParent(reference);

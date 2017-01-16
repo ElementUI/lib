@@ -631,8 +631,8 @@ module.exports =
 	};
 
 	var isDate = exports.isDate = function isDate(date) {
-	  date = new Date(date);
-	  if (isNaN(date.getTime())) return false;
+	  if (date === null || date === undefined) return false;
+	  if (isNaN(new Date(date).getTime())) return false;
 	  return true;
 	};
 

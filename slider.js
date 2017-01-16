@@ -46,26 +46,26 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(240);
+	module.exports = __webpack_require__(241);
 
 
 /***/ },
 
-/***/ 68:
+/***/ 90:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 240:
+/***/ 241:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(241);
+	var _main = __webpack_require__(242);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 241:
+/***/ 242:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(242)
+	__vue_exports__ = __webpack_require__(243)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(245)
+	var __vue_template__ = __webpack_require__(246)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,22 +110,22 @@ module.exports =
 
 /***/ },
 
-/***/ 242:
+/***/ 243:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _inputNumber = __webpack_require__(243);
+	var _inputNumber = __webpack_require__(244);
 
 	var _inputNumber2 = _interopRequireDefault(_inputNumber);
 
-	var _tooltip = __webpack_require__(244);
+	var _tooltip = __webpack_require__(245);
 
 	var _tooltip2 = _interopRequireDefault(_tooltip);
 
-	var _dom = __webpack_require__(68);
+	var _dom = __webpack_require__(90);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -156,6 +156,10 @@ module.exports =
 	    showInput: {
 	      type: Boolean,
 	      default: false
+	    },
+	    showInputControls: {
+	      type: Boolean,
+	      default: true
 	    },
 	    showStops: {
 	      type: Boolean,
@@ -363,24 +367,25 @@ module.exports =
 	//
 	//
 	//
-
-/***/ },
-
-/***/ 243:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/input-number");
+	//
 
 /***/ },
 
 /***/ 244:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/tooltip");
+	module.exports = require("element-ui/lib/input-number");
 
 /***/ },
 
 /***/ 245:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/tooltip");
+
+/***/ },
+
+/***/ 246:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -398,6 +403,7 @@ module.exports =
 	    attrs: {
 	      "step": _vm.step,
 	      "disabled": _vm.disabled,
+	      "controls": _vm.showInputControls,
 	      "min": _vm.min,
 	      "max": _vm.max,
 	      "size": "small"

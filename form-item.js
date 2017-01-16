@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(123);
+	module.exports = __webpack_require__(124);
 
 
 /***/ },
@@ -58,14 +58,14 @@ module.exports =
 
 /***/ },
 
-/***/ 123:
+/***/ 124:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _formItem = __webpack_require__(124);
+	var _formItem = __webpack_require__(125);
 
 	var _formItem2 = _interopRequireDefault(_formItem);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 124:
+/***/ 125:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(125)
+	__vue_exports__ = __webpack_require__(126)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(127)
+	var __vue_template__ = __webpack_require__(128)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,14 +110,14 @@ module.exports =
 
 /***/ },
 
-/***/ 125:
+/***/ 126:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _asyncValidator = __webpack_require__(126);
+	var _asyncValidator = __webpack_require__(127);
 
 	var _asyncValidator2 = _interopRequireDefault(_asyncValidator);
 
@@ -184,7 +184,11 @@ module.exports =
 	    required: Boolean,
 	    rules: [Object, Array],
 	    error: String,
-	    validateStatus: String
+	    validateStatus: String,
+	    showMessage: {
+	      type: Boolean,
+	      default: true
+	    }
 	  },
 	  watch: {
 	    error: function error(value) {
@@ -198,6 +202,7 @@ module.exports =
 	  computed: {
 	    labelStyle: function labelStyle() {
 	      var ret = {};
+	      if (this.form.labelPosition === 'top') return ret;
 	      var labelWidth = this.labelWidth || this.form.labelWidth;
 	      if (labelWidth) {
 	        ret.width = labelWidth;
@@ -206,6 +211,7 @@ module.exports =
 	    },
 	    contentStyle: function contentStyle() {
 	      var ret = {};
+	      if (this.form.labelPosition === 'top') return ret;
 	      var labelWidth = this.labelWidth || this.form.labelWidth;
 	      if (labelWidth) {
 	        ret.marginLeft = labelWidth;
@@ -355,14 +361,14 @@ module.exports =
 
 /***/ },
 
-/***/ 126:
+/***/ 127:
 /***/ function(module, exports) {
 
 	module.exports = require("async-validator");
 
 /***/ },
 
-/***/ 127:
+/***/ 128:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -375,7 +381,10 @@ module.exports =
 	    }
 	  }, [(_vm.label) ? _c('label', {
 	    staticClass: "el-form-item__label",
-	    style: (_vm.labelStyle)
+	    style: (_vm.labelStyle),
+	    attrs: {
+	      "for": _vm.prop
+	    }
 	  }, [_vm._v("\n    " + _vm._s(_vm.label + _vm.form.labelSuffix) + "\n  ")]) : _vm._e(), _c('div', {
 	    staticClass: "el-form-item__content",
 	    style: (_vm.contentStyle)
@@ -383,7 +392,7 @@ module.exports =
 	    attrs: {
 	      "name": "el-zoom-in-top"
 	    }
-	  }, [(_vm.validateState === 'error') ? _c('div', {
+	  }, [(_vm.validateState === 'error' && _vm.showMessage && _vm.form.showMessage) ? _c('div', {
 	    staticClass: "el-form-item__error"
 	  }, [_vm._v(_vm._s(_vm.validateMessage))]) : _vm._e()])], 2)])
 	},staticRenderFns: []}

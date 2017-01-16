@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(138);
+	module.exports = __webpack_require__(139);
 
 
 /***/ },
@@ -58,21 +58,21 @@ module.exports =
 
 /***/ },
 
-/***/ 68:
+/***/ 90:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 138:
+/***/ 139:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _inputNumber = __webpack_require__(139);
+	var _inputNumber = __webpack_require__(140);
 
 	var _inputNumber2 = _interopRequireDefault(_inputNumber);
 
@@ -87,17 +87,17 @@ module.exports =
 
 /***/ },
 
-/***/ 139:
+/***/ 140:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(140)
+	__vue_exports__ = __webpack_require__(141)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(141)
+	var __vue_template__ = __webpack_require__(142)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -117,7 +117,7 @@ module.exports =
 
 /***/ },
 
-/***/ 140:
+/***/ 141:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -128,10 +128,11 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _dom = __webpack_require__(68);
+	var _dom = __webpack_require__(90);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
 	//
 	//
 	//
@@ -228,32 +229,21 @@ module.exports =
 	    }
 	  },
 	  data: function data() {
-	    // correct the init value
-	    var value = this.value;
-	    if (value < this.min) {
-	      this.$emit('input', this.min);
-	      value = this.min;
-	    }
-	    if (value > this.max) {
-	      this.$emit('input', this.max);
-	      value = this.max;
-	    }
-
 	    return {
-	      currentValue: value
+	      currentValue: 0
 	    };
 	  },
 
 	  watch: {
-	    value: function value(val) {
-	      this.currentValue = val;
-	    },
-	    currentValue: function currentValue(newVal, oldVal) {
-	      if (newVal <= this.max && newVal >= this.min) {
-	        this.$emit('change', newVal, oldVal);
+	    value: {
+	      immediate: true,
+	      handler: function handler(value) {
+	        var newVal = Number(value);
+	        if (isNaN(newVal)) return;
+	        if (newVal >= this.max) newVal = this.max;
+	        if (newVal <= this.min) newVal = this.min;
+	        this.currentValue = newVal;
 	        this.$emit('input', newVal);
-	      } else {
-	        this.currentValue = oldVal;
 	      }
 	    }
 	  },
@@ -305,24 +295,39 @@ module.exports =
 	      var value = this.value || 0;
 	      var newVal = this._increase(value, this.step);
 	      if (newVal > this.max) return;
-	      this.currentValue = newVal;
+	      this.setCurrentValue(newVal);
 	    },
 	    decrease: function decrease() {
 	      if (this.disabled || this.minDisabled) return;
 	      var value = this.value || 0;
 	      var newVal = this._decrease(value, this.step);
 	      if (newVal < this.min) return;
-	      this.currentValue = newVal;
+	      this.setCurrentValue(newVal);
 	    },
 	    handleBlur: function handleBlur() {
 	      this.$refs.input.setCurrentValue(this.currentValue);
+	    },
+	    setCurrentValue: function setCurrentValue(newVal) {
+	      var oldVal = this.currentValue;
+	      if (newVal >= this.max) newVal = this.max;
+	      if (newVal <= this.min) newVal = this.min;
+	      if (oldVal === newVal) return;
+	      this.$emit('change', newVal, oldVal);
+	      this.$emit('input', newVal);
+	      this.currentValue = newVal;
+	    },
+	    handleInput: function handleInput(value) {
+	      var newVal = Number(value);
+	      if (!isNaN(newVal)) {
+	        this.setCurrentValue(newVal);
+	      }
 	    }
 	  }
 	};
 
 /***/ },
 
-/***/ 141:
+/***/ 142:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -358,32 +363,17 @@ module.exports =
 	      'is-disabled': _vm.maxDisabled
 	    }
 	  }) : _vm._e(), _c('el-input', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model.number",
-	      value: (_vm.currentValue),
-	      expression: "currentValue",
-	      modifiers: {
-	        "number": true
-	      }
-	    }],
 	    ref: "input",
 	    attrs: {
+	      "value": _vm.currentValue,
 	      "disabled": _vm.disabled,
 	      "size": _vm.size,
 	      "max": _vm.max,
 	      "min": _vm.min
 	    },
-	    domProps: {
-	      "value": (_vm.currentValue)
-	    },
 	    on: {
-	      "blur": [_vm.handleBlur, function($event) {
-	        _vm.$forceUpdate()
-	      }],
-	      "input": function($event) {
-	        _vm.currentValue = _vm._n($event)
-	      }
+	      "blur": _vm.handleBlur,
+	      "input": _vm.handleInput
 	    },
 	    nativeOn: {
 	      "keydown": [function($event) {

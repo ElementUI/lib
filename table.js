@@ -100,14 +100,14 @@ module.exports =
 
 /***/ },
 
-/***/ 229:
+/***/ 230:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/scrollbar-width");
 
 /***/ },
 
-/***/ 238:
+/***/ 239:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
@@ -317,7 +317,6 @@ module.exports =
 	//
 	//
 	//
-	//
 
 	var tableIdSeed = 1;
 
@@ -372,9 +371,7 @@ module.exports =
 
 	    defaultExpandAll: Boolean,
 
-	    defaultSortProp: String,
-
-	    defaultSortOrder: String
+	    defaultSort: Object
 	  },
 
 	  components: {
@@ -493,6 +490,14 @@ module.exports =
 	      }
 
 	      return style;
+	    },
+	    bodyWidth: function bodyWidth() {
+	      var _layout = this.layout,
+	          bodyWidth = _layout.bodyWidth,
+	          scrollY = _layout.scrollY,
+	          gutterWidth = _layout.gutterWidth;
+
+	      return bodyWidth ? bodyWidth - (scrollY ? gutterWidth : 0) + 'px' : '';
 	    },
 	    fixedBodyHeight: function fixedBodyHeight() {
 	      var style = {};
@@ -1217,7 +1222,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _scrollbarWidth = __webpack_require__(229);
+	var _scrollbarWidth = __webpack_require__(230);
 
 	var _scrollbarWidth2 = _interopRequireDefault(_scrollbarWidth);
 
@@ -1298,6 +1303,7 @@ module.exports =
 
 	  TableLayout.prototype.updateHeight = function updateHeight() {
 	    var height = this.tableHeight = this.table.$el.clientHeight;
+	    var noData = !this.table.data || this.table.data.length === 0;
 	    var headerWrapper = this.table.$refs.headerWrapper;
 
 	    if (this.showHeader && !headerWrapper) return;
@@ -1315,7 +1321,7 @@ module.exports =
 	      }
 	      this.fixedBodyHeight = this.scrollX ? bodyHeight - this.gutterWidth : bodyHeight;
 	    }
-	    this.viewportHeight = this.scrollX ? height - this.gutterWidth : height;
+	    this.viewportHeight = this.scrollX ? height - (noData ? 0 : this.gutterWidth) : height;
 	  };
 
 	  TableLayout.prototype.update = function update() {
@@ -1586,7 +1592,7 @@ module.exports =
 
 	  computed: {
 	    table: function table() {
-	      return this.$parent.$parent.columns ? this.$parent.$parent : this.$parent;
+	      return this.$parent;
 	    },
 	    data: function data() {
 	      return this.store.states.data;
@@ -1718,7 +1724,7 @@ module.exports =
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(238);
+	var _tag = __webpack_require__(239);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
@@ -1858,7 +1864,7 @@ module.exports =
 	                      return _this.handleMouseDown($event, column);
 	                    },
 	                    'click': function click($event) {
-	                      return _this.handleClick($event, column);
+	                      return _this.handleHeaderClick($event, column);
 	                    }
 	                  },
 
@@ -1870,7 +1876,7 @@ module.exports =
 	                    'span',
 	                    { 'class': 'caret-wrapper', on: {
 	                        'click': function click($event) {
-	                          return _this.handleHeaderClick($event, column);
+	                          return _this.handleSortClick($event, column);
 	                        }
 	                      }
 	                    },
@@ -1920,10 +1926,14 @@ module.exports =
 	      required: true
 	    },
 	    border: Boolean,
-	    defaultSortProp: String,
-	    defaultSortOrder: {
-	      type: String,
-	      default: 'ascending'
+	    defaultSort: {
+	      type: Object,
+	      default: function _default() {
+	        return {
+	          prop: '',
+	          order: ''
+	        };
+	      }
 	    }
 	  },
 
@@ -1956,20 +1966,27 @@ module.exports =
 	  mounted: function mounted() {
 	    var _this2 = this;
 
-	    var states = this.store.states;
-	    states.sortProp = this.defaultSortProp;
-	    states.sortOrder = this.defaultSortOrder;
+	    if (this.defaultSort.prop) {
+	      (function () {
+	        var states = _this2.store.states;
+	        states.sortProp = _this2.defaultSort.prop;
+	        states.sortOrder = _this2.defaultSort.order || 'ascending';
+	        _this2.$nextTick(function (_) {
+	          for (var i = 0, length = _this2.columns.length; i < length; i++) {
+	            var column = _this2.columns[i];
+	            if (column.property === states.sortProp) {
+	              column.order = states.sortOrder;
+	              states.sortingColumn = column;
+	              break;
+	            }
+	          }
 
-	    this.$nextTick(function (_) {
-	      for (var i = 0, length = _this2.columns.length; i < length; i++) {
-	        if (_this2.columns[i].property === _this2.defaultSortProp) {
-	          _this2.columns[i].order = _this2.defaultSortOrder;
-	          break;
-	        }
-	      }
-
-	      _this2.store.commit('changeSortCondition');
-	    });
+	          if (states.sortingColumn) {
+	            _this2.store.commit('changeSortCondition');
+	          }
+	        });
+	      })();
+	    }
 	  },
 	  beforeDestroy: function beforeDestroy() {
 	    var panels = this.filterPanels;
@@ -2021,7 +2038,13 @@ module.exports =
 	        filterPanel.showPopper = true;
 	      }, 16);
 	    },
-	    handleClick: function handleClick(event, column) {
+	    handleHeaderClick: function handleHeaderClick(event, column) {
+	      if (!column.filters && column.sortable) {
+	        this.handleSortClick(event, column);
+	      } else if (column.filters && !column.sortable) {
+	        this.handleFilterClick(event, column);
+	      }
+
 	      this.$parent.$emit('header-click', column, event);
 	    },
 	    handleMouseDown: function handleMouseDown(event, column) {
@@ -2131,7 +2154,8 @@ module.exports =
 	      }
 	      return 'ascending';
 	    },
-	    handleHeaderClick: function handleHeaderClick(event, column) {
+	    handleSortClick: function handleSortClick(event, column) {
+	      event.stopPropagation();
 	      var order = this.toggleOrder(column);
 
 	      var target = event.target;
@@ -2356,7 +2380,7 @@ module.exports =
 	    handleSelect: function handleSelect(filterValue) {
 	      this.filterValue = filterValue;
 
-	      if (filterValue) {
+	      if (typeof filterValue !== 'undefined' && filterValue !== null) {
 	        this.confirmFilter(this.filteredValue);
 	      } else {
 	        this.confirmFilter([]);
@@ -2393,7 +2417,7 @@ module.exports =
 	      },
 	      set: function set(value) {
 	        if (this.filteredValue) {
-	          if (value) {
+	          if (typeof value !== 'undefined' && value !== null) {
 	            this.filteredValue.splice(0, 1, value);
 	          } else {
 	            this.filteredValue.splice(0, 1);
@@ -2624,8 +2648,7 @@ module.exports =
 	      "store": _vm.store,
 	      "layout": _vm.layout,
 	      "border": _vm.border,
-	      "default-sort-prop": _vm.defaultSortProp,
-	      "default-sort-order": _vm.defaultSortOrder
+	      "default-sort": _vm.defaultSort
 	    }
 	  })], 1) : _vm._e(), _c('div', {
 	    ref: "bodyWrapper",
@@ -2633,7 +2656,7 @@ module.exports =
 	    style: ([_vm.bodyHeight])
 	  }, [_c('table-body', {
 	    style: ({
-	      width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth - (_vm.layout.scrollY ? _vm.layout.gutterWidth : 0) + 'px' : ''
+	      width: _vm.bodyWidth
 	    }),
 	    attrs: {
 	      "context": _vm.context,
@@ -2644,7 +2667,10 @@ module.exports =
 	      "highlight": _vm.highlightCurrentRow
 	    }
 	  }), (!_vm.data || _vm.data.length === 0) ? _c('div', {
-	    staticClass: "el-table__empty-block"
+	    staticClass: "el-table__empty-block",
+	    style: ({
+	      width: _vm.bodyWidth
+	    })
 	  }, [_c('span', {
 	    staticClass: "el-table__empty-text"
 	  }, [_vm._t("empty", [_vm._v(_vm._s(_vm.emptyText || _vm.t('el.table.emptyText')))])], 2)]) : _vm._e()], 1), (_vm.fixedColumns.length > 0) ? _c('div', {

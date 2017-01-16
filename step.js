@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(250);
+	module.exports = __webpack_require__(251);
 
 
 /***/ },
 
-/***/ 250:
+/***/ 251:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _step = __webpack_require__(251);
+	var _step = __webpack_require__(252);
 
 	var _step2 = _interopRequireDefault(_step);
 
@@ -73,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 251:
+/***/ 252:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(252)
+	__vue_exports__ = __webpack_require__(253)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(253)
+	var __vue_template__ = __webpack_require__(254)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,12 +103,13 @@ module.exports =
 
 /***/ },
 
-/***/ 252:
+/***/ 253:
 /***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
+	//
 	//
 	//
 	//
@@ -174,6 +175,7 @@ module.exports =
 	      style: {},
 	      lineStyle: {},
 	      mainOffset: 0,
+	      isLast: false,
 	      currentStatus: this.status
 	    };
 	  },
@@ -211,6 +213,10 @@ module.exports =
 	      this.$parent.direction === 'vertical' ? style.height = step + '%' : style.width = step + '%';
 
 	      this.lineStyle = style;
+	    },
+	    adjustPosition: function adjustPosition() {
+	      this.style = {};
+	      this.$parent.stepOffset = this.$el.getBoundingClientRect().width / (this.$parent.steps.length - 1);
 	    }
 	  },
 
@@ -218,15 +224,19 @@ module.exports =
 	    var _this = this;
 
 	    var parent = this.$parent;
-	    var space = parent.space ? parent.space + 'px' : 100 / parent.steps.length + '%';
+	    var isCenter = parent.center;
+	    var len = parent.steps.length;
+	    var isLast = this.isLast = parent.steps[parent.steps.length - 1] === this;
+	    var space = parent.space ? parent.space + 'px' : 100 / (isCenter ? len - 1 : len) + '%';
 
 	    if (parent.direction === 'horizontal') {
 	      this.style = { width: space };
 	      if (parent.alignCenter) {
 	        this.mainOffset = -this.$refs.title.getBoundingClientRect().width / 2 + 16 + 'px';
 	      }
+	      isCenter && isLast && this.adjustPosition();
 	    } else {
-	      if (parent.steps[parent.steps.length - 1] !== this) {
+	      if (!isLast) {
 	        this.style = { height: space };
 	      }
 	    }
@@ -240,14 +250,16 @@ module.exports =
 
 /***/ },
 
-/***/ 253:
+/***/ 254:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-step",
 	    class: ['is-' + _vm.$parent.direction],
-	    style: (_vm.style)
+	    style: ([_vm.style, _vm.isLast ? '' : {
+	      marginRight: -_vm.$parent.stepOffset + 'px'
+	    }])
 	  }, [_c('div', {
 	    staticClass: "el-step__head",
 	    class: ['is-' + _vm.currentStatus, {
@@ -257,7 +269,10 @@ module.exports =
 	    staticClass: "el-step__line",
 	    class: ['is-' + _vm.$parent.direction, {
 	      'is-icon': _vm.icon
-	    }]
+	    }],
+	    style: (_vm.isLast ? '' : {
+	      marginRight: _vm.$parent.stepOffset + 'px'
+	    })
 	  }, [_c('i', {
 	    staticClass: "el-step__line-inner",
 	    style: (_vm.lineStyle)

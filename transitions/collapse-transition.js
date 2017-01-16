@@ -11,9 +11,10 @@ var Transition = function () {
 
   Transition.prototype.beforeEnter = function beforeEnter(el) {
     if (!el.dataset) el.dataset = {};
+
     el.dataset.oldPaddingTop = el.style.paddingTop;
     el.dataset.oldPaddingBottom = el.style.paddingBottom;
-    el.dataset.oldDisplay = el.style.display;
+
     el.style.height = '0';
     el.style.paddingTop = 0;
     el.style.paddingBottom = 0;
@@ -21,8 +22,6 @@ var Transition = function () {
 
   Transition.prototype.enter = function enter(el) {
     el.dataset.oldOverflow = el.style.overflow;
-
-    el.style.display = 'block';
     if (el.scrollHeight !== 0) {
       el.style.height = el.scrollHeight + 'px';
       el.style.paddingTop = el.dataset.oldPaddingTop;
@@ -37,7 +36,6 @@ var Transition = function () {
   };
 
   Transition.prototype.afterEnter = function afterEnter(el) {
-    el.style.display = '';
     el.style.height = '';
     el.style.overflow = el.dataset.oldOverflow;
   };
@@ -48,25 +46,19 @@ var Transition = function () {
     el.dataset.oldPaddingBottom = el.style.paddingBottom;
     el.dataset.oldOverflow = el.style.overflow;
 
-    el.style.display = 'block';
-    if (el.scrollHeight !== 0) {
-      el.style.height = el.scrollHeight + 'px';
-    }
+    el.style.height = el.scrollHeight + 'px';
     el.style.overflow = 'hidden';
   };
 
   Transition.prototype.leave = function leave(el) {
     if (el.scrollHeight !== 0) {
-      setTimeout(function () {
-        el.style.height = 0;
-        el.style.paddingTop = 0;
-        el.style.paddingBottom = 0;
-      });
+      el.style.height = 0;
+      el.style.paddingTop = 0;
+      el.style.paddingBottom = 0;
     }
   };
 
   Transition.prototype.afterLeave = function afterLeave(el) {
-    el.style.display = el.dataset.oldDisplay;
     el.style.height = '';
     el.style.overflow = el.dataset.oldOverflow;
     el.style.paddingTop = el.dataset.oldPaddingTop;

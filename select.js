@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(232);
+	module.exports = __webpack_require__(233);
 
 
 /***/ },
@@ -93,13 +93,6 @@ module.exports =
 
 /***/ },
 
-/***/ 68:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/dom");
-
-/***/ },
-
 /***/ 80:
 /***/ function(module, exports) {
 
@@ -114,31 +107,38 @@ module.exports =
 
 /***/ },
 
-/***/ 136:
+/***/ 90:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/dom");
+
+/***/ },
+
+/***/ 137:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 175:
+/***/ 176:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 184:
+/***/ 185:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(185)
+	__vue_exports__ = __webpack_require__(186)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(186)
+	var __vue_template__ = __webpack_require__(187)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -158,7 +158,7 @@ module.exports =
 
 /***/ },
 
-/***/ 185:
+/***/ 186:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -259,7 +259,7 @@ module.exports =
 	    },
 	    queryChange: function queryChange(query) {
 	      // query 里如果有正则中的特殊字符，需要先将这些字符转义
-	      var parsedQuery = query.replace(/(\^|\(|\)|\[|\]|\$|\*|\+|\.|\?|\\|\{|\}|\|)/g, '\\$1');
+	      var parsedQuery = String(query).replace(/(\^|\(|\)|\[|\]|\$|\*|\+|\.|\?|\\|\{|\}|\|)/g, '\\$1');
 	      this.visible = new RegExp(parsedQuery, 'i').test(this.currentLabel) || this.created;
 	      if (!this.visible) {
 	        this.parent.filteredOptionsCount--;
@@ -308,7 +308,7 @@ module.exports =
 
 /***/ },
 
-/***/ 186:
+/***/ 187:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -337,14 +337,14 @@ module.exports =
 
 /***/ },
 
-/***/ 232:
+/***/ 233:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _select = __webpack_require__(233);
+	var _select = __webpack_require__(234);
 
 	var _select2 = _interopRequireDefault(_select);
 
@@ -359,17 +359,17 @@ module.exports =
 
 /***/ },
 
-/***/ 233:
+/***/ 234:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(234)
+	__vue_exports__ = __webpack_require__(235)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(239)
+	var __vue_template__ = __webpack_require__(240)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -389,7 +389,7 @@ module.exports =
 
 /***/ },
 
-/***/ 234:
+/***/ 235:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -408,15 +408,15 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _selectDropdown = __webpack_require__(235);
+	var _selectDropdown = __webpack_require__(236);
 
 	var _selectDropdown2 = _interopRequireDefault(_selectDropdown);
 
-	var _option = __webpack_require__(184);
+	var _option = __webpack_require__(185);
 
 	var _option2 = _interopRequireDefault(_option);
 
-	var _tag = __webpack_require__(238);
+	var _tag = __webpack_require__(239);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
@@ -432,13 +432,13 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _dom = __webpack_require__(68);
+	var _dom = __webpack_require__(90);
 
 	var _resizeEvent = __webpack_require__(45);
 
-	var _locale3 = __webpack_require__(175);
+	var _locale3 = __webpack_require__(176);
 
-	var _merge = __webpack_require__(136);
+	var _merge = __webpack_require__(137);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
@@ -698,6 +698,7 @@ module.exports =
 	        }
 	        this.query = '';
 	        this.selectedLabel = '';
+	        this.inputLength = 20;
 	        this.resetHoverIndex();
 	        this.$nextTick(function () {
 	          if (_this3.$refs.input && _this3.$refs.input.value === '' && _this3.selected.length === 0) {
@@ -828,6 +829,9 @@ module.exports =
 	      this.$nextTick(function () {
 	        _this5.resetInputHeight();
 	      });
+	    },
+	    handleFocus: function handleFocus() {
+	      this.visible = true;
 	    },
 	    handleIconClick: function handleIconClick(event) {
 	      if (this.iconClass.indexOf('circle-close') > -1) {
@@ -1057,17 +1061,17 @@ module.exports =
 
 /***/ },
 
-/***/ 235:
+/***/ 236:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(236)
+	__vue_exports__ = __webpack_require__(237)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(237)
+	var __vue_template__ = __webpack_require__(238)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -1087,7 +1091,7 @@ module.exports =
 
 /***/ },
 
-/***/ 236:
+/***/ 237:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1163,7 +1167,7 @@ module.exports =
 
 /***/ },
 
-/***/ 237:
+/***/ 238:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1180,14 +1184,14 @@ module.exports =
 
 /***/ },
 
-/***/ 238:
+/***/ 239:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 239:
+/***/ 240:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1303,7 +1307,7 @@ module.exports =
 	      "value": (_vm.selectedLabel)
 	    },
 	    on: {
-	      "focus": _vm.toggleMenu,
+	      "focus": _vm.handleFocus,
 	      "click": _vm.handleIconClick,
 	      "input": function($event) {
 	        _vm.selectedLabel = $event

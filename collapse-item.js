@@ -117,11 +117,13 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _dom = __webpack_require__(68);
-
 	var _emitter = __webpack_require__(13);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
+
+	var _collapseTransition = __webpack_require__(68);
+
+	var _collapseTransition2 = _interopRequireDefault(_collapseTransition);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -138,22 +140,8 @@ module.exports =
 	//
 	//
 	//
-
-	function getTransitionendEvent(el) {
-	  var t = void 0;
-	  var transitions = {
-	    'transition': 'transitionend',
-	    'OTransition': 'oTransitionEnd',
-	    'MozTransition': 'transitionend',
-	    'WebkitTransition': 'webkitTransitionEnd'
-	  };
-
-	  for (t in transitions) {
-	    if (el.style[t] !== undefined) {
-	      return transitions[t];
-	    }
-	  }
-	};
+	//
+	//
 
 	exports.default = {
 	  name: 'ElCollapseItem',
@@ -161,6 +149,10 @@ module.exports =
 	  componentName: 'ElCollapseItem',
 
 	  mixins: [_emitter2.default],
+
+	  components: {
+	    CollapseTransition: _collapseTransition2.default
+	  },
 
 	  data: function data() {
 	    return {
@@ -190,63 +182,16 @@ module.exports =
 	  },
 
 	  watch: {
-	    'isActive': function isActive(value) {
-	      value ? this.open() : this.close();
-	    }
+	    'isActive': function isActive(value) {}
 	  },
 
 	  methods: {
-	    open: function open() {
-	      var _this = this;
-
-	      var contentWrapElm = this.$refs.contentWrap;
-	      var contentHeight = this.contentHeight;
-
-	      contentWrapElm.style.display = 'block';
-	      contentWrapElm.style.height = '0';
-
-	      setTimeout(function (_) {
-	        contentWrapElm.style.height = contentHeight + 'px';
-	        (0, _dom.once)(contentWrapElm, getTransitionendEvent(contentWrapElm), function () {
-	          if (!_this.isActive) return;
-	          contentWrapElm.style.height = 'auto';
-	        });
-	      }, 10);
-	    },
-	    close: function close() {
-	      var _this2 = this;
-
-	      var contentWrapElm = this.$refs.contentWrap;
-	      var contentElm = this.$refs.content;
-	      var contentHeight = contentElm.offsetHeight;
-
-	      this.contentHeight = contentHeight;
-	      contentWrapElm.style.height = contentHeight + 'px';
-
-	      setTimeout(function (_) {
-	        contentWrapElm.style.height = '0';
-	        (0, _dom.once)(contentWrapElm, getTransitionendEvent(contentWrapElm), function () {
-	          if (_this2.isActive) return;
-	          contentWrapElm.style.display = 'none';
-	        });
-	      }, 10);
-	    },
-	    init: function init() {
-	      if (!this.isActive) {
-	        var contentWrapElm = this.$refs.contentWrap;
-	        this.contentHeight = this.$refs.content.offsetHeight;
-	        contentWrapElm.style.height = '0';
-	        contentWrapElm.style.display = 'none';
-	      }
-	    },
 	    handleHeaderClick: function handleHeaderClick() {
 	      this.dispatch('ElCollapse', 'item-click', this);
 	    }
 	  },
 
-	  mounted: function mounted() {
-	    this.init();
-	  }
+	  mounted: function mounted() {}
 	};
 
 /***/ },
@@ -254,7 +199,7 @@ module.exports =
 /***/ 68:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/utils/dom");
+	module.exports = require("element-ui/lib/transitions/collapse-transition");
 
 /***/ },
 
@@ -274,13 +219,17 @@ module.exports =
 	    }
 	  }, [_c('i', {
 	    staticClass: "el-collapse-item__header__arrow el-icon-arrow-right"
-	  }), _vm._t("title", [_vm._v(_vm._s(_vm.title))])], 2), _c('div', {
-	    ref: "contentWrap",
+	  }), _vm._t("title", [_vm._v(_vm._s(_vm.title))])], 2), _c('collapse-transition', [_c('div', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (_vm.isActive),
+	      expression: "isActive"
+	    }],
 	    staticClass: "el-collapse-item__wrap"
 	  }, [_c('div', {
-	    ref: "content",
 	    staticClass: "el-collapse-item__content"
-	  }, [_vm._t("default")], 2)])])
+	  }, [_vm._t("default")], 2)])])], 1)
 	},staticRenderFns: []}
 
 /***/ }

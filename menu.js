@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(148);
+	module.exports = __webpack_require__(149);
 
 
 /***/ },
@@ -58,14 +58,14 @@ module.exports =
 
 /***/ },
 
-/***/ 148:
+/***/ 149:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _menu = __webpack_require__(149);
+	var _menu = __webpack_require__(150);
 
 	var _menu2 = _interopRequireDefault(_menu);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 149:
+/***/ 150:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(150)
+	__vue_exports__ = __webpack_require__(151)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(151)
+	var __vue_template__ = __webpack_require__(152)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,7 +110,7 @@ module.exports =
 
 /***/ },
 
-/***/ 150:
+/***/ 151:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -170,6 +170,16 @@ module.exports =
 	    },
 	    defaultOpeneds: function defaultOpeneds(value) {
 	      this.openedMenus = value;
+	    },
+
+	    '$route': {
+	      immediate: true,
+	      handler: function handler(value) {
+	        if (this.router) {
+	          this.activedIndex = value.path;
+	          this.initOpenedMenu();
+	        }
+	      }
 	    }
 	  },
 	  methods: {
@@ -217,7 +227,7 @@ module.exports =
 	      var index = item.index,
 	          indexPath = item.indexPath;
 
-	      this.activedIndex = item.index;
+
 	      this.$emit('select', index, indexPath, item);
 
 	      if (this.mode === 'horizontal') {
@@ -226,6 +236,8 @@ module.exports =
 
 	      if (this.router) {
 	        this.routeToItem(item);
+	      } else {
+	        this.activedIndex = item.index;
 	      }
 	    },
 
@@ -272,7 +284,7 @@ module.exports =
 
 /***/ },
 
-/***/ 151:
+/***/ 152:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

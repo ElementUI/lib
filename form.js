@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(119);
+	module.exports = __webpack_require__(120);
 
 
 /***/ },
 
-/***/ 119:
+/***/ 120:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _form = __webpack_require__(120);
+	var _form = __webpack_require__(121);
 
 	var _form2 = _interopRequireDefault(_form);
 
@@ -73,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 120:
+/***/ 121:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(121)
+	__vue_exports__ = __webpack_require__(122)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(122)
+	var __vue_template__ = __webpack_require__(123)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,7 +103,7 @@ module.exports =
 
 /***/ },
 
-/***/ 121:
+/***/ 122:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -132,7 +132,11 @@ module.exports =
 	      type: String,
 	      default: ''
 	    },
-	    inline: Boolean
+	    inline: Boolean,
+	    showMessage: {
+	      type: Boolean,
+	      default: true
+	    }
 	  },
 	  watch: {
 	    rules: function rules() {
@@ -197,7 +201,7 @@ module.exports =
 
 /***/ },
 
-/***/ 122:
+/***/ 123:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

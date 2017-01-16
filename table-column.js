@@ -51,14 +51,14 @@ module.exports =
 
 /***/ },
 
-/***/ 136:
+/***/ 137:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 238:
+/***/ 239:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
@@ -209,11 +209,11 @@ module.exports =
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(238);
+	var _tag = __webpack_require__(239);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _merge = __webpack_require__(136);
+	var _merge = __webpack_require__(137);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
@@ -417,6 +417,7 @@ module.exports =
 	    selectable: Function,
 	    reserveSelection: Boolean,
 	    filterMethod: Function,
+	    filteredValue: Array,
 	    filters: Array,
 	    filterMultiple: {
 	      type: Boolean,
@@ -513,7 +514,7 @@ module.exports =
 	      filterable: this.filters || this.filterMethod,
 	      filterMultiple: this.filterMultiple,
 	      filterOpened: false,
-	      filteredValue: []
+	      filteredValue: this.filteredValue || []
 	    });
 
 	    (0, _merge2.default)(column, forced[type] || {});

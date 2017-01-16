@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(254);
+	module.exports = __webpack_require__(255);
 
 
 /***/ },
 
-/***/ 254:
+/***/ 255:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _steps = __webpack_require__(255);
+	var _steps = __webpack_require__(256);
 
 	var _steps2 = _interopRequireDefault(_steps);
 
@@ -73,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 255:
+/***/ 256:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(256)
+	__vue_exports__ = __webpack_require__(257)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(257)
+	var __vue_template__ = __webpack_require__(258)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,12 +103,16 @@ module.exports =
 
 /***/ },
 
-/***/ 256:
+/***/ 257:
 /***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -125,6 +129,7 @@ module.exports =
 	      default: 'horizontal'
 	    },
 	    alignCenter: Boolean,
+	    center: Boolean,
 	    finishStatus: {
 	      type: String,
 	      default: 'finish'
@@ -137,7 +142,8 @@ module.exports =
 
 	  data: function data() {
 	    return {
-	      steps: []
+	      steps: [],
+	      stepOffset: 0
 	    };
 	  },
 
@@ -157,13 +163,13 @@ module.exports =
 
 /***/ },
 
-/***/ 257:
+/***/ 258:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-steps",
-	    class: ['is-' + _vm.direction]
+	    class: ['is-' + _vm.direction, _vm.center ? 'is-center' : '']
 	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 

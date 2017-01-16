@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(211);
+	module.exports = __webpack_require__(212);
 
 
 /***/ },
 
-/***/ 211:
+/***/ 212:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _radioButton = __webpack_require__(212);
+	var _radioButton = __webpack_require__(213);
 
 	var _radioButton2 = _interopRequireDefault(_radioButton);
 
@@ -73,17 +73,17 @@ module.exports =
 
 /***/ },
 
-/***/ 212:
+/***/ 213:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(213)
+	__vue_exports__ = __webpack_require__(214)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(214)
+	var __vue_template__ = __webpack_require__(215)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -103,12 +103,35 @@ module.exports =
 
 /***/ },
 
-/***/ 213:
+/***/ 214:
 /***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
 	exports.default = {
 	  name: 'ElRadioButton',
 
@@ -139,20 +162,23 @@ module.exports =
 	    },
 	    activeStyle: function activeStyle() {
 	      return {
-	        backgroundColor: this._radioGroup.fill,
-	        borderColor: this._radioGroup.fill,
-	        color: this._radioGroup.textColor
+	        backgroundColor: this._radioGroup.fill || '',
+	        borderColor: this._radioGroup.fill || '',
+	        color: this._radioGroup.textColor || ''
 	      };
 	    },
 	    size: function size() {
 	      return this._radioGroup.size;
+	    },
+	    isDisabled: function isDisabled() {
+	      return this.disabled || this._radioGroup.disabled;
 	    }
 	  }
 	};
 
 /***/ },
 
-/***/ 214:
+/***/ 215:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -161,6 +187,8 @@ module.exports =
 	    class: [
 	      _vm.size ? 'el-radio-button--' + _vm.size : '', {
 	        'is-active': _vm.value === _vm.label
+	      }, {
+	        'is-disabled': _vm.isDisabled
 	      }
 	    ]
 	  }, [_c('input', {
@@ -174,7 +202,7 @@ module.exports =
 	    attrs: {
 	      "type": "radio",
 	      "name": _vm.name,
-	      "disabled": _vm.disabled
+	      "disabled": _vm.isDisabled
 	    },
 	    domProps: {
 	      "value": _vm.label,

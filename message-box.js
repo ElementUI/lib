@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(171);
+	module.exports = __webpack_require__(172);
 
 
 /***/ },
@@ -55,13 +55,6 @@ module.exports =
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input");
-
-/***/ },
-
-/***/ 68:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
@@ -79,35 +72,42 @@ module.exports =
 
 /***/ },
 
-/***/ 104:
+/***/ 90:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/dom");
+
+/***/ },
+
+/***/ 105:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/popup");
 
 /***/ },
 
-/***/ 109:
+/***/ 110:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/button");
 
 /***/ },
 
-/***/ 136:
+/***/ 137:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 171:
+/***/ 172:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(172);
+	var _main = __webpack_require__(173);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -117,7 +117,7 @@ module.exports =
 
 /***/ },
 
-/***/ 172:
+/***/ 173:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -131,11 +131,11 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _main = __webpack_require__(173);
+	var _main = __webpack_require__(174);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _merge = __webpack_require__(136);
+	var _merge = __webpack_require__(137);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
@@ -163,7 +163,8 @@ module.exports =
 	  confirmButtonText: '',
 	  cancelButtonText: '',
 	  confirmButtonClass: '',
-	  cancelButtonClass: ''
+	  cancelButtonClass: '',
+	  beforeClose: null
 	};
 
 	var MessageBoxConstructor = _vue2.default.extend(_main2.default);
@@ -216,27 +217,35 @@ module.exports =
 
 	  if (!instance.value || instance.closeTimer) {
 	    if (msgQueue.length > 0) {
-	      currentMsg = msgQueue.shift();
+	      (function () {
+	        currentMsg = msgQueue.shift();
 
-	      var options = currentMsg.options;
-	      for (var prop in options) {
-	        if (options.hasOwnProperty(prop)) {
-	          instance[prop] = options[prop];
+	        var options = currentMsg.options;
+	        for (var prop in options) {
+	          if (options.hasOwnProperty(prop)) {
+	            instance[prop] = options[prop];
+	          }
 	        }
-	      }
-	      if (options.callback === undefined) {
-	        instance.callback = defaultCallback;
-	      }
-	      ['modal', 'showClose', 'closeOnClickModal', 'closeOnPressEscape'].forEach(function (prop) {
-	        if (instance[prop] === undefined) {
-	          instance[prop] = true;
+	        if (options.callback === undefined) {
+	          instance.callback = defaultCallback;
 	        }
-	      });
-	      document.body.appendChild(instance.$el);
 
-	      _vue2.default.nextTick(function () {
-	        instance.value = true;
-	      });
+	        var oldCb = instance.callback;
+	        instance.callback = function (action) {
+	          oldCb(action);
+	          showNextMsg();
+	        };
+	        ['modal', 'showClose', 'closeOnClickModal', 'closeOnPressEscape'].forEach(function (prop) {
+	          if (instance[prop] === undefined) {
+	            instance[prop] = true;
+	          }
+	        });
+	        document.body.appendChild(instance.$el);
+
+	        _vue2.default.nextTick(function () {
+	          instance.value = true;
+	        });
+	      })();
 	    }
 	  }
 	};
@@ -335,17 +344,17 @@ module.exports =
 
 /***/ },
 
-/***/ 173:
+/***/ 174:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(174)
+	__vue_exports__ = __webpack_require__(175)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(176)
+	var __vue_template__ = __webpack_require__(177)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -365,14 +374,14 @@ module.exports =
 
 /***/ },
 
-/***/ 174:
+/***/ 175:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _popup = __webpack_require__(104);
+	var _popup = __webpack_require__(105);
 
 	var _popup2 = _interopRequireDefault(_popup);
 
@@ -384,16 +393,29 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _button = __webpack_require__(109);
+	var _button = __webpack_require__(110);
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _dom = __webpack_require__(68);
+	var _dom = __webpack_require__(90);
 
-	var _locale3 = __webpack_require__(175);
+	var _locale3 = __webpack_require__(176);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -467,9 +489,20 @@ module.exports =
 	  },
 
 	  methods: {
-	    doClose: function doClose() {
+	    getSafeClose: function getSafeClose() {
 	      var _this = this;
 
+	      var currentId = this.uid;
+	      return function () {
+	        _this.$nextTick(function () {
+	          if (currentId === _this.uid) _this.doClose();
+	        });
+	      };
+	    },
+	    doClose: function doClose() {
+	      var _this2 = this;
+
+	      if (!this.value) return;
 	      this.value = false;
 	      this._closing = true;
 
@@ -477,12 +510,12 @@ module.exports =
 
 	      if (this.lockScroll) {
 	        setTimeout(function () {
-	          if (_this.modal && _this.bodyOverflow !== 'hidden') {
-	            document.body.style.overflow = _this.bodyOverflow;
-	            document.body.style.paddingRight = _this.bodyPaddingRight;
+	          if (_this2.modal && _this2.bodyOverflow !== 'hidden') {
+	            document.body.style.overflow = _this2.bodyOverflow;
+	            document.body.style.paddingRight = _this2.bodyPaddingRight;
 	          }
-	          _this.bodyOverflow = null;
-	          _this.bodyPaddingRight = null;
+	          _this2.bodyOverflow = null;
+	          _this2.bodyPaddingRight = null;
 	        }, 200);
 	      }
 	      this.opened = false;
@@ -490,19 +523,25 @@ module.exports =
 	      if (!this.transition) {
 	        this.doAfterClose();
 	      }
+	      if (this.action) this.callback(this.action, this);
 	    },
 	    handleWrapperClick: function handleWrapperClick() {
 	      if (this.closeOnClickModal) {
-	        this.close();
+	        this.action = '';
+	        this.doClose();
 	      }
 	    },
 	    handleAction: function handleAction(action) {
 	      if (this.$type === 'prompt' && action === 'confirm' && !this.validate()) {
 	        return;
 	      }
-	      var callback = this.callback;
-	      this.value = false;
-	      callback(action);
+	      this.action = action;
+	      if (typeof this.beforeClose === 'function') {
+	        this.close = this.getSafeClose();
+	        this.beforeClose(action, this, this.close);
+	      } else {
+	        this.doClose();
+	      }
 	    },
 	    validate: function validate() {
 	      if (this.$type === 'prompt') {
@@ -539,18 +578,19 @@ module.exports =
 	      }
 	    },
 	    value: function value(val) {
-	      var _this2 = this;
+	      var _this3 = this;
 
+	      if (val) this.uid++;
 	      if (this.$type === 'alert' || this.$type === 'confirm') {
 	        this.$nextTick(function () {
-	          _this2.$refs.confirm.$el.focus();
+	          _this3.$refs.confirm.$el.focus();
 	        });
 	      }
 	      if (this.$type !== 'prompt') return;
 	      if (val) {
 	        setTimeout(function () {
-	          if (_this2.$refs.input && _this2.$refs.input.$el) {
-	            _this2.$refs.input.$el.querySelector('input').focus();
+	          if (_this3.$refs.input && _this3.$refs.input.$el) {
+	            _this3.$refs.input.$el.querySelector('input').focus();
 	          }
 	        }, 500);
 	      } else {
@@ -562,6 +602,7 @@ module.exports =
 
 	  data: function data() {
 	    return {
+	      uid: 1,
 	      title: undefined,
 	      message: '',
 	      type: '',
@@ -574,8 +615,11 @@ module.exports =
 	      inputErrorMessage: '',
 	      showConfirmButton: true,
 	      showCancelButton: false,
+	      action: '',
 	      confirmButtonText: '',
 	      cancelButtonText: '',
+	      confirmButtonLoading: false,
+	      cancelButtonLoading: false,
 	      confirmButtonClass: '',
 	      confirmButtonDisabled: false,
 	      cancelButtonClass: '',
@@ -587,14 +631,14 @@ module.exports =
 
 /***/ },
 
-/***/ 175:
+/***/ 176:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 176:
+/***/ 177:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -682,12 +726,15 @@ module.exports =
 	      expression: "showCancelButton"
 	    }],
 	    class: [_vm.cancelButtonClasses],
+	    attrs: {
+	      "loading": _vm.cancelButtonLoading
+	    },
 	    nativeOn: {
 	      "click": function($event) {
 	        _vm.handleAction('cancel')
 	      }
 	    }
-	  }, [_vm._v(_vm._s(_vm.cancelButtonText || _vm.t('el.messagebox.cancel')))]), _c('el-button', {
+	  }, [_vm._v("\n          " + _vm._s(_vm.cancelButtonText || _vm.t('el.messagebox.cancel')) + "\n        ")]), _c('el-button', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -696,12 +743,15 @@ module.exports =
 	    }],
 	    ref: "confirm",
 	    class: [_vm.confirmButtonClasses],
+	    attrs: {
+	      "loading": _vm.confirmButtonLoading
+	    },
 	    nativeOn: {
 	      "click": function($event) {
 	        _vm.handleAction('confirm')
 	      }
 	    }
-	  }, [_vm._v(_vm._s(_vm.confirmButtonText || _vm.t('el.messagebox.confirm')))])], 1)])])])
+	  }, [_vm._v("\n          " + _vm._s(_vm.confirmButtonText || _vm.t('el.messagebox.confirm')) + "\n        ")])], 1)])])])
 	},staticRenderFns: []}
 
 /***/ }

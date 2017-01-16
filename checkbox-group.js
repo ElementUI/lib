@@ -136,7 +136,6 @@ module.exports =
 
 	  watch: {
 	    value: function value(_value) {
-	      this.$emit('change', _value);
 	      this.dispatch('ElFormItem', 'el.form.change', [_value]);
 	    }
 	  }

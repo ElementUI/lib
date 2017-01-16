@@ -46,15 +46,8 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(142);
+	module.exports = __webpack_require__(143);
 
-
-/***/ },
-
-/***/ 68:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
@@ -65,25 +58,32 @@ module.exports =
 
 /***/ },
 
-/***/ 136:
+/***/ 90:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/dom");
+
+/***/ },
+
+/***/ 137:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 142:
+/***/ 143:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _directive = __webpack_require__(143);
+	var _directive = __webpack_require__(144);
 
 	var _directive2 = _interopRequireDefault(_directive);
 
-	var _index = __webpack_require__(147);
+	var _index = __webpack_require__(148);
 
 	var _index2 = _interopRequireDefault(_index);
 
@@ -101,7 +101,7 @@ module.exports =
 
 /***/ },
 
-/***/ 143:
+/***/ 144:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -110,11 +110,11 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _dom = __webpack_require__(68);
+	var _dom = __webpack_require__(90);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Mask = _vue2.default.extend(__webpack_require__(144));
+	var Mask = _vue2.default.extend(__webpack_require__(145));
 
 	exports.install = function (Vue) {
 	  if (Vue.prototype.$isServer) return;
@@ -150,37 +150,40 @@ module.exports =
 	      });
 	    } else {
 	      if (el.domVisible) {
-	        el.mask.style.display = 'none';
-	        el.domVisible = false;
-
-	        if (binding.modifiers.fullscreen && el.originalOverflow !== 'hidden') {
-	          document.body.style.overflow = el.originalOverflow;
-	        }
-	        if (binding.modifiers.fullscreen || binding.modifiers.body) {
-	          document.body.style.position = el.originalPosition;
-	        } else {
-	          el.style.position = el.originalPosition;
-	        }
+	        el.instance.$on('after-leave', function (_) {
+	          el.domVisible = false;
+	          if (binding.modifiers.fullscreen && el.originalOverflow !== 'hidden') {
+	            document.body.style.overflow = el.originalOverflow;
+	          }
+	          if (binding.modifiers.fullscreen || binding.modifiers.body) {
+	            document.body.style.position = el.originalPosition;
+	          } else {
+	            el.style.position = el.originalPosition;
+	          }
+	        });
+	        el.instance.visible = false;
 	      }
 	    }
 	  };
-	  var insertDom = function insertDom(parent, directive, binding) {
-	    if (!directive.domVisible) {
-	      Object.keys(directive.maskStyle).forEach(function (property) {
-	        directive.mask.style[property] = directive.maskStyle[property];
+	  var insertDom = function insertDom(parent, el, binding) {
+	    if (!el.domVisible) {
+	      Object.keys(el.maskStyle).forEach(function (property) {
+	        el.mask.style[property] = el.maskStyle[property];
 	      });
 
-	      if (directive.originalPosition !== 'absolute') {
+	      if (el.originalPosition !== 'absolute') {
 	        parent.style.position = 'relative';
 	      }
 	      if (binding.modifiers.fullscreen && binding.modifiers.lock) {
 	        parent.style.overflow = 'hidden';
 	      }
-	      directive.mask.style.display = 'block';
-	      directive.domVisible = true;
+	      el.domVisible = true;
 
-	      parent.appendChild(directive.mask);
-	      directive.domInserted = true;
+	      parent.appendChild(el.mask);
+	      Vue.nextTick(function () {
+	        el.instance.visible = true;
+	      });
+	      el.domInserted = true;
 	    }
 	  };
 
@@ -193,6 +196,7 @@ module.exports =
 	          fullscreen: !!binding.modifiers.fullscreen
 	        }
 	      });
+	      el.instance = mask;
 	      el.mask = mask.$el;
 	      el.maskStyle = {};
 
@@ -219,17 +223,17 @@ module.exports =
 
 /***/ },
 
-/***/ 144:
+/***/ 145:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(145)
+	__vue_exports__ = __webpack_require__(146)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(146)
+	var __vue_template__ = __webpack_require__(147)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -249,12 +253,17 @@ module.exports =
 
 /***/ },
 
-/***/ 145:
+/***/ 146:
 /***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -272,18 +281,39 @@ module.exports =
 	    return {
 	      text: null,
 	      fullscreen: true,
+	      visible: false,
 	      customClass: ''
 	    };
+	  },
+
+
+	  methods: {
+	    handleAfterLeave: function handleAfterLeave() {
+	      this.$emit('after-leave');
+	    }
 	  }
 	};
 
 /***/ },
 
-/***/ 146:
+/***/ 147:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('div', {
+	  return _c('transition', {
+	    attrs: {
+	      "name": "el-loading-fade"
+	    },
+	    on: {
+	      "after-leave": _vm.handleAfterLeave
+	    }
+	  }, [_c('div', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (_vm.visible),
+	      expression: "visible"
+	    }],
 	    staticClass: "el-loading-mask",
 	    class: [_vm.customClass, {
 	      'is-fullscreen': _vm.fullscreen
@@ -305,12 +335,12 @@ module.exports =
 	    }
 	  })]), (_vm.text) ? _c('p', {
 	    staticClass: "el-loading-text"
-	  }, [_vm._v(_vm._s(_vm.text))]) : _vm._e()])])
+	  }, [_vm._v(_vm._s(_vm.text))]) : _vm._e()])])])
 	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 147:
+/***/ 148:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -321,11 +351,11 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _loading = __webpack_require__(144);
+	var _loading = __webpack_require__(145);
 
 	var _loading2 = _interopRequireDefault(_loading);
 
-	var _merge = __webpack_require__(136);
+	var _merge = __webpack_require__(137);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
@@ -347,6 +377,8 @@ module.exports =
 	LoadingConstructor.prototype.originalOverflow = '';
 
 	LoadingConstructor.prototype.close = function () {
+	  var _this = this;
+
 	  if (this.fullscreen && this.originalOverflow !== 'hidden') {
 	    document.body.style.overflow = this.originalOverflow;
 	  }
@@ -358,8 +390,11 @@ module.exports =
 	  if (this.fullscreen) {
 	    fullscreenLoading = undefined;
 	  }
-	  this.$el && this.$el.parentNode && this.$el.parentNode.removeChild(this.$el);
-	  this.$destroy();
+	  this.$on('after-leave', function (_) {
+	    _this.$el && _this.$el.parentNode && _this.$el.parentNode.removeChild(_this.$el);
+	    _this.$destroy();
+	  });
+	  this.visible = false;
 	};
 
 	var addStyle = function addStyle(options, parent, instance) {
@@ -416,6 +451,9 @@ module.exports =
 	    parent.style.overflow = 'hidden';
 	  }
 	  parent.appendChild(instance.$el);
+	  _vue2.default.nextTick(function () {
+	    instance.visible = true;
+	  });
 	  if (options.fullscreen) {
 	    fullscreenLoading = instance;
 	  }

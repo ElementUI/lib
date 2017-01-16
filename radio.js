@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(207);
+	module.exports = __webpack_require__(208);
 
 
 /***/ },
@@ -58,14 +58,14 @@ module.exports =
 
 /***/ },
 
-/***/ 207:
+/***/ 208:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _radio = __webpack_require__(208);
+	var _radio = __webpack_require__(209);
 
 	var _radio2 = _interopRequireDefault(_radio);
 
@@ -80,17 +80,17 @@ module.exports =
 
 /***/ },
 
-/***/ 208:
+/***/ 209:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(209)
+	__vue_exports__ = __webpack_require__(210)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(210)
+	var __vue_template__ = __webpack_require__(211)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -110,7 +110,7 @@ module.exports =
 
 /***/ },
 
-/***/ 209:
+/***/ 210:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -170,6 +170,10 @@ module.exports =
 	          this.$emit('input', val);
 	        }
 	      }
+	    },
+
+	    isDisabled: function isDisabled() {
+	      return this.isGroup ? this._radioGroup.disabled || this.disabled : this.disabled;
 	    }
 	  }
 	}; //
@@ -201,7 +205,7 @@ module.exports =
 
 /***/ },
 
-/***/ 210:
+/***/ 211:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -210,7 +214,7 @@ module.exports =
 	  }, [_c('span', {
 	    staticClass: "el-radio__input",
 	    class: {
-	      'is-disabled': _vm.disabled,
+	      'is-disabled': _vm.isDisabled,
 	      'is-checked': _vm.model === _vm.label,
 	        'is-focus': _vm.focus
 	    }
@@ -227,7 +231,7 @@ module.exports =
 	    attrs: {
 	      "type": "radio",
 	      "name": _vm.name,
-	      "disabled": _vm.disabled
+	      "disabled": _vm.isDisabled
 	    },
 	    domProps: {
 	      "value": _vm.label,
