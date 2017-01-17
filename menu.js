@@ -170,16 +170,6 @@ module.exports =
 	    },
 	    defaultOpeneds: function defaultOpeneds(value) {
 	      this.openedMenus = value;
-	    },
-
-	    '$route': {
-	      immediate: true,
-	      handler: function handler(value) {
-	        if (this.router) {
-	          this.activedIndex = value.path;
-	          this.initOpenedMenu();
-	        }
-	      }
 	    }
 	  },
 	  methods: {
@@ -227,7 +217,7 @@ module.exports =
 	      var index = item.index,
 	          indexPath = item.indexPath;
 
-
+	      this.activedIndex = item.index;
 	      this.$emit('select', index, indexPath, item);
 
 	      if (this.mode === 'horizontal') {
@@ -236,8 +226,6 @@ module.exports =
 
 	      if (this.router) {
 	        this.routeToItem(item);
-	      } else {
-	        this.activedIndex = item.index;
 	      }
 	    },
 
