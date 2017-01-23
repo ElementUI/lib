@@ -216,10 +216,7 @@ module.exports =
 	      (0, _dom.on)(reference, 'click', function () {
 	        _this.showPopper = !_this.showPopper;
 	      });
-	      (0, _dom.on)(document, 'click', function (e) {
-	        if (!_this.$el || !reference || _this.$el.contains(e.target) || reference.contains(e.target) || !popper || popper.contains(e.target)) return;
-	        _this.showPopper = false;
-	      });
+	      (0, _dom.on)(document, 'click', this.handleDocumentClick);
 	    } else if (this.trigger === 'hover') {
 	      (0, _dom.on)(reference, 'mouseenter', this.handleMouseEnter);
 	      (0, _dom.on)(popper, 'mouseenter', this.handleMouseEnter);
@@ -275,6 +272,16 @@ module.exports =
 	      this._timer = setTimeout(function () {
 	        _this2.showPopper = false;
 	      }, 200);
+	    },
+	    handleDocumentClick: function handleDocumentClick(e) {
+	      var reference = this.reference || this.$refs.reference;
+	      var popper = this.popper || this.$refs.popper;
+
+	      if (!reference && this.$slots.reference && this.$slots.reference[0]) {
+	        reference = this.referenceElm = this.$slots.reference[0].elm;
+	      }
+	      if (!this.$el || !reference || this.$el.contains(e.target) || reference.contains(e.target) || !popper || popper.contains(e.target)) return;
+	      this.showPopper = false;
 	    }
 	  },
 
@@ -287,6 +294,7 @@ module.exports =
 	    (0, _dom.off)(reference, 'blur');
 	    (0, _dom.off)(reference, 'mouseleave');
 	    (0, _dom.off)(reference, 'mouseenter');
+	    (0, _dom.off)(document, 'click', this.handleDocumentClick);
 	  }
 	};
 

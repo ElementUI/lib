@@ -331,7 +331,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.1.5',
+	  version: '1.1.6',
 	  locale: _locale2.default.use,
 	  i18n: _locale2.default.i18n,
 	  install: install,
@@ -3839,9 +3839,11 @@ module.exports =
 	    nativeOn: {
 	      "keydown": [function($event) {
 	        if (_vm._k($event.keyCode, "up", 38)) { return; }
+	        $event.preventDefault();
 	        _vm.increase($event)
 	      }, function($event) {
 	        if (_vm._k($event.keyCode, "down", 40)) { return; }
+	        $event.preventDefault();
 	        _vm.decrease($event)
 	      }]
 	    }
@@ -5193,6 +5195,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	exports.default = {
 	  mixins: [_emitter2.default, _locale2.default],
@@ -5325,7 +5328,7 @@ module.exports =
 	      var _this2 = this;
 
 	      this.$nextTick(function () {
-	        _this2.broadcast('ElSelectDropdown', 'updatePopper');
+	        if (_this2.visible) _this2.broadcast('ElSelectDropdown', 'updatePopper');
 	      });
 	      this.hoverIndex = -1;
 	      if (this.multiple && this.filterable) {
@@ -5447,9 +5450,14 @@ module.exports =
 	      }
 	    },
 	    getOption: function getOption(value) {
-	      var option = this.cachedOptions.filter(function (option) {
-	        return option.value === value;
-	      })[0];
+	      var option = void 0;
+	      for (var i = this.cachedOptions.length - 1; i >= 0; i--) {
+	        var cachedOption = this.cachedOptions[i];
+	        if (cachedOption.value === value) {
+	          option = cachedOption;
+	          break;
+	        }
+	      }
 	      if (option) return option;
 	      var label = typeof value === 'string' || typeof value === 'number' ? value : '';
 	      var newOption = {
@@ -5589,8 +5597,8 @@ module.exports =
 	        if (option.created) {
 	          this.query = '';
 	          this.inputLength = 20;
-	          this.$refs.input.focus();
 	        }
+	        if (this.filterable) this.$refs.input.focus();
 	      }
 	    },
 	    toggleMenu: function toggleMenu() {
@@ -5673,6 +5681,10 @@ module.exports =
 	    },
 	    resetInputWidth: function resetInputWidth() {
 	      this.inputWidth = this.$refs.reference.$el.getBoundingClientRect().width;
+	    },
+	    handleResize: function handleResize() {
+	      this.resetInputWidth();
+	      if (this.multiple) this.resetInputHeight();
 	    }
 	  },
 
@@ -5702,7 +5714,7 @@ module.exports =
 	    if (this.multiple && Array.isArray(this.value) && this.value.length > 0) {
 	      this.currentPlaceholder = '';
 	    }
-	    (0, _resizeEvent.addResizeListener)(this.$el, this.resetInputWidth);
+	    (0, _resizeEvent.addResizeListener)(this.$el, this.handleResize);
 	    if (this.remote && this.multiple) {
 	      this.resetInputHeight();
 	    }
@@ -5713,7 +5725,7 @@ module.exports =
 	    });
 	  },
 	  destroyed: function destroyed() {
-	    if (this.resetInputWidth) (0, _resizeEvent.removeResizeListener)(this.$el, this.resetInputWidth);
+	    if (this.handleResize) (0, _resizeEvent.removeResizeListener)(this.$el, this.handleResize);
 	  }
 	};
 
@@ -6133,6 +6145,7 @@ module.exports =
 	    }),
 	    attrs: {
 	      "type": "text",
+	      "disabled": _vm.disabled,
 	      "debounce": _vm.remote ? 300 : 0
 	    },
 	    domProps: {
@@ -8697,15 +8710,12 @@ module.exports =
 	      if (this.$isServer) return;
 	      document.body.style.cursor = '';
 	    },
-	    toggleOrder: function toggleOrder(column) {
-	      if (column.order === 'ascending') {
-	        return 'descending';
-	      }
-	      return 'ascending';
+	    toggleOrder: function toggleOrder(order) {
+	      return !order ? 'ascending' : order === 'ascending' ? 'descending' : null;
 	    },
 	    handleSortClick: function handleSortClick(event, column) {
 	      event.stopPropagation();
-	      var order = this.toggleOrder(column);
+	      var order = this.toggleOrder(column.order);
 
 	      var target = event.target;
 	      while (target && target.tagName !== 'TH') {
@@ -8734,7 +8744,7 @@ module.exports =
 	        sortProp = column.property;
 	      }
 
-	      if (column.order === order) {
+	      if (!order) {
 	        sortOrder = column.order = null;
 	        states.sortingColumn = null;
 	        sortProp = null;
@@ -10128,6 +10138,9 @@ module.exports =
 	      default: 'left'
 	    },
 	    value: {},
+	    rangeSeparator: {
+	      default: ' - '
+	    },
 	    pickerOptions: {}
 	  },
 
@@ -10241,6 +10254,7 @@ module.exports =
 	  },
 
 	  created: function created() {
+	    RANGE_SEPARATOR = this.rangeSeparator;
 	    // vue-popper
 	    this.options = {
 	      boundariesPadding: 0,
@@ -10421,7 +10435,7 @@ module.exports =
 	};
 
 	var toDate = exports.toDate = function toDate(date) {
-	  return isDate(date) ? date : null;
+	  return isDate(date) ? new Date(date) : null;
 	};
 
 	var isDate = exports.isDate = function isDate(date) {
@@ -14443,10 +14457,7 @@ module.exports =
 	      (0, _dom.on)(reference, 'click', function () {
 	        _this.showPopper = !_this.showPopper;
 	      });
-	      (0, _dom.on)(document, 'click', function (e) {
-	        if (!_this.$el || !reference || _this.$el.contains(e.target) || reference.contains(e.target) || !popper || popper.contains(e.target)) return;
-	        _this.showPopper = false;
-	      });
+	      (0, _dom.on)(document, 'click', this.handleDocumentClick);
 	    } else if (this.trigger === 'hover') {
 	      (0, _dom.on)(reference, 'mouseenter', this.handleMouseEnter);
 	      (0, _dom.on)(popper, 'mouseenter', this.handleMouseEnter);
@@ -14502,6 +14513,16 @@ module.exports =
 	      this._timer = setTimeout(function () {
 	        _this2.showPopper = false;
 	      }, 200);
+	    },
+	    handleDocumentClick: function handleDocumentClick(e) {
+	      var reference = this.reference || this.$refs.reference;
+	      var popper = this.popper || this.$refs.popper;
+
+	      if (!reference && this.$slots.reference && this.$slots.reference[0]) {
+	        reference = this.referenceElm = this.$slots.reference[0].elm;
+	      }
+	      if (!this.$el || !reference || this.$el.contains(e.target) || reference.contains(e.target) || !popper || popper.contains(e.target)) return;
+	      this.showPopper = false;
 	    }
 	  },
 
@@ -14514,6 +14535,7 @@ module.exports =
 	    (0, _dom.off)(reference, 'blur');
 	    (0, _dom.off)(reference, 'mouseleave');
 	    (0, _dom.off)(reference, 'mouseenter');
+	    (0, _dom.off)(document, 'click', this.handleDocumentClick);
 	  }
 	};
 
@@ -14801,6 +14823,7 @@ module.exports =
 	  cancelButtonText: '',
 	  confirmButtonClass: '',
 	  cancelButtonClass: '',
+	  customClass: '',
 	  beforeClose: null
 	};
 

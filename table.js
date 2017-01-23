@@ -2148,15 +2148,12 @@ module.exports =
 	      if (this.$isServer) return;
 	      document.body.style.cursor = '';
 	    },
-	    toggleOrder: function toggleOrder(column) {
-	      if (column.order === 'ascending') {
-	        return 'descending';
-	      }
-	      return 'ascending';
+	    toggleOrder: function toggleOrder(order) {
+	      return !order ? 'ascending' : order === 'ascending' ? 'descending' : null;
 	    },
 	    handleSortClick: function handleSortClick(event, column) {
 	      event.stopPropagation();
-	      var order = this.toggleOrder(column);
+	      var order = this.toggleOrder(column.order);
 
 	      var target = event.target;
 	      while (target && target.tagName !== 'TH') {
@@ -2185,7 +2182,7 @@ module.exports =
 	        sortProp = column.property;
 	      }
 
-	      if (column.order === order) {
+	      if (!order) {
 	        sortOrder = column.order = null;
 	        states.sortingColumn = null;
 	        sortProp = null;

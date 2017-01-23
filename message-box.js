@@ -164,6 +164,7 @@ module.exports =
 	  cancelButtonText: '',
 	  confirmButtonClass: '',
 	  cancelButtonClass: '',
+	  customClass: '',
 	  beforeClose: null
 	};
 

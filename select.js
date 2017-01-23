@@ -535,6 +535,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	exports.default = {
 	  mixins: [_emitter2.default, _locale2.default],
@@ -667,7 +668,7 @@ module.exports =
 	      var _this2 = this;
 
 	      this.$nextTick(function () {
-	        _this2.broadcast('ElSelectDropdown', 'updatePopper');
+	        if (_this2.visible) _this2.broadcast('ElSelectDropdown', 'updatePopper');
 	      });
 	      this.hoverIndex = -1;
 	      if (this.multiple && this.filterable) {
@@ -789,9 +790,14 @@ module.exports =
 	      }
 	    },
 	    getOption: function getOption(value) {
-	      var option = this.cachedOptions.filter(function (option) {
-	        return option.value === value;
-	      })[0];
+	      var option = void 0;
+	      for (var i = this.cachedOptions.length - 1; i >= 0; i--) {
+	        var cachedOption = this.cachedOptions[i];
+	        if (cachedOption.value === value) {
+	          option = cachedOption;
+	          break;
+	        }
+	      }
 	      if (option) return option;
 	      var label = typeof value === 'string' || typeof value === 'number' ? value : '';
 	      var newOption = {
@@ -931,8 +937,8 @@ module.exports =
 	        if (option.created) {
 	          this.query = '';
 	          this.inputLength = 20;
-	          this.$refs.input.focus();
 	        }
+	        if (this.filterable) this.$refs.input.focus();
 	      }
 	    },
 	    toggleMenu: function toggleMenu() {
@@ -1015,6 +1021,10 @@ module.exports =
 	    },
 	    resetInputWidth: function resetInputWidth() {
 	      this.inputWidth = this.$refs.reference.$el.getBoundingClientRect().width;
+	    },
+	    handleResize: function handleResize() {
+	      this.resetInputWidth();
+	      if (this.multiple) this.resetInputHeight();
 	    }
 	  },
 
@@ -1044,7 +1054,7 @@ module.exports =
 	    if (this.multiple && Array.isArray(this.value) && this.value.length > 0) {
 	      this.currentPlaceholder = '';
 	    }
-	    (0, _resizeEvent.addResizeListener)(this.$el, this.resetInputWidth);
+	    (0, _resizeEvent.addResizeListener)(this.$el, this.handleResize);
 	    if (this.remote && this.multiple) {
 	      this.resetInputHeight();
 	    }
@@ -1055,7 +1065,7 @@ module.exports =
 	    });
 	  },
 	  destroyed: function destroyed() {
-	    if (this.resetInputWidth) (0, _resizeEvent.removeResizeListener)(this.$el, this.resetInputWidth);
+	    if (this.handleResize) (0, _resizeEvent.removeResizeListener)(this.$el, this.handleResize);
 	  }
 	};
 
@@ -1250,6 +1260,7 @@ module.exports =
 	    }),
 	    attrs: {
 	      "type": "text",
+	      "disabled": _vm.disabled,
 	      "debounce": _vm.remote ? 300 : 0
 	    },
 	    domProps: {

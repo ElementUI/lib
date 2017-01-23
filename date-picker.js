@@ -451,6 +451,9 @@ module.exports =
 	      default: 'left'
 	    },
 	    value: {},
+	    rangeSeparator: {
+	      default: ' - '
+	    },
 	    pickerOptions: {}
 	  },
 
@@ -564,6 +567,7 @@ module.exports =
 	  },
 
 	  created: function created() {
+	    RANGE_SEPARATOR = this.rangeSeparator;
 	    // vue-popper
 	    this.options = {
 	      boundariesPadding: 0,
@@ -750,7 +754,7 @@ module.exports =
 	};
 
 	var toDate = exports.toDate = function toDate(date) {
-	  return isDate(date) ? date : null;
+	  return isDate(date) ? new Date(date) : null;
 	};
 
 	var isDate = exports.isDate = function isDate(date) {

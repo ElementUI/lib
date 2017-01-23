@@ -1102,7 +1102,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * Check if the given variable is a function
      * @function
      * @ignore
-     * @argument {Element} element - Element to check
+     * @argument {*} functionToCheck - variable to check
      * @returns {Boolean} answer to: is a function?
      */
     function isFunction(functionToCheck) {
@@ -1145,7 +1145,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         // whether the IE version is lower than 11
         var isIE = navigator.userAgent.indexOf("MSIE") != -1;
 
-        // fix ie document bouding top always 0 bug
+        // fix ie document bounding top always 0 bug
         var rectTop = isIE && element.tagName === 'HTML' ? -element.scrollTop : rect.top;
 
         return {

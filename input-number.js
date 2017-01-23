@@ -378,9 +378,11 @@ module.exports =
 	    nativeOn: {
 	      "keydown": [function($event) {
 	        if (_vm._k($event.keyCode, "up", 38)) { return; }
+	        $event.preventDefault();
 	        _vm.increase($event)
 	      }, function($event) {
 	        if (_vm._k($event.keyCode, "down", 40)) { return; }
+	        $event.preventDefault();
 	        _vm.decrease($event)
 	      }]
 	    }
