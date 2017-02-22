@@ -3,6 +3,10 @@
 exports.__esModule = true;
 exports.default = {
   el: {
+    colorpicker: {
+      confirm: 'OK',
+      clear: 'Temizle'
+    },
     datepicker: {
       now: 'Şimdi',
       today: 'Bugün',
@@ -57,6 +61,10 @@ exports.default = {
       loading: 'Yükleniyor',
       noMatch: 'Eşleşen veri bulunamadı',
       noData: 'Veri yok',
+      placeholder: 'Seç'
+    },
+    cascader: {
+      noMatch: 'Eşleşen veri bulunamadı',
       placeholder: 'Seç'
     },
     pagination: {

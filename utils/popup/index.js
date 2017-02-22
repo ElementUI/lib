@@ -15,6 +15,10 @@ var _popupManager = require('element-ui/lib/utils/popup/popup-manager');
 
 var _popupManager2 = _interopRequireDefault(_popupManager);
 
+var _scrollbarWidth = require('../scrollbar-width');
+
+var _scrollbarWidth2 = _interopRequireDefault(_scrollbarWidth);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var idSeed = 1;
@@ -53,29 +57,6 @@ var hookTransition = function hookTransition(transition) {
 };
 
 var scrollBarWidth = void 0;
-var getScrollBarWidth = function getScrollBarWidth() {
-  if (_vue2.default.prototype.$isServer) return;
-  if (scrollBarWidth !== undefined) return scrollBarWidth;
-
-  var outer = document.createElement('div');
-  outer.style.visibility = 'hidden';
-  outer.style.width = '100px';
-  outer.style.position = 'absolute';
-  outer.style.top = '-9999px';
-  document.body.appendChild(outer);
-
-  var widthNoScroll = outer.offsetWidth;
-  outer.style.overflow = 'scroll';
-
-  var inner = document.createElement('div');
-  inner.style.width = '100%';
-  outer.appendChild(inner);
-
-  var widthWithScroll = inner.offsetWidth;
-  outer.parentNode.removeChild(outer);
-
-  return widthNoScroll - widthWithScroll;
-};
 
 var getDOM = function getDOM(dom) {
   if (dom.nodeType === 3) {
@@ -107,6 +88,10 @@ exports.default = {
       default: true
     },
     modalClass: {},
+    modalAppendToBody: {
+      type: Boolean,
+      default: false
+    },
     lockScroll: {
       type: Boolean,
       default: true
@@ -223,13 +208,13 @@ exports.default = {
           _popupManager2.default.closeModal(this._popupId);
           this._closing = false;
         }
-        _popupManager2.default.openModal(this._popupId, _popupManager2.default.nextZIndex(), dom, props.modalClass, props.modalFade);
+        _popupManager2.default.openModal(this._popupId, _popupManager2.default.nextZIndex(), this.modalAppendToBody ? undefined : dom, props.modalClass, props.modalFade);
         if (props.lockScroll) {
           if (!this.bodyOverflow) {
             this.bodyPaddingRight = document.body.style.paddingRight;
             this.bodyOverflow = document.body.style.overflow;
           }
-          scrollBarWidth = getScrollBarWidth();
+          scrollBarWidth = (0, _scrollbarWidth2.default)();
           var bodyHasOverflow = document.documentElement.clientHeight < document.body.scrollHeight;
           if (scrollBarWidth > 0 && bodyHasOverflow) {
             document.body.style.paddingRight = scrollBarWidth + 'px';

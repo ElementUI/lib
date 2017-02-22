@@ -3,6 +3,10 @@
 exports.__esModule = true;
 exports.default = {
   el: {
+    colorpicker: {
+      confirm: '확인',
+      clear: '초기화'
+    },
     datepicker: {
       now: '지금',
       today: '오늘',
@@ -57,6 +61,10 @@ exports.default = {
       loading: '불러오는 중',
       noMatch: '맞는 데이터가 없습니다',
       noData: '데이터 없음',
+      placeholder: '선택'
+    },
+    cascader: {
+      noMatch: '맞는 데이터가 없습니다',
       placeholder: '선택'
     },
     pagination: {

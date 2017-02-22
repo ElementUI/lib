@@ -46,19 +46,73 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(40);
+	module.exports = __webpack_require__(41);
 
 
 /***/ },
 
-/***/ 40:
+/***/ 3:
+/***/ function(module, exports) {
+
+	module.exports = function normalizeComponent (
+	  rawScriptExports,
+	  compiledTemplate,
+	  scopeId,
+	  cssModules
+	) {
+	  var esModule
+	  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+	  // ES6 modules interop
+	  var type = typeof rawScriptExports.default
+	  if (type === 'object' || type === 'function') {
+	    esModule = rawScriptExports
+	    scriptExports = rawScriptExports.default
+	  }
+
+	  // Vue.extend constructor export interop
+	  var options = typeof scriptExports === 'function'
+	    ? scriptExports.options
+	    : scriptExports
+
+	  // render functions
+	  if (compiledTemplate) {
+	    options.render = compiledTemplate.render
+	    options.staticRenderFns = compiledTemplate.staticRenderFns
+	  }
+
+	  // scopedId
+	  if (scopeId) {
+	    options._scopeId = scopeId
+	  }
+
+	  // inject cssModules
+	  if (cssModules) {
+	    var computed = options.computed || (options.computed = {})
+	    Object.keys(cssModules).forEach(function (key) {
+	      var module = cssModules[key]
+	      computed[key] = function () { return module }
+	    })
+	  }
+
+	  return {
+	    esModule: esModule,
+	    exports: scriptExports,
+	    options: options
+	  }
+	}
+
+
+/***/ },
+
+/***/ 41:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(41);
+	var _main = __webpack_require__(42);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -73,52 +127,41 @@ module.exports =
 
 /***/ },
 
-/***/ 41:
+/***/ 42:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(43),
+	  /* template */
+	  __webpack_require__(47),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(42)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(46)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 42:
+/***/ 43:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _throttle = __webpack_require__(43);
+	var _throttle = __webpack_require__(44);
 
 	var _throttle2 = _interopRequireDefault(_throttle);
 
-	var _debounce = __webpack_require__(44);
+	var _debounce = __webpack_require__(45);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _resizeEvent = __webpack_require__(45);
+	var _resizeEvent = __webpack_require__(46);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -167,6 +210,9 @@ module.exports =
 
 
 	  watch: {
+	    items: function items() {
+	      this.setActiveItem(0);
+	    },
 	    activeIndex: function activeIndex(val, oldVal) {
 	      this.resetItemPosition();
 	      this.$emit('change', val, oldVal);
@@ -205,23 +251,22 @@ module.exports =
 	        item.hover = false;
 	      });
 	    },
-	    handleItemChange: function handleItemChange() {
-	      var _this2 = this;
 
-	      (0, _debounce2.default)(100, function () {
-	        _this2.updateItems();
-	      });
-	    },
+
+	    handleItemChange: (0, _debounce2.default)(100, function () {
+	      this.updateItems();
+	    }),
+
 	    updateItems: function updateItems() {
 	      this.items = this.$children.filter(function (child) {
 	        return child.$options.name === 'ElCarouselItem';
 	      });
 	    },
 	    resetItemPosition: function resetItemPosition() {
-	      var _this3 = this;
+	      var _this2 = this;
 
 	      this.items.forEach(function (item, index) {
-	        item.translateItem(index, _this3.activeIndex);
+	        item.translateItem(index, _this2.activeIndex);
 	      });
 	    },
 	    playSlides: function playSlides() {
@@ -278,25 +323,25 @@ module.exports =
 	  },
 
 	  created: function created() {
-	    var _this4 = this;
+	    var _this3 = this;
 
 	    this.throttledArrowClick = (0, _throttle2.default)(300, true, function (index) {
-	      _this4.setActiveItem(index);
+	      _this3.setActiveItem(index);
 	    });
 	    this.throttledIndicatorHover = (0, _throttle2.default)(300, function (index) {
-	      _this4.handleIndicatorHover(index);
+	      _this3.handleIndicatorHover(index);
 	    });
 	  },
 	  mounted: function mounted() {
-	    var _this5 = this;
+	    var _this4 = this;
 
 	    this.updateItems();
 	    this.$nextTick(function () {
-	      (0, _resizeEvent.addResizeListener)(_this5.$el, _this5.resetItemPosition);
-	      if (_this5.initialIndex < _this5.items.length && _this5.initialIndex >= 0) {
-	        _this5.activeIndex = _this5.initialIndex;
+	      (0, _resizeEvent.addResizeListener)(_this4.$el, _this4.resetItemPosition);
+	      if (_this4.initialIndex < _this4.items.length && _this4.initialIndex >= 0) {
+	        _this4.activeIndex = _this4.initialIndex;
 	      }
-	      _this5.startTimer();
+	      _this4.startTimer();
 	    });
 	  },
 	  beforeDestroy: function beforeDestroy() {
@@ -354,28 +399,28 @@ module.exports =
 
 /***/ },
 
-/***/ 43:
+/***/ 44:
 /***/ function(module, exports) {
 
 	module.exports = require("throttle-debounce/throttle");
 
 /***/ },
 
-/***/ 44:
+/***/ 45:
 /***/ function(module, exports) {
 
 	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
 
-/***/ 45:
+/***/ 46:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ },
 
-/***/ 46:
+/***/ 47:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

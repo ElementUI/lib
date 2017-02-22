@@ -3,6 +3,10 @@
 exports.__esModule = true;
 exports.default = {
   el: {
+    colorpicker: {
+      confirm: 'Confirmar',
+      clear: 'Limpar'
+    },
     datepicker: {
       now: 'Agora',
       today: 'Hoje',
@@ -15,7 +19,7 @@ exports.default = {
       startTime: 'Hora inicial',
       endDate: 'Data final',
       endTime: 'Hora final',
-      year: 'Ano',
+      year: '',
       month1: 'Janeiro',
       month2: 'Fevereiro',
       month3: 'Março',
@@ -59,6 +63,10 @@ exports.default = {
       noData: 'Sem dados',
       placeholder: 'Selecione'
     },
+    cascader: {
+      noMatch: 'Sem resultados',
+      placeholder: 'Selecione'
+    },
     pagination: {
       goto: 'Ir para',
       pagesize: '/pagina',
@@ -72,7 +80,7 @@ exports.default = {
     },
     upload: {
       delete: 'Apagar',
-      preview: 'Previsualizar',
+      preview: 'Pré-visualizar',
       continue: 'Continuar'
     },
     table: {

@@ -46,100 +46,151 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(303);
+	module.exports = __webpack_require__(347);
 
 
 /***/ },
 
-/***/ 8:
+/***/ 3:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/input");
+	module.exports = function normalizeComponent (
+	  rawScriptExports,
+	  compiledTemplate,
+	  scopeId,
+	  cssModules
+	) {
+	  var esModule
+	  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+	  // ES6 modules interop
+	  var type = typeof rawScriptExports.default
+	  if (type === 'object' || type === 'function') {
+	    esModule = rawScriptExports
+	    scriptExports = rawScriptExports.default
+	  }
+
+	  // Vue.extend constructor export interop
+	  var options = typeof scriptExports === 'function'
+	    ? scriptExports.options
+	    : scriptExports
+
+	  // render functions
+	  if (compiledTemplate) {
+	    options.render = compiledTemplate.render
+	    options.staticRenderFns = compiledTemplate.staticRenderFns
+	  }
+
+	  // scopedId
+	  if (scopeId) {
+	    options._scopeId = scopeId
+	  }
+
+	  // inject cssModules
+	  if (cssModules) {
+	    var computed = options.computed || (options.computed = {})
+	    Object.keys(cssModules).forEach(function (key) {
+	      var module = cssModules[key]
+	      computed[key] = function () { return module }
+	    })
+	  }
+
+	  return {
+	    esModule: esModule,
+	    exports: scriptExports,
+	    options: options
+	  }
+	}
+
 
 /***/ },
 
 /***/ 9:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/utils/clickoutside");
+	module.exports = require("element-ui/lib/input");
 
 /***/ },
 
-/***/ 12:
+/***/ 10:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/utils/vue-popper");
+	module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ },
 
 /***/ 13:
 /***/ function(module, exports) {
 
+	module.exports = require("element-ui/lib/utils/vue-popper");
+
+/***/ },
+
+/***/ 14:
+/***/ function(module, exports) {
+
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 72:
+/***/ 55:
+/***/ function(module, exports) {
+
+	module.exports = require("vue");
+
+/***/ },
+
+/***/ 114:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(115),
+	  /* template */
+	  __webpack_require__(118),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(73)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(77)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 73:
+/***/ 115:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(74);
+	var _vue = __webpack_require__(55);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _clickoutside = __webpack_require__(9);
+	var _clickoutside = __webpack_require__(10);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _util = __webpack_require__(75);
+	var _util = __webpack_require__(116);
 
-	var _vuePopper = __webpack_require__(12);
+	var _vuePopper = __webpack_require__(13);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _emitter = __webpack_require__(13);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _input = __webpack_require__(8);
+	var _input = __webpack_require__(9);
 
 	var _input2 = _interopRequireDefault(_input);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
 	//
 	//
 	//
@@ -347,6 +398,7 @@ module.exports =
 
 	  watch: {
 	    pickerVisible: function pickerVisible(val) {
+	      if (!val) this.dispatch('ElFormItem', 'el.form.blur');
 	      if (this.readonly || this.disabled) return;
 	      val ? this.showPicker() : this.hidePicker();
 	    },
@@ -367,6 +419,7 @@ module.exports =
 	    },
 	    displayValue: function displayValue(val) {
 	      this.$emit('change', val);
+	      this.dispatch('ElFormItem', 'el.form.change');
 	    }
 	  },
 
@@ -444,7 +497,7 @@ module.exports =
 	  created: function created() {
 	    RANGE_SEPARATOR = this.rangeSeparator;
 	    // vue-popper
-	    this.options = {
+	    this.popperOptions = {
 	      boundariesPadding: 0,
 	      gpuAcceleration: false
 	    };
@@ -494,7 +547,6 @@ module.exports =
 	    },
 	    handleBlur: function handleBlur() {
 	      this.$emit('blur', this);
-	      this.dispatch('ElFormItem', 'el.form.blur');
 	    },
 	    handleKeydown: function handleKeydown(event) {
 	      var keyCode = event.keyCode;
@@ -565,7 +617,7 @@ module.exports =
 	          _this.picker.$on('pick', function (date) {
 	            var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-	            if (_this.dateChanged(date, _this.value)) _this.$emit('input', date);
+	            _this.$emit('input', date);
 	            _this.pickerVisible = _this.picker.visible = visible;
 	            _this.picker.resetView && _this.picker.resetView();
 	          });
@@ -597,14 +649,7 @@ module.exports =
 
 /***/ },
 
-/***/ 74:
-/***/ function(module, exports) {
-
-	module.exports = require("vue");
-
-/***/ },
-
-/***/ 75:
+/***/ 116:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -612,7 +657,7 @@ module.exports =
 	exports.__esModule = true;
 	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDate = exports.toDate = exports.equalDate = undefined;
 
-	var _date = __webpack_require__(76);
+	var _date = __webpack_require__(117);
 
 	var _date2 = _interopRequireDefault(_date);
 
@@ -762,10 +807,11 @@ module.exports =
 	};
 
 	var limitRange = exports.limitRange = function limitRange(date, ranges) {
+	  var format = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'yyyy-MM-dd HH:mm:ss';
+
 	  if (!ranges || !ranges.length) return date;
 
 	  var len = ranges.length;
-	  var format = 'HH:mm:ss';
 
 	  date = _date2.default.parse(_date2.default.format(date, format), format);
 	  for (var i = 0; i < len; i++) {
@@ -788,14 +834,14 @@ module.exports =
 
 /***/ },
 
-/***/ 76:
+/***/ 117:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/date");
 
 /***/ },
 
-/***/ 77:
+/***/ 118:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -814,7 +860,8 @@ module.exports =
 	      "disabled": _vm.disabled,
 	      "size": _vm.size,
 	      "placeholder": _vm.placeholder,
-	      "value": _vm.displayValue
+	      "value": _vm.displayValue,
+	      "validateEvent": false
 	    },
 	    on: {
 	      "focus": _vm.handleFocus,
@@ -844,21 +891,21 @@ module.exports =
 
 /***/ },
 
-/***/ 85:
+/***/ 125:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/scrollbar");
 
 /***/ },
 
-/***/ 303:
+/***/ 347:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _timeSelect = __webpack_require__(304);
+	var _timeSelect = __webpack_require__(348);
 
 	var _timeSelect2 = _interopRequireDefault(_timeSelect);
 
@@ -873,18 +920,18 @@ module.exports =
 
 /***/ },
 
-/***/ 304:
+/***/ 348:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _picker = __webpack_require__(72);
+	var _picker = __webpack_require__(114);
 
 	var _picker2 = _interopRequireDefault(_picker);
 
-	var _timeSelect = __webpack_require__(305);
+	var _timeSelect = __webpack_require__(349);
 
 	var _timeSelect2 = _interopRequireDefault(_timeSelect);
 
@@ -903,44 +950,33 @@ module.exports =
 
 /***/ },
 
-/***/ 305:
+/***/ 349:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(350),
+	  /* template */
+	  __webpack_require__(351),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(306)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(307)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 306:
+/***/ 350:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _scrollbar = __webpack_require__(85);
+	var _scrollbar = __webpack_require__(125);
 
 	var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
@@ -1080,7 +1116,7 @@ module.exports =
 
 /***/ },
 
-/***/ 307:
+/***/ 351:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

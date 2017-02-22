@@ -46,33 +46,33 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(286);
+	module.exports = __webpack_require__(328);
 
 
 /***/ },
 
-/***/ 137:
+/***/ 177:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 239:
+/***/ 278:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 274:
+/***/ 316:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 276:
+/***/ 318:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -176,14 +176,14 @@ module.exports =
 
 /***/ },
 
-/***/ 286:
+/***/ 328:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tableColumn = __webpack_require__(287);
+	var _tableColumn = __webpack_require__(329);
 
 	var _tableColumn2 = _interopRequireDefault(_tableColumn);
 
@@ -198,26 +198,26 @@ module.exports =
 
 /***/ },
 
-/***/ 287:
+/***/ 329:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(274);
+	var _checkbox = __webpack_require__(316);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(239);
+	var _tag = __webpack_require__(278);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _merge = __webpack_require__(137);
+	var _merge = __webpack_require__(177);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
-	var _util = __webpack_require__(276);
+	var _util = __webpack_require__(318);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -460,8 +460,7 @@ module.exports =
 	    this.$options.render = function (h) {
 	      return h('div', _this.$slots.default);
 	    };
-
-	    var columnId = this.columnId = this.columnKey || (this.$parent.tableId || this.$parent.columnId + '_') + 'column_' + columnIdSeed++;
+	    this.columnId = (this.$parent.tableId || this.$parent.columnId + '_') + 'column_' + columnIdSeed++;
 
 	    var parent = this.$parent;
 	    var owner = this.owner;
@@ -488,7 +487,8 @@ module.exports =
 	    var isColumnGroup = false;
 
 	    var column = getDefaultColumn(type, {
-	      id: columnId,
+	      id: this.columnId,
+	      columnKey: this.columnKey,
 	      label: this.label,
 	      className: this.className,
 	      property: this.prop || this.property,

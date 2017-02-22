@@ -45,44 +45,96 @@ module.exports =
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(70);
+	module.exports = __webpack_require__(112);
 
 
 /***/ },
 /* 1 */,
 /* 2 */,
-/* 3 */,
+/* 3 */
+/***/ function(module, exports) {
+
+	module.exports = function normalizeComponent (
+	  rawScriptExports,
+	  compiledTemplate,
+	  scopeId,
+	  cssModules
+	) {
+	  var esModule
+	  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+	  // ES6 modules interop
+	  var type = typeof rawScriptExports.default
+	  if (type === 'object' || type === 'function') {
+	    esModule = rawScriptExports
+	    scriptExports = rawScriptExports.default
+	  }
+
+	  // Vue.extend constructor export interop
+	  var options = typeof scriptExports === 'function'
+	    ? scriptExports.options
+	    : scriptExports
+
+	  // render functions
+	  if (compiledTemplate) {
+	    options.render = compiledTemplate.render
+	    options.staticRenderFns = compiledTemplate.staticRenderFns
+	  }
+
+	  // scopedId
+	  if (scopeId) {
+	    options._scopeId = scopeId
+	  }
+
+	  // inject cssModules
+	  if (cssModules) {
+	    var computed = options.computed || (options.computed = {})
+	    Object.keys(cssModules).forEach(function (key) {
+	      var module = cssModules[key]
+	      computed[key] = function () { return module }
+	    })
+	  }
+
+	  return {
+	    esModule: esModule,
+	    exports: scriptExports,
+	    options: options
+	  }
+	}
+
+
+/***/ },
 /* 4 */,
 /* 5 */,
 /* 6 */,
 /* 7 */,
-/* 8 */
+/* 8 */,
+/* 9 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input");
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ },
-/* 10 */,
 /* 11 */,
-/* 12 */
+/* 12 */,
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
-/* 14 */,
 /* 15 */,
 /* 16 */,
 /* 17 */,
@@ -123,11 +175,21 @@ module.exports =
 /* 52 */,
 /* 53 */,
 /* 54 */,
-/* 55 */,
+/* 55 */
+/***/ function(module, exports) {
+
+	module.exports = require("vue");
+
+/***/ },
 /* 56 */,
 /* 57 */,
 /* 58 */,
-/* 59 */,
+/* 59 */
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/mixins/locale");
+
+/***/ },
 /* 60 */,
 /* 61 */,
 /* 62 */,
@@ -138,14 +200,56 @@ module.exports =
 /* 67 */,
 /* 68 */,
 /* 69 */,
-/* 70 */
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */,
+/* 79 */,
+/* 80 */,
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _datePicker = __webpack_require__(71);
+	var _datePicker = __webpack_require__(113);
 
 	var _datePicker2 = _interopRequireDefault(_datePicker);
 
@@ -159,22 +263,22 @@ module.exports =
 	exports.default = _datePicker2.default;
 
 /***/ },
-/* 71 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _picker = __webpack_require__(72);
+	var _picker = __webpack_require__(114);
 
 	var _picker2 = _interopRequireDefault(_picker);
 
-	var _date = __webpack_require__(78);
+	var _date = __webpack_require__(119);
 
 	var _date2 = _interopRequireDefault(_date);
 
-	var _dateRange = __webpack_require__(99);
+	var _dateRange = __webpack_require__(139);
 
 	var _dateRange2 = _interopRequireDefault(_dateRange);
 
@@ -205,66 +309,56 @@ module.exports =
 	};
 
 /***/ },
-/* 72 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(115),
+	  /* template */
+	  __webpack_require__(118),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(73)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(77)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
-/* 73 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(74);
+	var _vue = __webpack_require__(55);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _clickoutside = __webpack_require__(9);
+	var _clickoutside = __webpack_require__(10);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _util = __webpack_require__(75);
+	var _util = __webpack_require__(116);
 
-	var _vuePopper = __webpack_require__(12);
+	var _vuePopper = __webpack_require__(13);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _emitter = __webpack_require__(13);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _input = __webpack_require__(8);
+	var _input = __webpack_require__(9);
 
 	var _input2 = _interopRequireDefault(_input);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
 	//
 	//
 	//
@@ -472,6 +566,7 @@ module.exports =
 
 	  watch: {
 	    pickerVisible: function pickerVisible(val) {
+	      if (!val) this.dispatch('ElFormItem', 'el.form.blur');
 	      if (this.readonly || this.disabled) return;
 	      val ? this.showPicker() : this.hidePicker();
 	    },
@@ -492,6 +587,7 @@ module.exports =
 	    },
 	    displayValue: function displayValue(val) {
 	      this.$emit('change', val);
+	      this.dispatch('ElFormItem', 'el.form.change');
 	    }
 	  },
 
@@ -569,7 +665,7 @@ module.exports =
 	  created: function created() {
 	    RANGE_SEPARATOR = this.rangeSeparator;
 	    // vue-popper
-	    this.options = {
+	    this.popperOptions = {
 	      boundariesPadding: 0,
 	      gpuAcceleration: false
 	    };
@@ -619,7 +715,6 @@ module.exports =
 	    },
 	    handleBlur: function handleBlur() {
 	      this.$emit('blur', this);
-	      this.dispatch('ElFormItem', 'el.form.blur');
 	    },
 	    handleKeydown: function handleKeydown(event) {
 	      var keyCode = event.keyCode;
@@ -690,7 +785,7 @@ module.exports =
 	          _this.picker.$on('pick', function (date) {
 	            var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-	            if (_this.dateChanged(date, _this.value)) _this.$emit('input', date);
+	            _this.$emit('input', date);
 	            _this.pickerVisible = _this.picker.visible = visible;
 	            _this.picker.resetView && _this.picker.resetView();
 	          });
@@ -721,13 +816,7 @@ module.exports =
 	};
 
 /***/ },
-/* 74 */
-/***/ function(module, exports) {
-
-	module.exports = require("vue");
-
-/***/ },
-/* 75 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -735,7 +824,7 @@ module.exports =
 	exports.__esModule = true;
 	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDate = exports.toDate = exports.equalDate = undefined;
 
-	var _date = __webpack_require__(76);
+	var _date = __webpack_require__(117);
 
 	var _date2 = _interopRequireDefault(_date);
 
@@ -885,10 +974,11 @@ module.exports =
 	};
 
 	var limitRange = exports.limitRange = function limitRange(date, ranges) {
+	  var format = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'yyyy-MM-dd HH:mm:ss';
+
 	  if (!ranges || !ranges.length) return date;
 
 	  var len = ranges.length;
-	  var format = 'HH:mm:ss';
 
 	  date = _date2.default.parse(_date2.default.format(date, format), format);
 	  for (var i = 0; i < len; i++) {
@@ -910,13 +1000,13 @@ module.exports =
 	};
 
 /***/ },
-/* 76 */
+/* 117 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/date");
 
 /***/ },
-/* 77 */
+/* 118 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -935,7 +1025,8 @@ module.exports =
 	      "disabled": _vm.disabled,
 	      "size": _vm.size,
 	      "placeholder": _vm.placeholder,
-	      "value": _vm.displayValue
+	      "value": _vm.displayValue,
+	      "validateEvent": false
 	    },
 	    on: {
 	      "focus": _vm.handleFocus,
@@ -964,65 +1055,54 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 78 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(120),
+	  /* template */
+	  __webpack_require__(138),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(79)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(98)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
-/* 79 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(75);
+	var _util = __webpack_require__(116);
 
-	var _locale = __webpack_require__(80);
+	var _locale = __webpack_require__(59);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _input = __webpack_require__(8);
+	var _input = __webpack_require__(9);
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _time = __webpack_require__(81);
+	var _time = __webpack_require__(121);
 
 	var _time2 = _interopRequireDefault(_time);
 
-	var _yearTable = __webpack_require__(88);
+	var _yearTable = __webpack_require__(128);
 
 	var _yearTable2 = _interopRequireDefault(_yearTable);
 
-	var _monthTable = __webpack_require__(92);
+	var _monthTable = __webpack_require__(132);
 
 	var _monthTable2 = _interopRequireDefault(_monthTable);
 
-	var _dateTable = __webpack_require__(95);
+	var _dateTable = __webpack_require__(135);
 
 	var _dateTable2 = _interopRequireDefault(_dateTable);
 
@@ -1454,51 +1534,34 @@ module.exports =
 	//
 
 /***/ },
-/* 80 */
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/mixins/locale");
-
-/***/ },
-/* 81 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(122),
+	  /* template */
+	  __webpack_require__(127),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(82)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(87)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
-/* 82 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(75);
+	var _util = __webpack_require__(116);
 
-	var _locale = __webpack_require__(80);
+	var _locale = __webpack_require__(59);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -1541,7 +1604,7 @@ module.exports =
 	  mixins: [_locale2.default],
 
 	  components: {
-	    TimeSpinner: __webpack_require__(83)
+	    TimeSpinner: __webpack_require__(123)
 	  },
 
 	  props: {
@@ -1638,7 +1701,7 @@ module.exports =
 	      var first = arguments[1];
 
 	      if (first) return;
-	      var date = new Date((0, _util.limitRange)(this.currentDate, this.selectableRange));
+	      var date = new Date((0, _util.limitRange)(this.currentDate, this.selectableRange, 'HH:mm:ss'));
 	      this.$emit('pick', date, visible, first);
 	    },
 	    ajustScrollTop: function ajustScrollTop() {
@@ -1661,53 +1724,39 @@ module.exports =
 	};
 
 /***/ },
-/* 83 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(124),
+	  /* template */
+	  __webpack_require__(126),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(84)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(86)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
-/* 84 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(75);
+	var _util = __webpack_require__(116);
 
-	var _scrollbar = __webpack_require__(85);
+	var _scrollbar = __webpack_require__(125);
 
 	var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	//
-	//
-	//
 	//
 	//
 	//
@@ -1791,21 +1840,21 @@ module.exports =
 	      if (!(newVal >= 0 && newVal <= 23)) {
 	        this.hoursPrivate = oldVal;
 	      }
-	      this.hourEl.scrollTop = Math.max(0, (this.hoursPrivate - 2.5) * 32 + 80);
+	      this.ajustElTop('hour', newVal);
 	      this.$emit('change', { hours: newVal });
 	    },
 	    minutesPrivate: function minutesPrivate(newVal, oldVal) {
 	      if (!(newVal >= 0 && newVal <= 59)) {
 	        this.minutesPrivate = oldVal;
 	      }
-	      this.minuteEl.scrollTop = Math.max(0, (this.minutesPrivate - 2.5) * 32 + 80);
+	      this.ajustElTop('minute', newVal);
 	      this.$emit('change', { minutes: newVal });
 	    },
 	    secondsPrivate: function secondsPrivate(newVal, oldVal) {
 	      if (!(newVal >= 0 && newVal <= 59)) {
 	        this.secondsPrivate = oldVal;
 	      }
-	      this.secondEl.scrollTop = Math.max(0, (this.secondsPrivate - 2.5) * 32 + 80);
+	      this.ajustElTop('second', newVal);
 	      this.$emit('change', { seconds: newVal });
 	    }
 	  },
@@ -1833,6 +1882,13 @@ module.exports =
 	      selectableRange: []
 	    };
 	  },
+	  mounted: function mounted() {
+	    var _this = this;
+
+	    this.$nextTick(function () {
+	      _this.bindScrollEvent();
+	    });
+	  },
 
 
 	  methods: {
@@ -1854,28 +1910,42 @@ module.exports =
 	        this.$emit('select-range', 6, 8);
 	      }
 	    },
+	    bindScrollEvent: function bindScrollEvent() {
+	      var _this2 = this;
+
+	      var bindFuntion = function bindFuntion(type) {
+	        _this2[type + 'El'].onscroll = function (e) {
+	          return _this2.handleScroll(type, e);
+	        };
+	      };
+	      bindFuntion('hour');
+	      bindFuntion('minute');
+	      bindFuntion('second');
+	    },
 	    handleScroll: function handleScroll(type) {
 	      var ajust = {};
-
 	      ajust[type + 's'] = Math.min(Math.floor((this[type + 'El'].scrollTop - 80) / 32 + 3), 59);
 	      this.$emit('change', ajust);
 	    },
 	    ajustScrollTop: function ajustScrollTop() {
-	      this.hourEl.scrollTop = Math.max(0, (this.hours - 2.5) * 32 + 80);
-	      this.minuteEl.scrollTop = Math.max(0, (this.minutes - 2.5) * 32 + 80);
-	      this.secondEl.scrollTop = Math.max(0, (this.seconds - 2.5) * 32 + 80);
+	      this.ajustElTop('hour', this.hours);
+	      this.ajustElTop('minute', this.minutes);
+	      this.ajustElTop('second', this.seconds);
+	    },
+	    ajustElTop: function ajustElTop(type, value) {
+	      this[type + 'El'].scrollTop = Math.max(0, (value - 2.5) * 32 + 80);
 	    }
 	  }
 	};
 
 /***/ },
-/* 85 */
+/* 125 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/scrollbar");
 
 /***/ },
-/* 86 */
+/* 126 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1896,9 +1966,6 @@ module.exports =
 	    nativeOn: {
 	      "mouseenter": function($event) {
 	        _vm.emitSelectRange('hours')
-	      },
-	      "mousewheel": function($event) {
-	        _vm.handleScroll('hour')
 	      }
 	    }
 	  }, _vm._l((_vm.hoursList), function(disabled, hour) {
@@ -1934,9 +2001,6 @@ module.exports =
 	    nativeOn: {
 	      "mouseenter": function($event) {
 	        _vm.emitSelectRange('minutes')
-	      },
-	      "mousewheel": function($event) {
-	        _vm.handleScroll('minute')
 	      }
 	    }
 	  }, _vm._l((60), function(minute, key) {
@@ -1972,9 +2036,6 @@ module.exports =
 	    nativeOn: {
 	      "mouseenter": function($event) {
 	        _vm.emitSelectRange('seconds')
-	      },
-	      "mousewheel": function($event) {
-	        _vm.handleScroll('second')
 	      }
 	    }
 	  }, _vm._l((60), function(second, key) {
@@ -1996,7 +2057,7 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 87 */
+/* 127 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2062,43 +2123,32 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 88 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(129),
+	  /* template */
+	  __webpack_require__(131),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(89)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(91)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
-/* 89 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _dom = __webpack_require__(90);
+	var _dom = __webpack_require__(130);
 
 	exports.default = {
 	  props: {
@@ -2186,13 +2236,13 @@ module.exports =
 	//
 
 /***/ },
-/* 90 */
+/* 130 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
-/* 91 */
+/* 131 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2255,47 +2305,36 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 92 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(133),
+	  /* template */
+	  __webpack_require__(134),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(93)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(94)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
-/* 93 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _locale = __webpack_require__(80);
+	var _locale = __webpack_require__(59);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _dom = __webpack_require__(90);
+	var _dom = __webpack_require__(130);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2383,7 +2422,7 @@ module.exports =
 	};
 
 /***/ },
-/* 94 */
+/* 134 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2444,47 +2483,36 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 95 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(136),
+	  /* template */
+	  __webpack_require__(137),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(96)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(97)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
-/* 96 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(75);
+	var _util = __webpack_require__(116);
 
-	var _dom = __webpack_require__(90);
+	var _dom = __webpack_require__(130);
 
-	var _locale = __webpack_require__(80);
+	var _locale = __webpack_require__(59);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -2752,7 +2780,7 @@ module.exports =
 	    getDateOfCell: function getDateOfCell(row, column) {
 	      var startDate = this.startDate;
 
-	      return new Date(startDate.getTime() + (row * 7 + (column - (this.showWeekNumber ? 1 : 0))) * _util.DAY_DURATION);
+	      return new Date(startDate.getTime() + (row * 7 + (column - (this.showWeekNumber ? 1 : 0)) - this.offsetDay) * _util.DAY_DURATION);
 	    },
 	    getCellByDate: function getCellByDate(date) {
 	      var startDate = this.startDate;
@@ -2801,7 +2829,7 @@ module.exports =
 
 	          var cell = row[j];
 	          var index = i * 7 + j + (this.showWeekNumber ? -1 : 0);
-	          var time = startDate.getTime() + _util.DAY_DURATION * index;
+	          var time = startDate.getTime() + _util.DAY_DURATION * (index - this.offsetDay);
 
 	          cell.inRange = minDate && time >= clearHours(minDate) && time <= clearHours(maxDate);
 	          cell.start = minDate && time === clearHours(minDate.getTime());
@@ -2928,7 +2956,7 @@ module.exports =
 	};
 
 /***/ },
-/* 97 */
+/* 137 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2965,7 +2993,7 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 98 */
+/* 138 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -3207,57 +3235,46 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 99 */
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(140),
+	  /* template */
+	  __webpack_require__(141),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(100)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(101)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
-/* 100 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(75);
+	var _util = __webpack_require__(116);
 
-	var _locale = __webpack_require__(80);
+	var _locale = __webpack_require__(59);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _time = __webpack_require__(81);
+	var _time = __webpack_require__(121);
 
 	var _time2 = _interopRequireDefault(_time);
 
-	var _dateTable = __webpack_require__(95);
+	var _dateTable = __webpack_require__(135);
 
 	var _dateTable2 = _interopRequireDefault(_dateTable);
 
-	var _input = __webpack_require__(8);
+	var _input = __webpack_require__(9);
 
 	var _input2 = _interopRequireDefault(_input);
 
@@ -3707,7 +3724,7 @@ module.exports =
 	//
 
 /***/ },
-/* 101 */
+/* 141 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

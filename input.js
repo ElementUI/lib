@@ -46,26 +46,80 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(133);
+	module.exports = __webpack_require__(173);
 
 
 /***/ },
 
-/***/ 13:
+/***/ 3:
+/***/ function(module, exports) {
+
+	module.exports = function normalizeComponent (
+	  rawScriptExports,
+	  compiledTemplate,
+	  scopeId,
+	  cssModules
+	) {
+	  var esModule
+	  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+	  // ES6 modules interop
+	  var type = typeof rawScriptExports.default
+	  if (type === 'object' || type === 'function') {
+	    esModule = rawScriptExports
+	    scriptExports = rawScriptExports.default
+	  }
+
+	  // Vue.extend constructor export interop
+	  var options = typeof scriptExports === 'function'
+	    ? scriptExports.options
+	    : scriptExports
+
+	  // render functions
+	  if (compiledTemplate) {
+	    options.render = compiledTemplate.render
+	    options.staticRenderFns = compiledTemplate.staticRenderFns
+	  }
+
+	  // scopedId
+	  if (scopeId) {
+	    options._scopeId = scopeId
+	  }
+
+	  // inject cssModules
+	  if (cssModules) {
+	    var computed = options.computed || (options.computed = {})
+	    Object.keys(cssModules).forEach(function (key) {
+	      var module = cssModules[key]
+	      computed[key] = function () { return module }
+	    })
+	  }
+
+	  return {
+	    esModule: esModule,
+	    exports: scriptExports,
+	    options: options
+	  }
+	}
+
+
+/***/ },
+
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 133:
+/***/ 173:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _input = __webpack_require__(134);
+	var _input = __webpack_require__(174);
 
 	var _input2 = _interopRequireDefault(_input);
 
@@ -80,128 +134,45 @@ module.exports =
 
 /***/ },
 
-/***/ 134:
+/***/ 174:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(175),
+	  /* template */
+	  __webpack_require__(178),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(135)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(138)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 135:
+/***/ 175:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(13);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _calcTextareaHeight = __webpack_require__(136);
+	var _calcTextareaHeight = __webpack_require__(176);
 
 	var _calcTextareaHeight2 = _interopRequireDefault(_calcTextareaHeight);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _merge = __webpack_require__(177);
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	var _merge2 = _interopRequireDefault(_merge);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	  name: 'ElInput',
@@ -213,7 +184,7 @@ module.exports =
 	  data: function data() {
 	    return {
 	      currentValue: this.value,
-	      textareaStyle: {}
+	      textareaCalcStyle: {}
 	    };
 	  },
 
@@ -249,6 +220,7 @@ module.exports =
 	    minlength: Number,
 	    max: {},
 	    min: {},
+	    step: {},
 	    validateEvent: {
 	      type: Boolean,
 	      default: true
@@ -259,6 +231,9 @@ module.exports =
 	  computed: {
 	    validating: function validating() {
 	      return this.$parent.validateState === 'validating';
+	    },
+	    textareaStyle: function textareaStyle() {
+	      return (0, _merge2.default)({}, this.textareaCalcStyle, { resize: this.resize });
 	    }
 	  },
 
@@ -287,16 +262,16 @@ module.exports =
 	      var minRows = autosize.minRows;
 	      var maxRows = autosize.maxRows;
 
-	      var options = {
-	        resize: this.resize
-	      };
-	      this.textareaStyle = (0, _calcTextareaHeight2.default)(this.$refs.textarea, minRows, maxRows, options);
+	      this.textareaCalcStyle = (0, _calcTextareaHeight2.default)(this.$refs.textarea, minRows, maxRows);
 	    },
 	    handleFocus: function handleFocus(event) {
 	      this.$emit('focus', event);
 	    },
 	    handleInput: function handleInput(event) {
-	      this.setCurrentValue(event.target.value);
+	      var value = event.target.value;
+	      this.$emit('input', value);
+	      this.setCurrentValue(value);
+	      this.$emit('change', value);
 	    },
 	    handleIconClick: function handleIconClick(event) {
 	      if (this.onIconClick) {
@@ -312,8 +287,6 @@ module.exports =
 	        _this.resizeTextarea();
 	      });
 	      this.currentValue = value;
-	      this.$emit('input', value);
-	      this.$emit('change', value);
 	      if (this.validateEvent) {
 	        this.dispatch('ElFormItem', 'el.form.change', [value]);
 	      }
@@ -326,24 +299,92 @@ module.exports =
 	  mounted: function mounted() {
 	    this.resizeTextarea();
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
-/***/ 136:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 176:
+/***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
 	exports.default = calcTextareaHeight;
-
-	var _merge = __webpack_require__(137);
-
-	var _merge2 = _interopRequireDefault(_merge);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 	var hiddenTextarea = void 0;
 
 	var HIDDEN_STYLE = '\n  height:0 !important;\n  visibility:hidden !important;\n  overflow:hidden !important;\n  position:absolute !important;\n  z-index:-1000 !important;\n  top:0 !important;\n  right:0 !important\n';
@@ -369,7 +410,6 @@ module.exports =
 	function calcTextareaHeight(targetNode) {
 	  var minRows = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 	  var maxRows = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-	  var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
 
 	  if (!hiddenTextarea) {
 	    hiddenTextarea = document.createElement('textarea');
@@ -411,19 +451,19 @@ module.exports =
 	    height = Math.min(maxHeight, height);
 	  }
 
-	  return (0, _merge2.default)({ height: height + 'px' }, options);
+	  return { height: height + 'px' };
 	};
 
 /***/ },
 
-/***/ 137:
+/***/ 177:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 138:
+/***/ 178:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -463,6 +503,7 @@ module.exports =
 	      "autofocus": _vm.autofocus,
 	      "min": _vm.min,
 	      "max": _vm.max,
+	      "step": _vm.step,
 	      "form": _vm.form
 	    },
 	    domProps: {

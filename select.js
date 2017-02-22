@@ -46,126 +46,169 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(233);
+	module.exports = __webpack_require__(272);
 
 
 /***/ },
 
-/***/ 8:
+/***/ 3:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/input");
+	module.exports = function normalizeComponent (
+	  rawScriptExports,
+	  compiledTemplate,
+	  scopeId,
+	  cssModules
+	) {
+	  var esModule
+	  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+	  // ES6 modules interop
+	  var type = typeof rawScriptExports.default
+	  if (type === 'object' || type === 'function') {
+	    esModule = rawScriptExports
+	    scriptExports = rawScriptExports.default
+	  }
+
+	  // Vue.extend constructor export interop
+	  var options = typeof scriptExports === 'function'
+	    ? scriptExports.options
+	    : scriptExports
+
+	  // render functions
+	  if (compiledTemplate) {
+	    options.render = compiledTemplate.render
+	    options.staticRenderFns = compiledTemplate.staticRenderFns
+	  }
+
+	  // scopedId
+	  if (scopeId) {
+	    options._scopeId = scopeId
+	  }
+
+	  // inject cssModules
+	  if (cssModules) {
+	    var computed = options.computed || (options.computed = {})
+	    Object.keys(cssModules).forEach(function (key) {
+	      var module = cssModules[key]
+	      computed[key] = function () { return module }
+	    })
+	  }
+
+	  return {
+	    esModule: esModule,
+	    exports: scriptExports,
+	    options: options
+	  }
+	}
+
 
 /***/ },
 
 /***/ 9:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/utils/clickoutside");
+	module.exports = require("element-ui/lib/input");
 
 /***/ },
 
-/***/ 12:
+/***/ 10:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/utils/vue-popper");
+	module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ },
 
 /***/ 13:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/mixins/emitter");
+	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 
-/***/ 44:
+/***/ 14:
 /***/ function(module, exports) {
 
-	module.exports = require("throttle-debounce/debounce");
+	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
 /***/ 45:
 /***/ function(module, exports) {
 
+	module.exports = require("throttle-debounce/debounce");
+
+/***/ },
+
+/***/ 46:
+/***/ function(module, exports) {
+
 	module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ },
 
-/***/ 80:
+/***/ 59:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 85:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/scrollbar");
-
-/***/ },
-
-/***/ 90:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/dom");
-
-/***/ },
-
-/***/ 137:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/merge");
-
-/***/ },
-
-/***/ 176:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 185:
+/***/ 125:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/scrollbar");
+
+/***/ },
+
+/***/ 130:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/dom");
+
+/***/ },
+
+/***/ 177:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/merge");
+
+/***/ },
+
+/***/ 224:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(225),
+	  /* template */
+	  __webpack_require__(226),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(186)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(187)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 186:
+/***/ 225:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(13);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -183,10 +226,6 @@ module.exports =
 	      required: true
 	    },
 	    label: [String, Number],
-	    selected: {
-	      type: Boolean,
-	      default: false
-	    },
 	    created: Boolean,
 	    disabled: {
 	      type: Boolean,
@@ -308,7 +347,7 @@ module.exports =
 
 /***/ },
 
-/***/ 187:
+/***/ 226:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -337,14 +376,14 @@ module.exports =
 
 /***/ },
 
-/***/ 233:
+/***/ 272:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _select = __webpack_require__(234);
+	var _select = __webpack_require__(273);
 
 	var _select2 = _interopRequireDefault(_select);
 
@@ -359,86 +398,75 @@ module.exports =
 
 /***/ },
 
-/***/ 234:
+/***/ 273:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(274),
+	  /* template */
+	  __webpack_require__(279),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(235)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(240)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 235:
+/***/ 274:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(13);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _locale = __webpack_require__(80);
+	var _locale = __webpack_require__(59);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _input = __webpack_require__(8);
+	var _input = __webpack_require__(9);
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _selectDropdown = __webpack_require__(236);
+	var _selectDropdown = __webpack_require__(275);
 
 	var _selectDropdown2 = _interopRequireDefault(_selectDropdown);
 
-	var _option = __webpack_require__(185);
+	var _option = __webpack_require__(224);
 
 	var _option2 = _interopRequireDefault(_option);
 
-	var _tag = __webpack_require__(239);
+	var _tag = __webpack_require__(278);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _scrollbar = __webpack_require__(85);
+	var _scrollbar = __webpack_require__(125);
 
 	var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
-	var _debounce = __webpack_require__(44);
+	var _debounce = __webpack_require__(45);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _clickoutside = __webpack_require__(9);
+	var _clickoutside = __webpack_require__(10);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _dom = __webpack_require__(90);
+	var _dom = __webpack_require__(130);
 
-	var _resizeEvent = __webpack_require__(45);
+	var _resizeEvent = __webpack_require__(46);
 
-	var _locale3 = __webpack_require__(176);
+	var _locale3 = __webpack_require__(60);
 
-	var _merge = __webpack_require__(137);
+	var _merge = __webpack_require__(177);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
@@ -449,6 +477,10 @@ module.exports =
 	  'small': 30,
 	  'mini': 22
 	}; //
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -635,8 +667,8 @@ module.exports =
 	      selectedLabel: '',
 	      hoverIndex: -1,
 	      query: '',
-	      bottomOverflowBeforeHidden: 0,
-	      topOverflowBeforeHidden: 0,
+	      bottomOverflow: 0,
+	      topOverflow: 0,
 	      optionsAllDisabled: false,
 	      inputHovering: false,
 	      currentPlaceholder: ''
@@ -646,7 +678,7 @@ module.exports =
 
 	  watch: {
 	    placeholder: function placeholder(val) {
-	      this.currentPlaceholder = val;
+	      this.cachedPlaceHolder = this.currentPlaceholder = val;
 	    },
 	    value: function value(val) {
 	      if (this.multiple) {
@@ -672,6 +704,8 @@ module.exports =
 	      });
 	      this.hoverIndex = -1;
 	      if (this.multiple && this.filterable) {
+	        this.inputLength = this.$refs.input.value.length * 15 + 20;
+	        this.managePlaceholder();
 	        this.resetInputHeight();
 	      }
 	      if (this.remote && typeof this.remoteMethod === 'function') {
@@ -727,15 +761,10 @@ module.exports =
 	          } else {
 	            if (!this.remote) {
 	              this.broadcast('ElOption', 'queryChange', '');
+	              this.broadcast('ElOptionGroup', 'queryChange');
 	            }
 	            this.broadcast('ElInput', 'inputSelect');
 	          }
-	        }
-	        if (!this.dropdownUl) {
-	          this.dropdownUl = this.$refs.popper.$el.querySelector('.el-select-dropdown__wrap');
-	        }
-	        if (!this.multiple && this.dropdownUl) {
-	          this.setOverflow();
 	        }
 	      }
 	      this.$emit('visible-change', val);
@@ -768,25 +797,28 @@ module.exports =
 	        (0, _dom.addClass)(icon, 'is-reverse');
 	      }
 	    },
+	    handleMenuEnter: function handleMenuEnter() {
+	      if (!this.dropdownUl) {
+	        this.dropdownUl = this.$refs.popper.$el.querySelector('.el-select-dropdown__wrap');
+	        this.getOverflows();
+	      }
+	      if (!this.multiple && this.dropdownUl) {
+	        this.resetMenuScroll();
+	      }
+	    },
 	    getOverflows: function getOverflows() {
 	      if (this.dropdownUl && this.selected && this.selected.$el) {
 	        var selectedRect = this.selected.$el.getBoundingClientRect();
 	        var popperRect = this.$refs.popper.$el.getBoundingClientRect();
-	        this.bottomOverflowBeforeHidden = selectedRect.bottom - popperRect.bottom;
-	        this.topOverflowBeforeHidden = selectedRect.top - popperRect.top;
+	        this.bottomOverflow = selectedRect.bottom - popperRect.bottom;
+	        this.topOverflow = selectedRect.top - popperRect.top;
 	      }
 	    },
-	    setOverflow: function setOverflow() {
-	      var _this4 = this;
-
-	      if (this.bottomOverflowBeforeHidden > 0) {
-	        this.$nextTick(function () {
-	          _this4.dropdownUl.scrollTop += _this4.bottomOverflowBeforeHidden;
-	        });
-	      } else if (this.topOverflowBeforeHidden < 0) {
-	        this.$nextTick(function () {
-	          _this4.dropdownUl.scrollTop += _this4.topOverflowBeforeHidden;
-	        });
+	    resetMenuScroll: function resetMenuScroll() {
+	      if (this.bottomOverflow > 0) {
+	        this.dropdownUl.scrollTop += this.bottomOverflow;
+	      } else if (this.topOverflow < 0) {
+	        this.dropdownUl.scrollTop += this.topOverflow;
 	      }
 	    },
 	    getOption: function getOption(value) {
@@ -810,7 +842,7 @@ module.exports =
 	      return newOption;
 	    },
 	    setSelected: function setSelected() {
-	      var _this5 = this;
+	      var _this4 = this;
 
 	      if (!this.multiple) {
 	        var option = this.getOption(this.value);
@@ -828,12 +860,12 @@ module.exports =
 	      var result = [];
 	      if (Array.isArray(this.value)) {
 	        this.value.forEach(function (value) {
-	          result.push(_this5.getOption(value));
+	          result.push(_this4.getOption(value));
 	        });
 	      }
 	      this.selected = result;
 	      this.$nextTick(function () {
-	        _this5.resetInputHeight();
+	        _this4.resetInputHeight();
 	      });
 	    },
 	    handleFocus: function handleFocus() {
@@ -854,7 +886,7 @@ module.exports =
 	      }
 	    },
 	    doDestroy: function doDestroy() {
-	      this.$refs.popper.doDestroy();
+	      this.$refs.popper && this.$refs.popper.doDestroy();
 	    },
 	    handleClose: function handleClose() {
 	      this.visible = false;
@@ -888,32 +920,32 @@ module.exports =
 	      this.resetInputHeight();
 	    },
 	    resetInputHeight: function resetInputHeight() {
-	      var _this6 = this;
+	      var _this5 = this;
 
 	      this.$nextTick(function () {
-	        var inputChildNodes = _this6.$refs.reference.$el.childNodes;
+	        var inputChildNodes = _this5.$refs.reference.$el.childNodes;
 	        var input = [].filter.call(inputChildNodes, function (item) {
 	          return item.tagName === 'INPUT';
 	        })[0];
-	        input.style.height = Math.max(_this6.$refs.tags.clientHeight + 6, sizeMap[_this6.size] || 36) + 'px';
-	        if (_this6.visible && _this6.emptyText !== false) {
-	          _this6.broadcast('ElSelectDropdown', 'updatePopper');
+	        input.style.height = Math.max(_this5.$refs.tags.clientHeight + 6, sizeMap[_this5.size] || 36) + 'px';
+	        if (_this5.visible && _this5.emptyText !== false) {
+	          _this5.broadcast('ElSelectDropdown', 'updatePopper');
 	        }
 	      });
 	    },
 	    resetHoverIndex: function resetHoverIndex() {
-	      var _this7 = this;
+	      var _this6 = this;
 
 	      setTimeout(function () {
-	        if (!_this7.multiple) {
-	          _this7.hoverIndex = _this7.options.indexOf(_this7.selected);
+	        if (!_this6.multiple) {
+	          _this6.hoverIndex = _this6.options.indexOf(_this6.selected);
 	        } else {
-	          if (_this7.selected.length > 0) {
-	            _this7.hoverIndex = Math.min.apply(null, _this7.selected.map(function (item) {
-	              return _this7.options.indexOf(item);
+	          if (_this6.selected.length > 0) {
+	            _this6.hoverIndex = Math.min.apply(null, _this6.selected.map(function (item) {
+	              return _this6.options.indexOf(item);
 	            }));
 	          } else {
-	            _this7.hoverIndex = -1;
+	            _this6.hoverIndex = -1;
 	          }
 	        }
 	      }, 300);
@@ -1029,7 +1061,7 @@ module.exports =
 	  },
 
 	  created: function created() {
-	    var _this8 = this;
+	    var _this7 = this;
 
 	    this.cachedPlaceHolder = this.currentPlaceholder = this.placeholder;
 	    if (this.multiple && !Array.isArray(this.value)) {
@@ -1041,7 +1073,7 @@ module.exports =
 	    this.setSelected();
 
 	    this.debouncedOnInputChange = (0, _debounce2.default)(this.debounce, function () {
-	      _this8.onInputChange();
+	      _this7.onInputChange();
 	    });
 
 	    this.$on('handleOptionClick', this.handleOptionSelect);
@@ -1049,7 +1081,7 @@ module.exports =
 	    this.$on('setSelected', this.setSelected);
 	  },
 	  mounted: function mounted() {
-	    var _this9 = this;
+	    var _this8 = this;
 
 	    if (this.multiple && Array.isArray(this.value) && this.value.length > 0) {
 	      this.currentPlaceholder = '';
@@ -1059,8 +1091,8 @@ module.exports =
 	      this.resetInputHeight();
 	    }
 	    this.$nextTick(function () {
-	      if (_this9.$refs.reference.$el) {
-	        _this9.inputWidth = _this9.$refs.reference.$el.getBoundingClientRect().width;
+	      if (_this8.$refs.reference && _this8.$refs.reference.$el) {
+	        _this8.inputWidth = _this8.$refs.reference.$el.getBoundingClientRect().width;
 	      }
 	    });
 	  },
@@ -1071,44 +1103,33 @@ module.exports =
 
 /***/ },
 
-/***/ 236:
+/***/ 275:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(276),
+	  /* template */
+	  __webpack_require__(277),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(237)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(238)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 237:
+/***/ 276:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(12);
+	var _vuePopper = __webpack_require__(13);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -1130,7 +1151,7 @@ module.exports =
 	      default: 0
 	    },
 
-	    options: {
+	    popperOptions: {
 	      default: function _default() {
 	        return {
 	          forceAbsolute: true,
@@ -1177,7 +1198,7 @@ module.exports =
 
 /***/ },
 
-/***/ 238:
+/***/ 277:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1194,14 +1215,14 @@ module.exports =
 
 /***/ },
 
-/***/ 239:
+/***/ 278:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 240:
+/***/ 279:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1243,7 +1264,9 @@ module.exports =
 	          _vm.deleteTag($event, item)
 	        }
 	      }
-	    }, [_vm._v("\n        " + _vm._s(item.currentLabel) + "\n      ")])
+	    }, [_c('span', {
+	      staticClass: "el-select__tags-text"
+	    }, [_vm._v(_vm._s(item.currentLabel))])])
 	  })), (_vm.filterable) ? _c('input', {
 	    directives: [{
 	      name: "model",
@@ -1351,6 +1374,9 @@ module.exports =
 	        if (_vm._k($event.keyCode, "tab", 9)) { return; }
 	        _vm.visible = false
 	      }],
+	      "paste": function($event) {
+	        _vm.debouncedOnInputChange($event)
+	      },
 	      "mouseenter": function($event) {
 	        _vm.inputHovering = true
 	      },
@@ -1363,7 +1389,8 @@ module.exports =
 	      "name": "el-zoom-in-top"
 	    },
 	    on: {
-	      "after-leave": _vm.doDestroy
+	      "after-leave": _vm.doDestroy,
+	      "after-enter": _vm.handleMenuEnter
 	    }
 	  }, [_c('el-select-menu', {
 	    directives: [{

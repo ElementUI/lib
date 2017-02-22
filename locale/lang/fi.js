@@ -3,6 +3,10 @@
 exports.__esModule = true;
 exports.default = {
   el: {
+    colorpicker: {
+      confirm: 'OK',
+      clear: 'Tyhjennä'
+    },
     datepicker: {
       now: 'Nyt',
       today: 'Tänään',

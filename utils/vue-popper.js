@@ -18,7 +18,7 @@ var stop = function stop(e) {
 /**
  * @param {HTMLElement} [reference=$refs.reference] - The reference element used to position the popper.
  * @param {HTMLElement} [popper=$refs.popper] - The HTML element used as popper, or a configuration used to generate the popper.
- * @param {String} [placement=button] - Placement of the popper accepted values: top(-start, -end), right(-start, -end), bottom(-start, -right), left(-start, -end)
+ * @param {String} [placement=button] - Placement of the popper accepted values: top(-start, -end), right(-start, -end), bottom(-start, -end), left(-start, -end)
  * @param {Number} [offset=0] - Amount of pixels the popper will be shifted (can be negative).
  * @param {Boolean} [visible=false] Visibility of the popup element.
  * @param {Boolean} [visible-arrow=false] Visibility of the arrow, no style.
@@ -45,7 +45,7 @@ exports.default = {
       type: Boolean,
       default: true
     },
-    options: {
+    popperOptions: {
       type: Object,
       default: function _default() {
         return {
@@ -88,13 +88,14 @@ exports.default = {
         return;
       }
 
-      var options = this.options;
+      var options = this.popperOptions;
       var popper = this.popperElm = this.popperElm || this.popper || this.$refs.popper;
       var reference = this.referenceElm = this.referenceElm || this.reference || this.$refs.reference;
 
       if (!reference && this.$slots.reference && this.$slots.reference[0]) {
         reference = this.referenceElm = this.$slots.reference[0].elm;
       }
+
       if (!popper || !reference) return;
       if (this.visibleArrow) this.appendArrow(popper);
       if (this.appendToBody) document.body.appendChild(this.popperElm);
@@ -128,7 +129,12 @@ exports.default = {
       }
     },
     resetTransformOrigin: function resetTransformOrigin() {
-      var placementMap = { top: 'bottom', bottom: 'top', left: 'right', right: 'left' };
+      var placementMap = {
+        top: 'bottom',
+        bottom: 'top',
+        left: 'right',
+        right: 'left'
+      };
       var placement = this.popperJS._popper.getAttribute('x-placement').split('-')[0];
       var origin = placementMap[placement];
       this.popperJS._popper.style.transformOrigin = ['top', 'bottom'].indexOf(placement) > -1 ? 'center ' + origin : origin + ' center';

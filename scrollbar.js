@@ -46,40 +46,40 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(228);
+	module.exports = __webpack_require__(267);
 
 
 /***/ },
 
-/***/ 45:
+/***/ 46:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ },
 
-/***/ 74:
+/***/ 55:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 90:
+/***/ 130:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 228:
+/***/ 267:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(229);
+	var _main = __webpack_require__(268);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -94,24 +94,24 @@ module.exports =
 
 /***/ },
 
-/***/ 229:
+/***/ 268:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _resizeEvent = __webpack_require__(45);
+	var _resizeEvent = __webpack_require__(46);
 
-	var _scrollbarWidth = __webpack_require__(230);
+	var _scrollbarWidth = __webpack_require__(269);
 
 	var _scrollbarWidth2 = _interopRequireDefault(_scrollbarWidth);
 
-	var _util = __webpack_require__(231);
+	var _util = __webpack_require__(270);
 
 	var util = _interopRequireWildcard(_util);
 
-	var _bar = __webpack_require__(232);
+	var _bar = __webpack_require__(271);
 
 	var _bar2 = _interopRequireDefault(_bar);
 
@@ -162,12 +162,15 @@ module.exports =
 
 	    if (gutter) {
 	      var gutterWith = '-' + gutter + 'px';
+	      var gutterStyle = 'margin-bottom: ' + gutterWith + '; margin-right: ' + gutterWith + ';';
 
 	      if (Array.isArray(this.wrapStyle)) {
 	        style = util.toObject(this.wrapStyle);
 	        style.marginRight = style.marginBottom = gutterWith;
 	      } else if (typeof this.wrapStyle === 'string') {
-	        style += 'margin-bottom: ' + gutterWith + '; margin-right: ' + gutterWith + ';';
+	        style += gutterStyle;
+	      } else {
+	        style = gutterStyle;
 	      }
 	    }
 	    var view = h(this.tag, {
@@ -184,7 +187,7 @@ module.exports =
 	          'scroll': this.handleScroll
 	        },
 
-	        'class': [this.wrapClass, 'el-scrollbar__wrap el-scrollbar__wrap--hidden-default'] },
+	        'class': [this.wrapClass, 'el-scrollbar__wrap', gutter ? '' : 'el-scrollbar__wrap--hidden-default'] },
 	      [[view]]
 	    );
 	    var nodes = void 0;
@@ -233,6 +236,7 @@ module.exports =
 	      var heightPercentage = void 0,
 	          widthPercentage = void 0;
 	      var wrap = this.wrap;
+	      if (!wrap) return;
 
 	      heightPercentage = wrap.clientHeight * 100 / wrap.scrollHeight;
 	      widthPercentage = wrap.clientWidth * 100 / wrap.scrollWidth;
@@ -255,14 +259,14 @@ module.exports =
 
 /***/ },
 
-/***/ 230:
+/***/ 269:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/scrollbar-width");
 
 /***/ },
 
-/***/ 231:
+/***/ 270:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -271,7 +275,7 @@ module.exports =
 	exports.toObject = exports.BAR_MAP = undefined;
 	exports.renderThumbStyle = renderThumbStyle;
 
-	var _vue = __webpack_require__(74);
+	var _vue = __webpack_require__(55);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -320,16 +324,16 @@ module.exports =
 
 /***/ },
 
-/***/ 232:
+/***/ 271:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _dom = __webpack_require__(90);
+	var _dom = __webpack_require__(130);
 
-	var _util = __webpack_require__(231);
+	var _util = __webpack_require__(270);
 
 	/* istanbul ignore next */
 	exports.default = {

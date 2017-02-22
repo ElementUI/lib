@@ -46,19 +46,73 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(288);
+	module.exports = __webpack_require__(330);
 
 
 /***/ },
 
-/***/ 288:
+/***/ 3:
+/***/ function(module, exports) {
+
+	module.exports = function normalizeComponent (
+	  rawScriptExports,
+	  compiledTemplate,
+	  scopeId,
+	  cssModules
+	) {
+	  var esModule
+	  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+	  // ES6 modules interop
+	  var type = typeof rawScriptExports.default
+	  if (type === 'object' || type === 'function') {
+	    esModule = rawScriptExports
+	    scriptExports = rawScriptExports.default
+	  }
+
+	  // Vue.extend constructor export interop
+	  var options = typeof scriptExports === 'function'
+	    ? scriptExports.options
+	    : scriptExports
+
+	  // render functions
+	  if (compiledTemplate) {
+	    options.render = compiledTemplate.render
+	    options.staticRenderFns = compiledTemplate.staticRenderFns
+	  }
+
+	  // scopedId
+	  if (scopeId) {
+	    options._scopeId = scopeId
+	  }
+
+	  // inject cssModules
+	  if (cssModules) {
+	    var computed = options.computed || (options.computed = {})
+	    Object.keys(cssModules).forEach(function (key) {
+	      var module = cssModules[key]
+	      computed[key] = function () { return module }
+	    })
+	  }
+
+	  return {
+	    esModule: esModule,
+	    exports: scriptExports,
+	    options: options
+	  }
+	}
+
+
+/***/ },
+
+/***/ 330:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tabs = __webpack_require__(289);
+	var _tabs = __webpack_require__(331);
 
 	var _tabs2 = _interopRequireDefault(_tabs);
 
@@ -73,62 +127,56 @@ module.exports =
 
 /***/ },
 
-/***/ 289:
+/***/ 331:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(332),
+	  /* template */
+	  null,
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(290)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 290:
+/***/ 332:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _tabBar = __webpack_require__(291);
+	exports.__esModule = true;
 
-	var _tabBar2 = _interopRequireDefault(_tabBar);
+	var _tabNav = __webpack_require__(333);
+
+	var _tabNav2 = _interopRequireDefault(_tabNav);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	module.exports = {
+	exports.default = {
 	  name: 'ElTabs',
 
 	  components: {
-	    TabBar: _tabBar2.default
+	    TabNav: _tabNav2.default
 	  },
 
 	  props: {
 	    type: String,
 	    activeName: String,
-	    closable: {
-	      type: Boolean,
-	      default: false
-	    },
-	    value: {}
+	    closable: Boolean,
+	    addable: Boolean,
+	    value: {},
+	    editable: Boolean
 	  },
 
 	  data: function data() {
 	    return {
-	      children: null,
 	      currentName: this.value || this.activeName,
 	      panes: []
 	    };
@@ -141,67 +189,40 @@ module.exports =
 	    },
 	    value: function value(_value) {
 	      this.setCurrentName(_value);
-	    }
-	  },
-
-	  computed: {
-	    currentTab: function currentTab() {
+	    },
+	    currentName: function currentName(value) {
 	      var _this = this;
 
-	      var result = void 0;
-	      this.panes.forEach(function (tab) {
-	        if (_this.currentName === (tab.name || tab.index)) {
-	          result = tab;
-	        }
-	      });
-	      return result;
+	      if (this.$refs.nav) {
+	        this.$nextTick(function (_) {
+	          _this.$refs.nav.scrollToActiveTab();
+	        });
+	      }
 	    }
 	  },
 
 	  methods: {
-	    handleTabRemove: function handleTabRemove(pane, event) {
-	      var _this2 = this;
-
-	      event.stopPropagation();
-	      var panes = this.panes;
-	      var currentTab = this.currentTab;
-
-	      var index = panes.indexOf(pane);
-
-	      if (index === -1) return;
-
-	      panes.splice(index, 1);
-	      pane.$destroy();
-
-	      this.$emit('tab-remove', pane);
-
-	      this.$nextTick(function (_) {
-	        if (pane.active) {
-	          var _panes = _this2.panes;
-	          var nextChild = _panes[index];
-	          var prevChild = _panes[index - 1];
-	          var nextActiveTab = nextChild || prevChild || null;
-
-	          if (nextActiveTab) {
-	            _this2.setCurrentName(nextActiveTab.name || nextActiveTab.index);
-	          }
-	          return;
-	        } else {
-	          _this2.setCurrentName(currentTab.name || currentTab.index);
-	        }
-	      });
-	    },
 	    handleTabClick: function handleTabClick(tab, tabName, event) {
 	      if (tab.disabled) return;
 	      this.setCurrentName(tabName);
 	      this.$emit('tab-click', tab, event);
+	    },
+	    handleTabRemove: function handleTabRemove(pane, ev) {
+	      ev.stopPropagation();
+	      this.$emit('edit', pane.name, 'remove');
+	      this.$emit('tab-remove', pane.name);
+	    },
+	    handleTabAdd: function handleTabAdd() {
+	      this.$emit('edit', null, 'add');
+	      this.$emit('tab-add');
 	    },
 	    setCurrentName: function setCurrentName(value) {
 	      this.currentName = value;
 	      this.$emit('input', value);
 	    },
 	    addPanes: function addPanes(item) {
-	      this.panes.push(item);
+	      var index = this.$slots.default.indexOf(item.$vnode);
+	      this.panes.splice(index, 0, item);
 	    },
 	    removePanes: function removePanes(item) {
 	      var panes = this.panes;
@@ -212,28 +233,258 @@ module.exports =
 	    }
 	  },
 	  render: function render(h) {
-	    var _this3 = this;
-
 	    var type = this.type,
-	        handleTabRemove = this.handleTabRemove,
 	        handleTabClick = this.handleTabClick,
+	        handleTabRemove = this.handleTabRemove,
+	        handleTabAdd = this.handleTabAdd,
 	        currentName = this.currentName,
-	        panes = this.panes;
+	        panes = this.panes,
+	        editable = this.editable,
+	        addable = this.addable;
 
+
+	    var newButton = editable || addable ? h(
+	      'span',
+	      {
+	        'class': 'el-tabs__new-tab',
+	        on: {
+	          'click': handleTabAdd
+	        }
+	      },
+	      [h(
+	        'i',
+	        { 'class': 'el-icon-plus' },
+	        []
+	      )]
+	    ) : null;
+
+	    var navData = {
+	      props: {
+	        currentName: currentName,
+	        onTabClick: handleTabClick,
+	        onTabRemove: handleTabRemove,
+	        editable: editable,
+	        type: type,
+	        panes: panes
+	      },
+	      ref: 'nav'
+	    };
+
+	    return h(
+	      'div',
+	      { 'class': {
+	          'el-tabs': true,
+	          'el-tabs--card': type === 'card',
+	          'el-tabs--border-card': type === 'border-card'
+	        } },
+	      [h(
+	        'div',
+	        { 'class': 'el-tabs__header' },
+	        [newButton, h(
+	          'tab-nav',
+	          navData,
+	          []
+	        )]
+	      ), h(
+	        'div',
+	        { 'class': 'el-tabs__content' },
+	        [this.$slots.default]
+	      )]
+	    );
+	  },
+	  created: function created() {
+	    if (!this.currentName) {
+	      this.setCurrentName('0');
+	    }
+	  }
+	};
+
+/***/ },
+
+/***/ 333:
+/***/ function(module, exports, __webpack_require__) {
+
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(334),
+	  /* template */
+	  null,
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
+
+	module.exports = Component.exports
+
+
+/***/ },
+
+/***/ 334:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _tabBar = __webpack_require__(335);
+
+	var _tabBar2 = _interopRequireDefault(_tabBar);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function noop() {}
+
+	exports.default = {
+	  name: 'TabNav',
+
+	  components: {
+	    TabBar: _tabBar2.default
+	  },
+
+	  props: {
+	    panes: Array,
+	    currentName: String,
+	    editable: Boolean,
+	    onTabClick: {
+	      type: Function,
+	      default: noop
+	    },
+	    onTabRemove: {
+	      type: Function,
+	      default: noop
+	    },
+	    type: String
+	  },
+
+	  data: function data() {
+	    return {
+	      scrollable: false,
+	      navStyle: {
+	        transform: ''
+	      }
+	    };
+	  },
+
+
+	  methods: {
+	    scrollPrev: function scrollPrev() {
+	      var containerWidth = this.$refs.navScroll.offsetWidth;
+	      var currentOffset = this.getCurrentScrollOffset();
+
+	      if (!currentOffset) return;
+
+	      var newOffset = currentOffset > containerWidth ? currentOffset - containerWidth : 0;
+
+	      this.setOffset(newOffset);
+	    },
+	    scrollNext: function scrollNext() {
+	      var navWidth = this.$refs.nav.offsetWidth;
+	      var containerWidth = this.$refs.navScroll.offsetWidth;
+	      var currentOffset = this.getCurrentScrollOffset();
+
+	      if (navWidth - currentOffset <= containerWidth) return;
+
+	      var newOffset = navWidth - currentOffset > containerWidth * 2 ? currentOffset + containerWidth : navWidth - containerWidth;
+
+	      this.setOffset(newOffset);
+	    },
+	    scrollToActiveTab: function scrollToActiveTab() {
+	      if (!this.scrollable) return;
+	      var nav = this.$refs.nav;
+	      var activeTab = this.$el.querySelector('.is-active');
+	      var navScroll = this.$refs.navScroll;
+	      var activeTabBounding = activeTab.getBoundingClientRect();
+	      var navScrollBounding = navScroll.getBoundingClientRect();
+	      var navBounding = nav.getBoundingClientRect();
+	      var currentOffset = this.getCurrentScrollOffset();
+	      var newOffset = currentOffset;
+
+	      if (activeTabBounding.left < navScrollBounding.left) {
+	        newOffset = currentOffset - (navScrollBounding.left - activeTabBounding.left);
+	      }
+	      if (activeTabBounding.right > navScrollBounding.right) {
+	        newOffset = currentOffset + activeTabBounding.right - navScrollBounding.right;
+	      }
+	      if (navBounding.right < navScrollBounding.right) {
+	        newOffset = nav.offsetWidth - navScrollBounding.width;
+	      }
+	      this.setOffset(Math.max(newOffset, 0));
+	    },
+	    getCurrentScrollOffset: function getCurrentScrollOffset() {
+	      var navStyle = this.navStyle;
+
+	      return navStyle.transform ? Number(navStyle.transform.match(/translateX\(-(\d+(\.\d+)*)px\)/)[1]) : 0;
+	    },
+	    setOffset: function setOffset(value) {
+	      this.navStyle.transform = 'translateX(-' + value + 'px)';
+	    }
+	  },
+
+	  updated: function updated() {
+	    var navWidth = this.$refs.nav.offsetWidth;
+	    var containerWidth = this.$refs.navScroll.offsetWidth;
+	    var currentOffset = this.getCurrentScrollOffset();
+
+	    if (containerWidth < navWidth) {
+	      var _currentOffset = this.getCurrentScrollOffset();
+	      this.scrollable = this.scrollable || {};
+	      this.scrollable.prev = _currentOffset;
+	      this.scrollable.next = _currentOffset + containerWidth < navWidth;
+	      if (navWidth - _currentOffset < containerWidth) {
+	        this.setOffset(navWidth - containerWidth);
+	      }
+	    } else if (currentOffset > 0) {
+	      this.setOffset(0);
+	    }
+	  },
+	  render: function render(h) {
+	    var type = this.type,
+	        panes = this.panes,
+	        editable = this.editable,
+	        onTabClick = this.onTabClick,
+	        onTabRemove = this.onTabRemove,
+	        navStyle = this.navStyle,
+	        scrollable = this.scrollable,
+	        scrollNext = this.scrollNext,
+	        scrollPrev = this.scrollPrev;
+
+
+	    var scrollBtn = scrollable ? [h(
+	      'span',
+	      { 'class': ['el-tabs__nav-prev', scrollable.prev ? '' : 'is-disabled'], on: {
+	          'click': scrollPrev
+	        }
+	      },
+	      [h(
+	        'i',
+	        { 'class': 'el-icon-arrow-left' },
+	        []
+	      )]
+	    ), h(
+	      'span',
+	      { 'class': ['el-tabs__nav-next', scrollable.next ? '' : 'is-disabled'], on: {
+	          'click': scrollNext
+	        }
+	      },
+	      [h(
+	        'i',
+	        { 'class': 'el-icon-arrow-right' },
+	        []
+	      )]
+	    )] : null;
 
 	    var tabs = this._l(panes, function (pane, index) {
 	      var tabName = pane.name || pane.index || index;
-	      if (currentName === undefined && index === 0) {
-	        _this3.setCurrentName(tabName);
-	      }
+	      var closable = pane.isClosable || editable;
 
-	      pane.index = index;
+	      pane.index = '' + index;
 
-	      var btnClose = pane.isClosable ? h(
+	      var btnClose = closable ? h(
 	        'span',
 	        { 'class': 'el-icon-close', on: {
 	            'click': function click(ev) {
-	              handleTabRemove(pane, ev);
+	              onTabRemove(pane, ev);
 	            }
 	          }
 	        },
@@ -248,41 +499,36 @@ module.exports =
 	            'el-tabs__item': true,
 	            'is-active': pane.active,
 	            'is-disabled': pane.disabled,
-	            'is-closable': pane.isClosable
+	            'is-closable': closable
 	          },
 	          ref: 'tabs',
 	          refInFor: true,
 	          on: {
 	            'click': function click(ev) {
-	              handleTabClick(pane, tabName, ev);
+	              onTabClick(pane, tabName, ev);
 	            }
 	          }
 	        },
 	        [tabLabelContent, btnClose]
 	      );
 	    });
-
 	    return h(
 	      'div',
-	      { 'class': {
-	          'el-tabs': true,
-	          'el-tabs--card': type === 'card',
-	          'el-tabs--border-card': type === 'border-card'
-	        } },
-	      [h(
+	      { 'class': ['el-tabs__nav-wrap', scrollable ? 'is-scrollable' : ''] },
+	      [scrollBtn, h(
 	        'div',
-	        { 'class': 'el-tabs__header' },
-	        [!type ? h(
-	          'tab-bar',
-	          {
-	            attrs: { tabs: panes }
-	          },
-	          []
-	        ) : null, tabs]
-	      ), h(
-	        'div',
-	        { 'class': 'el-tabs__content' },
-	        [this.$slots.default]
+	        { 'class': ['el-tabs__nav-scroll'], ref: 'navScroll' },
+	        [h(
+	          'div',
+	          { 'class': 'el-tabs__nav', ref: 'nav', style: navStyle },
+	          [!type ? h(
+	            'tab-bar',
+	            {
+	              attrs: { tabs: panes }
+	            },
+	            []
+	          ) : null, tabs]
+	        )]
 	      )]
 	    );
 	  }
@@ -290,37 +536,26 @@ module.exports =
 
 /***/ },
 
-/***/ 291:
+/***/ 335:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(336),
+	  /* template */
+	  __webpack_require__(337),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(292)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(293)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 292:
+/***/ 336:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -331,9 +566,12 @@ module.exports =
 	//
 
 	exports.default = {
+	  name: 'TabBar',
+
 	  props: {
 	    tabs: Array
 	  },
+
 	  computed: {
 	    barStyle: {
 	      cache: false,
@@ -374,7 +612,7 @@ module.exports =
 
 /***/ },
 
-/***/ 293:
+/***/ 337:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

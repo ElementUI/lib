@@ -46,19 +46,73 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(251);
+	module.exports = __webpack_require__(293);
 
 
 /***/ },
 
-/***/ 251:
+/***/ 3:
+/***/ function(module, exports) {
+
+	module.exports = function normalizeComponent (
+	  rawScriptExports,
+	  compiledTemplate,
+	  scopeId,
+	  cssModules
+	) {
+	  var esModule
+	  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+	  // ES6 modules interop
+	  var type = typeof rawScriptExports.default
+	  if (type === 'object' || type === 'function') {
+	    esModule = rawScriptExports
+	    scriptExports = rawScriptExports.default
+	  }
+
+	  // Vue.extend constructor export interop
+	  var options = typeof scriptExports === 'function'
+	    ? scriptExports.options
+	    : scriptExports
+
+	  // render functions
+	  if (compiledTemplate) {
+	    options.render = compiledTemplate.render
+	    options.staticRenderFns = compiledTemplate.staticRenderFns
+	  }
+
+	  // scopedId
+	  if (scopeId) {
+	    options._scopeId = scopeId
+	  }
+
+	  // inject cssModules
+	  if (cssModules) {
+	    var computed = options.computed || (options.computed = {})
+	    Object.keys(cssModules).forEach(function (key) {
+	      var module = cssModules[key]
+	      computed[key] = function () { return module }
+	    })
+	  }
+
+	  return {
+	    esModule: esModule,
+	    exports: scriptExports,
+	    options: options
+	  }
+	}
+
+
+/***/ },
+
+/***/ 293:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _step = __webpack_require__(252);
+	var _step = __webpack_require__(294);
 
 	var _step2 = _interopRequireDefault(_step);
 
@@ -73,37 +127,26 @@ module.exports =
 
 /***/ },
 
-/***/ 252:
+/***/ 294:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(295),
+	  /* template */
+	  __webpack_require__(296),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(253)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(254)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 253:
+/***/ 295:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -179,7 +222,7 @@ module.exports =
 	      currentStatus: this.status
 	    };
 	  },
-	  created: function created() {
+	  beforeCreate: function beforeCreate() {
 	    this.$parent.steps.push(this);
 	  },
 
@@ -227,7 +270,7 @@ module.exports =
 	    var isCenter = parent.center;
 	    var len = parent.steps.length;
 	    var isLast = this.isLast = parent.steps[parent.steps.length - 1] === this;
-	    var space = parent.space ? parent.space + 'px' : 100 / (isCenter ? len - 1 : len) + '%';
+	    var space = typeof parent.space === 'number' ? parent.space + 'px' : parent.space ? parent.space : 100 / (isCenter ? len - 1 : len) + '%';
 
 	    if (parent.direction === 'horizontal') {
 	      this.style = { width: space };
@@ -250,7 +293,7 @@ module.exports =
 
 /***/ },
 
-/***/ 254:
+/***/ 296:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

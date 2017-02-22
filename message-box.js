@@ -46,68 +46,129 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(172);
+	module.exports = __webpack_require__(212);
 
 
 /***/ },
 
-/***/ 8:
+/***/ 3:
+/***/ function(module, exports) {
+
+	module.exports = function normalizeComponent (
+	  rawScriptExports,
+	  compiledTemplate,
+	  scopeId,
+	  cssModules
+	) {
+	  var esModule
+	  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+	  // ES6 modules interop
+	  var type = typeof rawScriptExports.default
+	  if (type === 'object' || type === 'function') {
+	    esModule = rawScriptExports
+	    scriptExports = rawScriptExports.default
+	  }
+
+	  // Vue.extend constructor export interop
+	  var options = typeof scriptExports === 'function'
+	    ? scriptExports.options
+	    : scriptExports
+
+	  // render functions
+	  if (compiledTemplate) {
+	    options.render = compiledTemplate.render
+	    options.staticRenderFns = compiledTemplate.staticRenderFns
+	  }
+
+	  // scopedId
+	  if (scopeId) {
+	    options._scopeId = scopeId
+	  }
+
+	  // inject cssModules
+	  if (cssModules) {
+	    var computed = options.computed || (options.computed = {})
+	    Object.keys(cssModules).forEach(function (key) {
+	      var module = cssModules[key]
+	      computed[key] = function () { return module }
+	    })
+	  }
+
+	  return {
+	    esModule: esModule,
+	    exports: scriptExports,
+	    options: options
+	  }
+	}
+
+
+/***/ },
+
+/***/ 9:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input");
 
 /***/ },
 
-/***/ 74:
+/***/ 55:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 80:
+/***/ 59:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 90:
+/***/ 60:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/locale");
+
+/***/ },
+
+/***/ 130:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 105:
+/***/ 145:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/popup");
 
 /***/ },
 
-/***/ 110:
+/***/ 150:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/button");
 
 /***/ },
 
-/***/ 137:
+/***/ 177:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 172:
+/***/ 212:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(173);
+	var _main = __webpack_require__(213);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -117,7 +178,7 @@ module.exports =
 
 /***/ },
 
-/***/ 173:
+/***/ 213:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -127,15 +188,15 @@ module.exports =
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var _vue = __webpack_require__(74);
+	var _vue = __webpack_require__(55);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _main = __webpack_require__(174);
+	var _main = __webpack_require__(214);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _merge = __webpack_require__(137);
+	var _merge = __webpack_require__(177);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
@@ -150,6 +211,7 @@ module.exports =
 	  modalFade: true,
 	  lockScroll: true,
 	  closeOnClickModal: true,
+	  closeOnPressEscape: true,
 	  inputValue: null,
 	  inputPlaceholder: '',
 	  inputPattern: null,
@@ -215,6 +277,7 @@ module.exports =
 	  if (!instance) {
 	    initInstance();
 	  }
+	  instance.action = '';
 
 	  if (!instance.value || instance.closeTimer) {
 	    if (msgQueue.length > 0) {
@@ -345,62 +408,51 @@ module.exports =
 
 /***/ },
 
-/***/ 174:
+/***/ 214:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(215),
+	  /* template */
+	  __webpack_require__(216),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(175)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(177)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 175:
+/***/ 215:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _popup = __webpack_require__(105);
+	var _popup = __webpack_require__(145);
 
 	var _popup2 = _interopRequireDefault(_popup);
 
-	var _locale = __webpack_require__(80);
+	var _locale = __webpack_require__(59);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _input = __webpack_require__(8);
+	var _input = __webpack_require__(9);
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _button = __webpack_require__(110);
+	var _button = __webpack_require__(150);
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _dom = __webpack_require__(90);
+	var _dom = __webpack_require__(130);
 
-	var _locale3 = __webpack_require__(176);
+	var _locale3 = __webpack_require__(60);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -573,25 +625,33 @@ module.exports =
 	  },
 
 	  watch: {
-	    inputValue: function inputValue(val) {
-	      if (this.$type === 'prompt' && val !== null) {
-	        this.validate();
+	    inputValue: {
+	      immediate: true,
+	      handler: function handler(val) {
+	        var _this3 = this;
+
+	        this.$nextTick(function (_) {
+	          if (_this3.$type === 'prompt' && val !== null) {
+	            _this3.validate();
+	          }
+	        });
 	      }
 	    },
+
 	    value: function value(val) {
-	      var _this3 = this;
+	      var _this4 = this;
 
 	      if (val) this.uid++;
 	      if (this.$type === 'alert' || this.$type === 'confirm') {
 	        this.$nextTick(function () {
-	          _this3.$refs.confirm.$el.focus();
+	          _this4.$refs.confirm.$el.focus();
 	        });
 	      }
 	      if (this.$type !== 'prompt') return;
 	      if (val) {
 	        setTimeout(function () {
-	          if (_this3.$refs.input && _this3.$refs.input.$el) {
-	            _this3.$refs.input.$el.querySelector('input').focus();
+	          if (_this4.$refs.input && _this4.$refs.input.$el) {
+	            _this4.$refs.input.$el.querySelector('input').focus();
 	          }
 	        }, 500);
 	      } else {
@@ -632,14 +692,7 @@ module.exports =
 
 /***/ },
 
-/***/ 176:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/locale");
-
-/***/ },
-
-/***/ 177:
+/***/ 216:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

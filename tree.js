@@ -46,54 +46,108 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(312);
+	module.exports = __webpack_require__(354);
 
 
 /***/ },
 
-/***/ 13:
+/***/ 3:
+/***/ function(module, exports) {
+
+	module.exports = function normalizeComponent (
+	  rawScriptExports,
+	  compiledTemplate,
+	  scopeId,
+	  cssModules
+	) {
+	  var esModule
+	  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+	  // ES6 modules interop
+	  var type = typeof rawScriptExports.default
+	  if (type === 'object' || type === 'function') {
+	    esModule = rawScriptExports
+	    scriptExports = rawScriptExports.default
+	  }
+
+	  // Vue.extend constructor export interop
+	  var options = typeof scriptExports === 'function'
+	    ? scriptExports.options
+	    : scriptExports
+
+	  // render functions
+	  if (compiledTemplate) {
+	    options.render = compiledTemplate.render
+	    options.staticRenderFns = compiledTemplate.staticRenderFns
+	  }
+
+	  // scopedId
+	  if (scopeId) {
+	    options._scopeId = scopeId
+	  }
+
+	  // inject cssModules
+	  if (cssModules) {
+	    var computed = options.computed || (options.computed = {})
+	    Object.keys(cssModules).forEach(function (key) {
+	      var module = cssModules[key]
+	      computed[key] = function () { return module }
+	    })
+	  }
+
+	  return {
+	    esModule: esModule,
+	    exports: scriptExports,
+	    options: options
+	  }
+	}
+
+
+/***/ },
+
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 68:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/transitions/collapse-transition");
-
-/***/ },
-
-/***/ 137:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/merge");
-
-/***/ },
-
-/***/ 176:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 274:
+/***/ 79:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/transitions/collapse-transition");
+
+/***/ },
+
+/***/ 177:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/merge");
+
+/***/ },
+
+/***/ 316:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 312:
+/***/ 354:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tree = __webpack_require__(313);
+	var _tree = __webpack_require__(355);
 
 	var _tree2 = _interopRequireDefault(_tree);
 
@@ -108,50 +162,39 @@ module.exports =
 
 /***/ },
 
-/***/ 313:
+/***/ 355:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(356),
+	  /* template */
+	  __webpack_require__(363),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(314)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(321)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 314:
+/***/ 356:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _treeStore = __webpack_require__(315);
+	var _treeStore = __webpack_require__(357);
 
 	var _treeStore2 = _interopRequireDefault(_treeStore);
 
-	var _locale = __webpack_require__(176);
+	var _locale = __webpack_require__(60);
 
-	var _emitter = __webpack_require__(13);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -163,7 +206,7 @@ module.exports =
 	  mixins: [_emitter2.default],
 
 	  components: {
-	    ElTreeNode: __webpack_require__(318)
+	    ElTreeNode: __webpack_require__(360)
 	  },
 
 	  data: function data() {
@@ -220,7 +263,11 @@ module.exports =
 	    currentNodeKey: [String, Number],
 	    load: Function,
 	    filterNodeMethod: Function,
-	    accordion: Boolean
+	    accordion: Boolean,
+	    indent: {
+	      type: Number,
+	      default: 16
+	    }
 	  },
 
 	  computed: {
@@ -245,6 +292,7 @@ module.exports =
 	    },
 	    currentNodeKey: function currentNodeKey(newVal) {
 	      this.store.setCurrentNodeKey(newVal);
+	      this.store.currentNodeKey = newVal;
 	    },
 	    data: function data(newVal) {
 	      this.store.setData(newVal);
@@ -282,6 +330,7 @@ module.exports =
 	    },
 	    handleNodeExpand: function handleNodeExpand(nodeData, node, instance) {
 	      this.broadcast('ElTreeNode', 'tree-node-expand', node);
+	      this.$emit('node-expand', nodeData, node, instance);
 	    }
 	  },
 
@@ -324,7 +373,7 @@ module.exports =
 
 /***/ },
 
-/***/ 315:
+/***/ 357:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -333,11 +382,11 @@ module.exports =
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var _node = __webpack_require__(316);
+	var _node = __webpack_require__(358);
 
 	var _node2 = _interopRequireDefault(_node);
 
-	var _util = __webpack_require__(317);
+	var _util = __webpack_require__(359);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -618,7 +667,7 @@ module.exports =
 
 /***/ },
 
-/***/ 316:
+/***/ 358:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -627,11 +676,11 @@ module.exports =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _merge = __webpack_require__(137);
+	var _merge = __webpack_require__(177);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
-	var _util = __webpack_require__(317);
+	var _util = __webpack_require__(359);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1031,7 +1080,7 @@ module.exports =
 
 /***/ },
 
-/***/ 317:
+/***/ 359:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1056,52 +1105,41 @@ module.exports =
 
 /***/ },
 
-/***/ 318:
+/***/ 360:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(361),
+	  /* template */
+	  __webpack_require__(362),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(319)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(320)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 319:
+/***/ 361:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _collapseTransition = __webpack_require__(68);
+	var _collapseTransition = __webpack_require__(79);
 
 	var _collapseTransition2 = _interopRequireDefault(_collapseTransition);
 
-	var _checkbox = __webpack_require__(274);
+	var _checkbox = __webpack_require__(316);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _emitter = __webpack_require__(13);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -1200,7 +1238,9 @@ module.exports =
 	      this.tree.$emit('node-click', this.node.data, this.node, this);
 	    },
 	    handleExpandIconClick: function handleExpandIconClick() {
+	      if (this.node.isLeaf) return;
 	      if (this.expanded) {
+	        this.tree.$emit('node-collapse', this.node.data, this.node, this);
 	        this.node.collapse();
 	      } else {
 	        this.node.expand();
@@ -1217,8 +1257,9 @@ module.exports =
 	        this.node.setChecked(ev.target.checked, !this.tree.checkStrictly);
 	      }
 	    },
-	    handleChildNodeExpand: function handleChildNodeExpand(node) {
+	    handleChildNodeExpand: function handleChildNodeExpand(nodeData, node, instance) {
 	      this.broadcast('ElTreeNode', 'tree-node-expand', node);
+	      this.tree.$emit('node-expand', nodeData, node, instance);
 	    }
 	  },
 
@@ -1308,7 +1349,7 @@ module.exports =
 
 /***/ },
 
-/***/ 320:
+/***/ 362:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1334,7 +1375,7 @@ module.exports =
 	  }, [_c('div', {
 	    staticClass: "el-tree-node__content",
 	    style: ({
-	      'padding-left': (_vm.node.level - 1) * 16 + 'px'
+	      'padding-left': (_vm.node.level - 1) * _vm.tree.indent + 'px'
 	    })
 	  }, [_c('span', {
 	    staticClass: "el-tree-node__expand-icon",
@@ -1394,9 +1435,7 @@ module.exports =
 	        "node": child
 	      },
 	      on: {
-	        "node-expand": function($event) {
-	          _vm.handleChildNodeExpand(child)
-	        }
+	        "node-expand": _vm.handleChildNodeExpand
 	      }
 	    })
 	  }))])], 1)
@@ -1404,7 +1443,7 @@ module.exports =
 
 /***/ },
 
-/***/ 321:
+/***/ 363:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

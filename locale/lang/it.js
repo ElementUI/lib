@@ -3,6 +3,10 @@
 exports.__esModule = true;
 exports.default = {
   el: {
+    colorpicker: {
+      confirm: 'OK',
+      clear: 'Pulisci'
+    },
     datepicker: {
       now: 'Ora',
       today: 'Oggi',
@@ -57,6 +61,10 @@ exports.default = {
       loading: 'Caricamento',
       noMatch: 'Nessuna corrispondenza',
       noData: 'Nessun risultato',
+      placeholder: 'Seleziona'
+    },
+    cascader: {
+      noMatch: 'Nessuna corrispondenza',
       placeholder: 'Seleziona'
     },
     pagination: {

@@ -46,33 +46,87 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(139);
+	module.exports = __webpack_require__(179);
 
 
 /***/ },
 
-/***/ 8:
+/***/ 3:
+/***/ function(module, exports) {
+
+	module.exports = function normalizeComponent (
+	  rawScriptExports,
+	  compiledTemplate,
+	  scopeId,
+	  cssModules
+	) {
+	  var esModule
+	  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+	  // ES6 modules interop
+	  var type = typeof rawScriptExports.default
+	  if (type === 'object' || type === 'function') {
+	    esModule = rawScriptExports
+	    scriptExports = rawScriptExports.default
+	  }
+
+	  // Vue.extend constructor export interop
+	  var options = typeof scriptExports === 'function'
+	    ? scriptExports.options
+	    : scriptExports
+
+	  // render functions
+	  if (compiledTemplate) {
+	    options.render = compiledTemplate.render
+	    options.staticRenderFns = compiledTemplate.staticRenderFns
+	  }
+
+	  // scopedId
+	  if (scopeId) {
+	    options._scopeId = scopeId
+	  }
+
+	  // inject cssModules
+	  if (cssModules) {
+	    var computed = options.computed || (options.computed = {})
+	    Object.keys(cssModules).forEach(function (key) {
+	      var module = cssModules[key]
+	      computed[key] = function () { return module }
+	    })
+	  }
+
+	  return {
+	    esModule: esModule,
+	    exports: scriptExports,
+	    options: options
+	  }
+	}
+
+
+/***/ },
+
+/***/ 9:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input");
 
 /***/ },
 
-/***/ 90:
+/***/ 130:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 139:
+/***/ 179:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _inputNumber = __webpack_require__(140);
+	var _inputNumber = __webpack_require__(180);
 
 	var _inputNumber2 = _interopRequireDefault(_inputNumber);
 
@@ -87,51 +141,42 @@ module.exports =
 
 /***/ },
 
-/***/ 140:
+/***/ 180:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(181),
+	  /* template */
+	  __webpack_require__(182),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(141)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(142)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 141:
+/***/ 181:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _input = __webpack_require__(8);
+	var _input = __webpack_require__(9);
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _dom = __webpack_require__(90);
+	var _dom = __webpack_require__(130);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
+	//
 	//
 	//
 	//
@@ -327,7 +372,7 @@ module.exports =
 
 /***/ },
 
-/***/ 142:
+/***/ 182:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -347,22 +392,26 @@ module.exports =
 	      value: (_vm.decrease),
 	      expression: "decrease"
 	    }],
-	    staticClass: "el-input-number__decrease el-icon-minus",
+	    staticClass: "el-input-number__decrease",
 	    class: {
 	      'is-disabled': _vm.minDisabled
 	    }
-	  }) : _vm._e(), (_vm.controls) ? _c('span', {
+	  }, [_c('i', {
+	    staticClass: "el-icon-minus"
+	  })]) : _vm._e(), (_vm.controls) ? _c('span', {
 	    directives: [{
 	      name: "repeat-click",
 	      rawName: "v-repeat-click",
 	      value: (_vm.increase),
 	      expression: "increase"
 	    }],
-	    staticClass: "el-input-number__increase el-icon-plus",
+	    staticClass: "el-input-number__increase",
 	    class: {
 	      'is-disabled': _vm.maxDisabled
 	    }
-	  }) : _vm._e(), _c('el-input', {
+	  }, [_c('i', {
+	    staticClass: "el-icon-plus"
+	  })]) : _vm._e(), _c('el-input', {
 	    ref: "input",
 	    attrs: {
 	      "value": _vm.currentValue,

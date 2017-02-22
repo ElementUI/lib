@@ -46,26 +46,80 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(322);
+	module.exports = __webpack_require__(364);
 
 
 /***/ },
 
-/***/ 80:
+/***/ 3:
+/***/ function(module, exports) {
+
+	module.exports = function normalizeComponent (
+	  rawScriptExports,
+	  compiledTemplate,
+	  scopeId,
+	  cssModules
+	) {
+	  var esModule
+	  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+	  // ES6 modules interop
+	  var type = typeof rawScriptExports.default
+	  if (type === 'object' || type === 'function') {
+	    esModule = rawScriptExports
+	    scriptExports = rawScriptExports.default
+	  }
+
+	  // Vue.extend constructor export interop
+	  var options = typeof scriptExports === 'function'
+	    ? scriptExports.options
+	    : scriptExports
+
+	  // render functions
+	  if (compiledTemplate) {
+	    options.render = compiledTemplate.render
+	    options.staticRenderFns = compiledTemplate.staticRenderFns
+	  }
+
+	  // scopedId
+	  if (scopeId) {
+	    options._scopeId = scopeId
+	  }
+
+	  // inject cssModules
+	  if (cssModules) {
+	    var computed = options.computed || (options.computed = {})
+	    Object.keys(cssModules).forEach(function (key) {
+	      var module = cssModules[key]
+	      computed[key] = function () { return module }
+	    })
+	  }
+
+	  return {
+	    esModule: esModule,
+	    exports: scriptExports,
+	    options: options
+	  }
+	}
+
+
+/***/ },
+
+/***/ 59:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 322:
+/***/ 364:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _src = __webpack_require__(323);
+	var _src = __webpack_require__(365);
 
 	var _src2 = _interopRequireDefault(_src);
 
@@ -80,53 +134,51 @@ module.exports =
 
 /***/ },
 
-/***/ 323:
+/***/ 365:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(366),
+	  /* template */
+	  null,
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(324)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 324:
+/***/ 366:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _uploadList = __webpack_require__(325);
+	var _uploadList = __webpack_require__(367);
 
 	var _uploadList2 = _interopRequireDefault(_uploadList);
 
-	var _upload = __webpack_require__(329);
+	var _upload = __webpack_require__(371);
 
 	var _upload2 = _interopRequireDefault(_upload);
 
-	var _iframeUpload = __webpack_require__(336);
+	var _iframeUpload = __webpack_require__(377);
 
 	var _iframeUpload2 = _interopRequireDefault(_iframeUpload);
 
-	var _progress = __webpack_require__(327);
+	var _progress = __webpack_require__(369);
 
 	var _progress2 = _interopRequireDefault(_progress);
+
+	var _migrating = __webpack_require__(379);
+
+	var _migrating2 = _interopRequireDefault(_migrating);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -134,6 +186,8 @@ module.exports =
 
 	exports.default = {
 	  name: 'ElUpload',
+
+	  mixins: [_migrating2.default],
 
 	  components: {
 	    ElProgress: _progress2.default,
@@ -159,9 +213,10 @@ module.exports =
 	      type: String,
 	      default: 'file'
 	    },
+	    drag: Boolean,
+	    dragger: Boolean,
 	    withCredentials: Boolean,
-	    thumbnailMode: Boolean,
-	    showUploadList: {
+	    showFileList: {
 	      type: Boolean,
 	      default: true
 	    },
@@ -180,8 +235,7 @@ module.exports =
 	      default: noop
 	    },
 	    onPreview: {
-	      type: Function,
-	      default: noop
+	      type: Function
 	    },
 	    onSuccess: {
 	      type: Function,
@@ -195,17 +249,25 @@ module.exports =
 	      type: Function,
 	      default: noop
 	    },
-	    defaultFileList: {
+	    fileList: {
 	      type: Array,
 	      default: function _default() {
 	        return [];
 	      }
+	    },
+	    autoUpload: {
+	      type: Boolean,
+	      default: true
+	    },
+	    listType: {
+	      type: String,
+	      default: 'text' // text,picture,picture-card
 	    }
 	  },
 
 	  data: function data() {
 	    return {
-	      fileList: [],
+	      uploadFiles: [],
 	      dragOver: false,
 	      draging: false,
 	      tempIndex: 1
@@ -214,15 +276,14 @@ module.exports =
 
 
 	  watch: {
-	    defaultFileList: {
+	    fileList: {
 	      immediate: true,
 	      handler: function handler(fileList) {
 	        var _this = this;
 
-	        this.fileList = fileList.map(function (item) {
-	          item.status = 'finished';
-	          item.percentage = 100;
-	          item.uid = Date.now() + _this.tempIndex++;
+	        this.uploadFiles = fileList.map(function (item) {
+	          item.uid = item.uid || Date.now() + _this.tempIndex++;
+	          item.status = 'success';
 	          return item;
 	        });
 	      }
@@ -230,101 +291,115 @@ module.exports =
 	  },
 
 	  methods: {
-	    handleStart: function handleStart(file) {
-	      file.uid = Date.now() + this.tempIndex++;
-	      var _file = {
-	        status: 'uploading',
-	        name: file.name,
-	        size: file.size,
+	    handleStart: function handleStart(rawFile) {
+	      rawFile.uid = Date.now() + this.tempIndex++;
+	      var file = {
+	        status: 'ready',
+	        name: rawFile.name,
+	        size: rawFile.size,
 	        percentage: 0,
-	        uid: file.uid,
-	        showProgress: true
+	        uid: rawFile.uid,
+	        raw: rawFile
 	      };
 
 	      try {
-	        _file.url = URL.createObjectURL(file);
+	        file.url = URL.createObjectURL(rawFile);
 	      } catch (err) {
 	        console.error(err);
 	        return;
 	      }
 
-	      this.fileList.push(_file);
+	      this.uploadFiles.push(file);
 	    },
-	    handleProgress: function handleProgress(ev, file) {
-	      var _file = this.getFile(file);
-	      this.onProgress(ev, _file, this.fileList);
-	      _file.percentage = ev.percent || 0;
+	    handleProgress: function handleProgress(ev, rawFile) {
+	      var file = this.getFile(rawFile);
+	      this.onProgress(ev, file, this.uploadFiles);
+	      file.status = 'uploading';
+	      file.percentage = ev.percent || 0;
 	    },
-	    handleSuccess: function handleSuccess(res, file) {
-	      var _file = this.getFile(file);
+	    handleSuccess: function handleSuccess(res, rawFile) {
+	      var file = this.getFile(rawFile);
 
-	      if (_file) {
-	        _file.status = 'finished';
-	        _file.response = res;
+	      if (file) {
+	        file.status = 'success';
+	        file.response = res;
 
-	        this.onSuccess(res, _file, this.fileList);
-
-	        setTimeout(function () {
-	          _file.showProgress = false;
-	        }, 1000);
+	        this.onSuccess(res, file, this.uploadFiles);
+	        this.onChange(file, this.uploadFiles);
 	      }
 	    },
-	    handleError: function handleError(err, response, file) {
-	      var _file = this.getFile(file);
-	      var fileList = this.fileList;
+	    handleError: function handleError(err, rawFile) {
+	      var file = this.getFile(rawFile);
+	      var fileList = this.uploadFiles;
 
-	      _file.status = 'fail';
+	      file.status = 'fail';
 
-	      fileList.splice(fileList.indexOf(_file), 1);
+	      fileList.splice(fileList.indexOf(file), 1);
 
-	      this.onError(err, response, file);
+	      this.onError(err, file, this.uploadFiles);
+	      this.onChange(file, this.uploadFiles);
 	    },
 	    handleRemove: function handleRemove(file) {
-	      var fileList = this.fileList;
+	      var fileList = this.uploadFiles;
 	      fileList.splice(fileList.indexOf(file), 1);
 	      this.onRemove(file, fileList);
 	    },
-	    getFile: function getFile(file) {
-	      var fileList = this.fileList;
+	    getFile: function getFile(rawFile) {
+	      var fileList = this.uploadFiles;
 	      var target;
 	      fileList.every(function (item) {
-	        target = file.uid === item.uid ? item : null;
+	        target = rawFile.uid === item.uid ? item : null;
 	        return !target;
 	      });
 	      return target;
 	    },
-	    handlePreview: function handlePreview(file) {
-	      if (file.status === 'finished') {
-	        this.onPreview(file);
-	      }
-	    },
 	    clearFiles: function clearFiles() {
-	      this.fileList = [];
+	      this.uploadFiles = [];
+	    },
+	    submit: function submit() {
+	      var _this2 = this;
+
+	      this.uploadFiles.filter(function (file) {
+	        return file.status === 'ready';
+	      }).forEach(function (file) {
+	        _this2.$refs['upload-inner'].upload(file.raw, file);
+	      });
+	    },
+	    getMigratingConfig: function getMigratingConfig() {
+	      return {
+	        props: {
+	          'default-file-list': 'default-file-list is renamed to file-list.',
+	          'show-upload-list': 'show-file-list is renamed to show-file-list.',
+	          'thumbnail-mode': 'thumbnail-mode has been deprecated, you can implement the same effect according to this case: http://element.eleme.io/#/zh-CN/component/upload#yong-hu-tou-xiang-shang-chuan'
+	        }
+	      };
 	    }
 	  },
 
 	  render: function render(h) {
 	    var uploadList;
 
-	    if (this.showUploadList && !this.thumbnailMode && this.fileList.length) {
+	    if (this.showFileList) {
 	      uploadList = h(
 	        _uploadList2.default,
 	        {
 	          attrs: {
-	            files: this.fileList
-	          },
+	            listType: this.listType,
+	            files: this.uploadFiles,
+
+	            handlePreview: this.onPreview },
 	          on: {
-	            'remove': this.handleRemove,
-	            'preview': this.handlePreview
+	            'remove': this.handleRemove
 	          }
 	        },
 	        []
 	      );
 	    }
 
-	    var props = {
+	    var uploadData = {
 	      props: {
 	        type: this.type,
+	        drag: this.drag,
 	        action: this.action,
 	        multiple: this.multiple,
 	        'before-upload': this.beforeUpload,
@@ -332,94 +407,111 @@ module.exports =
 	        headers: this.headers,
 	        name: this.name,
 	        data: this.data,
-	        accept: this.thumbnailMode ? 'image/gif, image/png, image/jpeg, image/bmp, image/webp' : this.accept,
+	        accept: this.accept,
+	        fileList: this.uploadFiles,
+	        autoUpload: this.autoUpload,
+	        listType: this.listType,
 	        'on-start': this.handleStart,
 	        'on-progress': this.handleProgress,
 	        'on-success': this.handleSuccess,
 	        'on-error': this.handleError,
-	        'on-preview': this.handlePreview,
+	        'on-preview': this.onPreview,
 	        'on-remove': this.handleRemove
 	      },
 	      ref: 'upload-inner'
 	    };
 
+	    var trigger = this.$slots.trigger || this.$slots.default;
 	    var uploadComponent = typeof FormData !== 'undefined' || this.$isServer ? h(
 	      'upload',
-	      props,
-	      [this.$slots.default]
+	      uploadData,
+	      [trigger]
 	    ) : h(
 	      'iframeUpload',
-	      props,
-	      [this.$slots.default]
+	      uploadData,
+	      [trigger]
 	    );
 
-	    if (this.type === 'select') {
-	      return h(
-	        'div',
-	        { 'class': 'el-upload' },
-	        [uploadList, uploadComponent, this.$slots.tip]
-	      );
-	    }
-
-	    if (this.type === 'drag') {
-	      return h(
-	        'div',
-	        { 'class': 'el-upload' },
-	        [uploadComponent, this.$slots.tip, uploadList]
-	      );
-	    }
+	    return h(
+	      'div',
+	      null,
+	      [this.listType === 'picture-card' ? uploadList : '', this.$slots.trigger ? [uploadComponent, this.$slots.default] : uploadComponent, this.$slots.tip, this.listType !== 'picture-card' ? uploadList : '']
+	    );
 	  }
 	};
 
 /***/ },
 
-/***/ 325:
+/***/ 367:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(368),
+	  /* template */
+	  __webpack_require__(370),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(326)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(328)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 326:
+/***/ 368:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _locale = __webpack_require__(80);
+	var _locale = __webpack_require__(59);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _progress = __webpack_require__(327);
+	var _progress = __webpack_require__(369);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -456,30 +548,35 @@ module.exports =
 	      default: function _default() {
 	        return [];
 	      }
-	    }
+	    },
+	    handlePreview: Function,
+	    listType: String
 	  },
 	  methods: {
 	    parsePercentage: function parsePercentage(val) {
 	      return parseInt(val, 10);
+	    },
+	    handleClick: function handleClick(file) {
+	      this.handlePreview && this.handlePreview(file);
 	    }
 	  }
 	};
 
 /***/ },
 
-/***/ 327:
+/***/ 369:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/progress");
 
 /***/ },
 
-/***/ 328:
+/***/ 370:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition-group', {
-	    staticClass: "el-upload__files",
+	    class: ['el-upload-list', 'el-upload-list--' + _vm.listType],
 	    attrs: {
 	      "tag": "ul",
 	      "name": "list"
@@ -487,42 +584,73 @@ module.exports =
 	  }, _vm._l((_vm.files), function(file) {
 	    return _c('li', {
 	      key: file,
-	      staticClass: "el-upload__file",
-	      class: {
-	        'is-finished': file.status === 'finished'
-	      },
-	      on: {
-	        "click": function($event) {
-	          _vm.$emit('clickFile', file)
-	        }
+	      class: ['el-upload-list__item', 'is-' + file.status]
+	    }, [(['picture-card', 'picture'].indexOf(_vm.listType) > -1 && file.status === 'success') ? _c('img', {
+	      staticClass: "el-upload-list__item-thumbnail",
+	      attrs: {
+	        "src": file.url,
+	        "alt": ""
 	      }
-	    }, [_c('a', {
-	      staticClass: "el-upload__file__name",
+	    }) : _vm._e(), _c('a', {
+	      staticClass: "el-upload-list__item-name",
 	      on: {
 	        "click": function($event) {
-	          _vm.$emit('preview', file)
+	          _vm.handleClick(file)
 	        }
 	      }
 	    }, [_c('i', {
 	      staticClass: "el-icon-document"
-	    }), _vm._v(_vm._s(file.name) + "\n    ")]), _c('span', {
+	    }), _vm._v(_vm._s(file.name) + "\n    ")]), _c('label', {
 	      directives: [{
 	        name: "show",
 	        rawName: "v-show",
-	        value: (file.status === 'finished'),
-	        expression: "file.status === 'finished'"
+	        value: (file.status === 'success'),
+	        expression: "file.status === 'success'"
 	      }],
-	      staticClass: "el-upload__btn-delete",
+	      staticClass: "el-upload-list__item-status-label"
+	    }, [_c('i', {
+	      class: {
+	        'el-icon-circle-check': _vm.listType === 'text',
+	          'el-icon-check': ['picture-card', 'picture'].indexOf(_vm.listType) > -1
+	      }
+	    }), _c('i', {
+	      staticClass: "el-icon-close",
 	      on: {
 	        "click": function($event) {
 	          _vm.$emit('remove', file)
 	        }
 	      }
-	    }, [_vm._v(_vm._s(_vm.t('el.upload.delete')))]), (file.showProgress) ? _c('el-progress', {
+	    })]), (
+	      _vm.listType === 'picture-card' &&
+	      file.status === 'success'
+	    ) ? _c('span', {
+	      staticClass: "el-upload-list__item-actions"
+	    }, [(
+	      _vm.handlePreview &&
+	      _vm.listType === 'picture-card'
+	    ) ? _c('span', {
+	      staticClass: "el-upload-list__item-preview",
+	      on: {
+	        "click": function($event) {
+	          _vm.handlePreview(file)
+	        }
+	      }
+	    }, [_c('i', {
+	      staticClass: "el-icon-view"
+	    })]) : _vm._e(), _c('span', {
+	      staticClass: "el-upload-list__item-delete",
+	      on: {
+	        "click": function($event) {
+	          _vm.$emit('remove', file)
+	        }
+	      }
+	    }, [_c('i', {
+	      staticClass: "el-icon-delete2"
+	    })])]) : _vm._e(), (file.status === 'uploading') ? _c('el-progress', {
 	      attrs: {
-	        "stroke-width": 2,
-	        "percentage": _vm.parsePercentage(file.percentage),
-	        "status": file.status === 'finished' && file.showProgress ? 'success' : ''
+	        "type": _vm.listType === 'picture-card' ? 'circle' : 'line',
+	        "stroke-width": _vm.listType === 'picture-card' ? 6 : 2,
+	        "percentage": _vm.parsePercentage(file.percentage)
 	      }
 	    }) : _vm._e()], 1)
 	  }))
@@ -530,74 +658,45 @@ module.exports =
 
 /***/ },
 
-/***/ 329:
+/***/ 371:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(372),
+	  /* template */
+	  null,
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(330)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(335)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 330:
+/***/ 372:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _ajax = __webpack_require__(331);
+	var _ajax = __webpack_require__(373);
 
 	var _ajax2 = _interopRequireDefault(_ajax);
 
-	var _cover = __webpack_require__(332);
+	var _uploadDragger = __webpack_require__(374);
 
-	var _cover2 = _interopRequireDefault(_cover);
+	var _uploadDragger2 = _interopRequireDefault(_uploadDragger);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
 	exports.default = {
 	  components: {
-	    Cover: _cover2.default
+	    UploadDragger: _uploadDragger2.default
 	  },
 	  props: {
 	    type: String,
@@ -619,6 +718,7 @@ module.exports =
 	    onSuccess: Function,
 	    onError: Function,
 	    beforeUpload: Function,
+	    drag: Boolean,
 	    onPreview: {
 	      type: Function,
 	      default: function _default() {}
@@ -626,30 +726,18 @@ module.exports =
 	    onRemove: {
 	      type: Function,
 	      default: function _default() {}
-	    }
+	    },
+	    fileList: Array,
+	    autoUpload: Boolean,
+	    listType: String
 	  },
 
 	  data: function data() {
 	    return {
-	      dragOver: false,
 	      mouseover: false
 	    };
 	  },
 
-
-	  computed: {
-	    lastestFile: function lastestFile() {
-	      var fileList = this.$parent.fileList;
-	      return fileList[fileList.length - 1];
-	    },
-	    showCover: function showCover() {
-	      var file = this.lastestFile;
-	      return this.thumbnailMode && file && file.status !== 'fail';
-	    },
-	    thumbnailMode: function thumbnailMode() {
-	      return this.$parent.thumbnailMode;
-	    }
-	  },
 
 	  methods: {
 	    isImage: function isImage(str) {
@@ -658,9 +746,7 @@ module.exports =
 	    handleChange: function handleChange(ev) {
 	      var files = ev.target.files;
 
-	      if (!files) {
-	        return;
-	      }
+	      if (!files) return;
 	      this.uploadFiles(files);
 	      this.$refs.input.value = null;
 	    },
@@ -676,78 +762,108 @@ module.exports =
 	        return;
 	      }
 
-	      postFiles.forEach(function (file) {
-	        var isImage = _this.isImage(file.type);
-
-	        if (_this.thumbnailMode && !isImage) {
-	          return;
-	        } else {
-	          _this.upload(file);
+	      postFiles.forEach(function (rawFile) {
+	        if (!_this.thumbnailMode || _this.isImage(rawFile.type)) {
+	          _this.onStart(rawFile);
+	          if (_this.autoUpload) _this.upload(rawFile);
 	        }
 	      });
 	    },
-	    upload: function upload(file) {
+	    upload: function upload(rawFile, file) {
 	      var _this2 = this;
 
 	      if (!this.beforeUpload) {
-	        return this.post(file);
+	        return this.post(rawFile);
 	      }
 
-	      var before = this.beforeUpload(file);
+	      var before = this.beforeUpload(rawFile);
 	      if (before && before.then) {
 	        before.then(function (processedFile) {
 	          if (Object.prototype.toString.call(processedFile) === '[object File]') {
 	            _this2.post(processedFile);
 	          } else {
-	            _this2.post(file);
+	            _this2.post(rawFile);
 	          }
 	        }, function () {
-	          // this.$emit('cancel', file);
+	          if (file) _this2.onRemove(file);
 	        });
 	      } else if (before !== false) {
-	        this.post(file);
+	        this.post(rawFile);
 	      } else {
-	        // this.$emit('cancel', file);
+	        if (file) this.onRemove(file);
 	      }
 	    },
-	    post: function post(file) {
+	    post: function post(rawFile) {
 	      var _this3 = this;
-
-	      this.onStart(file);
-	      var formData = new FormData();
-	      formData.append(this.name, file);
 
 	      (0, _ajax2.default)({
 	        headers: this.headers,
 	        withCredentials: this.withCredentials,
-	        file: file,
+	        file: rawFile,
 	        data: this.data,
 	        filename: this.name,
 	        action: this.action,
 	        onProgress: function onProgress(e) {
-	          _this3.onProgress(e, file);
+	          _this3.onProgress(e, rawFile);
 	        },
 	        onSuccess: function onSuccess(res) {
-	          _this3.onSuccess(res, file);
+	          _this3.onSuccess(res, rawFile);
 	        },
-	        onError: function onError(err, response) {
-	          _this3.onError(err, response, file);
+	        onError: function onError(err) {
+	          _this3.onError(err, rawFile);
 	        }
 	      });
-	    },
-	    onDrop: function onDrop(e) {
-	      this.dragOver = false;
-	      this.uploadFiles(e.dataTransfer.files);
 	    },
 	    handleClick: function handleClick() {
 	      this.$refs.input.click();
 	    }
+	  },
+
+	  render: function render(h) {
+	    var handleClick = this.handleClick,
+	        drag = this.drag,
+	        handleChange = this.handleChange,
+	        multiple = this.multiple,
+	        accept = this.accept,
+	        listType = this.listType,
+	        uploadFiles = this.uploadFiles;
+
+	    var data = {
+	      class: {
+	        'el-upload': true
+	      },
+	      on: {
+	        click: handleClick
+	      }
+	    };
+	    data.class['el-upload--' + listType] = true;
+	    return h(
+	      'div',
+	      data,
+	      [drag ? h(
+	        'upload-dragger',
+	        {
+	          on: {
+	            'file': uploadFiles
+	          }
+	        },
+	        [this.$slots.default]
+	      ) : this.$slots.default, h(
+	        'input',
+	        { 'class': 'el-upload__input', attrs: { type: 'file', multiple: multiple, accept: accept },
+	          ref: 'input', on: {
+	            'change': handleChange
+	          }
+	        },
+	        []
+	      )]
+	    );
 	  }
 	};
 
 /***/ },
 
-/***/ 331:
+/***/ 373:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -755,7 +871,15 @@ module.exports =
 	exports.__esModule = true;
 	exports.default = upload;
 	function getError(action, option, xhr) {
-	  var msg = 'fail to post ' + action + ' ' + xhr.status + '\'';
+	  var msg = void 0;
+	  if (xhr.response) {
+	    msg = xhr.status + ' ' + (xhr.response.error || xhr.response);
+	  } else if (xhr.responseText) {
+	    msg = xhr.status + ' ' + xhr.responseText;
+	  } else {
+	    msg = 'fail to post ' + action + ' ' + xhr.status + '\'';
+	  }
+
 	  var err = new Error(msg);
 	  err.status = xhr.status;
 	  err.method = 'post';
@@ -809,7 +933,7 @@ module.exports =
 
 	  xhr.onload = function onload() {
 	    if (xhr.status < 200 || xhr.status >= 300) {
-	      return option.onError(getError(action, option, xhr), getBody(xhr));
+	      return option.onError(getError(action, option, xhr));
 	    }
 
 	    option.onSuccess(getBody(xhr));
@@ -837,73 +961,31 @@ module.exports =
 
 /***/ },
 
-/***/ 332:
+/***/ 374:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(375),
+	  /* template */
+	  __webpack_require__(376),
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(333)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(334)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 333:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 375:
+/***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
-
-	var _locale = __webpack_require__(80);
-
-	var _locale2 = _interopRequireDefault(_locale);
-
-	var _progress = __webpack_require__(327);
-
-	var _progress2 = _interopRequireDefault(_progress);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 	//
 	//
 	//
@@ -919,213 +1001,87 @@ module.exports =
 	//
 
 	exports.default = {
-	  mixins: [_locale2.default],
+	  name: 'ElUploadDrag',
 
-	  components: { ElProgress: _progress2.default },
-
-	  props: {
-	    image: {},
-	    onPreview: {
-	      type: Function,
-	      default: function _default() {}
-	    },
-	    onRemove: {
-	      type: Function,
-	      default: function _default() {}
-	    }
-	  },
 	  data: function data() {
 	    return {
-	      mouseover: false
+	      dragover: false
 	    };
+	  },
+
+	  methods: {
+	    onDrop: function onDrop(e) {
+	      this.dragover = false;
+	      this.$emit('file', e.dataTransfer.files);
+	    }
 	  }
 	};
 
 /***/ },
 
-/***/ 334:
-/***/ function(module, exports) {
-
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return (_vm.image) ? _c('div', {
-	    staticClass: "el-dragger__cover",
-	    on: {
-	      "click": function($event) {
-	        $event.stopPropagation();
-	      }
-	    }
-	  }, [_c('transition', {
-	    attrs: {
-	      "name": "el-fade-in"
-	    }
-	  }, [(_vm.image.status === 'uploading') ? _c('el-progress', {
-	    staticClass: "el-dragger__cover__progress",
-	    attrs: {
-	      "percentage": _vm.image.percentage,
-	      "show-text": false,
-	      "status": _vm.image.status === 'finished' ? 'success' : ''
-	    }
-	  }) : _vm._e()], 1), (_vm.image.status === 'finished') ? _c('div', {
-	    staticClass: "el-dragger__cover__content",
-	    on: {
-	      "mouseenter": function($event) {
-	        _vm.mouseover = true
-	      },
-	      "mouseleave": function($event) {
-	        _vm.mouseover = false
-	      }
-	    }
-	  }, [_c('img', {
-	    attrs: {
-	      "src": _vm.image.url
-	    }
-	  }), _c('transition', {
-	    attrs: {
-	      "name": "el-fade-in"
-	    }
-	  }, [_c('div', {
-	    directives: [{
-	      name: "show",
-	      rawName: "v-show",
-	      value: (_vm.mouseover),
-	      expression: "mouseover"
-	    }],
-	    staticClass: "el-dragger__cover__interact"
-	  }, [_c('div', {
-	    staticClass: "el-draggeer__cover__btns"
-	  }, [_c('span', {
-	    staticClass: "btn",
-	    on: {
-	      "click": function($event) {
-	        _vm.$parent.handleClick()
-	      }
-	    }
-	  }, [_c('i', {
-	    staticClass: "el-icon-upload2"
-	  }), _c('span', [_vm._v(_vm._s(_vm.t('el.upload.continue')))])]), _c('span', {
-	    staticClass: "btn",
-	    on: {
-	      "click": function($event) {
-	        _vm.onPreview(_vm.image)
-	      }
-	    }
-	  }, [_c('i', {
-	    staticClass: "el-icon-view"
-	  }), _c('span', [_vm._v(_vm._s(_vm.t('el.upload.preview')))])]), _c('span', {
-	    staticClass: "btn",
-	    on: {
-	      "click": function($event) {
-	        _vm.onRemove(_vm.image)
-	      }
-	    }
-	  }, [_c('i', {
-	    staticClass: "el-icon-delete2"
-	  }), _c('span', [_vm._v(_vm._s(_vm.t('el.upload.delete')))])])])])]), _c('transition', {
-	    attrs: {
-	      "name": "el-zoom-in-bottom"
-	    }
-	  }, [_c('h4', {
-	    directives: [{
-	      name: "show",
-	      rawName: "v-show",
-	      value: (_vm.mouseover),
-	      expression: "mouseover"
-	    }],
-	    staticClass: "el-dragger__cover__title"
-	  }, [_vm._v(_vm._s(_vm.image.name))])])], 1) : _vm._e()], 1) : _vm._e()
-	},staticRenderFns: []}
-
-/***/ },
-
-/***/ 335:
+/***/ 376:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
-	    staticClass: "el-upload__inner",
+	    staticClass: "el-upload-dragger",
 	    class: {
-	      'el-dragger': _vm.type === 'drag',
-	        'is-dragOver': _vm.dragOver,
-	        'is-showCover': _vm.showCover
+	      'is-dragover': _vm.dragover
 	    },
 	    on: {
-	      "click": _vm.handleClick,
 	      "drop": function($event) {
 	        $event.preventDefault();
 	        _vm.onDrop($event)
 	      },
 	      "dragover": function($event) {
 	        $event.preventDefault();
-	        _vm.dragOver = true
+	        _vm.dragover = true
 	      },
 	      "dragleave": function($event) {
 	        $event.preventDefault();
-	        _vm.dragOver = false
+	        _vm.dragover = false
 	      }
 	    }
-	  }, [(!_vm.showCover) ? _vm._t("default") : _c('cover', {
-	    attrs: {
-	      "image": _vm.lastestFile,
-	      "on-preview": _vm.onPreview,
-	      "on-remove": _vm.onRemove
-	    }
-	  }), _c('input', {
-	    ref: "input",
-	    staticClass: "el-upload__input",
-	    attrs: {
-	      "type": "file",
-	      "multiple": _vm.multiple,
-	      "accept": _vm.accept
-	    },
-	    on: {
-	      "change": _vm.handleChange
-	    }
-	  })], 2)
+	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 336:
+/***/ 377:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(378),
+	  /* template */
+	  null,
+	  /* scopeId */
+	  null,
+	  /* cssModules */
+	  null
+	)
 
-	/* script */
-	__vue_exports__ = __webpack_require__(337)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-
-
-	module.exports = __vue_exports__
+	module.exports = Component.exports
 
 
 /***/ },
 
-/***/ 337:
+/***/ 378:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _cover = __webpack_require__(332);
+	var _uploadDragger = __webpack_require__(374);
 
-	var _cover2 = _interopRequireDefault(_cover);
+	var _uploadDragger2 = _interopRequireDefault(_uploadDragger);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	  components: {
-	    Cover: _cover2.default
+	    UploadDragger: _uploadDragger2.default
 	  },
 	  props: {
 	    type: String,
@@ -1152,12 +1108,13 @@ module.exports =
 	    onRemove: {
 	      type: Function,
 	      default: function _default() {}
-	    }
+	    },
+	    drag: Boolean,
+	    listType: String
 	  },
 
 	  data: function data() {
 	    return {
-	      dragOver: false,
 	      mouseover: false,
 	      domain: '',
 	      file: null,
@@ -1166,31 +1123,22 @@ module.exports =
 	  },
 
 
-	  computed: {
-	    lastestFile: function lastestFile() {
-	      var fileList = this.$parent.fileList;
-	      return fileList[fileList.length - 1];
-	    },
-	    showCover: function showCover() {
-	      var file = this.lastestFile;
-	      return this.thumbnailMode && file && file.status !== 'fail';
-	    },
-	    thumbnailMode: function thumbnailMode() {
-	      return this.$parent.thumbnailMode;
-	    }
-	  },
-
 	  methods: {
 	    isImage: function isImage(str) {
 	      return str.indexOf('image') !== -1;
 	    },
 	    handleClick: function handleClick() {
-	      if (!this.disabled) {
-	        this.$refs.input.click();
-	      }
+	      this.$refs.input.click();
 	    },
 	    handleChange: function handleChange(ev) {
-	      var file = ev.target.files[0];
+	      var file = ev.target.value;
+	      if (file) {
+	        this.uploadFiles(file);
+	      }
+	    },
+	    uploadFiles: function uploadFiles(file) {
+	      if (this.disabled) return;
+	      this.disabled = true;
 	      this.file = file;
 	      this.onStart(file);
 
@@ -1209,70 +1157,47 @@ module.exports =
 	      dataSpan.innerHTML = inputs.join('');
 	      formNode.submit();
 	      dataSpan.innerHTML = '';
-	      this.disabled = true;
 	    },
 	    getFormNode: function getFormNode() {
 	      return this.$refs.form;
 	    },
 	    getFormDataNode: function getFormDataNode() {
 	      return this.$refs.data;
-	    },
-	    onDrop: function onDrop(e) {
-	      e.preventDefault();
-	      this.dragOver = false;
-	      this.uploadFiles(e.dataTransfer.files);
-	    },
-	    handleDragover: function handleDragover(e) {
-	      e.preventDefault();
-	      this.onDrop = true;
-	    },
-	    handleDragleave: function handleDragleave(e) {
-	      e.preventDefault();
-	      this.onDrop = false;
-	    },
-	    onload: function onload(e) {
-	      this.disabled = false;
 	    }
 	  },
 
+	  created: function created() {
+	    this.frameName = 'frame-' + Date.now();
+	  },
 	  mounted: function mounted() {
-	    var _this = this;
-
+	    var self = this;
 	    !this.$isServer && window.addEventListener('message', function (event) {
-	      var targetOrigin = new URL(_this.action).origin;
-	      if (event.origin !== targetOrigin) {
-	        return false;
-	      }
+	      if (!self.file) return;
+	      var targetOrigin = new URL(self.action).origin;
+	      if (event.origin !== targetOrigin) return;
 	      var response = event.data;
 	      if (response.result === 'success') {
-	        _this.onSuccess(response, _this.file);
+	        self.onSuccess(response, self.file);
 	      } else if (response.result === 'failed') {
-	        _this.onSuccess(response, _this.file);
+	        self.onError(response, self.file);
 	      }
+	      self.disabled = false;
+	      self.file = null;
 	    }, false);
 	  },
 	  render: function render(h) {
-	    var cover = h(
-	      'cover',
-	      {
-	        attrs: { image: this.lastestFile },
-	        on: {
-	          'preview': this.onPreview,
-	          'remove': this.onRemove
-	        }
-	      },
-	      []
-	    );
-	    var frameName = 'frame-' + Date.now();
+	    var drag = this.drag,
+	        uploadFiles = this.uploadFiles,
+	        listType = this.listType,
+	        frameName = this.frameName;
+
+	    var oClass = { 'el-upload': true };
+	    oClass['el-upload--' + listType] = true;
+
 	    return h(
 	      'div',
 	      {
-	        'class': {
-	          'el-upload__inner': true,
-	          'el-dragger': this.type === 'drag',
-	          'is-dragOver': this.dragOver,
-	          'is-showCover': this.showCover
-	        },
+	        'class': oClass,
 	        on: {
 	          'click': this.handleClick
 	        },
@@ -1323,10 +1248,25 @@ module.exports =
 	          { ref: 'data' },
 	          []
 	        )]
-	      ), !this.showCover ? this.$slots.default : cover]
+	      ), drag ? h(
+	        'upload-dragger',
+	        {
+	          on: {
+	            'file': uploadFiles
+	          }
+	        },
+	        [this.$slots.default]
+	      ) : this.$slots.default]
 	    );
 	  }
 	};
+
+/***/ },
+
+/***/ 379:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }
 

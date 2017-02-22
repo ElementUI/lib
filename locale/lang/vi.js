@@ -3,6 +3,10 @@
 exports.__esModule = true;
 exports.default = {
   el: {
+    colorpicker: {
+      confirm: 'OK',
+      clear: 'Xóa'
+    },
     datepicker: {
       now: 'Hiện tại',
       today: 'Hôm nay',
@@ -57,6 +61,10 @@ exports.default = {
       loading: 'Loading',
       noMatch: 'Dữ liệu không phù hợp',
       noData: 'Không tìm thấy dữ liệu',
+      placeholder: 'Chọn'
+    },
+    cascader: {
+      noMatch: 'Dữ liệu không phù hợp',
       placeholder: 'Chọn'
     },
     pagination: {

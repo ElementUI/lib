@@ -3,6 +3,10 @@
 exports.__esModule = true;
 exports.default = {
   el: {
+    colorpicker: {
+      confirm: 'OK',
+      clear: 'Ryd'
+    },
     datepicker: {
       now: 'Nu',
       today: 'I dag',
@@ -57,6 +61,10 @@ exports.default = {
       loading: 'Henter',
       noMatch: 'Ingen matchende data',
       noData: 'Ingen data',
+      placeholder: 'Vælg'
+    },
+    cascader: {
+      noMatch: 'Ingen matchende data',
       placeholder: 'Vælg'
     },
     pagination: {
