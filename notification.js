@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(217);
+	module.exports = __webpack_require__(204);
 
 
 /***/ },
@@ -112,21 +112,21 @@ module.exports =
 
 /***/ },
 
-/***/ 145:
+/***/ 132:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/popup");
 
 /***/ },
 
-/***/ 217:
+/***/ 204:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(218);
+	var _main = __webpack_require__(205);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -136,7 +136,7 @@ module.exports =
 
 /***/ },
 
-/***/ 218:
+/***/ 205:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -147,13 +147,13 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _popup = __webpack_require__(145);
+	var _popup = __webpack_require__(132);
 
-	var _vdom = __webpack_require__(219);
+	var _vdom = __webpack_require__(206);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var NotificationConstructor = _vue2.default.extend(__webpack_require__(220));
+	var NotificationConstructor = _vue2.default.extend(__webpack_require__(207));
 
 	var instance = void 0;
 	var instances = [];
@@ -233,21 +233,21 @@ module.exports =
 
 /***/ },
 
-/***/ 219:
+/***/ 206:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vdom");
 
 /***/ },
 
-/***/ 220:
+/***/ 207:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(221),
+	  __webpack_require__(208),
 	  /* template */
-	  __webpack_require__(222),
+	  __webpack_require__(209),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -259,7 +259,7 @@ module.exports =
 
 /***/ },
 
-/***/ 221:
+/***/ 208:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -372,7 +372,7 @@ module.exports =
 
 /***/ },
 
-/***/ 222:
+/***/ 209:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

@@ -478,8 +478,8 @@ module.exports =
 	      this.menu.value = this.currentValue.slice(0);
 	      this.menu.visible = true;
 	      this.menu.options = this.options;
-	      this.updatePopper();
 	      this.$nextTick(function (_) {
+	        _this2.updatePopper();
 	        _this2.menu.inputWidth = _this2.$refs.input.$el.offsetWidth - 2;
 	      });
 	    },

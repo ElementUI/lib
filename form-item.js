@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(164);
+	module.exports = __webpack_require__(151);
 
 
 /***/ },
@@ -112,14 +112,14 @@ module.exports =
 
 /***/ },
 
-/***/ 164:
+/***/ 151:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _formItem = __webpack_require__(165);
+	var _formItem = __webpack_require__(152);
 
 	var _formItem2 = _interopRequireDefault(_formItem);
 
@@ -134,14 +134,14 @@ module.exports =
 
 /***/ },
 
-/***/ 165:
+/***/ 152:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(166),
+	  __webpack_require__(153),
 	  /* template */
-	  __webpack_require__(168),
+	  __webpack_require__(155),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -153,14 +153,14 @@ module.exports =
 
 /***/ },
 
-/***/ 166:
+/***/ 153:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _asyncValidator = __webpack_require__(167);
+	var _asyncValidator = __webpack_require__(154);
 
 	var _asyncValidator2 = _interopRequireDefault(_asyncValidator);
 
@@ -254,11 +254,10 @@ module.exports =
 	    },
 	    contentStyle: function contentStyle() {
 	      var ret = {};
-	      if (this.form.labelPosition === 'top') return ret;
 	      var labelWidth = this.labelWidth || this.form.labelWidth;
-	      if (labelWidth) {
-	        ret.marginLeft = labelWidth;
-	      }
+	      var form = this.form;
+	      if (form.labelPosition === 'top' || form.inline) return ret;
+	      if (labelWidth) ret.marginLeft = labelWidth;
 	      return ret;
 	    },
 	    form: function form() {
@@ -404,14 +403,14 @@ module.exports =
 
 /***/ },
 
-/***/ 167:
+/***/ 154:
 /***/ function(module, exports) {
 
 	module.exports = require("async-validator");
 
 /***/ },
 
-/***/ 168:
+/***/ 155:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

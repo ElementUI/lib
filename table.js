@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(313);
+	module.exports = __webpack_require__(300);
 
 
 /***/ },
@@ -154,28 +154,28 @@ module.exports =
 
 /***/ },
 
-/***/ 269:
+/***/ 256:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/scrollbar-width");
 
 /***/ },
 
-/***/ 278:
+/***/ 265:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 313:
+/***/ 300:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _table = __webpack_require__(314);
+	var _table = __webpack_require__(301);
 
 	var _table2 = _interopRequireDefault(_table);
 
@@ -190,14 +190,14 @@ module.exports =
 
 /***/ },
 
-/***/ 314:
+/***/ 301:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(315),
+	  __webpack_require__(302),
 	  /* template */
-	  __webpack_require__(327),
+	  __webpack_require__(314),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -209,14 +209,14 @@ module.exports =
 
 /***/ },
 
-/***/ 315:
+/***/ 302:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(316);
+	var _checkbox = __webpack_require__(303);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -234,26 +234,27 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _tableStore = __webpack_require__(317);
+	var _tableStore = __webpack_require__(304);
 
 	var _tableStore2 = _interopRequireDefault(_tableStore);
 
-	var _tableLayout = __webpack_require__(319);
+	var _tableLayout = __webpack_require__(306);
 
 	var _tableLayout2 = _interopRequireDefault(_tableLayout);
 
-	var _tableBody = __webpack_require__(320);
+	var _tableBody = __webpack_require__(307);
 
 	var _tableBody2 = _interopRequireDefault(_tableBody);
 
-	var _tableHeader = __webpack_require__(321);
+	var _tableHeader = __webpack_require__(308);
 
 	var _tableHeader2 = _interopRequireDefault(_tableHeader);
 
-	var _util = __webpack_require__(318);
+	var _util = __webpack_require__(305);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
 	//
 	//
 	//
@@ -534,6 +535,23 @@ module.exports =
 
 	      return style;
 	    },
+	    tableHeight: function tableHeight() {
+	      var style = {};
+
+	      var height = this.layout.tableHeight ? this.layout.tableHeight + 'px' : '';
+
+	      if (this.height) {
+	        style = {
+	          height: height
+	        };
+	      } else if (this.maxHeight) {
+	        style = {
+	          'max-height': height
+	        };
+	      }
+
+	      return style;
+	    },
 	    bodyWidth: function bodyWidth() {
 	      var _layout = this.layout,
 	          bodyWidth = _layout.bodyWidth,
@@ -632,14 +650,14 @@ module.exports =
 
 /***/ },
 
-/***/ 316:
+/***/ 303:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 317:
+/***/ 304:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -654,7 +672,7 @@ module.exports =
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _util = __webpack_require__(318);
+	var _util = __webpack_require__(305);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1156,7 +1174,7 @@ module.exports =
 
 /***/ },
 
-/***/ 318:
+/***/ 305:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1260,14 +1278,14 @@ module.exports =
 
 /***/ },
 
-/***/ 319:
+/***/ 306:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _scrollbarWidth = __webpack_require__(269);
+	var _scrollbarWidth = __webpack_require__(256);
 
 	var _scrollbarWidth2 = _interopRequireDefault(_scrollbarWidth);
 
@@ -1472,16 +1490,16 @@ module.exports =
 
 /***/ },
 
-/***/ 320:
+/***/ 307:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(318);
+	var _util = __webpack_require__(305);
 
-	var _checkbox = __webpack_require__(316);
+	var _checkbox = __webpack_require__(303);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -1729,6 +1747,14 @@ module.exports =
 	    },
 	    handleContextMenu: function handleContextMenu(event, row) {
 	      var table = this.table;
+	      var cell = (0, _util.getCell)(event);
+	      var column = void 0;
+	      if (cell) {
+	        column = (0, _util.getColumnByCell)(table, cell);
+	        if (column) {
+	          table.$emit('cell-dblclick', row, column, cell, event);
+	        }
+	      }
 	      table.$emit('row-contextmenu', row, event);
 	    },
 	    handleDoubleClick: function handleDoubleClick(event, row) {
@@ -1758,18 +1784,18 @@ module.exports =
 
 /***/ },
 
-/***/ 321:
+/***/ 308:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(316);
+	var _checkbox = __webpack_require__(303);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(278);
+	var _tag = __webpack_require__(265);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
@@ -1777,7 +1803,7 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _filterPanel = __webpack_require__(322);
+	var _filterPanel = __webpack_require__(309);
 
 	var _filterPanel2 = _interopRequireDefault(_filterPanel);
 
@@ -2102,7 +2128,8 @@ module.exports =
 
 	          _this3.$parent.resizeProxyVisible = true;
 
-	          var tableEl = _this3.$parent.$el;
+	          var table = _this3.$parent;
+	          var tableEl = table.$el;
 	          var tableLeft = tableEl.getBoundingClientRect().left;
 	          var columnEl = _this3.$el.querySelector('th.' + column.id);
 	          var columnRect = columnEl.getBoundingClientRect();
@@ -2117,7 +2144,7 @@ module.exports =
 	            tableLeft: tableLeft
 	          };
 
-	          var resizeProxy = _this3.$parent.$refs.resizeProxy;
+	          var resizeProxy = table.$refs.resizeProxy;
 	          resizeProxy.style.left = _this3.dragState.startLeft + 'px';
 
 	          document.onselectstart = function () {
@@ -2136,9 +2163,14 @@ module.exports =
 
 	          var handleMouseUp = function handleMouseUp() {
 	            if (_this3.dragging) {
+	              var _dragState = _this3.dragState,
+	                  startColumnLeft = _dragState.startColumnLeft,
+	                  startLeft = _dragState.startLeft;
+
 	              var finalLeft = parseInt(resizeProxy.style.left, 10);
-	              var columnWidth = finalLeft - _this3.dragState.startColumnLeft;
+	              var columnWidth = finalLeft - startColumnLeft;
 	              column.width = column.realWidth = columnWidth;
+	              table.$emit('header-dragend', column.width, startLeft - startColumnLeft, column, event);
 
 	              _this3.store.scheduleLayout();
 
@@ -2147,7 +2179,7 @@ module.exports =
 	              _this3.draggingColumn = null;
 	              _this3.dragState = {};
 
-	              _this3.$parent.resizeProxyVisible = false;
+	              table.resizeProxyVisible = false;
 	            }
 
 	            document.removeEventListener('mousemove', handleMouseMove);
@@ -2251,14 +2283,14 @@ module.exports =
 
 /***/ },
 
-/***/ 322:
+/***/ 309:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(323),
+	  __webpack_require__(310),
 	  /* template */
-	  __webpack_require__(326),
+	  __webpack_require__(313),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -2270,7 +2302,7 @@ module.exports =
 
 /***/ },
 
-/***/ 323:
+/***/ 310:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2289,15 +2321,15 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _dropdown = __webpack_require__(324);
+	var _dropdown = __webpack_require__(311);
 
 	var _dropdown2 = _interopRequireDefault(_dropdown);
 
-	var _checkbox = __webpack_require__(316);
+	var _checkbox = __webpack_require__(303);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _checkboxGroup = __webpack_require__(325);
+	var _checkboxGroup = __webpack_require__(312);
 
 	var _checkboxGroup2 = _interopRequireDefault(_checkboxGroup);
 
@@ -2499,7 +2531,7 @@ module.exports =
 
 /***/ },
 
-/***/ 324:
+/***/ 311:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2541,14 +2573,14 @@ module.exports =
 
 /***/ },
 
-/***/ 325:
+/***/ 312:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox-group");
 
 /***/ },
 
-/***/ 326:
+/***/ 313:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2644,7 +2676,7 @@ module.exports =
 
 /***/ },
 
-/***/ 327:
+/***/ 314:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2658,6 +2690,7 @@ module.exports =
 	      'el-table--enable-row-hover': !_vm.store.states.isComplex,
 	        'el-table--enable-row-transition': true || (_vm.store.states.data || []).length !== 0 && (_vm.store.states.data || []).length < 100
 	    },
+	    style: ([_vm.tableHeight]),
 	    on: {
 	      "mouseleave": function($event) {
 	        _vm.handleMouseLeave($event)
