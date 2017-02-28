@@ -58,13 +58,6 @@ module.exports =
 
 /***/ },
 
-/***/ 55:
-/***/ function(module, exports) {
-
-	module.exports = require("vue");
-
-/***/ },
-
 /***/ 117:
 /***/ function(module, exports) {
 
@@ -109,13 +102,9 @@ module.exports =
 
 	var _util = __webpack_require__(257);
 
-	var util = _interopRequireWildcard(_util);
-
 	var _bar = __webpack_require__(258);
 
 	var _bar2 = _interopRequireDefault(_bar);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -165,7 +154,7 @@ module.exports =
 	      var gutterStyle = 'margin-bottom: ' + gutterWith + '; margin-right: ' + gutterWith + ';';
 
 	      if (Array.isArray(this.wrapStyle)) {
-	        style = util.toObject(this.wrapStyle);
+	        style = (0, _util.toObject)(this.wrapStyle);
 	        style.marginRight = style.marginBottom = gutterWith;
 	      } else if (typeof this.wrapStyle === 'string') {
 	        style += gutterStyle;
@@ -267,60 +256,9 @@ module.exports =
 /***/ },
 
 /***/ 257:
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	'use strict';
-
-	exports.__esModule = true;
-	exports.toObject = exports.BAR_MAP = undefined;
-	exports.renderThumbStyle = renderThumbStyle;
-
-	var _vue = __webpack_require__(55);
-
-	var _vue2 = _interopRequireDefault(_vue);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var BAR_MAP = exports.BAR_MAP = {
-	  vertical: {
-	    offset: 'offsetHeight',
-	    scroll: 'scrollTop',
-	    scrollSize: 'scrollHeight',
-	    size: 'height',
-	    key: 'vertical',
-	    axis: 'Y',
-	    client: 'clientY',
-	    direction: 'top'
-	  },
-	  horizontal: {
-	    offset: 'offsetWidth',
-	    scroll: 'scrollLeft',
-	    scrollSize: 'scrollWidth',
-	    size: 'width',
-	    key: 'horizontal',
-	    axis: 'X',
-	    client: 'clientX',
-	    direction: 'left'
-	  }
-	};
-
-	function renderThumbStyle(_ref) {
-	  var move = _ref.move,
-	      size = _ref.size,
-	      bar = _ref.bar;
-
-	  var style = {};
-	  var translate = 'translate' + bar.axis + '(' + move + '%)';
-
-	  style[bar.size] = size;
-	  style.transform = translate;
-	  style.msTransform = translate;
-	  style.webkitTransform = translate;
-
-	  return style;
-	};
-
-	var toObject = exports.toObject = _vue2.default.util.toObject;
+	module.exports = require("element-ui/lib/utils/util");
 
 /***/ },
 
@@ -333,7 +271,7 @@ module.exports =
 
 	var _dom = __webpack_require__(117);
 
-	var _util = __webpack_require__(257);
+	var _util = __webpack_require__(259);
 
 	/* istanbul ignore next */
 	exports.default = {
@@ -429,6 +367,54 @@ module.exports =
 	  destroyed: function destroyed() {
 	    (0, _dom.off)(document, 'mouseup', this.mouseUpDocumentHandler);
 	  }
+	};
+
+/***/ },
+
+/***/ 259:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.renderThumbStyle = renderThumbStyle;
+	var BAR_MAP = exports.BAR_MAP = {
+	  vertical: {
+	    offset: 'offsetHeight',
+	    scroll: 'scrollTop',
+	    scrollSize: 'scrollHeight',
+	    size: 'height',
+	    key: 'vertical',
+	    axis: 'Y',
+	    client: 'clientY',
+	    direction: 'top'
+	  },
+	  horizontal: {
+	    offset: 'offsetWidth',
+	    scroll: 'scrollLeft',
+	    scrollSize: 'scrollWidth',
+	    size: 'width',
+	    key: 'horizontal',
+	    axis: 'X',
+	    client: 'clientX',
+	    direction: 'left'
+	  }
+	};
+
+	function renderThumbStyle(_ref) {
+	  var move = _ref.move,
+	      size = _ref.size,
+	      bar = _ref.bar;
+
+	  var style = {};
+	  var translate = 'translate' + bar.axis + '(' + move + '%)';
+
+	  style[bar.size] = size;
+	  style.transform = translate;
+	  style.msTransform = translate;
+	  style.webkitTransform = translate;
+
+	  return style;
 	};
 
 /***/ }

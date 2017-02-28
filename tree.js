@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(341);
+	module.exports = __webpack_require__(342);
 
 
 /***/ },
@@ -133,21 +133,21 @@ module.exports =
 
 /***/ },
 
-/***/ 303:
+/***/ 304:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 341:
+/***/ 342:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tree = __webpack_require__(342);
+	var _tree = __webpack_require__(343);
 
 	var _tree2 = _interopRequireDefault(_tree);
 
@@ -162,14 +162,14 @@ module.exports =
 
 /***/ },
 
-/***/ 342:
+/***/ 343:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(343),
+	  __webpack_require__(344),
 	  /* template */
-	  __webpack_require__(350),
+	  __webpack_require__(351),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -181,14 +181,14 @@ module.exports =
 
 /***/ },
 
-/***/ 343:
+/***/ 344:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _treeStore = __webpack_require__(344);
+	var _treeStore = __webpack_require__(345);
 
 	var _treeStore2 = _interopRequireDefault(_treeStore);
 
@@ -206,7 +206,7 @@ module.exports =
 	  mixins: [_emitter2.default],
 
 	  components: {
-	    ElTreeNode: __webpack_require__(347)
+	    ElTreeNode: __webpack_require__(348)
 	  },
 
 	  data: function data() {
@@ -373,7 +373,7 @@ module.exports =
 
 /***/ },
 
-/***/ 344:
+/***/ 345:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -382,11 +382,11 @@ module.exports =
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var _node = __webpack_require__(345);
+	var _node = __webpack_require__(346);
 
 	var _node2 = _interopRequireDefault(_node);
 
-	var _util = __webpack_require__(346);
+	var _util = __webpack_require__(347);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -539,7 +539,9 @@ module.exports =
 	    delete this.nodesMap[node.key];
 	  };
 
-	  TreeStore.prototype.getCheckedNodes = function getCheckedNodes(leafOnly) {
+	  TreeStore.prototype.getCheckedNodes = function getCheckedNodes() {
+	    var leafOnly = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
 	    var checkedNodes = [];
 	    var traverse = function traverse(node) {
 	      var childNodes = node.root ? node.root.childNodes : node.childNodes;
@@ -558,7 +560,9 @@ module.exports =
 	    return checkedNodes;
 	  };
 
-	  TreeStore.prototype.getCheckedKeys = function getCheckedKeys(leafOnly) {
+	  TreeStore.prototype.getCheckedKeys = function getCheckedKeys() {
+	    var leafOnly = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
 	    var key = this.key;
 	    var allNodes = this._getAllNodes();
 	    var keys = [];
@@ -584,23 +588,75 @@ module.exports =
 	    return allNodes;
 	  };
 
-	  TreeStore.prototype._setCheckedKeys = function _setCheckedKeys(key, leafOnly, checkedKeys) {
+	  TreeStore.prototype._setCheckedKeys = function _setCheckedKeys(key) {
 	    var _this3 = this;
 
-	    var allNodes = this._getAllNodes();
+	    var leafOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+	    var checkedKeys = arguments[2];
 
+	    var allNodes = this._getAllNodes();
 	    allNodes.sort(function (a, b) {
-	      return a.level > b.level ? -1 : 1;
+	      return a.level < b.level;
 	    });
+
+	    var keys = Object.keys(checkedKeys);
 	    allNodes.forEach(function (node) {
-	      if (!leafOnly || leafOnly && node.isLeaf) {
-	        node.setChecked(!!checkedKeys[(node.data || {})[key]], !_this3.checkStrictly);
+	      var checked = keys.indexOf(node.data[key] + '') > -1;
+
+	      if (!node.isLeaf) {
+	        if (!_this3.checkStrictly) {
+	          var childNodes = node.childNodes;
+
+	          var all = true;
+	          var none = true;
+
+	          for (var i = 0, j = childNodes.length; i < j; i++) {
+	            var child = childNodes[i];
+	            if (child.checked !== true || child.indeterminate) {
+	              all = false;
+	            }
+	            if (child.checked !== false || child.indeterminate) {
+	              none = false;
+	            }
+	          }
+
+	          if (all) {
+	            node.setChecked(true, !_this3.checkStrictly);
+	          } else if (!all && !none) {
+	            checked = checked ? true : 'half';
+	            node.setChecked(checked, !_this3.checkStrictly && checked === true);
+	          } else if (none) {
+	            node.setChecked(checked, !_this3.checkStrictly);
+	          }
+	        } else {
+	          node.setChecked(checked, false);
+	        }
+
+	        if (leafOnly) {
+	          (function () {
+	            node.setChecked(false, false);
+	            var traverse = function traverse(node) {
+	              var childNodes = node.childNodes;
+
+	              childNodes.forEach(function (child) {
+	                if (!child.isLeaf) {
+	                  child.setChecked(false, false);
+	                }
+	                traverse(child);
+	              });
+	            };
+
+	            traverse(node);
+	          })();
+	        }
+	      } else {
+	        node.setChecked(checked, false);
 	      }
 	    });
 	  };
 
 	  TreeStore.prototype.setCheckedNodes = function setCheckedNodes(array) {
-	    var leafOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+	    var leafOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 	    var key = this.key;
 	    var checkedKeys = {};
@@ -612,7 +668,7 @@ module.exports =
 	  };
 
 	  TreeStore.prototype.setCheckedKeys = function setCheckedKeys(keys) {
-	    var leafOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+	    var leafOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 	    this.defaultCheckedKeys = keys;
 	    var key = this.key;
@@ -667,7 +723,7 @@ module.exports =
 
 /***/ },
 
-/***/ 345:
+/***/ 346:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -680,7 +736,7 @@ module.exports =
 
 	var _merge2 = _interopRequireDefault(_merge);
 
-	var _util = __webpack_require__(346);
+	var _util = __webpack_require__(347);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1080,7 +1136,7 @@ module.exports =
 
 /***/ },
 
-/***/ 346:
+/***/ 347:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1105,14 +1161,14 @@ module.exports =
 
 /***/ },
 
-/***/ 347:
+/***/ 348:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(348),
-	  /* template */
 	  __webpack_require__(349),
+	  /* template */
+	  __webpack_require__(350),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -1124,7 +1180,7 @@ module.exports =
 
 /***/ },
 
-/***/ 348:
+/***/ 349:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1135,7 +1191,7 @@ module.exports =
 
 	var _collapseTransition2 = _interopRequireDefault(_collapseTransition);
 
-	var _checkbox = __webpack_require__(303);
+	var _checkbox = __webpack_require__(304);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -1349,7 +1405,7 @@ module.exports =
 
 /***/ },
 
-/***/ 349:
+/***/ 350:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1443,7 +1499,7 @@ module.exports =
 
 /***/ },
 
-/***/ 350:
+/***/ 351:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

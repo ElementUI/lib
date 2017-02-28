@@ -245,10 +245,12 @@ module.exports =
 	  methods: {
 	    confirmValue: function confirmValue(value) {
 	      this.$emit('input', this.color.value);
+	      this.$emit('change', this.color.value);
 	      this.showPicker = false;
 	    },
 	    clearValue: function clearValue() {
 	      this.$emit('input', null);
+	      this.$emit('change', null);
 	      this.showPanelColor = false;
 	      this.showPicker = false;
 	      this.resetColor();
@@ -866,14 +868,9 @@ module.exports =
 	      this.cursorTop = (100 - value) * height / 100;
 
 	      this.background = 'hsl(' + this.color.get('hue') + ', 100%, 50%)';
-	    }
-	  },
-
-	  mounted: function mounted() {
-	    var _this = this;
-
-	    var handleDrag = function handleDrag(event) {
-	      var el = _this.$el;
+	    },
+	    handleDrag: function handleDrag(event) {
+	      var el = this.$el;
 	      var rect = el.getBoundingClientRect();
 
 	      var left = event.clientX - rect.left;
@@ -884,20 +881,24 @@ module.exports =
 	      top = Math.max(0, top);
 	      top = Math.min(top, rect.height);
 
-	      _this.cursorLeft = left;
-	      _this.cursorTop = top;
-	      _this.color.set({
+	      this.cursorLeft = left;
+	      this.cursorTop = top;
+	      this.color.set({
 	        saturation: left / rect.width * 100,
 	        value: 100 - top / rect.height * 100
 	      });
-	    };
+	    }
+	  },
+
+	  mounted: function mounted() {
+	    var _this = this;
 
 	    (0, _draggable2.default)(this.$el, {
 	      drag: function drag(event) {
-	        handleDrag(event);
+	        _this.handleDrag(event);
 	      },
 	      end: function end(event) {
-	        handleDrag(event);
+	        _this.handleDrag(event);
 	      }
 	    });
 

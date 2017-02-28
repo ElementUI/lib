@@ -218,8 +218,8 @@ module.exports =
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (!_vm.hidden && _vm.content),
-	      expression: "!hidden && content"
+	      value: (!_vm.hidden && (_vm.content || _vm.isDot)),
+	      expression: "!hidden && ( content || isDot )"
 	    }],
 	    staticClass: "el-badge__content",
 	    class: {

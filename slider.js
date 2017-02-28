@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(267);
+	module.exports = __webpack_require__(268);
 
 
 /***/ },
@@ -112,14 +112,14 @@ module.exports =
 
 /***/ },
 
-/***/ 267:
+/***/ 268:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(268);
+	var _main = __webpack_require__(269);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -134,14 +134,14 @@ module.exports =
 
 /***/ },
 
-/***/ 268:
+/***/ 269:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(269),
+	  __webpack_require__(270),
 	  /* template */
-	  __webpack_require__(275),
+	  __webpack_require__(276),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -153,18 +153,18 @@ module.exports =
 
 /***/ },
 
-/***/ 269:
+/***/ 270:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _inputNumber = __webpack_require__(270);
+	var _inputNumber = __webpack_require__(271);
 
 	var _inputNumber2 = _interopRequireDefault(_inputNumber);
 
-	var _button = __webpack_require__(271);
+	var _button = __webpack_require__(272);
 
 	var _button2 = _interopRequireDefault(_button);
 
@@ -444,21 +444,21 @@ module.exports =
 
 /***/ },
 
-/***/ 270:
+/***/ 271:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input-number");
 
 /***/ },
 
-/***/ 271:
+/***/ 272:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(272),
+	  __webpack_require__(273),
 	  /* template */
-	  __webpack_require__(274),
+	  __webpack_require__(275),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -470,14 +470,14 @@ module.exports =
 
 /***/ },
 
-/***/ 272:
+/***/ 273:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tooltip = __webpack_require__(273);
+	var _tooltip = __webpack_require__(274);
 
 	var _tooltip2 = _interopRequireDefault(_tooltip);
 
@@ -554,6 +554,7 @@ module.exports =
 	    },
 	    onButtonDown: function onButtonDown(event) {
 	      if (this.disabled) return;
+	      event.preventDefault();
 	      this.onDragStart(event);
 	      window.addEventListener('mousemove', this.onDragging);
 	      window.addEventListener('mouseup', this.onDragEnd);
@@ -627,14 +628,14 @@ module.exports =
 
 /***/ },
 
-/***/ 273:
+/***/ 274:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tooltip");
 
 /***/ },
 
-/***/ 274:
+/***/ 275:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -669,7 +670,7 @@ module.exports =
 
 /***/ },
 
-/***/ 275:
+/***/ 276:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

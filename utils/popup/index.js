@@ -164,7 +164,7 @@ exports.default = {
         this.$emit('input', true);
       }
 
-      var props = (0, _merge2.default)({}, this, options);
+      var props = (0, _merge2.default)({}, this.$props || this, options);
 
       if (this._closeTimer) {
         clearTimeout(this._closeTimer);

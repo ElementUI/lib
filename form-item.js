@@ -254,10 +254,11 @@ module.exports =
 	    },
 	    contentStyle: function contentStyle() {
 	      var ret = {};
+	      if (this.form.labelPosition === 'top' || this.form.inline) return ret;
 	      var labelWidth = this.labelWidth || this.form.labelWidth;
-	      var form = this.form;
-	      if (form.labelPosition === 'top' || form.inline) return ret;
-	      if (labelWidth) ret.marginLeft = labelWidth;
+	      if (labelWidth) {
+	        ret.marginLeft = labelWidth;
+	      }
 	      return ret;
 	    },
 	    form: function form() {

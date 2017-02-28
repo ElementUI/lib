@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(339);
+	module.exports = __webpack_require__(340);
 
 
 /***/ },
@@ -72,14 +72,21 @@ module.exports =
 
 /***/ },
 
-/***/ 339:
+/***/ 206:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/vdom");
+
+/***/ },
+
+/***/ 340:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(340);
+	var _main = __webpack_require__(341);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -94,7 +101,7 @@ module.exports =
 
 /***/ },
 
-/***/ 340:
+/***/ 341:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -108,6 +115,8 @@ module.exports =
 	var _debounce = __webpack_require__(45);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
+
+	var _vdom = __webpack_require__(206);
 
 	var _vue = __webpack_require__(55);
 
@@ -153,7 +162,11 @@ module.exports =
 	  beforeCreate: function beforeCreate() {
 	    var _this = this;
 
+	    if (this.$isServer) return;
+
 	    this.popperVM = new _vue2.default({
+	      router: this.$router,
+	      store: this.$store,
 	      data: { node: '' },
 	      render: function render(h) {
 	        return this.node;
@@ -198,9 +211,10 @@ module.exports =
 	      )]
 	    );
 
-	    if (!this.$slots.default) return this.$slots.default;
+	    if (!this.$slots.default || !this.$slots.default.length) return this.$slots.default;
 
-	    var vnode = this.$slots.default[0];
+	    var vnode = (0, _vdom.getFirstComponentChild)(this.$slots.default);
+	    if (!vnode) return vnode;
 	    var data = vnode.data = vnode.data || {};
 	    var on = vnode.data.on = vnode.data.on || {};
 

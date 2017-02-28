@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(300);
+	module.exports = __webpack_require__(301);
 
 
 /***/ },
@@ -161,21 +161,21 @@ module.exports =
 
 /***/ },
 
-/***/ 265:
+/***/ 266:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 300:
+/***/ 301:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _table = __webpack_require__(301);
+	var _table = __webpack_require__(302);
 
 	var _table2 = _interopRequireDefault(_table);
 
@@ -190,14 +190,14 @@ module.exports =
 
 /***/ },
 
-/***/ 301:
+/***/ 302:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(302),
+	  __webpack_require__(303),
 	  /* template */
-	  __webpack_require__(314),
+	  __webpack_require__(315),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -209,14 +209,14 @@ module.exports =
 
 /***/ },
 
-/***/ 302:
+/***/ 303:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(303);
+	var _checkbox = __webpack_require__(304);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -234,23 +234,23 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _tableStore = __webpack_require__(304);
+	var _tableStore = __webpack_require__(305);
 
 	var _tableStore2 = _interopRequireDefault(_tableStore);
 
-	var _tableLayout = __webpack_require__(306);
+	var _tableLayout = __webpack_require__(307);
 
 	var _tableLayout2 = _interopRequireDefault(_tableLayout);
 
-	var _tableBody = __webpack_require__(307);
+	var _tableBody = __webpack_require__(308);
 
 	var _tableBody2 = _interopRequireDefault(_tableBody);
 
-	var _tableHeader = __webpack_require__(308);
+	var _tableHeader = __webpack_require__(309);
 
 	var _tableHeader2 = _interopRequireDefault(_tableHeader);
 
-	var _util = __webpack_require__(305);
+	var _util = __webpack_require__(306);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -650,14 +650,14 @@ module.exports =
 
 /***/ },
 
-/***/ 303:
+/***/ 304:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 304:
+/***/ 305:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -672,7 +672,7 @@ module.exports =
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _util = __webpack_require__(305);
+	var _util = __webpack_require__(306);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1174,7 +1174,7 @@ module.exports =
 
 /***/ },
 
-/***/ 305:
+/***/ 306:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1278,7 +1278,7 @@ module.exports =
 
 /***/ },
 
-/***/ 306:
+/***/ 307:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1490,16 +1490,16 @@ module.exports =
 
 /***/ },
 
-/***/ 307:
+/***/ 308:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(305);
+	var _util = __webpack_require__(306);
 
-	var _checkbox = __webpack_require__(303);
+	var _checkbox = __webpack_require__(304);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -1593,7 +1593,7 @@ module.exports =
 	                    'mouseleave': _this.handleCellMouseLeave
 	                  }
 	                },
-	                [columnsHidden[cellIndex] ? '' : column.renderCell.call(_this._renderProxy, h, { row: row, column: column, $index: $index, store: _this.store, _self: _this.context || _this.table.$vnode.context })]
+	                [column.renderCell.call(_this._renderProxy, h, { row: row, column: column, $index: $index, store: _this.store, _self: _this.context || _this.table.$vnode.context }, columnsHidden[cellIndex])]
 	              );
 	            }), !_this.fixed && _this.layout.scrollY && _this.layout.gutterWidth ? h(
 	              'td',
@@ -1784,18 +1784,18 @@ module.exports =
 
 /***/ },
 
-/***/ 308:
+/***/ 309:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(303);
+	var _checkbox = __webpack_require__(304);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(265);
+	var _tag = __webpack_require__(266);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
@@ -1803,7 +1803,7 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _filterPanel = __webpack_require__(309);
+	var _filterPanel = __webpack_require__(310);
 
 	var _filterPanel2 = _interopRequireDefault(_filterPanel);
 
@@ -2283,14 +2283,14 @@ module.exports =
 
 /***/ },
 
-/***/ 309:
+/***/ 310:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(310),
+	  __webpack_require__(311),
 	  /* template */
-	  __webpack_require__(313),
+	  __webpack_require__(314),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -2302,7 +2302,7 @@ module.exports =
 
 /***/ },
 
-/***/ 310:
+/***/ 311:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2321,15 +2321,15 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _dropdown = __webpack_require__(311);
+	var _dropdown = __webpack_require__(312);
 
 	var _dropdown2 = _interopRequireDefault(_dropdown);
 
-	var _checkbox = __webpack_require__(303);
+	var _checkbox = __webpack_require__(304);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _checkboxGroup = __webpack_require__(312);
+	var _checkboxGroup = __webpack_require__(313);
 
 	var _checkboxGroup2 = _interopRequireDefault(_checkboxGroup);
 
@@ -2531,7 +2531,7 @@ module.exports =
 
 /***/ },
 
-/***/ 311:
+/***/ 312:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2573,14 +2573,14 @@ module.exports =
 
 /***/ },
 
-/***/ 312:
+/***/ 313:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox-group");
 
 /***/ },
 
-/***/ 313:
+/***/ 314:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2676,7 +2676,7 @@ module.exports =
 
 /***/ },
 
-/***/ 314:
+/***/ 315:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

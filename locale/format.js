@@ -5,7 +5,6 @@ exports.__esModule = true;
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 exports.default = function (Vue) {
-  var hasOwn = Vue.util.hasOwn;
 
   /**
    * template
@@ -34,7 +33,7 @@ exports.default = function (Vue) {
       if (string[index - 1] === '{' && string[index + match.length] === '}') {
         return i;
       } else {
-        result = hasOwn(args, i) ? args[i] : null;
+        result = (0, _util.hasOwn)(args, i) ? args[i] : null;
         if (result === null || result === undefined) {
           return '';
         }
@@ -47,10 +46,11 @@ exports.default = function (Vue) {
   return template;
 };
 
+var _util = require('element-ui/lib/utils/util');
+
+var RE_NARGS = /(%|)\{([0-9a-zA-Z_]+)\}/g;
 /**
  *  String format template
  *  - Inspired:
  *    https://github.com/Matt-Esch/string-template/index.js
  */
-
-var RE_NARGS = /(%|)\{([0-9a-zA-Z_]+)\}/g;

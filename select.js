@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(259);
+	module.exports = __webpack_require__(260);
 
 
 /***/ },
@@ -376,14 +376,14 @@ module.exports =
 
 /***/ },
 
-/***/ 259:
+/***/ 260:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _select = __webpack_require__(260);
+	var _select = __webpack_require__(261);
 
 	var _select2 = _interopRequireDefault(_select);
 
@@ -398,14 +398,14 @@ module.exports =
 
 /***/ },
 
-/***/ 260:
+/***/ 261:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(261),
+	  __webpack_require__(262),
 	  /* template */
-	  __webpack_require__(266),
+	  __webpack_require__(267),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -417,7 +417,7 @@ module.exports =
 
 /***/ },
 
-/***/ 261:
+/***/ 262:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -436,7 +436,7 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _selectDropdown = __webpack_require__(262);
+	var _selectDropdown = __webpack_require__(263);
 
 	var _selectDropdown2 = _interopRequireDefault(_selectDropdown);
 
@@ -444,7 +444,7 @@ module.exports =
 
 	var _option2 = _interopRequireDefault(_option);
 
-	var _tag = __webpack_require__(265);
+	var _tag = __webpack_require__(266);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
@@ -923,6 +923,7 @@ module.exports =
 	      var _this5 = this;
 
 	      this.$nextTick(function () {
+	        if (!_this5.$refs.reference) return;
 	        var inputChildNodes = _this5.$refs.reference.$el.childNodes;
 	        var input = [].filter.call(inputChildNodes, function (item) {
 	          return item.tagName === 'INPUT';
@@ -1103,14 +1104,14 @@ module.exports =
 
 /***/ },
 
-/***/ 262:
+/***/ 263:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(263),
-	  /* template */
 	  __webpack_require__(264),
+	  /* template */
+	  __webpack_require__(265),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -1122,7 +1123,7 @@ module.exports =
 
 /***/ },
 
-/***/ 263:
+/***/ 264:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1198,7 +1199,7 @@ module.exports =
 
 /***/ },
 
-/***/ 264:
+/***/ 265:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1215,14 +1216,14 @@ module.exports =
 
 /***/ },
 
-/***/ 265:
+/***/ 266:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 266:
+/***/ 267:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

@@ -467,6 +467,7 @@ module.exports =
 	      this.popperElm = this.menu.$el;
 	      this.menu.$on('pick', this.handlePick);
 	      this.menu.$on('activeItemChange', this.handleActiveItemChange);
+	      this.menu.$on('menuLeave', this.doDestroy);
 	    },
 	    showMenu: function showMenu() {
 	      var _this2 = this;
@@ -731,9 +732,12 @@ module.exports =
 	      if (item.__IS__FLAT__OPTIONS) {
 	        this.activeValue = item.value;
 	      } else {
-	        this.activeValue.splice(menuIndex, 1, item.value);
+	        this.activeValue.splice(menuIndex, this.activeValue.length - 1, item.value);
 	      }
 	      this.$emit('pick', this.activeValue);
+	    },
+	    handleMenuLeave: function handleMenuLeave() {
+	      this.$emit('menuLeave');
 	    },
 	    activeItem: function activeItem(item, menuIndex) {
 	      var len = this.activeOptions.length;
@@ -814,7 +818,10 @@ module.exports =
 	    return h(
 	      'transition',
 	      {
-	        attrs: { name: 'el-zoom-in-top' }
+	        attrs: { name: 'el-zoom-in-top' },
+	        on: {
+	          'after-leave': this.handleMenuLeave
+	        }
 	      },
 	      [h(
 	        'div',
