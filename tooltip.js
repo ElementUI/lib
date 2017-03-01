@@ -165,8 +165,6 @@ module.exports =
 	    if (this.$isServer) return;
 
 	    this.popperVM = new _vue2.default({
-	      router: this.$router,
-	      store: this.$store,
 	      data: { node: '' },
 	      render: function render(h) {
 	        return this.node;
@@ -179,6 +177,8 @@ module.exports =
 	  },
 	  render: function render(h) {
 	    var _this2 = this;
+
+	    if (this.$isServer) return;
 
 	    this.popperVM.node = h(
 	      'transition',
