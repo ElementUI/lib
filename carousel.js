@@ -210,8 +210,8 @@ module.exports =
 
 
 	  watch: {
-	    items: function items() {
-	      this.setActiveItem(0);
+	    items: function items(val) {
+	      if (val.length > 0) this.setActiveItem(0);
 	    },
 	    activeIndex: function activeIndex(val, oldVal) {
 	      this.resetItemPosition();
@@ -251,12 +251,6 @@ module.exports =
 	        item.hover = false;
 	      });
 	    },
-
-
-	    handleItemChange: (0, _debounce2.default)(100, function () {
-	      this.updateItems();
-	    }),
-
 	    updateItems: function updateItems() {
 	      this.items = this.$children.filter(function (child) {
 	        return child.$options.name === 'ElCarouselItem';
@@ -325,6 +319,7 @@ module.exports =
 	  created: function created() {
 	    var _this3 = this;
 
+	    this.handleItemChange = (0, _debounce2.default)(100, this.updateItems);
 	    this.throttledArrowClick = (0, _throttle2.default)(300, true, function (index) {
 	      _this3.setActiveItem(index);
 	    });

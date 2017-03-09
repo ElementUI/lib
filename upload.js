@@ -262,7 +262,8 @@ module.exports =
 	    listType: {
 	      type: String,
 	      default: 'text' // text,picture,picture-card
-	    }
+	    },
+	    httpRequest: Function
 	  },
 
 	  data: function data() {
@@ -416,7 +417,8 @@ module.exports =
 	        'on-success': this.handleSuccess,
 	        'on-error': this.handleError,
 	        'on-preview': this.onPreview,
-	        'on-remove': this.handleRemove
+	        'on-remove': this.handleRemove,
+	        httpRequest: this.httpRequest
 	      },
 	      ref: 'upload-inner'
 	    };
@@ -729,7 +731,8 @@ module.exports =
 	    },
 	    fileList: Array,
 	    autoUpload: Boolean,
-	    listType: String
+	    listType: String,
+	    httpRequest: Function
 	  },
 
 	  data: function data() {
@@ -796,7 +799,8 @@ module.exports =
 	    post: function post(rawFile) {
 	      var _this3 = this;
 
-	      (0, _ajax2.default)({
+	      var request = this.httpRequest || _ajax2.default;
+	      request({
 	        headers: this.headers,
 	        withCredentials: this.withCredentials,
 	        file: rawFile,
@@ -947,16 +951,13 @@ module.exports =
 
 	  var headers = option.headers || {};
 
-	  // if (headers['X-Requested-With'] !== null) {
-	  //   xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-	  // }
-
 	  for (var item in headers) {
 	    if (headers.hasOwnProperty(item) && headers[item] !== null) {
 	      xhr.setRequestHeader(item, headers[item]);
 	    }
 	  }
 	  xhr.send(formData);
+	  return xhr;
 	}
 
 /***/ },

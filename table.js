@@ -1746,35 +1746,26 @@ module.exports =
 	      this.store.commit('setHoverRow', null);
 	    },
 	    handleContextMenu: function handleContextMenu(event, row) {
-	      var table = this.table;
-	      var cell = (0, _util.getCell)(event);
-	      var column = void 0;
-	      if (cell) {
-	        column = (0, _util.getColumnByCell)(table, cell);
-	        if (column) {
-	          table.$emit('cell-dblclick', row, column, cell, event);
-	        }
-	      }
-	      table.$emit('row-contextmenu', row, event);
+	      this.handleEvent(event, row, 'contextmenu');
 	    },
 	    handleDoubleClick: function handleDoubleClick(event, row) {
-	      var table = this.table;
-	      table.$emit('row-dblclick', row, event);
+	      this.handleEvent(event, row, 'dblclick');
 	    },
 	    handleClick: function handleClick(event, row) {
+	      this.store.commit('setCurrentRow', row);
+	      this.handleEvent(event, row, 'click');
+	    },
+	    handleEvent: function handleEvent(event, row, name) {
 	      var table = this.table;
 	      var cell = (0, _util.getCell)(event);
 	      var column = void 0;
 	      if (cell) {
 	        column = (0, _util.getColumnByCell)(table, cell);
 	        if (column) {
-	          table.$emit('cell-click', row, column, cell, event);
+	          table.$emit('cell-' + name, row, column, cell, event);
 	        }
 	      }
-
-	      this.store.commit('setCurrentRow', row);
-
-	      table.$emit('row-click', row, event, column);
+	      table.$emit('row-' + name, row, event, column);
 	    },
 	    handleExpandClick: function handleExpandClick(row) {
 	      this.store.commit('toggleRowExpanded', row);
@@ -1933,10 +1924,10 @@ module.exports =
 	                    }
 	                  },
 
-	                  'class': [column.id, column.order, column.headerAlign, column.className || '', rowIndex === 0 && _this.isCellHidden(cellIndex, columns) ? 'is-hidden' : '', !column.children ? 'is-leaf' : ''] },
+	                  'class': [column.id, column.order, column.headerAlign, column.className || '', rowIndex === 0 && _this.isCellHidden(cellIndex, columns) ? 'is-hidden' : '', !column.children ? 'is-leaf' : '', column.labelClassName] },
 	                [h(
 	                  'div',
-	                  { 'class': ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : ''] },
+	                  { 'class': ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : '', column.labelClassName] },
 	                  [column.renderHeader ? column.renderHeader.call(_this._renderProxy, h, { column: column, $index: cellIndex, store: _this.store, _self: _this.$parent.$vnode.context }) : column.label, column.sortable ? h(
 	                    'span',
 	                    { 'class': 'caret-wrapper', on: {
@@ -1947,11 +1938,21 @@ module.exports =
 	                    },
 	                    [h(
 	                      'i',
-	                      { 'class': 'sort-caret ascending' },
+	                      { 'class': 'sort-caret ascending', on: {
+	                          'click': function click($event) {
+	                            return _this.handleSortClick($event, column, 'ascending');
+	                          }
+	                        }
+	                      },
 	                      []
 	                    ), h(
 	                      'i',
-	                      { 'class': 'sort-caret descending' },
+	                      { 'class': 'sort-caret descending', on: {
+	                          'click': function click($event) {
+	                            return _this.handleSortClick($event, column, 'descending');
+	                          }
+	                        }
+	                      },
 	                      []
 	                    )]
 	                  ) : '', column.filterable ? h(
@@ -2226,9 +2227,9 @@ module.exports =
 	    toggleOrder: function toggleOrder(order) {
 	      return !order ? 'ascending' : order === 'ascending' ? 'descending' : null;
 	    },
-	    handleSortClick: function handleSortClick(event, column) {
+	    handleSortClick: function handleSortClick(event, column, givenOrder) {
 	      event.stopPropagation();
-	      var order = this.toggleOrder(column.order);
+	      var order = givenOrder || this.toggleOrder(column.order);
 
 	      var target = event.target;
 	      while (target && target.tagName !== 'TH') {

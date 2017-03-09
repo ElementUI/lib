@@ -225,16 +225,12 @@ module.exports =
 	      secondValue: null,
 	      oldValue: null,
 	      precision: 0,
-	      inputValue: null,
 	      dragging: false
 	    };
 	  },
 
 
 	  watch: {
-	    inputValue: function inputValue(val) {
-	      this.firstValue = val;
-	    },
 	    value: function value(val, oldVal) {
 	      if (this.dragging || Array.isArray(val) && Array.isArray(oldVal) && val.every(function (item, index) {
 	        return item === oldVal[index];
@@ -252,7 +248,6 @@ module.exports =
 	      if (this.range) {
 	        this.$emit('input', [this.minValue, this.maxValue]);
 	      } else {
-	        this.inputValue = val;
 	        this.$emit('input', val);
 	      }
 	    },
@@ -395,7 +390,6 @@ module.exports =
 	      return decimal ? decimal.length : 0;
 	    });
 	    this.precision = Math.max.apply(null, precisions);
-	    this.inputValue = this.inputValue || this.firstValue;
 	  }
 	}; //
 	//
@@ -680,8 +674,8 @@ module.exports =
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.inputValue),
-	      expression: "inputValue"
+	      value: (_vm.firstValue),
+	      expression: "firstValue"
 	    }],
 	    ref: "input",
 	    staticClass: "el-slider__input",
@@ -694,11 +688,11 @@ module.exports =
 	      "size": "small"
 	    },
 	    domProps: {
-	      "value": (_vm.inputValue)
+	      "value": (_vm.firstValue)
 	    },
 	    on: {
 	      "input": function($event) {
-	        _vm.inputValue = $event
+	        _vm.firstValue = $event
 	      }
 	    }
 	  }) : _vm._e(), _c('div', {

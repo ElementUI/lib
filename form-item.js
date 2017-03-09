@@ -341,7 +341,7 @@ module.exports =
 	      if (Array.isArray(value) && value.length > 0) {
 	        this.validateDisabled = true;
 	        prop.o[prop.k] = [];
-	      } else if (value) {
+	      } else if (value !== '') {
 	        this.validateDisabled = true;
 	        prop.o[prop.k] = this.initialValue;
 	      }

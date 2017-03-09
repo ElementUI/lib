@@ -178,38 +178,38 @@ module.exports =
 	  render: function render(h) {
 	    var _this2 = this;
 
-	    if (this.$isServer) return;
-
-	    this.popperVM.node = h(
-	      'transition',
-	      {
-	        attrs: {
-	          name: this.transition
-	        },
-	        on: {
-	          'afterLeave': this.doDestroy
-	        }
-	      },
-	      [h(
-	        'div',
+	    if (this.popperVM) {
+	      this.popperVM.node = h(
+	        'transition',
 	        {
-	          on: {
-	            'mouseleave': function mouseleave() {
-	              _this2.debounceClose();_this2.togglePreventClose();
-	            },
-	            'mouseenter': this.togglePreventClose
+	          attrs: {
+	            name: this.transition
 	          },
+	          on: {
+	            'afterLeave': this.doDestroy
+	          }
+	        },
+	        [h(
+	          'div',
+	          {
+	            on: {
+	              'mouseleave': function mouseleave() {
+	                _this2.debounceClose();_this2.togglePreventClose();
+	              },
+	              'mouseenter': this.togglePreventClose
+	            },
 
-	          ref: 'popper',
-	          directives: [{
-	            name: 'show',
-	            value: !this.disabled && this.showPopper
-	          }],
+	            ref: 'popper',
+	            directives: [{
+	              name: 'show',
+	              value: !this.disabled && this.showPopper
+	            }],
 
-	          'class': ['el-tooltip__popper', 'is-' + this.effect, this.popperClass] },
-	        [this.$slots.content || this.content]
-	      )]
-	    );
+	            'class': ['el-tooltip__popper', 'is-' + this.effect, this.popperClass] },
+	          [this.$slots.content || this.content]
+	        )]
+	      );
+	    }
 
 	    if (!this.$slots.default || !this.$slots.default.length) return this.$slots.default;
 

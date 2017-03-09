@@ -731,8 +731,10 @@ module.exports =
 	    select: function select(item, menuIndex) {
 	      if (item.__IS__FLAT__OPTIONS) {
 	        this.activeValue = item.value;
-	      } else {
+	      } else if (menuIndex) {
 	        this.activeValue.splice(menuIndex, this.activeValue.length - 1, item.value);
+	      } else {
+	        this.activeValue = [item.value];
 	      }
 	      this.$emit('pick', this.activeValue);
 	    },

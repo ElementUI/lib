@@ -384,7 +384,6 @@ module.exports =
 	  beforeDestroy: _vuePopper2.default.beforeDestroy
 	};
 
-	var RANGE_SEPARATOR = ' - ';
 	var DEFAULT_FORMATS = {
 	  date: 'yyyy-MM-dd',
 	  month: 'yyyy-MM',
@@ -402,19 +401,19 @@ module.exports =
 	var DATE_PARSER = function DATE_PARSER(text, format) {
 	  return (0, _util.parseDate)(text, format);
 	};
-	var RANGE_FORMATTER = function RANGE_FORMATTER(value, format) {
+	var RANGE_FORMATTER = function RANGE_FORMATTER(value, format, separator) {
 	  if (Array.isArray(value) && value.length === 2) {
 	    var start = value[0];
 	    var end = value[1];
 
 	    if (start && end) {
-	      return (0, _util.formatDate)(start, format) + RANGE_SEPARATOR + (0, _util.formatDate)(end, format);
+	      return (0, _util.formatDate)(start, format) + separator + (0, _util.formatDate)(end, format);
 	    }
 	  }
 	  return '';
 	};
-	var RANGE_PARSER = function RANGE_PARSER(text, format) {
-	  var array = text.split(RANGE_SEPARATOR);
+	var RANGE_PARSER = function RANGE_PARSER(text, format, separator) {
+	  var array = text.split(separator);
 	  if (array.length === 2) {
 	    var range1 = array[0];
 	    var range2 = array[1];
@@ -630,13 +629,13 @@ module.exports =
 	        var formatter = (TYPE_VALUE_RESOLVER_MAP[this.type] || TYPE_VALUE_RESOLVER_MAP['default']).formatter;
 	        var format = DEFAULT_FORMATS[this.type];
 
-	        return formatter(value, this.format || format);
+	        return formatter(value, this.format || format, this.rangeSeparator);
 	      },
 	      set: function set(value) {
 	        if (value) {
 	          var type = this.type;
 	          var parser = (TYPE_VALUE_RESOLVER_MAP[type] || TYPE_VALUE_RESOLVER_MAP['default']).parser;
-	          var parsedValue = parser(value, this.format || DEFAULT_FORMATS[type]);
+	          var parsedValue = parser(value, this.format || DEFAULT_FORMATS[type], this.rangeSeparator);
 
 	          if (parsedValue && this.picker) {
 	            this.picker.value = parsedValue;
@@ -650,7 +649,6 @@ module.exports =
 	  },
 
 	  created: function created() {
-	    RANGE_SEPARATOR = this.rangeSeparator;
 	    // vue-popper
 	    this.popperOptions = {
 	      boundariesPadding: 0,
@@ -746,7 +744,7 @@ module.exports =
 
 	                ranges = Array.isArray(ranges) ? ranges : [ranges];
 	                _this.picker.selectableRange = ranges.map(function (range) {
-	                  return parser(range, format);
+	                  return parser(range, format, _this.rangeSeparator);
 	                });
 	              })();
 	            }

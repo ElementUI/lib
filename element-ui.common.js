@@ -339,7 +339,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.2.3',
+	  version: '1.2.4',
 	  locale: _locale2.default.use,
 	  i18n: _locale2.default.i18n,
 	  install: install,
@@ -8118,35 +8118,26 @@ module.exports =
 	      this.store.commit('setHoverRow', null);
 	    },
 	    handleContextMenu: function handleContextMenu(event, row) {
-	      var table = this.table;
-	      var cell = (0, _util.getCell)(event);
-	      var column = void 0;
-	      if (cell) {
-	        column = (0, _util.getColumnByCell)(table, cell);
-	        if (column) {
-	          table.$emit('cell-dblclick', row, column, cell, event);
-	        }
-	      }
-	      table.$emit('row-contextmenu', row, event);
+	      this.handleEvent(event, row, 'contextmenu');
 	    },
 	    handleDoubleClick: function handleDoubleClick(event, row) {
-	      var table = this.table;
-	      table.$emit('row-dblclick', row, event);
+	      this.handleEvent(event, row, 'dblclick');
 	    },
 	    handleClick: function handleClick(event, row) {
+	      this.store.commit('setCurrentRow', row);
+	      this.handleEvent(event, row, 'click');
+	    },
+	    handleEvent: function handleEvent(event, row, name) {
 	      var table = this.table;
 	      var cell = (0, _util.getCell)(event);
 	      var column = void 0;
 	      if (cell) {
 	        column = (0, _util.getColumnByCell)(table, cell);
 	        if (column) {
-	          table.$emit('cell-click', row, column, cell, event);
+	          table.$emit('cell-' + name, row, column, cell, event);
 	        }
 	      }
-
-	      this.store.commit('setCurrentRow', row);
-
-	      table.$emit('row-click', row, event, column);
+	      table.$emit('row-' + name, row, event, column);
 	    },
 	    handleExpandClick: function handleExpandClick(row) {
 	      this.store.commit('toggleRowExpanded', row);
@@ -8304,10 +8295,10 @@ module.exports =
 	                    }
 	                  },
 
-	                  'class': [column.id, column.order, column.headerAlign, column.className || '', rowIndex === 0 && _this.isCellHidden(cellIndex, columns) ? 'is-hidden' : '', !column.children ? 'is-leaf' : ''] },
+	                  'class': [column.id, column.order, column.headerAlign, column.className || '', rowIndex === 0 && _this.isCellHidden(cellIndex, columns) ? 'is-hidden' : '', !column.children ? 'is-leaf' : '', column.labelClassName] },
 	                [h(
 	                  'div',
-	                  { 'class': ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : ''] },
+	                  { 'class': ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : '', column.labelClassName] },
 	                  [column.renderHeader ? column.renderHeader.call(_this._renderProxy, h, { column: column, $index: cellIndex, store: _this.store, _self: _this.$parent.$vnode.context }) : column.label, column.sortable ? h(
 	                    'span',
 	                    { 'class': 'caret-wrapper', on: {
@@ -8318,11 +8309,21 @@ module.exports =
 	                    },
 	                    [h(
 	                      'i',
-	                      { 'class': 'sort-caret ascending' },
+	                      { 'class': 'sort-caret ascending', on: {
+	                          'click': function click($event) {
+	                            return _this.handleSortClick($event, column, 'ascending');
+	                          }
+	                        }
+	                      },
 	                      []
 	                    ), h(
 	                      'i',
-	                      { 'class': 'sort-caret descending' },
+	                      { 'class': 'sort-caret descending', on: {
+	                          'click': function click($event) {
+	                            return _this.handleSortClick($event, column, 'descending');
+	                          }
+	                        }
+	                      },
 	                      []
 	                    )]
 	                  ) : '', column.filterable ? h(
@@ -8597,9 +8598,9 @@ module.exports =
 	    toggleOrder: function toggleOrder(order) {
 	      return !order ? 'ascending' : order === 'ascending' ? 'descending' : null;
 	    },
-	    handleSortClick: function handleSortClick(event, column) {
+	    handleSortClick: function handleSortClick(event, column, givenOrder) {
 	      event.stopPropagation();
-	      var order = this.toggleOrder(column.order);
+	      var order = givenOrder || this.toggleOrder(column.order);
 
 	      var target = event.target;
 	      while (target && target.tagName !== 'TH') {
@@ -9418,6 +9419,7 @@ module.exports =
 	    },
 	    label: String,
 	    className: String,
+	    labelClassName: String,
 	    property: String,
 	    prop: String,
 	    width: {},
@@ -9517,6 +9519,7 @@ module.exports =
 	      columnKey: this.columnKey,
 	      label: this.label,
 	      className: this.className,
+	      labelClassName: this.labelClassName,
 	      property: this.prop || this.property,
 	      type: type,
 	      renderCell: null,
@@ -9854,7 +9857,6 @@ module.exports =
 	  beforeDestroy: _vuePopper2.default.beforeDestroy
 	};
 
-	var RANGE_SEPARATOR = ' - ';
 	var DEFAULT_FORMATS = {
 	  date: 'yyyy-MM-dd',
 	  month: 'yyyy-MM',
@@ -9872,19 +9874,19 @@ module.exports =
 	var DATE_PARSER = function DATE_PARSER(text, format) {
 	  return (0, _util.parseDate)(text, format);
 	};
-	var RANGE_FORMATTER = function RANGE_FORMATTER(value, format) {
+	var RANGE_FORMATTER = function RANGE_FORMATTER(value, format, separator) {
 	  if (Array.isArray(value) && value.length === 2) {
 	    var start = value[0];
 	    var end = value[1];
 
 	    if (start && end) {
-	      return (0, _util.formatDate)(start, format) + RANGE_SEPARATOR + (0, _util.formatDate)(end, format);
+	      return (0, _util.formatDate)(start, format) + separator + (0, _util.formatDate)(end, format);
 	    }
 	  }
 	  return '';
 	};
-	var RANGE_PARSER = function RANGE_PARSER(text, format) {
-	  var array = text.split(RANGE_SEPARATOR);
+	var RANGE_PARSER = function RANGE_PARSER(text, format, separator) {
+	  var array = text.split(separator);
 	  if (array.length === 2) {
 	    var range1 = array[0];
 	    var range2 = array[1];
@@ -10100,13 +10102,13 @@ module.exports =
 	        var formatter = (TYPE_VALUE_RESOLVER_MAP[this.type] || TYPE_VALUE_RESOLVER_MAP['default']).formatter;
 	        var format = DEFAULT_FORMATS[this.type];
 
-	        return formatter(value, this.format || format);
+	        return formatter(value, this.format || format, this.rangeSeparator);
 	      },
 	      set: function set(value) {
 	        if (value) {
 	          var type = this.type;
 	          var parser = (TYPE_VALUE_RESOLVER_MAP[type] || TYPE_VALUE_RESOLVER_MAP['default']).parser;
-	          var parsedValue = parser(value, this.format || DEFAULT_FORMATS[type]);
+	          var parsedValue = parser(value, this.format || DEFAULT_FORMATS[type], this.rangeSeparator);
 
 	          if (parsedValue && this.picker) {
 	            this.picker.value = parsedValue;
@@ -10120,7 +10122,6 @@ module.exports =
 	  },
 
 	  created: function created() {
-	    RANGE_SEPARATOR = this.rangeSeparator;
 	    // vue-popper
 	    this.popperOptions = {
 	      boundariesPadding: 0,
@@ -10216,7 +10217,7 @@ module.exports =
 
 	                ranges = Array.isArray(ranges) ? ranges : [ranges];
 	                _this.picker.selectableRange = ranges.map(function (range) {
-	                  return parser(range, format);
+	                  return parser(range, format, _this.rangeSeparator);
 	                });
 	              })();
 	            }
@@ -14453,38 +14454,38 @@ module.exports =
 	  render: function render(h) {
 	    var _this2 = this;
 
-	    if (this.$isServer) return;
-
-	    this.popperVM.node = h(
-	      'transition',
-	      {
-	        attrs: {
-	          name: this.transition
-	        },
-	        on: {
-	          'afterLeave': this.doDestroy
-	        }
-	      },
-	      [h(
-	        'div',
+	    if (this.popperVM) {
+	      this.popperVM.node = h(
+	        'transition',
 	        {
-	          on: {
-	            'mouseleave': function mouseleave() {
-	              _this2.debounceClose();_this2.togglePreventClose();
-	            },
-	            'mouseenter': this.togglePreventClose
+	          attrs: {
+	            name: this.transition
 	          },
+	          on: {
+	            'afterLeave': this.doDestroy
+	          }
+	        },
+	        [h(
+	          'div',
+	          {
+	            on: {
+	              'mouseleave': function mouseleave() {
+	                _this2.debounceClose();_this2.togglePreventClose();
+	              },
+	              'mouseenter': this.togglePreventClose
+	            },
 
-	          ref: 'popper',
-	          directives: [{
-	            name: 'show',
-	            value: !this.disabled && this.showPopper
-	          }],
+	            ref: 'popper',
+	            directives: [{
+	              name: 'show',
+	              value: !this.disabled && this.showPopper
+	            }],
 
-	          'class': ['el-tooltip__popper', 'is-' + this.effect, this.popperClass] },
-	        [this.$slots.content || this.content]
-	      )]
-	    );
+	            'class': ['el-tooltip__popper', 'is-' + this.effect, this.popperClass] },
+	          [this.$slots.content || this.content]
+	        )]
+	      );
+	    }
 
 	    if (!this.$slots.default || !this.$slots.default.length) return this.$slots.default;
 
@@ -15727,7 +15728,7 @@ module.exports =
 	      if (Array.isArray(value) && value.length > 0) {
 	        this.validateDisabled = true;
 	        prop.o[prop.k] = [];
-	      } else if (value) {
+	      } else if (value !== '') {
 	        this.validateDisabled = true;
 	        prop.o[prop.k] = this.initialValue;
 	      }
@@ -18512,16 +18513,12 @@ module.exports =
 	      secondValue: null,
 	      oldValue: null,
 	      precision: 0,
-	      inputValue: null,
 	      dragging: false
 	    };
 	  },
 
 
 	  watch: {
-	    inputValue: function inputValue(val) {
-	      this.firstValue = val;
-	    },
 	    value: function value(val, oldVal) {
 	      if (this.dragging || Array.isArray(val) && Array.isArray(oldVal) && val.every(function (item, index) {
 	        return item === oldVal[index];
@@ -18539,7 +18536,6 @@ module.exports =
 	      if (this.range) {
 	        this.$emit('input', [this.minValue, this.maxValue]);
 	      } else {
-	        this.inputValue = val;
 	        this.$emit('input', val);
 	      }
 	    },
@@ -18682,7 +18678,6 @@ module.exports =
 	      return decimal ? decimal.length : 0;
 	    });
 	    this.precision = Math.max.apply(null, precisions);
-	    this.inputValue = this.inputValue || this.firstValue;
 	  }
 	}; //
 	//
@@ -18961,8 +18956,8 @@ module.exports =
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
-	      value: (_vm.inputValue),
-	      expression: "inputValue"
+	      value: (_vm.firstValue),
+	      expression: "firstValue"
 	    }],
 	    ref: "input",
 	    staticClass: "el-slider__input",
@@ -18975,11 +18970,11 @@ module.exports =
 	      "size": "small"
 	    },
 	    domProps: {
-	      "value": (_vm.inputValue)
+	      "value": (_vm.firstValue)
 	    },
 	    on: {
 	      "input": function($event) {
-	        _vm.inputValue = $event
+	        _vm.firstValue = $event
 	      }
 	    }
 	  }) : _vm._e(), _c('div', {
@@ -19171,6 +19166,7 @@ module.exports =
 	    },
 
 	    update: function update(el, binding) {
+	      el.instance.setText(el.getAttribute('element-loading-text'));
 	      if (binding.oldValue !== binding.value) {
 	        toggleLoading(el, binding);
 	      }
@@ -19244,6 +19240,9 @@ module.exports =
 	  methods: {
 	    handleAfterLeave: function handleAfterLeave() {
 	      this.$emit('after-leave');
+	    },
+	    setText: function setText(text) {
+	      this.text = text;
 	    }
 	  }
 	};
@@ -19840,7 +19839,8 @@ module.exports =
 	    listType: {
 	      type: String,
 	      default: 'text' // text,picture,picture-card
-	    }
+	    },
+	    httpRequest: Function
 	  },
 
 	  data: function data() {
@@ -19994,7 +19994,8 @@ module.exports =
 	        'on-success': this.handleSuccess,
 	        'on-error': this.handleError,
 	        'on-preview': this.onPreview,
-	        'on-remove': this.handleRemove
+	        'on-remove': this.handleRemove,
+	        httpRequest: this.httpRequest
 	      },
 	      ref: 'upload-inner'
 	    };
@@ -20301,7 +20302,8 @@ module.exports =
 	    },
 	    fileList: Array,
 	    autoUpload: Boolean,
-	    listType: String
+	    listType: String,
+	    httpRequest: Function
 	  },
 
 	  data: function data() {
@@ -20368,7 +20370,8 @@ module.exports =
 	    post: function post(rawFile) {
 	      var _this3 = this;
 
-	      (0, _ajax2.default)({
+	      var request = this.httpRequest || _ajax2.default;
+	      request({
 	        headers: this.headers,
 	        withCredentials: this.withCredentials,
 	        file: rawFile,
@@ -20518,16 +20521,13 @@ module.exports =
 
 	  var headers = option.headers || {};
 
-	  // if (headers['X-Requested-With'] !== null) {
-	  //   xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-	  // }
-
 	  for (var item in headers) {
 	    if (headers.hasOwnProperty(item) && headers[item] !== null) {
 	      xhr.setRequestHeader(item, headers[item]);
 	    }
 	  }
 	  xhr.send(formData);
+	  return xhr;
 	}
 
 /***/ },
@@ -22453,8 +22453,8 @@ module.exports =
 
 
 	  watch: {
-	    items: function items() {
-	      this.setActiveItem(0);
+	    items: function items(val) {
+	      if (val.length > 0) this.setActiveItem(0);
 	    },
 	    activeIndex: function activeIndex(val, oldVal) {
 	      this.resetItemPosition();
@@ -22494,12 +22494,6 @@ module.exports =
 	        item.hover = false;
 	      });
 	    },
-
-
-	    handleItemChange: (0, _debounce2.default)(100, function () {
-	      this.updateItems();
-	    }),
-
 	    updateItems: function updateItems() {
 	      this.items = this.$children.filter(function (child) {
 	        return child.$options.name === 'ElCarouselItem';
@@ -22568,6 +22562,7 @@ module.exports =
 	  created: function created() {
 	    var _this3 = this;
 
+	    this.handleItemChange = (0, _debounce2.default)(100, this.updateItems);
 	    this.throttledArrowClick = (0, _throttle2.default)(300, true, function (index) {
 	      _this3.setActiveItem(index);
 	    });
@@ -24090,8 +24085,10 @@ module.exports =
 	    select: function select(item, menuIndex) {
 	      if (item.__IS__FLAT__OPTIONS) {
 	        this.activeValue = item.value;
-	      } else {
+	      } else if (menuIndex) {
 	        this.activeValue.splice(menuIndex, this.activeValue.length - 1, item.value);
+	      } else {
+	        this.activeValue = [item.value];
 	      }
 	      this.$emit('pick', this.activeValue);
 	    },

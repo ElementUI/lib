@@ -258,6 +258,7 @@ module.exports =
 	    },
 
 	    update: function update(el, binding) {
+	      el.instance.setText(el.getAttribute('element-loading-text'));
 	      if (binding.oldValue !== binding.value) {
 	        toggleLoading(el, binding);
 	      }
@@ -333,6 +334,9 @@ module.exports =
 	  methods: {
 	    handleAfterLeave: function handleAfterLeave() {
 	      this.$emit('after-leave');
+	    },
+	    setText: function setText(text) {
+	      this.text = text;
 	    }
 	  }
 	};
