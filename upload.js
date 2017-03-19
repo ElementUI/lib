@@ -105,7 +105,7 @@ module.exports =
 
 /***/ },
 
-/***/ 59:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
@@ -370,7 +370,7 @@ module.exports =
 	      return {
 	        props: {
 	          'default-file-list': 'default-file-list is renamed to file-list.',
-	          'show-upload-list': 'show-file-list is renamed to show-file-list.',
+	          'show-upload-list': 'show-upload-list is renamed to show-file-list.',
 	          'thumbnail-mode': 'thumbnail-mode has been deprecated, you can implement the same effect according to this case: http://element.eleme.io/#/zh-CN/component/upload#yong-hu-tou-xiang-shang-chuan'
 	        }
 	      };
@@ -470,7 +470,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _locale = __webpack_require__(59);
+	var _locale = __webpack_require__(60);
 
 	var _locale2 = _interopRequireDefault(_locale);
 

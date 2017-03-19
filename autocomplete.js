@@ -134,7 +134,7 @@ module.exports =
 	  /* script */
 	  __webpack_require__(8),
 	  /* template */
-	  __webpack_require__(16),
+	  __webpack_require__(17),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -366,7 +366,7 @@ module.exports =
 	  /* script */
 	  __webpack_require__(12),
 	  /* template */
-	  __webpack_require__(15),
+	  __webpack_require__(16),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -392,45 +392,14 @@ module.exports =
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
+	var _scrollbar = __webpack_require__(15);
+
+	var _scrollbar2 = _interopRequireDefault(_scrollbar);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
 	exports.default = {
+	  components: { ElScrollbar: _scrollbar2.default },
 	  mixins: [_vuePopper2.default, _emitter2.default],
 
 	  componentName: 'ElAutocompleteSuggestions',
@@ -480,7 +449,41 @@ module.exports =
 	      _this2.showPopper = val;
 	    });
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 /* 13 */
@@ -496,6 +499,12 @@ module.exports =
 
 /***/ },
 /* 15 */
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/scrollbar");
+
+/***/ },
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -557,7 +566,7 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

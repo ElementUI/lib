@@ -13,9 +13,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var nodeList = [];
 var ctx = '@@clickoutsideContext';
 
-!_vue2.default.prototype.$isServer && (0, _dom.on)(document, 'click', function (e) {
+var startClick = void 0;
+
+!_vue2.default.prototype.$isServer && (0, _dom.on)(document, 'mousedown', function (e) {
+  return startClick = e;
+});
+
+!_vue2.default.prototype.$isServer && (0, _dom.on)(document, 'mouseup', function (e) {
   nodeList.forEach(function (node) {
-    return node[ctx].documentHandler(e);
+    return node[ctx].documentHandler(e, startClick);
   });
 });
 /**
@@ -29,8 +35,8 @@ var ctx = '@@clickoutsideContext';
 exports.default = {
   bind: function bind(el, binding, vnode) {
     var id = nodeList.push(el) - 1;
-    var documentHandler = function documentHandler(e) {
-      if (!vnode.context || el.contains(e.target) || vnode.context.popperElm && vnode.context.popperElm.contains(e.target)) return;
+    var documentHandler = function documentHandler(mouseup, mousedown) {
+      if (!vnode.context || el.contains(mouseup.target) || vnode.context.popperElm && (vnode.context.popperElm.contains(mouseup.target) || vnode.context.popperElm.contains(mousedown.target))) return;
 
       if (binding.expression && el[ctx].methodName && vnode.context[el[ctx].methodName]) {
         vnode.context[el[ctx].methodName]();

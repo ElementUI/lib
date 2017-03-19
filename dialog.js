@@ -246,7 +246,7 @@ module.exports =
 	      return 'el-dialog--' + this.size;
 	    },
 	    style: function style() {
-	      return this.size === 'full' ? {} : { 'margin-bottom': '50px', 'top': this.top };
+	      return this.size === 'full' ? {} : { 'top': this.top };
 	    }
 	  },
 

@@ -112,7 +112,7 @@ module.exports =
 
 /***/ },
 
-/***/ 79:
+/***/ 80:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/transitions/collapse-transition");
@@ -226,7 +226,7 @@ module.exports =
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _collapseTransition = __webpack_require__(79);
+	var _collapseTransition = __webpack_require__(80);
 
 	var _collapseTransition2 = _interopRequireDefault(_collapseTransition);
 

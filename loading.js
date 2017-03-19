@@ -105,7 +105,7 @@ module.exports =
 
 /***/ },
 
-/***/ 55:
+/***/ 56:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
@@ -160,7 +160,7 @@ module.exports =
 
 	'use strict';
 
-	var _vue = __webpack_require__(55);
+	var _vue = __webpack_require__(56);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -394,7 +394,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(55);
+	var _vue = __webpack_require__(56);
 
 	var _vue2 = _interopRequireDefault(_vue);
 

@@ -133,38 +133,38 @@ module.exports =
 
 /***/ },
 
-/***/ 45:
+/***/ 15:
 /***/ function(module, exports) {
 
-	module.exports = require("throttle-debounce/debounce");
+	module.exports = require("element-ui/lib/scrollbar");
 
 /***/ },
 
 /***/ 46:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/utils/resize-event");
+	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
 
-/***/ 59:
+/***/ 47:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/mixins/locale");
+	module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ },
 
 /***/ 60:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/locale");
+	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 112:
+/***/ 61:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/scrollbar");
+	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
@@ -428,7 +428,7 @@ module.exports =
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _locale = __webpack_require__(59);
+	var _locale = __webpack_require__(60);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -448,11 +448,11 @@ module.exports =
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _scrollbar = __webpack_require__(112);
+	var _scrollbar = __webpack_require__(15);
 
 	var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
-	var _debounce = __webpack_require__(45);
+	var _debounce = __webpack_require__(46);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -462,9 +462,9 @@ module.exports =
 
 	var _dom = __webpack_require__(117);
 
-	var _resizeEvent = __webpack_require__(46);
+	var _resizeEvent = __webpack_require__(47);
 
-	var _locale3 = __webpack_require__(60);
+	var _locale3 = __webpack_require__(61);
 
 	var _merge = __webpack_require__(164);
 

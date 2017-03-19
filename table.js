@@ -119,35 +119,35 @@ module.exports =
 
 /***/ },
 
-/***/ 44:
+/***/ 45:
 /***/ function(module, exports) {
 
 	module.exports = require("throttle-debounce/throttle");
 
 /***/ },
 
-/***/ 45:
+/***/ 46:
 /***/ function(module, exports) {
 
 	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
 
-/***/ 46:
+/***/ 47:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ },
 
-/***/ 55:
+/***/ 56:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 59:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
@@ -220,17 +220,17 @@ module.exports =
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _throttle = __webpack_require__(44);
+	var _throttle = __webpack_require__(45);
 
 	var _throttle2 = _interopRequireDefault(_throttle);
 
-	var _debounce = __webpack_require__(45);
+	var _debounce = __webpack_require__(46);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _resizeEvent = __webpack_require__(46);
+	var _resizeEvent = __webpack_require__(47);
 
-	var _locale = __webpack_require__(59);
+	var _locale = __webpack_require__(60);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -254,7 +254,6 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	//
 	//
 	//
 	//
@@ -535,23 +534,6 @@ module.exports =
 
 	      return style;
 	    },
-	    tableHeight: function tableHeight() {
-	      var style = {};
-
-	      var height = this.layout.tableHeight ? this.layout.tableHeight + 'px' : '';
-
-	      if (this.height) {
-	        style = {
-	          height: height
-	        };
-	      } else if (this.maxHeight) {
-	        style = {
-	          'max-height': height
-	        };
-	      }
-
-	      return style;
-	    },
 	    bodyWidth: function bodyWidth() {
 	      var _layout = this.layout,
 	          bodyWidth = _layout.bodyWidth,
@@ -664,11 +646,11 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(55);
+	var _vue = __webpack_require__(56);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _debounce = __webpack_require__(45);
+	var _debounce = __webpack_require__(46);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -1356,6 +1338,9 @@ module.exports =
 
 	      this.updateHeight();
 	    } else if (typeof value === 'string') {
+	      if (value === '') {
+	        el.style[prop] = '';
+	      }
 	      this.updateHeight();
 	    }
 	  };
@@ -1790,7 +1775,7 @@ module.exports =
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _vue = __webpack_require__(55);
+	var _vue = __webpack_require__(56);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -2314,7 +2299,7 @@ module.exports =
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _locale = __webpack_require__(59);
+	var _locale = __webpack_require__(60);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -2539,7 +2524,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(55);
+	var _vue = __webpack_require__(56);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -2691,7 +2676,6 @@ module.exports =
 	      'el-table--enable-row-hover': !_vm.store.states.isComplex,
 	        'el-table--enable-row-transition': true || (_vm.store.states.data || []).length !== 0 && (_vm.store.states.data || []).length < 100
 	    },
-	    style: ([_vm.tableHeight]),
 	    on: {
 	      "mouseleave": function($event) {
 	        _vm.handleMouseLeave($event)

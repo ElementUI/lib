@@ -51,7 +51,7 @@ module.exports =
 
 /***/ },
 
-/***/ 46:
+/***/ 47:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/resize-event");
@@ -94,7 +94,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _resizeEvent = __webpack_require__(46);
+	var _resizeEvent = __webpack_require__(47);
 
 	var _scrollbarWidth = __webpack_require__(256);
 

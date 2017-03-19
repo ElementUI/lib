@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(81);
+	module.exports = __webpack_require__(82);
 
 
 /***/ },
@@ -119,28 +119,28 @@ module.exports =
 
 /***/ },
 
-/***/ 55:
+/***/ 56:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 59:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 81:
+/***/ 82:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(82);
+	var _main = __webpack_require__(83);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -155,14 +155,14 @@ module.exports =
 
 /***/ },
 
-/***/ 82:
+/***/ 83:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(83),
+	  __webpack_require__(84),
 	  /* template */
-	  __webpack_require__(98),
+	  __webpack_require__(99),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -174,18 +174,18 @@ module.exports =
 
 /***/ },
 
-/***/ 83:
+/***/ 84:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _color = __webpack_require__(84);
+	var _color = __webpack_require__(85);
 
 	var _color2 = _interopRequireDefault(_color);
 
-	var _pickerDropdown = __webpack_require__(85);
+	var _pickerDropdown = __webpack_require__(86);
 
 	var _pickerDropdown2 = _interopRequireDefault(_pickerDropdown);
 
@@ -322,7 +322,7 @@ module.exports =
 
 /***/ },
 
-/***/ 84:
+/***/ 85:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -679,14 +679,14 @@ module.exports =
 
 /***/ },
 
-/***/ 85:
+/***/ 86:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(86),
+	  __webpack_require__(87),
 	  /* template */
-	  __webpack_require__(97),
+	  __webpack_require__(98),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -698,22 +698,22 @@ module.exports =
 
 /***/ },
 
-/***/ 86:
+/***/ 87:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _svPanel = __webpack_require__(87);
+	var _svPanel = __webpack_require__(88);
 
 	var _svPanel2 = _interopRequireDefault(_svPanel);
 
-	var _hueSlider = __webpack_require__(91);
+	var _hueSlider = __webpack_require__(92);
 
 	var _hueSlider2 = _interopRequireDefault(_hueSlider);
 
-	var _alphaSlider = __webpack_require__(94);
+	var _alphaSlider = __webpack_require__(95);
 
 	var _alphaSlider2 = _interopRequireDefault(_alphaSlider);
 
@@ -721,7 +721,7 @@ module.exports =
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _locale = __webpack_require__(59);
+	var _locale = __webpack_require__(60);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -804,14 +804,14 @@ module.exports =
 
 /***/ },
 
-/***/ 87:
+/***/ 88:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(88),
+	  __webpack_require__(89),
 	  /* template */
-	  __webpack_require__(90),
+	  __webpack_require__(91),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -823,14 +823,14 @@ module.exports =
 
 /***/ },
 
-/***/ 88:
+/***/ 89:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(89);
+	var _draggable = __webpack_require__(90);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -931,7 +931,7 @@ module.exports =
 
 /***/ },
 
-/***/ 89:
+/***/ 90:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -976,7 +976,7 @@ module.exports =
 	  });
 	};
 
-	var _vue = __webpack_require__(55);
+	var _vue = __webpack_require__(56);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -986,7 +986,7 @@ module.exports =
 
 /***/ },
 
-/***/ 90:
+/***/ 91:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1010,14 +1010,14 @@ module.exports =
 
 /***/ },
 
-/***/ 91:
+/***/ 92:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(92),
-	  /* template */
 	  __webpack_require__(93),
+	  /* template */
+	  __webpack_require__(94),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -1029,14 +1029,14 @@ module.exports =
 
 /***/ },
 
-/***/ 92:
+/***/ 93:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(89);
+	var _draggable = __webpack_require__(90);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1159,7 +1159,7 @@ module.exports =
 
 /***/ },
 
-/***/ 93:
+/***/ 94:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1186,14 +1186,14 @@ module.exports =
 
 /***/ },
 
-/***/ 94:
+/***/ 95:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(95),
-	  /* template */
 	  __webpack_require__(96),
+	  /* template */
+	  __webpack_require__(97),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -1205,14 +1205,14 @@ module.exports =
 
 /***/ },
 
-/***/ 95:
+/***/ 96:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(89);
+	var _draggable = __webpack_require__(90);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1351,7 +1351,7 @@ module.exports =
 
 /***/ },
 
-/***/ 96:
+/***/ 97:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1381,7 +1381,7 @@ module.exports =
 
 /***/ },
 
-/***/ 97:
+/***/ 98:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1445,7 +1445,7 @@ module.exports =
 
 /***/ },
 
-/***/ 98:
+/***/ 99:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

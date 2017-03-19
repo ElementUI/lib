@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(70);
+	module.exports = __webpack_require__(71);
 
 
 /***/ },
 
-/***/ 70:
+/***/ 71:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _col = __webpack_require__(71);
+	var _col = __webpack_require__(72);
 
 	var _col2 = _interopRequireDefault(_col);
 
@@ -73,7 +73,7 @@ module.exports =
 
 /***/ },
 
-/***/ 71:
+/***/ 72:
 /***/ function(module, exports) {
 
 	'use strict';

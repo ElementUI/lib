@@ -112,21 +112,21 @@ module.exports =
 
 /***/ },
 
-/***/ 55:
+/***/ 56:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 59:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 60:
+/***/ 61:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
@@ -188,7 +188,7 @@ module.exports =
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var _vue = __webpack_require__(55);
+	var _vue = __webpack_require__(56);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -295,8 +295,8 @@ module.exports =
 	        }
 
 	        var oldCb = instance.callback;
-	        instance.callback = function (action) {
-	          oldCb(action);
+	        instance.callback = function (action, instance) {
+	          oldCb(action, instance);
 	          showNextMsg();
 	        };
 	        ['modal', 'showClose', 'closeOnClickModal', 'closeOnPressEscape'].forEach(function (prop) {
@@ -438,7 +438,7 @@ module.exports =
 
 	var _popup2 = _interopRequireDefault(_popup);
 
-	var _locale = __webpack_require__(59);
+	var _locale = __webpack_require__(60);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -452,7 +452,7 @@ module.exports =
 
 	var _dom = __webpack_require__(117);
 
-	var _locale3 = __webpack_require__(60);
+	var _locale3 = __webpack_require__(61);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

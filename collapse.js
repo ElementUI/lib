@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(72);
+	module.exports = __webpack_require__(73);
 
 
 /***/ },
@@ -105,14 +105,14 @@ module.exports =
 
 /***/ },
 
-/***/ 72:
+/***/ 73:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _collapse = __webpack_require__(73);
+	var _collapse = __webpack_require__(74);
 
 	var _collapse2 = _interopRequireDefault(_collapse);
 
@@ -127,14 +127,14 @@ module.exports =
 
 /***/ },
 
-/***/ 73:
+/***/ 74:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(74),
-	  /* template */
 	  __webpack_require__(75),
+	  /* template */
+	  __webpack_require__(76),
 	  /* scopeId */
 	  null,
 	  /* cssModules */
@@ -146,7 +146,7 @@ module.exports =
 
 /***/ },
 
-/***/ 74:
+/***/ 75:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -196,7 +196,7 @@ module.exports =
 	    },
 	    handleItemClick: function handleItemClick(item) {
 	      if (this.accordion) {
-	        this.setActiveNames(this.activeNames[0] && this.activeNames[0] === item.name ? '' : item.name);
+	        this.setActiveNames((this.activeNames[0] || this.activeNames[0] === 0) && this.activeNames[0] === item.name ? '' : item.name);
 	      } else {
 	        var activeNames = this.activeNames.slice(0);
 	        var index = activeNames.indexOf(item.name);
@@ -218,7 +218,7 @@ module.exports =
 
 /***/ },
 
-/***/ 75:
+/***/ 76:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

@@ -112,14 +112,14 @@ module.exports =
 
 /***/ },
 
-/***/ 60:
+/***/ 61:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 79:
+/***/ 80:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/transitions/collapse-transition");
@@ -192,7 +192,7 @@ module.exports =
 
 	var _treeStore2 = _interopRequireDefault(_treeStore);
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _emitter = __webpack_require__(14);
 
@@ -1187,7 +1187,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _collapseTransition = __webpack_require__(79);
+	var _collapseTransition = __webpack_require__(80);
 
 	var _collapseTransition2 = _interopRequireDefault(_collapseTransition);
 

@@ -204,6 +204,10 @@ module.exports =
 	      type: Boolean,
 	      default: false
 	    },
+	    showTooltip: {
+	      type: Boolean,
+	      default: true
+	    },
 	    disabled: {
 	      type: Boolean,
 	      default: false
@@ -224,7 +228,6 @@ module.exports =
 	      firstValue: null,
 	      secondValue: null,
 	      oldValue: null,
-	      precision: 0,
 	      dragging: false
 	    };
 	  },
@@ -364,6 +367,13 @@ module.exports =
 	    },
 	    barLeft: function barLeft() {
 	      return this.range ? 100 * (this.minValue - this.min) / (this.max - this.min) + '%' : '0%';
+	    },
+	    precision: function precision() {
+	      var precisions = [this.min, this.max, this.step].map(function (item) {
+	        var decimal = ('' + item).split('.')[1];
+	        return decimal ? decimal.length : 0;
+	      });
+	      return Math.max.apply(null, precisions);
 	    }
 	  },
 
@@ -385,11 +395,6 @@ module.exports =
 	      }
 	      this.oldValue = this.firstValue;
 	    }
-	    var precisions = [this.min, this.max, this.step].map(function (item) {
-	      var decimal = ('' + item).split('.')[1];
-	      return decimal ? decimal.length : 0;
-	    });
-	    this.precision = Math.max.apply(null, precisions);
 	  }
 	}; //
 	//
@@ -517,6 +522,9 @@ module.exports =
 	    step: function step() {
 	      return this.$parent.step;
 	    },
+	    showTooltip: function showTooltip() {
+	      return this.$parent.showTooltip;
+	    },
 	    precision: function precision() {
 	      return this.$parent.precision;
 	    },
@@ -532,7 +540,7 @@ module.exports =
 	  },
 
 	  methods: {
-	    showTooltip: function showTooltip() {
+	    displayTooltip: function displayTooltip() {
 	      this.$refs.tooltip && (this.$refs.tooltip.showPopper = true);
 	    },
 	    hideTooltip: function hideTooltip() {
@@ -540,7 +548,7 @@ module.exports =
 	    },
 	    handleMouseEnter: function handleMouseEnter() {
 	      this.hovering = true;
-	      this.showTooltip();
+	      this.displayTooltip();
 	    },
 	    handleMouseLeave: function handleMouseLeave() {
 	      this.hovering = false;
@@ -561,7 +569,7 @@ module.exports =
 	    },
 	    onDragging: function onDragging(event) {
 	      if (this.dragging) {
-	        this.showTooltip();
+	        this.displayTooltip();
 	        this.currentX = event.clientX;
 	        var diff = (this.currentX - this.startX) / this.$parent.$sliderWidth * 100;
 	        this.newPosition = this.startPosition + diff;
@@ -650,7 +658,8 @@ module.exports =
 	  }, [_c('el-tooltip', {
 	    ref: "tooltip",
 	    attrs: {
-	      "placement": "top"
+	      "placement": "top",
+	      "disabled": !_vm.showTooltip
 	    }
 	  }, [_c('span', {
 	    slot: "content"
