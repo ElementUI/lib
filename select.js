@@ -1035,6 +1035,7 @@ module.exports =
 	      var index = this.selected.indexOf(tag);
 	      if (index > -1 && !this.disabled) {
 	        this.value.splice(index, 1);
+	        this.$emit('remove-tag', tag);
 	      }
 	      event.stopPropagation();
 	    },
@@ -1097,8 +1098,8 @@ module.exports =
 	      }
 	    });
 	  },
-	  destroyed: function destroyed() {
-	    if (this.handleResize) (0, _resizeEvent.removeResizeListener)(this.$el, this.handleResize);
+	  beforeDestroy: function beforeDestroy() {
+	    if (this.$el && this.handleResize) (0, _resizeEvent.removeResizeListener)(this.$el, this.handleResize);
 	  }
 	};
 

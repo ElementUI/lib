@@ -491,7 +491,7 @@ module.exports =
 	    var _this3 = this;
 
 	    this.tableId = 'el-table_' + tableIdSeed + '_';
-	    this.debouncedLayout = (0, _debounce2.default)(50, function () {
+	    this.debouncedLayout = (0, _debounce2.default)(50, true, function () {
 	      return _this3.doLayout();
 	    });
 	  },

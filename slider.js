@@ -565,7 +565,7 @@ module.exports =
 	    onDragStart: function onDragStart(event) {
 	      this.dragging = true;
 	      this.startX = event.clientX;
-	      this.startPosition = parseInt(this.currentPosition, 10);
+	      this.startPosition = parseFloat(this.currentPosition);
 	    },
 	    onDragging: function onDragging(event) {
 	      if (this.dragging) {

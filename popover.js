@@ -247,8 +247,6 @@ module.exports =
 	  },
 
 	  mounted: function mounted() {
-	    var _this = this;
-
 	    var reference = this.reference || this.$refs.reference;
 	    var popper = this.popper || this.$refs.popper;
 
@@ -256,9 +254,7 @@ module.exports =
 	      reference = this.referenceElm = this.$slots.reference[0].elm;
 	    }
 	    if (this.trigger === 'click') {
-	      (0, _dom.on)(reference, 'click', function () {
-	        _this.showPopper = !_this.showPopper;
-	      });
+	      (0, _dom.on)(reference, 'click', this.doToggle);
 	      (0, _dom.on)(document, 'click', this.handleDocumentClick);
 	    } else if (this.trigger === 'hover') {
 	      (0, _dom.on)(reference, 'mouseenter', this.handleMouseEnter);
@@ -273,12 +269,8 @@ module.exports =
 	        var len = children.length;
 	        for (var i = 0; i < len; i++) {
 	          if (children[i].nodeName === 'INPUT' || children[i].nodeName === 'TEXTAREA') {
-	            (0, _dom.on)(children[i], 'focus', function () {
-	              _this.showPopper = true;
-	            });
-	            (0, _dom.on)(children[i], 'blur', function () {
-	              _this.showPopper = false;
-	            });
+	            (0, _dom.on)(children[i], 'focus', this.doShow);
+	            (0, _dom.on)(children[i], 'blur', this.doClose);
 	            found = true;
 	            break;
 	          }
@@ -286,34 +278,35 @@ module.exports =
 	      }
 	      if (found) return;
 	      if (reference.nodeName === 'INPUT' || reference.nodeName === 'TEXTAREA') {
-	        (0, _dom.on)(reference, 'focus', function () {
-	          _this.showPopper = true;
-	        });
-	        (0, _dom.on)(reference, 'blur', function () {
-	          _this.showPopper = false;
-	        });
+	        (0, _dom.on)(reference, 'focus', this.doShow);
+	        (0, _dom.on)(reference, 'blur', this.doClose);
 	      } else {
-	        (0, _dom.on)(reference, 'mousedown', function () {
-	          _this.showPopper = true;
-	        });
-	        (0, _dom.on)(reference, 'mouseup', function () {
-	          _this.showPopper = false;
-	        });
+	        (0, _dom.on)(reference, 'mousedown', this.doShow);
+	        (0, _dom.on)(reference, 'mouseup', this.doClose);
 	      }
 	    }
 	  },
 
 
 	  methods: {
+	    doToggle: function doToggle() {
+	      this.showPopper = !this.showPopper;
+	    },
+	    doShow: function doShow() {
+	      this.showPopper = true;
+	    },
+	    doClose: function doClose() {
+	      this.showPopper = false;
+	    },
 	    handleMouseEnter: function handleMouseEnter() {
 	      this.showPopper = true;
 	      clearTimeout(this._timer);
 	    },
 	    handleMouseLeave: function handleMouseLeave() {
-	      var _this2 = this;
+	      var _this = this;
 
 	      this._timer = setTimeout(function () {
-	        _this2.showPopper = false;
+	        _this.showPopper = false;
 	      }, 200);
 	    },
 	    handleDocumentClick: function handleDocumentClick(e) {
@@ -331,12 +324,13 @@ module.exports =
 	  destroyed: function destroyed() {
 	    var reference = this.reference;
 
-	    (0, _dom.off)(reference, 'mouseup');
-	    (0, _dom.off)(reference, 'mousedown');
-	    (0, _dom.off)(reference, 'focus');
-	    (0, _dom.off)(reference, 'blur');
-	    (0, _dom.off)(reference, 'mouseleave');
-	    (0, _dom.off)(reference, 'mouseenter');
+	    (0, _dom.off)(reference, 'click', this.doToggle);
+	    (0, _dom.off)(reference, 'mouseup', this.doClose);
+	    (0, _dom.off)(reference, 'mousedown', this.doShow);
+	    (0, _dom.off)(reference, 'focus', this.doShow);
+	    (0, _dom.off)(reference, 'blur', this.doClose);
+	    (0, _dom.off)(reference, 'mouseleave', this.handleMouseLeave);
+	    (0, _dom.off)(reference, 'mouseenter', this.handleMouseEnter);
 	    (0, _dom.off)(document, 'click', this.handleDocumentClick);
 	  }
 	};

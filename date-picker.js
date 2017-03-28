@@ -395,6 +395,7 @@ module.exports =
 	  month: 'yyyy-MM',
 	  datetime: 'yyyy-MM-dd HH:mm:ss',
 	  time: 'HH:mm:ss',
+	  week: 'yyyywWW',
 	  timerange: 'HH:mm:ss',
 	  daterange: 'yyyy-MM-dd',
 	  datetimerange: 'yyyy-MM-dd HH:mm:ss',
@@ -440,12 +441,12 @@ module.exports =
 	    }
 	  },
 	  week: {
-	    formatter: function formatter(value) {
-	      if (value instanceof Date) {
-	        var weekNumber = (0, _util.getWeekNumber)(value);
-	        return value.getFullYear() + 'w' + (weekNumber > 9 ? weekNumber : '0' + weekNumber);
-	      }
-	      return value;
+	    formatter: function formatter(value, format) {
+	      var date = (0, _util.formatDate)(value, format);
+	      var week = (0, _util.getWeekNumber)(value);
+
+	      date = /WW/.test(date) ? date.replace(/WW/, week < 10 ? '0' + week : week) : date.replace(/W/, week);
+	      return date;
 	    },
 	    parser: function parser(text) {
 	      var array = (text || '').split('w');
@@ -729,7 +730,7 @@ module.exports =
 	      if (!this.picker) {
 	        (function () {
 	          _this.panel.defaultValue = _this.currentValue;
-	          _this.picker = new _vue2.default(_this.panel).$mount(document.createElement('div'));
+	          _this.picker = new _vue2.default(_this.panel).$mount();
 	          _this.picker.popperClass = _this.popperClass;
 	          _this.popperElm = _this.picker.$el;
 	          _this.picker.width = _this.reference.getBoundingClientRect().width;
@@ -1141,14 +1142,13 @@ module.exports =
 	        if (this.currentView !== 'year' || this.currentView !== 'month') {
 	          this.currentView = 'month';
 	        }
+	      } else if (newVal === 'week') {
+	        this.week = (0, _util.getWeekNumber)(this.date);
 	      }
 	    },
 	    date: function date(newVal) {
-	      /* istanbul ignore next */
-	      if (!this.year) {
-	        this.year = newVal.getFullYear();
-	        this.month = newVal.getMonth();
-	      }
+	      this.year = newVal.getFullYear();
+	      this.month = newVal.getMonth();
 	    }
 	  },
 
@@ -1254,12 +1254,8 @@ module.exports =
 	        this.date.setMonth(value.getMonth());
 	        this.date.setDate(value.getDate());
 	      } else if (this.selectionMode === 'week') {
-	        var date = (0, _util.formatDate)(value.date, this.format || 'yyyywWW');
-	        var week = this.week = value.week;
-
-	        date = /WW/.test(date) ? date.replace(/WW/, week < 10 ? '0' + week : week) : date.replace(/W/, week);
-
-	        this.$emit('pick', date);
+	        this.week = value.week;
+	        this.$emit('pick', value.date);
 	      }
 
 	      this.resetDate();
@@ -1308,10 +1304,6 @@ module.exports =
 	  },
 
 	  mounted: function mounted() {
-	    if (this.selectionMode === 'month') {
-	      this.currentView = 'month';
-	    }
-
 	    if (this.date && !this.year) {
 	      this.year = this.date.getFullYear();
 	      this.month = this.date.getMonth();
@@ -1396,7 +1388,6 @@ module.exports =
 	    }
 	  }
 	}; //
-	//
 	//
 	//
 	//
@@ -2580,9 +2571,7 @@ module.exports =
 	          column: null
 	        };
 	      }
-	    },
-
-	    value: {}
+	    }
 	  },
 
 	  computed: {
@@ -2964,7 +2953,7 @@ module.exports =
 	    return _c('tr', {
 	      staticClass: "el-date-table__row",
 	      class: {
-	        current: _vm.value && _vm.isWeekActive(row[1])
+	        current: _vm.isWeekActive(row[1])
 	      }
 	    }, _vm._l((row), function(cell) {
 	      return _c('td', {
@@ -3152,7 +3141,6 @@ module.exports =
 	      "year": _vm.year,
 	      "month": _vm.month,
 	      "date": _vm.date,
-	      "value": _vm.value,
 	      "week": _vm.week,
 	      "selection-mode": _vm.selectionMode,
 	      "first-day-of-week": _vm.firstDayOfWeek,
@@ -3478,9 +3466,9 @@ module.exports =
 	      if (this.maxDate === val.maxDate && this.minDate === val.minDate) {
 	        return;
 	      }
+	      this.onPick && this.onPick(val);
 	      this.maxDate = val.maxDate;
 	      this.minDate = val.minDate;
-
 	      if (!close || this.showTime) return;
 	      this.handleConfirm();
 	    },

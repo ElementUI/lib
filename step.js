@@ -206,10 +206,7 @@ module.exports =
 	    title: String,
 	    icon: String,
 	    description: String,
-	    status: {
-	      type: String,
-	      default: 'wait'
-	    }
+	    status: String
 	  },
 
 	  data: function data() {
@@ -219,7 +216,7 @@ module.exports =
 	      lineStyle: {},
 	      mainOffset: 0,
 	      isLast: false,
-	      currentStatus: this.status
+	      internalStatus: ''
 	    };
 	  },
 	  beforeCreate: function beforeCreate() {
@@ -227,19 +224,25 @@ module.exports =
 	  },
 
 
+	  computed: {
+	    currentStatus: function currentStatus() {
+	      return this.status || this.internalStatus;
+	    }
+	  },
+
 	  methods: {
 	    updateStatus: function updateStatus(val) {
 	      var prevChild = this.$parent.$children[this.index - 1];
 
 	      if (val > this.index) {
-	        this.currentStatus = this.$parent.finishStatus;
+	        this.internalStatus = this.$parent.finishStatus;
 	      } else if (val === this.index) {
-	        this.currentStatus = this.$parent.processStatus;
+	        this.internalStatus = this.$parent.processStatus;
 	      } else {
-	        this.currentStatus = 'wait';
+	        this.internalStatus = 'wait';
 	      }
 
-	      if (prevChild) prevChild.calcProgress(this.currentStatus);
+	      if (prevChild) prevChild.calcProgress(this.internalStatus);
 	    },
 	    calcProgress: function calcProgress(status) {
 	      var step = 100;
@@ -253,6 +256,7 @@ module.exports =
 	        style.transitionDelay = -150 * this.index + 'ms';
 	      }
 
+	      style.borderWidth = step ? '1px' : 0;
 	      this.$parent.direction === 'vertical' ? style.height = step + '%' : style.width = step + '%';
 
 	      this.lineStyle = style;

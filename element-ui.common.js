@@ -54,253 +54,253 @@ module.exports =
 
 	'use strict';
 
-	var _pagination = __webpack_require__(2);
+	var _index = __webpack_require__(2);
 
-	var _pagination2 = _interopRequireDefault(_pagination);
+	var _index2 = _interopRequireDefault(_index);
 
-	var _dialog = __webpack_require__(11);
+	var _index3 = __webpack_require__(11);
 
-	var _dialog2 = _interopRequireDefault(_dialog);
+	var _index4 = _interopRequireDefault(_index3);
 
-	var _autocomplete = __webpack_require__(16);
+	var _index5 = __webpack_require__(16);
 
-	var _autocomplete2 = _interopRequireDefault(_autocomplete);
+	var _index6 = _interopRequireDefault(_index5);
 
-	var _dropdown = __webpack_require__(28);
+	var _index7 = __webpack_require__(28);
 
-	var _dropdown2 = _interopRequireDefault(_dropdown);
+	var _index8 = _interopRequireDefault(_index7);
 
-	var _dropdownMenu = __webpack_require__(33);
+	var _index9 = __webpack_require__(33);
 
-	var _dropdownMenu2 = _interopRequireDefault(_dropdownMenu);
+	var _index10 = _interopRequireDefault(_index9);
 
-	var _dropdownItem = __webpack_require__(37);
+	var _index11 = __webpack_require__(37);
 
-	var _dropdownItem2 = _interopRequireDefault(_dropdownItem);
+	var _index12 = _interopRequireDefault(_index11);
 
-	var _menu = __webpack_require__(41);
+	var _index13 = __webpack_require__(41);
 
-	var _menu2 = _interopRequireDefault(_menu);
+	var _index14 = _interopRequireDefault(_index13);
 
-	var _submenu = __webpack_require__(45);
+	var _index15 = __webpack_require__(45);
 
-	var _submenu2 = _interopRequireDefault(_submenu);
+	var _index16 = _interopRequireDefault(_index15);
 
-	var _menuItem = __webpack_require__(51);
+	var _index17 = __webpack_require__(51);
 
-	var _menuItem2 = _interopRequireDefault(_menuItem);
+	var _index18 = _interopRequireDefault(_index17);
 
-	var _menuItemGroup = __webpack_require__(55);
+	var _index19 = __webpack_require__(55);
 
-	var _menuItemGroup2 = _interopRequireDefault(_menuItemGroup);
+	var _index20 = _interopRequireDefault(_index19);
 
-	var _input = __webpack_require__(59);
+	var _index21 = __webpack_require__(59);
 
-	var _input2 = _interopRequireDefault(_input);
+	var _index22 = _interopRequireDefault(_index21);
 
-	var _inputNumber = __webpack_require__(65);
+	var _index23 = __webpack_require__(65);
 
-	var _inputNumber2 = _interopRequireDefault(_inputNumber);
+	var _index24 = _interopRequireDefault(_index23);
 
-	var _radio = __webpack_require__(70);
+	var _index25 = __webpack_require__(70);
 
-	var _radio2 = _interopRequireDefault(_radio);
+	var _index26 = _interopRequireDefault(_index25);
 
-	var _radioGroup = __webpack_require__(74);
+	var _index27 = __webpack_require__(74);
 
-	var _radioGroup2 = _interopRequireDefault(_radioGroup);
+	var _index28 = _interopRequireDefault(_index27);
 
-	var _radioButton = __webpack_require__(78);
+	var _index29 = __webpack_require__(78);
 
-	var _radioButton2 = _interopRequireDefault(_radioButton);
+	var _index30 = _interopRequireDefault(_index29);
 
-	var _checkbox = __webpack_require__(82);
+	var _index31 = __webpack_require__(82);
 
-	var _checkbox2 = _interopRequireDefault(_checkbox);
+	var _index32 = _interopRequireDefault(_index31);
 
-	var _checkboxGroup = __webpack_require__(86);
+	var _index33 = __webpack_require__(86);
 
-	var _checkboxGroup2 = _interopRequireDefault(_checkboxGroup);
+	var _index34 = _interopRequireDefault(_index33);
 
-	var _switch = __webpack_require__(90);
+	var _index35 = __webpack_require__(90);
 
-	var _switch2 = _interopRequireDefault(_switch);
+	var _index36 = _interopRequireDefault(_index35);
 
-	var _select = __webpack_require__(94);
+	var _index37 = __webpack_require__(94);
 
-	var _select2 = _interopRequireDefault(_select);
+	var _index38 = _interopRequireDefault(_index37);
 
-	var _option = __webpack_require__(108);
+	var _index39 = __webpack_require__(108);
 
-	var _option2 = _interopRequireDefault(_option);
+	var _index40 = _interopRequireDefault(_index39);
 
-	var _optionGroup = __webpack_require__(109);
+	var _index41 = __webpack_require__(109);
 
-	var _optionGroup2 = _interopRequireDefault(_optionGroup);
+	var _index42 = _interopRequireDefault(_index41);
 
-	var _button = __webpack_require__(113);
+	var _index43 = __webpack_require__(113);
 
-	var _button2 = _interopRequireDefault(_button);
+	var _index44 = _interopRequireDefault(_index43);
 
-	var _buttonGroup = __webpack_require__(117);
+	var _index45 = __webpack_require__(117);
 
-	var _buttonGroup2 = _interopRequireDefault(_buttonGroup);
+	var _index46 = _interopRequireDefault(_index45);
 
-	var _table = __webpack_require__(121);
+	var _index47 = __webpack_require__(121);
 
-	var _table2 = _interopRequireDefault(_table);
+	var _index48 = _interopRequireDefault(_index47);
 
-	var _tableColumn = __webpack_require__(139);
+	var _index49 = __webpack_require__(139);
 
-	var _tableColumn2 = _interopRequireDefault(_tableColumn);
+	var _index50 = _interopRequireDefault(_index49);
 
-	var _datePicker = __webpack_require__(141);
+	var _index51 = __webpack_require__(141);
 
-	var _datePicker2 = _interopRequireDefault(_datePicker);
+	var _index52 = _interopRequireDefault(_index51);
 
-	var _timeSelect = __webpack_require__(169);
+	var _index53 = __webpack_require__(169);
 
-	var _timeSelect2 = _interopRequireDefault(_timeSelect);
+	var _index54 = _interopRequireDefault(_index53);
 
-	var _timePicker = __webpack_require__(174);
+	var _index55 = __webpack_require__(174);
 
-	var _timePicker2 = _interopRequireDefault(_timePicker);
+	var _index56 = _interopRequireDefault(_index55);
 
-	var _popover = __webpack_require__(179);
+	var _index57 = __webpack_require__(179);
 
-	var _popover2 = _interopRequireDefault(_popover);
+	var _index58 = _interopRequireDefault(_index57);
 
-	var _tooltip = __webpack_require__(184);
+	var _index59 = __webpack_require__(184);
 
-	var _tooltip2 = _interopRequireDefault(_tooltip);
+	var _index60 = _interopRequireDefault(_index59);
 
-	var _messageBox = __webpack_require__(187);
+	var _index61 = __webpack_require__(187);
 
-	var _messageBox2 = _interopRequireDefault(_messageBox);
+	var _index62 = _interopRequireDefault(_index61);
 
-	var _breadcrumb = __webpack_require__(192);
+	var _index63 = __webpack_require__(192);
 
-	var _breadcrumb2 = _interopRequireDefault(_breadcrumb);
+	var _index64 = _interopRequireDefault(_index63);
 
-	var _breadcrumbItem = __webpack_require__(196);
+	var _index65 = __webpack_require__(196);
 
-	var _breadcrumbItem2 = _interopRequireDefault(_breadcrumbItem);
+	var _index66 = _interopRequireDefault(_index65);
 
-	var _form = __webpack_require__(200);
+	var _index67 = __webpack_require__(200);
 
-	var _form2 = _interopRequireDefault(_form);
+	var _index68 = _interopRequireDefault(_index67);
 
-	var _formItem = __webpack_require__(204);
+	var _index69 = __webpack_require__(204);
 
-	var _formItem2 = _interopRequireDefault(_formItem);
+	var _index70 = _interopRequireDefault(_index69);
 
-	var _tabs = __webpack_require__(209);
+	var _index71 = __webpack_require__(209);
 
-	var _tabs2 = _interopRequireDefault(_tabs);
+	var _index72 = _interopRequireDefault(_index71);
 
-	var _tabPane = __webpack_require__(217);
+	var _index73 = __webpack_require__(217);
 
-	var _tabPane2 = _interopRequireDefault(_tabPane);
+	var _index74 = _interopRequireDefault(_index73);
 
-	var _tag = __webpack_require__(221);
+	var _index75 = __webpack_require__(221);
 
-	var _tag2 = _interopRequireDefault(_tag);
+	var _index76 = _interopRequireDefault(_index75);
 
-	var _tree = __webpack_require__(225);
+	var _index77 = __webpack_require__(225);
 
-	var _tree2 = _interopRequireDefault(_tree);
+	var _index78 = _interopRequireDefault(_index77);
 
-	var _alert = __webpack_require__(235);
+	var _index79 = __webpack_require__(235);
 
-	var _alert2 = _interopRequireDefault(_alert);
+	var _index80 = _interopRequireDefault(_index79);
 
-	var _notification = __webpack_require__(239);
+	var _index81 = __webpack_require__(239);
 
-	var _notification2 = _interopRequireDefault(_notification);
+	var _index82 = _interopRequireDefault(_index81);
 
-	var _slider = __webpack_require__(244);
+	var _index83 = __webpack_require__(244);
 
-	var _slider2 = _interopRequireDefault(_slider);
+	var _index84 = _interopRequireDefault(_index83);
 
-	var _loading = __webpack_require__(253);
+	var _index85 = __webpack_require__(253);
 
-	var _loading2 = _interopRequireDefault(_loading);
+	var _index86 = _interopRequireDefault(_index85);
 
-	var _icon = __webpack_require__(259);
+	var _index87 = __webpack_require__(259);
 
-	var _icon2 = _interopRequireDefault(_icon);
+	var _index88 = _interopRequireDefault(_index87);
 
-	var _row = __webpack_require__(263);
+	var _index89 = __webpack_require__(263);
 
-	var _row2 = _interopRequireDefault(_row);
+	var _index90 = _interopRequireDefault(_index89);
 
-	var _col = __webpack_require__(267);
+	var _index91 = __webpack_require__(267);
 
-	var _col2 = _interopRequireDefault(_col);
+	var _index92 = _interopRequireDefault(_index91);
 
-	var _upload = __webpack_require__(269);
+	var _index93 = __webpack_require__(269);
 
-	var _upload2 = _interopRequireDefault(_upload);
+	var _index94 = _interopRequireDefault(_index93);
 
-	var _progress = __webpack_require__(285);
+	var _index95 = __webpack_require__(285);
 
-	var _progress2 = _interopRequireDefault(_progress);
+	var _index96 = _interopRequireDefault(_index95);
 
-	var _spinner = __webpack_require__(289);
+	var _index97 = __webpack_require__(289);
 
-	var _spinner2 = _interopRequireDefault(_spinner);
+	var _index98 = _interopRequireDefault(_index97);
 
-	var _message = __webpack_require__(293);
+	var _index99 = __webpack_require__(293);
 
-	var _message2 = _interopRequireDefault(_message);
+	var _index100 = _interopRequireDefault(_index99);
 
-	var _badge = __webpack_require__(303);
+	var _index101 = __webpack_require__(303);
 
-	var _badge2 = _interopRequireDefault(_badge);
+	var _index102 = _interopRequireDefault(_index101);
 
-	var _card = __webpack_require__(307);
+	var _index103 = __webpack_require__(307);
 
-	var _card2 = _interopRequireDefault(_card);
+	var _index104 = _interopRequireDefault(_index103);
 
-	var _rate = __webpack_require__(311);
+	var _index105 = __webpack_require__(311);
 
-	var _rate2 = _interopRequireDefault(_rate);
+	var _index106 = _interopRequireDefault(_index105);
 
-	var _steps = __webpack_require__(315);
+	var _index107 = __webpack_require__(315);
 
-	var _steps2 = _interopRequireDefault(_steps);
+	var _index108 = _interopRequireDefault(_index107);
 
-	var _step = __webpack_require__(319);
+	var _index109 = __webpack_require__(319);
 
-	var _step2 = _interopRequireDefault(_step);
+	var _index110 = _interopRequireDefault(_index109);
 
-	var _carousel = __webpack_require__(323);
+	var _index111 = __webpack_require__(323);
 
-	var _carousel2 = _interopRequireDefault(_carousel);
+	var _index112 = _interopRequireDefault(_index111);
 
-	var _scrollbar = __webpack_require__(327);
+	var _index113 = __webpack_require__(327);
 
-	var _scrollbar2 = _interopRequireDefault(_scrollbar);
+	var _index114 = _interopRequireDefault(_index113);
 
-	var _carouselItem = __webpack_require__(332);
+	var _index115 = __webpack_require__(332);
 
-	var _carouselItem2 = _interopRequireDefault(_carouselItem);
+	var _index116 = _interopRequireDefault(_index115);
 
-	var _collapse = __webpack_require__(336);
+	var _index117 = __webpack_require__(336);
 
-	var _collapse2 = _interopRequireDefault(_collapse);
+	var _index118 = _interopRequireDefault(_index117);
 
-	var _collapseItem = __webpack_require__(340);
+	var _index119 = __webpack_require__(340);
 
-	var _collapseItem2 = _interopRequireDefault(_collapseItem);
+	var _index120 = _interopRequireDefault(_index119);
 
-	var _cascader = __webpack_require__(344);
+	var _index121 = __webpack_require__(344);
 
-	var _cascader2 = _interopRequireDefault(_cascader);
+	var _index122 = _interopRequireDefault(_index121);
 
-	var _colorPicker = __webpack_require__(351);
+	var _index123 = __webpack_require__(351);
 
-	var _colorPicker2 = _interopRequireDefault(_colorPicker);
+	var _index124 = _interopRequireDefault(_index123);
 
 	var _locale = __webpack_require__(106);
 
@@ -308,7 +308,7 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var components = [_pagination2.default, _dialog2.default, _autocomplete2.default, _dropdown2.default, _dropdownMenu2.default, _dropdownItem2.default, _menu2.default, _submenu2.default, _menuItem2.default, _menuItemGroup2.default, _input2.default, _inputNumber2.default, _radio2.default, _radioGroup2.default, _radioButton2.default, _checkbox2.default, _checkboxGroup2.default, _switch2.default, _select2.default, _option2.default, _optionGroup2.default, _button2.default, _buttonGroup2.default, _table2.default, _tableColumn2.default, _datePicker2.default, _timeSelect2.default, _timePicker2.default, _popover2.default, _tooltip2.default, _breadcrumb2.default, _breadcrumbItem2.default, _form2.default, _formItem2.default, _tabs2.default, _tabPane2.default, _tag2.default, _tree2.default, _alert2.default, _slider2.default, _icon2.default, _row2.default, _col2.default, _upload2.default, _progress2.default, _spinner2.default, _badge2.default, _card2.default, _rate2.default, _steps2.default, _step2.default, _carousel2.default, _scrollbar2.default, _carouselItem2.default, _collapse2.default, _collapseItem2.default, _cascader2.default, _colorPicker2.default]; /* Automatic generated by './build/bin/build-entry.js' */
+	var components = [_index2.default, _index4.default, _index6.default, _index8.default, _index10.default, _index12.default, _index14.default, _index16.default, _index18.default, _index20.default, _index22.default, _index24.default, _index26.default, _index28.default, _index30.default, _index32.default, _index34.default, _index36.default, _index38.default, _index40.default, _index42.default, _index44.default, _index46.default, _index48.default, _index50.default, _index52.default, _index54.default, _index56.default, _index58.default, _index60.default, _index64.default, _index66.default, _index68.default, _index70.default, _index72.default, _index74.default, _index76.default, _index78.default, _index80.default, _index84.default, _index88.default, _index90.default, _index92.default, _index94.default, _index96.default, _index98.default, _index102.default, _index104.default, _index106.default, _index108.default, _index110.default, _index112.default, _index114.default, _index116.default, _index118.default, _index120.default, _index122.default, _index124.default]; /* Automatic generated by './build/bin/build-entry.js' */
 
 	var install = function install(Vue) {
 	  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -322,15 +322,15 @@ module.exports =
 	    Vue.component(component.name, component);
 	  });
 
-	  Vue.use(_loading2.default.directive);
+	  Vue.use(_index86.default.directive);
 
-	  Vue.prototype.$loading = _loading2.default.service;
-	  Vue.prototype.$msgbox = _messageBox2.default;
-	  Vue.prototype.$alert = _messageBox2.default.alert;
-	  Vue.prototype.$confirm = _messageBox2.default.confirm;
-	  Vue.prototype.$prompt = _messageBox2.default.prompt;
-	  Vue.prototype.$notify = _notification2.default;
-	  Vue.prototype.$message = _message2.default;
+	  Vue.prototype.$loading = _index86.default.service;
+	  Vue.prototype.$msgbox = _index62.default;
+	  Vue.prototype.$alert = _index62.default.alert;
+	  Vue.prototype.$confirm = _index62.default.confirm;
+	  Vue.prototype.$prompt = _index62.default.prompt;
+	  Vue.prototype.$notify = _index82.default;
+	  Vue.prototype.$message = _index100.default;
 	};
 
 	/* istanbul ignore if */
@@ -339,72 +339,72 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.2.5',
+	  version: '1.2.6',
 	  locale: _locale2.default.use,
 	  i18n: _locale2.default.i18n,
 	  install: install,
-	  Loading: _loading2.default,
-	  Pagination: _pagination2.default,
-	  Dialog: _dialog2.default,
-	  Autocomplete: _autocomplete2.default,
-	  Dropdown: _dropdown2.default,
-	  DropdownMenu: _dropdownMenu2.default,
-	  DropdownItem: _dropdownItem2.default,
-	  Menu: _menu2.default,
-	  Submenu: _submenu2.default,
-	  MenuItem: _menuItem2.default,
-	  MenuItemGroup: _menuItemGroup2.default,
-	  Input: _input2.default,
-	  InputNumber: _inputNumber2.default,
-	  Radio: _radio2.default,
-	  RadioGroup: _radioGroup2.default,
-	  RadioButton: _radioButton2.default,
-	  Checkbox: _checkbox2.default,
-	  CheckboxGroup: _checkboxGroup2.default,
-	  Switch: _switch2.default,
-	  Select: _select2.default,
-	  Option: _option2.default,
-	  OptionGroup: _optionGroup2.default,
-	  Button: _button2.default,
-	  ButtonGroup: _buttonGroup2.default,
-	  Table: _table2.default,
-	  TableColumn: _tableColumn2.default,
-	  DatePicker: _datePicker2.default,
-	  TimeSelect: _timeSelect2.default,
-	  TimePicker: _timePicker2.default,
-	  Popover: _popover2.default,
-	  Tooltip: _tooltip2.default,
-	  MessageBox: _messageBox2.default,
-	  Breadcrumb: _breadcrumb2.default,
-	  BreadcrumbItem: _breadcrumbItem2.default,
-	  Form: _form2.default,
-	  FormItem: _formItem2.default,
-	  Tabs: _tabs2.default,
-	  TabPane: _tabPane2.default,
-	  Tag: _tag2.default,
-	  Tree: _tree2.default,
-	  Alert: _alert2.default,
-	  Notification: _notification2.default,
-	  Slider: _slider2.default,
-	  Icon: _icon2.default,
-	  Row: _row2.default,
-	  Col: _col2.default,
-	  Upload: _upload2.default,
-	  Progress: _progress2.default,
-	  Spinner: _spinner2.default,
-	  Message: _message2.default,
-	  Badge: _badge2.default,
-	  Card: _card2.default,
-	  Rate: _rate2.default,
-	  Steps: _steps2.default,
-	  Step: _step2.default,
-	  Carousel: _carousel2.default,
-	  Scrollbar: _scrollbar2.default,
-	  CarouselItem: _carouselItem2.default,
-	  Collapse: _collapse2.default,
-	  CollapseItem: _collapseItem2.default,
-	  Cascader: _cascader2.default,
-	  ColorPicker: _colorPicker2.default
+	  Loading: _index86.default,
+	  Pagination: _index2.default,
+	  Dialog: _index4.default,
+	  Autocomplete: _index6.default,
+	  Dropdown: _index8.default,
+	  DropdownMenu: _index10.default,
+	  DropdownItem: _index12.default,
+	  Menu: _index14.default,
+	  Submenu: _index16.default,
+	  MenuItem: _index18.default,
+	  MenuItemGroup: _index20.default,
+	  Input: _index22.default,
+	  InputNumber: _index24.default,
+	  Radio: _index26.default,
+	  RadioGroup: _index28.default,
+	  RadioButton: _index30.default,
+	  Checkbox: _index32.default,
+	  CheckboxGroup: _index34.default,
+	  Switch: _index36.default,
+	  Select: _index38.default,
+	  Option: _index40.default,
+	  OptionGroup: _index42.default,
+	  Button: _index44.default,
+	  ButtonGroup: _index46.default,
+	  Table: _index48.default,
+	  TableColumn: _index50.default,
+	  DatePicker: _index52.default,
+	  TimeSelect: _index54.default,
+	  TimePicker: _index56.default,
+	  Popover: _index58.default,
+	  Tooltip: _index60.default,
+	  MessageBox: _index62.default,
+	  Breadcrumb: _index64.default,
+	  BreadcrumbItem: _index66.default,
+	  Form: _index68.default,
+	  FormItem: _index70.default,
+	  Tabs: _index72.default,
+	  TabPane: _index74.default,
+	  Tag: _index76.default,
+	  Tree: _index78.default,
+	  Alert: _index80.default,
+	  Notification: _index82.default,
+	  Slider: _index84.default,
+	  Icon: _index88.default,
+	  Row: _index90.default,
+	  Col: _index92.default,
+	  Upload: _index94.default,
+	  Progress: _index96.default,
+	  Spinner: _index98.default,
+	  Message: _index100.default,
+	  Badge: _index102.default,
+	  Card: _index104.default,
+	  Rate: _index106.default,
+	  Steps: _index108.default,
+	  Step: _index110.default,
+	  Carousel: _index112.default,
+	  Scrollbar: _index114.default,
+	  CarouselItem: _index116.default,
+	  Collapse: _index118.default,
+	  CollapseItem: _index120.default,
+	  Cascader: _index122.default,
+	  ColorPicker: _index124.default
 	};
 
 /***/ },
@@ -3646,6 +3646,7 @@ module.exports =
 	        (0, _dom.on)(el, 'mousedown', function () {
 	          startTime = new Date();
 	          (0, _dom.once)(document, 'mouseup', clear);
+	          clearInterval(interval);
 	          interval = setInterval(handler, 100);
 	        });
 	      }
@@ -4776,10 +4777,7 @@ module.exports =
 	  },
 	  data: function data() {
 	    return {
-	      coreWidth: this.width,
-	      buttonStyle: {
-	        transform: ''
-	      }
+	      coreWidth: this.width
 	    };
 	  },
 
@@ -4796,6 +4794,9 @@ module.exports =
 	      set: function set(val) {
 	        this.$emit('input', val);
 	      }
+	    },
+	    transform: function transform() {
+	      return this.value ? 'translate(' + (this.coreWidth - 20) + 'px, 2px)' : 'translate(2px, 2px)';
 	    }
 	  },
 	  watch: {
@@ -4803,15 +4804,11 @@ module.exports =
 	      if (this.onColor || this.offColor) {
 	        this.setBackgroundColor();
 	      }
-	      this.handleButtonTransform();
 	    }
 	  },
 	  methods: {
 	    handleChange: function handleChange(event) {
 	      this.$emit('change', event.currentTarget.checked);
-	    },
-	    handleButtonTransform: function handleButtonTransform() {
-	      this.buttonStyle.transform = this.value ? 'translate(' + (this.coreWidth - 20) + 'px, 2px)' : 'translate(2px, 2px)';
 	    },
 	    setBackgroundColor: function setBackgroundColor() {
 	      var newColor = this.value ? this.onColor : this.offColor;
@@ -4824,7 +4821,6 @@ module.exports =
 	    if (this.width === 0) {
 	      this.coreWidth = this.hasText ? 58 : 46;
 	    }
-	    this.handleButtonTransform();
 	    if (this.onColor || this.offColor) {
 	      this.setBackgroundColor();
 	    }
@@ -4891,7 +4887,9 @@ module.exports =
 	    })
 	  }, [_c('span', {
 	    staticClass: "el-switch__button",
-	    style: (_vm.buttonStyle)
+	    style: ({
+	      transform: _vm.transform
+	    })
 	  })]), _c('transition', {
 	    attrs: {
 	      "name": "label-fade"
@@ -5587,6 +5585,7 @@ module.exports =
 	      var index = this.selected.indexOf(tag);
 	      if (index > -1 && !this.disabled) {
 	        this.value.splice(index, 1);
+	        this.$emit('remove-tag', tag);
 	      }
 	      event.stopPropagation();
 	    },
@@ -5649,8 +5648,8 @@ module.exports =
 	      }
 	    });
 	  },
-	  destroyed: function destroyed() {
-	    if (this.handleResize) (0, _resizeEvent.removeResizeListener)(this.$el, this.handleResize);
+	  beforeDestroy: function beforeDestroy() {
+	    if (this.$el && this.handleResize) (0, _resizeEvent.removeResizeListener)(this.$el, this.handleResize);
 	  }
 	};
 
@@ -6853,7 +6852,7 @@ module.exports =
 	    var _this3 = this;
 
 	    this.tableId = 'el-table_' + tableIdSeed + '_';
-	    this.debouncedLayout = (0, _debounce2.default)(50, function () {
+	    this.debouncedLayout = (0, _debounce2.default)(50, true, function () {
 	      return _this3.doLayout();
 	    });
 	  },
@@ -9849,6 +9848,7 @@ module.exports =
 	  month: 'yyyy-MM',
 	  datetime: 'yyyy-MM-dd HH:mm:ss',
 	  time: 'HH:mm:ss',
+	  week: 'yyyywWW',
 	  timerange: 'HH:mm:ss',
 	  daterange: 'yyyy-MM-dd',
 	  datetimerange: 'yyyy-MM-dd HH:mm:ss',
@@ -9894,12 +9894,12 @@ module.exports =
 	    }
 	  },
 	  week: {
-	    formatter: function formatter(value) {
-	      if (value instanceof Date) {
-	        var weekNumber = (0, _util.getWeekNumber)(value);
-	        return value.getFullYear() + 'w' + (weekNumber > 9 ? weekNumber : '0' + weekNumber);
-	      }
-	      return value;
+	    formatter: function formatter(value, format) {
+	      var date = (0, _util.formatDate)(value, format);
+	      var week = (0, _util.getWeekNumber)(value);
+
+	      date = /WW/.test(date) ? date.replace(/WW/, week < 10 ? '0' + week : week) : date.replace(/W/, week);
+	      return date;
 	    },
 	    parser: function parser(text) {
 	      var array = (text || '').split('w');
@@ -10183,7 +10183,7 @@ module.exports =
 	      if (!this.picker) {
 	        (function () {
 	          _this.panel.defaultValue = _this.currentValue;
-	          _this.picker = new _vue2.default(_this.panel).$mount(document.createElement('div'));
+	          _this.picker = new _vue2.default(_this.panel).$mount();
 	          _this.picker.popperClass = _this.popperClass;
 	          _this.popperElm = _this.picker.$el;
 	          _this.picker.width = _this.reference.getBoundingClientRect().width;
@@ -10595,14 +10595,13 @@ module.exports =
 	        if (this.currentView !== 'year' || this.currentView !== 'month') {
 	          this.currentView = 'month';
 	        }
+	      } else if (newVal === 'week') {
+	        this.week = (0, _util.getWeekNumber)(this.date);
 	      }
 	    },
 	    date: function date(newVal) {
-	      /* istanbul ignore next */
-	      if (!this.year) {
-	        this.year = newVal.getFullYear();
-	        this.month = newVal.getMonth();
-	      }
+	      this.year = newVal.getFullYear();
+	      this.month = newVal.getMonth();
 	    }
 	  },
 
@@ -10708,12 +10707,8 @@ module.exports =
 	        this.date.setMonth(value.getMonth());
 	        this.date.setDate(value.getDate());
 	      } else if (this.selectionMode === 'week') {
-	        var date = (0, _util.formatDate)(value.date, this.format || 'yyyywWW');
-	        var week = this.week = value.week;
-
-	        date = /WW/.test(date) ? date.replace(/WW/, week < 10 ? '0' + week : week) : date.replace(/W/, week);
-
-	        this.$emit('pick', date);
+	        this.week = value.week;
+	        this.$emit('pick', value.date);
 	      }
 
 	      this.resetDate();
@@ -10762,10 +10757,6 @@ module.exports =
 	  },
 
 	  mounted: function mounted() {
-	    if (this.selectionMode === 'month') {
-	      this.currentView = 'month';
-	    }
-
 	    if (this.date && !this.year) {
 	      this.year = this.date.getFullYear();
 	      this.month = this.date.getMonth();
@@ -10850,7 +10841,6 @@ module.exports =
 	    }
 	  }
 	}; //
-	//
 	//
 	//
 	//
@@ -12028,9 +12018,7 @@ module.exports =
 	          column: null
 	        };
 	      }
-	    },
-
-	    value: {}
+	    }
 	  },
 
 	  computed: {
@@ -12412,7 +12400,7 @@ module.exports =
 	    return _c('tr', {
 	      staticClass: "el-date-table__row",
 	      class: {
-	        current: _vm.value && _vm.isWeekActive(row[1])
+	        current: _vm.isWeekActive(row[1])
 	      }
 	    }, _vm._l((row), function(cell) {
 	      return _c('td', {
@@ -12600,7 +12588,6 @@ module.exports =
 	      "year": _vm.year,
 	      "month": _vm.month,
 	      "date": _vm.date,
-	      "value": _vm.value,
 	      "week": _vm.week,
 	      "selection-mode": _vm.selectionMode,
 	      "first-day-of-week": _vm.firstDayOfWeek,
@@ -12926,9 +12913,9 @@ module.exports =
 	      if (this.maxDate === val.maxDate && this.minDate === val.minDate) {
 	        return;
 	      }
+	      this.onPick && this.onPick(val);
 	      this.maxDate = val.maxDate;
 	      this.minDate = val.minDate;
-
 	      if (!close || this.showTime) return;
 	      this.handleConfirm();
 	    },
@@ -13916,6 +13903,9 @@ module.exports =
 	      MIN_TIME.setFullYear(this.minTime.getFullYear());
 	      MIN_TIME.setMonth(this.minTime.getMonth());
 	      MIN_TIME.setDate(this.minTime.getDate());
+	      MAX_TIME.setFullYear(this.maxTime.getFullYear());
+	      MAX_TIME.setMonth(this.maxTime.getMonth());
+	      MAX_TIME.setDate(this.maxTime.getDate());
 	      this.$refs.minSpinner.selectableRange = [[MIN_TIME, this.maxTime]];
 	      this.$refs.maxSpinner.selectableRange = [[this.minTime, MAX_TIME]];
 	      this.handleConfirm(true);
@@ -14202,8 +14192,6 @@ module.exports =
 	  },
 
 	  mounted: function mounted() {
-	    var _this = this;
-
 	    var reference = this.reference || this.$refs.reference;
 	    var popper = this.popper || this.$refs.popper;
 
@@ -14211,9 +14199,7 @@ module.exports =
 	      reference = this.referenceElm = this.$slots.reference[0].elm;
 	    }
 	    if (this.trigger === 'click') {
-	      (0, _dom.on)(reference, 'click', function () {
-	        _this.showPopper = !_this.showPopper;
-	      });
+	      (0, _dom.on)(reference, 'click', this.doToggle);
 	      (0, _dom.on)(document, 'click', this.handleDocumentClick);
 	    } else if (this.trigger === 'hover') {
 	      (0, _dom.on)(reference, 'mouseenter', this.handleMouseEnter);
@@ -14228,12 +14214,8 @@ module.exports =
 	        var len = children.length;
 	        for (var i = 0; i < len; i++) {
 	          if (children[i].nodeName === 'INPUT' || children[i].nodeName === 'TEXTAREA') {
-	            (0, _dom.on)(children[i], 'focus', function () {
-	              _this.showPopper = true;
-	            });
-	            (0, _dom.on)(children[i], 'blur', function () {
-	              _this.showPopper = false;
-	            });
+	            (0, _dom.on)(children[i], 'focus', this.doShow);
+	            (0, _dom.on)(children[i], 'blur', this.doClose);
 	            found = true;
 	            break;
 	          }
@@ -14241,34 +14223,35 @@ module.exports =
 	      }
 	      if (found) return;
 	      if (reference.nodeName === 'INPUT' || reference.nodeName === 'TEXTAREA') {
-	        (0, _dom.on)(reference, 'focus', function () {
-	          _this.showPopper = true;
-	        });
-	        (0, _dom.on)(reference, 'blur', function () {
-	          _this.showPopper = false;
-	        });
+	        (0, _dom.on)(reference, 'focus', this.doShow);
+	        (0, _dom.on)(reference, 'blur', this.doClose);
 	      } else {
-	        (0, _dom.on)(reference, 'mousedown', function () {
-	          _this.showPopper = true;
-	        });
-	        (0, _dom.on)(reference, 'mouseup', function () {
-	          _this.showPopper = false;
-	        });
+	        (0, _dom.on)(reference, 'mousedown', this.doShow);
+	        (0, _dom.on)(reference, 'mouseup', this.doClose);
 	      }
 	    }
 	  },
 
 
 	  methods: {
+	    doToggle: function doToggle() {
+	      this.showPopper = !this.showPopper;
+	    },
+	    doShow: function doShow() {
+	      this.showPopper = true;
+	    },
+	    doClose: function doClose() {
+	      this.showPopper = false;
+	    },
 	    handleMouseEnter: function handleMouseEnter() {
 	      this.showPopper = true;
 	      clearTimeout(this._timer);
 	    },
 	    handleMouseLeave: function handleMouseLeave() {
-	      var _this2 = this;
+	      var _this = this;
 
 	      this._timer = setTimeout(function () {
-	        _this2.showPopper = false;
+	        _this.showPopper = false;
 	      }, 200);
 	    },
 	    handleDocumentClick: function handleDocumentClick(e) {
@@ -14286,12 +14269,13 @@ module.exports =
 	  destroyed: function destroyed() {
 	    var reference = this.reference;
 
-	    (0, _dom.off)(reference, 'mouseup');
-	    (0, _dom.off)(reference, 'mousedown');
-	    (0, _dom.off)(reference, 'focus');
-	    (0, _dom.off)(reference, 'blur');
-	    (0, _dom.off)(reference, 'mouseleave');
-	    (0, _dom.off)(reference, 'mouseenter');
+	    (0, _dom.off)(reference, 'click', this.doToggle);
+	    (0, _dom.off)(reference, 'mouseup', this.doClose);
+	    (0, _dom.off)(reference, 'mousedown', this.doShow);
+	    (0, _dom.off)(reference, 'focus', this.doShow);
+	    (0, _dom.off)(reference, 'blur', this.doClose);
+	    (0, _dom.off)(reference, 'mouseleave', this.handleMouseLeave);
+	    (0, _dom.off)(reference, 'mouseenter', this.handleMouseEnter);
 	    (0, _dom.off)(document, 'click', this.handleDocumentClick);
 	  }
 	};
@@ -18837,7 +18821,7 @@ module.exports =
 	    onDragStart: function onDragStart(event) {
 	      this.dragging = true;
 	      this.startX = event.clientX;
-	      this.startPosition = parseInt(this.currentPosition, 10);
+	      this.startPosition = parseFloat(this.currentPosition);
 	    },
 	    onDragging: function onDragging(event) {
 	      if (this.dragging) {
@@ -19913,7 +19897,10 @@ module.exports =
 	      this.onError(err, file, this.uploadFiles);
 	      this.onChange(file, this.uploadFiles);
 	    },
-	    handleRemove: function handleRemove(file) {
+	    handleRemove: function handleRemove(file, raw) {
+	      if (raw) {
+	        file = this.getFile(raw);
+	      }
 	      var fileList = this.uploadFiles;
 	      fileList.splice(fileList.indexOf(file), 1);
 	      this.onRemove(file, fileList);
@@ -19936,7 +19923,7 @@ module.exports =
 	      this.uploadFiles.filter(function (file) {
 	        return file.status === 'ready';
 	      }).forEach(function (file) {
-	        _this2.$refs['upload-inner'].upload(file.raw, file);
+	        _this2.$refs['upload-inner'].upload(file.raw);
 	      });
 	    },
 	    getMigratingConfig: function getMigratingConfig() {
@@ -20333,10 +20320,8 @@ module.exports =
 	      }
 
 	      postFiles.forEach(function (rawFile) {
-	        if (!_this.thumbnailMode || _this.isImage(rawFile.type)) {
-	          _this.onStart(rawFile);
-	          if (_this.autoUpload) _this.upload(rawFile);
-	        }
+	        _this.onStart(rawFile);
+	        if (_this.autoUpload) _this.upload(rawFile);
 	      });
 	    },
 	    upload: function upload(rawFile, file) {
@@ -20355,12 +20340,12 @@ module.exports =
 	            _this2.post(rawFile);
 	          }
 	        }, function () {
-	          if (file) _this2.onRemove(file);
+	          _this2.onRemove(rawFile, true);
 	        });
 	      } else if (before !== false) {
 	        this.post(rawFile);
 	      } else {
-	        if (file) this.onRemove(file);
+	        this.onRemove(rawFile, true);
 	      }
 	    },
 	    post: function post(rawFile) {
@@ -21776,7 +21761,7 @@ module.exports =
 	    },
 	    textColor: {
 	      type: String,
-	      default: '1f2d3d'
+	      default: '#1f2d3d'
 	    },
 	    texts: {
 	      type: Array,
@@ -22212,10 +22197,7 @@ module.exports =
 	    title: String,
 	    icon: String,
 	    description: String,
-	    status: {
-	      type: String,
-	      default: 'wait'
-	    }
+	    status: String
 	  },
 
 	  data: function data() {
@@ -22225,7 +22207,7 @@ module.exports =
 	      lineStyle: {},
 	      mainOffset: 0,
 	      isLast: false,
-	      currentStatus: this.status
+	      internalStatus: ''
 	    };
 	  },
 	  beforeCreate: function beforeCreate() {
@@ -22233,19 +22215,25 @@ module.exports =
 	  },
 
 
+	  computed: {
+	    currentStatus: function currentStatus() {
+	      return this.status || this.internalStatus;
+	    }
+	  },
+
 	  methods: {
 	    updateStatus: function updateStatus(val) {
 	      var prevChild = this.$parent.$children[this.index - 1];
 
 	      if (val > this.index) {
-	        this.currentStatus = this.$parent.finishStatus;
+	        this.internalStatus = this.$parent.finishStatus;
 	      } else if (val === this.index) {
-	        this.currentStatus = this.$parent.processStatus;
+	        this.internalStatus = this.$parent.processStatus;
 	      } else {
-	        this.currentStatus = 'wait';
+	        this.internalStatus = 'wait';
 	      }
 
-	      if (prevChild) prevChild.calcProgress(this.currentStatus);
+	      if (prevChild) prevChild.calcProgress(this.internalStatus);
 	    },
 	    calcProgress: function calcProgress(status) {
 	      var step = 100;
@@ -22259,6 +22247,7 @@ module.exports =
 	        style.transitionDelay = -150 * this.index + 'ms';
 	      }
 
+	      style.borderWidth = step ? '1px' : 0;
 	      this.$parent.direction === 'vertical' ? style.height = step + '%' : style.width = step + '%';
 
 	      this.lineStyle = style;

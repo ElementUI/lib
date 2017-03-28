@@ -242,6 +242,7 @@ module.exports =
 	        (0, _dom.on)(el, 'mousedown', function () {
 	          startTime = new Date();
 	          (0, _dom.once)(document, 'mouseup', clear);
+	          clearInterval(interval);
 	          interval = setInterval(handler, 100);
 	        });
 	      }

@@ -340,7 +340,10 @@ module.exports =
 	      this.onError(err, file, this.uploadFiles);
 	      this.onChange(file, this.uploadFiles);
 	    },
-	    handleRemove: function handleRemove(file) {
+	    handleRemove: function handleRemove(file, raw) {
+	      if (raw) {
+	        file = this.getFile(raw);
+	      }
 	      var fileList = this.uploadFiles;
 	      fileList.splice(fileList.indexOf(file), 1);
 	      this.onRemove(file, fileList);
@@ -363,7 +366,7 @@ module.exports =
 	      this.uploadFiles.filter(function (file) {
 	        return file.status === 'ready';
 	      }).forEach(function (file) {
-	        _this2.$refs['upload-inner'].upload(file.raw, file);
+	        _this2.$refs['upload-inner'].upload(file.raw);
 	      });
 	    },
 	    getMigratingConfig: function getMigratingConfig() {
@@ -766,10 +769,8 @@ module.exports =
 	      }
 
 	      postFiles.forEach(function (rawFile) {
-	        if (!_this.thumbnailMode || _this.isImage(rawFile.type)) {
-	          _this.onStart(rawFile);
-	          if (_this.autoUpload) _this.upload(rawFile);
-	        }
+	        _this.onStart(rawFile);
+	        if (_this.autoUpload) _this.upload(rawFile);
 	      });
 	    },
 	    upload: function upload(rawFile, file) {
@@ -788,12 +789,12 @@ module.exports =
 	            _this2.post(rawFile);
 	          }
 	        }, function () {
-	          if (file) _this2.onRemove(file);
+	          _this2.onRemove(rawFile, true);
 	        });
 	      } else if (before !== false) {
 	        this.post(rawFile);
 	      } else {
-	        if (file) this.onRemove(file);
+	        this.onRemove(rawFile, true);
 	      }
 	    },
 	    post: function post(rawFile) {

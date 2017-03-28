@@ -233,10 +233,7 @@ module.exports =
 	  },
 	  data: function data() {
 	    return {
-	      coreWidth: this.width,
-	      buttonStyle: {
-	        transform: ''
-	      }
+	      coreWidth: this.width
 	    };
 	  },
 
@@ -253,6 +250,9 @@ module.exports =
 	      set: function set(val) {
 	        this.$emit('input', val);
 	      }
+	    },
+	    transform: function transform() {
+	      return this.value ? 'translate(' + (this.coreWidth - 20) + 'px, 2px)' : 'translate(2px, 2px)';
 	    }
 	  },
 	  watch: {
@@ -260,15 +260,11 @@ module.exports =
 	      if (this.onColor || this.offColor) {
 	        this.setBackgroundColor();
 	      }
-	      this.handleButtonTransform();
 	    }
 	  },
 	  methods: {
 	    handleChange: function handleChange(event) {
 	      this.$emit('change', event.currentTarget.checked);
-	    },
-	    handleButtonTransform: function handleButtonTransform() {
-	      this.buttonStyle.transform = this.value ? 'translate(' + (this.coreWidth - 20) + 'px, 2px)' : 'translate(2px, 2px)';
 	    },
 	    setBackgroundColor: function setBackgroundColor() {
 	      var newColor = this.value ? this.onColor : this.offColor;
@@ -281,7 +277,6 @@ module.exports =
 	    if (this.width === 0) {
 	      this.coreWidth = this.hasText ? 58 : 46;
 	    }
-	    this.handleButtonTransform();
 	    if (this.onColor || this.offColor) {
 	      this.setBackgroundColor();
 	    }
@@ -349,7 +344,9 @@ module.exports =
 	    })
 	  }, [_c('span', {
 	    staticClass: "el-switch__button",
-	    style: (_vm.buttonStyle)
+	    style: ({
+	      transform: _vm.transform
+	    })
 	  })]), _c('transition', {
 	    attrs: {
 	      "name": "label-fade"

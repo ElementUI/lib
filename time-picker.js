@@ -248,6 +248,7 @@ module.exports =
 	  month: 'yyyy-MM',
 	  datetime: 'yyyy-MM-dd HH:mm:ss',
 	  time: 'HH:mm:ss',
+	  week: 'yyyywWW',
 	  timerange: 'HH:mm:ss',
 	  daterange: 'yyyy-MM-dd',
 	  datetimerange: 'yyyy-MM-dd HH:mm:ss',
@@ -293,12 +294,12 @@ module.exports =
 	    }
 	  },
 	  week: {
-	    formatter: function formatter(value) {
-	      if (value instanceof Date) {
-	        var weekNumber = (0, _util.getWeekNumber)(value);
-	        return value.getFullYear() + 'w' + (weekNumber > 9 ? weekNumber : '0' + weekNumber);
-	      }
-	      return value;
+	    formatter: function formatter(value, format) {
+	      var date = (0, _util.formatDate)(value, format);
+	      var week = (0, _util.getWeekNumber)(value);
+
+	      date = /WW/.test(date) ? date.replace(/WW/, week < 10 ? '0' + week : week) : date.replace(/W/, week);
+	      return date;
 	    },
 	    parser: function parser(text) {
 	      var array = (text || '').split('w');
@@ -582,7 +583,7 @@ module.exports =
 	      if (!this.picker) {
 	        (function () {
 	          _this.panel.defaultValue = _this.currentValue;
-	          _this.picker = new _vue2.default(_this.panel).$mount(document.createElement('div'));
+	          _this.picker = new _vue2.default(_this.panel).$mount();
 	          _this.picker.popperClass = _this.popperClass;
 	          _this.popperElm = _this.picker.$el;
 	          _this.picker.width = _this.reference.getBoundingClientRect().width;
@@ -1747,6 +1748,9 @@ module.exports =
 	      MIN_TIME.setFullYear(this.minTime.getFullYear());
 	      MIN_TIME.setMonth(this.minTime.getMonth());
 	      MIN_TIME.setDate(this.minTime.getDate());
+	      MAX_TIME.setFullYear(this.maxTime.getFullYear());
+	      MAX_TIME.setMonth(this.maxTime.getMonth());
+	      MAX_TIME.setDate(this.maxTime.getDate());
 	      this.$refs.minSpinner.selectableRange = [[MIN_TIME, this.maxTime]];
 	      this.$refs.maxSpinner.selectableRange = [[this.minTime, MAX_TIME]];
 	      this.handleConfirm(true);
