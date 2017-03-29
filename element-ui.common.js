@@ -339,7 +339,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.2.6',
+	  version: '1.2.7',
 	  locale: _locale2.default.use,
 	  i18n: _locale2.default.i18n,
 	  install: install,
@@ -6775,7 +6775,9 @@ module.exports =
 
 	    defaultExpandAll: Boolean,
 
-	    defaultSort: Object
+	    defaultSort: Object,
+
+	    tooltipEffect: String
 	  },
 
 	  components: {
@@ -7862,6 +7864,10 @@ module.exports =
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
+	var _debounce = __webpack_require__(104);
+
+	var _debounce2 = _interopRequireDefault(_debounce);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
@@ -7970,7 +7976,13 @@ module.exports =
 	              [_this.table.renderExpanded ? _this.table.renderExpanded(h, { row: row, $index: $index, store: _this.store }) : '']
 	            )]
 	          ) : ''];
-	        })]
+	        }).concat(h(
+	          'el-tooltip',
+	          {
+	            attrs: { effect: this.table.tooltipEffect, placement: 'top', content: this.tooltipContent },
+	            ref: 'tooltip' },
+	          []
+	        ))]
 	      )]
 	    );
 	  },
@@ -8035,8 +8047,13 @@ module.exports =
 
 	  data: function data() {
 	    return {
-	      tooltipDisabled: true
+	      tooltipContent: ''
 	    };
+	  },
+	  created: function created() {
+	    this.activateTooltip = (0, _debounce2.default)(50, function (tooltip) {
+	      return tooltip.handleShowPopper();
+	    });
 	  },
 
 
@@ -8089,9 +8106,17 @@ module.exports =
 	      // 判断是否text-overflow, 如果是就显示tooltip
 	      var cellChild = event.target.querySelector('.cell');
 
-	      this.tooltipDisabled = cellChild.scrollWidth <= cellChild.offsetWidth;
+	      if (cellChild.scrollWidth > cellChild.offsetWidth) {
+	        var tooltip = this.$refs.tooltip;
+
+	        this.tooltipContent = cell.innerText;
+	        tooltip.referenceElm = cell;
+	        tooltip.doDestroy();
+	        this.activateTooltip(tooltip);
+	      }
 	    },
 	    handleCellMouseLeave: function handleCellMouseLeave(event) {
+	      this.$refs.tooltip.handleClosePopper();
 	      var cell = (0, _util.getCell)(event);
 	      if (!cell) return;
 
@@ -9583,22 +9608,9 @@ module.exports =
 	      }
 
 	      return _self.showOverflowTooltip || _self.showTooltipWhenOverflow ? h(
-	        'el-tooltip',
-	        {
-	          attrs: {
-	            effect: this.effect,
-	            placement: 'top',
-	            disabled: this.tooltipDisabled }
-	        },
-	        [h(
-	          'div',
-	          { 'class': 'cell' },
-	          [renderCell(h, data)]
-	        ), h(
-	          'span',
-	          { slot: 'content' },
-	          [renderCell(h, data)]
-	        )]
+	        'div',
+	        { 'class': 'cell el-tooltip' },
+	        [renderCell(h, data)]
 	      ) : h(
 	        'div',
 	        { 'class': 'cell' },
@@ -22894,7 +22906,7 @@ module.exports =
 	    this.$nextTick(this.update);
 	    !this.noresize && (0, _resizeEvent.addResizeListener)(this.$refs.resize, this.update);
 	  },
-	  destroyed: function destroyed() {
+	  beforeDestroy: function beforeDestroy() {
 	    if (this.native) return;
 	    !this.noresize && (0, _resizeEvent.removeResizeListener)(this.$refs.resize, this.update);
 	  }

@@ -570,22 +570,9 @@ module.exports =
 	      }
 
 	      return _self.showOverflowTooltip || _self.showTooltipWhenOverflow ? h(
-	        'el-tooltip',
-	        {
-	          attrs: {
-	            effect: this.effect,
-	            placement: 'top',
-	            disabled: this.tooltipDisabled }
-	        },
-	        [h(
-	          'div',
-	          { 'class': 'cell' },
-	          [renderCell(h, data)]
-	        ), h(
-	          'span',
-	          { slot: 'content' },
-	          [renderCell(h, data)]
-	        )]
+	        'div',
+	        { 'class': 'cell el-tooltip' },
+	        [renderCell(h, data)]
 	      ) : h(
 	        'div',
 	        { 'class': 'cell' },

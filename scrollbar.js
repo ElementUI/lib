@@ -240,7 +240,7 @@ module.exports =
 	    this.$nextTick(this.update);
 	    !this.noresize && (0, _resizeEvent.addResizeListener)(this.$refs.resize, this.update);
 	  },
-	  destroyed: function destroyed() {
+	  beforeDestroy: function beforeDestroy() {
 	    if (this.native) return;
 	    !this.noresize && (0, _resizeEvent.removeResizeListener)(this.$refs.resize, this.update);
 	  }
