@@ -154,6 +154,20 @@ module.exports =
 
 /***/ },
 
+/***/ 117:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/dom");
+
+/***/ },
+
+/***/ 132:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/popup");
+
+/***/ },
+
 /***/ 256:
 /***/ function(module, exports) {
 
@@ -165,6 +179,13 @@ module.exports =
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
+
+/***/ },
+
+/***/ 274:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/tooltip");
 
 /***/ },
 
@@ -493,7 +514,7 @@ module.exports =
 	    var _this3 = this;
 
 	    this.tableId = 'el-table_' + tableIdSeed + '_';
-	    this.debouncedLayout = (0, _debounce2.default)(50, true, function () {
+	    this.debouncedLayout = (0, _debounce2.default)(50, function () {
 	      return _this3.doLayout();
 	    });
 	  },
@@ -607,8 +628,21 @@ module.exports =
 	    if (this.windowResizeListener) (0, _resizeEvent.removeResizeListener)(this.$el, this.windowResizeListener);
 	  },
 	  mounted: function mounted() {
+	    var _this4 = this;
+
 	    this.bindEvents();
 	    this.doLayout();
+
+	    // init filters
+	    this.store.states.columns.forEach(function (column) {
+	      if (column.filteredValue && column.filteredValue.length) {
+	        _this4.store.commit('filterChange', {
+	          column: column,
+	          values: column.filteredValue,
+	          silent: true
+	        });
+	      }
+	    });
 
 	    this.$ready = true;
 	  },
@@ -819,14 +853,15 @@ module.exports =
 	    var _this3 = this;
 
 	    var column = options.column,
-	        values = options.values;
+	        values = options.values,
+	        silent = options.silent;
 
 	    if (values && !Array.isArray(values)) {
 	      values = [values];
 	    }
 
 	    var prop = column.property;
-	    var filters = [];
+	    var filters = {};
 
 	    if (prop) {
 	      states.filters[column.id] = values;
@@ -851,7 +886,9 @@ module.exports =
 	    states.filteredData = data;
 	    states.data = sortData(data, states);
 
-	    this.table.$emit('filter-change', filters);
+	    if (!silent) {
+	      this.table.$emit('filter-change', filters);
+	    }
 
 	    _vue2.default.nextTick(function () {
 	      return _this3.table.updateScrollY();
@@ -875,6 +912,7 @@ module.exports =
 	      states.reserveSelection = column.reserveSelection;
 	    }
 
+	    this.updateColumns(); // hack for dynamics insert column
 	    this.scheduleLayout();
 	  },
 	  removeColumn: function removeColumn(states, column) {
@@ -883,6 +921,7 @@ module.exports =
 	      _columns.splice(_columns.indexOf(column), 1);
 	    }
 
+	    this.updateColumns(); // hack for dynamics remove column
 	    this.scheduleLayout();
 	  },
 	  setHoverRow: function setHoverRow(states, row) {
@@ -1486,9 +1525,15 @@ module.exports =
 
 	var _util = __webpack_require__(306);
 
+	var _dom = __webpack_require__(117);
+
 	var _checkbox = __webpack_require__(304);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
+
+	var _tooltip = __webpack_require__(274);
+
+	var _tooltip2 = _interopRequireDefault(_tooltip);
 
 	var _debounce = __webpack_require__(46);
 
@@ -1498,7 +1543,8 @@ module.exports =
 
 	exports.default = {
 	  components: {
-	    ElCheckbox: _checkbox2.default
+	    ElCheckbox: _checkbox2.default,
+	    ElTooltip: _tooltip2.default
 	  },
 
 	  props: {
@@ -1732,11 +1778,12 @@ module.exports =
 	      // 判断是否text-overflow, 如果是就显示tooltip
 	      var cellChild = event.target.querySelector('.cell');
 
-	      if (cellChild.scrollWidth > cellChild.offsetWidth) {
+	      if ((0, _dom.hasClass)(cellChild, 'el-tooltip') && cellChild.scrollWidth > cellChild.offsetWidth) {
 	        var tooltip = this.$refs.tooltip;
 
 	        this.tooltipContent = cell.innerText;
 	        tooltip.referenceElm = cell;
+	        tooltip.$refs.popper.style.display = 'none';
 	        tooltip.doDestroy();
 	        this.activateTooltip(tooltip);
 	      }
@@ -2324,6 +2371,8 @@ module.exports =
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
+	var _popup = __webpack_require__(132);
+
 	var _locale = __webpack_require__(60);
 
 	var _locale2 = _interopRequireDefault(_locale);
@@ -2345,39 +2394,6 @@ module.exports =
 	var _checkboxGroup2 = _interopRequireDefault(_checkboxGroup);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	exports.default = {
 	  name: 'ElTableFilterPanel',
@@ -2537,8 +2553,47 @@ module.exports =
 	        _dropdown2.default.close(_this);
 	      }
 	    });
+	  },
+
+	  watch: {
+	    showPopper: function showPopper(val) {
+	      if (val === true && parseInt(this.popperJS._popper.style.zIndex, 10) < _popup.PopupManager.zIndex) {
+	        this.popperJS._popper.style.zIndex = _popup.PopupManager.nextZIndex();
+	      }
+	    }
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 

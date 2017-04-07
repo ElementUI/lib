@@ -175,13 +175,6 @@ module.exports =
 
 /***/ },
 
-/***/ 164:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/merge");
-
-/***/ },
-
 /***/ 211:
 /***/ function(module, exports, __webpack_require__) {
 
@@ -275,10 +268,10 @@ module.exports =
 
 	  watch: {
 	    currentLabel: function currentLabel() {
-	      if (!this.created) this.dispatch('ElSelect', 'setSelected');
+	      if (!this.created && !this.parent.remote) this.dispatch('ElSelect', 'setSelected');
 	    },
 	    value: function value() {
-	      if (!this.created) this.dispatch('ElSelect', 'setSelected');
+	      if (!this.created && !this.parent.remote) this.dispatch('ElSelect', 'setSelected');
 	    }
 	  },
 
@@ -466,108 +459,106 @@ module.exports =
 
 	var _locale3 = __webpack_require__(61);
 
-	var _merge = __webpack_require__(164);
-
-	var _merge2 = _interopRequireDefault(_merge);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	var sizeMap = {
 	  'large': 42,
 	  'small': 30,
 	  'mini': 22
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 	exports.default = {
 	  mixins: [_emitter2.default, _locale2.default],
@@ -653,7 +644,7 @@ module.exports =
 	    return {
 	      options: [],
 	      cachedOptions: [],
-	      createdOption: null,
+	      createdLabel: null,
 	      createdSelected: false,
 	      selected: this.multiple ? [] : {},
 	      isSelect: true,
@@ -744,7 +735,7 @@ module.exports =
 	          this.getOverflows();
 	          if (this.selected) {
 	            if (this.filterable && this.allowCreate && this.createdSelected && this.createdOption) {
-	              this.selectedLabel = this.createdOption.currentLabel;
+	              this.selectedLabel = this.createdLabel;
 	            } else {
 	              this.selectedLabel = this.selected.currentLabel;
 	            }
@@ -847,7 +838,7 @@ module.exports =
 	      if (!this.multiple) {
 	        var option = this.getOption(this.value);
 	        if (option.created) {
-	          this.createdOption = (0, _merge2.default)({}, option);
+	          this.createdLabel = option.currentLabel;
 	          this.createdSelected = true;
 	        } else {
 	          this.createdSelected = false;

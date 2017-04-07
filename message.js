@@ -209,6 +209,12 @@ module.exports =
 	  }
 	};
 
+	Message.closeAll = function () {
+	  for (var i = instances.length - 1; i >= 0; i--) {
+	    instances[i].close();
+	  }
+	};
+
 	exports.default = Message;
 
 /***/ },

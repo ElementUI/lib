@@ -174,7 +174,9 @@ module.exports =
 	  mixins: [_emitter2.default],
 
 	  props: {
-	    value: {}
+	    value: {},
+	    min: Number,
+	    max: Number
 	  },
 
 	  watch: {

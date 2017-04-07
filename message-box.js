@@ -764,6 +764,12 @@ module.exports =
 	      "input": function($event) {
 	        _vm.inputValue = $event
 	      }
+	    },
+	    nativeOn: {
+	      "keyup": function($event) {
+	        if (_vm._k($event.keyCode, "enter", 13)) { return; }
+	        _vm.handleAction('confirm')
+	      }
 	    }
 	  }), _c('div', {
 	    staticClass: "el-message-box__errormsg",

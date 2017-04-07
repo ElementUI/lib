@@ -421,7 +421,7 @@ module.exports =
 	        'on-error': this.handleError,
 	        'on-preview': this.onPreview,
 	        'on-remove': this.handleRemove,
-	        httpRequest: this.httpRequest
+	        'http-request': this.httpRequest
 	      },
 	      ref: 'upload-inner'
 	    };
@@ -735,7 +735,10 @@ module.exports =
 	    fileList: Array,
 	    autoUpload: Boolean,
 	    listType: String,
-	    httpRequest: Function
+	    httpRequest: {
+	      type: Function,
+	      default: _ajax2.default
+	    }
 	  },
 
 	  data: function data() {
@@ -800,8 +803,7 @@ module.exports =
 	    post: function post(rawFile) {
 	      var _this3 = this;
 
-	      var request = this.httpRequest || _ajax2.default;
-	      request({
+	      var options = {
 	        headers: this.headers,
 	        withCredentials: this.withCredentials,
 	        file: rawFile,
@@ -817,7 +819,11 @@ module.exports =
 	        onError: function onError(err) {
 	          _this3.onError(err, rawFile);
 	        }
-	      });
+	      };
+	      var requestPromise = this.httpRequest(options);
+	      if (requestPromise && requestPromise.then) {
+	        requestPromise.then(options.onSuccess, options.onError);
+	      }
 	    },
 	    handleClick: function handleClick() {
 	      this.$refs.input.click();

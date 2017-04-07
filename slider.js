@@ -105,6 +105,13 @@ module.exports =
 
 /***/ },
 
+/***/ 14:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ },
+
 /***/ 117:
 /***/ function(module, exports) {
 
@@ -170,10 +177,61 @@ module.exports =
 
 	var _dom = __webpack_require__(117);
 
+	var _emitter = __webpack_require__(14);
+
+	var _emitter2 = _interopRequireDefault(_emitter);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElSlider',
+
+	  mixins: [_emitter2.default],
 
 	  props: {
 	    min: {
@@ -208,6 +266,7 @@ module.exports =
 	      type: Boolean,
 	      default: true
 	    },
+	    formatTooltip: Function,
 	    disabled: {
 	      type: Boolean,
 	      default: false
@@ -295,6 +354,7 @@ module.exports =
 	          this.secondValue = val[1];
 	          if (this.valueChanged()) {
 	            this.$emit('change', [this.minValue, this.maxValue]);
+	            this.dispatch('ElFormItem', 'el.form.change', [this.minValue, this.maxValue]);
 	            this.oldValue = val.slice();
 	          }
 	        }
@@ -307,6 +367,7 @@ module.exports =
 	          this.firstValue = val;
 	          if (this.valueChanged()) {
 	            this.$emit('change', val);
+	            this.dispatch('ElFormItem', 'el.form.change', val);
 	            this.oldValue = val;
 	          }
 	        }
@@ -396,50 +457,7 @@ module.exports =
 	      this.oldValue = this.firstValue;
 	    }
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 
@@ -530,6 +548,12 @@ module.exports =
 	    },
 	    currentPosition: function currentPosition() {
 	      return (this.value - this.min) / (this.max - this.min) * 100 + '%';
+	    },
+	    enableFormat: function enableFormat() {
+	      return this.$parent.formatTooltip instanceof Function;
+	    },
+	    formatValue: function formatValue() {
+	      return this.enableFormat && this.$parent.formatTooltip(this.value) || this.value;
 	    }
 	  },
 
@@ -663,7 +687,7 @@ module.exports =
 	    }
 	  }, [_c('span', {
 	    slot: "content"
-	  }, [_vm._v(_vm._s(_vm.value))]), _c('div', {
+	  }, [_vm._v(_vm._s(_vm.formatValue))]), _c('div', {
 	    staticClass: "el-slider__button",
 	    class: {
 	      'hover': _vm.hovering, 'dragging': _vm.dragging

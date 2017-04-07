@@ -105,6 +105,13 @@ module.exports =
 
 /***/ },
 
+/***/ 14:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ },
+
 /***/ 129:
 /***/ function(module, exports, __webpack_require__) {
 
@@ -157,12 +164,42 @@ module.exports =
 
 	var _popup2 = _interopRequireDefault(_popup);
 
+	var _emitter = __webpack_require__(14);
+
+	var _emitter2 = _interopRequireDefault(_emitter);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElDialog',
 
-	  mixins: [_popup2.default],
+	  mixins: [_popup2.default, _emitter2.default],
 
 	  props: {
 	    title: {
@@ -232,10 +269,12 @@ module.exports =
 	      this.$emit('input', val);
 	      if (val) {
 	        this.$emit('open');
+	        this.$el.addEventListener('scroll', this.updatePopper);
 	        this.$nextTick(function () {
 	          _this.$refs.dialog.scrollTop = 0;
 	        });
 	      } else {
+	        this.$el.removeEventListener('scroll', this.updatePopper);
 	        this.$emit('close');
 	      }
 	    }
@@ -255,6 +294,10 @@ module.exports =
 	      if (this.closeOnClickModal) {
 	        this.close();
 	      }
+	    },
+	    updatePopper: function updatePopper() {
+	      this.broadcast('ElSelectDropdown', 'updatePopper');
+	      this.broadcast('ElDropdownMenu', 'updatePopper');
 	    }
 	  },
 
@@ -264,31 +307,7 @@ module.exports =
 	      this.open();
 	    }
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 

@@ -1251,8 +1251,7 @@ module.exports =
 	          this.$emit('pick', new Date(value.getTime()));
 	        }
 	        this.date.setFullYear(value.getFullYear());
-	        this.date.setMonth(value.getMonth());
-	        this.date.setDate(value.getDate());
+	        this.date.setMonth(value.getMonth(), value.getDate());
 	      } else if (this.selectionMode === 'week') {
 	        this.week = value.week;
 	        this.$emit('pick', value.date);
@@ -3403,8 +3402,7 @@ module.exports =
 	        var target = new Date(type === 'min' ? this.minDate : this.maxDate);
 	        if (target) {
 	          target.setFullYear(parsedValue.getFullYear());
-	          target.setMonth(parsedValue.getMonth());
-	          target.setDate(parsedValue.getDate());
+	          target.setMonth(parsedValue.getMonth(), parsedValue.getDate());
 	        }
 	      }
 	    },
@@ -3420,8 +3418,7 @@ module.exports =
 	        var target = new Date(type === 'min' ? this.minDate : this.maxDate);
 	        if (target) {
 	          target.setFullYear(parsedValue.getFullYear());
-	          target.setMonth(parsedValue.getMonth());
-	          target.setDate(parsedValue.getDate());
+	          target.setMonth(parsedValue.getMonth(), parsedValue.getDate());
 	        }
 	        if (type === 'min') {
 	          if (target < this.maxDate) {

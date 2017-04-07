@@ -105,6 +105,13 @@ module.exports =
 
 /***/ },
 
+/***/ 47:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/resize-event");
+
+/***/ },
+
 /***/ 318:
 /***/ function(module, exports, __webpack_require__) {
 
@@ -331,6 +338,8 @@ module.exports =
 
 	var _tabBar2 = _interopRequireDefault(_tabBar);
 
+	var _resizeEvent = __webpack_require__(47);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function noop() {}
@@ -418,25 +427,31 @@ module.exports =
 	    },
 	    setOffset: function setOffset(value) {
 	      this.navStyle.transform = 'translateX(-' + value + 'px)';
+	    },
+	    update: function update() {
+	      var navWidth = this.$refs.nav.offsetWidth;
+	      var containerWidth = this.$refs.navScroll.offsetWidth;
+	      var currentOffset = this.getCurrentScrollOffset();
+
+	      if (containerWidth < navWidth) {
+	        var _currentOffset = this.getCurrentScrollOffset();
+	        this.scrollable = this.scrollable || {};
+	        this.scrollable.prev = _currentOffset;
+	        this.scrollable.next = _currentOffset + containerWidth < navWidth;
+	        if (navWidth - _currentOffset < containerWidth) {
+	          this.setOffset(navWidth - containerWidth);
+	        }
+	      } else {
+	        this.scrollable = false;
+	        if (currentOffset > 0) {
+	          this.setOffset(0);
+	        }
+	      }
 	    }
 	  },
 
 	  updated: function updated() {
-	    var navWidth = this.$refs.nav.offsetWidth;
-	    var containerWidth = this.$refs.navScroll.offsetWidth;
-	    var currentOffset = this.getCurrentScrollOffset();
-
-	    if (containerWidth < navWidth) {
-	      var _currentOffset = this.getCurrentScrollOffset();
-	      this.scrollable = this.scrollable || {};
-	      this.scrollable.prev = _currentOffset;
-	      this.scrollable.next = _currentOffset + containerWidth < navWidth;
-	      if (navWidth - _currentOffset < containerWidth) {
-	        this.setOffset(navWidth - containerWidth);
-	      }
-	    } else if (currentOffset > 0) {
-	      this.setOffset(0);
-	    }
+	    this.update();
 	  },
 	  render: function render(h) {
 	    var type = this.type,
@@ -531,6 +546,12 @@ module.exports =
 	        )]
 	      )]
 	    );
+	  },
+	  mounted: function mounted() {
+	    (0, _resizeEvent.addResizeListener)(this.$el, this.update);
+	  },
+	  beforeDestroy: function beforeDestroy() {
+	    if (this.$el && this.update) (0, _resizeEvent.removeResizeListener)(this.$el, this.update);
 	  }
 	};
 
