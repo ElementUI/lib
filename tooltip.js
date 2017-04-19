@@ -156,6 +156,10 @@ module.exports =
 	          gpuAcceleration: false
 	        };
 	      }
+	    },
+	    enterable: {
+	      type: Boolean,
+	      default: true
 	    }
 	  },
 
@@ -194,9 +198,11 @@ module.exports =
 	          {
 	            on: {
 	              'mouseleave': function mouseleave() {
-	                _this2.debounceClose();_this2.togglePreventClose();
+	                _this2.setExpectedState(false);_this2.debounceClose();
 	              },
-	              'mouseenter': this.togglePreventClose
+	              'mouseenter': function mouseenter() {
+	                _this2.setExpectedState(true);
+	              }
 	            },
 
 	            ref: 'popper',
@@ -218,8 +224,12 @@ module.exports =
 	    var data = vnode.data = vnode.data || {};
 	    var on = vnode.data.on = vnode.data.on || {};
 
-	    on.mouseenter = this.addEventHandle(on.mouseenter, this.handleShowPopper);
-	    on.mouseleave = this.addEventHandle(on.mouseleave, this.debounceClose);
+	    on.mouseenter = this.addEventHandle(on.mouseenter, function () {
+	      _this2.setExpectedState(true);_this2.handleShowPopper();
+	    });
+	    on.mouseleave = this.addEventHandle(on.mouseleave, function () {
+	      _this2.setExpectedState(false);_this2.debounceClose();
+	    });
 	    data.staticClass = this.concatClass(data.staticClass, 'el-tooltip');
 
 	    return vnode;
@@ -240,19 +250,19 @@ module.exports =
 	    handleShowPopper: function handleShowPopper() {
 	      var _this3 = this;
 
-	      if (this.manual) return;
+	      if (!this.expectedState || this.manual) return;
 	      clearTimeout(this.timeout);
 	      this.timeout = setTimeout(function () {
 	        _this3.showPopper = true;
 	      }, this.openDelay);
 	    },
 	    handleClosePopper: function handleClosePopper() {
-	      if (this.preventClose || this.manual) return;
+	      if (this.enterable && this.expectedState || this.manual) return;
 	      clearTimeout(this.timeout);
 	      this.showPopper = false;
 	    },
-	    togglePreventClose: function togglePreventClose() {
-	      this.preventClose = !this.preventClose;
+	    setExpectedState: function setExpectedState(expectedState) {
+	      this.expectedState = expectedState;
 	    }
 	  }
 	};

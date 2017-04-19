@@ -596,7 +596,7 @@ module.exports =
 
 	    var allNodes = this._getAllNodes();
 	    allNodes.sort(function (a, b) {
-	      return a.level < b.level;
+	      return b.level - a.level;
 	    });
 
 	    var keys = Object.keys(checkedKeys);

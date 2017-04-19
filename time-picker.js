@@ -501,6 +501,7 @@ module.exports =
 	            this.picker.value = parsedValue;
 	          }
 	        } else {
+	          this.$emit('input', value);
 	          this.picker.value = value;
 	        }
 	        this.$forceUpdate();
@@ -627,7 +628,8 @@ module.exports =
 	          _this.picker.resetView && _this.picker.resetView();
 
 	          _this.picker.$on('dodestroy', _this.doDestroy);
-	          _this.picker.$on('pick', function (date) {
+	          _this.picker.$on('pick', function () {
+	            var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 	            var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 	            _this.$emit('input', date);

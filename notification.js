@@ -288,6 +288,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	var typeMap = {
 	  success: 'circle-check',
@@ -307,6 +308,7 @@ module.exports =
 	      customClass: '',
 	      iconClass: '',
 	      onClose: null,
+	      onClick: null,
 	      closed: false,
 	      top: null,
 	      timer: null
@@ -334,6 +336,11 @@ module.exports =
 	      this.$el.removeEventListener('transitionend', this.destroyElement);
 	      this.$destroy(true);
 	      this.$el.parentNode.removeChild(this.$el);
+	    },
+	    click: function click() {
+	      if (typeof this.onClick === 'function') {
+	        this.onClick();
+	      }
 	    },
 	    close: function close() {
 	      this.closed = true;
@@ -398,7 +405,8 @@ module.exports =
 	      },
 	      "mouseleave": function($event) {
 	        _vm.startTimer()
-	      }
+	      },
+	      "click": _vm.click
 	    }
 	  }, [(_vm.type || _vm.iconClass) ? _c('i', {
 	    staticClass: "el-notification__icon",
@@ -418,7 +426,10 @@ module.exports =
 	  }, [_vm._t("default", [_vm._v(_vm._s(_vm.message))])], 2), _c('div', {
 	    staticClass: "el-notification__closeBtn el-icon-close",
 	    on: {
-	      "click": _vm.close
+	      "click": function($event) {
+	        $event.stopPropagation();
+	        _vm.close($event)
+	      }
 	    }
 	  })])])])
 	},staticRenderFns: []}

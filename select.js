@@ -979,6 +979,9 @@ module.exports =
 	        return;
 	      }
 	      if (this.options.length === 0 || this.filteredOptionsCount === 0) return;
+	      this.optionsAllDisabled = this.options.length === this.options.filter(function (item) {
+	        return item.disabled === true;
+	      }).length;
 	      if (!this.optionsAllDisabled) {
 	        if (direction === 'next') {
 	          this.hoverIndex++;

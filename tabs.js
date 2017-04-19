@@ -215,6 +215,7 @@ module.exports =
 	      this.$emit('tab-click', tab, event);
 	    },
 	    handleTabRemove: function handleTabRemove(pane, ev) {
+	      if (pane.disabled) return;
 	      ev.stopPropagation();
 	      this.$emit('edit', pane.name, 'remove');
 	      this.$emit('tab-remove', pane.name);

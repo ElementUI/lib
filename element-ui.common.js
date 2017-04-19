@@ -339,7 +339,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.2.8',
+	  version: '1.2.9',
 	  locale: _locale2.default.use,
 	  i18n: _locale2.default.i18n,
 	  install: install,
@@ -4237,6 +4237,7 @@ module.exports =
 	      return {
 	        backgroundColor: this._radioGroup.fill || '',
 	        borderColor: this._radioGroup.fill || '',
+	        boxShadow: this._radioGroup.fill ? '-1px 0 0 0 ' + this._radioGroup.fill : '',
 	        color: this._radioGroup.textColor || ''
 	      };
 	    },
@@ -5556,6 +5557,9 @@ module.exports =
 	        return;
 	      }
 	      if (this.options.length === 0 || this.filteredOptionsCount === 0) return;
+	      this.optionsAllDisabled = this.options.length === this.options.filter(function (item) {
+	        return item.disabled === true;
+	      }).length;
 	      if (!this.optionsAllDisabled) {
 	        if (direction === 'next') {
 	          this.hoverIndex++;
@@ -8156,11 +8160,16 @@ module.exports =
 	        tooltip.referenceElm = cell;
 	        tooltip.$refs.popper.style.display = 'none';
 	        tooltip.doDestroy();
+	        tooltip.setExpectedState(true);
 	        this.activateTooltip(tooltip);
 	      }
 	    },
 	    handleCellMouseLeave: function handleCellMouseLeave(event) {
-	      this.$refs.tooltip.handleClosePopper();
+	      var tooltip = this.$refs.tooltip;
+	      if (tooltip) {
+	        tooltip.setExpectedState(false);
+	        tooltip.handleClosePopper();
+	      }
 	      var cell = (0, _util.getCell)(event);
 	      if (!cell) return;
 
@@ -10171,6 +10180,7 @@ module.exports =
 	            this.picker.value = parsedValue;
 	          }
 	        } else {
+	          this.$emit('input', value);
 	          this.picker.value = value;
 	        }
 	        this.$forceUpdate();
@@ -10297,7 +10307,8 @@ module.exports =
 	          _this.picker.resetView && _this.picker.resetView();
 
 	          _this.picker.$on('dodestroy', _this.doDestroy);
-	          _this.picker.$on('pick', function (date) {
+	          _this.picker.$on('pick', function () {
+	            var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 	            var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 	            _this.$emit('input', date);
@@ -14468,6 +14479,10 @@ module.exports =
 	          gpuAcceleration: false
 	        };
 	      }
+	    },
+	    enterable: {
+	      type: Boolean,
+	      default: true
 	    }
 	  },
 
@@ -14506,9 +14521,11 @@ module.exports =
 	          {
 	            on: {
 	              'mouseleave': function mouseleave() {
-	                _this2.debounceClose();_this2.togglePreventClose();
+	                _this2.setExpectedState(false);_this2.debounceClose();
 	              },
-	              'mouseenter': this.togglePreventClose
+	              'mouseenter': function mouseenter() {
+	                _this2.setExpectedState(true);
+	              }
 	            },
 
 	            ref: 'popper',
@@ -14530,8 +14547,12 @@ module.exports =
 	    var data = vnode.data = vnode.data || {};
 	    var on = vnode.data.on = vnode.data.on || {};
 
-	    on.mouseenter = this.addEventHandle(on.mouseenter, this.handleShowPopper);
-	    on.mouseleave = this.addEventHandle(on.mouseleave, this.debounceClose);
+	    on.mouseenter = this.addEventHandle(on.mouseenter, function () {
+	      _this2.setExpectedState(true);_this2.handleShowPopper();
+	    });
+	    on.mouseleave = this.addEventHandle(on.mouseleave, function () {
+	      _this2.setExpectedState(false);_this2.debounceClose();
+	    });
 	    data.staticClass = this.concatClass(data.staticClass, 'el-tooltip');
 
 	    return vnode;
@@ -14552,19 +14573,19 @@ module.exports =
 	    handleShowPopper: function handleShowPopper() {
 	      var _this3 = this;
 
-	      if (this.manual) return;
+	      if (!this.expectedState || this.manual) return;
 	      clearTimeout(this.timeout);
 	      this.timeout = setTimeout(function () {
 	        _this3.showPopper = true;
 	      }, this.openDelay);
 	    },
 	    handleClosePopper: function handleClosePopper() {
-	      if (this.preventClose || this.manual) return;
+	      if (this.enterable && this.expectedState || this.manual) return;
 	      clearTimeout(this.timeout);
 	      this.showPopper = false;
 	    },
-	    togglePreventClose: function togglePreventClose() {
-	      this.preventClose = !this.preventClose;
+	    setExpectedState: function setExpectedState(expectedState) {
+	      this.expectedState = expectedState;
 	    }
 	  }
 	};
@@ -15977,6 +15998,7 @@ module.exports =
 	      this.$emit('tab-click', tab, event);
 	    },
 	    handleTabRemove: function handleTabRemove(pane, ev) {
+	      if (pane.disabled) return;
 	      ev.stopPropagation();
 	      this.$emit('edit', pane.name, 'remove');
 	      this.$emit('tab-remove', pane.name);
@@ -17071,7 +17093,7 @@ module.exports =
 
 	    var allNodes = this._getAllNodes();
 	    allNodes.sort(function (a, b) {
-	      return a.level < b.level;
+	      return b.level - a.level;
 	    });
 
 	    var keys = Object.keys(checkedKeys);
@@ -18331,6 +18353,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	var typeMap = {
 	  success: 'circle-check',
@@ -18350,6 +18373,7 @@ module.exports =
 	      customClass: '',
 	      iconClass: '',
 	      onClose: null,
+	      onClick: null,
 	      closed: false,
 	      top: null,
 	      timer: null
@@ -18377,6 +18401,11 @@ module.exports =
 	      this.$el.removeEventListener('transitionend', this.destroyElement);
 	      this.$destroy(true);
 	      this.$el.parentNode.removeChild(this.$el);
+	    },
+	    click: function click() {
+	      if (typeof this.onClick === 'function') {
+	        this.onClick();
+	      }
 	    },
 	    close: function close() {
 	      this.closed = true;
@@ -18440,7 +18469,8 @@ module.exports =
 	      },
 	      "mouseleave": function($event) {
 	        _vm.startTimer()
-	      }
+	      },
+	      "click": _vm.click
 	    }
 	  }, [(_vm.type || _vm.iconClass) ? _c('i', {
 	    staticClass: "el-notification__icon",
@@ -18460,7 +18490,10 @@ module.exports =
 	  }, [_vm._t("default", [_vm._v(_vm._s(_vm.message))])], 2), _c('div', {
 	    staticClass: "el-notification__closeBtn el-icon-close",
 	    on: {
-	      "click": _vm.close
+	      "click": function($event) {
+	        $event.stopPropagation();
+	        _vm.close($event)
+	      }
 	    }
 	  })])])])
 	},staticRenderFns: []}
@@ -20200,6 +20233,8 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
 
 	exports.default = {
 	  mixins: [_locale2.default],
@@ -20263,19 +20298,13 @@ module.exports =
 	    }, [_c('i', {
 	      staticClass: "el-icon-document"
 	    }), _vm._v(_vm._s(file.name) + "\n    ")]), _c('label', {
-	      directives: [{
-	        name: "show",
-	        rawName: "v-show",
-	        value: (file.status === 'success'),
-	        expression: "file.status === 'success'"
-	      }],
 	      staticClass: "el-upload-list__item-status-label"
-	    }, [_c('i', {
+	    }, [(file.status === 'success') ? _c('i', {
 	      class: {
 	        'el-icon-circle-check': _vm.listType === 'text',
 	          'el-icon-check': ['picture-card', 'picture'].indexOf(_vm.listType) > -1
 	      }
-	    }), _c('i', {
+	    }) : _vm._e(), _c('i', {
 	      staticClass: "el-icon-close",
 	      on: {
 	        "click": function($event) {
@@ -20412,7 +20441,6 @@ module.exports =
 
 	      if (!files) return;
 	      this.uploadFiles(files);
-	      this.$refs.input.value = null;
 	    },
 	    uploadFiles: function uploadFiles(files) {
 	      var _this = this;
@@ -20488,6 +20516,7 @@ module.exports =
 	  render: function render(h) {
 	    var handleClick = this.handleClick,
 	        drag = this.drag,
+	        name = this.name,
 	        handleChange = this.handleChange,
 	        multiple = this.multiple,
 	        accept = this.accept,
@@ -20516,7 +20545,7 @@ module.exports =
 	        [this.$slots.default]
 	      ) : this.$slots.default, h(
 	        'input',
-	        { 'class': 'el-upload__input', attrs: { type: 'file', multiple: multiple, accept: accept },
+	        { 'class': 'el-upload__input', attrs: { type: 'file', name: name, multiple: multiple, accept: accept },
 	          ref: 'input', on: {
 	            'change': handleChange
 	          }

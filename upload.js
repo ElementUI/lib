@@ -541,6 +541,8 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
 
 	exports.default = {
 	  mixins: [_locale2.default],
@@ -606,19 +608,13 @@ module.exports =
 	    }, [_c('i', {
 	      staticClass: "el-icon-document"
 	    }), _vm._v(_vm._s(file.name) + "\n    ")]), _c('label', {
-	      directives: [{
-	        name: "show",
-	        rawName: "v-show",
-	        value: (file.status === 'success'),
-	        expression: "file.status === 'success'"
-	      }],
 	      staticClass: "el-upload-list__item-status-label"
-	    }, [_c('i', {
+	    }, [(file.status === 'success') ? _c('i', {
 	      class: {
 	        'el-icon-circle-check': _vm.listType === 'text',
 	          'el-icon-check': ['picture-card', 'picture'].indexOf(_vm.listType) > -1
 	      }
-	    }), _c('i', {
+	    }) : _vm._e(), _c('i', {
 	      staticClass: "el-icon-close",
 	      on: {
 	        "click": function($event) {
@@ -757,7 +753,6 @@ module.exports =
 
 	      if (!files) return;
 	      this.uploadFiles(files);
-	      this.$refs.input.value = null;
 	    },
 	    uploadFiles: function uploadFiles(files) {
 	      var _this = this;
@@ -833,6 +828,7 @@ module.exports =
 	  render: function render(h) {
 	    var handleClick = this.handleClick,
 	        drag = this.drag,
+	        name = this.name,
 	        handleChange = this.handleChange,
 	        multiple = this.multiple,
 	        accept = this.accept,
@@ -861,7 +857,7 @@ module.exports =
 	        [this.$slots.default]
 	      ) : this.$slots.default, h(
 	        'input',
-	        { 'class': 'el-upload__input', attrs: { type: 'file', multiple: multiple, accept: accept },
+	        { 'class': 'el-upload__input', attrs: { type: 'file', name: name, multiple: multiple, accept: accept },
 	          ref: 'input', on: {
 	            'change': handleChange
 	          }
