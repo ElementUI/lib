@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(289);
+	module.exports = __webpack_require__(292);
 
 
 /***/ },
@@ -54,11 +54,17 @@ module.exports =
 /***/ 3:
 /***/ function(module, exports) {
 
+	/* globals __VUE_SSR_CONTEXT__ */
+
+	// this module is a runtime utility for cleaner component module output and will
+	// be included in the final webpack user bundle
+
 	module.exports = function normalizeComponent (
 	  rawScriptExports,
 	  compiledTemplate,
+	  injectStyles,
 	  scopeId,
-	  cssModules
+	  moduleIdentifier /* server only */
 	) {
 	  var esModule
 	  var scriptExports = rawScriptExports = rawScriptExports || {}
@@ -86,13 +92,37 @@ module.exports =
 	    options._scopeId = scopeId
 	  }
 
-	  // inject cssModules
-	  if (cssModules) {
-	    var computed = options.computed || (options.computed = {})
-	    Object.keys(cssModules).forEach(function (key) {
-	      var module = cssModules[key]
-	      computed[key] = function () { return module }
-	    })
+	  var hook
+	  if (moduleIdentifier) { // server build
+	    hook = function (context) {
+	      // 2.3 injection
+	      context = context || (this.$vnode && this.$vnode.ssrContext)
+	      // 2.2 with runInNewContext: true
+	      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+	        context = __VUE_SSR_CONTEXT__
+	      }
+	      // inject component styles
+	      if (injectStyles) {
+	        injectStyles.call(this, context)
+	      }
+	      // register component module identifier for async chunk inferrence
+	      if (context && context._registeredComponents) {
+	        context._registeredComponents.add(moduleIdentifier)
+	      }
+	    }
+	    // used by ssr in case component is cached and beforeCreate
+	    // never gets called
+	    options._ssrRegister = hook
+	  } else if (injectStyles) {
+	    hook = injectStyles
+	  }
+
+	  if (hook) {
+	    // inject component registration as beforeCreate hook
+	    var existing = options.beforeCreate
+	    options.beforeCreate = existing
+	      ? [].concat(existing, hook)
+	      : [hook]
 	  }
 
 	  return {
@@ -112,14 +142,7 @@ module.exports =
 
 /***/ },
 
-/***/ 80:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/transitions/collapse-transition");
-
-/***/ },
-
-/***/ 183:
+/***/ 186:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -170,14 +193,14 @@ module.exports =
 
 /***/ },
 
-/***/ 289:
+/***/ 292:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _submenu = __webpack_require__(290);
+	var _submenu = __webpack_require__(293);
 
 	var _submenu2 = _interopRequireDefault(_submenu);
 
@@ -192,17 +215,19 @@ module.exports =
 
 /***/ },
 
-/***/ 290:
+/***/ 293:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(291),
+	  __webpack_require__(294),
 	  /* template */
-	  __webpack_require__(292),
+	  __webpack_require__(295),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -211,14 +236,14 @@ module.exports =
 
 /***/ },
 
-/***/ 291:
+/***/ 294:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _menuMixin = __webpack_require__(183);
+	var _menuMixin = __webpack_require__(186);
 
 	var _menuMixin2 = _interopRequireDefault(_menuMixin);
 
@@ -226,11 +251,35 @@ module.exports =
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _collapseTransition = __webpack_require__(80);
-
-	var _collapseTransition2 = _interopRequireDefault(_collapseTransition);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElSubmenu',
@@ -238,10 +287,6 @@ module.exports =
 	  componentName: 'ElSubmenu',
 
 	  mixins: [_menuMixin2.default, _emitter2.default],
-
-	  components: {
-	    CollapseTransition: _collapseTransition2.default
-	  },
 
 	  props: {
 	    index: {
@@ -346,37 +391,11 @@ module.exports =
 	  mounted: function mounted() {
 	    this.initEvents();
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 
-/***/ 292:
+/***/ 295:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -408,7 +427,7 @@ module.exports =
 	      expression: "opened"
 	    }],
 	    staticClass: "el-menu"
-	  }, [_vm._t("default")], 2)])] : _c('collapse-transition', [_c('ul', {
+	  }, [_vm._t("default")], 2)])] : _c('el-collapse-transition', [_c('ul', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",

@@ -78,9 +78,11 @@ module.exports =
 	  __webpack_require__(4),
 	  /* template */
 	  __webpack_require__(5),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -91,11 +93,17 @@ module.exports =
 /* 3 */
 /***/ function(module, exports) {
 
+	/* globals __VUE_SSR_CONTEXT__ */
+
+	// this module is a runtime utility for cleaner component module output and will
+	// be included in the final webpack user bundle
+
 	module.exports = function normalizeComponent (
 	  rawScriptExports,
 	  compiledTemplate,
+	  injectStyles,
 	  scopeId,
-	  cssModules
+	  moduleIdentifier /* server only */
 	) {
 	  var esModule
 	  var scriptExports = rawScriptExports = rawScriptExports || {}
@@ -123,13 +131,37 @@ module.exports =
 	    options._scopeId = scopeId
 	  }
 
-	  // inject cssModules
-	  if (cssModules) {
-	    var computed = options.computed || (options.computed = {})
-	    Object.keys(cssModules).forEach(function (key) {
-	      var module = cssModules[key]
-	      computed[key] = function () { return module }
-	    })
+	  var hook
+	  if (moduleIdentifier) { // server build
+	    hook = function (context) {
+	      // 2.3 injection
+	      context = context || (this.$vnode && this.$vnode.ssrContext)
+	      // 2.2 with runInNewContext: true
+	      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+	        context = __VUE_SSR_CONTEXT__
+	      }
+	      // inject component styles
+	      if (injectStyles) {
+	        injectStyles.call(this, context)
+	      }
+	      // register component module identifier for async chunk inferrence
+	      if (context && context._registeredComponents) {
+	        context._registeredComponents.add(moduleIdentifier)
+	      }
+	    }
+	    // used by ssr in case component is cached and beforeCreate
+	    // never gets called
+	    options._ssrRegister = hook
+	  } else if (injectStyles) {
+	    hook = injectStyles
+	  }
+
+	  if (hook) {
+	    // inject component registration as beforeCreate hook
+	    var existing = options.beforeCreate
+	    options.beforeCreate = existing
+	      ? [].concat(existing, hook)
+	      : [hook]
 	  }
 
 	  return {

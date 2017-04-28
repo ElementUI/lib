@@ -46,19 +46,19 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(71);
+	module.exports = __webpack_require__(75);
 
 
 /***/ },
 
-/***/ 71:
+/***/ 75:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _col = __webpack_require__(72);
+	var _col = __webpack_require__(76);
 
 	var _col2 = _interopRequireDefault(_col);
 
@@ -73,7 +73,7 @@ module.exports =
 
 /***/ },
 
-/***/ 72:
+/***/ 76:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -101,25 +101,23 @@ module.exports =
 
 	  computed: {
 	    gutter: function gutter() {
-	      return this.$parent.gutter;
-	    },
-	    style: function style() {
-	      var ret = {};
-
-	      if (this.gutter) {
-	        ret.paddingLeft = this.gutter / 2 + 'px';
-	        ret.paddingRight = ret.paddingLeft;
+	      var parent = this.$parent;
+	      while (parent && parent.$options.componentName !== 'ElRow') {
+	        parent = parent.$parent;
 	      }
-
-	      return ret;
+	      return parent ? parent.gutter : 0;
 	    }
 	  },
 	  render: function render(h) {
 	    var _this = this;
 
-	    var style = this.style;
-
 	    var classList = [];
+	    var style = {};
+
+	    if (this.gutter) {
+	      style.paddingLeft = this.gutter / 2 + 'px';
+	      style.paddingRight = style.paddingLeft;
+	    }
 
 	    ['span', 'offset', 'pull', 'push'].forEach(function (prop) {
 	      if (_this[prop]) {

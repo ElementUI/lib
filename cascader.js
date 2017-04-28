@@ -54,11 +54,17 @@ module.exports =
 /* 3 */
 /***/ function(module, exports) {
 
+	/* globals __VUE_SSR_CONTEXT__ */
+
+	// this module is a runtime utility for cleaner component module output and will
+	// be included in the final webpack user bundle
+
 	module.exports = function normalizeComponent (
 	  rawScriptExports,
 	  compiledTemplate,
+	  injectStyles,
 	  scopeId,
-	  cssModules
+	  moduleIdentifier /* server only */
 	) {
 	  var esModule
 	  var scriptExports = rawScriptExports = rawScriptExports || {}
@@ -86,13 +92,37 @@ module.exports =
 	    options._scopeId = scopeId
 	  }
 
-	  // inject cssModules
-	  if (cssModules) {
-	    var computed = options.computed || (options.computed = {})
-	    Object.keys(cssModules).forEach(function (key) {
-	      var module = cssModules[key]
-	      computed[key] = function () { return module }
-	    })
+	  var hook
+	  if (moduleIdentifier) { // server build
+	    hook = function (context) {
+	      // 2.3 injection
+	      context = context || (this.$vnode && this.$vnode.ssrContext)
+	      // 2.2 with runInNewContext: true
+	      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+	        context = __VUE_SSR_CONTEXT__
+	      }
+	      // inject component styles
+	      if (injectStyles) {
+	        injectStyles.call(this, context)
+	      }
+	      // register component module identifier for async chunk inferrence
+	      if (context && context._registeredComponents) {
+	        context._registeredComponents.add(moduleIdentifier)
+	      }
+	    }
+	    // used by ssr in case component is cached and beforeCreate
+	    // never gets called
+	    options._ssrRegister = hook
+	  } else if (injectStyles) {
+	    hook = injectStyles
+	  }
+
+	  if (hook) {
+	    // inject component registration as beforeCreate hook
+	    var existing = options.beforeCreate
+	    options.beforeCreate = existing
+	      ? [].concat(existing, hook)
+	      : [hook]
 	  }
 
 	  return {
@@ -207,9 +237,11 @@ module.exports =
 	  __webpack_require__(55),
 	  /* template */
 	  __webpack_require__(62),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -628,9 +660,11 @@ module.exports =
 	  __webpack_require__(58),
 	  /* template */
 	  null,
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -891,12 +925,6 @@ module.exports =
 	      }
 	    }
 	  }, [_c('el-input', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: (_vm.inputValue),
-	      expression: "inputValue"
-	    }],
 	    ref: "input",
 	    attrs: {
 	      "readonly": !_vm.filterable,
@@ -905,14 +933,15 @@ module.exports =
 	      "size": _vm.size,
 	      "disabled": _vm.disabled
 	    },
-	    domProps: {
-	      "value": (_vm.inputValue)
-	    },
 	    on: {
-	      "change": _vm.debouncedInputChange,
-	      "input": function($event) {
-	        _vm.inputValue = $event
-	      }
+	      "change": _vm.debouncedInputChange
+	    },
+	    model: {
+	      value: (_vm.inputValue),
+	      callback: function($$v) {
+	        _vm.inputValue = $$v
+	      },
+	      expression: "inputValue"
 	    }
 	  }, [_c('template', {
 	    slot: "icon"

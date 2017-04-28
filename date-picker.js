@@ -45,7 +45,7 @@ module.exports =
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(100);
+	module.exports = __webpack_require__(103);
 
 
 /***/ },
@@ -54,11 +54,17 @@ module.exports =
 /* 3 */
 /***/ function(module, exports) {
 
+	/* globals __VUE_SSR_CONTEXT__ */
+
+	// this module is a runtime utility for cleaner component module output and will
+	// be included in the final webpack user bundle
+
 	module.exports = function normalizeComponent (
 	  rawScriptExports,
 	  compiledTemplate,
+	  injectStyles,
 	  scopeId,
-	  cssModules
+	  moduleIdentifier /* server only */
 	) {
 	  var esModule
 	  var scriptExports = rawScriptExports = rawScriptExports || {}
@@ -86,13 +92,37 @@ module.exports =
 	    options._scopeId = scopeId
 	  }
 
-	  // inject cssModules
-	  if (cssModules) {
-	    var computed = options.computed || (options.computed = {})
-	    Object.keys(cssModules).forEach(function (key) {
-	      var module = cssModules[key]
-	      computed[key] = function () { return module }
-	    })
+	  var hook
+	  if (moduleIdentifier) { // server build
+	    hook = function (context) {
+	      // 2.3 injection
+	      context = context || (this.$vnode && this.$vnode.ssrContext)
+	      // 2.2 with runInNewContext: true
+	      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+	        context = __VUE_SSR_CONTEXT__
+	      }
+	      // inject component styles
+	      if (injectStyles) {
+	        injectStyles.call(this, context)
+	      }
+	      // register component module identifier for async chunk inferrence
+	      if (context && context._registeredComponents) {
+	        context._registeredComponents.add(moduleIdentifier)
+	      }
+	    }
+	    // used by ssr in case component is cached and beforeCreate
+	    // never gets called
+	    options._ssrRegister = hook
+	  } else if (injectStyles) {
+	    hook = injectStyles
+	  }
+
+	  if (hook) {
+	    // inject component registration as beforeCreate hook
+	    var existing = options.beforeCreate
+	    options.beforeCreate = existing
+	      ? [].concat(existing, hook)
+	      : [hook]
 	  }
 
 	  return {
@@ -171,7 +201,12 @@ module.exports =
 /* 43 */,
 /* 44 */,
 /* 45 */,
-/* 46 */,
+/* 46 */
+/***/ function(module, exports) {
+
+	module.exports = require("throttle-debounce/debounce");
+
+/***/ },
 /* 47 */,
 /* 48 */,
 /* 49 */,
@@ -235,14 +270,17 @@ module.exports =
 /* 97 */,
 /* 98 */,
 /* 99 */,
-/* 100 */
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _datePicker = __webpack_require__(101);
+	var _datePicker = __webpack_require__(104);
 
 	var _datePicker2 = _interopRequireDefault(_datePicker);
 
@@ -256,22 +294,22 @@ module.exports =
 	exports.default = _datePicker2.default;
 
 /***/ },
-/* 101 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _picker = __webpack_require__(102);
+	var _picker = __webpack_require__(105);
 
 	var _picker2 = _interopRequireDefault(_picker);
 
-	var _date = __webpack_require__(107);
+	var _date = __webpack_require__(110);
 
 	var _date2 = _interopRequireDefault(_date);
 
-	var _dateRange = __webpack_require__(126);
+	var _dateRange = __webpack_require__(129);
 
 	var _dateRange2 = _interopRequireDefault(_dateRange);
 
@@ -296,23 +334,37 @@ module.exports =
 	    }
 	  },
 
+	  watch: {
+	    type: function type(_type) {
+	      if (this.picker) {
+	        this.unmountPicker();
+	        this.panel = getPanel(_type);
+	        this.mountPicker();
+	      } else {
+	        this.panel = getPanel(_type);
+	      }
+	    }
+	  },
+
 	  created: function created() {
 	    this.panel = getPanel(this.type);
 	  }
 	};
 
 /***/ },
-/* 102 */
+/* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(103),
-	  /* template */
 	  __webpack_require__(106),
+	  /* template */
+	  __webpack_require__(109),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -320,7 +372,7 @@ module.exports =
 
 
 /***/ },
-/* 103 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -335,7 +387,7 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _util = __webpack_require__(104);
+	var _util = __webpack_require__(107);
 
 	var _vuePopper = __webpack_require__(13);
 
@@ -538,6 +590,7 @@ module.exports =
 	      default: 'left'
 	    },
 	    value: {},
+	    defaultValue: {},
 	    rangeSeparator: {
 	      default: ' - '
 	    },
@@ -552,7 +605,8 @@ module.exports =
 	    return {
 	      pickerVisible: false,
 	      showClose: false,
-	      currentValue: ''
+	      currentValue: '',
+	      unwatchPickerOptions: null
 	    };
 	  },
 
@@ -729,69 +783,9 @@ module.exports =
 
 	      if (this.$isServer) return;
 	      if (!this.picker) {
-	        (function () {
-	          _this.panel.defaultValue = _this.currentValue;
-	          _this.picker = new _vue2.default(_this.panel).$mount();
-	          _this.picker.popperClass = _this.popperClass;
-	          _this.popperElm = _this.picker.$el;
-	          _this.picker.width = _this.reference.getBoundingClientRect().width;
-	          _this.picker.showTime = _this.type === 'datetime' || _this.type === 'datetimerange';
-	          _this.picker.selectionMode = _this.selectionMode;
-	          if (_this.format) {
-	            _this.picker.format = _this.format;
-	          }
-
-	          var updateOptions = function updateOptions() {
-	            var options = _this.pickerOptions;
-
-	            if (options && options.selectableRange) {
-	              (function () {
-	                var ranges = options.selectableRange;
-	                var parser = TYPE_VALUE_RESOLVER_MAP.datetimerange.parser;
-	                var format = DEFAULT_FORMATS.timerange;
-
-	                ranges = Array.isArray(ranges) ? ranges : [ranges];
-	                _this.picker.selectableRange = ranges.map(function (range) {
-	                  return parser(range, format, _this.rangeSeparator);
-	                });
-	              })();
-	            }
-
-	            for (var option in options) {
-	              if (options.hasOwnProperty(option) &&
-	              // 忽略 time-picker 的该配置项
-	              option !== 'selectableRange') {
-	                _this.picker[option] = options[option];
-	              }
-	            }
-	          };
-	          updateOptions();
-	          _this.$watch('pickerOptions', function () {
-	            return updateOptions();
-	          }, { deep: true });
-
-	          _this.$el.appendChild(_this.picker.$el);
-	          _this.pickerVisible = _this.picker.visible = true;
-	          _this.picker.resetView && _this.picker.resetView();
-
-	          _this.picker.$on('dodestroy', _this.doDestroy);
-	          _this.picker.$on('pick', function () {
-	            var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-	            var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
-	            _this.$emit('input', date);
-	            _this.pickerVisible = _this.picker.visible = visible;
-	            _this.picker.resetView && _this.picker.resetView();
-	          });
-
-	          _this.picker.$on('select-range', function (start, end) {
-	            _this.refInput.setSelectionRange(start, end);
-	            _this.refInput.focus();
-	          });
-	        })();
-	      } else {
-	        this.pickerVisible = this.picker.visible = true;
+	        this.mountPicker();
 	      }
+	      this.pickerVisible = this.picker.visible = true;
 
 	      this.updatePopper();
 
@@ -805,12 +799,83 @@ module.exports =
 	      this.$nextTick(function () {
 	        _this.picker.ajustScrollTop && _this.picker.ajustScrollTop();
 	      });
+	    },
+	    mountPicker: function mountPicker() {
+	      var _this2 = this;
+
+	      this.panel.defaultValue = this.currentValue;
+	      this.picker = new _vue2.default(this.panel).$mount();
+	      this.picker.popperClass = this.popperClass;
+	      this.popperElm = this.picker.$el;
+	      this.picker.width = this.reference.getBoundingClientRect().width;
+	      this.picker.showTime = this.type === 'datetime' || this.type === 'datetimerange';
+	      this.picker.selectionMode = this.selectionMode;
+	      if (this.format) {
+	        this.picker.format = this.format;
+	      }
+
+	      var updateOptions = function updateOptions() {
+	        var options = _this2.pickerOptions;
+
+	        if (options && options.selectableRange) {
+	          (function () {
+	            var ranges = options.selectableRange;
+	            var parser = TYPE_VALUE_RESOLVER_MAP.datetimerange.parser;
+	            var format = DEFAULT_FORMATS.timerange;
+
+	            ranges = Array.isArray(ranges) ? ranges : [ranges];
+	            _this2.picker.selectableRange = ranges.map(function (range) {
+	              return parser(range, format, _this2.rangeSeparator);
+	            });
+	          })();
+	        }
+
+	        for (var option in options) {
+	          if (options.hasOwnProperty(option) &&
+	          // 忽略 time-picker 的该配置项
+	          option !== 'selectableRange') {
+	            _this2.picker[option] = options[option];
+	          }
+	        }
+	      };
+	      updateOptions();
+	      this.unwatchPickerOptions = this.$watch('pickerOptions', function () {
+	        return updateOptions();
+	      }, { deep: true });
+
+	      this.$el.appendChild(this.picker.$el);
+	      this.picker.resetView && this.picker.resetView();
+
+	      this.picker.$on('dodestroy', this.doDestroy);
+	      this.picker.$on('pick', function () {
+	        var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+	        var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+	        _this2.$emit('input', date);
+	        _this2.pickerVisible = _this2.picker.visible = visible;
+	        _this2.picker.resetView && _this2.picker.resetView();
+	      });
+
+	      this.picker.$on('select-range', function (start, end) {
+	        _this2.refInput.setSelectionRange(start, end);
+	        _this2.refInput.focus();
+	      });
+	    },
+	    unmountPicker: function unmountPicker() {
+	      if (this.picker) {
+	        this.picker.$destroy();
+	        this.picker.$off();
+	        if (typeof this.unwatchPickerOptions === 'function') {
+	          this.unwatchPickerOptions();
+	        }
+	        this.picker.$el.parentNode.removeChild(this.picker.$el);
+	      }
 	    }
 	  }
 	};
 
 /***/ },
-/* 104 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -818,7 +883,7 @@ module.exports =
 	exports.__esModule = true;
 	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDate = exports.toDate = exports.equalDate = undefined;
 
-	var _date = __webpack_require__(105);
+	var _date = __webpack_require__(108);
 
 	var _date2 = _interopRequireDefault(_date);
 
@@ -994,13 +1059,13 @@ module.exports =
 	};
 
 /***/ },
-/* 105 */
+/* 108 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/date");
 
 /***/ },
-/* 106 */
+/* 109 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1049,17 +1114,19 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 107 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(108),
+	  __webpack_require__(111),
 	  /* template */
-	  __webpack_require__(125),
+	  __webpack_require__(128),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -1067,14 +1134,14 @@ module.exports =
 
 
 /***/ },
-/* 108 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(104);
+	var _util = __webpack_require__(107);
 
 	var _locale = __webpack_require__(60);
 
@@ -1084,19 +1151,19 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _time = __webpack_require__(109);
+	var _time = __webpack_require__(112);
 
 	var _time2 = _interopRequireDefault(_time);
 
-	var _yearTable = __webpack_require__(115);
+	var _yearTable = __webpack_require__(118);
 
 	var _yearTable2 = _interopRequireDefault(_yearTable);
 
-	var _monthTable = __webpack_require__(119);
+	var _monthTable = __webpack_require__(122);
 
 	var _monthTable2 = _interopRequireDefault(_monthTable);
 
-	var _dateTable = __webpack_require__(122);
+	var _dateTable = __webpack_require__(125);
 
 	var _dateTable2 = _interopRequireDefault(_dateTable);
 
@@ -1156,7 +1223,7 @@ module.exports =
 
 	  methods: {
 	    handleClear: function handleClear() {
-	      this.date = new Date();
+	      this.date = this.$options.defaultValue ? new Date(this.$options.defaultValue) : new Date();
 	      this.$emit('pick');
 	    },
 	    resetDate: function resetDate() {
@@ -1314,7 +1381,7 @@ module.exports =
 	    return {
 	      popperClass: '',
 	      pickerWidth: 0,
-	      date: new Date(),
+	      date: this.$options.defaultValue ? new Date(this.$options.defaultValue) : new Date(),
 	      value: '',
 	      showTime: false,
 	      selectionMode: 'day',
@@ -1328,7 +1395,8 @@ module.exports =
 	      week: null,
 	      showWeekNumber: false,
 	      timePickerVisible: false,
-	      width: 0
+	      width: 0,
+	      format: ''
 	    };
 	  },
 
@@ -1341,11 +1409,11 @@ module.exports =
 
 	    visibleTime: {
 	      get: function get() {
-	        return (0, _util.formatDate)(this.date, 'HH:mm:ss');
+	        return (0, _util.formatDate)(this.date, this.timeFormat);
 	      },
 	      set: function set(val) {
 	        if (val) {
-	          var date = (0, _util.parseDate)(val, 'HH:mm:ss');
+	          var date = (0, _util.parseDate)(val, this.timeFormat);
 	          if (date) {
 	            date.setFullYear(this.date.getFullYear());
 	            date.setMonth(this.date.getMonth());
@@ -1364,13 +1432,17 @@ module.exports =
 	      },
 	      set: function set(val) {
 	        var date = (0, _util.parseDate)(val, 'yyyy-MM-dd');
-	        if (date) {
-	          date.setHours(this.date.getHours());
-	          date.setMinutes(this.date.getMinutes());
-	          date.setSeconds(this.date.getSeconds());
-	          this.date = date;
-	          this.resetView();
+	        if (!date) {
+	          return;
 	        }
+	        if (typeof this.disabledDate === 'function' && this.disabledDate(date)) {
+	          return;
+	        }
+	        date.setHours(this.date.getHours());
+	        date.setMinutes(this.date.getMinutes());
+	        date.setSeconds(this.date.getSeconds());
+	        this.date = date;
+	        this.resetView();
 	      }
 	    },
 
@@ -1386,6 +1458,13 @@ module.exports =
 	        return startYear + ' - ' + (startYear + 9);
 	      }
 	      return this.year + ' ' + yearTranslation;
+	    },
+	    timeFormat: function timeFormat() {
+	      if (this.format && this.format.indexOf('ss') === -1) {
+	        return 'HH:mm';
+	      } else {
+	        return 'HH:mm:ss';
+	      }
 	    }
 	  }
 	}; //
@@ -1515,19 +1594,22 @@ module.exports =
 	//
 	//
 	//
+	//
 
 /***/ },
-/* 109 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(110),
+	  __webpack_require__(113),
 	  /* template */
-	  __webpack_require__(114),
+	  __webpack_require__(117),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -1535,14 +1617,14 @@ module.exports =
 
 
 /***/ },
-/* 110 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(104);
+	var _util = __webpack_require__(107);
 
 	var _locale = __webpack_require__(60);
 
@@ -1587,7 +1669,7 @@ module.exports =
 	  mixins: [_locale2.default],
 
 	  components: {
-	    TimeSpinner: __webpack_require__(111)
+	    TimeSpinner: __webpack_require__(114)
 	  },
 
 	  props: {
@@ -1703,21 +1785,24 @@ module.exports =
 	    this.$nextTick(function () {
 	      return _this2.handleConfirm(true, true);
 	    });
+	    this.$emit('mounted');
 	  }
 	};
 
 /***/ },
-/* 111 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(112),
+	  __webpack_require__(115),
 	  /* template */
-	  __webpack_require__(113),
+	  __webpack_require__(116),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -1725,73 +1810,24 @@ module.exports =
 
 
 /***/ },
-/* 112 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(104);
+	var _util = __webpack_require__(107);
 
 	var _scrollbar = __webpack_require__(15);
 
 	var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _debounce = __webpack_require__(46);
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	var _debounce2 = _interopRequireDefault(_debounce);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	  components: { ElScrollbar: _scrollbar2.default },
@@ -1865,11 +1901,18 @@ module.exports =
 	      selectableRange: []
 	    };
 	  },
-	  mounted: function mounted() {
+	  created: function created() {
 	    var _this = this;
 
+	    this.debounceAjustElTop = (0, _debounce2.default)(100, function (type) {
+	      return _this.ajustElTop(type, _this[type + 's']);
+	    });
+	  },
+	  mounted: function mounted() {
+	    var _this2 = this;
+
 	    this.$nextTick(function () {
-	      _this.bindScrollEvent();
+	      _this2.bindScrollEvent();
 	    });
 	  },
 
@@ -1894,11 +1937,11 @@ module.exports =
 	      }
 	    },
 	    bindScrollEvent: function bindScrollEvent() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      var bindFuntion = function bindFuntion(type) {
-	        _this2[type + 'El'].onscroll = function (e) {
-	          return _this2.handleScroll(type, e);
+	        _this3[type + 'El'].onscroll = function (e) {
+	          return _this3.handleScroll(type, e);
 	        };
 	      };
 	      bindFuntion('hour');
@@ -1908,6 +1951,7 @@ module.exports =
 	    handleScroll: function handleScroll(type) {
 	      var ajust = {};
 	      ajust[type + 's'] = Math.min(Math.floor((this[type + 'El'].scrollTop - 80) / 32 + 3), 59);
+	      this.debounceAjustElTop(type);
 	      this.$emit('change', ajust);
 	    },
 	    ajustScrollTop: function ajustScrollTop() {
@@ -1919,10 +1963,61 @@ module.exports =
 	      this[type + 'El'].scrollTop = Math.max(0, (value - 2.5) * 32 + 80);
 	    }
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
-/* 113 */
+/* 116 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2034,7 +2129,7 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 114 */
+/* 117 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2100,17 +2195,19 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 115 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(116),
+	  __webpack_require__(119),
 	  /* template */
-	  __webpack_require__(118),
+	  __webpack_require__(121),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -2118,14 +2215,14 @@ module.exports =
 
 
 /***/ },
-/* 116 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _dom = __webpack_require__(117);
+	var _dom = __webpack_require__(120);
 
 	exports.default = {
 	  props: {
@@ -2213,13 +2310,13 @@ module.exports =
 	//
 
 /***/ },
-/* 117 */
+/* 120 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
-/* 118 */
+/* 121 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2282,17 +2379,19 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 119 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(120),
+	  __webpack_require__(123),
 	  /* template */
-	  __webpack_require__(121),
+	  __webpack_require__(124),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -2300,7 +2399,7 @@ module.exports =
 
 
 /***/ },
-/* 120 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2311,7 +2410,7 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _dom = __webpack_require__(117);
+	var _dom = __webpack_require__(120);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2399,7 +2498,7 @@ module.exports =
 	};
 
 /***/ },
-/* 121 */
+/* 124 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2460,17 +2559,19 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 122 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(123),
+	  __webpack_require__(126),
 	  /* template */
-	  __webpack_require__(124),
+	  __webpack_require__(127),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -2478,16 +2579,16 @@ module.exports =
 
 
 /***/ },
-/* 123 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(104);
+	var _util = __webpack_require__(107);
 
-	var _dom = __webpack_require__(117);
+	var _dom = __webpack_require__(120);
 
 	var _locale = __webpack_require__(60);
 
@@ -2931,7 +3032,7 @@ module.exports =
 	};
 
 /***/ },
-/* 124 */
+/* 127 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2968,7 +3069,7 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 125 */
+/* 128 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -3056,7 +3157,10 @@ module.exports =
 	      "visible": _vm.timePickerVisible
 	    },
 	    on: {
-	      "pick": _vm.handleTimePick
+	      "pick": _vm.handleTimePick,
+	      "mounted": function($event) {
+	        _vm.$refs.timepicker.format = _vm.timeFormat
+	      }
 	    }
 	  })], 1)]) : _vm._e(), _c('div', {
 	    directives: [{
@@ -3209,17 +3313,19 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 126 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(127),
+	  __webpack_require__(130),
 	  /* template */
-	  __webpack_require__(128),
+	  __webpack_require__(131),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -3227,24 +3333,24 @@ module.exports =
 
 
 /***/ },
-/* 127 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(104);
+	var _util = __webpack_require__(107);
 
 	var _locale = __webpack_require__(60);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _time = __webpack_require__(109);
+	var _time = __webpack_require__(112);
 
 	var _time2 = _interopRequireDefault(_time);
 
-	var _dateTable = __webpack_require__(122);
+	var _dateTable = __webpack_require__(125);
 
 	var _dateTable2 = _interopRequireDefault(_dateTable);
 
@@ -3696,7 +3802,7 @@ module.exports =
 	//
 
 /***/ },
-/* 128 */
+/* 131 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

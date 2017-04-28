@@ -77,6 +77,10 @@
         noData: 'Χωρίς δεδομένα',
         placeholder: 'Επιλογή'
       },
+      cascader: {
+        noMatch: 'Δεν βρέθηκαν αποτελέσματα',
+        placeholder: 'Επιλογή'
+      },
       pagination: {
         goto: 'Μετάβαση σε',
         pagesize: '/σελίδα',
@@ -98,10 +102,19 @@
         emptyText: 'Χωρίς Δεδομένα',
         confirmFilter: 'Επιβεβαίωση',
         resetFilter: 'Επαναφορά',
-        clearFilter: 'Όλα'
+        clearFilter: 'Όλα',
+        sumText: 'Sum' // to be translated
       },
       tree: {
         emptyText: 'Χωρίς Δεδομένα'
+      },
+      transfer: {
+        noMatch: 'Δεν βρέθηκαν αποτελέσματα',
+        noData: 'Χωρίς δεδομένα',
+        titles: ['List 1', 'List 2'], // to be translated
+        filterPlaceholder: 'Enter keyword', // to be translated
+        noCheckedFormat: '{total} items', // to be translated
+        hasCheckedFormat: '{checked}/{total} checked' // to be translated
       }
     }
   };

@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(352);
+	module.exports = __webpack_require__(363);
 
 
 /***/ },
@@ -54,11 +54,17 @@ module.exports =
 /***/ 3:
 /***/ function(module, exports) {
 
+	/* globals __VUE_SSR_CONTEXT__ */
+
+	// this module is a runtime utility for cleaner component module output and will
+	// be included in the final webpack user bundle
+
 	module.exports = function normalizeComponent (
 	  rawScriptExports,
 	  compiledTemplate,
+	  injectStyles,
 	  scopeId,
-	  cssModules
+	  moduleIdentifier /* server only */
 	) {
 	  var esModule
 	  var scriptExports = rawScriptExports = rawScriptExports || {}
@@ -86,13 +92,37 @@ module.exports =
 	    options._scopeId = scopeId
 	  }
 
-	  // inject cssModules
-	  if (cssModules) {
-	    var computed = options.computed || (options.computed = {})
-	    Object.keys(cssModules).forEach(function (key) {
-	      var module = cssModules[key]
-	      computed[key] = function () { return module }
-	    })
+	  var hook
+	  if (moduleIdentifier) { // server build
+	    hook = function (context) {
+	      // 2.3 injection
+	      context = context || (this.$vnode && this.$vnode.ssrContext)
+	      // 2.2 with runInNewContext: true
+	      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+	        context = __VUE_SSR_CONTEXT__
+	      }
+	      // inject component styles
+	      if (injectStyles) {
+	        injectStyles.call(this, context)
+	      }
+	      // register component module identifier for async chunk inferrence
+	      if (context && context._registeredComponents) {
+	        context._registeredComponents.add(moduleIdentifier)
+	      }
+	    }
+	    // used by ssr in case component is cached and beforeCreate
+	    // never gets called
+	    options._ssrRegister = hook
+	  } else if (injectStyles) {
+	    hook = injectStyles
+	  }
+
+	  if (hook) {
+	    // inject component registration as beforeCreate hook
+	    var existing = options.beforeCreate
+	    options.beforeCreate = existing
+	      ? [].concat(existing, hook)
+	      : [hook]
 	  }
 
 	  return {
@@ -112,14 +142,14 @@ module.exports =
 
 /***/ },
 
-/***/ 352:
+/***/ 363:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _src = __webpack_require__(353);
+	var _src = __webpack_require__(364);
 
 	var _src2 = _interopRequireDefault(_src);
 
@@ -134,17 +164,19 @@ module.exports =
 
 /***/ },
 
-/***/ 353:
+/***/ 364:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(354),
+	  __webpack_require__(365),
 	  /* template */
+	  null,
+	  /* styles */
 	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -153,30 +185,30 @@ module.exports =
 
 /***/ },
 
-/***/ 354:
+/***/ 365:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _uploadList = __webpack_require__(355);
+	var _uploadList = __webpack_require__(366);
 
 	var _uploadList2 = _interopRequireDefault(_uploadList);
 
-	var _upload = __webpack_require__(359);
+	var _upload = __webpack_require__(370);
 
 	var _upload2 = _interopRequireDefault(_upload);
 
-	var _iframeUpload = __webpack_require__(365);
+	var _iframeUpload = __webpack_require__(376);
 
 	var _iframeUpload2 = _interopRequireDefault(_iframeUpload);
 
-	var _progress = __webpack_require__(357);
+	var _progress = __webpack_require__(368);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
-	var _migrating = __webpack_require__(367);
+	var _migrating = __webpack_require__(378);
 
 	var _migrating2 = _interopRequireDefault(_migrating);
 
@@ -263,7 +295,8 @@ module.exports =
 	      type: String,
 	      default: 'text' // text,picture,picture-card
 	    },
-	    httpRequest: Function
+	    httpRequest: Function,
+	    disabled: Boolean
 	  },
 
 	  data: function data() {
@@ -311,6 +344,7 @@ module.exports =
 	      }
 
 	      this.uploadFiles.push(file);
+	      this.onChange(file, this.uploadFiles);
 	    },
 	    handleProgress: function handleProgress(ev, rawFile) {
 	      var file = this.getFile(rawFile);
@@ -415,6 +449,7 @@ module.exports =
 	        fileList: this.uploadFiles,
 	        autoUpload: this.autoUpload,
 	        listType: this.listType,
+	        disabled: this.disabled,
 	        'on-start': this.handleStart,
 	        'on-progress': this.handleProgress,
 	        'on-success': this.handleSuccess,
@@ -447,17 +482,19 @@ module.exports =
 
 /***/ },
 
-/***/ 355:
+/***/ 366:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(356),
+	  __webpack_require__(367),
 	  /* template */
-	  __webpack_require__(358),
+	  __webpack_require__(369),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -466,7 +503,7 @@ module.exports =
 
 /***/ },
 
-/***/ 356:
+/***/ 367:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -477,7 +514,7 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _progress = __webpack_require__(357);
+	var _progress = __webpack_require__(368);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -571,14 +608,14 @@ module.exports =
 
 /***/ },
 
-/***/ 357:
+/***/ 368:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/progress");
 
 /***/ },
 
-/***/ 358:
+/***/ 369:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -659,17 +696,19 @@ module.exports =
 
 /***/ },
 
-/***/ 359:
+/***/ 370:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(360),
+	  __webpack_require__(371),
 	  /* template */
+	  null,
+	  /* styles */
 	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -678,18 +717,18 @@ module.exports =
 
 /***/ },
 
-/***/ 360:
+/***/ 371:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _ajax = __webpack_require__(361);
+	var _ajax = __webpack_require__(372);
 
 	var _ajax2 = _interopRequireDefault(_ajax);
 
-	var _uploadDragger = __webpack_require__(362);
+	var _uploadDragger = __webpack_require__(373);
 
 	var _uploadDragger2 = _interopRequireDefault(_uploadDragger);
 
@@ -734,7 +773,8 @@ module.exports =
 	    httpRequest: {
 	      type: Function,
 	      default: _ajax2.default
-	    }
+	    },
+	    disabled: Boolean
 	  },
 
 	  data: function data() {
@@ -753,6 +793,7 @@ module.exports =
 
 	      if (!files) return;
 	      this.uploadFiles(files);
+	      this.$refs.input.value = null;
 	    },
 	    uploadFiles: function uploadFiles(files) {
 	      var _this = this;
@@ -821,7 +862,9 @@ module.exports =
 	      }
 	    },
 	    handleClick: function handleClick() {
-	      this.$refs.input.click();
+	      if (!this.disabled) {
+	        this.$refs.input.click();
+	      }
 	    }
 	  },
 
@@ -833,7 +876,8 @@ module.exports =
 	        multiple = this.multiple,
 	        accept = this.accept,
 	        listType = this.listType,
-	        uploadFiles = this.uploadFiles;
+	        uploadFiles = this.uploadFiles,
+	        disabled = this.disabled;
 
 	    var data = {
 	      class: {
@@ -850,6 +894,7 @@ module.exports =
 	      [drag ? h(
 	        'upload-dragger',
 	        {
+	          attrs: { disabled: disabled },
 	          on: {
 	            'file': uploadFiles
 	          }
@@ -870,7 +915,7 @@ module.exports =
 
 /***/ },
 
-/***/ 361:
+/***/ 372:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -884,7 +929,7 @@ module.exports =
 	  } else if (xhr.responseText) {
 	    msg = xhr.status + ' ' + xhr.responseText;
 	  } else {
-	    msg = 'fail to post ' + action + ' ' + xhr.status + '\'';
+	    msg = 'fail to post ' + action + ' ' + xhr.status;
 	  }
 
 	  var err = new Error(msg);
@@ -965,17 +1010,19 @@ module.exports =
 
 /***/ },
 
-/***/ 362:
+/***/ 373:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(363),
+	  __webpack_require__(374),
 	  /* template */
-	  __webpack_require__(364),
+	  __webpack_require__(375),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -984,7 +1031,7 @@ module.exports =
 
 /***/ },
 
-/***/ 363:
+/***/ 374:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1006,7 +1053,9 @@ module.exports =
 
 	exports.default = {
 	  name: 'ElUploadDrag',
-
+	  props: {
+	    disabled: Boolean
+	  },
 	  data: function data() {
 	    return {
 	      dragover: false
@@ -1014,16 +1063,23 @@ module.exports =
 	  },
 
 	  methods: {
+	    onDragover: function onDragover() {
+	      if (!this.disabled) {
+	        this.dragover = true;
+	      }
+	    },
 	    onDrop: function onDrop(e) {
-	      this.dragover = false;
-	      this.$emit('file', e.dataTransfer.files);
+	      if (!this.disabled) {
+	        this.dragover = false;
+	        this.$emit('file', e.dataTransfer.files);
+	      }
 	    }
 	  }
 	};
 
 /***/ },
 
-/***/ 364:
+/***/ 375:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1039,7 +1095,7 @@ module.exports =
 	      },
 	      "dragover": function($event) {
 	        $event.preventDefault();
-	        _vm.dragover = true
+	        _vm.onDragover($event)
 	      },
 	      "dragleave": function($event) {
 	        $event.preventDefault();
@@ -1051,17 +1107,19 @@ module.exports =
 
 /***/ },
 
-/***/ 365:
+/***/ 376:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(366),
+	  __webpack_require__(377),
 	  /* template */
+	  null,
+	  /* styles */
 	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -1070,14 +1128,14 @@ module.exports =
 
 /***/ },
 
-/***/ 366:
+/***/ 377:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _uploadDragger = __webpack_require__(362);
+	var _uploadDragger = __webpack_require__(373);
 
 	var _uploadDragger2 = _interopRequireDefault(_uploadDragger);
 
@@ -1114,7 +1172,8 @@ module.exports =
 	      default: function _default() {}
 	    },
 	    drag: Boolean,
-	    listType: String
+	    listType: String,
+	    disabled: Boolean
 	  },
 
 	  data: function data() {
@@ -1122,7 +1181,7 @@ module.exports =
 	      mouseover: false,
 	      domain: '',
 	      file: null,
-	      disabled: false
+	      submitting: false
 	    };
 	  },
 
@@ -1132,7 +1191,9 @@ module.exports =
 	      return str.indexOf('image') !== -1;
 	    },
 	    handleClick: function handleClick() {
-	      this.$refs.input.click();
+	      if (!this.disabled) {
+	        this.$refs.input.click();
+	      }
 	    },
 	    handleChange: function handleChange(ev) {
 	      var file = ev.target.value;
@@ -1141,8 +1202,8 @@ module.exports =
 	      }
 	    },
 	    uploadFiles: function uploadFiles(file) {
-	      if (this.disabled) return;
-	      this.disabled = true;
+	      if (this.submitting) return;
+	      this.submitting = true;
 	      this.file = file;
 	      this.onStart(file);
 
@@ -1185,7 +1246,7 @@ module.exports =
 	      } else if (response.result === 'failed') {
 	        self.onError(response, self.file);
 	      }
-	      self.disabled = false;
+	      self.submitting = false;
 	      self.file = null;
 	    }, false);
 	  },
@@ -1193,7 +1254,8 @@ module.exports =
 	    var drag = this.drag,
 	        uploadFiles = this.uploadFiles,
 	        listType = this.listType,
-	        frameName = this.frameName;
+	        frameName = this.frameName,
+	        disabled = this.disabled;
 
 	    var oClass = { 'el-upload': true };
 	    oClass['el-upload--' + listType] = true;
@@ -1257,7 +1319,8 @@ module.exports =
 	        {
 	          on: {
 	            'file': uploadFiles
-	          }
+	          },
+	          attrs: { disabled: disabled }
 	        },
 	        [this.$slots.default]
 	      ) : this.$slots.default]
@@ -1267,7 +1330,7 @@ module.exports =
 
 /***/ },
 
-/***/ 367:
+/***/ 378:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/migrating");

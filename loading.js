@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(170);
+	module.exports = __webpack_require__(173);
 
 
 /***/ },
@@ -54,11 +54,17 @@ module.exports =
 /***/ 3:
 /***/ function(module, exports) {
 
+	/* globals __VUE_SSR_CONTEXT__ */
+
+	// this module is a runtime utility for cleaner component module output and will
+	// be included in the final webpack user bundle
+
 	module.exports = function normalizeComponent (
 	  rawScriptExports,
 	  compiledTemplate,
+	  injectStyles,
 	  scopeId,
-	  cssModules
+	  moduleIdentifier /* server only */
 	) {
 	  var esModule
 	  var scriptExports = rawScriptExports = rawScriptExports || {}
@@ -86,13 +92,37 @@ module.exports =
 	    options._scopeId = scopeId
 	  }
 
-	  // inject cssModules
-	  if (cssModules) {
-	    var computed = options.computed || (options.computed = {})
-	    Object.keys(cssModules).forEach(function (key) {
-	      var module = cssModules[key]
-	      computed[key] = function () { return module }
-	    })
+	  var hook
+	  if (moduleIdentifier) { // server build
+	    hook = function (context) {
+	      // 2.3 injection
+	      context = context || (this.$vnode && this.$vnode.ssrContext)
+	      // 2.2 with runInNewContext: true
+	      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+	        context = __VUE_SSR_CONTEXT__
+	      }
+	      // inject component styles
+	      if (injectStyles) {
+	        injectStyles.call(this, context)
+	      }
+	      // register component module identifier for async chunk inferrence
+	      if (context && context._registeredComponents) {
+	        context._registeredComponents.add(moduleIdentifier)
+	      }
+	    }
+	    // used by ssr in case component is cached and beforeCreate
+	    // never gets called
+	    options._ssrRegister = hook
+	  } else if (injectStyles) {
+	    hook = injectStyles
+	  }
+
+	  if (hook) {
+	    // inject component registration as beforeCreate hook
+	    var existing = options.beforeCreate
+	    options.beforeCreate = existing
+	      ? [].concat(existing, hook)
+	      : [hook]
 	  }
 
 	  return {
@@ -112,32 +142,32 @@ module.exports =
 
 /***/ },
 
-/***/ 117:
+/***/ 120:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 164:
+/***/ 167:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 170:
+/***/ 173:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _directive = __webpack_require__(171);
+	var _directive = __webpack_require__(174);
 
 	var _directive2 = _interopRequireDefault(_directive);
 
-	var _index = __webpack_require__(175);
+	var _index = __webpack_require__(178);
 
 	var _index2 = _interopRequireDefault(_index);
 
@@ -155,7 +185,7 @@ module.exports =
 
 /***/ },
 
-/***/ 171:
+/***/ 174:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -164,11 +194,11 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _dom = __webpack_require__(117);
+	var _dom = __webpack_require__(120);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Mask = _vue2.default.extend(__webpack_require__(172));
+	var Mask = _vue2.default.extend(__webpack_require__(175));
 
 	exports.install = function (Vue) {
 	  if (Vue.prototype.$isServer) return;
@@ -278,17 +308,19 @@ module.exports =
 
 /***/ },
 
-/***/ 172:
+/***/ 175:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(173),
+	  __webpack_require__(176),
 	  /* template */
-	  __webpack_require__(174),
+	  __webpack_require__(177),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -297,7 +329,7 @@ module.exports =
 
 /***/ },
 
-/***/ 173:
+/***/ 176:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -343,7 +375,7 @@ module.exports =
 
 /***/ },
 
-/***/ 174:
+/***/ 177:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -387,7 +419,7 @@ module.exports =
 
 /***/ },
 
-/***/ 175:
+/***/ 178:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -398,11 +430,11 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _loading = __webpack_require__(172);
+	var _loading = __webpack_require__(175);
 
 	var _loading2 = _interopRequireDefault(_loading);
 
-	var _merge = __webpack_require__(164);
+	var _merge = __webpack_require__(167);
 
 	var _merge2 = _interopRequireDefault(_merge);
 

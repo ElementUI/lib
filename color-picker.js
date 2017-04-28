@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(82);
+	module.exports = __webpack_require__(85);
 
 
 /***/ },
@@ -54,11 +54,17 @@ module.exports =
 /***/ 3:
 /***/ function(module, exports) {
 
+	/* globals __VUE_SSR_CONTEXT__ */
+
+	// this module is a runtime utility for cleaner component module output and will
+	// be included in the final webpack user bundle
+
 	module.exports = function normalizeComponent (
 	  rawScriptExports,
 	  compiledTemplate,
+	  injectStyles,
 	  scopeId,
-	  cssModules
+	  moduleIdentifier /* server only */
 	) {
 	  var esModule
 	  var scriptExports = rawScriptExports = rawScriptExports || {}
@@ -86,13 +92,37 @@ module.exports =
 	    options._scopeId = scopeId
 	  }
 
-	  // inject cssModules
-	  if (cssModules) {
-	    var computed = options.computed || (options.computed = {})
-	    Object.keys(cssModules).forEach(function (key) {
-	      var module = cssModules[key]
-	      computed[key] = function () { return module }
-	    })
+	  var hook
+	  if (moduleIdentifier) { // server build
+	    hook = function (context) {
+	      // 2.3 injection
+	      context = context || (this.$vnode && this.$vnode.ssrContext)
+	      // 2.2 with runInNewContext: true
+	      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+	        context = __VUE_SSR_CONTEXT__
+	      }
+	      // inject component styles
+	      if (injectStyles) {
+	        injectStyles.call(this, context)
+	      }
+	      // register component module identifier for async chunk inferrence
+	      if (context && context._registeredComponents) {
+	        context._registeredComponents.add(moduleIdentifier)
+	      }
+	    }
+	    // used by ssr in case component is cached and beforeCreate
+	    // never gets called
+	    options._ssrRegister = hook
+	  } else if (injectStyles) {
+	    hook = injectStyles
+	  }
+
+	  if (hook) {
+	    // inject component registration as beforeCreate hook
+	    var existing = options.beforeCreate
+	    options.beforeCreate = existing
+	      ? [].concat(existing, hook)
+	      : [hook]
 	  }
 
 	  return {
@@ -133,14 +163,14 @@ module.exports =
 
 /***/ },
 
-/***/ 82:
+/***/ 85:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(83);
+	var _main = __webpack_require__(86);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -155,17 +185,19 @@ module.exports =
 
 /***/ },
 
-/***/ 83:
+/***/ 86:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(84),
+	  __webpack_require__(87),
 	  /* template */
-	  __webpack_require__(99),
+	  __webpack_require__(102),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -174,18 +206,18 @@ module.exports =
 
 /***/ },
 
-/***/ 84:
+/***/ 87:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _color = __webpack_require__(85);
+	var _color = __webpack_require__(88);
 
 	var _color2 = _interopRequireDefault(_color);
 
-	var _pickerDropdown = __webpack_require__(86);
+	var _pickerDropdown = __webpack_require__(89);
 
 	var _pickerDropdown2 = _interopRequireDefault(_pickerDropdown);
 
@@ -322,7 +354,7 @@ module.exports =
 
 /***/ },
 
-/***/ 85:
+/***/ 88:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -679,17 +711,19 @@ module.exports =
 
 /***/ },
 
-/***/ 86:
+/***/ 89:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(87),
+	  __webpack_require__(90),
 	  /* template */
-	  __webpack_require__(98),
+	  __webpack_require__(101),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -698,22 +732,22 @@ module.exports =
 
 /***/ },
 
-/***/ 87:
+/***/ 90:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _svPanel = __webpack_require__(88);
+	var _svPanel = __webpack_require__(91);
 
 	var _svPanel2 = _interopRequireDefault(_svPanel);
 
-	var _hueSlider = __webpack_require__(92);
+	var _hueSlider = __webpack_require__(95);
 
 	var _hueSlider2 = _interopRequireDefault(_hueSlider);
 
-	var _alphaSlider = __webpack_require__(95);
+	var _alphaSlider = __webpack_require__(98);
 
 	var _alphaSlider2 = _interopRequireDefault(_alphaSlider);
 
@@ -804,17 +838,19 @@ module.exports =
 
 /***/ },
 
-/***/ 88:
+/***/ 91:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(89),
+	  __webpack_require__(92),
 	  /* template */
-	  __webpack_require__(91),
+	  __webpack_require__(94),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -823,14 +859,14 @@ module.exports =
 
 /***/ },
 
-/***/ 89:
+/***/ 92:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(90);
+	var _draggable = __webpack_require__(93);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -931,7 +967,7 @@ module.exports =
 
 /***/ },
 
-/***/ 90:
+/***/ 93:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -986,7 +1022,7 @@ module.exports =
 
 /***/ },
 
-/***/ 91:
+/***/ 94:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1010,17 +1046,19 @@ module.exports =
 
 /***/ },
 
-/***/ 92:
+/***/ 95:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(93),
+	  __webpack_require__(96),
 	  /* template */
-	  __webpack_require__(94),
+	  __webpack_require__(97),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -1029,14 +1067,14 @@ module.exports =
 
 /***/ },
 
-/***/ 93:
+/***/ 96:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(90);
+	var _draggable = __webpack_require__(93);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1159,7 +1197,7 @@ module.exports =
 
 /***/ },
 
-/***/ 94:
+/***/ 97:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1186,17 +1224,19 @@ module.exports =
 
 /***/ },
 
-/***/ 95:
+/***/ 98:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(96),
+	  __webpack_require__(99),
 	  /* template */
-	  __webpack_require__(97),
+	  __webpack_require__(100),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -1205,14 +1245,14 @@ module.exports =
 
 /***/ },
 
-/***/ 96:
+/***/ 99:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(90);
+	var _draggable = __webpack_require__(93);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1351,7 +1391,7 @@ module.exports =
 
 /***/ },
 
-/***/ 97:
+/***/ 100:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1381,7 +1421,7 @@ module.exports =
 
 /***/ },
 
-/***/ 98:
+/***/ 101:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1445,7 +1485,7 @@ module.exports =
 
 /***/ },
 
-/***/ 99:
+/***/ 102:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1479,27 +1519,22 @@ module.exports =
 	  }) : _vm._e()]), _c('span', {
 	    staticClass: "el-color-picker__icon el-icon-caret-bottom"
 	  })]), _c('picker-dropdown', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: (_vm.showPicker),
-	      expression: "showPicker"
-	    }],
 	    ref: "dropdown",
 	    staticClass: "el-color-picker__panel",
 	    attrs: {
 	      "color": _vm.color,
 	      "show-alpha": _vm.showAlpha
 	    },
-	    domProps: {
-	      "value": (_vm.showPicker)
-	    },
 	    on: {
 	      "pick": _vm.confirmValue,
-	      "clear": _vm.clearValue,
-	      "input": function($event) {
-	        _vm.showPicker = $event
-	      }
+	      "clear": _vm.clearValue
+	    },
+	    model: {
+	      value: (_vm.showPicker),
+	      callback: function($$v) {
+	        _vm.showPicker = $$v
+	      },
+	      expression: "showPicker"
 	    }
 	  })], 1)
 	},staticRenderFns: []}

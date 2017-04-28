@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(318);
+	module.exports = __webpack_require__(322);
 
 
 /***/ },
@@ -54,11 +54,17 @@ module.exports =
 /***/ 3:
 /***/ function(module, exports) {
 
+	/* globals __VUE_SSR_CONTEXT__ */
+
+	// this module is a runtime utility for cleaner component module output and will
+	// be included in the final webpack user bundle
+
 	module.exports = function normalizeComponent (
 	  rawScriptExports,
 	  compiledTemplate,
+	  injectStyles,
 	  scopeId,
-	  cssModules
+	  moduleIdentifier /* server only */
 	) {
 	  var esModule
 	  var scriptExports = rawScriptExports = rawScriptExports || {}
@@ -86,13 +92,37 @@ module.exports =
 	    options._scopeId = scopeId
 	  }
 
-	  // inject cssModules
-	  if (cssModules) {
-	    var computed = options.computed || (options.computed = {})
-	    Object.keys(cssModules).forEach(function (key) {
-	      var module = cssModules[key]
-	      computed[key] = function () { return module }
-	    })
+	  var hook
+	  if (moduleIdentifier) { // server build
+	    hook = function (context) {
+	      // 2.3 injection
+	      context = context || (this.$vnode && this.$vnode.ssrContext)
+	      // 2.2 with runInNewContext: true
+	      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+	        context = __VUE_SSR_CONTEXT__
+	      }
+	      // inject component styles
+	      if (injectStyles) {
+	        injectStyles.call(this, context)
+	      }
+	      // register component module identifier for async chunk inferrence
+	      if (context && context._registeredComponents) {
+	        context._registeredComponents.add(moduleIdentifier)
+	      }
+	    }
+	    // used by ssr in case component is cached and beforeCreate
+	    // never gets called
+	    options._ssrRegister = hook
+	  } else if (injectStyles) {
+	    hook = injectStyles
+	  }
+
+	  if (hook) {
+	    // inject component registration as beforeCreate hook
+	    var existing = options.beforeCreate
+	    options.beforeCreate = existing
+	      ? [].concat(existing, hook)
+	      : [hook]
 	  }
 
 	  return {
@@ -112,14 +142,14 @@ module.exports =
 
 /***/ },
 
-/***/ 318:
+/***/ 322:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tabs = __webpack_require__(319);
+	var _tabs = __webpack_require__(323);
 
 	var _tabs2 = _interopRequireDefault(_tabs);
 
@@ -134,17 +164,19 @@ module.exports =
 
 /***/ },
 
-/***/ 319:
+/***/ 323:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(320),
+	  __webpack_require__(324),
 	  /* template */
+	  null,
+	  /* styles */
 	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -153,14 +185,14 @@ module.exports =
 
 /***/ },
 
-/***/ 320:
+/***/ 324:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tabNav = __webpack_require__(321);
+	var _tabNav = __webpack_require__(325);
 
 	var _tabNav2 = _interopRequireDefault(_tabNav);
 
@@ -309,17 +341,19 @@ module.exports =
 
 /***/ },
 
-/***/ 321:
+/***/ 325:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(322),
+	  __webpack_require__(326),
 	  /* template */
+	  null,
+	  /* styles */
 	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -328,14 +362,14 @@ module.exports =
 
 /***/ },
 
-/***/ 322:
+/***/ 326:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tabBar = __webpack_require__(323);
+	var _tabBar = __webpack_require__(327);
 
 	var _tabBar2 = _interopRequireDefault(_tabBar);
 
@@ -558,17 +592,19 @@ module.exports =
 
 /***/ },
 
-/***/ 323:
+/***/ 327:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(324),
+	  __webpack_require__(328),
 	  /* template */
-	  __webpack_require__(325),
+	  __webpack_require__(329),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -577,7 +613,7 @@ module.exports =
 
 /***/ },
 
-/***/ 324:
+/***/ 328:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -634,7 +670,7 @@ module.exports =
 
 /***/ },
 
-/***/ 325:
+/***/ 329:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

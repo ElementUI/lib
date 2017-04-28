@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(63);
+	module.exports = __webpack_require__(67);
 
 
 /***/ },
@@ -142,36 +142,36 @@ module.exports =
 
 /***/ },
 
-/***/ 63:
+/***/ 67:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(64);
+	var _checkboxButton = __webpack_require__(68);
 
-	var _checkbox2 = _interopRequireDefault(_checkbox);
+	var _checkboxButton2 = _interopRequireDefault(_checkboxButton);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* istanbul ignore next */
-	_checkbox2.default.install = function (Vue) {
-	  Vue.component(_checkbox2.default.name, _checkbox2.default);
+	_checkboxButton2.default.install = function (Vue) {
+	  Vue.component(_checkboxButton2.default.name, _checkboxButton2.default);
 	};
 
-	exports.default = _checkbox2.default;
+	exports.default = _checkboxButton2.default;
 
 /***/ },
 
-/***/ 64:
+/***/ 68:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(65),
+	  __webpack_require__(69),
 	  /* template */
-	  __webpack_require__(66),
+	  __webpack_require__(70),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,7 +185,7 @@ module.exports =
 
 /***/ },
 
-/***/ 65:
+/***/ 69:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -199,11 +199,9 @@ module.exports =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
-	  name: 'ElCheckbox',
+	  name: 'ElCheckboxButton',
 
 	  mixins: [_emitter2.default],
-
-	  componentName: 'ElCheckbox',
 
 	  data: function data() {
 	    return {
@@ -213,13 +211,22 @@ module.exports =
 	  },
 
 
+	  props: {
+	    value: {},
+	    label: {},
+	    disabled: Boolean,
+	    checked: Boolean,
+	    name: String,
+	    trueLabel: [String, Number],
+	    falseLabel: [String, Number]
+	  },
 	  computed: {
 	    model: {
 	      get: function get() {
-	        return this.isGroup ? this.store : this.value !== undefined ? this.value : this.selfModel;
+	        return this._checkboxGroup ? this.store : this.value !== undefined ? this.value : this.selfModel;
 	      },
 	      set: function set(val) {
-	        if (this.isGroup) {
+	        if (this._checkboxGroup) {
 	          var isLimitExceeded = false;
 	          this._checkboxGroup.min !== undefined && val.length < this._checkboxGroup.min && (isLimitExceeded = true);
 
@@ -243,34 +250,33 @@ module.exports =
 	        return this.model === this.trueLabel;
 	      }
 	    },
-	    isGroup: function isGroup() {
+	    _checkboxGroup: function _checkboxGroup() {
 	      var parent = this.$parent;
 	      while (parent) {
 	        if (parent.$options.componentName !== 'ElCheckboxGroup') {
 	          parent = parent.$parent;
 	        } else {
-	          this._checkboxGroup = parent;
-	          return true;
+	          return parent;
 	        }
 	      }
 	      return false;
 	    },
 	    store: function store() {
 	      return this._checkboxGroup ? this._checkboxGroup.value : this.value;
+	    },
+	    activeStyle: function activeStyle() {
+	      return {
+	        backgroundColor: this._checkboxGroup.fill || '',
+	        borderColor: this._checkboxGroup.fill || '',
+	        color: this._checkboxGroup.textColor || '',
+	        'box-shadow': '-1px 0 0 0 ' + this._checkboxGroup.fill
+
+	      };
+	    },
+	    size: function size() {
+	      return this._checkboxGroup.size;
 	    }
 	  },
-
-	  props: {
-	    value: {},
-	    label: {},
-	    indeterminate: Boolean,
-	    disabled: Boolean,
-	    checked: Boolean,
-	    name: String,
-	    trueLabel: [String, Number],
-	    falseLabel: [String, Number]
-	  },
-
 	  methods: {
 	    addToStore: function addToStore() {
 	      if (Array.isArray(this.model) && this.model.indexOf(this.label) === -1) {
@@ -283,7 +289,7 @@ module.exports =
 	      var _this = this;
 
 	      this.$emit('change', ev);
-	      if (this.isGroup) {
+	      if (this._checkboxGroup) {
 	        this.$nextTick(function (_) {
 	          _this.dispatch('ElCheckboxGroup', 'change', [_this._checkboxGroup.value]);
 	        });
@@ -335,33 +341,32 @@ module.exports =
 	//
 	//
 	//
+	//
 
 /***/ },
 
-/***/ 66:
+/***/ 70:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('label', {
-	    staticClass: "el-checkbox"
-	  }, [_c('span', {
-	    staticClass: "el-checkbox__input",
-	    class: {
-	      'is-disabled': _vm.disabled,
-	      'is-checked': _vm.isChecked,
-	      'is-indeterminate': _vm.indeterminate,
-	      'is-focus': _vm.focus
-	    }
-	  }, [_c('span', {
-	    staticClass: "el-checkbox__inner"
-	  }), (_vm.trueLabel || _vm.falseLabel) ? _c('input', {
+	    staticClass: "el-checkbox-button",
+	    class: [
+	      _vm.size ? 'el-checkbox-button--' + _vm.size : '', {
+	        'is-disabled': _vm.disabled
+	      }, {
+	        'is-checked': _vm.isChecked
+	      }, {
+	        'is-focus': _vm.focus
+	      } ]
+	  }, [(_vm.trueLabel || _vm.falseLabel) ? _c('input', {
 	    directives: [{
 	      name: "model",
 	      rawName: "v-model",
 	      value: (_vm.model),
 	      expression: "model"
 	    }],
-	    staticClass: "el-checkbox__original",
+	    staticClass: "el-checkbox-button__original",
 	    attrs: {
 	      "type": "checkbox",
 	      "name": _vm.name,
@@ -404,11 +409,11 @@ module.exports =
 	      value: (_vm.model),
 	      expression: "model"
 	    }],
-	    staticClass: "el-checkbox__original",
+	    staticClass: "el-checkbox-button__original",
 	    attrs: {
 	      "type": "checkbox",
-	      "disabled": _vm.disabled,
-	      "name": _vm.name
+	      "name": _vm.name,
+	      "disabled": _vm.disabled
 	    },
 	    domProps: {
 	      "value": _vm.label,
@@ -439,9 +444,10 @@ module.exports =
 	        }
 	      }
 	    }
-	  })]), (_vm.$slots.default || _vm.label) ? _c('span', {
-	    staticClass: "el-checkbox__label"
-	  }, [_vm._t("default"), (!_vm.$slots.default) ? [_vm._v(_vm._s(_vm.label))] : _vm._e()], 2) : _vm._e()])
+	  }), (_vm.$slots.default || _vm.label) ? _c('span', {
+	    staticClass: "el-checkbox-button__inner",
+	    style: (_vm.isChecked ? _vm.activeStyle : null)
+	  }, [_vm._t("default", [_vm._v(_vm._s(_vm.label))])], 2) : _vm._e()])
 	},staticRenderFns: []}
 
 /***/ }

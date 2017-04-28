@@ -77,6 +77,10 @@
         noData: 'Ingen data',
         placeholder: 'Välj'
       },
+      cascader: {
+        noMatch: 'Hittade inget',
+        placeholder: 'Välj'
+      },
       pagination: {
         goto: 'Gå till',
         pagesize: '/sida',
@@ -98,10 +102,19 @@
         emptyText: 'Inga Data',
         confirmFilter: 'Bekräfta',
         resetFilter: 'Återställ',
-        clearFilter: 'Alla'
+        clearFilter: 'Alla',
+        sumText: 'Sum' // to be translated
       },
       tree: {
         emptyText: 'Inga Data'
+      },
+      transfer: {
+        noMatch: 'Hittade inget',
+        noData: 'Ingen data',
+        titles: ['List 1', 'List 2'], // to be translated
+        filterPlaceholder: 'Enter keyword', // to be translated
+        noCheckedFormat: '{total} items', // to be translated
+        hasCheckedFormat: '{checked}/{total} checked' // to be translated
       }
     }
   };

@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(129);
+	module.exports = __webpack_require__(132);
 
 
 /***/ },
@@ -54,11 +54,17 @@ module.exports =
 /***/ 3:
 /***/ function(module, exports) {
 
+	/* globals __VUE_SSR_CONTEXT__ */
+
+	// this module is a runtime utility for cleaner component module output and will
+	// be included in the final webpack user bundle
+
 	module.exports = function normalizeComponent (
 	  rawScriptExports,
 	  compiledTemplate,
+	  injectStyles,
 	  scopeId,
-	  cssModules
+	  moduleIdentifier /* server only */
 	) {
 	  var esModule
 	  var scriptExports = rawScriptExports = rawScriptExports || {}
@@ -86,13 +92,37 @@ module.exports =
 	    options._scopeId = scopeId
 	  }
 
-	  // inject cssModules
-	  if (cssModules) {
-	    var computed = options.computed || (options.computed = {})
-	    Object.keys(cssModules).forEach(function (key) {
-	      var module = cssModules[key]
-	      computed[key] = function () { return module }
-	    })
+	  var hook
+	  if (moduleIdentifier) { // server build
+	    hook = function (context) {
+	      // 2.3 injection
+	      context = context || (this.$vnode && this.$vnode.ssrContext)
+	      // 2.2 with runInNewContext: true
+	      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+	        context = __VUE_SSR_CONTEXT__
+	      }
+	      // inject component styles
+	      if (injectStyles) {
+	        injectStyles.call(this, context)
+	      }
+	      // register component module identifier for async chunk inferrence
+	      if (context && context._registeredComponents) {
+	        context._registeredComponents.add(moduleIdentifier)
+	      }
+	    }
+	    // used by ssr in case component is cached and beforeCreate
+	    // never gets called
+	    options._ssrRegister = hook
+	  } else if (injectStyles) {
+	    hook = injectStyles
+	  }
+
+	  if (hook) {
+	    // inject component registration as beforeCreate hook
+	    var existing = options.beforeCreate
+	    options.beforeCreate = existing
+	      ? [].concat(existing, hook)
+	      : [hook]
 	  }
 
 	  return {
@@ -112,14 +142,14 @@ module.exports =
 
 /***/ },
 
-/***/ 129:
+/***/ 132:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _component = __webpack_require__(130);
+	var _component = __webpack_require__(133);
 
 	var _component2 = _interopRequireDefault(_component);
 
@@ -134,17 +164,19 @@ module.exports =
 
 /***/ },
 
-/***/ 130:
+/***/ 133:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(131),
+	  __webpack_require__(134),
 	  /* template */
-	  __webpack_require__(133),
+	  __webpack_require__(136),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -153,14 +185,14 @@ module.exports =
 
 /***/ },
 
-/***/ 131:
+/***/ 134:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _popup = __webpack_require__(132);
+	var _popup = __webpack_require__(135);
 
 	var _popup2 = _interopRequireDefault(_popup);
 
@@ -250,7 +282,8 @@ module.exports =
 	    top: {
 	      type: String,
 	      default: '15%'
-	    }
+	    },
+	    beforeClose: Function
 	  },
 	  data: function data() {
 	    return {
@@ -291,7 +324,13 @@ module.exports =
 
 	  methods: {
 	    handleWrapperClick: function handleWrapperClick() {
-	      if (this.closeOnClickModal) {
+	      if (!this.closeOnClickModal) return;
+	      this.handleClose();
+	    },
+	    handleClose: function handleClose() {
+	      if (typeof this.beforeClose === 'function') {
+	        this.beforeClose(this.close);
+	      } else {
 	        this.close();
 	      }
 	    },
@@ -311,14 +350,14 @@ module.exports =
 
 /***/ },
 
-/***/ 132:
+/***/ 135:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/popup");
 
 /***/ },
 
-/***/ 133:
+/***/ 136:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -336,7 +375,7 @@ module.exports =
 	    staticClass: "el-dialog__wrapper",
 	    on: {
 	      "click": function($event) {
-	        if ($event.target !== $event.currentTarget) { return; }
+	        if ($event.target !== $event.currentTarget) { return null; }
 	        _vm.handleWrapperClick($event)
 	      }
 	    }
@@ -354,9 +393,7 @@ module.exports =
 	  }, [(_vm.showClose) ? _c('i', {
 	    staticClass: "el-dialog__close el-icon el-icon-close",
 	    on: {
-	      "click": function($event) {
-	        _vm.close()
-	      }
+	      "click": _vm.handleClose
 	    }
 	  }) : _vm._e()])], 2), (_vm.rendered) ? _c('div', {
 	    staticClass: "el-dialog__body"

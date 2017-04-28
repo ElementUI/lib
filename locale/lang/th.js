@@ -34,7 +34,7 @@ exports.default = {
       month12: 'ธันวาคม',
       // week: 'week',
       weeks: {
-        sun: 'อ',
+        sun: 'อา',
         mon: 'จ',
         tue: 'อ',
         wed: 'พ',
@@ -88,10 +88,19 @@ exports.default = {
       emptyText: 'ไม่พบข้อมูล',
       confirmFilter: 'ยืนยัน',
       resetFilter: 'รีเซ็ต',
-      clearFilter: 'ทั้งหมด'
+      clearFilter: 'ทั้งหมด',
+      sumText: 'Sum' // to be translated
     },
     tree: {
       emptyText: 'ไม่พบข้อมูล'
+    },
+    transfer: {
+      noMatch: 'ไม่พบข้อมูลที่ตรงกัน',
+      noData: 'ไม่พบข้อมูล',
+      titles: ['List 1', 'List 2'], // to be translated
+      filterPlaceholder: 'Enter keyword', // to be translated
+      noCheckedFormat: '{total} items', // to be translated
+      hasCheckedFormat: '{checked}/{total} checked' // to be translated
     }
   }
 };

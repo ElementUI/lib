@@ -26,7 +26,7 @@ var lang = _zhCN2.default;
 var merged = false;
 var i18nHandler = function i18nHandler() {
   var vuei18n = Object.getPrototypeOf(this || _vue2.default).$t;
-  if (typeof vuei18n === 'function') {
+  if (typeof vuei18n === 'function' && !!_vue2.default.locale) {
     if (!merged) {
       merged = true;
       _vue2.default.locale(_vue2.default.config.lang, (0, _deepmerge2.default)(lang, _vue2.default.locale(_vue2.default.config.lang) || {}, { clone: true }));

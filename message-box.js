@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(199);
+	module.exports = __webpack_require__(202);
 
 
 /***/ },
@@ -54,11 +54,17 @@ module.exports =
 /***/ 3:
 /***/ function(module, exports) {
 
+	/* globals __VUE_SSR_CONTEXT__ */
+
+	// this module is a runtime utility for cleaner component module output and will
+	// be included in the final webpack user bundle
+
 	module.exports = function normalizeComponent (
 	  rawScriptExports,
 	  compiledTemplate,
+	  injectStyles,
 	  scopeId,
-	  cssModules
+	  moduleIdentifier /* server only */
 	) {
 	  var esModule
 	  var scriptExports = rawScriptExports = rawScriptExports || {}
@@ -86,13 +92,37 @@ module.exports =
 	    options._scopeId = scopeId
 	  }
 
-	  // inject cssModules
-	  if (cssModules) {
-	    var computed = options.computed || (options.computed = {})
-	    Object.keys(cssModules).forEach(function (key) {
-	      var module = cssModules[key]
-	      computed[key] = function () { return module }
-	    })
+	  var hook
+	  if (moduleIdentifier) { // server build
+	    hook = function (context) {
+	      // 2.3 injection
+	      context = context || (this.$vnode && this.$vnode.ssrContext)
+	      // 2.2 with runInNewContext: true
+	      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+	        context = __VUE_SSR_CONTEXT__
+	      }
+	      // inject component styles
+	      if (injectStyles) {
+	        injectStyles.call(this, context)
+	      }
+	      // register component module identifier for async chunk inferrence
+	      if (context && context._registeredComponents) {
+	        context._registeredComponents.add(moduleIdentifier)
+	      }
+	    }
+	    // used by ssr in case component is cached and beforeCreate
+	    // never gets called
+	    options._ssrRegister = hook
+	  } else if (injectStyles) {
+	    hook = injectStyles
+	  }
+
+	  if (hook) {
+	    // inject component registration as beforeCreate hook
+	    var existing = options.beforeCreate
+	    options.beforeCreate = existing
+	      ? [].concat(existing, hook)
+	      : [hook]
 	  }
 
 	  return {
@@ -133,42 +163,42 @@ module.exports =
 
 /***/ },
 
-/***/ 117:
+/***/ 120:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 132:
+/***/ 135:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/popup");
 
 /***/ },
 
-/***/ 137:
+/***/ 140:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/button");
 
 /***/ },
 
-/***/ 164:
+/***/ 167:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 199:
+/***/ 202:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(200);
+	var _main = __webpack_require__(203);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -178,7 +208,7 @@ module.exports =
 
 /***/ },
 
-/***/ 200:
+/***/ 203:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -192,11 +222,11 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _main = __webpack_require__(201);
+	var _main = __webpack_require__(204);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _merge = __webpack_require__(164);
+	var _merge = __webpack_require__(167);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
@@ -408,17 +438,19 @@ module.exports =
 
 /***/ },
 
-/***/ 201:
+/***/ 204:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(202),
+	  __webpack_require__(205),
 	  /* template */
-	  __webpack_require__(203),
+	  __webpack_require__(206),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -427,14 +459,14 @@ module.exports =
 
 /***/ },
 
-/***/ 202:
+/***/ 205:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _popup = __webpack_require__(132);
+	var _popup = __webpack_require__(135);
 
 	var _popup2 = _interopRequireDefault(_popup);
 
@@ -446,11 +478,11 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _button = __webpack_require__(137);
+	var _button = __webpack_require__(140);
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _dom = __webpack_require__(117);
+	var _dom = __webpack_require__(120);
 
 	var _locale3 = __webpack_require__(61);
 
@@ -692,7 +724,7 @@ module.exports =
 
 /***/ },
 
-/***/ 203:
+/***/ 206:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -710,7 +742,7 @@ module.exports =
 	    staticClass: "el-message-box__wrapper",
 	    on: {
 	      "click": function($event) {
-	        if ($event.target !== $event.currentTarget) { return; }
+	        if ($event.target !== $event.currentTarget) { return null; }
 	        _vm.handleWrapperClick($event)
 	      }
 	    }
@@ -747,29 +779,22 @@ module.exports =
 	    }],
 	    staticClass: "el-message-box__input"
 	  }, [_c('el-input', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: (_vm.inputValue),
-	      expression: "inputValue"
-	    }],
 	    ref: "input",
 	    attrs: {
 	      "placeholder": _vm.inputPlaceholder
 	    },
-	    domProps: {
-	      "value": (_vm.inputValue)
-	    },
-	    on: {
-	      "input": function($event) {
-	        _vm.inputValue = $event
-	      }
-	    },
 	    nativeOn: {
 	      "keyup": function($event) {
-	        if (_vm._k($event.keyCode, "enter", 13)) { return; }
+	        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
 	        _vm.handleAction('confirm')
 	      }
+	    },
+	    model: {
+	      value: (_vm.inputValue),
+	      callback: function($$v) {
+	        _vm.inputValue = $$v
+	      },
+	      expression: "inputValue"
 	    }
 	  }), _c('div', {
 	    staticClass: "el-message-box__errormsg",

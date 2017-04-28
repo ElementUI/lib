@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(301);
+	module.exports = __webpack_require__(304);
 
 
 /***/ },
@@ -54,11 +54,17 @@ module.exports =
 /***/ 3:
 /***/ function(module, exports) {
 
+	/* globals __VUE_SSR_CONTEXT__ */
+
+	// this module is a runtime utility for cleaner component module output and will
+	// be included in the final webpack user bundle
+
 	module.exports = function normalizeComponent (
 	  rawScriptExports,
 	  compiledTemplate,
+	  injectStyles,
 	  scopeId,
-	  cssModules
+	  moduleIdentifier /* server only */
 	) {
 	  var esModule
 	  var scriptExports = rawScriptExports = rawScriptExports || {}
@@ -86,13 +92,37 @@ module.exports =
 	    options._scopeId = scopeId
 	  }
 
-	  // inject cssModules
-	  if (cssModules) {
-	    var computed = options.computed || (options.computed = {})
-	    Object.keys(cssModules).forEach(function (key) {
-	      var module = cssModules[key]
-	      computed[key] = function () { return module }
-	    })
+	  var hook
+	  if (moduleIdentifier) { // server build
+	    hook = function (context) {
+	      // 2.3 injection
+	      context = context || (this.$vnode && this.$vnode.ssrContext)
+	      // 2.2 with runInNewContext: true
+	      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+	        context = __VUE_SSR_CONTEXT__
+	      }
+	      // inject component styles
+	      if (injectStyles) {
+	        injectStyles.call(this, context)
+	      }
+	      // register component module identifier for async chunk inferrence
+	      if (context && context._registeredComponents) {
+	        context._registeredComponents.add(moduleIdentifier)
+	      }
+	    }
+	    // used by ssr in case component is cached and beforeCreate
+	    // never gets called
+	    options._ssrRegister = hook
+	  } else if (injectStyles) {
+	    hook = injectStyles
+	  }
+
+	  if (hook) {
+	    // inject component registration as beforeCreate hook
+	    var existing = options.beforeCreate
+	    options.beforeCreate = existing
+	      ? [].concat(existing, hook)
+	      : [hook]
 	  }
 
 	  return {
@@ -154,49 +184,49 @@ module.exports =
 
 /***/ },
 
-/***/ 117:
+/***/ 120:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 132:
+/***/ 135:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/popup");
 
 /***/ },
 
-/***/ 256:
+/***/ 259:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/scrollbar-width");
 
 /***/ },
 
-/***/ 266:
+/***/ 269:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 274:
+/***/ 277:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tooltip");
 
 /***/ },
 
-/***/ 301:
+/***/ 304:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _table = __webpack_require__(302);
+	var _table = __webpack_require__(305);
 
 	var _table2 = _interopRequireDefault(_table);
 
@@ -211,17 +241,19 @@ module.exports =
 
 /***/ },
 
-/***/ 302:
+/***/ 305:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(303),
+	  __webpack_require__(306),
 	  /* template */
-	  __webpack_require__(315),
+	  __webpack_require__(319),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -230,14 +262,14 @@ module.exports =
 
 /***/ },
 
-/***/ 303:
+/***/ 306:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(304);
+	var _checkbox = __webpack_require__(307);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -255,26 +287,31 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _tableStore = __webpack_require__(305);
+	var _tableStore = __webpack_require__(308);
 
 	var _tableStore2 = _interopRequireDefault(_tableStore);
 
-	var _tableLayout = __webpack_require__(307);
+	var _tableLayout = __webpack_require__(310);
 
 	var _tableLayout2 = _interopRequireDefault(_tableLayout);
 
-	var _tableBody = __webpack_require__(308);
+	var _tableBody = __webpack_require__(311);
 
 	var _tableBody2 = _interopRequireDefault(_tableBody);
 
-	var _tableHeader = __webpack_require__(309);
+	var _tableHeader = __webpack_require__(312);
 
 	var _tableHeader2 = _interopRequireDefault(_tableHeader);
 
-	var _util = __webpack_require__(306);
+	var _tableFooter = __webpack_require__(318);
+
+	var _tableFooter2 = _interopRequireDefault(_tableFooter);
+
+	var _util = __webpack_require__(309);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var tableIdSeed = 1; //
 	//
 	//
 	//
@@ -381,8 +418,36 @@ module.exports =
 	//
 	//
 	//
-
-	var tableIdSeed = 1;
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElTable',
@@ -421,6 +486,12 @@ module.exports =
 	      default: true
 	    },
 
+	    showSummary: Boolean,
+
+	    sumText: String,
+
+	    summaryMethod: Function,
+
 	    rowClassName: [String, Function],
 
 	    rowStyle: [Object, Function],
@@ -442,11 +513,15 @@ module.exports =
 
 	  components: {
 	    TableHeader: _tableHeader2.default,
+	    TableFooter: _tableFooter2.default,
 	    TableBody: _tableBody2.default,
 	    ElCheckbox: _checkbox2.default
 	  },
 
 	  methods: {
+	    setCurrentRow: function setCurrentRow(row) {
+	      this.store.commit('setCurrentRow', row);
+	    },
 	    toggleRowSelection: function toggleRowSelection(row, selected) {
 	      this.store.toggleRowSelection(row, selected);
 	      this.store.updateAllSelected();
@@ -464,11 +539,14 @@ module.exports =
 	    bindEvents: function bindEvents() {
 	      var _this = this;
 
-	      var headerWrapper = this.$refs.headerWrapper;
+	      var _$refs = this.$refs,
+	          headerWrapper = _$refs.headerWrapper,
+	          footerWrapper = _$refs.footerWrapper;
 
 	      var refs = this.$refs;
 	      this.bodyWrapper.addEventListener('scroll', function () {
 	        if (headerWrapper) headerWrapper.scrollLeft = this.scrollLeft;
+	        if (footerWrapper) footerWrapper.scrollLeft = this.scrollLeft;
 	        if (refs.fixedBodyWrapper) refs.fixedBodyWrapper.scrollTop = this.scrollTop;
 	        if (refs.rightFixedBodyWrapper) refs.rightFixedBodyWrapper.scrollTop = this.scrollTop;
 	      });
@@ -668,14 +746,14 @@ module.exports =
 
 /***/ },
 
-/***/ 304:
+/***/ 307:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 305:
+/***/ 308:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -690,7 +768,7 @@ module.exports =
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _util = __webpack_require__(306);
+	var _util = __webpack_require__(309);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1197,7 +1275,7 @@ module.exports =
 
 /***/ },
 
-/***/ 306:
+/***/ 309:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1301,14 +1379,14 @@ module.exports =
 
 /***/ },
 
-/***/ 307:
+/***/ 310:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _scrollbarWidth = __webpack_require__(256);
+	var _scrollbarWidth = __webpack_require__(259);
 
 	var _scrollbarWidth2 = _interopRequireDefault(_scrollbarWidth);
 
@@ -1404,7 +1482,8 @@ module.exports =
 	      this.fixedBodyHeight = this.scrollX ? height - this.gutterWidth : height;
 	    } else {
 	      var headerHeight = this.headerHeight = headerWrapper.offsetHeight;
-	      var bodyHeight = height - headerHeight;
+	      var ratio = this.table.showSummary && this.table.data && this.table.data.length > 0 ? 2 : 1;
+	      var bodyHeight = height - ratio * headerHeight + (this.table.showSummary ? 1 : 0);
 	      if (this.height !== null && (!isNaN(this.height) || typeof this.height === 'string')) {
 	        this.bodyHeight = bodyHeight;
 	      }
@@ -1516,22 +1595,22 @@ module.exports =
 
 /***/ },
 
-/***/ 308:
+/***/ 311:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(306);
+	var _util = __webpack_require__(309);
 
-	var _dom = __webpack_require__(117);
+	var _dom = __webpack_require__(120);
 
-	var _checkbox = __webpack_require__(304);
+	var _checkbox = __webpack_require__(307);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tooltip = __webpack_require__(274);
+	var _tooltip = __webpack_require__(277);
 
 	var _tooltip2 = _interopRequireDefault(_tooltip);
 
@@ -1648,7 +1727,7 @@ module.exports =
 	              [_this.table.renderExpanded ? _this.table.renderExpanded(h, { row: row, $index: $index, store: _this.store }) : '']
 	            )]
 	          ) : ''];
-	        }).concat(h(
+	        }).concat(this._self.$parent.$slots.append).concat(h(
 	          'el-tooltip',
 	          {
 	            attrs: { effect: this.table.tooltipEffect, placement: 'top', content: this.tooltipContent },
@@ -1837,18 +1916,18 @@ module.exports =
 
 /***/ },
 
-/***/ 309:
+/***/ 312:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(304);
+	var _checkbox = __webpack_require__(307);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(266);
+	var _tag = __webpack_require__(269);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
@@ -1856,7 +1935,7 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _filterPanel = __webpack_require__(310);
+	var _filterPanel = __webpack_require__(313);
 
 	var _filterPanel2 = _interopRequireDefault(_filterPanel);
 
@@ -2346,17 +2425,19 @@ module.exports =
 
 /***/ },
 
-/***/ 310:
+/***/ 313:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(311),
-	  /* template */
 	  __webpack_require__(314),
+	  /* template */
+	  __webpack_require__(317),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -2365,7 +2446,7 @@ module.exports =
 
 /***/ },
 
-/***/ 311:
+/***/ 314:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2376,7 +2457,7 @@ module.exports =
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _popup = __webpack_require__(132);
+	var _popup = __webpack_require__(135);
 
 	var _locale = __webpack_require__(60);
 
@@ -2386,15 +2467,15 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _dropdown = __webpack_require__(312);
+	var _dropdown = __webpack_require__(315);
 
 	var _dropdown2 = _interopRequireDefault(_dropdown);
 
-	var _checkbox = __webpack_require__(304);
+	var _checkbox = __webpack_require__(307);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _checkboxGroup = __webpack_require__(313);
+	var _checkboxGroup = __webpack_require__(316);
 
 	var _checkboxGroup2 = _interopRequireDefault(_checkboxGroup);
 
@@ -2599,10 +2680,12 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
 
 /***/ },
 
-/***/ 312:
+/***/ 315:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2644,14 +2727,14 @@ module.exports =
 
 /***/ },
 
-/***/ 313:
+/***/ 316:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox-group");
 
 /***/ },
 
-/***/ 314:
+/***/ 317:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2670,23 +2753,17 @@ module.exports =
 	  }, [_c('div', {
 	    staticClass: "el-table-filter__content"
 	  }, [_c('el-checkbox-group', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: (_vm.filteredValue),
-	      expression: "filteredValue"
-	    }],
 	    staticClass: "el-table-filter__checkbox-group",
-	    domProps: {
-	      "value": (_vm.filteredValue)
-	    },
-	    on: {
-	      "input": function($event) {
-	        _vm.filteredValue = $event
-	      }
+	    model: {
+	      value: (_vm.filteredValue),
+	      callback: function($$v) {
+	        _vm.filteredValue = $$v
+	      },
+	      expression: "filteredValue"
 	    }
 	  }, _vm._l((_vm.filters), function(filter) {
 	    return _c('el-checkbox', {
+	      key: filter.value,
 	      attrs: {
 	        "label": filter.value
 	      }
@@ -2729,6 +2806,7 @@ module.exports =
 	    }
 	  }, [_vm._v(_vm._s(_vm.t('el.table.clearFilter')))]), _vm._l((_vm.filters), function(filter) {
 	    return _c('li', {
+	      key: filter.value,
 	      staticClass: "el-table-filter__list-item",
 	      class: {
 	        'is-active': _vm.isActive(filter)
@@ -2747,7 +2825,172 @@ module.exports =
 
 /***/ },
 
-/***/ 315:
+/***/ 318:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.default = {
+	  name: 'ElTableFooter',
+
+	  render: function render(h) {
+	    var _this = this;
+
+	    var sums = [];
+	    this.columns.forEach(function (column, index) {
+	      if (index === 0) {
+	        sums[index] = _this.sumText;
+	        return;
+	      }
+	      var values = _this.store.states.data.map(function (item) {
+	        return Number(item[column.property]);
+	      });
+	      var precisions = [];
+	      var notNumber = true;
+	      values.forEach(function (value) {
+	        if (!isNaN(value)) {
+	          notNumber = false;
+	          var decimal = ('' + value).split('.')[1];
+	          precisions.push(decimal ? decimal.length : 0);
+	        }
+	      });
+	      var precision = Math.max.apply(null, precisions);
+	      if (!notNumber) {
+	        sums[index] = values.reduce(function (prev, curr) {
+	          var value = Number(curr);
+	          if (!isNaN(value)) {
+	            return parseFloat((prev + curr).toFixed(precision));
+	          } else {
+	            return prev;
+	          }
+	        }, 0);
+	      } else {
+	        sums[index] = '';
+	      }
+	    });
+
+	    return h(
+	      'table',
+	      {
+	        'class': 'el-table__footer',
+	        attrs: { cellspacing: '0',
+	          cellpadding: '0',
+	          border: '0' }
+	      },
+	      [h(
+	        'colgroup',
+	        null,
+	        [this._l(this.columns, function (column) {
+	          return h(
+	            'col',
+	            {
+	              attrs: {
+	                name: column.id,
+	                width: column.realWidth || column.width
+	              }
+	            },
+	            []
+	          );
+	        }), !this.fixed && this.layout.gutterWidth ? h(
+	          'col',
+	          {
+	            attrs: { name: 'gutter', width: this.layout.scrollY ? this.layout.gutterWidth : '' }
+	          },
+	          []
+	        ) : '']
+	      ), h(
+	        'tbody',
+	        null,
+	        [h(
+	          'tr',
+	          null,
+	          [this._l(this.columns, function (column, cellIndex) {
+	            return h(
+	              'td',
+	              {
+	                attrs: {
+	                  colspan: column.colSpan,
+	                  rowspan: column.rowSpan
+	                },
+	                'class': [column.id, column.headerAlign, column.className || '', _this.isCellHidden(cellIndex, _this.columns) ? 'is-hidden' : '', !column.children ? 'is-leaf' : '', column.labelClassName] },
+	              [h(
+	                'div',
+	                { 'class': ['cell', column.labelClassName] },
+	                [_this.summaryMethod ? _this.summaryMethod({ columns: _this.columns, data: _this.store.states.data })[cellIndex] : sums[cellIndex]]
+	              )]
+	            );
+	          }), !this.fixed && this.layout.gutterWidth ? h(
+	            'td',
+	            { 'class': 'gutter', style: { width: this.layout.scrollY ? this.layout.gutterWidth + 'px' : '0' } },
+	            []
+	          ) : '']
+	        )]
+	      )]
+	    );
+	  },
+
+
+	  props: {
+	    fixed: String,
+	    store: {
+	      required: true
+	    },
+	    layout: {
+	      required: true
+	    },
+	    summaryMethod: Function,
+	    sumText: String,
+	    border: Boolean,
+	    defaultSort: {
+	      type: Object,
+	      default: function _default() {
+	        return {
+	          prop: '',
+	          order: ''
+	        };
+	      }
+	    }
+	  },
+
+	  computed: {
+	    isAllSelected: function isAllSelected() {
+	      return this.store.states.isAllSelected;
+	    },
+	    columnsCount: function columnsCount() {
+	      return this.store.states.columns.length;
+	    },
+	    leftFixedCount: function leftFixedCount() {
+	      return this.store.states.fixedColumns.length;
+	    },
+	    rightFixedCount: function rightFixedCount() {
+	      return this.store.states.rightFixedColumns.length;
+	    },
+	    columns: function columns() {
+	      return this.store.states.columns;
+	    }
+	  },
+
+	  methods: {
+	    isCellHidden: function isCellHidden(index, columns) {
+	      if (this.fixed === true || this.fixed === 'left') {
+	        return index >= this.leftFixedCount;
+	      } else if (this.fixed === 'right') {
+	        var before = 0;
+	        for (var i = 0; i < index; i++) {
+	          before += columns[i].colSpan;
+	        }
+	        return before < this.columnsCount - this.rightFixedCount;
+	      } else {
+	        return index < this.leftFixedCount || index >= this.columnsCount - this.rightFixedCount;
+	      }
+	    }
+	  }
+	};
+
+/***/ },
+
+/***/ 319:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2805,7 +3048,22 @@ module.exports =
 	    })
 	  }, [_c('span', {
 	    staticClass: "el-table__empty-text"
-	  }, [_vm._t("empty", [_vm._v(_vm._s(_vm.emptyText || _vm.t('el.table.emptyText')))])], 2)]) : _vm._e()], 1), (_vm.fixedColumns.length > 0) ? _c('div', {
+	  }, [_vm._t("empty", [_vm._v(_vm._s(_vm.emptyText || _vm.t('el.table.emptyText')))])], 2)]) : _vm._e()], 1), (_vm.showSummary && _vm.data && _vm.data.length > 0) ? _c('div', {
+	    ref: "footerWrapper",
+	    staticClass: "el-table__footer-wrapper"
+	  }, [_c('table-footer', {
+	    style: ({
+	      width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
+	    }),
+	    attrs: {
+	      "store": _vm.store,
+	      "layout": _vm.layout,
+	      "border": _vm.border,
+	      "sum-text": _vm.sumText || _vm.t('el.table.sumText'),
+	      "summary-method": _vm.summaryMethod,
+	      "default-sort": _vm.defaultSort
+	    }
+	  })], 1) : _vm._e(), (_vm.fixedColumns.length > 0) ? _c('div', {
 	    ref: "fixedWrapper",
 	    staticClass: "el-table__fixed",
 	    style: ([{
@@ -2846,7 +3104,22 @@ module.exports =
 	      "row-class-name": _vm.rowClassName,
 	      "row-style": _vm.rowStyle
 	    }
-	  })], 1)]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _c('div', {
+	  })], 1), (_vm.showSummary && _vm.data && _vm.data.length > 0) ? _c('div', {
+	    ref: "fixedFooterWrapper",
+	    staticClass: "el-table__fixed-footer-wrapper"
+	  }, [_c('table-footer', {
+	    style: ({
+	      width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
+	    }),
+	    attrs: {
+	      "fixed": "left",
+	      "border": _vm.border,
+	      "sum-text": _vm.sumText || _vm.t('el.table.sumText'),
+	      "summary-method": _vm.summaryMethod,
+	      "store": _vm.store,
+	      "layout": _vm.layout
+	    }
+	  })], 1) : _vm._e()]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _c('div', {
 	    ref: "rightFixedWrapper",
 	    staticClass: "el-table__fixed-right",
 	    style: ([{
@@ -2889,7 +3162,22 @@ module.exports =
 	      "row-style": _vm.rowStyle,
 	      "highlight": _vm.highlightCurrentRow
 	    }
-	  })], 1)]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _c('div', {
+	  })], 1), (_vm.showSummary && _vm.data && _vm.data.length > 0) ? _c('div', {
+	    ref: "rightFixedFooterWrapper",
+	    staticClass: "el-table__fixed-footer-wrapper"
+	  }, [_c('table-footer', {
+	    style: ({
+	      width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
+	    }),
+	    attrs: {
+	      "fixed": "right",
+	      "border": _vm.border,
+	      "sum-text": _vm.sumText || _vm.t('el.table.sumText'),
+	      "summary-method": _vm.summaryMethod,
+	      "store": _vm.store,
+	      "layout": _vm.layout
+	    }
+	  })], 1) : _vm._e()]) : _vm._e(), (_vm.rightFixedColumns.length > 0) ? _c('div', {
 	    staticClass: "el-table__fixed-right-patch",
 	    style: ({
 	      width: _vm.layout.scrollY ? _vm.layout.gutterWidth + 'px' : '0',

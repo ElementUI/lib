@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(268);
+	module.exports = __webpack_require__(271);
 
 
 /***/ },
@@ -54,11 +54,17 @@ module.exports =
 /***/ 3:
 /***/ function(module, exports) {
 
+	/* globals __VUE_SSR_CONTEXT__ */
+
+	// this module is a runtime utility for cleaner component module output and will
+	// be included in the final webpack user bundle
+
 	module.exports = function normalizeComponent (
 	  rawScriptExports,
 	  compiledTemplate,
+	  injectStyles,
 	  scopeId,
-	  cssModules
+	  moduleIdentifier /* server only */
 	) {
 	  var esModule
 	  var scriptExports = rawScriptExports = rawScriptExports || {}
@@ -86,13 +92,37 @@ module.exports =
 	    options._scopeId = scopeId
 	  }
 
-	  // inject cssModules
-	  if (cssModules) {
-	    var computed = options.computed || (options.computed = {})
-	    Object.keys(cssModules).forEach(function (key) {
-	      var module = cssModules[key]
-	      computed[key] = function () { return module }
-	    })
+	  var hook
+	  if (moduleIdentifier) { // server build
+	    hook = function (context) {
+	      // 2.3 injection
+	      context = context || (this.$vnode && this.$vnode.ssrContext)
+	      // 2.2 with runInNewContext: true
+	      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+	        context = __VUE_SSR_CONTEXT__
+	      }
+	      // inject component styles
+	      if (injectStyles) {
+	        injectStyles.call(this, context)
+	      }
+	      // register component module identifier for async chunk inferrence
+	      if (context && context._registeredComponents) {
+	        context._registeredComponents.add(moduleIdentifier)
+	      }
+	    }
+	    // used by ssr in case component is cached and beforeCreate
+	    // never gets called
+	    options._ssrRegister = hook
+	  } else if (injectStyles) {
+	    hook = injectStyles
+	  }
+
+	  if (hook) {
+	    // inject component registration as beforeCreate hook
+	    var existing = options.beforeCreate
+	    options.beforeCreate = existing
+	      ? [].concat(existing, hook)
+	      : [hook]
 	  }
 
 	  return {
@@ -112,21 +142,21 @@ module.exports =
 
 /***/ },
 
-/***/ 117:
+/***/ 120:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 268:
+/***/ 271:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(269);
+	var _main = __webpack_require__(272);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -141,17 +171,19 @@ module.exports =
 
 /***/ },
 
-/***/ 269:
+/***/ 272:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(270),
+	  __webpack_require__(273),
 	  /* template */
-	  __webpack_require__(276),
+	  __webpack_require__(279),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -160,22 +192,22 @@ module.exports =
 
 /***/ },
 
-/***/ 270:
+/***/ 273:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _inputNumber = __webpack_require__(271);
+	var _inputNumber = __webpack_require__(274);
 
 	var _inputNumber2 = _interopRequireDefault(_inputNumber);
 
-	var _button = __webpack_require__(272);
+	var _button = __webpack_require__(275);
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _dom = __webpack_require__(117);
+	var _dom = __webpack_require__(120);
 
 	var _emitter = __webpack_require__(14);
 
@@ -183,6 +215,7 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
 	//
 	//
 	//
@@ -274,6 +307,13 @@ module.exports =
 	    range: {
 	      type: Boolean,
 	      default: false
+	    },
+	    vertical: {
+	      type: Boolean,
+	      default: false
+	    },
+	    height: {
+	      type: String
 	    }
 	  },
 
@@ -389,14 +429,19 @@ module.exports =
 	    },
 	    onSliderClick: function onSliderClick(event) {
 	      if (this.disabled || this.dragging) return;
-	      var sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
-	      this.setPosition((event.clientX - sliderOffsetLeft) / this.$sliderWidth * 100);
+	      if (this.vertical) {
+	        var sliderOffsetBottom = this.$refs.slider.getBoundingClientRect().bottom;
+	        this.setPosition((sliderOffsetBottom - event.clientY) / this.$sliderSize * 100);
+	      } else {
+	        var sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
+	        this.setPosition((event.clientX - sliderOffsetLeft) / this.$sliderSize * 100);
+	      }
 	    }
 	  },
 
 	  computed: {
-	    $sliderWidth: function $sliderWidth() {
-	      return parseInt((0, _dom.getStyle)(this.$refs.slider, 'width'), 10);
+	    $sliderSize: function $sliderSize() {
+	      return parseInt((0, _dom.getStyle)(this.$refs.slider, this.vertical ? 'height' : 'width'), 10);
 	    },
 	    stops: function stops() {
 	      var _this2 = this;
@@ -423,10 +468,10 @@ module.exports =
 	    maxValue: function maxValue() {
 	      return Math.max(this.firstValue, this.secondValue);
 	    },
-	    barWidth: function barWidth() {
+	    barSize: function barSize() {
 	      return this.range ? 100 * (this.maxValue - this.minValue) / (this.max - this.min) + '%' : 100 * (this.firstValue - this.min) / (this.max - this.min) + '%';
 	    },
-	    barLeft: function barLeft() {
+	    barStart: function barStart() {
 	      return this.range ? 100 * (this.minValue - this.min) / (this.max - this.min) + '%' : '0%';
 	    },
 	    precision: function precision() {
@@ -435,6 +480,18 @@ module.exports =
 	        return decimal ? decimal.length : 0;
 	      });
 	      return Math.max.apply(null, precisions);
+	    },
+	    runwayStyle: function runwayStyle() {
+	      return this.vertical ? { height: this.height } : {};
+	    },
+	    barStyle: function barStyle() {
+	      return this.vertical ? {
+	        height: this.barSize,
+	        bottom: this.barStart
+	      } : {
+	        width: this.barSize,
+	        left: this.barStart
+	      };
 	    }
 	  },
 
@@ -461,24 +518,26 @@ module.exports =
 
 /***/ },
 
-/***/ 271:
+/***/ 274:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input-number");
 
 /***/ },
 
-/***/ 272:
+/***/ 275:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(273),
+	  __webpack_require__(276),
 	  /* template */
-	  __webpack_require__(275),
+	  __webpack_require__(278),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -487,14 +546,14 @@ module.exports =
 
 /***/ },
 
-/***/ 273:
+/***/ 276:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tooltip = __webpack_require__(274);
+	var _tooltip = __webpack_require__(277);
 
 	var _tooltip2 = _interopRequireDefault(_tooltip);
 
@@ -511,6 +570,10 @@ module.exports =
 	    value: {
 	      type: Number,
 	      default: 0
+	    },
+	    vertical: {
+	      type: Boolean,
+	      default: false
 	    }
 	  },
 
@@ -520,6 +583,8 @@ module.exports =
 	      dragging: false,
 	      startX: 0,
 	      currentX: 0,
+	      startY: 0,
+	      currentY: 0,
 	      startPosition: 0,
 	      newPosition: null,
 	      oldValue: this.value
@@ -554,6 +619,9 @@ module.exports =
 	    },
 	    formatValue: function formatValue() {
 	      return this.enableFormat && this.$parent.formatTooltip(this.value) || this.value;
+	    },
+	    wrapperStyle: function wrapperStyle() {
+	      return this.vertical ? { bottom: this.currentPosition } : { left: this.currentPosition };
 	    }
 	  },
 
@@ -588,14 +656,24 @@ module.exports =
 	    },
 	    onDragStart: function onDragStart(event) {
 	      this.dragging = true;
-	      this.startX = event.clientX;
+	      if (this.vertical) {
+	        this.startY = event.clientY;
+	      } else {
+	        this.startX = event.clientX;
+	      }
 	      this.startPosition = parseFloat(this.currentPosition);
 	    },
 	    onDragging: function onDragging(event) {
 	      if (this.dragging) {
 	        this.displayTooltip();
-	        this.currentX = event.clientX;
-	        var diff = (this.currentX - this.startX) / this.$parent.$sliderWidth * 100;
+	        var diff = 0;
+	        if (this.vertical) {
+	          this.currentY = event.clientY;
+	          diff = (this.startY - this.currentY) / this.$parent.$sliderSize * 100;
+	        } else {
+	          this.currentX = event.clientX;
+	          diff = (this.currentX - this.startX) / this.$parent.$sliderSize * 100;
+	        }
 	        this.newPosition = this.startPosition + diff;
 	        this.setPosition(this.newPosition);
 	      }
@@ -654,14 +732,14 @@ module.exports =
 
 /***/ },
 
-/***/ 274:
+/***/ 277:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tooltip");
 
 /***/ },
 
-/***/ 275:
+/***/ 278:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -671,9 +749,7 @@ module.exports =
 	    class: {
 	      'hover': _vm.hovering, 'dragging': _vm.dragging
 	    },
-	    style: ({
-	      left: _vm.currentPosition
-	    }),
+	    style: (_vm.wrapperStyle),
 	    on: {
 	      "mouseenter": _vm.handleMouseEnter,
 	      "mouseleave": _vm.handleMouseLeave,
@@ -697,19 +773,16 @@ module.exports =
 
 /***/ },
 
-/***/ 276:
+/***/ 279:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
-	    staticClass: "el-slider"
+	    staticClass: "el-slider",
+	    class: {
+	      'is-vertical': _vm.vertical, 'el-slider--with-input': _vm.showInput
+	    }
 	  }, [(_vm.showInput && !_vm.range) ? _c('el-input-number', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: (_vm.firstValue),
-	      expression: "firstValue"
-	    }],
 	    ref: "input",
 	    staticClass: "el-slider__input",
 	    attrs: {
@@ -720,13 +793,12 @@ module.exports =
 	      "max": _vm.max,
 	      "size": "small"
 	    },
-	    domProps: {
-	      "value": (_vm.firstValue)
-	    },
-	    on: {
-	      "input": function($event) {
-	        _vm.firstValue = $event
-	      }
+	    model: {
+	      value: (_vm.firstValue),
+	      callback: function($$v) {
+	        _vm.firstValue = $$v
+	      },
+	      expression: "firstValue"
 	    }
 	  }) : _vm._e(), _c('div', {
 	    ref: "slider",
@@ -734,51 +806,43 @@ module.exports =
 	    class: {
 	      'show-input': _vm.showInput, 'disabled': _vm.disabled
 	    },
+	    style: (_vm.runwayStyle),
 	    on: {
 	      "click": _vm.onSliderClick
 	    }
 	  }, [_c('div', {
 	    staticClass: "el-slider__bar",
-	    style: ({
-	      width: _vm.barWidth,
-	      left: _vm.barLeft
-	    })
+	    style: (_vm.barStyle)
 	  }), _c('slider-button', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: (_vm.firstValue),
-	      expression: "firstValue"
-	    }],
 	    ref: "button1",
-	    domProps: {
-	      "value": (_vm.firstValue)
+	    attrs: {
+	      "vertical": _vm.vertical
 	    },
-	    on: {
-	      "input": function($event) {
-	        _vm.firstValue = $event
-	      }
+	    model: {
+	      value: (_vm.firstValue),
+	      callback: function($$v) {
+	        _vm.firstValue = $$v
+	      },
+	      expression: "firstValue"
 	    }
 	  }), (_vm.range) ? _c('slider-button', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: (_vm.secondValue),
-	      expression: "secondValue"
-	    }],
 	    ref: "button2",
-	    domProps: {
-	      "value": (_vm.secondValue)
+	    attrs: {
+	      "vertical": _vm.vertical
 	    },
-	    on: {
-	      "input": function($event) {
-	        _vm.secondValue = $event
-	      }
+	    model: {
+	      value: (_vm.secondValue),
+	      callback: function($$v) {
+	        _vm.secondValue = $$v
+	      },
+	      expression: "secondValue"
 	    }
 	  }) : _vm._e(), _vm._l((_vm.stops), function(item) {
 	    return (_vm.showStops) ? _c('div', {
 	      staticClass: "el-slider__stop",
-	      style: ({
+	      style: (_vm.vertical ? {
+	        'bottom': item + '%'
+	      } : {
 	        'left': item + '%'
 	      })
 	    }) : _vm._e()

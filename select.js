@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(260);
+	module.exports = __webpack_require__(263);
 
 
 /***/ },
@@ -54,11 +54,17 @@ module.exports =
 /***/ 3:
 /***/ function(module, exports) {
 
+	/* globals __VUE_SSR_CONTEXT__ */
+
+	// this module is a runtime utility for cleaner component module output and will
+	// be included in the final webpack user bundle
+
 	module.exports = function normalizeComponent (
 	  rawScriptExports,
 	  compiledTemplate,
+	  injectStyles,
 	  scopeId,
-	  cssModules
+	  moduleIdentifier /* server only */
 	) {
 	  var esModule
 	  var scriptExports = rawScriptExports = rawScriptExports || {}
@@ -86,13 +92,37 @@ module.exports =
 	    options._scopeId = scopeId
 	  }
 
-	  // inject cssModules
-	  if (cssModules) {
-	    var computed = options.computed || (options.computed = {})
-	    Object.keys(cssModules).forEach(function (key) {
-	      var module = cssModules[key]
-	      computed[key] = function () { return module }
-	    })
+	  var hook
+	  if (moduleIdentifier) { // server build
+	    hook = function (context) {
+	      // 2.3 injection
+	      context = context || (this.$vnode && this.$vnode.ssrContext)
+	      // 2.2 with runInNewContext: true
+	      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+	        context = __VUE_SSR_CONTEXT__
+	      }
+	      // inject component styles
+	      if (injectStyles) {
+	        injectStyles.call(this, context)
+	      }
+	      // register component module identifier for async chunk inferrence
+	      if (context && context._registeredComponents) {
+	        context._registeredComponents.add(moduleIdentifier)
+	      }
+	    }
+	    // used by ssr in case component is cached and beforeCreate
+	    // never gets called
+	    options._ssrRegister = hook
+	  } else if (injectStyles) {
+	    hook = injectStyles
+	  }
+
+	  if (hook) {
+	    // inject component registration as beforeCreate hook
+	    var existing = options.beforeCreate
+	    options.beforeCreate = existing
+	      ? [].concat(existing, hook)
+	      : [hook]
 	  }
 
 	  return {
@@ -168,24 +198,26 @@ module.exports =
 
 /***/ },
 
-/***/ 117:
+/***/ 120:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 211:
+/***/ 214:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(212),
+	  __webpack_require__(215),
 	  /* template */
-	  __webpack_require__(213),
+	  __webpack_require__(216),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -194,7 +226,7 @@ module.exports =
 
 /***/ },
 
-/***/ 212:
+/***/ 215:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -336,11 +368,10 @@ module.exports =
 	//
 	//
 	//
-	//
 
 /***/ },
 
-/***/ 213:
+/***/ 216:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -354,8 +385,7 @@ module.exports =
 	    staticClass: "el-select-dropdown__item",
 	    class: {
 	      'selected': _vm.itemSelected,
-	      'is-disabled': _vm.disabled || _vm.groupDisabled || _vm.limitReached,
-	        'hover': _vm.parent.hoverIndex === _vm.index
+	      'is-disabled': _vm.disabled || _vm.groupDisabled || _vm.limitReached
 	    },
 	    on: {
 	      "mouseenter": _vm.hoverItem,
@@ -369,14 +399,14 @@ module.exports =
 
 /***/ },
 
-/***/ 260:
+/***/ 263:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _select = __webpack_require__(261);
+	var _select = __webpack_require__(264);
 
 	var _select2 = _interopRequireDefault(_select);
 
@@ -391,17 +421,19 @@ module.exports =
 
 /***/ },
 
-/***/ 261:
+/***/ 264:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(262),
+	  __webpack_require__(265),
 	  /* template */
-	  __webpack_require__(267),
+	  __webpack_require__(270),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -410,7 +442,7 @@ module.exports =
 
 /***/ },
 
-/***/ 262:
+/***/ 265:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -429,15 +461,15 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _selectDropdown = __webpack_require__(263);
+	var _selectDropdown = __webpack_require__(266);
 
 	var _selectDropdown2 = _interopRequireDefault(_selectDropdown);
 
-	var _option = __webpack_require__(211);
+	var _option = __webpack_require__(214);
 
 	var _option2 = _interopRequireDefault(_option);
 
-	var _tag = __webpack_require__(266);
+	var _tag = __webpack_require__(269);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
@@ -453,7 +485,7 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _dom = __webpack_require__(117);
+	var _dom = __webpack_require__(120);
 
 	var _resizeEvent = __webpack_require__(47);
 
@@ -613,7 +645,9 @@ module.exports =
 
 	  props: {
 	    name: String,
-	    value: {},
+	    value: {
+	      required: true
+	    },
 	    size: String,
 	    disabled: Boolean,
 	    clearable: Boolean,
@@ -1099,17 +1133,19 @@ module.exports =
 
 /***/ },
 
-/***/ 263:
+/***/ 266:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(264),
+	  __webpack_require__(267),
 	  /* template */
-	  __webpack_require__(265),
+	  __webpack_require__(268),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -1118,7 +1154,7 @@ module.exports =
 
 /***/ },
 
-/***/ 264:
+/***/ 267:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1194,7 +1230,7 @@ module.exports =
 
 /***/ },
 
-/***/ 265:
+/***/ 268:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1211,14 +1247,14 @@ module.exports =
 
 /***/ },
 
-/***/ 266:
+/***/ 269:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 267:
+/***/ 270:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1283,7 +1319,7 @@ module.exports =
 	      "debounce": _vm.remote ? 300 : 0
 	    },
 	    domProps: {
-	      "value": _vm._s(_vm.query)
+	      "value": (_vm.query)
 	    },
 	    on: {
 	      "focus": function($event) {
@@ -1291,23 +1327,23 @@ module.exports =
 	      },
 	      "keyup": _vm.managePlaceholder,
 	      "keydown": [_vm.resetInputState, function($event) {
-	        if (_vm._k($event.keyCode, "down", 40)) { return; }
+	        if (!('button' in $event) && _vm._k($event.keyCode, "down", 40)) { return null; }
 	        $event.preventDefault();
 	        _vm.navigateOptions('next')
 	      }, function($event) {
-	        if (_vm._k($event.keyCode, "up", 38)) { return; }
+	        if (!('button' in $event) && _vm._k($event.keyCode, "up", 38)) { return null; }
 	        $event.preventDefault();
 	        _vm.navigateOptions('prev')
 	      }, function($event) {
-	        if (_vm._k($event.keyCode, "enter", 13)) { return; }
+	        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
 	        $event.preventDefault();
 	        _vm.selectOption($event)
 	      }, function($event) {
-	        if (_vm._k($event.keyCode, "esc", 27)) { return; }
+	        if (!('button' in $event) && _vm._k($event.keyCode, "esc", 27)) { return null; }
 	        $event.preventDefault();
 	        _vm.visible = false
 	      }, function($event) {
-	        if (_vm._k($event.keyCode, "delete", [8, 46])) { return; }
+	        if (!('button' in $event) && _vm._k($event.keyCode, "delete", [8, 46])) { return null; }
 	        _vm.deletePrevTag($event)
 	      }],
 	      "input": function($event) {
@@ -1316,12 +1352,6 @@ module.exports =
 	      }
 	    }
 	  }) : _vm._e()], 1) : _vm._e(), _c('el-input', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: (_vm.selectedLabel),
-	      expression: "selectedLabel"
-	    }],
 	    ref: "reference",
 	    attrs: {
 	      "type": "text",
@@ -1333,15 +1363,9 @@ module.exports =
 	      "validate-event": false,
 	      "icon": _vm.iconClass
 	    },
-	    domProps: {
-	      "value": (_vm.selectedLabel)
-	    },
 	    on: {
 	      "focus": _vm.handleFocus,
-	      "click": _vm.handleIconClick,
-	      "input": function($event) {
-	        _vm.selectedLabel = $event
-	      }
+	      "click": _vm.handleIconClick
 	    },
 	    nativeOn: {
 	      "mousedown": function($event) {
@@ -1351,23 +1375,23 @@ module.exports =
 	        _vm.debouncedOnInputChange($event)
 	      },
 	      "keydown": [function($event) {
-	        if (_vm._k($event.keyCode, "down", 40)) { return; }
+	        if (!('button' in $event) && _vm._k($event.keyCode, "down", 40)) { return null; }
 	        $event.preventDefault();
 	        _vm.navigateOptions('next')
 	      }, function($event) {
-	        if (_vm._k($event.keyCode, "up", 38)) { return; }
+	        if (!('button' in $event) && _vm._k($event.keyCode, "up", 38)) { return null; }
 	        $event.preventDefault();
 	        _vm.navigateOptions('prev')
 	      }, function($event) {
-	        if (_vm._k($event.keyCode, "enter", 13)) { return; }
+	        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
 	        $event.preventDefault();
 	        _vm.selectOption($event)
 	      }, function($event) {
-	        if (_vm._k($event.keyCode, "esc", 27)) { return; }
+	        if (!('button' in $event) && _vm._k($event.keyCode, "esc", 27)) { return null; }
 	        $event.preventDefault();
 	        _vm.visible = false
 	      }, function($event) {
-	        if (_vm._k($event.keyCode, "tab", 9)) { return; }
+	        if (!('button' in $event) && _vm._k($event.keyCode, "tab", 9)) { return null; }
 	        _vm.visible = false
 	      }],
 	      "paste": function($event) {
@@ -1379,6 +1403,13 @@ module.exports =
 	      "mouseleave": function($event) {
 	        _vm.inputHovering = false
 	      }
+	    },
+	    model: {
+	      value: (_vm.selectedLabel),
+	      callback: function($$v) {
+	        _vm.selectedLabel = $$v
+	      },
+	      expression: "selectedLabel"
 	    }
 	  }), _c('transition', {
 	    attrs: {

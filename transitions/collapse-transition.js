@@ -77,6 +77,7 @@ var Transition = function () {
 }();
 
 exports.default = {
+  name: 'ElCollapseTransition',
   functional: true,
   render: function render(h, _ref) {
     var children = _ref.children;

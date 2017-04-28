@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(342);
+	module.exports = __webpack_require__(353);
 
 
 /***/ },
@@ -54,11 +54,17 @@ module.exports =
 /***/ 3:
 /***/ function(module, exports) {
 
+	/* globals __VUE_SSR_CONTEXT__ */
+
+	// this module is a runtime utility for cleaner component module output and will
+	// be included in the final webpack user bundle
+
 	module.exports = function normalizeComponent (
 	  rawScriptExports,
 	  compiledTemplate,
+	  injectStyles,
 	  scopeId,
-	  cssModules
+	  moduleIdentifier /* server only */
 	) {
 	  var esModule
 	  var scriptExports = rawScriptExports = rawScriptExports || {}
@@ -86,13 +92,37 @@ module.exports =
 	    options._scopeId = scopeId
 	  }
 
-	  // inject cssModules
-	  if (cssModules) {
-	    var computed = options.computed || (options.computed = {})
-	    Object.keys(cssModules).forEach(function (key) {
-	      var module = cssModules[key]
-	      computed[key] = function () { return module }
-	    })
+	  var hook
+	  if (moduleIdentifier) { // server build
+	    hook = function (context) {
+	      // 2.3 injection
+	      context = context || (this.$vnode && this.$vnode.ssrContext)
+	      // 2.2 with runInNewContext: true
+	      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+	        context = __VUE_SSR_CONTEXT__
+	      }
+	      // inject component styles
+	      if (injectStyles) {
+	        injectStyles.call(this, context)
+	      }
+	      // register component module identifier for async chunk inferrence
+	      if (context && context._registeredComponents) {
+	        context._registeredComponents.add(moduleIdentifier)
+	      }
+	    }
+	    // used by ssr in case component is cached and beforeCreate
+	    // never gets called
+	    options._ssrRegister = hook
+	  } else if (injectStyles) {
+	    hook = injectStyles
+	  }
+
+	  if (hook) {
+	    // inject component registration as beforeCreate hook
+	    var existing = options.beforeCreate
+	    options.beforeCreate = existing
+	      ? [].concat(existing, hook)
+	      : [hook]
 	  }
 
 	  return {
@@ -119,35 +149,28 @@ module.exports =
 
 /***/ },
 
-/***/ 80:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/transitions/collapse-transition");
-
-/***/ },
-
-/***/ 164:
+/***/ 167:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 304:
+/***/ 307:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 342:
+/***/ 353:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tree = __webpack_require__(343);
+	var _tree = __webpack_require__(354);
 
 	var _tree2 = _interopRequireDefault(_tree);
 
@@ -162,17 +185,19 @@ module.exports =
 
 /***/ },
 
-/***/ 343:
+/***/ 354:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(344),
+	  __webpack_require__(355),
 	  /* template */
-	  __webpack_require__(351),
+	  __webpack_require__(362),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -181,14 +206,14 @@ module.exports =
 
 /***/ },
 
-/***/ 344:
+/***/ 355:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _treeStore = __webpack_require__(345);
+	var _treeStore = __webpack_require__(356);
 
 	var _treeStore2 = _interopRequireDefault(_treeStore);
 
@@ -206,7 +231,7 @@ module.exports =
 	  mixins: [_emitter2.default],
 
 	  components: {
-	    ElTreeNode: __webpack_require__(348)
+	    ElTreeNode: __webpack_require__(359)
 	  },
 
 	  data: function data() {
@@ -373,7 +398,7 @@ module.exports =
 
 /***/ },
 
-/***/ 345:
+/***/ 356:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -382,11 +407,11 @@ module.exports =
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var _node = __webpack_require__(346);
+	var _node = __webpack_require__(357);
 
 	var _node2 = _interopRequireDefault(_node);
 
-	var _util = __webpack_require__(347);
+	var _util = __webpack_require__(358);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -529,7 +554,7 @@ module.exports =
 	    if (!key || !node || !node.data) return;
 
 	    var nodeKey = node.key;
-	    if (nodeKey) this.nodesMap[node.key] = node;
+	    if (nodeKey !== undefined) this.nodesMap[node.key] = node;
 	  };
 
 	  TreeStore.prototype.deregisterNode = function deregisterNode(node) {
@@ -723,7 +748,7 @@ module.exports =
 
 /***/ },
 
-/***/ 346:
+/***/ 357:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -732,11 +757,11 @@ module.exports =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _merge = __webpack_require__(164);
+	var _merge = __webpack_require__(167);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
-	var _util = __webpack_require__(347);
+	var _util = __webpack_require__(358);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1136,7 +1161,7 @@ module.exports =
 
 /***/ },
 
-/***/ 347:
+/***/ 358:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1161,17 +1186,19 @@ module.exports =
 
 /***/ },
 
-/***/ 348:
+/***/ 359:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(349),
+	  __webpack_require__(360),
 	  /* template */
-	  __webpack_require__(350),
+	  __webpack_require__(361),
+	  /* styles */
+	  null,
 	  /* scopeId */
 	  null,
-	  /* cssModules */
+	  /* moduleIdentifier (server only) */
 	  null
 	)
 
@@ -1180,18 +1207,14 @@ module.exports =
 
 /***/ },
 
-/***/ 349:
+/***/ 360:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _collapseTransition = __webpack_require__(80);
-
-	var _collapseTransition2 = _interopRequireDefault(_collapseTransition);
-
-	var _checkbox = __webpack_require__(304);
+	var _checkbox = __webpack_require__(307);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -1200,6 +1223,52 @@ module.exports =
 	var _emitter2 = _interopRequireDefault(_emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElTreeNode',
@@ -1220,7 +1289,6 @@ module.exports =
 
 	  components: {
 	    ElCheckbox: _checkbox2.default,
-	    CollapseTransition: _collapseTransition2.default,
 	    NodeContent: {
 	      props: {
 	        node: {
@@ -1357,55 +1425,11 @@ module.exports =
 	      });
 	    }
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 
-/***/ 350:
+/***/ 361:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1445,29 +1469,24 @@ module.exports =
 	      }
 	    }
 	  }), (_vm.showCheckbox) ? _c('el-checkbox', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: (_vm.node.checked),
-	      expression: "node.checked"
-	    }],
 	    attrs: {
 	      "indeterminate": _vm.node.indeterminate
 	    },
-	    domProps: {
-	      "value": (_vm.node.checked)
-	    },
 	    on: {
-	      "change": _vm.handleCheckChange,
-	      "input": function($event) {
-	        _vm.node.checked = $event
-	      }
+	      "change": _vm.handleCheckChange
 	    },
 	    nativeOn: {
 	      "click": function($event) {
 	        $event.stopPropagation();
 	        _vm.handleUserClick($event)
 	      }
+	    },
+	    model: {
+	      value: (_vm.node.checked),
+	      callback: function($$v) {
+	        _vm.node.checked = $$v
+	      },
+	      expression: "node.checked"
 	    }
 	  }) : _vm._e(), (_vm.node.loading) ? _c('span', {
 	    staticClass: "el-tree-node__loading-icon el-icon-loading"
@@ -1475,7 +1494,7 @@ module.exports =
 	    attrs: {
 	      "node": _vm.node
 	    }
-	  })], 1), _c('collapse-transition', [_c('div', {
+	  })], 1), _c('el-collapse-transition', [_c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -1499,7 +1518,7 @@ module.exports =
 
 /***/ },
 
-/***/ 351:
+/***/ 362:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
