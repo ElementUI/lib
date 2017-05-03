@@ -417,6 +417,7 @@ module.exports =
 	    filterMethod: Function,
 	    filteredValue: Array,
 	    filters: Array,
+	    filterPlacement: String,
 	    filterMultiple: {
 	      type: Boolean,
 	      default: true
@@ -513,7 +514,8 @@ module.exports =
 	      filterable: this.filters || this.filterMethod,
 	      filterMultiple: this.filterMultiple,
 	      filterOpened: false,
-	      filteredValue: this.filteredValue || []
+	      filteredValue: this.filteredValue || [],
+	      filterPlacement: this.filterPlacement || ''
 	    });
 
 	    (0, _merge2.default)(column, forced[type] || {});

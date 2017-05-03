@@ -228,6 +228,10 @@ module.exports =
 	    IframeUpload: _iframeUpload2.default
 	  },
 
+	  provide: {
+	    uploader: undefined
+	  },
+
 	  props: {
 	    action: {
 	      type: String,
@@ -378,6 +382,7 @@ module.exports =
 	      if (raw) {
 	        file = this.getFile(raw);
 	      }
+	      this.abort(file);
 	      var fileList = this.uploadFiles;
 	      fileList.splice(fileList.indexOf(file), 1);
 	      this.onRemove(file, fileList);
@@ -390,6 +395,9 @@ module.exports =
 	        return !target;
 	      });
 	      return target;
+	    },
+	    abort: function abort(file) {
+	      this.$refs['upload-inner'].abort(file);
 	    },
 	    clearFiles: function clearFiles() {
 	      this.uploadFiles = [];
@@ -571,15 +579,6 @@ module.exports =
 	//
 	//
 	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	exports.default = {
 	  mixins: [_locale2.default],
@@ -623,13 +622,13 @@ module.exports =
 	    class: ['el-upload-list', 'el-upload-list--' + _vm.listType],
 	    attrs: {
 	      "tag": "ul",
-	      "name": "list"
+	      "name": "el-list"
 	    }
 	  }, _vm._l((_vm.files), function(file) {
 	    return _c('li', {
 	      key: file,
 	      class: ['el-upload-list__item', 'is-' + file.status]
-	    }, [(['picture-card', 'picture'].indexOf(_vm.listType) > -1 && file.status === 'success') ? _c('img', {
+	    }, [(file.status !== 'uploading' && ['picture-card', 'picture'].indexOf(_vm.listType) > -1) ? _c('img', {
 	      staticClass: "el-upload-list__item-thumbnail",
 	      attrs: {
 	        "src": file.url,
@@ -646,27 +645,22 @@ module.exports =
 	      staticClass: "el-icon-document"
 	    }), _vm._v(_vm._s(file.name) + "\n    ")]), _c('label', {
 	      staticClass: "el-upload-list__item-status-label"
-	    }, [(file.status === 'success') ? _c('i', {
+	    }, [_c('i', {
 	      class: {
+	        'el-icon-upload-success': true,
 	        'el-icon-circle-check': _vm.listType === 'text',
 	          'el-icon-check': ['picture-card', 'picture'].indexOf(_vm.listType) > -1
 	      }
-	    }) : _vm._e(), _c('i', {
+	    })]), _c('i', {
 	      staticClass: "el-icon-close",
 	      on: {
 	        "click": function($event) {
 	          _vm.$emit('remove', file)
 	        }
 	      }
-	    })]), (
-	      _vm.listType === 'picture-card' &&
-	      file.status === 'success'
-	    ) ? _c('span', {
+	    }), (_vm.listType === 'picture-card') ? _c('span', {
 	      staticClass: "el-upload-list__item-actions"
-	    }, [(
-	      _vm.handlePreview &&
-	      _vm.listType === 'picture-card'
-	    ) ? _c('span', {
+	    }, [(_vm.handlePreview && _vm.listType === 'picture-card') ? _c('span', {
 	      staticClass: "el-upload-list__item-preview",
 	      on: {
 	        "click": function($event) {
@@ -735,6 +729,7 @@ module.exports =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
+	  inject: ['uploader'],
 	  components: {
 	    UploadDragger: _uploadDragger2.default
 	  },
@@ -779,7 +774,8 @@ module.exports =
 
 	  data: function data() {
 	    return {
-	      mouseover: false
+	      mouseover: false,
+	      reqs: {}
 	    };
 	  },
 
@@ -836,8 +832,26 @@ module.exports =
 	        this.onRemove(rawFile, true);
 	      }
 	    },
+	    abort: function abort(file) {
+	      var reqs = this.reqs;
+
+	      if (file) {
+	        var uid = file;
+	        if (file.uid) uid = file.uid;
+	        if (reqs[uid]) {
+	          reqs[uid].abort();
+	        }
+	      } else {
+	        Object.keys(reqs).forEach(function (uid) {
+	          if (reqs[uid]) reqs[uid].abort();
+	          delete reqs[uid];
+	        });
+	      }
+	    },
 	    post: function post(rawFile) {
 	      var _this3 = this;
+
+	      var uid = rawFile.uid;
 
 	      var options = {
 	        headers: this.headers,
@@ -851,14 +865,17 @@ module.exports =
 	        },
 	        onSuccess: function onSuccess(res) {
 	          _this3.onSuccess(res, rawFile);
+	          delete _this3.reqs[uid];
 	        },
 	        onError: function onError(err) {
 	          _this3.onError(err, rawFile);
+	          delete _this3.reqs[uid];
 	        }
 	      };
-	      var requestPromise = this.httpRequest(options);
-	      if (requestPromise && requestPromise.then) {
-	        requestPromise.then(options.onSuccess, options.onError);
+	      var req = this.httpRequest(options);
+	      this.reqs[uid] = req;
+	      if (req && req.then) {
+	        req.then(options.onSuccess, options.onError);
 	      }
 	    },
 	    handleClick: function handleClick() {

@@ -286,14 +286,6 @@ module.exports =
 	//
 	//
 	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	exports.default = {
 	  name: 'ElTransfer',
@@ -573,7 +565,7 @@ module.exports =
 	    placeholder: String,
 	    title: String,
 	    filterable: Boolean,
-	    format: Object,
+	    footerFormat: Object,
 	    filterMethod: Function,
 	    defaultChecked: Array,
 	    props: Object
@@ -658,9 +650,9 @@ module.exports =
 	    checkedSummary: function checkedSummary() {
 	      var checkedLength = this.checked.length;
 	      var dataLength = this.data.length;
-	      var _format = this.format,
-	          noChecked = _format.noChecked,
-	          hasChecked = _format.hasChecked;
+	      var _footerFormat = this.footerFormat,
+	          noChecked = _footerFormat.noChecked,
+	          hasChecked = _footerFormat.hasChecked;
 
 	      if (noChecked && hasChecked) {
 	        return checkedLength > 0 ? hasChecked.replace(/\${checked}/g, checkedLength).replace(/\${total}/g, dataLength) : noChecked.replace(/\${total}/g, dataLength);
@@ -826,22 +818,17 @@ module.exports =
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-transfer"
-	  }, [_c('transfer-panel', {
+	  }, [_c('transfer-panel', _vm._b({
 	    attrs: {
-	      "filterable": _vm.filterable,
-	      "filter-method": _vm.filterMethod,
 	      "data": _vm.sourceData,
-	      "render-content": _vm.renderContent,
 	      "title": _vm.titles[0] || _vm.t('el.transfer.titles.0'),
-	      "format": _vm.footerFormat,
 	      "default-checked": _vm.leftDefaultChecked,
-	      "placeholder": _vm.filterPlaceholder || _vm.t('el.transfer.filterPlaceholder'),
-	      "props": _vm.props
+	      "placeholder": _vm.filterPlaceholder || _vm.t('el.transfer.filterPlaceholder')
 	    },
 	    on: {
 	      "checked-change": _vm.onSourceCheckedChange
 	    }
-	  }, [_vm._t("left-footer")], 2), _c('div', {
+	  }, 'transfer-panel', _vm.$props), [_vm._t("left-footer")], 2), _c('div', {
 	    staticClass: "el-transfer__buttons"
 	  }, [_c('el-button', {
 	    attrs: {
@@ -869,22 +856,17 @@ module.exports =
 	    }
 	  }, [(_vm.buttonTexts[1] !== undefined) ? _c('span', [_vm._v(_vm._s(_vm.buttonTexts[1]))]) : _vm._e(), _c('i', {
 	    staticClass: "el-icon-arrow-right"
-	  })])], 1), _c('transfer-panel', {
+	  })])], 1), _c('transfer-panel', _vm._b({
 	    attrs: {
-	      "filterable": _vm.filterable,
-	      "filter-method": _vm.filterMethod,
 	      "data": _vm.targetData,
-	      "render-content": _vm.renderContent,
 	      "title": _vm.titles[1] || _vm.t('el.transfer.titles.1'),
-	      "format": _vm.footerFormat,
 	      "default-checked": _vm.rightDefaultChecked,
-	      "placeholder": _vm.filterPlaceholder || _vm.t('el.transfer.filterPlaceholder'),
-	      "props": _vm.props
+	      "placeholder": _vm.filterPlaceholder || _vm.t('el.transfer.filterPlaceholder')
 	    },
 	    on: {
 	      "checked-change": _vm.onTargetCheckedChange
 	    }
-	  }, [_vm._t("right-footer")], 2)], 1)
+	  }, 'transfer-panel', _vm.$props), [_vm._t("right-footer")], 2)], 1)
 	},staticRenderFns: []}
 
 /***/ }

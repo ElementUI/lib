@@ -572,10 +572,12 @@ module.exports =
 	        this.$nextTick(function () {
 	          _this2.internalCurrentPage = newVal;
 	          if (oldVal !== newVal) {
+	            _this2.$emit('update:currentPage', newVal);
 	            _this2.$emit('current-change', _this2.internalCurrentPage);
 	          }
 	        });
 	      } else {
+	        this.$emit('update:currentPage', newVal);
 	        this.$emit('current-change', this.internalCurrentPage);
 	      }
 	    },

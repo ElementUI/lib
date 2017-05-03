@@ -388,25 +388,6 @@ module.exports =
 	//
 	//
 	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 /***/ },
 
@@ -520,23 +501,11 @@ module.exports =
 	    on: {
 	      "click": _vm.handleIconClick
 	    }
-	  }) : _vm._e()]), (_vm.type !== 'textarea') ? _c('input', {
+	  }) : _vm._e()]), (_vm.type !== 'textarea') ? _c('input', _vm._b({
 	    ref: "input",
 	    staticClass: "el-input__inner",
 	    attrs: {
-	      "type": _vm.type,
-	      "name": _vm.name,
-	      "placeholder": _vm.placeholder,
-	      "disabled": _vm.disabled,
-	      "readonly": _vm.readonly,
-	      "maxlength": _vm.maxlength,
-	      "minlength": _vm.minlength,
-	      "autocomplete": _vm.autoComplete,
-	      "autofocus": _vm.autofocus,
-	      "min": _vm.min,
-	      "max": _vm.max,
-	      "step": _vm.step,
-	      "form": _vm.form
+	      "autocomplete": _vm.autoComplete
 	    },
 	    domProps: {
 	      "value": _vm.currentValue
@@ -546,25 +515,14 @@ module.exports =
 	      "focus": _vm.handleFocus,
 	      "blur": _vm.handleBlur
 	    }
-	  }) : _vm._e(), (_vm.validating) ? _c('i', {
+	  }, 'input', _vm.$props)) : _vm._e(), (_vm.validating) ? _c('i', {
 	    staticClass: "el-input__icon el-icon-loading"
 	  }) : _vm._e(), (_vm.$slots.append) ? _c('div', {
 	    staticClass: "el-input-group__append"
-	  }, [_vm._t("append")], 2) : _vm._e()] : _c('textarea', {
+	  }, [_vm._t("append")], 2) : _vm._e()] : _c('textarea', _vm._b({
 	    ref: "textarea",
 	    staticClass: "el-textarea__inner",
 	    style: (_vm.textareaStyle),
-	    attrs: {
-	      "name": _vm.name,
-	      "placeholder": _vm.placeholder,
-	      "disabled": _vm.disabled,
-	      "readonly": _vm.readonly,
-	      "rows": _vm.rows,
-	      "form": _vm.form,
-	      "autofocus": _vm.autofocus,
-	      "maxlength": _vm.maxlength,
-	      "minlength": _vm.minlength
-	    },
 	    domProps: {
 	      "value": _vm.currentValue
 	    },
@@ -573,7 +531,7 @@ module.exports =
 	      "focus": _vm.handleFocus,
 	      "blur": _vm.handleBlur
 	    }
-	  })], 2)
+	  }, 'textarea', _vm.$props))], 2)
 	},staticRenderFns: []}
 
 /***/ }

@@ -230,6 +230,8 @@ module.exports =
 
 	var _merge2 = _interopRequireDefault(_merge);
 
+	var _vdom = __webpack_require__(207);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var defaults = {
@@ -309,7 +311,7 @@ module.exports =
 	  }
 	  instance.action = '';
 
-	  if (!instance.value || instance.closeTimer) {
+	  if (!instance.visible || instance.closeTimer) {
 	    if (msgQueue.length > 0) {
 	      (function () {
 	        currentMsg = msgQueue.shift();
@@ -329,6 +331,10 @@ module.exports =
 	          oldCb(action, instance);
 	          showNextMsg();
 	        };
+	        if ((0, _vdom.isVNode)(instance.message)) {
+	          instance.$slots.default = [instance.message];
+	          instance.message = null;
+	        }
 	        ['modal', 'showClose', 'closeOnClickModal', 'closeOnPressEscape'].forEach(function (prop) {
 	          if (instance[prop] === undefined) {
 	            instance[prop] = true;
@@ -337,7 +343,7 @@ module.exports =
 	        document.body.appendChild(instance.$el);
 
 	        _vue2.default.nextTick(function () {
-	          instance.value = true;
+	          instance.visible = true;
 	        });
 	      })();
 	    }
@@ -428,7 +434,7 @@ module.exports =
 	};
 
 	MessageBox.close = function () {
-	  instance.value = false;
+	  instance.visible = false;
 	  msgQueue = [];
 	  currentMsg = null;
 	};
@@ -488,6 +494,8 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
+	//
 	//
 	//
 	//
@@ -587,8 +595,8 @@ module.exports =
 	    doClose: function doClose() {
 	      var _this2 = this;
 
-	      if (!this.value) return;
-	      this.value = false;
+	      if (!this.visible) return;
+	      this.visible = false;
 	      this._closing = true;
 
 	      this.onClose && this.onClose();
@@ -670,7 +678,7 @@ module.exports =
 	      }
 	    },
 
-	    value: function value(val) {
+	    visible: function visible(val) {
 	      var _this4 = this;
 
 	      if (val) this.uid++;
@@ -736,8 +744,8 @@ module.exports =
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (_vm.value),
-	      expression: "value"
+	      value: (_vm.visible),
+	      expression: "visible"
 	    }],
 	    staticClass: "el-message-box__wrapper",
 	    on: {
@@ -770,7 +778,7 @@ module.exports =
 	    style: ({
 	      'margin-left': _vm.typeClass ? '50px' : '0'
 	    })
-	  }, [_c('p', [_vm._v(_vm._s(_vm.message))])]), _c('div', {
+	  }, [_vm._t("default", [_c('p', [_vm._v(_vm._s(_vm.message))])])], 2), _c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -838,6 +846,13 @@ module.exports =
 	    }
 	  }, [_vm._v("\n          " + _vm._s(_vm.confirmButtonText || _vm.t('el.messagebox.confirm')) + "\n        ")])], 1)])])])
 	},staticRenderFns: []}
+
+/***/ },
+
+/***/ 207:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/vdom");
 
 /***/ }
 

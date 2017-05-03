@@ -2238,7 +2238,9 @@ module.exports =
 	      if (!filterPanel) {
 	        filterPanel = new _vue2.default(_filterPanel2.default);
 	        this.filterPanels[column.id] = filterPanel;
-
+	        if (column.filterPlacement) {
+	          filterPanel.placement = column.filterPlacement;
+	        }
 	        filterPanel.table = table;
 	        filterPanel.cell = cell;
 	        filterPanel.column = column;

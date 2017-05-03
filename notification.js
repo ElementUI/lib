@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(207);
+	module.exports = __webpack_require__(208);
 
 
 /***/ },
@@ -150,13 +150,20 @@ module.exports =
 /***/ },
 
 /***/ 207:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/vdom");
+
+/***/ },
+
+/***/ 208:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(208);
+	var _main = __webpack_require__(209);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -166,7 +173,7 @@ module.exports =
 
 /***/ },
 
-/***/ 208:
+/***/ 209:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -179,7 +186,7 @@ module.exports =
 
 	var _popup = __webpack_require__(135);
 
-	var _vdom = __webpack_require__(209);
+	var _vdom = __webpack_require__(207);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -260,13 +267,6 @@ module.exports =
 	};
 
 	exports.default = Notification;
-
-/***/ },
-
-/***/ 209:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/vdom");
 
 /***/ },
 

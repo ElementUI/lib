@@ -931,7 +931,9 @@ module.exports =
 	    },
 	    deletePrevTag: function deletePrevTag(e) {
 	      if (e.target.value.length <= 0 && !this.toggleLastOptionHitState()) {
-	        this.value.pop();
+	        var value = this.value.slice();
+	        value.pop();
+	        this.$emit('input', value);
 	      }
 	    },
 	    managePlaceholder: function managePlaceholder() {
@@ -977,26 +979,23 @@ module.exports =
 	      }, 300);
 	    },
 	    handleOptionSelect: function handleOptionSelect(option) {
-	      if (!this.multiple) {
-	        this.$emit('input', option.value);
-	        this.visible = false;
-	      } else {
-	        var optionIndex = -1;
-	        this.value.forEach(function (item, index) {
-	          if (item === option.value) {
-	            optionIndex = index;
-	          }
-	        });
+	      if (this.multiple) {
+	        var value = this.value.slice();
+	        var optionIndex = value.indexOf(option.value);
 	        if (optionIndex > -1) {
-	          this.value.splice(optionIndex, 1);
-	        } else if (this.multipleLimit <= 0 || this.value.length < this.multipleLimit) {
-	          this.value.push(option.value);
+	          value.splice(optionIndex, 1);
+	        } else if (this.multipleLimit <= 0 || value.length < this.multipleLimit) {
+	          value.push(option.value);
 	        }
+	        this.$emit('input', value);
 	        if (option.created) {
 	          this.query = '';
 	          this.inputLength = 20;
 	        }
 	        if (this.filterable) this.$refs.input.focus();
+	      } else {
+	        this.$emit('input', option.value);
+	        this.visible = false;
 	      }
 	    },
 	    toggleMenu: function toggleMenu() {
@@ -1062,7 +1061,9 @@ module.exports =
 	    deleteTag: function deleteTag(event, tag) {
 	      var index = this.selected.indexOf(tag);
 	      if (index > -1 && !this.disabled) {
-	        this.value.splice(index, 1);
+	        var value = this.value.slice();
+	        value.splice(index, 1);
+	        this.$emit('input', value);
 	        this.$emit('remove-tag', tag);
 	      }
 	      event.stopPropagation();

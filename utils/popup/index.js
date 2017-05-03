@@ -67,8 +67,12 @@ var getDOM = function getDOM(dom) {
 };
 
 exports.default = {
+  model: {
+    prop: 'visible',
+    event: 'visible-change'
+  },
   props: {
-    value: {
+    visible: {
       type: Boolean,
       default: false
     },
@@ -136,7 +140,7 @@ exports.default = {
 
 
   watch: {
-    value: function value(val) {
+    visible: function visible(val) {
       var _this = this;
 
       if (val) {
@@ -161,7 +165,7 @@ exports.default = {
 
       if (!this.rendered) {
         this.rendered = true;
-        this.$emit('input', true);
+        this.$emit('visible-change', true);
       }
 
       var props = (0, _merge2.default)({}, this.$props || this, options);
@@ -189,10 +193,7 @@ exports.default = {
 
       this._opening = true;
 
-      // 使用 vue-popup 的组件，如果需要和父组件通信显示的状态，应该使用 value，它是一个 prop，
-      // 这样在父组件中用 v-model 即可；否则可以使用 visible，它是一个 data
-      this.visible = true;
-      this.$emit('input', true);
+      this.$emit('visible-change', true);
 
       var dom = getDOM(this.$el);
 
@@ -264,8 +265,7 @@ exports.default = {
     doClose: function doClose() {
       var _this4 = this;
 
-      this.visible = false;
-      this.$emit('input', false);
+      this.$emit('visible-change', false);
       this._closing = true;
 
       this.onClose && this.onClose();

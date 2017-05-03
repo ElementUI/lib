@@ -285,21 +285,12 @@ module.exports =
 	    },
 	    beforeClose: Function
 	  },
-	  data: function data() {
-	    return {
-	      visible: false
-	    };
-	  },
-
 
 	  watch: {
-	    value: function value(val) {
-	      this.visible = val;
-	    },
 	    visible: function visible(val) {
 	      var _this = this;
 
-	      this.$emit('input', val);
+	      this.$emit('update:visible', val);
 	      if (val) {
 	        this.$emit('open');
 	        this.$el.addEventListener('scroll', this.updatePopper);
@@ -341,7 +332,7 @@ module.exports =
 	  },
 
 	  mounted: function mounted() {
-	    if (this.value) {
+	    if (this.visible) {
 	      this.rendered = true;
 	      this.open();
 	    }

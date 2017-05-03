@@ -353,7 +353,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.3.0-beta.2',
+	  version: '1.3.0-beta.3',
 	  locale: _locale2.default.use,
 	  i18n: _locale2.default.i18n,
 	  install: install,
@@ -854,10 +854,12 @@ module.exports =
 	        this.$nextTick(function () {
 	          _this2.internalCurrentPage = newVal;
 	          if (oldVal !== newVal) {
+	            _this2.$emit('update:currentPage', newVal);
 	            _this2.$emit('current-change', _this2.internalCurrentPage);
 	          }
 	        });
 	      } else {
+	        this.$emit('update:currentPage', newVal);
 	        this.$emit('current-change', this.internalCurrentPage);
 	      }
 	    },
@@ -1341,21 +1343,12 @@ module.exports =
 	    },
 	    beforeClose: Function
 	  },
-	  data: function data() {
-	    return {
-	      visible: false
-	    };
-	  },
-
 
 	  watch: {
-	    value: function value(val) {
-	      this.visible = val;
-	    },
 	    visible: function visible(val) {
 	      var _this = this;
 
-	      this.$emit('input', val);
+	      this.$emit('update:visible', val);
 	      if (val) {
 	        this.$emit('open');
 	        this.$el.addEventListener('scroll', this.updatePopper);
@@ -1397,7 +1390,7 @@ module.exports =
 	  },
 
 	  mounted: function mounted() {
-	    if (this.value) {
+	    if (this.visible) {
 	      this.rendered = true;
 	      this.open();
 	    }
@@ -3435,25 +3428,6 @@ module.exports =
 	//
 	//
 	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 /***/ },
 /* 61 */
@@ -3564,23 +3538,11 @@ module.exports =
 	    on: {
 	      "click": _vm.handleIconClick
 	    }
-	  }) : _vm._e()]), (_vm.type !== 'textarea') ? _c('input', {
+	  }) : _vm._e()]), (_vm.type !== 'textarea') ? _c('input', _vm._b({
 	    ref: "input",
 	    staticClass: "el-input__inner",
 	    attrs: {
-	      "type": _vm.type,
-	      "name": _vm.name,
-	      "placeholder": _vm.placeholder,
-	      "disabled": _vm.disabled,
-	      "readonly": _vm.readonly,
-	      "maxlength": _vm.maxlength,
-	      "minlength": _vm.minlength,
-	      "autocomplete": _vm.autoComplete,
-	      "autofocus": _vm.autofocus,
-	      "min": _vm.min,
-	      "max": _vm.max,
-	      "step": _vm.step,
-	      "form": _vm.form
+	      "autocomplete": _vm.autoComplete
 	    },
 	    domProps: {
 	      "value": _vm.currentValue
@@ -3590,25 +3552,14 @@ module.exports =
 	      "focus": _vm.handleFocus,
 	      "blur": _vm.handleBlur
 	    }
-	  }) : _vm._e(), (_vm.validating) ? _c('i', {
+	  }, 'input', _vm.$props)) : _vm._e(), (_vm.validating) ? _c('i', {
 	    staticClass: "el-input__icon el-icon-loading"
 	  }) : _vm._e(), (_vm.$slots.append) ? _c('div', {
 	    staticClass: "el-input-group__append"
-	  }, [_vm._t("append")], 2) : _vm._e()] : _c('textarea', {
+	  }, [_vm._t("append")], 2) : _vm._e()] : _c('textarea', _vm._b({
 	    ref: "textarea",
 	    staticClass: "el-textarea__inner",
 	    style: (_vm.textareaStyle),
-	    attrs: {
-	      "name": _vm.name,
-	      "placeholder": _vm.placeholder,
-	      "disabled": _vm.disabled,
-	      "readonly": _vm.readonly,
-	      "rows": _vm.rows,
-	      "form": _vm.form,
-	      "autofocus": _vm.autofocus,
-	      "maxlength": _vm.maxlength,
-	      "minlength": _vm.minlength
-	    },
 	    domProps: {
 	      "value": _vm.currentValue
 	    },
@@ -3617,7 +3568,7 @@ module.exports =
 	      "focus": _vm.handleFocus,
 	      "blur": _vm.handleBlur
 	    }
-	  })], 2)
+	  }, 'textarea', _vm.$props))], 2)
 	},staticRenderFns: []}
 
 /***/ },
@@ -5908,7 +5859,9 @@ module.exports =
 	    },
 	    deletePrevTag: function deletePrevTag(e) {
 	      if (e.target.value.length <= 0 && !this.toggleLastOptionHitState()) {
-	        this.value.pop();
+	        var value = this.value.slice();
+	        value.pop();
+	        this.$emit('input', value);
 	      }
 	    },
 	    managePlaceholder: function managePlaceholder() {
@@ -5954,26 +5907,23 @@ module.exports =
 	      }, 300);
 	    },
 	    handleOptionSelect: function handleOptionSelect(option) {
-	      if (!this.multiple) {
-	        this.$emit('input', option.value);
-	        this.visible = false;
-	      } else {
-	        var optionIndex = -1;
-	        this.value.forEach(function (item, index) {
-	          if (item === option.value) {
-	            optionIndex = index;
-	          }
-	        });
+	      if (this.multiple) {
+	        var value = this.value.slice();
+	        var optionIndex = value.indexOf(option.value);
 	        if (optionIndex > -1) {
-	          this.value.splice(optionIndex, 1);
-	        } else if (this.multipleLimit <= 0 || this.value.length < this.multipleLimit) {
-	          this.value.push(option.value);
+	          value.splice(optionIndex, 1);
+	        } else if (this.multipleLimit <= 0 || value.length < this.multipleLimit) {
+	          value.push(option.value);
 	        }
+	        this.$emit('input', value);
 	        if (option.created) {
 	          this.query = '';
 	          this.inputLength = 20;
 	        }
 	        if (this.filterable) this.$refs.input.focus();
+	      } else {
+	        this.$emit('input', option.value);
+	        this.visible = false;
 	      }
 	    },
 	    toggleMenu: function toggleMenu() {
@@ -6039,7 +5989,9 @@ module.exports =
 	    deleteTag: function deleteTag(event, tag) {
 	      var index = this.selected.indexOf(tag);
 	      if (index > -1 && !this.disabled) {
-	        this.value.splice(index, 1);
+	        var value = this.value.slice();
+	        value.splice(index, 1);
+	        this.$emit('input', value);
 	        this.$emit('remove-tag', tag);
 	      }
 	      event.stopPropagation();
@@ -9024,7 +8976,9 @@ module.exports =
 	      if (!filterPanel) {
 	        filterPanel = new _vue2.default(_filterPanel2.default);
 	        this.filterPanels[column.id] = filterPanel;
-
+	        if (column.filterPlacement) {
+	          filterPanel.placement = column.filterPlacement;
+	        }
 	        filterPanel.table = table;
 	        filterPanel.cell = cell;
 	        filterPanel.column = column;
@@ -10215,6 +10169,7 @@ module.exports =
 	    filterMethod: Function,
 	    filteredValue: Array,
 	    filters: Array,
+	    filterPlacement: String,
 	    filterMultiple: {
 	      type: Boolean,
 	      default: true
@@ -10311,7 +10266,8 @@ module.exports =
 	      filterable: this.filters || this.filterMethod,
 	      filterMultiple: this.filterMultiple,
 	      filterOpened: false,
-	      filteredValue: this.filteredValue || []
+	      filteredValue: this.filteredValue || [],
+	      filterPlacement: this.filterPlacement || ''
 	    });
 
 	    (0, _merge2.default)(column, forced[type] || {});
@@ -15420,6 +15376,8 @@ module.exports =
 
 	var _merge2 = _interopRequireDefault(_merge);
 
+	var _vdom = __webpack_require__(191);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var defaults = {
@@ -15499,7 +15457,7 @@ module.exports =
 	  }
 	  instance.action = '';
 
-	  if (!instance.value || instance.closeTimer) {
+	  if (!instance.visible || instance.closeTimer) {
 	    if (msgQueue.length > 0) {
 	      (function () {
 	        currentMsg = msgQueue.shift();
@@ -15519,6 +15477,10 @@ module.exports =
 	          oldCb(action, instance);
 	          showNextMsg();
 	        };
+	        if ((0, _vdom.isVNode)(instance.message)) {
+	          instance.$slots.default = [instance.message];
+	          instance.message = null;
+	        }
 	        ['modal', 'showClose', 'closeOnClickModal', 'closeOnPressEscape'].forEach(function (prop) {
 	          if (instance[prop] === undefined) {
 	            instance[prop] = true;
@@ -15527,7 +15489,7 @@ module.exports =
 	        document.body.appendChild(instance.$el);
 
 	        _vue2.default.nextTick(function () {
-	          instance.value = true;
+	          instance.visible = true;
 	        });
 	      })();
 	    }
@@ -15618,7 +15580,7 @@ module.exports =
 	};
 
 	MessageBox.close = function () {
-	  instance.value = false;
+	  instance.visible = false;
 	  msgQueue = [];
 	  currentMsg = null;
 	};
@@ -15676,6 +15638,8 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
+	//
 	//
 	//
 	//
@@ -15775,8 +15739,8 @@ module.exports =
 	    doClose: function doClose() {
 	      var _this2 = this;
 
-	      if (!this.value) return;
-	      this.value = false;
+	      if (!this.visible) return;
+	      this.visible = false;
 	      this._closing = true;
 
 	      this.onClose && this.onClose();
@@ -15858,7 +15822,7 @@ module.exports =
 	      }
 	    },
 
-	    value: function value(val) {
+	    visible: function visible(val) {
 	      var _this4 = this;
 
 	      if (val) this.uid++;
@@ -15923,8 +15887,8 @@ module.exports =
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
-	      value: (_vm.value),
-	      expression: "value"
+	      value: (_vm.visible),
+	      expression: "visible"
 	    }],
 	    staticClass: "el-message-box__wrapper",
 	    on: {
@@ -15957,7 +15921,7 @@ module.exports =
 	    style: ({
 	      'margin-left': _vm.typeClass ? '50px' : '0'
 	    })
-	  }, [_c('p', [_vm._v(_vm._s(_vm.message))])]), _c('div', {
+	  }, [_vm._t("default", [_c('p', [_vm._v(_vm._s(_vm.message))])])], 2), _c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -20730,6 +20694,10 @@ module.exports =
 	    IframeUpload: _iframeUpload2.default
 	  },
 
+	  provide: {
+	    uploader: undefined
+	  },
+
 	  props: {
 	    action: {
 	      type: String,
@@ -20880,6 +20848,7 @@ module.exports =
 	      if (raw) {
 	        file = this.getFile(raw);
 	      }
+	      this.abort(file);
 	      var fileList = this.uploadFiles;
 	      fileList.splice(fileList.indexOf(file), 1);
 	      this.onRemove(file, fileList);
@@ -20892,6 +20861,9 @@ module.exports =
 	        return !target;
 	      });
 	      return target;
+	    },
+	    abort: function abort(file) {
+	      this.$refs['upload-inner'].abort(file);
 	    },
 	    clearFiles: function clearFiles() {
 	      this.uploadFiles = [];
@@ -21071,15 +21043,6 @@ module.exports =
 	//
 	//
 	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	exports.default = {
 	  mixins: [_locale2.default],
@@ -21121,13 +21084,13 @@ module.exports =
 	    class: ['el-upload-list', 'el-upload-list--' + _vm.listType],
 	    attrs: {
 	      "tag": "ul",
-	      "name": "list"
+	      "name": "el-list"
 	    }
 	  }, _vm._l((_vm.files), function(file) {
 	    return _c('li', {
 	      key: file,
 	      class: ['el-upload-list__item', 'is-' + file.status]
-	    }, [(['picture-card', 'picture'].indexOf(_vm.listType) > -1 && file.status === 'success') ? _c('img', {
+	    }, [(file.status !== 'uploading' && ['picture-card', 'picture'].indexOf(_vm.listType) > -1) ? _c('img', {
 	      staticClass: "el-upload-list__item-thumbnail",
 	      attrs: {
 	        "src": file.url,
@@ -21144,27 +21107,22 @@ module.exports =
 	      staticClass: "el-icon-document"
 	    }), _vm._v(_vm._s(file.name) + "\n    ")]), _c('label', {
 	      staticClass: "el-upload-list__item-status-label"
-	    }, [(file.status === 'success') ? _c('i', {
+	    }, [_c('i', {
 	      class: {
+	        'el-icon-upload-success': true,
 	        'el-icon-circle-check': _vm.listType === 'text',
 	          'el-icon-check': ['picture-card', 'picture'].indexOf(_vm.listType) > -1
 	      }
-	    }) : _vm._e(), _c('i', {
+	    })]), _c('i', {
 	      staticClass: "el-icon-close",
 	      on: {
 	        "click": function($event) {
 	          _vm.$emit('remove', file)
 	        }
 	      }
-	    })]), (
-	      _vm.listType === 'picture-card' &&
-	      file.status === 'success'
-	    ) ? _c('span', {
+	    }), (_vm.listType === 'picture-card') ? _c('span', {
 	      staticClass: "el-upload-list__item-actions"
-	    }, [(
-	      _vm.handlePreview &&
-	      _vm.listType === 'picture-card'
-	    ) ? _c('span', {
+	    }, [(_vm.handlePreview && _vm.listType === 'picture-card') ? _c('span', {
 	      staticClass: "el-upload-list__item-preview",
 	      on: {
 	        "click": function($event) {
@@ -21231,6 +21189,7 @@ module.exports =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
+	  inject: ['uploader'],
 	  components: {
 	    UploadDragger: _uploadDragger2.default
 	  },
@@ -21275,7 +21234,8 @@ module.exports =
 
 	  data: function data() {
 	    return {
-	      mouseover: false
+	      mouseover: false,
+	      reqs: {}
 	    };
 	  },
 
@@ -21332,8 +21292,26 @@ module.exports =
 	        this.onRemove(rawFile, true);
 	      }
 	    },
+	    abort: function abort(file) {
+	      var reqs = this.reqs;
+
+	      if (file) {
+	        var uid = file;
+	        if (file.uid) uid = file.uid;
+	        if (reqs[uid]) {
+	          reqs[uid].abort();
+	        }
+	      } else {
+	        Object.keys(reqs).forEach(function (uid) {
+	          if (reqs[uid]) reqs[uid].abort();
+	          delete reqs[uid];
+	        });
+	      }
+	    },
 	    post: function post(rawFile) {
 	      var _this3 = this;
+
+	      var uid = rawFile.uid;
 
 	      var options = {
 	        headers: this.headers,
@@ -21347,14 +21325,17 @@ module.exports =
 	        },
 	        onSuccess: function onSuccess(res) {
 	          _this3.onSuccess(res, rawFile);
+	          delete _this3.reqs[uid];
 	        },
 	        onError: function onError(err) {
 	          _this3.onError(err, rawFile);
+	          delete _this3.reqs[uid];
 	        }
 	      };
-	      var requestPromise = this.httpRequest(options);
-	      if (requestPromise && requestPromise.then) {
-	        requestPromise.then(options.onSuccess, options.onError);
+	      var req = this.httpRequest(options);
+	      this.reqs[uid] = req;
+	      if (req && req.then) {
+	        req.then(options.onSuccess, options.onError);
 	      }
 	    },
 	    handleClick: function handleClick() {
@@ -23471,6 +23452,14 @@ module.exports =
 	  },
 
 
+	  computed: {
+	    hasLabel: function hasLabel() {
+	      return this.items.some(function (item) {
+	        return item.label.toString().length > 0;
+	      });
+	    }
+	  },
+
 	  watch: {
 	    items: function items(val) {
 	      if (val.length > 0) this.setActiveItem(0);
@@ -23730,7 +23719,7 @@ module.exports =
 	  })]) : _vm._e()]), _vm._t("default")], 2), (_vm.indicatorPosition !== 'none') ? _c('ul', {
 	    staticClass: "el-carousel__indicators",
 	    class: {
-	      'el-carousel__indicators--outside': _vm.indicatorPosition === 'outside' || _vm.type === 'card'
+	      'el-carousel__indicators--labels': _vm.hasLabel, 'el-carousel__indicators--outside': _vm.indicatorPosition === 'outside' || _vm.type === 'card'
 	    }
 	  }, _vm._l((_vm.items), function(item, index) {
 	    return _c('li', {
@@ -23749,7 +23738,7 @@ module.exports =
 	      }
 	    }, [_c('button', {
 	      staticClass: "el-carousel__button"
-	    })])
+	    }, [(_vm.hasLabel) ? _c('span', [_vm._v(_vm._s(item.label))]) : _vm._e()])])
 	  })) : _vm._e()])
 	},staticRenderFns: []}
 
@@ -24174,7 +24163,11 @@ module.exports =
 	  name: 'ElCarouselItem',
 
 	  props: {
-	    name: String
+	    name: String,
+	    label: {
+	      type: [String, Number],
+	      default: ''
+	    }
 	  },
 
 	  data: function data() {
@@ -26764,14 +26757,6 @@ module.exports =
 	//
 	//
 	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	exports.default = {
 	  name: 'ElTransfer',
@@ -27049,7 +27034,7 @@ module.exports =
 	    placeholder: String,
 	    title: String,
 	    filterable: Boolean,
-	    format: Object,
+	    footerFormat: Object,
 	    filterMethod: Function,
 	    defaultChecked: Array,
 	    props: Object
@@ -27134,9 +27119,9 @@ module.exports =
 	    checkedSummary: function checkedSummary() {
 	      var checkedLength = this.checked.length;
 	      var dataLength = this.data.length;
-	      var _format = this.format,
-	          noChecked = _format.noChecked,
-	          hasChecked = _format.hasChecked;
+	      var _footerFormat = this.footerFormat,
+	          noChecked = _footerFormat.noChecked,
+	          hasChecked = _footerFormat.hasChecked;
 
 	      if (noChecked && hasChecked) {
 	        return checkedLength > 0 ? hasChecked.replace(/\${checked}/g, checkedLength).replace(/\${total}/g, dataLength) : noChecked.replace(/\${total}/g, dataLength);
@@ -27300,22 +27285,17 @@ module.exports =
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-transfer"
-	  }, [_c('transfer-panel', {
+	  }, [_c('transfer-panel', _vm._b({
 	    attrs: {
-	      "filterable": _vm.filterable,
-	      "filter-method": _vm.filterMethod,
 	      "data": _vm.sourceData,
-	      "render-content": _vm.renderContent,
 	      "title": _vm.titles[0] || _vm.t('el.transfer.titles.0'),
-	      "format": _vm.footerFormat,
 	      "default-checked": _vm.leftDefaultChecked,
-	      "placeholder": _vm.filterPlaceholder || _vm.t('el.transfer.filterPlaceholder'),
-	      "props": _vm.props
+	      "placeholder": _vm.filterPlaceholder || _vm.t('el.transfer.filterPlaceholder')
 	    },
 	    on: {
 	      "checked-change": _vm.onSourceCheckedChange
 	    }
-	  }, [_vm._t("left-footer")], 2), _c('div', {
+	  }, 'transfer-panel', _vm.$props), [_vm._t("left-footer")], 2), _c('div', {
 	    staticClass: "el-transfer__buttons"
 	  }, [_c('el-button', {
 	    attrs: {
@@ -27343,22 +27323,17 @@ module.exports =
 	    }
 	  }, [(_vm.buttonTexts[1] !== undefined) ? _c('span', [_vm._v(_vm._s(_vm.buttonTexts[1]))]) : _vm._e(), _c('i', {
 	    staticClass: "el-icon-arrow-right"
-	  })])], 1), _c('transfer-panel', {
+	  })])], 1), _c('transfer-panel', _vm._b({
 	    attrs: {
-	      "filterable": _vm.filterable,
-	      "filter-method": _vm.filterMethod,
 	      "data": _vm.targetData,
-	      "render-content": _vm.renderContent,
 	      "title": _vm.titles[1] || _vm.t('el.transfer.titles.1'),
-	      "format": _vm.footerFormat,
 	      "default-checked": _vm.rightDefaultChecked,
-	      "placeholder": _vm.filterPlaceholder || _vm.t('el.transfer.filterPlaceholder'),
-	      "props": _vm.props
+	      "placeholder": _vm.filterPlaceholder || _vm.t('el.transfer.filterPlaceholder')
 	    },
 	    on: {
 	      "checked-change": _vm.onTargetCheckedChange
 	    }
-	  }, [_vm._t("right-footer")], 2)], 1)
+	  }, 'transfer-panel', _vm.$props), [_vm._t("right-footer")], 2)], 1)
 	},staticRenderFns: []}
 
 /***/ },

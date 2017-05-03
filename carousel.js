@@ -241,6 +241,14 @@ module.exports =
 	  },
 
 
+	  computed: {
+	    hasLabel: function hasLabel() {
+	      return this.items.some(function (item) {
+	        return item.label.toString().length > 0;
+	      });
+	    }
+	  },
+
 	  watch: {
 	    items: function items(val) {
 	      if (val.length > 0) this.setActiveItem(0);
@@ -522,7 +530,7 @@ module.exports =
 	  })]) : _vm._e()]), _vm._t("default")], 2), (_vm.indicatorPosition !== 'none') ? _c('ul', {
 	    staticClass: "el-carousel__indicators",
 	    class: {
-	      'el-carousel__indicators--outside': _vm.indicatorPosition === 'outside' || _vm.type === 'card'
+	      'el-carousel__indicators--labels': _vm.hasLabel, 'el-carousel__indicators--outside': _vm.indicatorPosition === 'outside' || _vm.type === 'card'
 	    }
 	  }, _vm._l((_vm.items), function(item, index) {
 	    return _c('li', {
@@ -541,7 +549,7 @@ module.exports =
 	      }
 	    }, [_c('button', {
 	      staticClass: "el-carousel__button"
-	    })])
+	    }, [(_vm.hasLabel) ? _c('span', [_vm._v(_vm._s(item.label))]) : _vm._e()])])
 	  })) : _vm._e()])
 	},staticRenderFns: []}
 
