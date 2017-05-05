@@ -464,7 +464,7 @@ module.exports =
 	    attrs: {
 	      "for": _vm.prop
 	    }
-	  }, [_vm._v("\n    " + _vm._s(_vm.label + _vm.form.labelSuffix) + "\n  ")]) : _vm._e(), _c('div', {
+	  }, [_vm._t("label", [_vm._v(_vm._s(_vm.label + _vm.form.labelSuffix))])], 2) : _vm._e(), _c('div', {
 	    staticClass: "el-form-item__content",
 	    style: (_vm.contentStyle)
 	  }, [_vm._t("default"), _c('transition', {

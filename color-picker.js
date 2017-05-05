@@ -261,7 +261,9 @@ module.exports =
 
 	  watch: {
 	    value: function value(val) {
-	      if (val && val !== this.color.value) {
+	      if (!val) {
+	        this.showPanelColor = false;
+	      } else if (val && val !== this.color.value) {
 	        this.color.fromString(val);
 	      }
 	    },

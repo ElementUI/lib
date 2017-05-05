@@ -730,7 +730,7 @@ module.exports =
 	    handleClickIcon: function handleClickIcon() {
 	      if (this.readonly || this.disabled) return;
 	      if (this.showClose) {
-	        this.currentValue = '';
+	        this.currentValue = this.$options.defaultValue || '';
 	        this.showClose = false;
 	      } else {
 	        this.pickerVisible = !this.pickerVisible;
@@ -803,7 +803,7 @@ module.exports =
 	    mountPicker: function mountPicker() {
 	      var _this2 = this;
 
-	      this.panel.defaultValue = this.currentValue;
+	      this.panel.defaultValue = this.defaultValue || this.currentValue;
 	      this.picker = new _vue2.default(this.panel).$mount();
 	      this.picker.popperClass = this.popperClass;
 	      this.popperElm = this.picker.$el;

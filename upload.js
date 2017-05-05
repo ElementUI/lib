@@ -658,7 +658,13 @@ module.exports =
 	          _vm.$emit('remove', file)
 	        }
 	      }
-	    }), (_vm.listType === 'picture-card') ? _c('span', {
+	    }), (file.status === 'uploading') ? _c('el-progress', {
+	      attrs: {
+	        "type": _vm.listType === 'picture-card' ? 'circle' : 'line',
+	        "stroke-width": _vm.listType === 'picture-card' ? 6 : 2,
+	        "percentage": _vm.parsePercentage(file.percentage)
+	      }
+	    }) : _vm._e(), (_vm.listType === 'picture-card') ? _c('span', {
 	      staticClass: "el-upload-list__item-actions"
 	    }, [(_vm.handlePreview && _vm.listType === 'picture-card') ? _c('span', {
 	      staticClass: "el-upload-list__item-preview",
@@ -678,13 +684,7 @@ module.exports =
 	      }
 	    }, [_c('i', {
 	      staticClass: "el-icon-delete2"
-	    })])]) : _vm._e(), (file.status === 'uploading') ? _c('el-progress', {
-	      attrs: {
-	        "type": _vm.listType === 'picture-card' ? 'circle' : 'line',
-	        "stroke-width": _vm.listType === 'picture-card' ? 6 : 2,
-	        "percentage": _vm.parsePercentage(file.percentage)
-	      }
-	    }) : _vm._e()], 1)
+	    })])]) : _vm._e()], 1)
 	  }))
 	},staticRenderFns: []}
 

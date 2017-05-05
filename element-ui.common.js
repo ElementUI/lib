@@ -353,7 +353,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.3.0-beta.3',
+	  version: '1.3.0',
 	  locale: _locale2.default.use,
 	  i18n: _locale2.default.i18n,
 	  install: install,
@@ -1378,10 +1378,14 @@ module.exports =
 	    },
 	    handleClose: function handleClose() {
 	      if (typeof this.beforeClose === 'function') {
-	        this.beforeClose(this.close);
+	        this.beforeClose(this.hide);
 	      } else {
-	        this.close();
+	        this.hide();
 	      }
+	    },
+	    hide: function hide() {
+	      this.$emit('update:visible', false);
+	      this.$emit('visible-change', false);
 	    },
 	    updatePopper: function updatePopper() {
 	      this.broadcast('ElSelectDropdown', 'updatePopper');
@@ -10322,7 +10326,7 @@ module.exports =
 
 	      return _self.showOverflowTooltip || _self.showTooltipWhenOverflow ? h(
 	        'div',
-	        { 'class': 'cell el-tooltip' },
+	        { 'class': 'cell el-tooltip', style: 'width:' + (data.column.realWidth || data.column.width) + 'px' },
 	        [renderCell(h, data)]
 	      ) : h(
 	        'div',
@@ -10875,7 +10879,7 @@ module.exports =
 	    handleClickIcon: function handleClickIcon() {
 	      if (this.readonly || this.disabled) return;
 	      if (this.showClose) {
-	        this.currentValue = '';
+	        this.currentValue = this.$options.defaultValue || '';
 	        this.showClose = false;
 	      } else {
 	        this.pickerVisible = !this.pickerVisible;
@@ -10948,7 +10952,7 @@ module.exports =
 	    mountPicker: function mountPicker() {
 	      var _this2 = this;
 
-	      this.panel.defaultValue = this.currentValue;
+	      this.panel.defaultValue = this.defaultValue || this.currentValue;
 	      this.picker = new _vue2.default(this.panel).$mount();
 	      this.picker.popperClass = this.popperClass;
 	      this.popperElm = this.picker.$el;
@@ -16636,7 +16640,7 @@ module.exports =
 	    attrs: {
 	      "for": _vm.prop
 	    }
-	  }, [_vm._v("\n    " + _vm._s(_vm.label + _vm.form.labelSuffix) + "\n  ")]) : _vm._e(), _c('div', {
+	  }, [_vm._t("label", [_vm._v(_vm._s(_vm.label + _vm.form.labelSuffix))])], 2) : _vm._e(), _c('div', {
 	    staticClass: "el-form-item__content",
 	    style: (_vm.contentStyle)
 	  }, [_vm._t("default"), _c('transition', {
@@ -21120,7 +21124,13 @@ module.exports =
 	          _vm.$emit('remove', file)
 	        }
 	      }
-	    }), (_vm.listType === 'picture-card') ? _c('span', {
+	    }), (file.status === 'uploading') ? _c('el-progress', {
+	      attrs: {
+	        "type": _vm.listType === 'picture-card' ? 'circle' : 'line',
+	        "stroke-width": _vm.listType === 'picture-card' ? 6 : 2,
+	        "percentage": _vm.parsePercentage(file.percentage)
+	      }
+	    }) : _vm._e(), (_vm.listType === 'picture-card') ? _c('span', {
 	      staticClass: "el-upload-list__item-actions"
 	    }, [(_vm.handlePreview && _vm.listType === 'picture-card') ? _c('span', {
 	      staticClass: "el-upload-list__item-preview",
@@ -21140,13 +21150,7 @@ module.exports =
 	      }
 	    }, [_c('i', {
 	      staticClass: "el-icon-delete2"
-	    })])]) : _vm._e(), (file.status === 'uploading') ? _c('el-progress', {
-	      attrs: {
-	        "type": _vm.listType === 'picture-card' ? 'circle' : 'line',
-	        "stroke-width": _vm.listType === 'picture-card' ? 6 : 2,
-	        "percentage": _vm.parsePercentage(file.percentage)
-	      }
-	    }) : _vm._e()], 1)
+	    })])]) : _vm._e()], 1)
 	  }))
 	},staticRenderFns: []}
 
@@ -25386,7 +25390,9 @@ module.exports =
 
 	  watch: {
 	    value: function value(val) {
-	      if (val && val !== this.color.value) {
+	      if (!val) {
+	        this.showPanelColor = false;
+	      } else if (val && val !== this.color.value) {
 	        this.color.fromString(val);
 	      }
 	    },
