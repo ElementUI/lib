@@ -551,16 +551,20 @@ module.exports =
 	        if (refs.rightFixedBodyWrapper) refs.rightFixedBodyWrapper.scrollTop = this.scrollTop;
 	      });
 
-	      if (headerWrapper) {
-	        (0, _util.mousewheel)(headerWrapper, (0, _throttle2.default)(16, function (event) {
-	          var deltaX = event.deltaX;
+	      var scrollBodyWrapper = function scrollBodyWrapper(event) {
+	        var deltaX = event.deltaX;
 
-	          if (deltaX > 0) {
-	            _this.bodyWrapper.scrollLeft += 10;
-	          } else {
-	            _this.bodyWrapper.scrollLeft -= 10;
-	          }
-	        }));
+	        if (deltaX > 0) {
+	          _this.bodyWrapper.scrollLeft += 10;
+	        } else {
+	          _this.bodyWrapper.scrollLeft -= 10;
+	        }
+	      };
+	      if (headerWrapper) {
+	        (0, _util.mousewheel)(headerWrapper, (0, _throttle2.default)(16, scrollBodyWrapper));
+	      }
+	      if (footerWrapper) {
+	        (0, _util.mousewheel)(footerWrapper, (0, _throttle2.default)(16, scrollBodyWrapper));
 	      }
 
 	      if (this.fit) {
@@ -3050,7 +3054,13 @@ module.exports =
 	    })
 	  }, [_c('span', {
 	    staticClass: "el-table__empty-text"
-	  }, [_vm._t("empty", [_vm._v(_vm._s(_vm.emptyText || _vm.t('el.table.emptyText')))])], 2)]) : _vm._e()], 1), (_vm.showSummary && _vm.data && _vm.data.length > 0) ? _c('div', {
+	  }, [_vm._t("empty", [_vm._v(_vm._s(_vm.emptyText || _vm.t('el.table.emptyText')))])], 2)]) : _vm._e()], 1), (_vm.showSummary) ? _c('div', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (_vm.data && _vm.data.length > 0),
+	      expression: "data && data.length > 0"
+	    }],
 	    ref: "footerWrapper",
 	    staticClass: "el-table__footer-wrapper"
 	  }, [_c('table-footer', {
@@ -3106,7 +3116,13 @@ module.exports =
 	      "row-class-name": _vm.rowClassName,
 	      "row-style": _vm.rowStyle
 	    }
-	  })], 1), (_vm.showSummary && _vm.data && _vm.data.length > 0) ? _c('div', {
+	  })], 1), (_vm.showSummary) ? _c('div', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (_vm.data && _vm.data.length > 0),
+	      expression: "data && data.length > 0"
+	    }],
 	    ref: "fixedFooterWrapper",
 	    staticClass: "el-table__fixed-footer-wrapper"
 	  }, [_c('table-footer', {
@@ -3164,7 +3180,13 @@ module.exports =
 	      "row-style": _vm.rowStyle,
 	      "highlight": _vm.highlightCurrentRow
 	    }
-	  })], 1), (_vm.showSummary && _vm.data && _vm.data.length > 0) ? _c('div', {
+	  })], 1), (_vm.showSummary) ? _c('div', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (_vm.data && _vm.data.length > 0),
+	      expression: "data && data.length > 0"
+	    }],
 	    ref: "rightFixedFooterWrapper",
 	    staticClass: "el-table__fixed-footer-wrapper"
 	  }, [_c('table-footer', {

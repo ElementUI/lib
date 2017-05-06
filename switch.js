@@ -314,7 +314,7 @@ module.exports =
 	  },
 	  methods: {
 	    handleChange: function handleChange(event) {
-	      this.$emit('change', event.currentTarget.checked);
+	      this.$emit('change', event.currentTarget.checked ? this.onValue : this.offValue);
 	    },
 	    setBackgroundColor: function setBackgroundColor() {
 	      var newColor = this.checked ? this.onColor : this.offColor;

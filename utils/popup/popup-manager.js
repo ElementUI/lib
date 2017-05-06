@@ -170,6 +170,7 @@ var PopupManager = {
       if (!topItem) return;
       var instance = PopupManager.getInstance(topItem.id);
       if (instance.closeOnPressEscape) {
+        instance.$emit('update:visible', false);
         instance.close();
       }
     }
