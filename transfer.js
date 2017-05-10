@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(346);
+	module.exports = __webpack_require__(347);
 
 
 /***/ },
@@ -156,35 +156,35 @@ module.exports =
 
 /***/ },
 
-/***/ 140:
+/***/ 141:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/button");
 
 /***/ },
 
-/***/ 307:
+/***/ 308:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 316:
+/***/ 317:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox-group");
 
 /***/ },
 
-/***/ 346:
+/***/ 347:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(347);
+	var _main = __webpack_require__(348);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -199,14 +199,14 @@ module.exports =
 
 /***/ },
 
-/***/ 347:
+/***/ 348:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(348),
+	  __webpack_require__(349),
 	  /* template */
-	  __webpack_require__(352),
+	  __webpack_require__(353),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -220,14 +220,14 @@ module.exports =
 
 /***/ },
 
-/***/ 348:
+/***/ 349:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _button = __webpack_require__(140);
+	var _button = __webpack_require__(141);
 
 	var _button2 = _interopRequireDefault(_button);
 
@@ -239,7 +239,7 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _transferPanel = __webpack_require__(349);
+	var _transferPanel = __webpack_require__(350);
 
 	var _transferPanel2 = _interopRequireDefault(_transferPanel);
 
@@ -425,14 +425,14 @@ module.exports =
 
 /***/ },
 
-/***/ 349:
+/***/ 350:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(350),
-	  /* template */
 	  __webpack_require__(351),
+	  /* template */
+	  __webpack_require__(352),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -446,18 +446,18 @@ module.exports =
 
 /***/ },
 
-/***/ 350:
+/***/ 351:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkboxGroup = __webpack_require__(316);
+	var _checkboxGroup = __webpack_require__(317);
 
 	var _checkboxGroup2 = _interopRequireDefault(_checkboxGroup);
 
-	var _checkbox = __webpack_require__(307);
+	var _checkbox = __webpack_require__(308);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -709,7 +709,7 @@ module.exports =
 
 /***/ },
 
-/***/ 351:
+/***/ 352:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -812,7 +812,7 @@ module.exports =
 
 /***/ },
 
-/***/ 352:
+/***/ 353:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

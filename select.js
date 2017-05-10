@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(263);
+	module.exports = __webpack_require__(264);
 
 
 /***/ },
@@ -198,21 +198,21 @@ module.exports =
 
 /***/ },
 
-/***/ 120:
+/***/ 121:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 214:
+/***/ 215:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(215),
-	  /* template */
 	  __webpack_require__(216),
+	  /* template */
+	  __webpack_require__(217),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -226,7 +226,7 @@ module.exports =
 
 /***/ },
 
-/***/ 215:
+/***/ 216:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -368,10 +368,11 @@ module.exports =
 	//
 	//
 	//
+	//
 
 /***/ },
 
-/***/ 216:
+/***/ 217:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -385,7 +386,8 @@ module.exports =
 	    staticClass: "el-select-dropdown__item",
 	    class: {
 	      'selected': _vm.itemSelected,
-	      'is-disabled': _vm.disabled || _vm.groupDisabled || _vm.limitReached
+	      'is-disabled': _vm.disabled || _vm.groupDisabled || _vm.limitReached,
+	        'hover': _vm.parent.hoverIndex === _vm.index
 	    },
 	    on: {
 	      "mouseenter": _vm.hoverItem,
@@ -399,14 +401,14 @@ module.exports =
 
 /***/ },
 
-/***/ 263:
+/***/ 264:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _select = __webpack_require__(264);
+	var _select = __webpack_require__(265);
 
 	var _select2 = _interopRequireDefault(_select);
 
@@ -421,14 +423,14 @@ module.exports =
 
 /***/ },
 
-/***/ 264:
+/***/ 265:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(265),
+	  __webpack_require__(266),
 	  /* template */
-	  __webpack_require__(270),
+	  __webpack_require__(271),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -442,7 +444,7 @@ module.exports =
 
 /***/ },
 
-/***/ 265:
+/***/ 266:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -461,15 +463,15 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _selectDropdown = __webpack_require__(266);
+	var _selectDropdown = __webpack_require__(267);
 
 	var _selectDropdown2 = _interopRequireDefault(_selectDropdown);
 
-	var _option = __webpack_require__(214);
+	var _option = __webpack_require__(215);
 
 	var _option2 = _interopRequireDefault(_option);
 
-	var _tag = __webpack_require__(269);
+	var _tag = __webpack_require__(270);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
@@ -485,7 +487,7 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _dom = __webpack_require__(120);
+	var _dom = __webpack_require__(121);
 
 	var _resizeEvent = __webpack_require__(47);
 
@@ -1134,14 +1136,14 @@ module.exports =
 
 /***/ },
 
-/***/ 266:
+/***/ 267:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(267),
-	  /* template */
 	  __webpack_require__(268),
+	  /* template */
+	  __webpack_require__(269),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1155,7 +1157,7 @@ module.exports =
 
 /***/ },
 
-/***/ 267:
+/***/ 268:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1231,7 +1233,7 @@ module.exports =
 
 /***/ },
 
-/***/ 268:
+/***/ 269:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1248,14 +1250,14 @@ module.exports =
 
 /***/ },
 
-/***/ 269:
+/***/ 270:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 270:
+/***/ 271:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

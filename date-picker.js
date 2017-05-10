@@ -45,7 +45,7 @@ module.exports =
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(103);
+	module.exports = __webpack_require__(104);
 
 
 /***/ },
@@ -273,14 +273,15 @@ module.exports =
 /* 100 */,
 /* 101 */,
 /* 102 */,
-/* 103 */
+/* 103 */,
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _datePicker = __webpack_require__(104);
+	var _datePicker = __webpack_require__(105);
 
 	var _datePicker2 = _interopRequireDefault(_datePicker);
 
@@ -294,22 +295,22 @@ module.exports =
 	exports.default = _datePicker2.default;
 
 /***/ },
-/* 104 */
+/* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _picker = __webpack_require__(105);
+	var _picker = __webpack_require__(106);
 
 	var _picker2 = _interopRequireDefault(_picker);
 
-	var _date = __webpack_require__(110);
+	var _date = __webpack_require__(111);
 
 	var _date2 = _interopRequireDefault(_date);
 
-	var _dateRange = __webpack_require__(129);
+	var _dateRange = __webpack_require__(130);
 
 	var _dateRange2 = _interopRequireDefault(_dateRange);
 
@@ -352,14 +353,14 @@ module.exports =
 	};
 
 /***/ },
-/* 105 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(106),
+	  __webpack_require__(107),
 	  /* template */
-	  __webpack_require__(109),
+	  __webpack_require__(110),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -372,7 +373,7 @@ module.exports =
 
 
 /***/ },
-/* 106 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -387,7 +388,7 @@ module.exports =
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _util = __webpack_require__(107);
+	var _util = __webpack_require__(108);
 
 	var _vuePopper = __webpack_require__(13);
 
@@ -875,7 +876,7 @@ module.exports =
 	};
 
 /***/ },
-/* 107 */
+/* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -883,7 +884,7 @@ module.exports =
 	exports.__esModule = true;
 	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDate = exports.toDate = exports.equalDate = undefined;
 
-	var _date = __webpack_require__(108);
+	var _date = __webpack_require__(109);
 
 	var _date2 = _interopRequireDefault(_date);
 
@@ -1059,13 +1060,13 @@ module.exports =
 	};
 
 /***/ },
-/* 108 */
+/* 109 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/date");
 
 /***/ },
-/* 109 */
+/* 110 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1114,14 +1115,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 110 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(111),
+	  __webpack_require__(112),
 	  /* template */
-	  __webpack_require__(128),
+	  __webpack_require__(129),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1134,14 +1135,14 @@ module.exports =
 
 
 /***/ },
-/* 111 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(107);
+	var _util = __webpack_require__(108);
 
 	var _locale = __webpack_require__(60);
 
@@ -1151,19 +1152,19 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _time = __webpack_require__(112);
+	var _time = __webpack_require__(113);
 
 	var _time2 = _interopRequireDefault(_time);
 
-	var _yearTable = __webpack_require__(118);
+	var _yearTable = __webpack_require__(119);
 
 	var _yearTable2 = _interopRequireDefault(_yearTable);
 
-	var _monthTable = __webpack_require__(122);
+	var _monthTable = __webpack_require__(123);
 
 	var _monthTable2 = _interopRequireDefault(_monthTable);
 
-	var _dateTable = __webpack_require__(125);
+	var _dateTable = __webpack_require__(126);
 
 	var _dateTable2 = _interopRequireDefault(_dateTable);
 
@@ -1218,6 +1219,7 @@ module.exports =
 	    date: function date(newVal) {
 	      this.year = newVal.getFullYear();
 	      this.month = newVal.getMonth();
+	      if (this.selectionMode === 'week') this.week = (0, _util.getWeekNumber)(newVal);
 	    }
 	  },
 
@@ -1597,14 +1599,14 @@ module.exports =
 	//
 
 /***/ },
-/* 112 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(113),
+	  __webpack_require__(114),
 	  /* template */
-	  __webpack_require__(117),
+	  __webpack_require__(118),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1617,14 +1619,14 @@ module.exports =
 
 
 /***/ },
-/* 113 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(107);
+	var _util = __webpack_require__(108);
 
 	var _locale = __webpack_require__(60);
 
@@ -1669,7 +1671,7 @@ module.exports =
 	  mixins: [_locale2.default],
 
 	  components: {
-	    TimeSpinner: __webpack_require__(114)
+	    TimeSpinner: __webpack_require__(115)
 	  },
 
 	  props: {
@@ -1790,14 +1792,14 @@ module.exports =
 	};
 
 /***/ },
-/* 114 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(115),
-	  /* template */
 	  __webpack_require__(116),
+	  /* template */
+	  __webpack_require__(117),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1810,14 +1812,14 @@ module.exports =
 
 
 /***/ },
-/* 115 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(107);
+	var _util = __webpack_require__(108);
 
 	var _scrollbar = __webpack_require__(15);
 
@@ -2017,7 +2019,7 @@ module.exports =
 	//
 
 /***/ },
-/* 116 */
+/* 117 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2129,7 +2131,7 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 117 */
+/* 118 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2195,14 +2197,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 118 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(119),
+	  __webpack_require__(120),
 	  /* template */
-	  __webpack_require__(121),
+	  __webpack_require__(122),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -2215,14 +2217,14 @@ module.exports =
 
 
 /***/ },
-/* 119 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _dom = __webpack_require__(120);
+	var _dom = __webpack_require__(121);
 
 	exports.default = {
 	  props: {
@@ -2310,13 +2312,13 @@ module.exports =
 	//
 
 /***/ },
-/* 120 */
+/* 121 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
-/* 121 */
+/* 122 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2379,14 +2381,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 122 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(123),
-	  /* template */
 	  __webpack_require__(124),
+	  /* template */
+	  __webpack_require__(125),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -2399,7 +2401,7 @@ module.exports =
 
 
 /***/ },
-/* 123 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2410,7 +2412,7 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _dom = __webpack_require__(120);
+	var _dom = __webpack_require__(121);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2498,7 +2500,7 @@ module.exports =
 	};
 
 /***/ },
-/* 124 */
+/* 125 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2559,14 +2561,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 125 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(126),
-	  /* template */
 	  __webpack_require__(127),
+	  /* template */
+	  __webpack_require__(128),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -2579,16 +2581,16 @@ module.exports =
 
 
 /***/ },
-/* 126 */
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(107);
+	var _util = __webpack_require__(108);
 
-	var _dom = __webpack_require__(120);
+	var _dom = __webpack_require__(121);
 
 	var _locale = __webpack_require__(60);
 
@@ -3032,7 +3034,7 @@ module.exports =
 	};
 
 /***/ },
-/* 127 */
+/* 128 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -3069,7 +3071,7 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 128 */
+/* 129 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -3313,14 +3315,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 129 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(130),
-	  /* template */
 	  __webpack_require__(131),
+	  /* template */
+	  __webpack_require__(132),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -3333,24 +3335,24 @@ module.exports =
 
 
 /***/ },
-/* 130 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(107);
+	var _util = __webpack_require__(108);
 
 	var _locale = __webpack_require__(60);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _time = __webpack_require__(112);
+	var _time = __webpack_require__(113);
 
 	var _time2 = _interopRequireDefault(_time);
 
-	var _dateTable = __webpack_require__(125);
+	var _dateTable = __webpack_require__(126);
 
 	var _dateTable2 = _interopRequireDefault(_dateTable);
 
@@ -3802,7 +3804,7 @@ module.exports =
 	//
 
 /***/ },
-/* 131 */
+/* 132 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

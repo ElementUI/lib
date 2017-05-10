@@ -79,6 +79,7 @@
       },
       cascader: {
         noMatch: 'Ingen samsvarende data',
+        loading: 'Laster',
         placeholder: 'Velg'
       },
       pagination: {

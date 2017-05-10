@@ -79,6 +79,7 @@
       },
       cascader: {
         noMatch: 'هیچ داده‌ای پیدا نشد',
+        loading: 'بارگیری',
         placeholder: 'انتخاب کنید'
       },
       pagination: {

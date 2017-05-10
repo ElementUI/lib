@@ -79,6 +79,7 @@
       },
       cascader: {
         noMatch: 'ไม่พบข้อมูลที่ตรงกัน',
+        loading: 'กำลังโหลด',
         placeholder: 'เลือก'
       },
       pagination: {

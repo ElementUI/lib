@@ -79,6 +79,7 @@
       },
       cascader: {
         noMatch: 'Geen overeenkomende resultaten',
+        loading: 'Laden',
         placeholder: 'Selecteer'
       },
       pagination: {

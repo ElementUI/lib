@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(213);
+	module.exports = __webpack_require__(214);
 
 
 /***/ },
@@ -142,14 +142,14 @@ module.exports =
 
 /***/ },
 
-/***/ 213:
+/***/ 214:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _option = __webpack_require__(214);
+	var _option = __webpack_require__(215);
 
 	var _option2 = _interopRequireDefault(_option);
 
@@ -164,14 +164,14 @@ module.exports =
 
 /***/ },
 
-/***/ 214:
+/***/ 215:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(215),
-	  /* template */
 	  __webpack_require__(216),
+	  /* template */
+	  __webpack_require__(217),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,7 +185,7 @@ module.exports =
 
 /***/ },
 
-/***/ 215:
+/***/ 216:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -327,10 +327,11 @@ module.exports =
 	//
 	//
 	//
+	//
 
 /***/ },
 
-/***/ 216:
+/***/ 217:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -344,7 +345,8 @@ module.exports =
 	    staticClass: "el-select-dropdown__item",
 	    class: {
 	      'selected': _vm.itemSelected,
-	      'is-disabled': _vm.disabled || _vm.groupDisabled || _vm.limitReached
+	      'is-disabled': _vm.disabled || _vm.groupDisabled || _vm.limitReached,
+	        'hover': _vm.parent.hoverIndex === _vm.index
 	    },
 	    on: {
 	      "mouseenter": _vm.hoverItem,

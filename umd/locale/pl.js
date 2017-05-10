@@ -79,6 +79,7 @@
       },
       cascader: {
         noMatch: 'Brak dopasowań',
+        loading: 'Ładowanie',
         placeholder: 'Wybierz'
       },
       pagination: {

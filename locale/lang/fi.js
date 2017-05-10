@@ -65,6 +65,7 @@ exports.default = {
     },
     cascader: {
       noMatch: 'Ei vastaavia tietoja',
+      loading: 'Lataa',
       placeholder: 'Valitse'
     },
     pagination: {

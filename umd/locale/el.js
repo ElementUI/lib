@@ -79,6 +79,7 @@
       },
       cascader: {
         noMatch: 'Δεν βρέθηκαν αποτελέσματα',
+        loading: 'Φόρτωση',
         placeholder: 'Επιλογή'
       },
       pagination: {

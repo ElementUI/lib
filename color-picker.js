@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(85);
+	module.exports = __webpack_require__(86);
 
 
 /***/ },
@@ -163,14 +163,14 @@ module.exports =
 
 /***/ },
 
-/***/ 85:
+/***/ 86:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(86);
+	var _main = __webpack_require__(87);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -185,14 +185,14 @@ module.exports =
 
 /***/ },
 
-/***/ 86:
+/***/ 87:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(87),
+	  __webpack_require__(88),
 	  /* template */
-	  __webpack_require__(102),
+	  __webpack_require__(103),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -206,18 +206,18 @@ module.exports =
 
 /***/ },
 
-/***/ 87:
+/***/ 88:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _color = __webpack_require__(88);
+	var _color = __webpack_require__(89);
 
 	var _color2 = _interopRequireDefault(_color);
 
-	var _pickerDropdown = __webpack_require__(89);
+	var _pickerDropdown = __webpack_require__(90);
 
 	var _pickerDropdown2 = _interopRequireDefault(_pickerDropdown);
 
@@ -356,7 +356,7 @@ module.exports =
 
 /***/ },
 
-/***/ 88:
+/***/ 89:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -713,14 +713,14 @@ module.exports =
 
 /***/ },
 
-/***/ 89:
+/***/ 90:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(90),
+	  __webpack_require__(91),
 	  /* template */
-	  __webpack_require__(101),
+	  __webpack_require__(102),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -734,22 +734,22 @@ module.exports =
 
 /***/ },
 
-/***/ 90:
+/***/ 91:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _svPanel = __webpack_require__(91);
+	var _svPanel = __webpack_require__(92);
 
 	var _svPanel2 = _interopRequireDefault(_svPanel);
 
-	var _hueSlider = __webpack_require__(95);
+	var _hueSlider = __webpack_require__(96);
 
 	var _hueSlider2 = _interopRequireDefault(_hueSlider);
 
-	var _alphaSlider = __webpack_require__(98);
+	var _alphaSlider = __webpack_require__(99);
 
 	var _alphaSlider2 = _interopRequireDefault(_alphaSlider);
 
@@ -840,14 +840,14 @@ module.exports =
 
 /***/ },
 
-/***/ 91:
+/***/ 92:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(92),
+	  __webpack_require__(93),
 	  /* template */
-	  __webpack_require__(94),
+	  __webpack_require__(95),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -861,14 +861,14 @@ module.exports =
 
 /***/ },
 
-/***/ 92:
+/***/ 93:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(93);
+	var _draggable = __webpack_require__(94);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -969,7 +969,7 @@ module.exports =
 
 /***/ },
 
-/***/ 93:
+/***/ 94:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1024,7 +1024,7 @@ module.exports =
 
 /***/ },
 
-/***/ 94:
+/***/ 95:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1048,14 +1048,14 @@ module.exports =
 
 /***/ },
 
-/***/ 95:
+/***/ 96:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(96),
-	  /* template */
 	  __webpack_require__(97),
+	  /* template */
+	  __webpack_require__(98),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1069,14 +1069,14 @@ module.exports =
 
 /***/ },
 
-/***/ 96:
+/***/ 97:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(93);
+	var _draggable = __webpack_require__(94);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1199,7 +1199,7 @@ module.exports =
 
 /***/ },
 
-/***/ 97:
+/***/ 98:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1226,14 +1226,14 @@ module.exports =
 
 /***/ },
 
-/***/ 98:
+/***/ 99:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(99),
-	  /* template */
 	  __webpack_require__(100),
+	  /* template */
+	  __webpack_require__(101),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1247,14 +1247,14 @@ module.exports =
 
 /***/ },
 
-/***/ 99:
+/***/ 100:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(93);
+	var _draggable = __webpack_require__(94);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1393,7 +1393,7 @@ module.exports =
 
 /***/ },
 
-/***/ 100:
+/***/ 101:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1423,7 +1423,7 @@ module.exports =
 
 /***/ },
 
-/***/ 101:
+/***/ 102:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1487,7 +1487,7 @@ module.exports =
 
 /***/ },
 
-/***/ 102:
+/***/ 103:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

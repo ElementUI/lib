@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(169);
+	module.exports = __webpack_require__(170);
 
 
 /***/ },
@@ -142,21 +142,28 @@ module.exports =
 
 /***/ },
 
-/***/ 120:
+/***/ 46:
+/***/ function(module, exports) {
+
+	module.exports = require("throttle-debounce/debounce");
+
+/***/ },
+
+/***/ 121:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 169:
+/***/ 170:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _inputNumber = __webpack_require__(170);
+	var _inputNumber = __webpack_require__(171);
 
 	var _inputNumber2 = _interopRequireDefault(_inputNumber);
 
@@ -171,14 +178,14 @@ module.exports =
 
 /***/ },
 
-/***/ 170:
+/***/ 171:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(171),
-	  /* template */
 	  __webpack_require__(172),
+	  /* template */
+	  __webpack_require__(173),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -192,7 +199,7 @@ module.exports =
 
 /***/ },
 
-/***/ 171:
+/***/ 172:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -203,55 +210,13 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _dom = __webpack_require__(120);
+	var _dom = __webpack_require__(121);
+
+	var _debounce = __webpack_require__(46);
+
+	var _debounce2 = _interopRequireDefault(_debounce);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	exports.default = {
 	  name: 'ElInputNumber',
@@ -304,6 +269,10 @@ module.exports =
 	    controls: {
 	      type: Boolean,
 	      default: true
+	    },
+	    debounce: {
+	      type: Number,
+	      default: 300
 	    }
 	  },
 	  data: function data() {
@@ -389,23 +358,82 @@ module.exports =
 	      var oldVal = this.currentValue;
 	      if (newVal >= this.max) newVal = this.max;
 	      if (newVal <= this.min) newVal = this.min;
-	      if (oldVal === newVal) return;
+	      if (oldVal === newVal) {
+	        this.$refs.input.setCurrentValue(this.currentValue);
+	        return;
+	      }
 	      this.$emit('change', newVal, oldVal);
 	      this.$emit('input', newVal);
 	      this.currentValue = newVal;
 	    },
 	    handleInput: function handleInput(value) {
+	      if (value === '') {
+	        return;
+	      }
 	      var newVal = Number(value);
 	      if (!isNaN(newVal)) {
 	        this.setCurrentValue(newVal);
+	      } else {
+	        this.$refs.input.setCurrentValue(this.currentValue);
 	      }
 	    }
+	  },
+	  created: function created() {
+	    var _this = this;
+
+	    this.debounceHandleInput = (0, _debounce2.default)(this.debounce, function (value) {
+	      _this.handleInput(value);
+	    });
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
-/***/ 172:
+/***/ 173:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -455,7 +483,7 @@ module.exports =
 	    },
 	    on: {
 	      "blur": _vm.handleBlur,
-	      "input": _vm.handleInput
+	      "input": _vm.debounceHandleInput
 	    },
 	    nativeOn: {
 	      "keydown": [function($event) {

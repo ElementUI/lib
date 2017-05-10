@@ -171,7 +171,7 @@ module.exports =
 	  /* script */
 	  __webpack_require__(83),
 	  /* template */
-	  __webpack_require__(84),
+	  __webpack_require__(85),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -192,11 +192,31 @@ module.exports =
 
 	exports.__esModule = true;
 
+	var _collapseTransition = __webpack_require__(84);
+
+	var _collapseTransition2 = _interopRequireDefault(_collapseTransition);
+
 	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElCollapseItem',
@@ -204,6 +224,8 @@ module.exports =
 	  componentName: 'ElCollapseItem',
 
 	  mixins: [_emitter2.default],
+
+	  components: { ElCollapseTransition: _collapseTransition2.default },
 
 	  data: function data() {
 	    return {
@@ -243,25 +265,18 @@ module.exports =
 	  },
 
 	  mounted: function mounted() {}
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 
 /***/ 84:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/transitions/collapse-transition");
+
+/***/ },
+
+/***/ 85:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

@@ -79,6 +79,7 @@
       },
       cascader: {
         noMatch: 'Eşleşen veri bulunamadı',
+        loading: 'Yükleniyor',
         placeholder: 'Seç'
       },
       pagination: {

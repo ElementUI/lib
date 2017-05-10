@@ -79,6 +79,7 @@
       },
       cascader: {
         noMatch: '無匹配資料',
+        loading: '加載中',
         placeholder: '請選擇'
       },
       pagination: {

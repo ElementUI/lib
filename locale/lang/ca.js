@@ -65,6 +65,7 @@ exports.default = {
     },
     cascader: {
       noMatch: 'No hi ha dades que coincideixin',
+      loading: 'Carregant',
       placeholder: 'Seleccionar'
     },
     pagination: {

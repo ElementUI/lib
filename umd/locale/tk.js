@@ -79,6 +79,7 @@
       },
       cascader: {
         noMatch: 'Hiçzat tapylmady',
+        loading: 'Indirilýär',
         placeholder: 'saýlaň'
       },
       pagination: {

@@ -65,6 +65,7 @@ exports.default = {
     },
     cascader: {
       noMatch: 'Співпадінь не знайдено',
+      loading: 'Завантаження',
       placeholder: 'Обрати'
     },
     pagination: {

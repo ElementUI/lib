@@ -65,6 +65,7 @@ exports.default = {
     },
     cascader: {
       noMatch: 'Aucune correspondance',
+      loading: 'Chargement',
       placeholder: 'Choisir'
     },
     pagination: {

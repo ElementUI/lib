@@ -79,6 +79,7 @@
       },
       cascader: {
         noMatch: 'Dữ liệu không phù hợp',
+        loading: 'Loading',
         placeholder: 'Chọn'
       },
       pagination: {

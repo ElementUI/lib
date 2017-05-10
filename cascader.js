@@ -421,6 +421,10 @@ module.exports =
 	    debounce: {
 	      type: Number,
 	      default: 300
+	    },
+	    beforeFilter: {
+	      type: Function,
+	      default: null
 	    }
 	  },
 
@@ -637,7 +641,25 @@ module.exports =
 	    var _this8 = this;
 
 	    this.debouncedInputChange = (0, _debounce2.default)(this.debounce, function (value) {
-	      _this8.handleInputChange(value);
+	      var before = _this8.beforeFilter(value);
+
+	      if (before && before.then) {
+	        _this8.menu.options = [{
+	          __IS__FLAT__OPTIONS: true,
+	          label: _this8.t('el.cascader.loading'),
+	          value: '',
+	          disabled: true
+	        }];
+	        before.then(function () {
+	          _this8.$nextTick(function () {
+	            _this8.handleInputChange(value);
+	          });
+	        });
+	      } else if (before !== false) {
+	        _this8.$nextTick(function () {
+	          _this8.handleInputChange(value);
+	        });
+	      }
 	    });
 	  },
 	  mounted: function mounted() {

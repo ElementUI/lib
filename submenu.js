@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(292);
+	module.exports = __webpack_require__(293);
 
 
 /***/ },
@@ -142,7 +142,14 @@ module.exports =
 
 /***/ },
 
-/***/ 186:
+/***/ 84:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/transitions/collapse-transition");
+
+/***/ },
+
+/***/ 187:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -193,14 +200,14 @@ module.exports =
 
 /***/ },
 
-/***/ 292:
+/***/ 293:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _submenu = __webpack_require__(293);
+	var _submenu = __webpack_require__(294);
 
 	var _submenu2 = _interopRequireDefault(_submenu);
 
@@ -215,14 +222,14 @@ module.exports =
 
 /***/ },
 
-/***/ 293:
+/***/ 294:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(294),
-	  /* template */
 	  __webpack_require__(295),
+	  /* template */
+	  __webpack_require__(296),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -236,14 +243,18 @@ module.exports =
 
 /***/ },
 
-/***/ 294:
+/***/ 295:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _menuMixin = __webpack_require__(186);
+	var _collapseTransition = __webpack_require__(84);
+
+	var _collapseTransition2 = _interopRequireDefault(_collapseTransition);
+
+	var _menuMixin = __webpack_require__(187);
 
 	var _menuMixin2 = _interopRequireDefault(_menuMixin);
 
@@ -253,40 +264,14 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
 	exports.default = {
 	  name: 'ElSubmenu',
 
 	  componentName: 'ElSubmenu',
 
 	  mixins: [_menuMixin2.default, _emitter2.default],
+
+	  components: { ElCollapseTransition: _collapseTransition2.default },
 
 	  props: {
 	    index: {
@@ -391,11 +376,37 @@ module.exports =
 	  mounted: function mounted() {
 	    this.initEvents();
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
-/***/ 295:
+/***/ 296:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

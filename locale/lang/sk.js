@@ -67,6 +67,7 @@ exports.default = {
     },
     cascader: {
       noMatch: 'Žiadna zhoda',
+      loading: 'Načítavanie',
       placeholder: 'Vybrať'
     },
     pagination: {

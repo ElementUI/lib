@@ -65,6 +65,7 @@ exports.default = {
     },
     cascader: {
       noMatch: 'Tidak ada data yg cocok',
+      loading: 'Memuat',
       placeholder: 'Pilih'
     },
     pagination: {

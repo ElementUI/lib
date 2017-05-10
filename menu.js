@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(179);
+	module.exports = __webpack_require__(180);
 
 
 /***/ },
@@ -142,14 +142,14 @@ module.exports =
 
 /***/ },
 
-/***/ 179:
+/***/ 180:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _menu = __webpack_require__(180);
+	var _menu = __webpack_require__(181);
 
 	var _menu2 = _interopRequireDefault(_menu);
 
@@ -164,14 +164,14 @@ module.exports =
 
 /***/ },
 
-/***/ 180:
+/***/ 181:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(181),
-	  /* template */
 	  __webpack_require__(182),
+	  /* template */
+	  __webpack_require__(183),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,7 +185,7 @@ module.exports =
 
 /***/ },
 
-/***/ 181:
+/***/ 182:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -349,7 +349,7 @@ module.exports =
 
 /***/ },
 
-/***/ 182:
+/***/ 183:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
