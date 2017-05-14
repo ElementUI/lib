@@ -264,6 +264,7 @@ module.exports =
 	  watch: {
 	    visible: function visible(val) {
 	      this.broadcast('ElDropdownMenu', 'visible', val);
+	      this.$emit('visible-change', val);
 	    }
 	  },
 

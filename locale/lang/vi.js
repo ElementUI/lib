@@ -58,14 +58,14 @@ exports.default = {
       }
     },
     select: {
-      loading: 'Loading',
+      loading: 'Đang tải',
       noMatch: 'Dữ liệu không phù hợp',
       noData: 'Không tìm thấy dữ liệu',
       placeholder: 'Chọn'
     },
     cascader: {
       noMatch: 'Dữ liệu không phù hợp',
-      loading: 'Loading',
+      loading: 'Đang tải',
       placeholder: 'Chọn'
     },
     pagination: {
@@ -90,7 +90,7 @@ exports.default = {
       confirmFilter: 'Xác nhận',
       resetFilter: 'Làm mới',
       clearFilter: 'Xóa hết',
-      sumText: 'Sum' // to be translated
+      sumText: 'Tổng'
     },
     tree: {
       emptyText: 'Không có dữ liệu'
@@ -98,10 +98,10 @@ exports.default = {
     transfer: {
       noMatch: 'Dữ liệu không phù hợp',
       noData: 'Không tìm thấy dữ liệu',
-      titles: ['List 1', 'List 2'], // to be translated
-      filterPlaceholder: 'Enter keyword', // to be translated
-      noCheckedFormat: '{total} items', // to be translated
-      hasCheckedFormat: '{checked}/{total} checked' // to be translated
+      titles: ['Danh sách 1', 'Danh sách 2'],
+      filterPlaceholder: 'Nhập từ khóa',
+      noCheckedFormat: '{total} mục',
+      hasCheckedFormat: '{checked}/{total} đã chọn '
     }
   }
 };

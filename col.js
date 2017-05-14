@@ -90,6 +90,10 @@ module.exports =
 	      type: Number,
 	      default: 24
 	    },
+	    tag: {
+	      type: String,
+	      default: 'div'
+	    },
 	    offset: Number,
 	    pull: Number,
 	    push: Number,
@@ -138,13 +142,10 @@ module.exports =
 	      }
 	    });
 
-	    return h(
-	      'div',
-	      {
-	        'class': ['el-col', classList],
-	        style: style },
-	      [this.$slots.default]
-	    );
+	    return h(this.tag, {
+	      class: ['el-col', classList],
+	      style: style
+	    }, this.$slots.default);
 	  }
 	};
 

@@ -334,6 +334,8 @@ module.exports =
 	        if ((0, _vdom.isVNode)(instance.message)) {
 	          instance.$slots.default = [instance.message];
 	          instance.message = null;
+	        } else {
+	          delete instance.$slots.default;
 	        }
 	        ['modal', 'showClose', 'closeOnClickModal', 'closeOnPressEscape'].forEach(function (prop) {
 	          if (instance[prop] === undefined) {
@@ -620,8 +622,7 @@ module.exports =
 	    },
 	    handleWrapperClick: function handleWrapperClick() {
 	      if (this.closeOnClickModal) {
-	        this.action = '';
-	        this.doClose();
+	        this.handleAction('cancel');
 	      }
 	    },
 	    handleAction: function handleAction(action) {

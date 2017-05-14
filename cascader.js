@@ -424,7 +424,9 @@ module.exports =
 	    },
 	    beforeFilter: {
 	      type: Function,
-	      default: null
+	      default: function _default() {
+	        return function () {};
+	      }
 	    }
 	  },
 

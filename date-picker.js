@@ -568,6 +568,19 @@ module.exports =
 	  right: 'bottom-end'
 	};
 
+	// only considers date-picker's value: Date or [Date, Date]
+	var valueEquals = function valueEquals(a, b) {
+	  var aIsArray = a instanceof Array;
+	  var bIsArray = b instanceof Array;
+	  if (aIsArray && bIsArray) {
+	    return new Date(a[0]).getTime() === new Date(b[0]).getTime() && new Date(a[1]).getTime() === new Date(b[1]).getTime();
+	  }
+	  if (!aIsArray && !bIsArray) {
+	    return new Date(a).getTime() === new Date(b).getTime();
+	  }
+	  return false;
+	};
+
 	exports.default = {
 	  mixins: [_emitter2.default, NewPopper],
 
@@ -852,7 +865,10 @@ module.exports =
 	        var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 	        var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-	        _this2.$emit('input', date);
+	        // do not emit if values are same
+	        if (!valueEquals(_this2.value, date)) {
+	          _this2.$emit('input', date);
+	        }
 	        _this2.pickerVisible = _this2.picker.visible = visible;
 	        _this2.picker.resetView && _this2.picker.resetView();
 	      });

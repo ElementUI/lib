@@ -170,8 +170,7 @@ var PopupManager = {
       if (!topItem) return;
       var instance = PopupManager.getInstance(topItem.id);
       if (instance.closeOnPressEscape) {
-        instance.$emit('update:visible', false);
-        instance.close();
+        instance.handleClose ? instance.handleClose() : instance.handleAction ? instance.handleAction('cancel') : instance.close();
       }
     }
   }

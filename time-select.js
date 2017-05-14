@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(340);
+	module.exports = __webpack_require__(338);
 
 
 /***/ },
@@ -393,6 +393,19 @@ module.exports =
 	  right: 'bottom-end'
 	};
 
+	// only considers date-picker's value: Date or [Date, Date]
+	var valueEquals = function valueEquals(a, b) {
+	  var aIsArray = a instanceof Array;
+	  var bIsArray = b instanceof Array;
+	  if (aIsArray && bIsArray) {
+	    return new Date(a[0]).getTime() === new Date(b[0]).getTime() && new Date(a[1]).getTime() === new Date(b[1]).getTime();
+	  }
+	  if (!aIsArray && !bIsArray) {
+	    return new Date(a).getTime() === new Date(b).getTime();
+	  }
+	  return false;
+	};
+
 	exports.default = {
 	  mixins: [_emitter2.default, NewPopper],
 
@@ -677,7 +690,10 @@ module.exports =
 	        var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 	        var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-	        _this2.$emit('input', date);
+	        // do not emit if values are same
+	        if (!valueEquals(_this2.value, date)) {
+	          _this2.$emit('input', date);
+	        }
 	        _this2.pickerVisible = _this2.picker.visible = visible;
 	        _this2.picker.resetView && _this2.picker.resetView();
 	      });
@@ -944,14 +960,14 @@ module.exports =
 
 /***/ },
 
-/***/ 340:
+/***/ 338:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _timeSelect = __webpack_require__(341);
+	var _timeSelect = __webpack_require__(339);
 
 	var _timeSelect2 = _interopRequireDefault(_timeSelect);
 
@@ -966,7 +982,7 @@ module.exports =
 
 /***/ },
 
-/***/ 341:
+/***/ 339:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -977,7 +993,7 @@ module.exports =
 
 	var _picker2 = _interopRequireDefault(_picker);
 
-	var _timeSelect = __webpack_require__(342);
+	var _timeSelect = __webpack_require__(340);
 
 	var _timeSelect2 = _interopRequireDefault(_timeSelect);
 
@@ -996,14 +1012,14 @@ module.exports =
 
 /***/ },
 
-/***/ 342:
+/***/ 340:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(343),
+	  __webpack_require__(341),
 	  /* template */
-	  __webpack_require__(344),
+	  __webpack_require__(342),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1017,7 +1033,7 @@ module.exports =
 
 /***/ },
 
-/***/ 343:
+/***/ 341:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1164,7 +1180,7 @@ module.exports =
 
 /***/ },
 
-/***/ 344:
+/***/ 342:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

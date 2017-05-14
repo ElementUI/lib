@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(321);
+	module.exports = __webpack_require__(319);
 
 
 /***/ },
@@ -58,21 +58,21 @@ module.exports =
 
 /***/ },
 
-/***/ 270:
+/***/ 268:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 308:
+/***/ 306:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 310:
+/***/ 308:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -176,14 +176,14 @@ module.exports =
 
 /***/ },
 
-/***/ 321:
+/***/ 319:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tableColumn = __webpack_require__(322);
+	var _tableColumn = __webpack_require__(320);
 
 	var _tableColumn2 = _interopRequireDefault(_tableColumn);
 
@@ -198,18 +198,18 @@ module.exports =
 
 /***/ },
 
-/***/ 322:
+/***/ 320:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(308);
+	var _checkbox = __webpack_require__(306);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(270);
+	var _tag = __webpack_require__(268);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
@@ -217,7 +217,7 @@ module.exports =
 
 	var _merge2 = _interopRequireDefault(_merge);
 
-	var _util = __webpack_require__(310);
+	var _util = __webpack_require__(308);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
