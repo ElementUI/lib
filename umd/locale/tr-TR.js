@@ -18,7 +18,7 @@
   exports.default = {
     el: {
       colorpicker: {
-        confirm: 'OK',
+        confirm: 'Onayla',
         clear: 'Temizle'
       },
       datepicker: {
@@ -26,7 +26,7 @@
         today: 'Bugün',
         cancel: 'İptal',
         clear: 'Temizle',
-        confirm: 'OK',
+        confirm: 'Onayla',
         selectDate: 'Tarih seç',
         selectTime: 'Saat seç',
         startDate: 'Başlangıç Tarihi',
@@ -90,7 +90,7 @@
       },
       messagebox: {
         title: 'Mesaj',
-        confirm: 'OK',
+        confirm: 'Onayla',
         cancel: 'İptal',
         error: 'İllegal giriş'
       },
@@ -102,9 +102,9 @@
       table: {
         emptyText: 'Veri yok',
         confirmFilter: 'Onayla',
-        resetFilter: 'Reset',
+        resetFilter: 'Sıfırla',
         clearFilter: 'Hepsi',
-        sumText: 'Sum' // to be translated
+        sumText: 'Sum'
       },
       tree: {
         emptyText: 'Veri yok'
@@ -112,10 +112,10 @@
       transfer: {
         noMatch: 'Eşleşen veri bulunamadı',
         noData: 'Veri yok',
-        titles: ['List 1', 'List 2'], // to be translated
-        filterPlaceholder: 'Enter keyword', // to be translated
-        noCheckedFormat: '{total} items', // to be translated
-        hasCheckedFormat: '{checked}/{total} checked' // to be translated
+        titles: ['Liste 1', 'Liste 2'],
+        filterPlaceholder: 'Anahtar kelimeleri gir',
+        noCheckedFormat: '{total} adet',
+        hasCheckedFormat: '{checked}/{total} seçildi'
       }
     }
   };

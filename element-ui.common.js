@@ -353,7 +353,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.3.3',
+	  version: '1.3.4',
 	  locale: _locale2.default.use,
 	  i18n: _locale2.default.i18n,
 	  install: install,
@@ -1383,9 +1383,11 @@ module.exports =
 	        this.hide();
 	      }
 	    },
-	    hide: function hide() {
-	      this.$emit('update:visible', false);
-	      this.$emit('visible-change', false);
+	    hide: function hide(cancel) {
+	      if (cancel !== false) {
+	        this.$emit('update:visible', false);
+	        this.$emit('visible-change', false);
+	      }
 	    },
 	    updatePopper: function updatePopper() {
 	      this.broadcast('ElSelectDropdown', 'updatePopper');
@@ -5641,7 +5643,8 @@ module.exports =
 	      default: function _default() {
 	        return (0, _locale3.t)('el.select.placeholder');
 	      }
-	    }
+	    },
+	    defaultFirstOption: Boolean
 	  },
 
 	  data: function data() {
@@ -5714,6 +5717,25 @@ module.exports =
 	        this.filteredOptionsCount = this.optionsCount;
 	        this.broadcast('ElOption', 'queryChange', val);
 	        this.broadcast('ElOptionGroup', 'queryChange');
+	      }
+	      if (this.defaultFirstOption && (this.filterable || this.remote) && this.filteredOptionsCount) {
+	        this.hoverIndex = -1;
+	        for (var i = 0; i !== this.options.length; ++i) {
+	          var option = this.options[i];
+	          if (val) {
+	            // pick first options that passes the filter
+	            if (!option.disabled && !option.groupDisabled && option.visible) {
+	              this.hoverIndex = i;
+	              break;
+	            }
+	          } else {
+	            // pick currently selected option
+	            if (option.itemSelected) {
+	              this.hoverIndex = i;
+	              break;
+	            }
+	          }
+	        }
 	      }
 	    },
 	    visible: function visible(val) {
@@ -6618,7 +6640,7 @@ module.exports =
 	      "value": _vm.query,
 	      "created": ""
 	    }
-	  }) : _vm._e(), _vm._t("default")], 2), (_vm.emptyText && !_vm.allowCreate) ? _c('p', {
+	  }) : _vm._e(), _vm._t("default")], 2), (_vm.emptyText && (_vm.allowCreate && _vm.options.length === 0 || !_vm.allowCreate)) ? _c('p', {
 	    staticClass: "el-select-dropdown__empty"
 	  }, [_vm._v(_vm._s(_vm.emptyText))]) : _vm._e()], 1)], 1)], 1)
 	},staticRenderFns: []}
@@ -7070,6 +7092,9 @@ module.exports =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var tableIdSeed = 1; //
+	//
+	//
+	//
 	//
 	//
 	//
@@ -8408,6 +8433,7 @@ module.exports =
 	    store: {
 	      required: true
 	    },
+	    stripe: Boolean,
 	    context: {},
 	    layout: {
 	      required: true
@@ -8537,7 +8563,7 @@ module.exports =
 	      var el = this.$el;
 	      if (!el) return;
 	      var data = this.store.states.data;
-	      var rows = el.querySelectorAll('tbody > tr');
+	      var rows = el.querySelectorAll('tbody > tr.el-table__row');
 	      var oldRow = rows[data.indexOf(oldVal)];
 	      var newRow = rows[data.indexOf(newVal)];
 	      if (oldRow) {
@@ -8611,8 +8637,11 @@ module.exports =
 	      return rowStyle;
 	    },
 	    getRowClass: function getRowClass(row, index) {
-	      var classes = [];
+	      var classes = ['el-table__row'];
 
+	      if (this.stripe && index % 2 === 1) {
+	        classes.push('el-table__row--striped');
+	      }
 	      var rowClassName = this.rowClassName;
 	      if (typeof rowClassName === 'string') {
 	        classes.push(rowClassName);
@@ -9814,6 +9843,7 @@ module.exports =
 	    attrs: {
 	      "context": _vm.context,
 	      "store": _vm.store,
+	      "stripe": _vm.stripe,
 	      "layout": _vm.layout,
 	      "row-class-name": _vm.rowClassName,
 	      "row-style": _vm.rowStyle,
@@ -9883,6 +9913,7 @@ module.exports =
 	    attrs: {
 	      "fixed": "left",
 	      "store": _vm.store,
+	      "stripe": _vm.stripe,
 	      "layout": _vm.layout,
 	      "highlight": _vm.highlightCurrentRow,
 	      "row-class-name": _vm.rowClassName,
@@ -9947,6 +9978,7 @@ module.exports =
 	    attrs: {
 	      "fixed": "right",
 	      "store": _vm.store,
+	      "stripe": _vm.stripe,
 	      "layout": _vm.layout,
 	      "row-class-name": _vm.rowClassName,
 	      "row-style": _vm.rowStyle,

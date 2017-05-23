@@ -448,6 +448,9 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElTable',
@@ -1637,6 +1640,7 @@ module.exports =
 	    store: {
 	      required: true
 	    },
+	    stripe: Boolean,
 	    context: {},
 	    layout: {
 	      required: true
@@ -1766,7 +1770,7 @@ module.exports =
 	      var el = this.$el;
 	      if (!el) return;
 	      var data = this.store.states.data;
-	      var rows = el.querySelectorAll('tbody > tr');
+	      var rows = el.querySelectorAll('tbody > tr.el-table__row');
 	      var oldRow = rows[data.indexOf(oldVal)];
 	      var newRow = rows[data.indexOf(newVal)];
 	      if (oldRow) {
@@ -1840,8 +1844,11 @@ module.exports =
 	      return rowStyle;
 	    },
 	    getRowClass: function getRowClass(row, index) {
-	      var classes = [];
+	      var classes = ['el-table__row'];
 
+	      if (this.stripe && index % 2 === 1) {
+	        classes.push('el-table__row--striped');
+	      }
 	      var rowClassName = this.rowClassName;
 	      if (typeof rowClassName === 'string') {
 	        classes.push(rowClassName);
@@ -3045,6 +3052,7 @@ module.exports =
 	    attrs: {
 	      "context": _vm.context,
 	      "store": _vm.store,
+	      "stripe": _vm.stripe,
 	      "layout": _vm.layout,
 	      "row-class-name": _vm.rowClassName,
 	      "row-style": _vm.rowStyle,
@@ -3114,6 +3122,7 @@ module.exports =
 	    attrs: {
 	      "fixed": "left",
 	      "store": _vm.store,
+	      "stripe": _vm.stripe,
 	      "layout": _vm.layout,
 	      "highlight": _vm.highlightCurrentRow,
 	      "row-class-name": _vm.rowClassName,
@@ -3178,6 +3187,7 @@ module.exports =
 	    attrs: {
 	      "fixed": "right",
 	      "store": _vm.store,
+	      "stripe": _vm.stripe,
 	      "layout": _vm.layout,
 	      "row-class-name": _vm.rowClassName,
 	      "row-style": _vm.rowStyle,

@@ -325,9 +325,11 @@ module.exports =
 	        this.hide();
 	      }
 	    },
-	    hide: function hide() {
-	      this.$emit('update:visible', false);
-	      this.$emit('visible-change', false);
+	    hide: function hide(cancel) {
+	      if (cancel !== false) {
+	        this.$emit('update:visible', false);
+	        this.$emit('visible-change', false);
+	      }
 	    },
 	    updatePopper: function updatePopper() {
 	      this.broadcast('ElSelectDropdown', 'updatePopper');

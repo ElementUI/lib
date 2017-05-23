@@ -673,7 +673,8 @@ module.exports =
 	      default: function _default() {
 	        return (0, _locale3.t)('el.select.placeholder');
 	      }
-	    }
+	    },
+	    defaultFirstOption: Boolean
 	  },
 
 	  data: function data() {
@@ -746,6 +747,25 @@ module.exports =
 	        this.filteredOptionsCount = this.optionsCount;
 	        this.broadcast('ElOption', 'queryChange', val);
 	        this.broadcast('ElOptionGroup', 'queryChange');
+	      }
+	      if (this.defaultFirstOption && (this.filterable || this.remote) && this.filteredOptionsCount) {
+	        this.hoverIndex = -1;
+	        for (var i = 0; i !== this.options.length; ++i) {
+	          var option = this.options[i];
+	          if (val) {
+	            // pick first options that passes the filter
+	            if (!option.disabled && !option.groupDisabled && option.visible) {
+	              this.hoverIndex = i;
+	              break;
+	            }
+	          } else {
+	            // pick currently selected option
+	            if (option.itemSelected) {
+	              this.hoverIndex = i;
+	              break;
+	            }
+	          }
+	        }
 	      }
 	    },
 	    visible: function visible(val) {
@@ -1450,7 +1470,7 @@ module.exports =
 	      "value": _vm.query,
 	      "created": ""
 	    }
-	  }) : _vm._e(), _vm._t("default")], 2), (_vm.emptyText && !_vm.allowCreate) ? _c('p', {
+	  }) : _vm._e(), _vm._t("default")], 2), (_vm.emptyText && (_vm.allowCreate && _vm.options.length === 0 || !_vm.allowCreate)) ? _c('p', {
 	    staticClass: "el-select-dropdown__empty"
 	  }, [_vm._v(_vm._s(_vm.emptyText))]) : _vm._e()], 1)], 1)], 1)
 	},staticRenderFns: []}
