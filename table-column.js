@@ -46,33 +46,33 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(319);
+	module.exports = __webpack_require__(320);
 
 
 /***/ },
 
-/***/ 168:
+/***/ 169:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 268:
+/***/ 269:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 306:
+/***/ 307:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 308:
+/***/ 309:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -176,14 +176,14 @@ module.exports =
 
 /***/ },
 
-/***/ 319:
+/***/ 320:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tableColumn = __webpack_require__(320);
+	var _tableColumn = __webpack_require__(321);
 
 	var _tableColumn2 = _interopRequireDefault(_tableColumn);
 
@@ -198,26 +198,26 @@ module.exports =
 
 /***/ },
 
-/***/ 320:
+/***/ 321:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(306);
+	var _checkbox = __webpack_require__(307);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(268);
+	var _tag = __webpack_require__(269);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _merge = __webpack_require__(168);
+	var _merge = __webpack_require__(169);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
-	var _util = __webpack_require__(308);
+	var _util = __webpack_require__(309);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

@@ -66,7 +66,7 @@ module.exports =
 
 	var _index6 = _interopRequireDefault(_index5);
 
-	var _index7 = __webpack_require__(28);
+	var _index7 = __webpack_require__(27);
 
 	var _index8 = _interopRequireDefault(_index7);
 
@@ -302,11 +302,11 @@ module.exports =
 
 	var _index124 = _interopRequireDefault(_index123);
 
-	var _index125 = __webpack_require__(354);
+	var _index125 = __webpack_require__(355);
 
 	var _index126 = _interopRequireDefault(_index125);
 
-	var _index127 = __webpack_require__(372);
+	var _index127 = __webpack_require__(373);
 
 	var _index128 = _interopRequireDefault(_index127);
 
@@ -353,7 +353,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.3.4',
+	  version: '1.3.5',
 	  locale: _locale2.default.use,
 	  i18n: _locale2.default.i18n,
 	  install: install,
@@ -1285,6 +1285,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	exports.default = {
 	  name: 'ElDialog',
@@ -1432,6 +1433,9 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-dialog__wrapper",
+	    attrs: {
+	      "tabindex": "-1"
+	    },
 	    on: {
 	      "click": function($event) {
 	        if ($event.target !== $event.currentTarget) { return null; }
@@ -1447,14 +1451,18 @@ module.exports =
 	    staticClass: "el-dialog__header"
 	  }, [_vm._t("title", [_c('span', {
 	    staticClass: "el-dialog__title"
-	  }, [_vm._v(_vm._s(_vm.title))])]), _c('div', {
-	    staticClass: "el-dialog__headerbtn"
-	  }, [(_vm.showClose) ? _c('i', {
-	    staticClass: "el-dialog__close el-icon el-icon-close",
+	  }, [_vm._v(_vm._s(_vm.title))])]), (_vm.showClose) ? _c('button', {
+	    staticClass: "el-dialog__headerbtn",
+	    attrs: {
+	      "type": "button",
+	      "aria-label": "Close"
+	    },
 	    on: {
 	      "click": _vm.handleClose
 	    }
-	  }) : _vm._e()])], 2), (_vm.rendered) ? _c('div', {
+	  }, [_c('i', {
+	    staticClass: "el-dialog__close el-icon el-icon-close"
+	  })]) : _vm._e()], 2), (_vm.rendered) ? _c('div', {
 	    staticClass: "el-dialog__body"
 	  }, [_vm._t("default")], 2) : _vm._e(), (_vm.$slots.footer) ? _c('div', {
 	    staticClass: "el-dialog__footer"
@@ -1490,7 +1498,7 @@ module.exports =
 	  /* script */
 	  __webpack_require__(19),
 	  /* template */
-	  __webpack_require__(27),
+	  __webpack_require__(26),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1514,11 +1522,7 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _clickoutside = __webpack_require__(21);
-
-	var _clickoutside2 = _interopRequireDefault(_clickoutside);
-
-	var _autocompleteSuggestions = __webpack_require__(22);
+	var _autocompleteSuggestions = __webpack_require__(21);
 
 	var _autocompleteSuggestions2 = _interopRequireDefault(_autocompleteSuggestions);
 
@@ -1527,43 +1531,6 @@ module.exports =
 	var _emitter2 = _interopRequireDefault(_emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	exports.default = {
 	  name: 'ElAutocomplete',
@@ -1576,8 +1543,6 @@ module.exports =
 	    ElInput: _input2.default,
 	    ElAutocompleteSuggestions: _autocompleteSuggestions2.default
 	  },
-
-	  directives: { Clickoutside: _clickoutside2.default },
 
 	  props: {
 	    popperClass: String,
@@ -1667,9 +1632,6 @@ module.exports =
 	        this.select(this.suggestions[this.highlightedIndex]);
 	      }
 	    },
-	    handleClickoutside: function handleClickoutside() {
-	      this.isFocus = false;
-	    },
 	    select: function select(item) {
 	      var _this3 = this;
 
@@ -1714,7 +1676,42 @@ module.exports =
 	  beforeDestroy: function beforeDestroy() {
 	    this.$refs.suggestions.$destroy();
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 /* 20 */
@@ -1724,19 +1721,13 @@ module.exports =
 
 /***/ },
 /* 21 */
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/clickoutside");
-
-/***/ },
-/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(5)(
 	  /* script */
-	  __webpack_require__(23),
+	  __webpack_require__(22),
 	  /* template */
-	  __webpack_require__(26),
+	  __webpack_require__(25),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1749,14 +1740,14 @@ module.exports =
 
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(24);
+	var _vuePopper = __webpack_require__(23);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -1764,7 +1755,7 @@ module.exports =
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _scrollbar = __webpack_require__(25);
+	var _scrollbar = __webpack_require__(24);
 
 	var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
@@ -1858,19 +1849,19 @@ module.exports =
 	//
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/scrollbar");
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1932,17 +1923,11 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
-	    directives: [{
-	      name: "clickoutside",
-	      rawName: "v-clickoutside",
-	      value: (_vm.handleClickoutside),
-	      expression: "handleClickoutside"
-	    }],
 	    staticClass: "el-autocomplete"
 	  }, [_c('el-input', {
 	    ref: "input",
@@ -1980,7 +1965,7 @@ module.exports =
 	        _vm.highlight(_vm.highlightedIndex + 1)
 	      }, function($event) {
 	        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
-	        $event.stopPropagation();
+	        $event.preventDefault();
 	        _vm.handleKeyEnter($event)
 	      }]
 	    }
@@ -1998,14 +1983,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _dropdown = __webpack_require__(29);
+	var _dropdown = __webpack_require__(28);
 
 	var _dropdown2 = _interopRequireDefault(_dropdown);
 
@@ -2019,12 +2004,12 @@ module.exports =
 	exports.default = _dropdown2.default;
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(5)(
 	  /* script */
-	  __webpack_require__(30),
+	  __webpack_require__(29),
 	  /* template */
 	  null,
 	  /* styles */
@@ -2039,14 +2024,14 @@ module.exports =
 
 
 /***/ },
-/* 30 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _clickoutside = __webpack_require__(21);
+	var _clickoutside = __webpack_require__(30);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -2214,6 +2199,12 @@ module.exports =
 	};
 
 /***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/clickoutside");
+
+/***/ },
 /* 31 */
 /***/ function(module, exports) {
 
@@ -2274,7 +2265,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(24);
+	var _vuePopper = __webpack_require__(23);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -5216,7 +5207,7 @@ module.exports =
 	  },
 	  created: function created() {
 	    if (!~[this.onValue, this.offValue].indexOf(this.value)) {
-	      this.$emit('input', this.onValue);
+	      this.$emit('input', this.offValue);
 	    }
 	  },
 
@@ -5228,21 +5219,12 @@ module.exports =
 	      /* istanbul ignore next */
 	      return this.onText || this.offText;
 	    },
-
-	    _value: {
-	      get: function get() {
-	        return this.value;
-	      },
-	      set: function set(val) {
-	        this.$emit('input', val);
-	      }
-	    },
 	    transform: function transform() {
 	      return this.checked ? 'translate(' + (this.coreWidth - 20) + 'px, 2px)' : 'translate(2px, 2px)';
 	    }
 	  },
 	  watch: {
-	    value: function value() {
+	    checked: function checked() {
 	      if (this.onColor || this.offColor) {
 	        this.setBackgroundColor();
 	      }
@@ -5250,7 +5232,15 @@ module.exports =
 	  },
 	  methods: {
 	    handleChange: function handleChange(event) {
-	      this.$emit('change', event.currentTarget.checked ? this.onValue : this.offValue);
+	      var _this = this;
+
+	      this.$emit('change', !this.checked ? this.onValue : this.offValue);
+	      this.$emit('input', !this.checked ? this.onValue : this.offValue);
+	      this.$nextTick(function () {
+	        // set input's checked property
+	        // in case parent refuses to change component's value
+	        _this.$refs.input.checked = _this.checked;
+	      });
 	    },
 	    setBackgroundColor: function setBackgroundColor() {
 	      var newColor = this.checked ? this.onColor : this.offColor;
@@ -5266,6 +5256,7 @@ module.exports =
 	    if (this.onColor || this.offColor) {
 	      this.setBackgroundColor();
 	    }
+	    this.$refs.input.checked = this.checked;
 	  }
 	};
 
@@ -5277,7 +5268,7 @@ module.exports =
 	  return _c('label', {
 	    staticClass: "el-switch",
 	    class: {
-	      'is-disabled': _vm.disabled, 'el-switch--wide': _vm.hasText
+	      'is-disabled': _vm.disabled, 'el-switch--wide': _vm.hasText, 'is-checked': _vm.checked
 	    }
 	  }, [_c('div', {
 	    directives: [{
@@ -5288,12 +5279,7 @@ module.exports =
 	    }],
 	    staticClass: "el-switch__mask"
 	  }), _c('input', {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: (_vm._value),
-	      expression: "_value"
-	    }],
+	    ref: "input",
 	    staticClass: "el-switch__input",
 	    attrs: {
 	      "type": "checkbox",
@@ -5302,27 +5288,8 @@ module.exports =
 	      "false-value": _vm.offValue,
 	      "disabled": _vm.disabled
 	    },
-	    domProps: {
-	      "checked": Array.isArray(_vm._value) ? _vm._i(_vm._value, null) > -1 : _vm._q(_vm._value, _vm.onValue)
-	    },
 	    on: {
-	      "change": _vm.handleChange,
-	      "__c": function($event) {
-	        var $$a = _vm._value,
-	          $$el = $event.target,
-	          $$c = $$el.checked ? (_vm.onValue) : (_vm.offValue);
-	        if (Array.isArray($$a)) {
-	          var $$v = null,
-	            $$i = _vm._i($$a, $$v);
-	          if ($$c) {
-	            $$i < 0 && (_vm._value = $$a.concat($$v))
-	          } else {
-	            $$i > -1 && (_vm._value = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-	          }
-	        } else {
-	          _vm._value = $$c
-	        }
-	      }
+	      "change": _vm.handleChange
 	    }
 	  }), _c('span', {
 	    ref: "core",
@@ -5445,7 +5412,7 @@ module.exports =
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _scrollbar = __webpack_require__(25);
+	var _scrollbar = __webpack_require__(24);
 
 	var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
@@ -5453,7 +5420,7 @@ module.exports =
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _clickoutside = __webpack_require__(21);
+	var _clickoutside = __webpack_require__(30);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -5719,23 +5686,7 @@ module.exports =
 	        this.broadcast('ElOptionGroup', 'queryChange');
 	      }
 	      if (this.defaultFirstOption && (this.filterable || this.remote) && this.filteredOptionsCount) {
-	        this.hoverIndex = -1;
-	        for (var i = 0; i !== this.options.length; ++i) {
-	          var option = this.options[i];
-	          if (val) {
-	            // pick first options that passes the filter
-	            if (!option.disabled && !option.groupDisabled && option.visible) {
-	              this.hoverIndex = i;
-	              break;
-	            }
-	          } else {
-	            // pick currently selected option
-	            if (option.itemSelected) {
-	              this.hoverIndex = i;
-	              break;
-	            }
-	          }
-	        }
+	        this.checkDefaultFirstOption();
 	      }
 	    },
 	    visible: function visible(val) {
@@ -5797,6 +5748,9 @@ module.exports =
 	      var inputs = this.$el.querySelectorAll('input');
 	      if ([].indexOf.call(inputs, document.activeElement) === -1) {
 	        this.setSelected();
+	      }
+	      if (this.defaultFirstOption && (this.filterable || this.remote) && this.filteredOptionsCount) {
+	        this.checkDefaultFirstOption();
 	      }
 	    }
 	  },
@@ -6049,6 +6003,7 @@ module.exports =
 	      event.stopPropagation();
 	      this.$emit('input', '');
 	      this.visible = false;
+	      this.$emit('clear');
 	    },
 	    deleteTag: function deleteTag(event, tag) {
 	      var index = this.selected.indexOf(tag);
@@ -6080,6 +6035,25 @@ module.exports =
 	    handleResize: function handleResize() {
 	      this.resetInputWidth();
 	      if (this.multiple) this.resetInputHeight();
+	    },
+	    checkDefaultFirstOption: function checkDefaultFirstOption() {
+	      this.hoverIndex = -1;
+	      for (var i = 0; i !== this.options.length; ++i) {
+	        var option = this.options[i];
+	        if (this.query) {
+	          // pick first options that passes the filter
+	          if (!option.disabled && !option.groupDisabled && option.visible) {
+	            this.hoverIndex = i;
+	            break;
+	          }
+	        } else {
+	          // pick currently selected option
+	          if (option.itemSelected) {
+	            this.hoverIndex = i;
+	            break;
+	          }
+	        }
+	      }
 	    }
 	  },
 
@@ -6152,7 +6126,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(24);
+	var _vuePopper = __webpack_require__(23);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -6533,6 +6507,7 @@ module.exports =
 	        _vm.selectOption($event)
 	      }, function($event) {
 	        if (!('button' in $event) && _vm._k($event.keyCode, "esc", 27)) { return null; }
+	        $event.stopPropagation();
 	        $event.preventDefault();
 	        _vm.visible = false
 	      }, function($event) {
@@ -6581,6 +6556,7 @@ module.exports =
 	        _vm.selectOption($event)
 	      }, function($event) {
 	        if (!('button' in $event) && _vm._k($event.keyCode, "esc", 27)) { return null; }
+	        $event.stopPropagation();
 	        $event.preventDefault();
 	        _vm.visible = false
 	      }, function($event) {
@@ -9265,7 +9241,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(24);
+	var _vuePopper = __webpack_require__(23);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -9275,7 +9251,7 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _clickoutside = __webpack_require__(21);
+	var _clickoutside = __webpack_require__(30);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -9809,7 +9785,7 @@ module.exports =
 	      'el-table--border': _vm.border,
 	      'el-table--fluid-height': _vm.maxHeight,
 	      'el-table--enable-row-hover': !_vm.store.states.isComplex,
-	        'el-table--enable-row-transition': true || (_vm.store.states.data || []).length !== 0 && (_vm.store.states.data || []).length < 100
+	        'el-table--enable-row-transition': (_vm.store.states.data || []).length !== 0 && (_vm.store.states.data || []).length < 100
 	    },
 	    on: {
 	      "mouseleave": function($event) {
@@ -10623,13 +10599,13 @@ module.exports =
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _clickoutside = __webpack_require__(21);
+	var _clickoutside = __webpack_require__(30);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
 	var _util = __webpack_require__(151);
 
-	var _vuePopper = __webpack_require__(24);
+	var _vuePopper = __webpack_require__(23);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -12076,7 +12052,7 @@ module.exports =
 
 	var _util = __webpack_require__(151);
 
-	var _scrollbar = __webpack_require__(25);
+	var _scrollbar = __webpack_require__(24);
 
 	var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
@@ -12876,7 +12852,9 @@ module.exports =
 
 	var clearHours = function clearHours(time) {
 	  var cloneDate = new Date(time);
-	  cloneDate.setHours(0, 0, 0, 0);
+	  var timeZoneOffset = cloneDate.getTimezoneOffset();
+	  var timeZone = timeZoneOffset >= 0 ? 24 - timeZoneOffset / 60 : Math.abs(timeZoneOffset) / 60;
+	  cloneDate.setHours(timeZone, 0, 0, 0);
 	  return cloneDate.getTime();
 	};
 
@@ -14374,7 +14352,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _scrollbar = __webpack_require__(25);
+	var _scrollbar = __webpack_require__(24);
 
 	var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
@@ -15060,7 +15038,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(24);
+	var _vuePopper = __webpack_require__(23);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -15284,7 +15262,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(24);
+	var _vuePopper = __webpack_require__(23);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -15792,6 +15770,9 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
 
 	var typeMap = {
 	  success: 'circle-check',
@@ -16004,6 +15985,9 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-message-box__wrapper",
+	    attrs: {
+	      "tabindex": "-1"
+	    },
 	    on: {
 	      "click": function($event) {
 	        if ($event.target !== $event.currentTarget) { return null; }
@@ -16017,14 +16001,20 @@ module.exports =
 	    staticClass: "el-message-box__header"
 	  }, [_c('div', {
 	    staticClass: "el-message-box__title"
-	  }, [_vm._v(_vm._s(_vm.title || _vm.t('el.messagebox.title')))]), (_vm.showClose) ? _c('i', {
-	    staticClass: "el-message-box__close el-icon-close",
+	  }, [_vm._v(_vm._s(_vm.title || _vm.t('el.messagebox.title')))]), (_vm.showClose) ? _c('button', {
+	    staticClass: "el-message-box__headerbtn",
+	    attrs: {
+	      "type": "button",
+	      "aria-label": "Close"
+	    },
 	    on: {
 	      "click": function($event) {
 	        _vm.handleAction('cancel')
 	      }
 	    }
-	  }) : _vm._e()]) : _vm._e(), (_vm.message !== '') ? _c('div', {
+	  }, [_c('i', {
+	    staticClass: "el-message-box__close el-icon-close"
+	  })]) : _vm._e()]) : _vm._e(), (_vm.message !== '') ? _c('div', {
 	    staticClass: "el-message-box__content"
 	  }, [_c('div', {
 	    staticClass: "el-message-box__status",
@@ -21324,7 +21314,6 @@ module.exports =
 
 	      if (!files) return;
 	      this.uploadFiles(files);
-	      this.$refs.input.value = null;
 	    },
 	    uploadFiles: function uploadFiles(files) {
 	      var _this = this;
@@ -21345,6 +21334,8 @@ module.exports =
 	    },
 	    upload: function upload(rawFile, file) {
 	      var _this2 = this;
+
+	      this.$refs.input.value = null;
 
 	      if (!this.beforeUpload) {
 	        return this.post(rawFile);
@@ -23542,6 +23533,9 @@ module.exports =
 	    activeIndex: function activeIndex(val, oldVal) {
 	      this.resetItemPosition();
 	      this.$emit('change', val, oldVal);
+	    },
+	    autoplay: function autoplay(val) {
+	      val ? this.startTimer() : this.pauseTimer();
 	    }
 	  },
 
@@ -24656,7 +24650,7 @@ module.exports =
 	  /* script */
 	  __webpack_require__(349),
 	  /* template */
-	  __webpack_require__(353),
+	  __webpack_require__(354),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -24688,11 +24682,11 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _vuePopper = __webpack_require__(24);
+	var _vuePopper = __webpack_require__(23);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _clickoutside = __webpack_require__(21);
+	var _clickoutside = __webpack_require__(30);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -24852,7 +24846,7 @@ module.exports =
 
 	  data: function data() {
 	    return {
-	      currentValue: this.value,
+	      currentValue: this.value || [],
 	      menu: null,
 	      debouncedInputChange: function debouncedInputChange() {},
 
@@ -24964,6 +24958,8 @@ module.exports =
 
 	      if (close) {
 	        this.menuVisible = false;
+	      } else {
+	        this.$nextTick(this.updatePopper);
 	      }
 	    },
 	    handleInputChange: function handleInputChange(value) {
@@ -24974,6 +24970,7 @@ module.exports =
 
 	      if (!value) {
 	        this.menu.options = this.options;
+	        this.$nextTick(this.updatePopper);
 	        return;
 	      }
 
@@ -25002,6 +24999,7 @@ module.exports =
 	        }];
 	      }
 	      this.menu.options = filteredFlatOptions;
+	      this.$nextTick(this.updatePopper);
 	    },
 	    renderFilteredOptionLabel: function renderFilteredOptionLabel(inputValue, optionsStack) {
 	      var _this5 = this;
@@ -25121,6 +25119,8 @@ module.exports =
 
 	var _babelHelperVueJsxMergeProps2 = _interopRequireDefault(_babelHelperVueJsxMergeProps);
 
+	var _shared = __webpack_require__(353);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
@@ -25184,7 +25184,7 @@ module.exports =
 	          var level = activeOptions.length;
 	          activeOptions[level] = options;
 	          var active = activeValue[level];
-	          if (active) {
+	          if ((0, _shared.isDef)(active)) {
 	            options = options.filter(function (option) {
 	              return option.value === active;
 	            })[0];
@@ -25325,6 +25325,12 @@ module.exports =
 /* 353 */
 /***/ function(module, exports) {
 
+	module.exports = require("element-ui/lib/utils/shared");
+
+/***/ },
+/* 354 */
+/***/ function(module, exports) {
+
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('span', {
 	    directives: [{
@@ -25397,14 +25403,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 354 */
+/* 355 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(355);
+	var _main = __webpack_require__(356);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -25418,14 +25424,14 @@ module.exports =
 	exports.default = _main2.default;
 
 /***/ },
-/* 355 */
+/* 356 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(5)(
 	  /* script */
-	  __webpack_require__(356),
+	  __webpack_require__(357),
 	  /* template */
-	  __webpack_require__(371),
+	  __webpack_require__(372),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -25438,22 +25444,22 @@ module.exports =
 
 
 /***/ },
-/* 356 */
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _color = __webpack_require__(357);
+	var _color = __webpack_require__(358);
 
 	var _color2 = _interopRequireDefault(_color);
 
-	var _pickerDropdown = __webpack_require__(358);
+	var _pickerDropdown = __webpack_require__(359);
 
 	var _pickerDropdown2 = _interopRequireDefault(_pickerDropdown);
 
-	var _clickoutside = __webpack_require__(21);
+	var _clickoutside = __webpack_require__(30);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -25587,7 +25593,7 @@ module.exports =
 	//
 
 /***/ },
-/* 357 */
+/* 358 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -25943,14 +25949,14 @@ module.exports =
 	;
 
 /***/ },
-/* 358 */
+/* 359 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(5)(
 	  /* script */
-	  __webpack_require__(359),
+	  __webpack_require__(360),
 	  /* template */
-	  __webpack_require__(370),
+	  __webpack_require__(371),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -25963,26 +25969,26 @@ module.exports =
 
 
 /***/ },
-/* 359 */
+/* 360 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _svPanel = __webpack_require__(360);
+	var _svPanel = __webpack_require__(361);
 
 	var _svPanel2 = _interopRequireDefault(_svPanel);
 
-	var _hueSlider = __webpack_require__(364);
+	var _hueSlider = __webpack_require__(365);
 
 	var _hueSlider2 = _interopRequireDefault(_hueSlider);
 
-	var _alphaSlider = __webpack_require__(367);
+	var _alphaSlider = __webpack_require__(368);
 
 	var _alphaSlider2 = _interopRequireDefault(_alphaSlider);
 
-	var _vuePopper = __webpack_require__(24);
+	var _vuePopper = __webpack_require__(23);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -26068,14 +26074,14 @@ module.exports =
 	//
 
 /***/ },
-/* 360 */
+/* 361 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(5)(
 	  /* script */
-	  __webpack_require__(361),
+	  __webpack_require__(362),
 	  /* template */
-	  __webpack_require__(363),
+	  __webpack_require__(364),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -26088,14 +26094,14 @@ module.exports =
 
 
 /***/ },
-/* 361 */
+/* 362 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(362);
+	var _draggable = __webpack_require__(363);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -26195,7 +26201,7 @@ module.exports =
 	//
 
 /***/ },
-/* 362 */
+/* 363 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26249,7 +26255,7 @@ module.exports =
 	var isDragging = false;
 
 /***/ },
-/* 363 */
+/* 364 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -26272,14 +26278,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 364 */
+/* 365 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(5)(
 	  /* script */
-	  __webpack_require__(365),
-	  /* template */
 	  __webpack_require__(366),
+	  /* template */
+	  __webpack_require__(367),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -26292,14 +26298,14 @@ module.exports =
 
 
 /***/ },
-/* 365 */
+/* 366 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(362);
+	var _draggable = __webpack_require__(363);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -26421,7 +26427,7 @@ module.exports =
 	//
 
 /***/ },
-/* 366 */
+/* 367 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -26447,14 +26453,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 367 */
+/* 368 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(5)(
 	  /* script */
-	  __webpack_require__(368),
-	  /* template */
 	  __webpack_require__(369),
+	  /* template */
+	  __webpack_require__(370),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -26467,14 +26473,14 @@ module.exports =
 
 
 /***/ },
-/* 368 */
+/* 369 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(362);
+	var _draggable = __webpack_require__(363);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -26612,7 +26618,7 @@ module.exports =
 	//
 
 /***/ },
-/* 369 */
+/* 370 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -26641,7 +26647,7 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 370 */
+/* 371 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -26704,7 +26710,7 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 371 */
+/* 372 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -26759,14 +26765,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 372 */
+/* 373 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(373);
+	var _main = __webpack_require__(374);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -26780,14 +26786,14 @@ module.exports =
 	exports.default = _main2.default;
 
 /***/ },
-/* 373 */
+/* 374 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(5)(
 	  /* script */
-	  __webpack_require__(374),
+	  __webpack_require__(375),
 	  /* template */
-	  __webpack_require__(378),
+	  __webpack_require__(379),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -26800,7 +26806,7 @@ module.exports =
 
 
 /***/ },
-/* 374 */
+/* 375 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26819,7 +26825,7 @@ module.exports =
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _transferPanel = __webpack_require__(375);
+	var _transferPanel = __webpack_require__(376);
 
 	var _transferPanel2 = _interopRequireDefault(_transferPanel);
 
@@ -27004,14 +27010,14 @@ module.exports =
 	};
 
 /***/ },
-/* 375 */
+/* 376 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(5)(
 	  /* script */
-	  __webpack_require__(376),
-	  /* template */
 	  __webpack_require__(377),
+	  /* template */
+	  __webpack_require__(378),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -27024,7 +27030,7 @@ module.exports =
 
 
 /***/ },
-/* 376 */
+/* 377 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27286,7 +27292,7 @@ module.exports =
 	};
 
 /***/ },
-/* 377 */
+/* 378 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -27388,7 +27394,7 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 378 */
+/* 379 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

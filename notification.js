@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(209);
+	module.exports = __webpack_require__(210);
 
 
 /***/ },
@@ -135,41 +135,24 @@ module.exports =
 
 /***/ },
 
-/***/ 56:
+/***/ 55:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 136:
+/***/ 137:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/popup");
 
 /***/ },
 
-/***/ 208:
+/***/ 209:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vdom");
-
-/***/ },
-
-/***/ 209:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _main = __webpack_require__(210);
-
-	var _main2 = _interopRequireDefault(_main);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = _main2.default;
 
 /***/ },
 
@@ -180,17 +163,34 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(56);
+	var _main = __webpack_require__(211);
 
-	var _vue2 = _interopRequireDefault(_vue);
-
-	var _popup = __webpack_require__(136);
-
-	var _vdom = __webpack_require__(208);
+	var _main2 = _interopRequireDefault(_main);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var NotificationConstructor = _vue2.default.extend(__webpack_require__(211));
+	exports.default = _main2.default;
+
+/***/ },
+
+/***/ 211:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _vue = __webpack_require__(55);
+
+	var _vue2 = _interopRequireDefault(_vue);
+
+	var _popup = __webpack_require__(137);
+
+	var _vdom = __webpack_require__(209);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var NotificationConstructor = _vue2.default.extend(__webpack_require__(212));
 
 	var instance = void 0;
 	var instances = [];
@@ -270,14 +270,14 @@ module.exports =
 
 /***/ },
 
-/***/ 211:
+/***/ 212:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(212),
-	  /* template */
 	  __webpack_require__(213),
+	  /* template */
+	  __webpack_require__(214),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -291,7 +291,7 @@ module.exports =
 
 /***/ },
 
-/***/ 212:
+/***/ 213:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -411,7 +411,7 @@ module.exports =
 
 /***/ },
 
-/***/ 213:
+/***/ 214:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

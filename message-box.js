@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(203);
+	module.exports = __webpack_require__(204);
 
 
 /***/ },
@@ -142,69 +142,52 @@ module.exports =
 
 /***/ },
 
-/***/ 56:
+/***/ 55:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 60:
+/***/ 61:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 61:
+/***/ 62:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 121:
+/***/ 122:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 136:
+/***/ 137:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/popup");
 
 /***/ },
 
-/***/ 141:
+/***/ 142:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/button");
 
 /***/ },
 
-/***/ 168:
+/***/ 169:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
-
-/***/ },
-
-/***/ 203:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _main = __webpack_require__(204);
-
-	var _main2 = _interopRequireDefault(_main);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = _main2.default;
 
 /***/ },
 
@@ -214,23 +197,40 @@ module.exports =
 	'use strict';
 
 	exports.__esModule = true;
-	exports.MessageBox = undefined;
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-	var _vue = __webpack_require__(56);
-
-	var _vue2 = _interopRequireDefault(_vue);
 
 	var _main = __webpack_require__(205);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _merge = __webpack_require__(168);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _main2.default;
+
+/***/ },
+
+/***/ 205:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.MessageBox = undefined;
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	var _vue = __webpack_require__(55);
+
+	var _vue2 = _interopRequireDefault(_vue);
+
+	var _main = __webpack_require__(206);
+
+	var _main2 = _interopRequireDefault(_main);
+
+	var _merge = __webpack_require__(169);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
-	var _vdom = __webpack_require__(208);
+	var _vdom = __webpack_require__(209);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -446,14 +446,14 @@ module.exports =
 
 /***/ },
 
-/***/ 205:
+/***/ 206:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(206),
-	  /* template */
 	  __webpack_require__(207),
+	  /* template */
+	  __webpack_require__(208),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -467,18 +467,18 @@ module.exports =
 
 /***/ },
 
-/***/ 206:
+/***/ 207:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _popup = __webpack_require__(136);
+	var _popup = __webpack_require__(137);
 
 	var _popup2 = _interopRequireDefault(_popup);
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -486,16 +486,19 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _button = __webpack_require__(141);
+	var _button = __webpack_require__(142);
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _dom = __webpack_require__(121);
+	var _dom = __webpack_require__(122);
 
-	var _locale3 = __webpack_require__(61);
+	var _locale3 = __webpack_require__(62);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
+	//
+	//
 	//
 	//
 	//
@@ -733,7 +736,7 @@ module.exports =
 
 /***/ },
 
-/***/ 207:
+/***/ 208:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -749,6 +752,9 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-message-box__wrapper",
+	    attrs: {
+	      "tabindex": "-1"
+	    },
 	    on: {
 	      "click": function($event) {
 	        if ($event.target !== $event.currentTarget) { return null; }
@@ -762,14 +768,20 @@ module.exports =
 	    staticClass: "el-message-box__header"
 	  }, [_c('div', {
 	    staticClass: "el-message-box__title"
-	  }, [_vm._v(_vm._s(_vm.title || _vm.t('el.messagebox.title')))]), (_vm.showClose) ? _c('i', {
-	    staticClass: "el-message-box__close el-icon-close",
+	  }, [_vm._v(_vm._s(_vm.title || _vm.t('el.messagebox.title')))]), (_vm.showClose) ? _c('button', {
+	    staticClass: "el-message-box__headerbtn",
+	    attrs: {
+	      "type": "button",
+	      "aria-label": "Close"
+	    },
 	    on: {
 	      "click": function($event) {
 	        _vm.handleAction('cancel')
 	      }
 	    }
-	  }) : _vm._e()]) : _vm._e(), (_vm.message !== '') ? _c('div', {
+	  }, [_c('i', {
+	    staticClass: "el-message-box__close el-icon-close"
+	  })]) : _vm._e()]) : _vm._e(), (_vm.message !== '') ? _c('div', {
 	    staticClass: "el-message-box__content"
 	  }, [_c('div', {
 	    staticClass: "el-message-box__status",
@@ -850,7 +862,7 @@ module.exports =
 
 /***/ },
 
-/***/ 208:
+/***/ 209:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vdom");

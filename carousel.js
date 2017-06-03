@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(42);
+	module.exports = __webpack_require__(41);
 
 
 /***/ },
@@ -135,14 +135,14 @@ module.exports =
 
 /***/ },
 
-/***/ 42:
+/***/ 41:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(43);
+	var _main = __webpack_require__(42);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -157,14 +157,14 @@ module.exports =
 
 /***/ },
 
-/***/ 43:
+/***/ 42:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(44),
+	  __webpack_require__(43),
 	  /* template */
-	  __webpack_require__(48),
+	  __webpack_require__(47),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -178,22 +178,22 @@ module.exports =
 
 /***/ },
 
-/***/ 44:
+/***/ 43:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _throttle = __webpack_require__(45);
+	var _throttle = __webpack_require__(44);
 
 	var _throttle2 = _interopRequireDefault(_throttle);
 
-	var _debounce = __webpack_require__(46);
+	var _debounce = __webpack_require__(45);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _resizeEvent = __webpack_require__(47);
+	var _resizeEvent = __webpack_require__(46);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -256,6 +256,9 @@ module.exports =
 	    activeIndex: function activeIndex(val, oldVal) {
 	      this.resetItemPosition();
 	      this.$emit('change', val, oldVal);
+	    },
+	    autoplay: function autoplay(val) {
+	      val ? this.startTimer() : this.pauseTimer();
 	    }
 	  },
 
@@ -434,28 +437,28 @@ module.exports =
 
 /***/ },
 
-/***/ 45:
+/***/ 44:
 /***/ function(module, exports) {
 
 	module.exports = require("throttle-debounce/throttle");
 
 /***/ },
 
-/***/ 46:
+/***/ 45:
 /***/ function(module, exports) {
 
 	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
 
-/***/ 47:
+/***/ 46:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ },
 
-/***/ 48:
+/***/ 47:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

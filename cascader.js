@@ -45,7 +45,7 @@ module.exports =
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(53);
+	module.exports = __webpack_require__(52);
 
 
 /***/ },
@@ -145,26 +145,21 @@ module.exports =
 	module.exports = require("element-ui/lib/input");
 
 /***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/clickoutside");
-
-/***/ },
+/* 10 */,
 /* 11 */,
-/* 12 */,
-/* 13 */
+/* 12 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
+/* 14 */,
 /* 15 */,
 /* 16 */,
 /* 17 */,
@@ -195,27 +190,26 @@ module.exports =
 /* 42 */,
 /* 43 */,
 /* 44 */,
-/* 45 */,
-/* 46 */
+/* 45 */
 /***/ function(module, exports) {
 
 	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
+/* 46 */,
 /* 47 */,
 /* 48 */,
 /* 49 */,
 /* 50 */,
 /* 51 */,
-/* 52 */,
-/* 53 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(54);
+	var _main = __webpack_require__(53);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -229,14 +223,14 @@ module.exports =
 	exports.default = _main2.default;
 
 /***/ },
-/* 54 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(55),
+	  __webpack_require__(54),
 	  /* template */
-	  __webpack_require__(62),
+	  __webpack_require__(63),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -249,18 +243,18 @@ module.exports =
 
 
 /***/ },
-/* 55 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(56);
+	var _vue = __webpack_require__(55);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _menu = __webpack_require__(57);
+	var _menu = __webpack_require__(56);
 
 	var _menu2 = _interopRequireDefault(_menu);
 
@@ -268,25 +262,25 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _vuePopper = __webpack_require__(13);
+	var _vuePopper = __webpack_require__(12);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _clickoutside = __webpack_require__(10);
+	var _clickoutside = __webpack_require__(60);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(13);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _locale3 = __webpack_require__(61);
+	var _locale3 = __webpack_require__(62);
 
-	var _debounce = __webpack_require__(46);
+	var _debounce = __webpack_require__(45);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -432,7 +426,7 @@ module.exports =
 
 	  data: function data() {
 	    return {
-	      currentValue: this.value,
+	      currentValue: this.value || [],
 	      menu: null,
 	      debouncedInputChange: function debouncedInputChange() {},
 
@@ -544,6 +538,8 @@ module.exports =
 
 	      if (close) {
 	        this.menuVisible = false;
+	      } else {
+	        this.$nextTick(this.updatePopper);
 	      }
 	    },
 	    handleInputChange: function handleInputChange(value) {
@@ -554,6 +550,7 @@ module.exports =
 
 	      if (!value) {
 	        this.menu.options = this.options;
+	        this.$nextTick(this.updatePopper);
 	        return;
 	      }
 
@@ -582,6 +579,7 @@ module.exports =
 	        }];
 	      }
 	      this.menu.options = filteredFlatOptions;
+	      this.$nextTick(this.updatePopper);
 	    },
 	    renderFilteredOptionLabel: function renderFilteredOptionLabel(inputValue, optionsStack) {
 	      var _this5 = this;
@@ -670,18 +668,18 @@ module.exports =
 	};
 
 /***/ },
-/* 56 */
+/* 55 */
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
-/* 57 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(58),
+	  __webpack_require__(57),
 	  /* template */
 	  null,
 	  /* styles */
@@ -696,16 +694,18 @@ module.exports =
 
 
 /***/ },
-/* 58 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _babelHelperVueJsxMergeProps = __webpack_require__(59);
+	var _babelHelperVueJsxMergeProps = __webpack_require__(58);
 
 	var _babelHelperVueJsxMergeProps2 = _interopRequireDefault(_babelHelperVueJsxMergeProps);
+
+	var _shared = __webpack_require__(59);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -770,7 +770,7 @@ module.exports =
 	          var level = activeOptions.length;
 	          activeOptions[level] = options;
 	          var active = activeValue[level];
-	          if (active) {
+	          if ((0, _shared.isDef)(active)) {
 	            options = options.filter(function (option) {
 	              return option.value === active;
 	            })[0];
@@ -902,25 +902,37 @@ module.exports =
 	};
 
 /***/ },
-/* 59 */
+/* 58 */
 /***/ function(module, exports) {
 
 	module.exports = require("babel-helper-vue-jsx-merge-props");
 
 /***/ },
+/* 59 */
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/shared");
+
+/***/ },
 /* 60 */
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/mixins/locale");
+	module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ },
 /* 61 */
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/locale");
+	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 /* 62 */
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/locale");
+
+/***/ },
+/* 63 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

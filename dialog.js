@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(133);
+	module.exports = __webpack_require__(134);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 14:
+/***/ 13:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 133:
+/***/ 134:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _component = __webpack_require__(134);
+	var _component = __webpack_require__(135);
 
 	var _component2 = _interopRequireDefault(_component);
 
@@ -164,14 +164,14 @@ module.exports =
 
 /***/ },
 
-/***/ 134:
+/***/ 135:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(135),
+	  __webpack_require__(136),
 	  /* template */
-	  __webpack_require__(137),
+	  __webpack_require__(138),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,23 +185,24 @@ module.exports =
 
 /***/ },
 
-/***/ 135:
+/***/ 136:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _popup = __webpack_require__(136);
+	var _popup = __webpack_require__(137);
 
 	var _popup2 = _interopRequireDefault(_popup);
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(13);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
 	//
 	//
 	//
@@ -347,14 +348,14 @@ module.exports =
 
 /***/ },
 
-/***/ 136:
+/***/ 137:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/popup");
 
 /***/ },
 
-/***/ 137:
+/***/ 138:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -370,6 +371,9 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-dialog__wrapper",
+	    attrs: {
+	      "tabindex": "-1"
+	    },
 	    on: {
 	      "click": function($event) {
 	        if ($event.target !== $event.currentTarget) { return null; }
@@ -385,14 +389,18 @@ module.exports =
 	    staticClass: "el-dialog__header"
 	  }, [_vm._t("title", [_c('span', {
 	    staticClass: "el-dialog__title"
-	  }, [_vm._v(_vm._s(_vm.title))])]), _c('div', {
-	    staticClass: "el-dialog__headerbtn"
-	  }, [(_vm.showClose) ? _c('i', {
-	    staticClass: "el-dialog__close el-icon el-icon-close",
+	  }, [_vm._v(_vm._s(_vm.title))])]), (_vm.showClose) ? _c('button', {
+	    staticClass: "el-dialog__headerbtn",
+	    attrs: {
+	      "type": "button",
+	      "aria-label": "Close"
+	    },
 	    on: {
 	      "click": _vm.handleClose
 	    }
-	  }) : _vm._e()])], 2), (_vm.rendered) ? _c('div', {
+	  }, [_c('i', {
+	    staticClass: "el-dialog__close el-icon el-icon-close"
+	  })]) : _vm._e()], 2), (_vm.rendered) ? _c('div', {
 	    staticClass: "el-dialog__body"
 	  }, [_vm._t("default")], 2) : _vm._e(), (_vm.$slots.footer) ? _c('div', {
 	    staticClass: "el-dialog__footer"
