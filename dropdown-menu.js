@@ -208,7 +208,9 @@ module.exports =
 	  created: function created() {
 	    var _this = this;
 
-	    this.$on('updatePopper', this.updatePopper);
+	    this.$on('updatePopper', function () {
+	      if (_this.showPopper) _this.updatePopper();
+	    });
 	    this.$on('visible', function (val) {
 	      _this.showPopper = val;
 	    });

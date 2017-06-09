@@ -781,9 +781,10 @@ module.exports =
 	    handleKeydown: function handleKeydown(event) {
 	      var keyCode = event.keyCode;
 
-	      // tab
-	      if (keyCode === 9) {
+	      // TAB or ESC
+	      if (keyCode === 9 || keyCode === 27) {
 	        this.pickerVisible = false;
+	        event.stopPropagation();
 	      }
 	    },
 	    hidePicker: function hidePicker() {
@@ -1213,7 +1214,7 @@ module.exports =
 	        this.date = newVal;
 	        this.year = newVal.getFullYear();
 	        this.month = newVal.getMonth();
-	        this.$emit('pick', newVal, true);
+	        this.$emit('pick', newVal, false);
 	      }
 	    },
 	    timePickerVisible: function timePickerVisible(val) {
@@ -2644,9 +2645,7 @@ module.exports =
 
 	var clearHours = function clearHours(time) {
 	  var cloneDate = new Date(time);
-	  var timeZoneOffset = cloneDate.getTimezoneOffset();
-	  var timeZone = timeZoneOffset >= 0 ? 24 - timeZoneOffset / 60 : Math.abs(timeZoneOffset) / 60;
-	  cloneDate.setHours(timeZone, 0, 0, 0);
+	  cloneDate.setHours(0, 0, 0, 0);
 	  return cloneDate.getTime();
 	};
 

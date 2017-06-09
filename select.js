@@ -1243,9 +1243,13 @@ module.exports =
 	  },
 
 	  mounted: function mounted() {
+	    var _this = this;
+
 	    this.referenceElm = this.$parent.$refs.reference.$el;
 	    this.$parent.popperElm = this.popperElm = this.$el;
-	    this.$on('updatePopper', this.updatePopper);
+	    this.$on('updatePopper', function () {
+	      if (_this.$parent.visible) _this.updatePopper();
+	    });
 	    this.$on('destroyPopper', this.destroyPopper);
 	  }
 	}; //

@@ -605,9 +605,10 @@ module.exports =
 	    handleKeydown: function handleKeydown(event) {
 	      var keyCode = event.keyCode;
 
-	      // tab
-	      if (keyCode === 9) {
+	      // TAB or ESC
+	      if (keyCode === 9 || keyCode === 27) {
 	        this.pickerVisible = false;
+	        event.stopPropagation();
 	      }
 	    },
 	    hidePicker: function hidePicker() {

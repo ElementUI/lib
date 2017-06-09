@@ -353,7 +353,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.3.5',
+	  version: '1.3.6',
 	  locale: _locale2.default.use,
 	  i18n: _locale2.default.i18n,
 	  install: install,
@@ -750,9 +750,8 @@ module.exports =
 	              on: {
 	                'change': this.handleChange,
 	                'focus': this.handleFocus
-	              },
-
-	              style: { width: '30px' } },
+	              }
+	            },
 	            []
 	          ), this.t('el.pagination.pageClassifier')]
 	        );
@@ -1545,6 +1544,15 @@ module.exports =
 	  },
 
 	  props: {
+	    props: {
+	      type: Object,
+	      default: function _default() {
+	        return {
+	          label: 'value',
+	          value: 'value'
+	        };
+	      }
+	    },
 	    popperClass: String,
 	    placeholder: String,
 	    disabled: Boolean,
@@ -1635,7 +1643,7 @@ module.exports =
 	    select: function select(item) {
 	      var _this3 = this;
 
-	      this.$emit('input', item.value);
+	      this.$emit('input', item[this.props.value]);
 	      this.$emit('select', item);
 	      this.$nextTick(function (_) {
 	        _this3.suggestions = [];
@@ -1677,6 +1685,7 @@ module.exports =
 	    this.$refs.suggestions.$destroy();
 	  }
 	}; //
+	//
 	//
 	//
 	//
@@ -1776,6 +1785,7 @@ module.exports =
 
 
 	  props: {
+	    props: Object,
 	    suggestions: Array,
 	    options: {
 	      default: function _default() {
@@ -1904,7 +1914,7 @@ module.exports =
 	          _vm.select(item)
 	        }
 	      }
-	    }, [_vm._v("\n          " + _vm._s(item.value) + "\n        ")]) : _c(_vm.parent.customItem, {
+	    }, [_vm._v("\n          " + _vm._s(item[_vm.props.label]) + "\n        ")]) : _c(_vm.parent.customItem, {
 	      tag: "component",
 	      class: {
 	        'highlighted': _vm.parent.highlightedIndex === index
@@ -1977,6 +1987,7 @@ module.exports =
 	    ref: "suggestions",
 	    class: [_vm.popperClass ? _vm.popperClass : ''],
 	    attrs: {
+	      "props": _vm.props,
 	      "suggestions": _vm.suggestions
 	    }
 	  })], 1)
@@ -2281,7 +2292,9 @@ module.exports =
 	  created: function created() {
 	    var _this = this;
 
-	    this.$on('updatePopper', this.updatePopper);
+	    this.$on('updatePopper', function () {
+	      if (_this.showPopper) _this.updatePopper();
+	    });
 	    this.$on('visible', function (val) {
 	      _this.showPopper = val;
 	    });
@@ -6178,9 +6191,13 @@ module.exports =
 	  },
 
 	  mounted: function mounted() {
+	    var _this = this;
+
 	    this.referenceElm = this.$parent.$refs.reference.$el;
 	    this.$parent.popperElm = this.popperElm = this.$el;
-	    this.$on('updatePopper', this.updatePopper);
+	    this.$on('updatePopper', function () {
+	      if (_this.$parent.visible) _this.updatePopper();
+	    });
 	    this.$on('destroyPopper', this.destroyPopper);
 	  }
 	}; //
@@ -10995,9 +11012,10 @@ module.exports =
 	    handleKeydown: function handleKeydown(event) {
 	      var keyCode = event.keyCode;
 
-	      // tab
-	      if (keyCode === 9) {
+	      // TAB or ESC
+	      if (keyCode === 9 || keyCode === 27) {
 	        this.pickerVisible = false;
+	        event.stopPropagation();
 	      }
 	    },
 	    hidePicker: function hidePicker() {
@@ -11427,7 +11445,7 @@ module.exports =
 	        this.date = newVal;
 	        this.year = newVal.getFullYear();
 	        this.month = newVal.getMonth();
-	        this.$emit('pick', newVal, true);
+	        this.$emit('pick', newVal, false);
 	      }
 	    },
 	    timePickerVisible: function timePickerVisible(val) {
@@ -12852,9 +12870,7 @@ module.exports =
 
 	var clearHours = function clearHours(time) {
 	  var cloneDate = new Date(time);
-	  var timeZoneOffset = cloneDate.getTimezoneOffset();
-	  var timeZone = timeZoneOffset >= 0 ? 24 - timeZoneOffset / 60 : Math.abs(timeZoneOffset) / 60;
-	  cloneDate.setHours(timeZone, 0, 0, 0);
+	  cloneDate.setHours(0, 0, 0, 0);
 	  return cloneDate.getTime();
 	};
 
@@ -25724,7 +25740,7 @@ module.exports =
 	    h /= 6;
 	  }
 
-	  return { h: Math.round(h * 360), s: Math.round(s * 100), v: Math.round(v * 100) };
+	  return { h: h * 360, s: s * 100, v: v * 100 };
 	};
 
 	// `hsvToRgb`
@@ -26116,8 +26132,16 @@ module.exports =
 	    }
 	  },
 
+	  computed: {
+	    colorValue: function colorValue() {
+	      var hue = this.color.get('hue');
+	      var value = this.color.get('value');
+	      return { hue: hue, value: value };
+	    }
+	  },
+
 	  watch: {
-	    'color.value': function colorValue() {
+	    colorValue: function colorValue() {
 	      this.update();
 	    }
 	  },
@@ -26330,8 +26354,15 @@ module.exports =
 	  },
 
 
+	  computed: {
+	    hueValue: function hueValue() {
+	      var hue = this.color.get('hue');
+	      return hue;
+	    }
+	  },
+
 	  watch: {
-	    'color.value': function colorValue() {
+	    hueValue: function hueValue() {
 	      this.update();
 	    }
 	  },

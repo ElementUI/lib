@@ -468,9 +468,8 @@ module.exports =
 	              on: {
 	                'change': this.handleChange,
 	                'focus': this.handleFocus
-	              },
-
-	              style: { width: '30px' } },
+	              }
+	            },
 	            []
 	          ), this.t('el.pagination.pageClassifier')]
 	        );

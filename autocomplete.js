@@ -211,6 +211,15 @@ module.exports =
 	  },
 
 	  props: {
+	    props: {
+	      type: Object,
+	      default: function _default() {
+	        return {
+	          label: 'value',
+	          value: 'value'
+	        };
+	      }
+	    },
 	    popperClass: String,
 	    placeholder: String,
 	    disabled: Boolean,
@@ -301,7 +310,7 @@ module.exports =
 	    select: function select(item) {
 	      var _this3 = this;
 
-	      this.$emit('input', item.value);
+	      this.$emit('input', item[this.props.value]);
 	      this.$emit('select', item);
 	      this.$nextTick(function (_) {
 	        _this3.suggestions = [];
@@ -343,6 +352,7 @@ module.exports =
 	    this.$refs.suggestions.$destroy();
 	  }
 	}; //
+	//
 	//
 	//
 	//
@@ -442,6 +452,7 @@ module.exports =
 
 
 	  props: {
+	    props: Object,
 	    suggestions: Array,
 	    options: {
 	      default: function _default() {
@@ -576,7 +587,7 @@ module.exports =
 	          _vm.select(item)
 	        }
 	      }
-	    }, [_vm._v("\n          " + _vm._s(item.value) + "\n        ")]) : _c(_vm.parent.customItem, {
+	    }, [_vm._v("\n          " + _vm._s(item[_vm.props.label]) + "\n        ")]) : _c(_vm.parent.customItem, {
 	      tag: "component",
 	      class: {
 	        'highlighted': _vm.parent.highlightedIndex === index
@@ -649,6 +660,7 @@ module.exports =
 	    ref: "suggestions",
 	    class: [_vm.popperClass ? _vm.popperClass : ''],
 	    attrs: {
+	      "props": _vm.props,
 	      "suggestions": _vm.suggestions
 	    }
 	  })], 1)

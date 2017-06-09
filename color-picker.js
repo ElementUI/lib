@@ -487,7 +487,7 @@ module.exports =
 	    h /= 6;
 	  }
 
-	  return { h: Math.round(h * 360), s: Math.round(s * 100), v: Math.round(v * 100) };
+	  return { h: h * 360, s: s * 100, v: v * 100 };
 	};
 
 	// `hsvToRgb`
@@ -883,8 +883,16 @@ module.exports =
 	    }
 	  },
 
+	  computed: {
+	    colorValue: function colorValue() {
+	      var hue = this.color.get('hue');
+	      var value = this.color.get('value');
+	      return { hue: hue, value: value };
+	    }
+	  },
+
 	  watch: {
-	    'color.value': function colorValue() {
+	    colorValue: function colorValue() {
 	      this.update();
 	    }
 	  },
@@ -1101,8 +1109,15 @@ module.exports =
 	  },
 
 
+	  computed: {
+	    hueValue: function hueValue() {
+	      var hue = this.color.get('hue');
+	      return hue;
+	    }
+	  },
+
 	  watch: {
-	    'color.value': function colorValue() {
+	    hueValue: function hueValue() {
 	      this.update();
 	    }
 	  },
