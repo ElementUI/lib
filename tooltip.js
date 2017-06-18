@@ -58,17 +58,17 @@ module.exports =
 
 /***/ },
 
-/***/ 45:
-/***/ function(module, exports) {
-
-	module.exports = require("throttle-debounce/debounce");
-
-/***/ },
-
-/***/ 55:
+/***/ 54:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
+
+/***/ },
+
+/***/ 62:
+/***/ function(module, exports) {
+
+	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
 
@@ -112,13 +112,13 @@ module.exports =
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _debounce = __webpack_require__(45);
+	var _debounce = __webpack_require__(62);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
 	var _vdom = __webpack_require__(209);
 
-	var _vue = __webpack_require__(55);
+	var _vue = __webpack_require__(54);
 
 	var _vue2 = _interopRequireDefault(_vue);
 

@@ -226,9 +226,8 @@ module.exports =
 	          this._checkboxGroup.max !== undefined && val.length > this._checkboxGroup.max && (isLimitExceeded = true);
 
 	          isLimitExceeded === false && this.dispatch('ElCheckboxGroup', 'input', [val]);
-	        } else if (this.value !== undefined) {
-	          this.$emit('input', val);
 	        } else {
+	          this.$emit('input', val);
 	          this.selfModel = val;
 	        }
 	      }

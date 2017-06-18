@@ -185,16 +185,6 @@ if (!_vue2.default.prototype.$isServer) {
       }
     }
   });
-
-  // keep focusing inside the popup by `tab` key
-  document.addEventListener('focusin', function (event) {
-    var topPopup = getTopPopup();
-
-    if (topPopup && !topPopup.$el.contains(event.target)) {
-      event.stopPropagation();
-      topPopup.$el.focus();
-    }
-  });
 }
 
 exports.default = PopupManager;

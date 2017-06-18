@@ -316,6 +316,21 @@ module.exports =
 
 	        return getPropByPath(model, path).v;
 	      }
+	    },
+	    isRequired: function isRequired() {
+	      var rules = this.getRules();
+	      var isRequired = false;
+
+	      if (rules && rules.length) {
+	        rules.every(function (rule) {
+	          if (rule.required) {
+	            isRequired = true;
+	            return false;
+	          }
+	          return true;
+	        });
+	      }
+	      return isRequired;
 	    }
 	  },
 	  data: function data() {
@@ -323,8 +338,7 @@ module.exports =
 	      validateState: '',
 	      validateMessage: '',
 	      validateDisabled: false,
-	      validator: {},
-	      isRequired: false
+	      validator: {}
 	    };
 	  },
 
@@ -406,8 +420,6 @@ module.exports =
 	    }
 	  },
 	  mounted: function mounted() {
-	    var _this2 = this;
-
 	    if (this.prop) {
 	      this.dispatch('ElForm', 'el.form.addField', [this]);
 
@@ -422,12 +434,6 @@ module.exports =
 	      var rules = this.getRules();
 
 	      if (rules.length) {
-	        rules.every(function (rule) {
-	          if (rule.required) {
-	            _this2.isRequired = true;
-	            return false;
-	          }
-	        });
 	        this.$on('el.form.blur', this.onFieldBlur);
 	        this.$on('el.form.change', this.onFieldChange);
 	      }

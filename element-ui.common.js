@@ -353,7 +353,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.3.6',
+	  version: '1.3.7',
 	  locale: _locale2.default.use,
 	  i18n: _locale2.default.i18n,
 	  install: install,
@@ -747,6 +747,9 @@ module.exports =
 	                value: this.$parent.internalCurrentPage,
 
 	                number: true },
+	              domProps: {
+	                'value': this.$parent.internalCurrentPage
+	              },
 	              on: {
 	                'change': this.handleChange,
 	                'focus': this.handleFocus
@@ -1432,9 +1435,6 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-dialog__wrapper",
-	    attrs: {
-	      "tabindex": "-1"
-	    },
 	    on: {
 	      "click": function($event) {
 	        if ($event.target !== $event.currentTarget) { return null; }
@@ -4465,9 +4465,8 @@ module.exports =
 	          this._checkboxGroup.max !== undefined && val.length > this._checkboxGroup.max && (isLimitExceeded = true);
 
 	          isLimitExceeded === false && this.dispatch('ElCheckboxGroup', 'input', [val]);
-	        } else if (this.value !== undefined) {
-	          this.$emit('input', val);
 	        } else {
+	          this.$emit('input', val);
 	          this.selfModel = val;
 	        }
 	      }
@@ -7474,6 +7473,7 @@ module.exports =
 	      immediate: true,
 	      handler: function handler(val) {
 	        this.store.commit('setData', val);
+	        if (this.$ready) this.doLayout();
 	      }
 	    },
 
@@ -11587,7 +11587,7 @@ module.exports =
 
 	      this.date.setFullYear(year);
 	      if (this.selectionMode === 'year') {
-	        this.$emit('pick', new Date(year));
+	        this.$emit('pick', new Date(year, 0, 1));
 	      } else {
 	        this.currentView = 'month';
 	      }
@@ -12510,7 +12510,7 @@ module.exports =
 	      if (target.tagName === 'A') {
 	        if ((0, _dom.hasClass)(target.parentNode, 'disabled')) return;
 	        var year = target.textContent || target.innerText;
-	        this.$emit('pick', year);
+	        this.$emit('pick', Number(year));
 	      }
 	    }
 	  }
@@ -16322,7 +16322,7 @@ module.exports =
 
 /***/ },
 /* 208 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -16384,6 +16384,10 @@ module.exports =
 
 	  methods: {
 	    resetFields: function resetFields() {
+	      if (!this.model) {
+	        ("production") !== 'production' && console.warn('[Element Warn][Form]model is required for resetFields to work.');
+	        return;
+	      }
 	      this.fields.forEach(function (field) {
 	        field.resetField();
 	      });
@@ -16609,6 +16613,21 @@ module.exports =
 
 	        return getPropByPath(model, path).v;
 	      }
+	    },
+	    isRequired: function isRequired() {
+	      var rules = this.getRules();
+	      var isRequired = false;
+
+	      if (rules && rules.length) {
+	        rules.every(function (rule) {
+	          if (rule.required) {
+	            isRequired = true;
+	            return false;
+	          }
+	          return true;
+	        });
+	      }
+	      return isRequired;
 	    }
 	  },
 	  data: function data() {
@@ -16616,8 +16635,7 @@ module.exports =
 	      validateState: '',
 	      validateMessage: '',
 	      validateDisabled: false,
-	      validator: {},
-	      isRequired: false
+	      validator: {}
 	    };
 	  },
 
@@ -16699,8 +16717,6 @@ module.exports =
 	    }
 	  },
 	  mounted: function mounted() {
-	    var _this2 = this;
-
 	    if (this.prop) {
 	      this.dispatch('ElForm', 'el.form.addField', [this]);
 
@@ -16715,12 +16731,6 @@ module.exports =
 	      var rules = this.getRules();
 
 	      if (rules.length) {
-	        rules.every(function (rule) {
-	          if (rule.required) {
-	            _this2.isRequired = true;
-	            return false;
-	          }
-	        });
 	        this.$on('el.form.blur', this.onFieldBlur);
 	        this.$on('el.form.change', this.onFieldChange);
 	      }
@@ -19678,6 +19688,10 @@ module.exports =
 	    stops: function stops() {
 	      var _this2 = this;
 
+	      if (this.step === 0) {
+	        ("production") !== 'production' && console.warn('[Element Warn][Slider]step should not be 0.');
+	        return [];
+	      }
 	      var stopCount = (this.max - this.min) / this.step;
 	      var stepWidth = 100 * this.step / (this.max - this.min);
 	      var result = [];
@@ -23482,13 +23496,59 @@ module.exports =
 
 	var _throttle2 = _interopRequireDefault(_throttle);
 
-	var _debounce = __webpack_require__(69);
-
-	var _debounce2 = _interopRequireDefault(_debounce);
-
 	var _resizeEvent = __webpack_require__(109);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElCarousel',
@@ -23544,7 +23604,7 @@ module.exports =
 
 	  watch: {
 	    items: function items(val) {
-	      if (val.length > 0) this.setActiveItem(0);
+	      if (val.length > 0) this.setActiveItem(this.initialIndex);
 	    },
 	    activeIndex: function activeIndex(val, oldVal) {
 	      this.resetItemPosition();
@@ -23655,7 +23715,6 @@ module.exports =
 	  created: function created() {
 	    var _this3 = this;
 
-	    this.handleItemChange = (0, _debounce2.default)(100, this.updateItems);
 	    this.throttledArrowClick = (0, _throttle2.default)(300, true, function (index) {
 	      _this3.setActiveItem(index);
 	    });
@@ -23678,55 +23737,7 @@ module.exports =
 	  beforeDestroy: function beforeDestroy() {
 	    if (this.$el) (0, _resizeEvent.removeResizeListener)(this.$el, this.resetItemPosition);
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 /* 329 */
@@ -24316,10 +24327,10 @@ module.exports =
 	  },
 
 	  created: function created() {
-	    this.$parent && this.$parent.handleItemChange();
+	    this.$parent && this.$parent.updateItems();
 	  },
 	  destroyed: function destroyed() {
-	    this.$parent && this.$parent.handleItemChange();
+	    this.$parent && this.$parent.updateItems();
 	  }
 	};
 

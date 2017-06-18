@@ -446,6 +446,10 @@ module.exports =
 	    stops: function stops() {
 	      var _this2 = this;
 
+	      if (this.step === 0) {
+	        ("production") !== 'production' && console.warn('[Element Warn][Slider]step should not be 0.');
+	        return [];
+	      }
 	      var stopCount = (this.max - this.min) / this.step;
 	      var stepWidth = 100 * this.step / (this.max - this.min);
 	      var result = [];

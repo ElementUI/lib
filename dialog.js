@@ -371,9 +371,6 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-dialog__wrapper",
-	    attrs: {
-	      "tabindex": "-1"
-	    },
 	    on: {
 	      "click": function($event) {
 	        if ($event.target !== $event.currentTarget) { return null; }

@@ -23,8 +23,9 @@ exports.default = function () {
 
   var widthWithScroll = inner.offsetWidth;
   outer.parentNode.removeChild(outer);
+  scrollBarWidth = widthNoScroll - widthWithScroll;
 
-  return widthNoScroll - widthWithScroll;
+  return scrollBarWidth;
 };
 
 var _vue = require('vue');

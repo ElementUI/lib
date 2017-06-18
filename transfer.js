@@ -149,7 +149,7 @@ module.exports =
 
 /***/ },
 
-/***/ 61:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
@@ -235,7 +235,7 @@ module.exports =
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _locale = __webpack_require__(61);
+	var _locale = __webpack_require__(60);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -465,7 +465,7 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _locale = __webpack_require__(61);
+	var _locale = __webpack_require__(60);
 
 	var _locale2 = _interopRequireDefault(_locale);
 

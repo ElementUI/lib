@@ -179,7 +179,7 @@ module.exports =
 /***/ },
 
 /***/ 154:
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -241,6 +241,10 @@ module.exports =
 
 	  methods: {
 	    resetFields: function resetFields() {
+	      if (!this.model) {
+	        ("production") !== 'production' && console.warn('[Element Warn][Form]model is required for resetFields to work.');
+	        return;
+	      }
 	      this.fields.forEach(function (field) {
 	        field.resetField();
 	      });

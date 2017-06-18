@@ -166,35 +166,35 @@ module.exports =
 /***/ 45:
 /***/ function(module, exports) {
 
-	module.exports = require("throttle-debounce/debounce");
-
-/***/ },
-
-/***/ 46:
-/***/ function(module, exports) {
-
 	module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ },
 
-/***/ 60:
+/***/ 59:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ },
 
-/***/ 61:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 62:
+/***/ 61:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
+
+/***/ },
+
+/***/ 62:
+/***/ function(module, exports) {
+
+	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
 
@@ -455,7 +455,7 @@ module.exports =
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _locale = __webpack_require__(61);
+	var _locale = __webpack_require__(60);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -479,19 +479,19 @@ module.exports =
 
 	var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
-	var _debounce = __webpack_require__(45);
+	var _debounce = __webpack_require__(62);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _clickoutside = __webpack_require__(60);
+	var _clickoutside = __webpack_require__(59);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
 	var _dom = __webpack_require__(122);
 
-	var _resizeEvent = __webpack_require__(46);
+	var _resizeEvent = __webpack_require__(45);
 
-	var _locale3 = __webpack_require__(62);
+	var _locale3 = __webpack_require__(61);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

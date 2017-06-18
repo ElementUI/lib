@@ -142,7 +142,7 @@ module.exports =
 
 /***/ },
 
-/***/ 62:
+/***/ 61:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
@@ -224,7 +224,7 @@ module.exports =
 
 	var _treeStore2 = _interopRequireDefault(_treeStore);
 
-	var _locale = __webpack_require__(62);
+	var _locale = __webpack_require__(61);
 
 	var _emitter = __webpack_require__(13);
 

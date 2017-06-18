@@ -920,7 +920,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         var sideValue = center - popper[side];
 
         // prevent arrow from being placed not contiguously to its popper
-        sideValue = Math.max(Math.min(popper[len] - arrowSize, sideValue), 0);
+        sideValue = Math.max(Math.min(popper[len] - arrowSize - 3, sideValue), 3);
         arrowStyle[side] = sideValue;
         arrowStyle[altSide] = ''; // make sure to remove any old style from the arrow
 

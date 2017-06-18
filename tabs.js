@@ -135,7 +135,7 @@ module.exports =
 
 /***/ },
 
-/***/ 46:
+/***/ 45:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/resize-event");
@@ -373,7 +373,7 @@ module.exports =
 
 	var _tabBar2 = _interopRequireDefault(_tabBar);
 
-	var _resizeEvent = __webpack_require__(46);
+	var _resizeEvent = __webpack_require__(45);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

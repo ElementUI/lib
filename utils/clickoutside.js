@@ -35,8 +35,11 @@ var startClick = void 0;
 exports.default = {
   bind: function bind(el, binding, vnode) {
     var id = nodeList.push(el) - 1;
-    var documentHandler = function documentHandler(mouseup, mousedown) {
-      if (!vnode.context || el.contains(mouseup.target) || vnode.context.popperElm && (vnode.context.popperElm.contains(mouseup.target) || vnode.context.popperElm.contains(mousedown.target))) return;
+    var documentHandler = function documentHandler() {
+      var mouseup = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var mousedown = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      if (!vnode.context || !mouseup.target || !mousedown.target || el.contains(mouseup.target) || vnode.context.popperElm && (vnode.context.popperElm.contains(mouseup.target) || vnode.context.popperElm.contains(mousedown.target))) return;
 
       if (binding.expression && el[ctx].methodName && vnode.context[el[ctx].methodName]) {
         vnode.context[el[ctx].methodName]();

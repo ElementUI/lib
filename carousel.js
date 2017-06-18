@@ -164,7 +164,7 @@ module.exports =
 	  /* script */
 	  __webpack_require__(43),
 	  /* template */
-	  __webpack_require__(47),
+	  __webpack_require__(46),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -189,13 +189,59 @@ module.exports =
 
 	var _throttle2 = _interopRequireDefault(_throttle);
 
-	var _debounce = __webpack_require__(45);
-
-	var _debounce2 = _interopRequireDefault(_debounce);
-
-	var _resizeEvent = __webpack_require__(46);
+	var _resizeEvent = __webpack_require__(45);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElCarousel',
@@ -251,7 +297,7 @@ module.exports =
 
 	  watch: {
 	    items: function items(val) {
-	      if (val.length > 0) this.setActiveItem(0);
+	      if (val.length > 0) this.setActiveItem(this.initialIndex);
 	    },
 	    activeIndex: function activeIndex(val, oldVal) {
 	      this.resetItemPosition();
@@ -362,7 +408,6 @@ module.exports =
 	  created: function created() {
 	    var _this3 = this;
 
-	    this.handleItemChange = (0, _debounce2.default)(100, this.updateItems);
 	    this.throttledArrowClick = (0, _throttle2.default)(300, true, function (index) {
 	      _this3.setActiveItem(index);
 	    });
@@ -385,55 +430,7 @@ module.exports =
 	  beforeDestroy: function beforeDestroy() {
 	    if (this.$el) (0, _resizeEvent.removeResizeListener)(this.$el, this.resetItemPosition);
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 
@@ -447,18 +444,11 @@ module.exports =
 /***/ 45:
 /***/ function(module, exports) {
 
-	module.exports = require("throttle-debounce/debounce");
-
-/***/ },
-
-/***/ 46:
-/***/ function(module, exports) {
-
 	module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ },
 
-/***/ 47:
+/***/ 46:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

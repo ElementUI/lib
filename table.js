@@ -152,35 +152,35 @@ module.exports =
 /***/ 45:
 /***/ function(module, exports) {
 
-	module.exports = require("throttle-debounce/debounce");
-
-/***/ },
-
-/***/ 46:
-/***/ function(module, exports) {
-
 	module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ },
 
-/***/ 55:
+/***/ 54:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 60:
+/***/ 59:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ },
 
-/***/ 61:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
+
+/***/ },
+
+/***/ 62:
+/***/ function(module, exports) {
+
+	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
 
@@ -277,13 +277,13 @@ module.exports =
 
 	var _throttle2 = _interopRequireDefault(_throttle);
 
-	var _debounce = __webpack_require__(45);
+	var _debounce = __webpack_require__(62);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _resizeEvent = __webpack_require__(46);
+	var _resizeEvent = __webpack_require__(45);
 
-	var _locale = __webpack_require__(61);
+	var _locale = __webpack_require__(60);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -701,6 +701,7 @@ module.exports =
 	      immediate: true,
 	      handler: function handler(val) {
 	        this.store.commit('setData', val);
+	        if (this.$ready) this.doLayout();
 	      }
 	    },
 
@@ -767,11 +768,11 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(55);
+	var _vue = __webpack_require__(54);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _debounce = __webpack_require__(45);
+	var _debounce = __webpack_require__(62);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -1624,7 +1625,7 @@ module.exports =
 
 	var _tooltip2 = _interopRequireDefault(_tooltip);
 
-	var _debounce = __webpack_require__(45);
+	var _debounce = __webpack_require__(62);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -1945,7 +1946,7 @@ module.exports =
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _vue = __webpack_require__(55);
+	var _vue = __webpack_require__(54);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -2475,11 +2476,11 @@ module.exports =
 
 	var _popup = __webpack_require__(137);
 
-	var _locale = __webpack_require__(61);
+	var _locale = __webpack_require__(60);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _clickoutside = __webpack_require__(60);
+	var _clickoutside = __webpack_require__(59);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -2708,7 +2709,7 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(55);
+	var _vue = __webpack_require__(54);
 
 	var _vue2 = _interopRequireDefault(_vue);
 

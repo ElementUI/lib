@@ -135,7 +135,7 @@ module.exports =
 
 /***/ },
 
-/***/ 61:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
@@ -183,7 +183,7 @@ module.exports =
 
 	var _option2 = _interopRequireDefault(_option);
 
-	var _locale = __webpack_require__(61);
+	var _locale = __webpack_require__(60);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -465,6 +465,9 @@ module.exports =
 	                value: this.$parent.internalCurrentPage,
 
 	                number: true },
+	              domProps: {
+	                'value': this.$parent.internalCurrentPage
+	              },
 	              on: {
 	                'change': this.handleChange,
 	                'focus': this.handleFocus
