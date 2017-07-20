@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(251);
+	module.exports = __webpack_require__(253);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 122:
+/***/ 123:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 251:
+/***/ 253:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(252);
+	var _main = __webpack_require__(254);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -164,14 +164,14 @@ module.exports =
 
 /***/ },
 
-/***/ 252:
+/***/ 254:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(253),
+	  __webpack_require__(255),
 	  /* template */
-	  __webpack_require__(254),
+	  __webpack_require__(256),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,14 +185,14 @@ module.exports =
 
 /***/ },
 
-/***/ 253:
+/***/ 255:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _dom = __webpack_require__(122);
+	var _dom = __webpack_require__(123);
 
 	exports.default = {
 	  name: 'ElRate',
@@ -201,7 +201,7 @@ module.exports =
 	    return {
 	      classMap: {},
 	      colorMap: {},
-	      pointerAtLeftHalf: false,
+	      pointerAtLeftHalf: true,
 	      currentValue: this.value,
 	      hoverIndex: -1
 	    };
@@ -340,6 +340,7 @@ module.exports =
 	    value: function value(val) {
 	      this.$emit('change', val);
 	      this.currentValue = val;
+	      this.pointerAtLeftHalf = this.value !== Math.floor(this.value);
 	    }
 	  },
 
@@ -358,7 +359,7 @@ module.exports =
 	    showDecimalIcon: function showDecimalIcon(item) {
 	      var showWhenDisabled = this.disabled && this.valueDecimal > 0 && item - 1 < this.value && item > this.value;
 	      /* istanbul ignore next */
-	      var showWhenAllowHalf = this.allowHalf && this.pointerAtLeftHalf && (item - 0.5).toFixed(1) === this.currentValue.toFixed(1);
+	      var showWhenAllowHalf = this.allowHalf && this.pointerAtLeftHalf && item - 0.5 <= this.currentValue && item > this.currentValue;
 	      return showWhenDisabled || showWhenAllowHalf;
 	    },
 	    getIconStyle: function getIconStyle(item) {
@@ -456,7 +457,7 @@ module.exports =
 
 /***/ },
 
-/***/ 254:
+/***/ 256:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

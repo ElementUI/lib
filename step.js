@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(284);
+	module.exports = __webpack_require__(285);
 
 
 /***/ },
@@ -135,14 +135,14 @@ module.exports =
 
 /***/ },
 
-/***/ 284:
+/***/ 285:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _step = __webpack_require__(285);
+	var _step = __webpack_require__(286);
 
 	var _step2 = _interopRequireDefault(_step);
 
@@ -157,14 +157,14 @@ module.exports =
 
 /***/ },
 
-/***/ 285:
+/***/ 286:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(286),
-	  /* template */
 	  __webpack_require__(287),
+	  /* template */
+	  __webpack_require__(288),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -178,7 +178,7 @@ module.exports =
 
 /***/ },
 
-/***/ 286:
+/***/ 287:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -244,21 +244,49 @@ module.exports =
 	  data: function data() {
 	    return {
 	      index: -1,
-	      style: {},
 	      lineStyle: {},
 	      mainOffset: 0,
-	      isLast: false,
 	      internalStatus: ''
 	    };
 	  },
 	  beforeCreate: function beforeCreate() {
 	    this.$parent.steps.push(this);
 	  },
+	  beforeDestroy: function beforeDestroy() {
+	    var steps = this.$parent.steps;
+	    var index = steps.indexOf(this);
+	    if (index >= 0) {
+	      steps.splice(index, 1);
+	    }
+	  },
 
 
 	  computed: {
 	    currentStatus: function currentStatus() {
 	      return this.status || this.internalStatus;
+	    },
+
+	    isLast: function isLast() {
+	      var parent = this.$parent;
+	      return parent.steps[parent.steps.length - 1] === this;
+	    },
+	    style: function style() {
+	      var parent = this.$parent;
+	      var isCenter = parent.center;
+	      var len = parent.steps.length;
+
+	      if (isCenter && this.isLast) {
+	        return {};
+	      }
+
+	      var space = typeof parent.space === 'number' ? parent.space + 'px' : parent.space ? parent.space : 100 / (isCenter ? len - 1 : len) + '%';
+	      if (parent.direction === 'horizontal') {
+	        return { width: space };
+	      } else {
+	        if (!this.isLast) {
+	          return { height: space };
+	        }
+	      }
 	    }
 	  },
 
@@ -292,10 +320,6 @@ module.exports =
 	      this.$parent.direction === 'vertical' ? style.height = step + '%' : style.width = step + '%';
 
 	      this.lineStyle = style;
-	    },
-	    adjustPosition: function adjustPosition() {
-	      this.style = {};
-	      this.$parent.stepOffset = this.$el.getBoundingClientRect().width / (this.$parent.steps.length - 1);
 	    }
 	  },
 
@@ -303,20 +327,10 @@ module.exports =
 	    var _this = this;
 
 	    var parent = this.$parent;
-	    var isCenter = parent.center;
-	    var len = parent.steps.length;
-	    var isLast = this.isLast = parent.steps[parent.steps.length - 1] === this;
-	    var space = typeof parent.space === 'number' ? parent.space + 'px' : parent.space ? parent.space : 100 / (isCenter ? len - 1 : len) + '%';
 
 	    if (parent.direction === 'horizontal') {
-	      this.style = { width: space };
 	      if (parent.alignCenter) {
 	        this.mainOffset = -this.$refs.title.getBoundingClientRect().width / 2 + 16 + 'px';
-	      }
-	      isCenter && isLast && this.adjustPosition();
-	    } else {
-	      if (!isLast) {
-	        this.style = { height: space };
 	      }
 	    }
 
@@ -329,7 +343,7 @@ module.exports =
 
 /***/ },
 
-/***/ 287:
+/***/ 288:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

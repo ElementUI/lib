@@ -45,7 +45,7 @@ module.exports =
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(105);
+	module.exports = __webpack_require__(106);
 
 
 /***/ },
@@ -145,27 +145,32 @@ module.exports =
 	module.exports = require("element-ui/lib/input");
 
 /***/ },
-/* 10 */,
+/* 10 */
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/clickoutside");
+
+/***/ },
 /* 11 */,
-/* 12 */
+/* 12 */,
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/scrollbar");
 
 /***/ },
-/* 15 */,
 /* 16 */,
 /* 17 */,
 /* 18 */,
@@ -204,36 +209,36 @@ module.exports =
 /* 51 */,
 /* 52 */,
 /* 53 */,
-/* 54 */
+/* 54 */,
+/* 55 */
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
-/* 55 */,
 /* 56 */,
 /* 57 */,
 /* 58 */,
-/* 59 */
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/clickoutside");
-
-/***/ },
-/* 60 */
+/* 59 */,
+/* 60 */,
+/* 61 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
-/* 61 */,
 /* 62 */
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/locale");
+
+/***/ },
+/* 63 */
 /***/ function(module, exports) {
 
 	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
-/* 63 */,
 /* 64 */,
 /* 65 */,
 /* 66 */,
@@ -275,14 +280,15 @@ module.exports =
 /* 102 */,
 /* 103 */,
 /* 104 */,
-/* 105 */
+/* 105 */,
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _datePicker = __webpack_require__(106);
+	var _datePicker = __webpack_require__(107);
 
 	var _datePicker2 = _interopRequireDefault(_datePicker);
 
@@ -296,22 +302,22 @@ module.exports =
 	exports.default = _datePicker2.default;
 
 /***/ },
-/* 106 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _picker = __webpack_require__(107);
+	var _picker = __webpack_require__(108);
 
 	var _picker2 = _interopRequireDefault(_picker);
 
-	var _date = __webpack_require__(112);
+	var _date = __webpack_require__(113);
 
 	var _date2 = _interopRequireDefault(_date);
 
-	var _dateRange = __webpack_require__(131);
+	var _dateRange = __webpack_require__(132);
 
 	var _dateRange2 = _interopRequireDefault(_dateRange);
 
@@ -354,14 +360,14 @@ module.exports =
 	};
 
 /***/ },
-/* 107 */
+/* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(108),
+	  __webpack_require__(109),
 	  /* template */
-	  __webpack_require__(111),
+	  __webpack_require__(112),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -374,28 +380,28 @@ module.exports =
 
 
 /***/ },
-/* 108 */
+/* 109 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(54);
+	var _vue = __webpack_require__(55);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _clickoutside = __webpack_require__(59);
+	var _clickoutside = __webpack_require__(10);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _util = __webpack_require__(109);
+	var _util = __webpack_require__(110);
 
-	var _vuePopper = __webpack_require__(12);
+	var _vuePopper = __webpack_require__(13);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _emitter = __webpack_require__(13);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -565,7 +571,7 @@ module.exports =
 	};
 	var PLACEMENT_MAP = {
 	  left: 'bottom-start',
-	  center: 'bottom-center',
+	  center: 'bottom',
 	  right: 'bottom-end'
 	};
 
@@ -894,7 +900,7 @@ module.exports =
 	};
 
 /***/ },
-/* 109 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -902,11 +908,31 @@ module.exports =
 	exports.__esModule = true;
 	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDate = exports.toDate = exports.equalDate = undefined;
 
-	var _date = __webpack_require__(110);
+	var _date = __webpack_require__(111);
 
 	var _date2 = _interopRequireDefault(_date);
 
+	var _locale = __webpack_require__(62);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var weeks = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+	var months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+	_date2.default.i18n = {
+	  dayNamesShort: weeks.map(function (week) {
+	    return (0, _locale.t)('el.datepicker.weeks.' + week);
+	  }),
+	  dayNames: weeks.map(function (week) {
+	    return (0, _locale.t)('el.datepicker.weeks.' + week);
+	  }),
+	  monthNamesShort: months.map(function (month) {
+	    return (0, _locale.t)('el.datepicker.months.' + month);
+	  }),
+	  monthNames: months.map(function (month, index) {
+	    return (0, _locale.t)('el.datepicker.month' + (index + 1));
+	  })
+	};
 
 	var newArray = function newArray(start, end) {
 	  var result = [];
@@ -1078,13 +1104,13 @@ module.exports =
 	};
 
 /***/ },
-/* 110 */
+/* 111 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/date");
 
 /***/ },
-/* 111 */
+/* 112 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1133,14 +1159,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 112 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(113),
+	  __webpack_require__(114),
 	  /* template */
-	  __webpack_require__(130),
+	  __webpack_require__(131),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1153,16 +1179,16 @@ module.exports =
 
 
 /***/ },
-/* 113 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(109);
+	var _util = __webpack_require__(110);
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -1170,19 +1196,19 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _time = __webpack_require__(114);
+	var _time = __webpack_require__(115);
 
 	var _time2 = _interopRequireDefault(_time);
 
-	var _yearTable = __webpack_require__(120);
+	var _yearTable = __webpack_require__(121);
 
 	var _yearTable2 = _interopRequireDefault(_yearTable);
 
-	var _monthTable = __webpack_require__(124);
+	var _monthTable = __webpack_require__(125);
 
 	var _monthTable2 = _interopRequireDefault(_monthTable);
 
-	var _dateTable = __webpack_require__(127);
+	var _dateTable = __webpack_require__(128);
 
 	var _dateTable2 = _interopRequireDefault(_dateTable);
 
@@ -1369,6 +1395,7 @@ module.exports =
 	      this.resetDate();
 	    },
 	    confirm: function confirm() {
+	      this.date.setMilliseconds(0);
 	      this.$emit('pick', this.date);
 	    },
 	    resetView: function resetView() {
@@ -1448,10 +1475,10 @@ module.exports =
 
 	    visibleDate: {
 	      get: function get() {
-	        return (0, _util.formatDate)(this.date);
+	        return (0, _util.formatDate)(this.date, this.dateFormat);
 	      },
 	      set: function set(val) {
-	        var date = (0, _util.parseDate)(val, 'yyyy-MM-dd');
+	        var date = (0, _util.parseDate)(val, this.dateFormat);
 	        if (!date) {
 	          return;
 	        }
@@ -1484,6 +1511,13 @@ module.exports =
 	        return 'HH:mm';
 	      } else {
 	        return 'HH:mm:ss';
+	      }
+	    },
+	    dateFormat: function dateFormat() {
+	      if (this.format) {
+	        return this.format.replace('HH:mm', '').replace(':ss', '').trim();
+	      } else {
+	        return 'yyyy-MM-dd';
 	      }
 	    }
 	  }
@@ -1617,14 +1651,14 @@ module.exports =
 	//
 
 /***/ },
-/* 114 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(115),
+	  __webpack_require__(116),
 	  /* template */
-	  __webpack_require__(119),
+	  __webpack_require__(120),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1637,16 +1671,16 @@ module.exports =
 
 
 /***/ },
-/* 115 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(109);
+	var _util = __webpack_require__(110);
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -1689,7 +1723,7 @@ module.exports =
 	  mixins: [_locale2.default],
 
 	  components: {
-	    TimeSpinner: __webpack_require__(116)
+	    TimeSpinner: __webpack_require__(117)
 	  },
 
 	  props: {
@@ -1810,14 +1844,14 @@ module.exports =
 	};
 
 /***/ },
-/* 116 */
+/* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(117),
-	  /* template */
 	  __webpack_require__(118),
+	  /* template */
+	  __webpack_require__(119),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1830,20 +1864,20 @@ module.exports =
 
 
 /***/ },
-/* 117 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(109);
+	var _util = __webpack_require__(110);
 
-	var _scrollbar = __webpack_require__(14);
+	var _scrollbar = __webpack_require__(15);
 
 	var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
-	var _debounce = __webpack_require__(62);
+	var _debounce = __webpack_require__(63);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -2037,7 +2071,7 @@ module.exports =
 	//
 
 /***/ },
-/* 118 */
+/* 119 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2149,7 +2183,7 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 119 */
+/* 120 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2215,14 +2249,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 120 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(121),
+	  __webpack_require__(122),
 	  /* template */
-	  __webpack_require__(123),
+	  __webpack_require__(124),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -2235,14 +2269,14 @@ module.exports =
 
 
 /***/ },
-/* 121 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _dom = __webpack_require__(122);
+	var _dom = __webpack_require__(123);
 
 	exports.default = {
 	  props: {
@@ -2260,10 +2294,27 @@ module.exports =
 	  methods: {
 	    getCellStyle: function getCellStyle(year) {
 	      var style = {};
-	      var date = new Date(this.date);
 
+	      var date = new Date(0);
 	      date.setFullYear(year);
-	      style.disabled = typeof this.disabledDate === 'function' && this.disabledDate(date);
+	      date.setHours(0);
+	      var nextYear = new Date(date);
+	      nextYear.setFullYear(year + 1);
+
+	      var flag = false;
+	      if (typeof this.disabledDate === 'function') {
+
+	        while (date < nextYear) {
+	          if (this.disabledDate(date)) {
+	            date = new Date(date.getTime() + 8.64e7);
+	          } else {
+	            break;
+	          }
+	        }
+	        if (date - nextYear === 0) flag = true;
+	      }
+
+	      style.disabled = flag;
 	      style.current = Number(this.year) === year;
 
 	      return style;
@@ -2330,13 +2381,13 @@ module.exports =
 	//
 
 /***/ },
-/* 122 */
+/* 123 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
-/* 123 */
+/* 124 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2399,14 +2450,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 124 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(125),
-	  /* template */
 	  __webpack_require__(126),
+	  /* template */
+	  __webpack_require__(127),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -2419,18 +2470,18 @@ module.exports =
 
 
 /***/ },
-/* 125 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _dom = __webpack_require__(122);
+	var _dom = __webpack_require__(123);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2496,10 +2547,29 @@ module.exports =
 	  methods: {
 	    getCellStyle: function getCellStyle(month) {
 	      var style = {};
-	      var date = new Date(this.date);
 
+	      var year = this.date.getFullYear();
+	      var date = new Date(0);
+	      date.setFullYear(year);
 	      date.setMonth(month);
-	      style.disabled = typeof this.disabledDate === 'function' && this.disabledDate(date);
+	      date.setHours(0);
+	      var nextMonth = new Date(date);
+	      nextMonth.setMonth(month + 1);
+
+	      var flag = false;
+	      if (typeof this.disabledDate === 'function') {
+
+	        while (date < nextMonth) {
+	          if (this.disabledDate(date)) {
+	            date = new Date(date.getTime() + 8.64e7);
+	          } else {
+	            break;
+	          }
+	        }
+	        if (date - nextMonth === 0) flag = true;
+	      }
+
+	      style.disabled = flag;
 	      style.current = this.month === month;
 
 	      return style;
@@ -2518,7 +2588,7 @@ module.exports =
 	};
 
 /***/ },
-/* 126 */
+/* 127 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2579,14 +2649,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 127 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(128),
-	  /* template */
 	  __webpack_require__(129),
+	  /* template */
+	  __webpack_require__(130),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -2599,18 +2669,18 @@ module.exports =
 
 
 /***/ },
-/* 128 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(109);
+	var _util = __webpack_require__(110);
 
-	var _dom = __webpack_require__(122);
+	var _dom = __webpack_require__(123);
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -3052,7 +3122,7 @@ module.exports =
 	};
 
 /***/ },
-/* 129 */
+/* 130 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -3089,7 +3159,7 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 130 */
+/* 131 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -3333,14 +3403,14 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 131 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(132),
-	  /* template */
 	  __webpack_require__(133),
+	  /* template */
+	  __webpack_require__(134),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -3353,24 +3423,24 @@ module.exports =
 
 
 /***/ },
-/* 132 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(109);
+	var _util = __webpack_require__(110);
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _time = __webpack_require__(114);
+	var _time = __webpack_require__(115);
 
 	var _time2 = _interopRequireDefault(_time);
 
-	var _dateTable = __webpack_require__(127);
+	var _dateTable = __webpack_require__(128);
 
 	var _dateTable2 = _interopRequireDefault(_dateTable);
 
@@ -3822,7 +3892,7 @@ module.exports =
 	//
 
 /***/ },
-/* 133 */
+/* 134 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

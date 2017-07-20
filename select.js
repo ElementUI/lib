@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(263);
+	module.exports = __webpack_require__(264);
 
 
 /***/ },
@@ -142,77 +142,84 @@ module.exports =
 
 /***/ },
 
-/***/ 12:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/vue-popper");
-
-/***/ },
-
-/***/ 13:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/mixins/emitter");
-
-/***/ },
-
-/***/ 14:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/scrollbar");
-
-/***/ },
-
-/***/ 45:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/resize-event");
-
-/***/ },
-
-/***/ 59:
+/***/ 10:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ },
 
+/***/ 13:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/vue-popper");
+
+/***/ },
+
+/***/ 14:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ },
+
+/***/ 15:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/scrollbar");
+
+/***/ },
+
+/***/ 46:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/resize-event");
+
+/***/ },
+
 /***/ 60:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/mixins/locale");
+	module.exports = require("element-ui/lib/utils/scroll-into-view");
 
 /***/ },
 
 /***/ 61:
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/locale");
+	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
 /***/ 62:
 /***/ function(module, exports) {
 
+	module.exports = require("element-ui/lib/locale");
+
+/***/ },
+
+/***/ 63:
+/***/ function(module, exports) {
+
 	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
 
-/***/ 122:
+/***/ 123:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 216:
+/***/ 217:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(217),
-	  /* template */
 	  __webpack_require__(218),
+	  /* template */
+	  __webpack_require__(220),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -226,16 +233,36 @@ module.exports =
 
 /***/ },
 
-/***/ 217:
+/***/ 218:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(13);
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
+
+	var _util = __webpack_require__(219);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -269,8 +296,12 @@ module.exports =
 
 
 	  computed: {
+	    isObject: function isObject() {
+	      var type = _typeof(this.value);
+	      return type !== 'string' && type !== 'number' && type !== 'boolean';
+	    },
 	    currentLabel: function currentLabel() {
-	      return this.label || (typeof this.value === 'string' || typeof this.value === 'number' ? this.value : '');
+	      return this.label || (this.isObject ? '' : this.value);
 	    },
 	    currentValue: function currentValue() {
 	      return this.value || this.label || '';
@@ -284,9 +315,9 @@ module.exports =
 	    },
 	    itemSelected: function itemSelected() {
 	      if (!this.parent.multiple) {
-	        return this.value === this.parent.value;
+	        return this.isEqual(this.value, this.parent.value);
 	      } else {
-	        return this.parent.value.indexOf(this.value) > -1;
+	        return this.contains(this.parent.value, this.value);
 	      }
 	    },
 	    limitReached: function limitReached() {
@@ -308,6 +339,35 @@ module.exports =
 	  },
 
 	  methods: {
+	    isEqual: function isEqual(a, b) {
+	      if (!this.isObject) {
+	        return a === b;
+	      } else {
+	        var valueKey = this.parent.valueKey;
+	        return (0, _util.getValueByPath)(a, valueKey) === (0, _util.getValueByPath)(b, valueKey);
+	      }
+	    },
+	    contains: function contains() {
+	      var _this = this;
+
+	      var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	      var target = arguments[1];
+
+	      if (!this.isObject) {
+	        return arr.indexOf(target) > -1;
+	      } else {
+	        var _ret = function () {
+	          var valueKey = _this.parent.valueKey;
+	          return {
+	            v: arr.some(function (item) {
+	              return (0, _util.getValueByPath)(item, valueKey) === (0, _util.getValueByPath)(target, valueKey);
+	            })
+	          };
+	        }();
+
+	        if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+	      }
+	    },
 	    handleGroupDisabled: function handleGroupDisabled(val) {
 	      this.groupDisabled = val;
 	    },
@@ -330,10 +390,10 @@ module.exports =
 	      }
 	    },
 	    resetIndex: function resetIndex() {
-	      var _this = this;
+	      var _this2 = this;
 
 	      this.$nextTick(function () {
-	        _this.index = _this.parent.options.indexOf(_this);
+	        _this2.index = _this2.parent.options.indexOf(_this2);
 	      });
 	    }
 	  },
@@ -352,27 +412,18 @@ module.exports =
 	  beforeDestroy: function beforeDestroy() {
 	    this.dispatch('ElSelect', 'onOptionDestroy', this);
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 
-/***/ 218:
+/***/ 219:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/util");
+
+/***/ },
+
+/***/ 220:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -401,14 +452,14 @@ module.exports =
 
 /***/ },
 
-/***/ 263:
+/***/ 264:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _select = __webpack_require__(264);
+	var _select = __webpack_require__(265);
 
 	var _select2 = _interopRequireDefault(_select);
 
@@ -423,14 +474,14 @@ module.exports =
 
 /***/ },
 
-/***/ 264:
+/***/ 265:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(265),
+	  __webpack_require__(266),
 	  /* template */
-	  __webpack_require__(270),
+	  __webpack_require__(271),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -444,18 +495,111 @@ module.exports =
 
 /***/ },
 
-/***/ 265:
+/***/ 266:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(13);
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -463,130 +607,43 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _selectDropdown = __webpack_require__(266);
+	var _selectDropdown = __webpack_require__(267);
 
 	var _selectDropdown2 = _interopRequireDefault(_selectDropdown);
 
-	var _option = __webpack_require__(216);
+	var _option = __webpack_require__(217);
 
 	var _option2 = _interopRequireDefault(_option);
 
-	var _tag = __webpack_require__(269);
+	var _tag = __webpack_require__(270);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _scrollbar = __webpack_require__(14);
+	var _scrollbar = __webpack_require__(15);
 
 	var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
-	var _debounce = __webpack_require__(62);
+	var _debounce = __webpack_require__(63);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _clickoutside = __webpack_require__(59);
+	var _clickoutside = __webpack_require__(10);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _dom = __webpack_require__(122);
+	var _dom = __webpack_require__(123);
 
-	var _resizeEvent = __webpack_require__(45);
+	var _resizeEvent = __webpack_require__(46);
 
-	var _locale3 = __webpack_require__(61);
+	var _locale3 = __webpack_require__(62);
+
+	var _scrollIntoView = __webpack_require__(60);
+
+	var _scrollIntoView2 = _interopRequireDefault(_scrollIntoView);
+
+	var _util = __webpack_require__(219);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	var sizeMap = {
 	  'large': 42,
@@ -674,7 +731,11 @@ module.exports =
 	        return (0, _locale3.t)('el.select.placeholder');
 	      }
 	    },
-	    defaultFirstOption: Boolean
+	    defaultFirstOption: Boolean,
+	    valueKey: {
+	      type: String,
+	      default: 'value'
+	    }
 	  },
 
 	  data: function data() {
@@ -690,13 +751,10 @@ module.exports =
 	      cachedPlaceHolder: '',
 	      optionsCount: 0,
 	      filteredOptionsCount: 0,
-	      dropdownUl: null,
 	      visible: false,
 	      selectedLabel: '',
 	      hoverIndex: -1,
 	      query: '',
-	      bottomOverflow: 0,
-	      topOverflow: 0,
 	      optionsAllDisabled: false,
 	      inputHovering: false,
 	      currentPlaceholder: ''
@@ -772,7 +830,6 @@ module.exports =
 	          }
 	        });
 	        if (!this.multiple) {
-	          this.getOverflows();
 	          if (this.selected) {
 	            if (this.filterable && this.allowCreate && this.createdSelected && this.createdOption) {
 	              this.selectedLabel = this.createdLabel;
@@ -831,41 +888,33 @@ module.exports =
 	        (0, _dom.addClass)(icon, 'is-reverse');
 	      }
 	    },
+	    scrollToOption: function scrollToOption() {
+	      var className = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'selected';
+
+	      var menu = this.$refs.popper.$el.querySelector('.el-select-dropdown__wrap');
+	      (0, _scrollIntoView2.default)(menu, menu.getElementsByClassName(className)[0]);
+	    },
 	    handleMenuEnter: function handleMenuEnter() {
-	      if (!this.dropdownUl) {
-	        this.dropdownUl = this.$refs.popper.$el.querySelector('.el-select-dropdown__wrap');
-	        this.getOverflows();
-	      }
-	      if (!this.multiple && this.dropdownUl) {
-	        this.resetMenuScroll();
-	      }
-	    },
-	    getOverflows: function getOverflows() {
-	      if (this.dropdownUl && this.selected && this.selected.$el) {
-	        var selectedRect = this.selected.$el.getBoundingClientRect();
-	        var popperRect = this.$refs.popper.$el.getBoundingClientRect();
-	        this.bottomOverflow = selectedRect.bottom - popperRect.bottom;
-	        this.topOverflow = selectedRect.top - popperRect.top;
-	      }
-	    },
-	    resetMenuScroll: function resetMenuScroll() {
-	      if (this.bottomOverflow > 0) {
-	        this.dropdownUl.scrollTop += this.bottomOverflow;
-	      } else if (this.topOverflow < 0) {
-	        this.dropdownUl.scrollTop += this.topOverflow;
-	      }
+	      var _this4 = this;
+
+	      this.$nextTick(function () {
+	        return _this4.scrollToOption();
+	      });
 	    },
 	    getOption: function getOption(value) {
 	      var option = void 0;
+	      var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
+	      var isObject = type !== 'string' && type !== 'number' && type !== 'boolean';
 	      for (var i = this.cachedOptions.length - 1; i >= 0; i--) {
 	        var cachedOption = this.cachedOptions[i];
-	        if (cachedOption.value === value) {
+	        var isEqual = isObject ? (0, _util.getValueByPath)(cachedOption.value, this.valueKey) === (0, _util.getValueByPath)(value, this.valueKey) : cachedOption.value === value;
+	        if (isEqual) {
 	          option = cachedOption;
 	          break;
 	        }
 	      }
 	      if (option) return option;
-	      var label = typeof value === 'string' || typeof value === 'number' ? value : '';
+	      var label = !isObject ? value : '';
 	      var newOption = {
 	        value: value,
 	        currentLabel: label
@@ -876,7 +925,7 @@ module.exports =
 	      return newOption;
 	    },
 	    setSelected: function setSelected() {
-	      var _this4 = this;
+	      var _this5 = this;
 
 	      if (!this.multiple) {
 	        var option = this.getOption(this.value);
@@ -894,12 +943,12 @@ module.exports =
 	      var result = [];
 	      if (Array.isArray(this.value)) {
 	        this.value.forEach(function (value) {
-	          result.push(_this4.getOption(value));
+	          result.push(_this5.getOption(value));
 	        });
 	      }
 	      this.selected = result;
 	      this.$nextTick(function () {
-	        _this4.resetInputHeight();
+	        _this5.resetInputHeight();
 	      });
 	    },
 	    handleFocus: function handleFocus() {
@@ -921,6 +970,7 @@ module.exports =
 	    },
 	    doDestroy: function doDestroy() {
 	      this.$refs.popper && this.$refs.popper.doDestroy();
+	      this.dropdownUl = null;
 	    },
 	    handleClose: function handleClose() {
 	      this.visible = false;
@@ -956,41 +1006,43 @@ module.exports =
 	      this.resetInputHeight();
 	    },
 	    resetInputHeight: function resetInputHeight() {
-	      var _this5 = this;
+	      var _this6 = this;
 
 	      this.$nextTick(function () {
-	        if (!_this5.$refs.reference) return;
-	        var inputChildNodes = _this5.$refs.reference.$el.childNodes;
+	        if (!_this6.$refs.reference) return;
+	        var inputChildNodes = _this6.$refs.reference.$el.childNodes;
 	        var input = [].filter.call(inputChildNodes, function (item) {
 	          return item.tagName === 'INPUT';
 	        })[0];
-	        input.style.height = Math.max(_this5.$refs.tags.clientHeight + 6, sizeMap[_this5.size] || 36) + 'px';
-	        if (_this5.visible && _this5.emptyText !== false) {
-	          _this5.broadcast('ElSelectDropdown', 'updatePopper');
+	        input.style.height = Math.max(_this6.$refs.tags.clientHeight + 6, sizeMap[_this6.size] || 36) + 'px';
+	        if (_this6.visible && _this6.emptyText !== false) {
+	          _this6.broadcast('ElSelectDropdown', 'updatePopper');
 	        }
 	      });
 	    },
 	    resetHoverIndex: function resetHoverIndex() {
-	      var _this6 = this;
+	      var _this7 = this;
 
 	      setTimeout(function () {
-	        if (!_this6.multiple) {
-	          _this6.hoverIndex = _this6.options.indexOf(_this6.selected);
+	        if (!_this7.multiple) {
+	          _this7.hoverIndex = _this7.options.indexOf(_this7.selected);
 	        } else {
-	          if (_this6.selected.length > 0) {
-	            _this6.hoverIndex = Math.min.apply(null, _this6.selected.map(function (item) {
-	              return _this6.options.indexOf(item);
+	          if (_this7.selected.length > 0) {
+	            _this7.hoverIndex = Math.min.apply(null, _this7.selected.map(function (item) {
+	              return _this7.options.indexOf(item);
 	            }));
 	          } else {
-	            _this6.hoverIndex = -1;
+	            _this7.hoverIndex = -1;
 	          }
 	        }
 	      }, 300);
 	    },
 	    handleOptionSelect: function handleOptionSelect(option) {
+	      var _this8 = this;
+
 	      if (this.multiple) {
 	        var value = this.value.slice();
-	        var optionIndex = value.indexOf(option.value);
+	        var optionIndex = this.getValueIndex(value, option.value);
 	        if (optionIndex > -1) {
 	          value.splice(optionIndex, 1);
 	        } else if (this.multipleLimit <= 0 || value.length < this.multipleLimit) {
@@ -1006,6 +1058,38 @@ module.exports =
 	        this.$emit('input', option.value);
 	        this.visible = false;
 	      }
+	      this.$nextTick(function () {
+	        return _this8.scrollToOption();
+	      });
+	    },
+	    getValueIndex: function getValueIndex() {
+	      var _this9 = this;
+
+	      var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	      var value = arguments[1];
+
+	      var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
+	      var isObject = type !== 'string' && type !== 'number' && type !== 'boolean';
+	      if (!isObject) {
+	        return arr.indexOf(value);
+	      } else {
+	        var _ret = function () {
+	          var valueKey = _this9.valueKey;
+	          var index = -1;
+	          arr.some(function (item, i) {
+	            if ((0, _util.getValueByPath)(item, valueKey) === (0, _util.getValueByPath)(value, valueKey)) {
+	              index = i;
+	              return true;
+	            }
+	            return false;
+	          });
+	          return {
+	            v: index
+	          };
+	        }();
+
+	        if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+	      }
 	    },
 	    toggleMenu: function toggleMenu() {
 	      if (this.filterable && this.query === '' && this.visible) {
@@ -1016,6 +1100,8 @@ module.exports =
 	      }
 	    },
 	    navigateOptions: function navigateOptions(direction) {
+	      var _this10 = this;
+
 	      if (!this.visible) {
 	        this.visible = true;
 	        return;
@@ -1030,7 +1116,6 @@ module.exports =
 	          if (this.hoverIndex === this.options.length) {
 	            this.hoverIndex = 0;
 	          }
-	          this.resetScrollTop();
 	          if (this.options[this.hoverIndex].disabled === true || this.options[this.hoverIndex].groupDisabled === true || !this.options[this.hoverIndex].visible) {
 	            this.navigateOptions('next');
 	          }
@@ -1040,22 +1125,14 @@ module.exports =
 	          if (this.hoverIndex < 0) {
 	            this.hoverIndex = this.options.length - 1;
 	          }
-	          this.resetScrollTop();
 	          if (this.options[this.hoverIndex].disabled === true || this.options[this.hoverIndex].groupDisabled === true || !this.options[this.hoverIndex].visible) {
 	            this.navigateOptions('prev');
 	          }
 	        }
 	      }
-	    },
-	    resetScrollTop: function resetScrollTop() {
-	      var bottomOverflowDistance = this.options[this.hoverIndex].$el.getBoundingClientRect().bottom - this.$refs.popper.$el.getBoundingClientRect().bottom;
-	      var topOverflowDistance = this.options[this.hoverIndex].$el.getBoundingClientRect().top - this.$refs.popper.$el.getBoundingClientRect().top;
-	      if (bottomOverflowDistance > 0) {
-	        this.dropdownUl.scrollTop += bottomOverflowDistance;
-	      }
-	      if (topOverflowDistance < 0) {
-	        this.dropdownUl.scrollTop += topOverflowDistance;
-	      }
+	      this.$nextTick(function () {
+	        return _this10.scrollToOption('hover');
+	      });
 	    },
 	    selectOption: function selectOption() {
 	      if (this.options[this.hoverIndex]) {
@@ -1117,11 +1194,19 @@ module.exports =
 	          }
 	        }
 	      }
+	    },
+	    getValueKey: function getValueKey(item) {
+	      var type = _typeof(item.value);
+	      if (type === 'number' || type === 'string') {
+	        return item.value;
+	      } else {
+	        return (0, _util.getValueByPath)(item.value, this.valueKey);
+	      }
 	    }
 	  },
 
 	  created: function created() {
-	    var _this7 = this;
+	    var _this11 = this;
 
 	    this.cachedPlaceHolder = this.currentPlaceholder = this.placeholder;
 	    if (this.multiple && !Array.isArray(this.value)) {
@@ -1133,7 +1218,7 @@ module.exports =
 	    this.setSelected();
 
 	    this.debouncedOnInputChange = (0, _debounce2.default)(this.debounce, function () {
-	      _this7.onInputChange();
+	      _this11.onInputChange();
 	    });
 
 	    this.$on('handleOptionClick', this.handleOptionSelect);
@@ -1141,7 +1226,7 @@ module.exports =
 	    this.$on('setSelected', this.setSelected);
 	  },
 	  mounted: function mounted() {
-	    var _this8 = this;
+	    var _this12 = this;
 
 	    if (this.multiple && Array.isArray(this.value) && this.value.length > 0) {
 	      this.currentPlaceholder = '';
@@ -1151,8 +1236,8 @@ module.exports =
 	      this.resetInputHeight();
 	    }
 	    this.$nextTick(function () {
-	      if (_this8.$refs.reference && _this8.$refs.reference.$el) {
-	        _this8.inputWidth = _this8.$refs.reference.$el.getBoundingClientRect().width;
+	      if (_this12.$refs.reference && _this12.$refs.reference.$el) {
+	        _this12.inputWidth = _this12.$refs.reference.$el.getBoundingClientRect().width;
 	      }
 	    });
 	  },
@@ -1163,14 +1248,14 @@ module.exports =
 
 /***/ },
 
-/***/ 266:
+/***/ 267:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(267),
-	  /* template */
 	  __webpack_require__(268),
+	  /* template */
+	  __webpack_require__(269),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1184,14 +1269,14 @@ module.exports =
 
 /***/ },
 
-/***/ 267:
+/***/ 268:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(12);
+	var _vuePopper = __webpack_require__(13);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -1264,7 +1349,7 @@ module.exports =
 
 /***/ },
 
-/***/ 268:
+/***/ 269:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1281,14 +1366,14 @@ module.exports =
 
 /***/ },
 
-/***/ 269:
+/***/ 270:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 270:
+/***/ 271:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1318,7 +1403,7 @@ module.exports =
 	    }
 	  }, _vm._l((_vm.selected), function(item) {
 	    return _c('el-tag', {
-	      key: item.value,
+	      key: _vm.getValueKey(item),
 	      attrs: {
 	        "closable": "",
 	        "hit": item.hitState,
@@ -1452,8 +1537,8 @@ module.exports =
 	      "name": "el-zoom-in-top"
 	    },
 	    on: {
-	      "after-leave": _vm.doDestroy,
-	      "after-enter": _vm.handleMenuEnter
+	      "before-enter": _vm.handleMenuEnter,
+	      "after-leave": _vm.doDestroy
 	    }
 	  }, [_c('el-select-menu', {
 	    directives: [{

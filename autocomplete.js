@@ -164,7 +164,7 @@ module.exports =
 	  /* script */
 	  __webpack_require__(8),
 	  /* template */
-	  __webpack_require__(16),
+	  __webpack_require__(17),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -188,15 +188,56 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _autocompleteSuggestions = __webpack_require__(10);
+	var _clickoutside = __webpack_require__(10);
+
+	var _clickoutside2 = _interopRequireDefault(_clickoutside);
+
+	var _autocompleteSuggestions = __webpack_require__(11);
 
 	var _autocompleteSuggestions2 = _interopRequireDefault(_autocompleteSuggestions);
 
-	var _emitter = __webpack_require__(13);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElAutocomplete',
@@ -209,6 +250,8 @@ module.exports =
 	    ElInput: _input2.default,
 	    ElAutocompleteSuggestions: _autocompleteSuggestions2.default
 	  },
+
+	  directives: { Clickoutside: _clickoutside2.default },
 
 	  props: {
 	    props: {
@@ -238,7 +281,7 @@ module.exports =
 	  },
 	  data: function data() {
 	    return {
-	      isFocus: false,
+	      activated: false,
 	      isOnComposition: false,
 	      suggestions: [],
 	      loading: false,
@@ -250,7 +293,7 @@ module.exports =
 	    suggestionVisible: function suggestionVisible() {
 	      var suggestions = this.suggestions;
 	      var isValidData = Array.isArray(suggestions) && suggestions.length > 0;
-	      return (isValidData || this.loading) && this.isFocus;
+	      return (isValidData || this.loading) && this.activated;
 	    }
 	  },
 	  watch: {
@@ -289,18 +332,13 @@ module.exports =
 	      this.getData(value);
 	    },
 	    handleFocus: function handleFocus() {
-	      this.isFocus = true;
+	      this.activated = true;
 	      if (this.triggerOnFocus) {
 	        this.getData(this.value);
 	      }
 	    },
-	    handleBlur: function handleBlur() {
-	      var _this2 = this;
-
-	      // 因为 blur 事件处理优先于 select 事件执行
-	      setTimeout(function (_) {
-	        _this2.isFocus = false;
-	      }, 100);
+	    close: function close(e) {
+	      this.activated = false;
 	    },
 	    handleKeyEnter: function handleKeyEnter() {
 	      if (this.suggestionVisible && this.highlightedIndex >= 0 && this.highlightedIndex < this.suggestions.length) {
@@ -308,12 +346,12 @@ module.exports =
 	      }
 	    },
 	    select: function select(item) {
-	      var _this3 = this;
+	      var _this2 = this;
 
 	      this.$emit('input', item[this.props.value]);
 	      this.$emit('select', item);
 	      this.$nextTick(function (_) {
-	        _this3.suggestions = [];
+	        _this2.suggestions = [];
 	      });
 	    },
 	    highlight: function highlight(index) {
@@ -342,52 +380,16 @@ module.exports =
 	    }
 	  },
 	  mounted: function mounted() {
-	    var _this4 = this;
+	    var _this3 = this;
 
 	    this.$on('item-click', function (item) {
-	      _this4.select(item);
+	      _this3.select(item);
 	    });
 	  },
 	  beforeDestroy: function beforeDestroy() {
 	    this.$refs.suggestions.$destroy();
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 /* 9 */
@@ -397,13 +399,19 @@ module.exports =
 
 /***/ },
 /* 10 */
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/clickoutside");
+
+/***/ },
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(11),
+	  __webpack_require__(12),
 	  /* template */
-	  __webpack_require__(15),
+	  __webpack_require__(16),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -416,22 +424,22 @@ module.exports =
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(12);
+	var _vuePopper = __webpack_require__(13);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _emitter = __webpack_require__(13);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _scrollbar = __webpack_require__(14);
+	var _scrollbar = __webpack_require__(15);
 
 	var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
@@ -478,7 +486,7 @@ module.exports =
 	    });
 	  },
 	  mounted: function mounted() {
-	    this.popperElm = this.$el;
+	    this.$parent.popperElm = this.popperElm = this.$el;
 	    this.referenceElm = this.$parent.$refs.input.$refs.input;
 	  },
 	  created: function created() {
@@ -526,25 +534,25 @@ module.exports =
 	//
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/scrollbar");
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -606,11 +614,17 @@ module.exports =
 	},staticRenderFns: []}
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
+	    directives: [{
+	      name: "clickoutside",
+	      rawName: "v-clickoutside",
+	      value: (_vm.close),
+	      expression: "close"
+	    }],
 	    staticClass: "el-autocomplete"
 	  }, [_c('el-input', {
 	    ref: "input",
@@ -625,8 +639,7 @@ module.exports =
 	    },
 	    on: {
 	      "change": _vm.handleChange,
-	      "focus": _vm.handleFocus,
-	      "blur": _vm.handleBlur
+	      "focus": _vm.handleFocus
 	    },
 	    nativeOn: {
 	      "compositionstart": function($event) {

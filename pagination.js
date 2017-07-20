@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(223);
+	module.exports = __webpack_require__(225);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 60:
+/***/ 61:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 223:
+/***/ 225:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _pagination = __webpack_require__(224);
+	var _pagination = __webpack_require__(226);
 
 	var _pagination2 = _interopRequireDefault(_pagination);
 
@@ -164,26 +164,26 @@ module.exports =
 
 /***/ },
 
-/***/ 224:
+/***/ 226:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _pager = __webpack_require__(225);
+	var _pager = __webpack_require__(227);
 
 	var _pager2 = _interopRequireDefault(_pager);
 
-	var _select = __webpack_require__(228);
+	var _select = __webpack_require__(230);
 
 	var _select2 = _interopRequireDefault(_select);
 
-	var _option = __webpack_require__(229);
+	var _option = __webpack_require__(231);
 
 	var _option2 = _interopRequireDefault(_option);
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -597,14 +597,14 @@ module.exports =
 
 /***/ },
 
-/***/ 225:
+/***/ 227:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(226),
+	  __webpack_require__(228),
 	  /* template */
-	  __webpack_require__(227),
+	  __webpack_require__(229),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -618,7 +618,7 @@ module.exports =
 
 /***/ },
 
-/***/ 226:
+/***/ 228:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -721,11 +721,11 @@ module.exports =
 	      var showNextMore = false;
 
 	      if (pageCount > pagerCount) {
-	        if (currentPage > pagerCount - 2) {
+	        if (currentPage > pagerCount - 3) {
 	          showPrevMore = true;
 	        }
 
-	        if (currentPage < pageCount - 2) {
+	        if (currentPage < pageCount - 3) {
 	          showNextMore = true;
 	        }
 	      }
@@ -772,7 +772,7 @@ module.exports =
 
 /***/ },
 
-/***/ 227:
+/***/ 229:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -825,14 +825,14 @@ module.exports =
 
 /***/ },
 
-/***/ 228:
+/***/ 230:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/select");
 
 /***/ },
 
-/***/ 229:
+/***/ 231:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/option");

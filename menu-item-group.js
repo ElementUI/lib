@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(190);
+	module.exports = __webpack_require__(191);
 
 
 /***/ },
@@ -135,14 +135,14 @@ module.exports =
 
 /***/ },
 
-/***/ 190:
+/***/ 191:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _menuItemGroup = __webpack_require__(191);
+	var _menuItemGroup = __webpack_require__(192);
 
 	var _menuItemGroup2 = _interopRequireDefault(_menuItemGroup);
 
@@ -157,14 +157,14 @@ module.exports =
 
 /***/ },
 
-/***/ 191:
+/***/ 192:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(192),
-	  /* template */
 	  __webpack_require__(193),
+	  /* template */
+	  __webpack_require__(194),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -178,7 +178,7 @@ module.exports =
 
 /***/ },
 
-/***/ 192:
+/***/ 193:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -201,6 +201,7 @@ module.exports =
 
 	  componentName: 'ElMenuItemGroup',
 
+	  inject: ['rootMenu'],
 	  props: {
 	    title: {
 	      type: String
@@ -216,6 +217,7 @@ module.exports =
 	    levelPadding: function levelPadding() {
 	      var padding = 10;
 	      var parent = this.$parent;
+	      if (this.rootMenu.collapse) return 20;
 	      while (parent && parent.$options.componentName !== 'ElMenu') {
 	        if (parent.$options.componentName === 'ElSubmenu') {
 	          padding += 20;
@@ -230,7 +232,7 @@ module.exports =
 
 /***/ },
 
-/***/ 193:
+/***/ 194:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

@@ -46,144 +46,47 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(320);
+	module.exports = __webpack_require__(321);
 
 
 /***/ },
 
-/***/ 169:
+/***/ 170:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 269:
+/***/ 219:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/util");
+
+/***/ },
+
+/***/ 270:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 307:
+/***/ 308:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 309:
-/***/ function(module, exports) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-	var getCell = exports.getCell = function getCell(event) {
-	  var cell = event.target;
-
-	  while (cell && cell.tagName.toUpperCase() !== 'HTML') {
-	    if (cell.tagName.toUpperCase() === 'TD') {
-	      return cell;
-	    }
-	    cell = cell.parentNode;
-	  }
-
-	  return null;
-	};
-
-	var getValueByPath = exports.getValueByPath = function getValueByPath(object, prop) {
-	  prop = prop || '';
-	  var paths = prop.split('.');
-	  var current = object;
-	  var result = null;
-	  for (var i = 0, j = paths.length; i < j; i++) {
-	    var path = paths[i];
-	    if (!current) break;
-
-	    if (i === j - 1) {
-	      result = current[path];
-	      break;
-	    }
-	    current = current[path];
-	  }
-	  return result;
-	};
-
-	var isObject = function isObject(obj) {
-	  return obj !== null && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object';
-	};
-
-	var orderBy = exports.orderBy = function orderBy(array, sortKey, reverse, sortMethod) {
-	  if (typeof reverse === 'string') {
-	    reverse = reverse === 'descending' ? -1 : 1;
-	  }
-	  if (!sortKey) {
-	    return array;
-	  }
-	  var order = reverse && reverse < 0 ? -1 : 1;
-
-	  // sort on a copy to avoid mutating original array
-	  return array.slice().sort(sortMethod ? function (a, b) {
-	    return sortMethod(a, b) ? order : -order;
-	  } : function (a, b) {
-	    if (sortKey !== '$key') {
-	      if (isObject(a) && '$value' in a) a = a.$value;
-	      if (isObject(b) && '$value' in b) b = b.$value;
-	    }
-	    a = isObject(a) ? getValueByPath(a, sortKey) : a;
-	    b = isObject(b) ? getValueByPath(b, sortKey) : b;
-	    return a === b ? 0 : a > b ? order : -order;
-	  });
-	};
-
-	var getColumnById = exports.getColumnById = function getColumnById(table, columnId) {
-	  var column = null;
-	  table.columns.forEach(function (item) {
-	    if (item.id === columnId) {
-	      column = item;
-	    }
-	  });
-	  return column;
-	};
-
-	var getColumnByCell = exports.getColumnByCell = function getColumnByCell(table, cell) {
-	  var matches = (cell.className || '').match(/el-table_[^\s]+/gm);
-	  if (matches) {
-	    return getColumnById(table, matches[0]);
-	  }
-	  return null;
-	};
-
-	var isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-
-	var mousewheel = exports.mousewheel = function mousewheel(element, callback) {
-	  if (element && element.addEventListener) {
-	    element.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', callback);
-	  }
-	};
-
-	var getRowIdentity = exports.getRowIdentity = function getRowIdentity(row, rowKey) {
-	  if (!row) throw new Error('row is required when get row identity');
-	  if (typeof rowKey === 'string') {
-	    return row[rowKey];
-	  } else if (typeof rowKey === 'function') {
-	    return rowKey.call(null, row);
-	  }
-	};
-
-/***/ },
-
-/***/ 320:
+/***/ 321:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tableColumn = __webpack_require__(321);
+	var _tableColumn = __webpack_require__(322);
 
 	var _tableColumn2 = _interopRequireDefault(_tableColumn);
 
@@ -198,26 +101,26 @@ module.exports =
 
 /***/ },
 
-/***/ 321:
+/***/ 322:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(307);
+	var _checkbox = __webpack_require__(308);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(269);
+	var _tag = __webpack_require__(270);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _merge = __webpack_require__(169);
+	var _merge = __webpack_require__(170);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
-	var _util = __webpack_require__(309);
+	var _util = __webpack_require__(219);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -368,15 +271,11 @@ module.exports =
 	      column = _ref6.column;
 
 	  var property = column.property;
+	  var value = property && property.indexOf('.') === -1 ? row[property] : (0, _util.getValueByPath)(row, property);
 	  if (column && column.formatter) {
-	    return column.formatter(row, column);
+	    return column.formatter(row, column, value);
 	  }
-
-	  if (property && property.indexOf('.') === -1) {
-	    return row[property];
-	  }
-
-	  return (0, _util.getValueByPath)(row, property);
+	  return value;
 	};
 
 	exports.default = {

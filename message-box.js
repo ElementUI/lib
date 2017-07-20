@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(204);
+	module.exports = __webpack_require__(206);
 
 
 /***/ },
@@ -142,63 +142,70 @@ module.exports =
 
 /***/ },
 
-/***/ 54:
+/***/ 55:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 60:
+/***/ 61:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 61:
+/***/ 62:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 122:
+/***/ 123:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 137:
+/***/ 138:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/popup");
 
 /***/ },
 
-/***/ 142:
+/***/ 143:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/button");
 
 /***/ },
 
-/***/ 169:
+/***/ 170:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 204:
+/***/ 197:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/vdom");
+
+/***/ },
+
+/***/ 206:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(205);
+	var _main = __webpack_require__(207);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -208,7 +215,7 @@ module.exports =
 
 /***/ },
 
-/***/ 205:
+/***/ 207:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -218,19 +225,19 @@ module.exports =
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var _vue = __webpack_require__(54);
+	var _vue = __webpack_require__(55);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _main = __webpack_require__(206);
+	var _main = __webpack_require__(208);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _merge = __webpack_require__(169);
+	var _merge = __webpack_require__(170);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
-	var _vdom = __webpack_require__(209);
+	var _vdom = __webpack_require__(197);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -279,19 +286,14 @@ module.exports =
 	      }
 	    }
 	    if (currentMsg.resolve) {
-	      var $type = currentMsg.options.$type;
-	      if ($type === 'confirm' || $type === 'prompt') {
-	        if (action === 'confirm') {
-	          if (instance.showInput) {
-	            currentMsg.resolve({ value: instance.inputValue, action: action });
-	          } else {
-	            currentMsg.resolve(action);
-	          }
-	        } else if (action === 'cancel' && currentMsg.reject) {
-	          currentMsg.reject(action);
+	      if (action === 'confirm') {
+	        if (instance.showInput) {
+	          currentMsg.resolve({ value: instance.inputValue, action: action });
+	        } else {
+	          currentMsg.resolve(action);
 	        }
-	      } else {
-	        currentMsg.resolve(action);
+	      } else if (action === 'cancel' && currentMsg.reject) {
+	        currentMsg.reject(action);
 	      }
 	    }
 	  }
@@ -446,14 +448,14 @@ module.exports =
 
 /***/ },
 
-/***/ 206:
+/***/ 208:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(207),
+	  __webpack_require__(209),
 	  /* template */
-	  __webpack_require__(208),
+	  __webpack_require__(210),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -467,18 +469,18 @@ module.exports =
 
 /***/ },
 
-/***/ 207:
+/***/ 209:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _popup = __webpack_require__(137);
+	var _popup = __webpack_require__(138);
 
 	var _popup2 = _interopRequireDefault(_popup);
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -486,13 +488,13 @@ module.exports =
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _button = __webpack_require__(142);
+	var _button = __webpack_require__(143);
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _dom = __webpack_require__(122);
+	var _dom = __webpack_require__(123);
 
-	var _locale3 = __webpack_require__(61);
+	var _locale3 = __webpack_require__(62);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -736,7 +738,7 @@ module.exports =
 
 /***/ },
 
-/***/ 208:
+/***/ 210:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -859,13 +861,6 @@ module.exports =
 	    }
 	  }, [_vm._v("\n          " + _vm._s(_vm.confirmButtonText || _vm.t('el.messagebox.confirm')) + "\n        ")])], 1)])])])
 	},staticRenderFns: []}
-
-/***/ },
-
-/***/ 209:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/vdom");
 
 /***/ }
 

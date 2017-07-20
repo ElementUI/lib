@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(334);
+	module.exports = __webpack_require__(335);
 
 
 /***/ },
@@ -142,42 +142,42 @@ module.exports =
 
 /***/ },
 
-/***/ 12:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/vue-popper");
-
-/***/ },
-
-/***/ 13:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/mixins/emitter");
-
-/***/ },
-
-/***/ 14:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/scrollbar");
-
-/***/ },
-
-/***/ 54:
-/***/ function(module, exports) {
-
-	module.exports = require("vue");
-
-/***/ },
-
-/***/ 59:
+/***/ 10:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ },
 
-/***/ 60:
+/***/ 13:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/vue-popper");
+
+/***/ },
+
+/***/ 14:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ },
+
+/***/ 15:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/scrollbar");
+
+/***/ },
+
+/***/ 55:
+/***/ function(module, exports) {
+
+	module.exports = require("vue");
+
+/***/ },
+
+/***/ 61:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
@@ -187,18 +187,25 @@ module.exports =
 /***/ 62:
 /***/ function(module, exports) {
 
+	module.exports = require("element-ui/lib/locale");
+
+/***/ },
+
+/***/ 63:
+/***/ function(module, exports) {
+
 	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
 
-/***/ 107:
+/***/ 108:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(108),
+	  __webpack_require__(109),
 	  /* template */
-	  __webpack_require__(111),
+	  __webpack_require__(112),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -212,28 +219,28 @@ module.exports =
 
 /***/ },
 
-/***/ 108:
+/***/ 109:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(54);
+	var _vue = __webpack_require__(55);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _clickoutside = __webpack_require__(59);
+	var _clickoutside = __webpack_require__(10);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _util = __webpack_require__(109);
+	var _util = __webpack_require__(110);
 
-	var _vuePopper = __webpack_require__(12);
+	var _vuePopper = __webpack_require__(13);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _emitter = __webpack_require__(13);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -403,7 +410,7 @@ module.exports =
 	};
 	var PLACEMENT_MAP = {
 	  left: 'bottom-start',
-	  center: 'bottom-center',
+	  center: 'bottom',
 	  right: 'bottom-end'
 	};
 
@@ -733,7 +740,7 @@ module.exports =
 
 /***/ },
 
-/***/ 109:
+/***/ 110:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -741,11 +748,31 @@ module.exports =
 	exports.__esModule = true;
 	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDate = exports.toDate = exports.equalDate = undefined;
 
-	var _date = __webpack_require__(110);
+	var _date = __webpack_require__(111);
 
 	var _date2 = _interopRequireDefault(_date);
 
+	var _locale = __webpack_require__(62);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var weeks = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+	var months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+	_date2.default.i18n = {
+	  dayNamesShort: weeks.map(function (week) {
+	    return (0, _locale.t)('el.datepicker.weeks.' + week);
+	  }),
+	  dayNames: weeks.map(function (week) {
+	    return (0, _locale.t)('el.datepicker.weeks.' + week);
+	  }),
+	  monthNamesShort: months.map(function (month) {
+	    return (0, _locale.t)('el.datepicker.months.' + month);
+	  }),
+	  monthNames: months.map(function (month, index) {
+	    return (0, _locale.t)('el.datepicker.month' + (index + 1));
+	  })
+	};
 
 	var newArray = function newArray(start, end) {
 	  var result = [];
@@ -918,14 +945,14 @@ module.exports =
 
 /***/ },
 
-/***/ 110:
+/***/ 111:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/date");
 
 /***/ },
 
-/***/ 111:
+/***/ 112:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -975,14 +1002,14 @@ module.exports =
 
 /***/ },
 
-/***/ 114:
+/***/ 115:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(115),
+	  __webpack_require__(116),
 	  /* template */
-	  __webpack_require__(119),
+	  __webpack_require__(120),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -996,16 +1023,16 @@ module.exports =
 
 /***/ },
 
-/***/ 115:
+/***/ 116:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(109);
+	var _util = __webpack_require__(110);
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -1048,7 +1075,7 @@ module.exports =
 	  mixins: [_locale2.default],
 
 	  components: {
-	    TimeSpinner: __webpack_require__(116)
+	    TimeSpinner: __webpack_require__(117)
 	  },
 
 	  props: {
@@ -1170,14 +1197,14 @@ module.exports =
 
 /***/ },
 
-/***/ 116:
+/***/ 117:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(117),
-	  /* template */
 	  __webpack_require__(118),
+	  /* template */
+	  __webpack_require__(119),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1191,20 +1218,20 @@ module.exports =
 
 /***/ },
 
-/***/ 117:
+/***/ 118:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(109);
+	var _util = __webpack_require__(110);
 
-	var _scrollbar = __webpack_require__(14);
+	var _scrollbar = __webpack_require__(15);
 
 	var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
-	var _debounce = __webpack_require__(62);
+	var _debounce = __webpack_require__(63);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -1399,7 +1426,7 @@ module.exports =
 
 /***/ },
 
-/***/ 118:
+/***/ 119:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1512,7 +1539,7 @@ module.exports =
 
 /***/ },
 
-/***/ 119:
+/***/ 120:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1579,14 +1606,14 @@ module.exports =
 
 /***/ },
 
-/***/ 334:
+/***/ 335:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _timePicker = __webpack_require__(335);
+	var _timePicker = __webpack_require__(336);
 
 	var _timePicker2 = _interopRequireDefault(_timePicker);
 
@@ -1601,22 +1628,22 @@ module.exports =
 
 /***/ },
 
-/***/ 335:
+/***/ 336:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _picker = __webpack_require__(107);
+	var _picker = __webpack_require__(108);
 
 	var _picker2 = _interopRequireDefault(_picker);
 
-	var _time = __webpack_require__(114);
+	var _time = __webpack_require__(115);
 
 	var _time2 = _interopRequireDefault(_time);
 
-	var _timeRange = __webpack_require__(336);
+	var _timeRange = __webpack_require__(337);
 
 	var _timeRange2 = _interopRequireDefault(_timeRange);
 
@@ -1660,14 +1687,14 @@ module.exports =
 
 /***/ },
 
-/***/ 336:
+/***/ 337:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(337),
-	  /* template */
 	  __webpack_require__(338),
+	  /* template */
+	  __webpack_require__(339),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1681,20 +1708,20 @@ module.exports =
 
 /***/ },
 
-/***/ 337:
+/***/ 338:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(109);
+	var _util = __webpack_require__(110);
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _timeSpinner = __webpack_require__(116);
+	var _timeSpinner = __webpack_require__(117);
 
 	var _timeSpinner2 = _interopRequireDefault(_timeSpinner);
 
@@ -1924,7 +1951,7 @@ module.exports =
 
 /***/ },
 
-/***/ 338:
+/***/ 339:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

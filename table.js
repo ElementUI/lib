@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(304);
+	module.exports = __webpack_require__(305);
 
 
 /***/ },
@@ -135,98 +135,105 @@ module.exports =
 
 /***/ },
 
-/***/ 12:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/vue-popper");
-
-/***/ },
-
-/***/ 44:
-/***/ function(module, exports) {
-
-	module.exports = require("throttle-debounce/throttle");
-
-/***/ },
-
-/***/ 45:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/resize-event");
-
-/***/ },
-
-/***/ 54:
-/***/ function(module, exports) {
-
-	module.exports = require("vue");
-
-/***/ },
-
-/***/ 59:
+/***/ 10:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ },
 
-/***/ 60:
+/***/ 13:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/vue-popper");
+
+/***/ },
+
+/***/ 45:
+/***/ function(module, exports) {
+
+	module.exports = require("throttle-debounce/throttle");
+
+/***/ },
+
+/***/ 46:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/resize-event");
+
+/***/ },
+
+/***/ 55:
+/***/ function(module, exports) {
+
+	module.exports = require("vue");
+
+/***/ },
+
+/***/ 61:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 62:
+/***/ 63:
 /***/ function(module, exports) {
 
 	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
 
-/***/ 122:
+/***/ 123:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 137:
+/***/ 138:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/popup");
 
 /***/ },
 
-/***/ 259:
+/***/ 219:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/util");
+
+/***/ },
+
+/***/ 261:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/scrollbar-width");
 
 /***/ },
 
-/***/ 269:
+/***/ 270:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 277:
+/***/ 278:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tooltip");
 
 /***/ },
 
-/***/ 304:
+/***/ 305:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _table = __webpack_require__(305);
+	var _table = __webpack_require__(306);
 
 	var _table2 = _interopRequireDefault(_table);
 
@@ -241,14 +248,14 @@ module.exports =
 
 /***/ },
 
-/***/ 305:
+/***/ 306:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(306),
+	  __webpack_require__(307),
 	  /* template */
-	  __webpack_require__(319),
+	  __webpack_require__(320),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -262,52 +269,52 @@ module.exports =
 
 /***/ },
 
-/***/ 306:
+/***/ 307:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(307);
+	var _checkbox = __webpack_require__(308);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _throttle = __webpack_require__(44);
+	var _throttle = __webpack_require__(45);
 
 	var _throttle2 = _interopRequireDefault(_throttle);
 
-	var _debounce = __webpack_require__(62);
+	var _debounce = __webpack_require__(63);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _resizeEvent = __webpack_require__(45);
+	var _resizeEvent = __webpack_require__(46);
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _tableStore = __webpack_require__(308);
+	var _tableStore = __webpack_require__(309);
 
 	var _tableStore2 = _interopRequireDefault(_tableStore);
 
-	var _tableLayout = __webpack_require__(310);
+	var _tableLayout = __webpack_require__(311);
 
 	var _tableLayout2 = _interopRequireDefault(_tableLayout);
 
-	var _tableBody = __webpack_require__(311);
+	var _tableBody = __webpack_require__(312);
 
 	var _tableBody2 = _interopRequireDefault(_tableBody);
 
-	var _tableHeader = __webpack_require__(312);
+	var _tableHeader = __webpack_require__(313);
 
 	var _tableHeader2 = _interopRequireDefault(_tableHeader);
 
-	var _tableFooter = __webpack_require__(318);
+	var _tableFooter = __webpack_require__(319);
 
 	var _tableFooter2 = _interopRequireDefault(_tableFooter);
 
-	var _util = __webpack_require__(309);
+	var _util = __webpack_require__(310);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -613,7 +620,7 @@ module.exports =
 	      return typeof this.height === 'number' || this.fixedColumns.length > 0 || this.rightFixedColumns.length > 0;
 	    },
 	    selection: function selection() {
-	      return this.store.selection;
+	      return this.store.states.selection;
 	    },
 	    columns: function columns() {
 	      return this.store.states.columns;
@@ -754,29 +761,29 @@ module.exports =
 
 /***/ },
 
-/***/ 307:
+/***/ 308:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 308:
+/***/ 309:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(54);
+	var _vue = __webpack_require__(55);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _debounce = __webpack_require__(62);
+	var _debounce = __webpack_require__(63);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
-	var _util = __webpack_require__(309);
+	var _util = __webpack_require__(310);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1283,14 +1290,17 @@ module.exports =
 
 /***/ },
 
-/***/ 309:
-/***/ function(module, exports) {
+/***/ 310:
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
+	exports.getRowIdentity = exports.mousewheel = exports.getColumnByCell = exports.getColumnById = exports.orderBy = exports.getCell = undefined;
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	var _util = __webpack_require__(219);
 
 	var getCell = exports.getCell = function getCell(event) {
 	  var cell = event.target;
@@ -1303,24 +1313,6 @@ module.exports =
 	  }
 
 	  return null;
-	};
-
-	var getValueByPath = exports.getValueByPath = function getValueByPath(object, prop) {
-	  prop = prop || '';
-	  var paths = prop.split('.');
-	  var current = object;
-	  var result = null;
-	  for (var i = 0, j = paths.length; i < j; i++) {
-	    var path = paths[i];
-	    if (!current) break;
-
-	    if (i === j - 1) {
-	      result = current[path];
-	      break;
-	    }
-	    current = current[path];
-	  }
-	  return result;
 	};
 
 	var isObject = function isObject(obj) {
@@ -1344,8 +1336,8 @@ module.exports =
 	      if (isObject(a) && '$value' in a) a = a.$value;
 	      if (isObject(b) && '$value' in b) b = b.$value;
 	    }
-	    a = isObject(a) ? getValueByPath(a, sortKey) : a;
-	    b = isObject(b) ? getValueByPath(b, sortKey) : b;
+	    a = isObject(a) ? (0, _util.getValueByPath)(a, sortKey) : a;
+	    b = isObject(b) ? (0, _util.getValueByPath)(b, sortKey) : b;
 	    return a === b ? 0 : a > b ? order : -order;
 	  });
 	};
@@ -1379,7 +1371,15 @@ module.exports =
 	var getRowIdentity = exports.getRowIdentity = function getRowIdentity(row, rowKey) {
 	  if (!row) throw new Error('row is required when get row identity');
 	  if (typeof rowKey === 'string') {
-	    return row[rowKey];
+	    if (rowKey.indexOf('.') < 0) {
+	      return row[rowKey];
+	    }
+	    var key = rowKey.split('.');
+	    var current = row;
+	    for (var i = 0; i < key.length; i++) {
+	      current = current[key[i]];
+	    }
+	    return current;
 	  } else if (typeof rowKey === 'function') {
 	    return rowKey.call(null, row);
 	  }
@@ -1387,14 +1387,14 @@ module.exports =
 
 /***/ },
 
-/***/ 310:
+/***/ 311:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _scrollbarWidth = __webpack_require__(259);
+	var _scrollbarWidth = __webpack_require__(261);
 
 	var _scrollbarWidth2 = _interopRequireDefault(_scrollbarWidth);
 
@@ -1606,26 +1606,26 @@ module.exports =
 
 /***/ },
 
-/***/ 311:
+/***/ 312:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(309);
+	var _util = __webpack_require__(310);
 
-	var _dom = __webpack_require__(122);
+	var _dom = __webpack_require__(123);
 
-	var _checkbox = __webpack_require__(307);
+	var _checkbox = __webpack_require__(308);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tooltip = __webpack_require__(277);
+	var _tooltip = __webpack_require__(278);
 
 	var _tooltip2 = _interopRequireDefault(_tooltip);
 
-	var _debounce = __webpack_require__(62);
+	var _debounce = __webpack_require__(63);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -1756,14 +1756,14 @@ module.exports =
 	      if (!this.store.states.isComplex) return;
 	      var el = this.$el;
 	      if (!el) return;
-	      var rows = el.querySelectorAll('tbody > tr');
+	      var rows = el.querySelectorAll('tbody > tr.el-table__row');
 	      var oldRow = rows[oldVal];
 	      var newRow = rows[newVal];
 	      if (oldRow) {
-	        oldRow.classList.remove('hover-row');
+	        (0, _dom.removeClass)(oldRow, 'hover-row');
 	      }
 	      if (newRow) {
-	        newRow.classList.add('hover-row');
+	        (0, _dom.addClass)(newRow, 'hover-row');
 	      }
 	    },
 	    'store.states.currentRow': function storeStatesCurrentRow(newVal, oldVal) {
@@ -1775,14 +1775,14 @@ module.exports =
 	      var oldRow = rows[data.indexOf(oldVal)];
 	      var newRow = rows[data.indexOf(newVal)];
 	      if (oldRow) {
-	        oldRow.classList.remove('current-row');
+	        (0, _dom.removeClass)(oldRow, 'current-row');
 	      } else if (rows) {
 	        [].forEach.call(rows, function (row) {
-	          return row.classList.remove('current-row');
+	          return (0, _dom.removeClass)(row, 'current-row');
 	        });
 	      }
 	      if (newRow) {
-	        newRow.classList.add('current-row');
+	        (0, _dom.addClass)(newRow, 'current-row');
 	      }
 	    }
 	  },
@@ -1931,26 +1931,28 @@ module.exports =
 
 /***/ },
 
-/***/ 312:
+/***/ 313:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(307);
+	var _dom = __webpack_require__(123);
+
+	var _checkbox = __webpack_require__(308);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(269);
+	var _tag = __webpack_require__(270);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _vue = __webpack_require__(54);
+	var _vue = __webpack_require__(55);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _filterPanel = __webpack_require__(313);
+	var _filterPanel = __webpack_require__(314);
 
 	var _filterPanel2 = _interopRequireDefault(_filterPanel);
 
@@ -2294,7 +2296,7 @@ module.exports =
 	          var columnRect = columnEl.getBoundingClientRect();
 	          var minLeft = columnRect.left - tableLeft + 30;
 
-	          columnEl.classList.add('noclick');
+	          (0, _dom.addClass)(columnEl, 'noclick');
 
 	          _this3.dragState = {
 	            startMouseLeft: event.clientX,
@@ -2347,7 +2349,7 @@ module.exports =
 	            document.ondragstart = null;
 
 	            setTimeout(function () {
-	              columnEl.classList.remove('noclick');
+	              (0, _dom.removeClass)(columnEl, 'noclick');
 	            }, 0);
 	          };
 
@@ -2395,8 +2397,8 @@ module.exports =
 	      }
 
 	      if (target && target.tagName === 'TH') {
-	        if (target.classList.contains('noclick')) {
-	          target.classList.remove('noclick');
+	        if ((0, _dom.hasClass)(target, 'noclick')) {
+	          (0, _dom.removeClass)(target, 'noclick');
 	          return;
 	        }
 	      }
@@ -2442,14 +2444,14 @@ module.exports =
 
 /***/ },
 
-/***/ 313:
+/***/ 314:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(314),
+	  __webpack_require__(315),
 	  /* template */
-	  __webpack_require__(317),
+	  __webpack_require__(318),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -2463,36 +2465,36 @@ module.exports =
 
 /***/ },
 
-/***/ 314:
+/***/ 315:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(12);
+	var _vuePopper = __webpack_require__(13);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _popup = __webpack_require__(137);
+	var _popup = __webpack_require__(138);
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _clickoutside = __webpack_require__(59);
+	var _clickoutside = __webpack_require__(10);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _dropdown = __webpack_require__(315);
+	var _dropdown = __webpack_require__(316);
 
 	var _dropdown2 = _interopRequireDefault(_dropdown);
 
-	var _checkbox = __webpack_require__(307);
+	var _checkbox = __webpack_require__(308);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _checkboxGroup = __webpack_require__(316);
+	var _checkboxGroup = __webpack_require__(317);
 
 	var _checkboxGroup2 = _interopRequireDefault(_checkboxGroup);
 
@@ -2702,14 +2704,14 @@ module.exports =
 
 /***/ },
 
-/***/ 315:
+/***/ 316:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(54);
+	var _vue = __webpack_require__(55);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -2744,14 +2746,14 @@ module.exports =
 
 /***/ },
 
-/***/ 316:
+/***/ 317:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox-group");
 
 /***/ },
 
-/***/ 317:
+/***/ 318:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2842,7 +2844,7 @@ module.exports =
 
 /***/ },
 
-/***/ 318:
+/***/ 319:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3007,7 +3009,7 @@ module.exports =
 
 /***/ },
 
-/***/ 319:
+/***/ 320:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

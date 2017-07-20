@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(363);
+	module.exports = __webpack_require__(364);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 60:
+/***/ 61:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 363:
+/***/ 364:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _src = __webpack_require__(364);
+	var _src = __webpack_require__(365);
 
 	var _src2 = _interopRequireDefault(_src);
 
@@ -164,12 +164,12 @@ module.exports =
 
 /***/ },
 
-/***/ 364:
+/***/ 365:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(365),
+	  __webpack_require__(366),
 	  /* template */
 	  null,
 	  /* styles */
@@ -185,30 +185,30 @@ module.exports =
 
 /***/ },
 
-/***/ 365:
+/***/ 366:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _uploadList = __webpack_require__(366);
+	var _uploadList = __webpack_require__(367);
 
 	var _uploadList2 = _interopRequireDefault(_uploadList);
 
-	var _upload = __webpack_require__(370);
+	var _upload = __webpack_require__(371);
 
 	var _upload2 = _interopRequireDefault(_upload);
 
-	var _iframeUpload = __webpack_require__(376);
+	var _iframeUpload = __webpack_require__(377);
 
 	var _iframeUpload2 = _interopRequireDefault(_iframeUpload);
 
-	var _progress = __webpack_require__(368);
+	var _progress = __webpack_require__(369);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
-	var _migrating = __webpack_require__(378);
+	var _migrating = __webpack_require__(379);
 
 	var _migrating2 = _interopRequireDefault(_migrating);
 
@@ -430,6 +430,7 @@ module.exports =
 	        _uploadList2.default,
 	        {
 	          attrs: {
+	            disabled: this.disabled,
 	            listType: this.listType,
 	            files: this.uploadFiles,
 
@@ -490,14 +491,14 @@ module.exports =
 
 /***/ },
 
-/***/ 366:
+/***/ 367:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(367),
+	  __webpack_require__(368),
 	  /* template */
-	  __webpack_require__(369),
+	  __webpack_require__(370),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -511,23 +512,24 @@ module.exports =
 
 /***/ },
 
-/***/ 367:
+/***/ 368:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _progress = __webpack_require__(368);
+	var _progress = __webpack_require__(369);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
 	//
 	//
 	//
@@ -592,6 +594,10 @@ module.exports =
 	        return [];
 	      }
 	    },
+	    disabled: {
+	      type: Boolean,
+	      default: false
+	    },
 	    handlePreview: Function,
 	    listType: String
 	  },
@@ -607,14 +613,14 @@ module.exports =
 
 /***/ },
 
-/***/ 368:
+/***/ 369:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/progress");
 
 /***/ },
 
-/***/ 369:
+/***/ 370:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -624,9 +630,9 @@ module.exports =
 	      "tag": "ul",
 	      "name": "el-list"
 	    }
-	  }, _vm._l((_vm.files), function(file) {
+	  }, _vm._l((_vm.files), function(file, index) {
 	    return _c('li', {
-	      key: file,
+	      key: index,
 	      class: ['el-upload-list__item', 'is-' + file.status]
 	    }, [(file.status !== 'uploading' && ['picture-card', 'picture'].indexOf(_vm.listType) > -1) ? _c('img', {
 	      staticClass: "el-upload-list__item-thumbnail",
@@ -675,7 +681,7 @@ module.exports =
 	      }
 	    }, [_c('i', {
 	      staticClass: "el-icon-view"
-	    })]) : _vm._e(), _c('span', {
+	    })]) : _vm._e(), (!_vm.disabled) ? _c('span', {
 	      staticClass: "el-upload-list__item-delete",
 	      on: {
 	        "click": function($event) {
@@ -684,18 +690,18 @@ module.exports =
 	      }
 	    }, [_c('i', {
 	      staticClass: "el-icon-delete2"
-	    })])]) : _vm._e()], 1)
+	    })]) : _vm._e()]) : _vm._e()], 1)
 	  }))
 	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 370:
+/***/ 371:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(371),
+	  __webpack_require__(372),
 	  /* template */
 	  null,
 	  /* styles */
@@ -711,18 +717,18 @@ module.exports =
 
 /***/ },
 
-/***/ 371:
+/***/ 372:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _ajax = __webpack_require__(372);
+	var _ajax = __webpack_require__(373);
 
 	var _ajax2 = _interopRequireDefault(_ajax);
 
-	var _uploadDragger = __webpack_require__(373);
+	var _uploadDragger = __webpack_require__(374);
 
 	var _uploadDragger2 = _interopRequireDefault(_uploadDragger);
 
@@ -881,6 +887,7 @@ module.exports =
 	    },
 	    handleClick: function handleClick() {
 	      if (!this.disabled) {
+	        this.$refs.input.value = null;
 	        this.$refs.input.click();
 	      }
 	    }
@@ -933,7 +940,7 @@ module.exports =
 
 /***/ },
 
-/***/ 372:
+/***/ 373:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1028,14 +1035,14 @@ module.exports =
 
 /***/ },
 
-/***/ 373:
+/***/ 374:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(374),
-	  /* template */
 	  __webpack_require__(375),
+	  /* template */
+	  __webpack_require__(376),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1049,7 +1056,7 @@ module.exports =
 
 /***/ },
 
-/***/ 374:
+/***/ 375:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1097,7 +1104,7 @@ module.exports =
 
 /***/ },
 
-/***/ 375:
+/***/ 376:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1125,12 +1132,12 @@ module.exports =
 
 /***/ },
 
-/***/ 376:
+/***/ 377:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(377),
+	  __webpack_require__(378),
 	  /* template */
 	  null,
 	  /* styles */
@@ -1146,14 +1153,14 @@ module.exports =
 
 /***/ },
 
-/***/ 377:
+/***/ 378:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _uploadDragger = __webpack_require__(373);
+	var _uploadDragger = __webpack_require__(374);
 
 	var _uploadDragger2 = _interopRequireDefault(_uploadDragger);
 
@@ -1348,7 +1355,7 @@ module.exports =
 
 /***/ },
 
-/***/ 378:
+/***/ 379:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/migrating");

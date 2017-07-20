@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(181);
+	module.exports = __webpack_require__(182);
 
 
 /***/ },
@@ -135,21 +135,35 @@ module.exports =
 
 /***/ },
 
-/***/ 13:
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 181:
+/***/ 55:
+/***/ function(module, exports) {
+
+	module.exports = require("vue");
+
+/***/ },
+
+/***/ 123:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/dom");
+
+/***/ },
+
+/***/ 182:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _menu = __webpack_require__(182);
+	var _menu = __webpack_require__(183);
 
 	var _menu2 = _interopRequireDefault(_menu);
 
@@ -164,14 +178,14 @@ module.exports =
 
 /***/ },
 
-/***/ 182:
+/***/ 183:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(183),
-	  /* template */
 	  __webpack_require__(184),
+	  /* template */
+	  __webpack_require__(185),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,18 +199,93 @@ module.exports =
 
 /***/ },
 
-/***/ 183:
+/***/ 184:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(13);
+	var _vue = __webpack_require__(55);
+
+	var _vue2 = _interopRequireDefault(_vue);
+
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
+	var _dom = __webpack_require__(123);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	_vue2.default.component('el-menu-collapse-transition', {
+	  functional: true,
+	  render: function render(createElement, context) {
+	    var data = {
+	      props: {
+	        mode: 'out-in'
+	      },
+	      on: {
+	        beforeEnter: function beforeEnter(el) {
+	          el.style.opacity = 0.2;
+	        },
+	        enter: function enter(el) {
+	          (0, _dom.addClass)(el, 'el-opacity-transition');
+	          el.style.opacity = 1;
+	        },
+	        afterEnter: function afterEnter(el) {
+	          (0, _dom.removeClass)(el, 'el-opacity-transition');
+	          el.style.opacity = '';
+	        },
+	        beforeLeave: function beforeLeave(el) {
+	          if (!el.dataset) el.dataset = {};
+
+	          if ((0, _dom.hasClass)(el, 'el-menu--collapse')) {
+	            (0, _dom.removeClass)(el, 'el-menu--collapse');
+	            el.dataset.oldOverflow = el.style.overflow;
+	            el.dataset.scrollWidth = el.scrollWidth;
+	            (0, _dom.addClass)(el, 'el-menu--collapse');
+	          }
+
+	          el.style.width = el.scrollWidth + 'px';
+	          el.style.overflow = 'hidden';
+	        },
+	        leave: function leave(el) {
+	          if (!(0, _dom.hasClass)(el, 'el-menu--collapse')) {
+	            (0, _dom.addClass)(el, 'horizontal-collapse-transition');
+	            el.style.width = '64px';
+	          } else {
+	            (0, _dom.addClass)(el, 'horizontal-collapse-transition');
+	            el.style.width = el.dataset.scrollWidth + 'px';
+	          }
+	        },
+	        afterLeave: function afterLeave(el) {
+	          (0, _dom.removeClass)(el, 'horizontal-collapse-transition');
+	          if ((0, _dom.hasClass)(el, 'el-menu--collapse')) {
+	            el.style.width = el.dataset.scrollWidth + 'px';
+	          } else {
+	            el.style.width = '64px';
+	          }
+	          el.style.overflow = el.dataset.oldOverflow;
+	        }
+	      }
+	    };
+	    return createElement('transition', data, context.children);
+	  }
+	}); //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElMenu',
@@ -204,6 +293,13 @@ module.exports =
 	  componentName: 'ElMenu',
 
 	  mixins: [_emitter2.default],
+
+	  provide: function provide() {
+	    return {
+	      rootMenu: this
+	    };
+	  },
+
 
 	  props: {
 	    mode: {
@@ -224,7 +320,8 @@ module.exports =
 	    menuTrigger: {
 	      type: String,
 	      default: 'hover'
-	    }
+	    },
+	    collapse: Boolean
 	  },
 	  data: function data() {
 	    return {
@@ -297,7 +394,7 @@ module.exports =
 	      this.activedIndex = item.index;
 	      this.$emit('select', index, indexPath, item);
 
-	      if (this.mode === 'horizontal') {
+	      if (this.mode === 'horizontal' || this.collapse) {
 	        this.openedMenus = [];
 	      }
 
@@ -336,30 +433,23 @@ module.exports =
 	    this.$on('item-click', this.handleItemClick);
 	    this.$on('submenu-click', this.handleSubmenuClick);
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 
-/***/ 184:
+/***/ 185:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('ul', {
+	  return _c('el-menu-collapse-transition', [_c('ul', {
+	    key: _vm.collapse,
 	    staticClass: "el-menu",
 	    class: {
 	      'el-menu--horizontal': _vm.mode === 'horizontal',
-	        'el-menu--dark': _vm.theme === 'dark'
+	        'el-menu--dark': _vm.theme === 'dark',
+	        'el-menu--collapse': _vm.collapse
 	    }
-	  }, [_vm._t("default")], 2)
+	  }, [_vm._t("default")], 2)])
 	},staticRenderFns: []}
 
 /***/ }

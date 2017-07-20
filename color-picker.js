@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(87);
+	module.exports = __webpack_require__(88);
 
 
 /***/ },
@@ -135,42 +135,42 @@ module.exports =
 
 /***/ },
 
-/***/ 12:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/vue-popper");
-
-/***/ },
-
-/***/ 54:
-/***/ function(module, exports) {
-
-	module.exports = require("vue");
-
-/***/ },
-
-/***/ 59:
+/***/ 10:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ },
 
-/***/ 60:
+/***/ 13:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/vue-popper");
+
+/***/ },
+
+/***/ 55:
+/***/ function(module, exports) {
+
+	module.exports = require("vue");
+
+/***/ },
+
+/***/ 61:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 87:
+/***/ 88:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(88);
+	var _main = __webpack_require__(89);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -185,14 +185,14 @@ module.exports =
 
 /***/ },
 
-/***/ 88:
+/***/ 89:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(89),
+	  __webpack_require__(90),
 	  /* template */
-	  __webpack_require__(104),
+	  __webpack_require__(105),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -206,22 +206,22 @@ module.exports =
 
 /***/ },
 
-/***/ 89:
+/***/ 90:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _color = __webpack_require__(90);
+	var _color = __webpack_require__(91);
 
 	var _color2 = _interopRequireDefault(_color);
 
-	var _pickerDropdown = __webpack_require__(91);
+	var _pickerDropdown = __webpack_require__(92);
 
 	var _pickerDropdown2 = _interopRequireDefault(_pickerDropdown);
 
-	var _clickoutside = __webpack_require__(59);
+	var _clickoutside = __webpack_require__(10);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -273,6 +273,9 @@ module.exports =
 	      handler: function handler() {
 	        this.showPanelColor = true;
 	      }
+	    },
+	    displayedColor: function displayedColor(val) {
+	      this.$emit('active-change', val);
 	    }
 	  },
 
@@ -356,7 +359,7 @@ module.exports =
 
 /***/ },
 
-/***/ 90:
+/***/ 91:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -713,14 +716,14 @@ module.exports =
 
 /***/ },
 
-/***/ 91:
+/***/ 92:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(92),
+	  __webpack_require__(93),
 	  /* template */
-	  __webpack_require__(103),
+	  __webpack_require__(104),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -734,30 +737,30 @@ module.exports =
 
 /***/ },
 
-/***/ 92:
+/***/ 93:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _svPanel = __webpack_require__(93);
+	var _svPanel = __webpack_require__(94);
 
 	var _svPanel2 = _interopRequireDefault(_svPanel);
 
-	var _hueSlider = __webpack_require__(97);
+	var _hueSlider = __webpack_require__(98);
 
 	var _hueSlider2 = _interopRequireDefault(_hueSlider);
 
-	var _alphaSlider = __webpack_require__(100);
+	var _alphaSlider = __webpack_require__(101);
 
 	var _alphaSlider2 = _interopRequireDefault(_alphaSlider);
 
-	var _vuePopper = __webpack_require__(12);
+	var _vuePopper = __webpack_require__(13);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _locale = __webpack_require__(60);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -840,14 +843,14 @@ module.exports =
 
 /***/ },
 
-/***/ 93:
+/***/ 94:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(94),
+	  __webpack_require__(95),
 	  /* template */
-	  __webpack_require__(96),
+	  __webpack_require__(97),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -861,14 +864,14 @@ module.exports =
 
 /***/ },
 
-/***/ 94:
+/***/ 95:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(95);
+	var _draggable = __webpack_require__(96);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -977,7 +980,7 @@ module.exports =
 
 /***/ },
 
-/***/ 95:
+/***/ 96:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1022,7 +1025,7 @@ module.exports =
 	  });
 	};
 
-	var _vue = __webpack_require__(54);
+	var _vue = __webpack_require__(55);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -1032,7 +1035,7 @@ module.exports =
 
 /***/ },
 
-/***/ 96:
+/***/ 97:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1056,14 +1059,14 @@ module.exports =
 
 /***/ },
 
-/***/ 97:
+/***/ 98:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(98),
-	  /* template */
 	  __webpack_require__(99),
+	  /* template */
+	  __webpack_require__(100),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1077,14 +1080,14 @@ module.exports =
 
 /***/ },
 
-/***/ 98:
+/***/ 99:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(95);
+	var _draggable = __webpack_require__(96);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1214,7 +1217,7 @@ module.exports =
 
 /***/ },
 
-/***/ 99:
+/***/ 100:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1241,14 +1244,14 @@ module.exports =
 
 /***/ },
 
-/***/ 100:
+/***/ 101:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(101),
-	  /* template */
 	  __webpack_require__(102),
+	  /* template */
+	  __webpack_require__(103),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1262,14 +1265,14 @@ module.exports =
 
 /***/ },
 
-/***/ 101:
+/***/ 102:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(95);
+	var _draggable = __webpack_require__(96);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1408,7 +1411,7 @@ module.exports =
 
 /***/ },
 
-/***/ 102:
+/***/ 103:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1438,7 +1441,7 @@ module.exports =
 
 /***/ },
 
-/***/ 103:
+/***/ 104:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1502,7 +1505,7 @@ module.exports =
 
 /***/ },
 
-/***/ 104:
+/***/ 105:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
