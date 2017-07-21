@@ -353,7 +353,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.4.0-beta.1',
+	  version: '1.4.0',
 	  locale: _locale2.default.use,
 	  i18n: _locale2.default.i18n,
 	  install: install,
@@ -2748,7 +2748,7 @@ module.exports =
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('el-menu-collapse-transition', [_c('ul', {
-	    key: _vm.collapse,
+	    key: +_vm.collapse,
 	    staticClass: "el-menu",
 	    class: {
 	      'el-menu--horizontal': _vm.mode === 'horizontal',
@@ -2977,7 +2977,6 @@ module.exports =
 
 	exports.__esModule = true;
 	exports.default = {
-	  inject: ['rootMenu'],
 	  computed: {
 	    indexPath: function indexPath() {
 	      var path = [this.index];
@@ -2989,6 +2988,13 @@ module.exports =
 	        parent = parent.$parent;
 	      }
 	      return path;
+	    },
+	    rootMenu: function rootMenu() {
+	      var parent = this.$parent;
+	      while (parent && parent.$options.componentName !== 'ElMenu') {
+	        parent = parent.$parent;
+	      }
+	      return parent;
 	    },
 	    parentMenu: function parentMenu() {
 	      var parent = this.$parent;
@@ -14661,7 +14667,7 @@ module.exports =
 	//
 
 	var parseTime = function parseTime(time) {
-	  var values = ('' || time).split(':');
+	  var values = (time || '').split(':');
 	  if (values.length >= 2) {
 	    var hours = parseInt(values[0], 10);
 	    var minutes = parseInt(values[1], 10);
@@ -18469,6 +18475,22 @@ module.exports =
 	  }
 	};
 
+	var initLazyLoadChild = function initLazyLoadChild(node) {
+	  var childNodes = node.childNodes;
+	  if (node.checked) {
+	    for (var i = 0, j = childNodes.length; i < j; i++) {
+	      var child = childNodes[i];
+	      if (!child.disabled) {
+	        child.checked = true;
+	      }
+	    }
+	  }
+
+	  var parent = node.parent;
+	  if (!parent || parent.level === 0) return;
+	  reInitChecked(parent);
+	};
+
 	var getPropertyFromData = function getPropertyFromData(node, prop) {
 	  var props = node.store.props;
 	  var data = node.data || {};
@@ -18658,6 +18680,7 @@ module.exports =
 	    if (this.shouldLoadData()) {
 	      this.loadData(function (data) {
 	        if (data instanceof Array) {
+	          initLazyLoadChild(_this);
 	          done();
 	        }
 	      });
@@ -18711,8 +18734,8 @@ module.exports =
 	      value = false;
 	    }
 
-	    var handleDescendants = function handleDescendants() {
-	      if (deep) {
+	    var handleDescendants = function handleDescendants(lazy) {
+	      if (deep && !lazy) {
 	        var childNodes = _this3.childNodes;
 	        for (var i = 0, j = childNodes.length; i < j; i++) {
 	          var child = childNodes[i];
@@ -18735,7 +18758,7 @@ module.exports =
 	    if (!this.store.checkStrictly && this.shouldLoadData()) {
 	      // Only work on lazy load data.
 	      this.loadData(function () {
-	        handleDescendants();
+	        handleDescendants(true);
 	      }, {
 	        checked: value !== false
 	      });

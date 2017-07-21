@@ -442,7 +442,7 @@ module.exports =
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('el-menu-collapse-transition', [_c('ul', {
-	    key: _vm.collapse,
+	    key: +_vm.collapse,
 	    staticClass: "el-menu",
 	    class: {
 	      'el-menu--horizontal': _vm.mode === 'horizontal',

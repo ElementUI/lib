@@ -156,7 +156,6 @@ module.exports =
 
 	exports.__esModule = true;
 	exports.default = {
-	  inject: ['rootMenu'],
 	  computed: {
 	    indexPath: function indexPath() {
 	      var path = [this.index];
@@ -168,6 +167,13 @@ module.exports =
 	        parent = parent.$parent;
 	      }
 	      return path;
+	    },
+	    rootMenu: function rootMenu() {
+	      var parent = this.$parent;
+	      while (parent && parent.$options.componentName !== 'ElMenu') {
+	        parent = parent.$parent;
+	      }
+	      return parent;
 	    },
 	    parentMenu: function parentMenu() {
 	      var parent = this.$parent;
