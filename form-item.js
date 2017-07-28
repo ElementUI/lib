@@ -288,7 +288,7 @@ module.exports =
 	      var ret = {};
 	      var label = this.label;
 	      if (this.form.labelPosition === 'top' || this.form.inline) return ret;
-	      if (!label && !this.labelWidth) return ret;
+	      if (!label && !this.labelWidth && this.isNested) return ret;
 	      var labelWidth = this.labelWidth || this.form.labelWidth;
 	      if (labelWidth) {
 	        ret.marginLeft = labelWidth;
@@ -297,8 +297,13 @@ module.exports =
 	    },
 	    form: function form() {
 	      var parent = this.$parent;
-	      while (parent.$options.componentName !== 'ElForm') {
+	      var parentName = parent.$options.componentName;
+	      while (parentName !== 'ElForm') {
+	        if (parentName === 'ElFormItem') {
+	          this.isNested = true;
+	        }
 	        parent = parent.$parent;
+	        parentName = parent.$options.componentName;
 	      }
 	      return parent;
 	    },
@@ -340,7 +345,8 @@ module.exports =
 	      validateState: '',
 	      validateMessage: '',
 	      validateDisabled: false,
-	      validator: {}
+	      validator: {},
+	      isNested: false
 	    };
 	  },
 

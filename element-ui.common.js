@@ -353,7 +353,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.4.0',
+	  version: '1.4.1',
 	  locale: _locale2.default.use,
 	  i18n: _locale2.default.i18n,
 	  install: install,
@@ -2704,7 +2704,7 @@ module.exports =
 
 	      var index = this.activedIndex;
 	      var activeItem = this.items[index];
-	      if (!activeItem || this.mode === 'horizontal') return;
+	      if (!activeItem || this.mode === 'horizontal' || this.collapse) return;
 
 	      var indexPath = activeItem.indexPath;
 
@@ -5925,8 +5925,10 @@ module.exports =
 	    scrollToOption: function scrollToOption() {
 	      var className = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'selected';
 
-	      var menu = this.$refs.popper.$el.querySelector('.el-select-dropdown__wrap');
-	      (0, _scrollIntoView2.default)(menu, menu.getElementsByClassName(className)[0]);
+	      if (this.$refs.popper) {
+	        var menu = this.$refs.popper.$el.querySelector('.el-select-dropdown__wrap');
+	        (0, _scrollIntoView2.default)(menu, menu.getElementsByClassName(className)[0]);
+	      }
 	    },
 	    handleMenuEnter: function handleMenuEnter() {
 	      var _this4 = this;
@@ -15468,18 +15470,19 @@ module.exports =
 	    handleMouseEnter: function handleMouseEnter() {
 	      var _this = this;
 
+	      clearTimeout(this._timer);
 	      if (this.openDelay) {
-	        setTimeout(function () {
+	        this._timer = setTimeout(function () {
 	          _this.showPopper = true;
 	        }, this.openDelay);
 	      } else {
 	        this.showPopper = true;
 	      }
-	      clearTimeout(this._timer);
 	    },
 	    handleMouseLeave: function handleMouseLeave() {
 	      var _this2 = this;
 
+	      clearTimeout(this._timer);
 	      this._timer = setTimeout(function () {
 	        _this2.showPopper = false;
 	      }, 200);
@@ -16704,6 +16707,10 @@ module.exports =
 	    validate: function validate(callback) {
 	      var _this2 = this;
 
+	      if (!this.model) {
+	        console.warn('[Element Warn][Form]model is required for validate to work!');
+	        return;
+	      };
 	      var valid = true;
 	      var count = 0;
 	      // 如果需要验证的fields为空，调用验证时立刻返回callback
@@ -16894,7 +16901,7 @@ module.exports =
 	      var ret = {};
 	      var label = this.label;
 	      if (this.form.labelPosition === 'top' || this.form.inline) return ret;
-	      if (!label && !this.labelWidth) return ret;
+	      if (!label && !this.labelWidth && this.isNested) return ret;
 	      var labelWidth = this.labelWidth || this.form.labelWidth;
 	      if (labelWidth) {
 	        ret.marginLeft = labelWidth;
@@ -16903,8 +16910,13 @@ module.exports =
 	    },
 	    form: function form() {
 	      var parent = this.$parent;
-	      while (parent.$options.componentName !== 'ElForm') {
+	      var parentName = parent.$options.componentName;
+	      while (parentName !== 'ElForm') {
+	        if (parentName === 'ElFormItem') {
+	          this.isNested = true;
+	        }
 	        parent = parent.$parent;
+	        parentName = parent.$options.componentName;
 	      }
 	      return parent;
 	    },
@@ -16946,7 +16958,8 @@ module.exports =
 	      validateState: '',
 	      validateMessage: '',
 	      validateDisabled: false,
-	      validator: {}
+	      validator: {},
+	      isNested: false
 	    };
 	  },
 
@@ -17206,7 +17219,9 @@ module.exports =
 	      this.$emit('input', value);
 	    },
 	    addPanes: function addPanes(item) {
-	      var index = this.$slots.default.indexOf(item.$vnode);
+	      var index = this.$slots.default.filter(function (item) {
+	        return item.elm.nodeType === 1 && /\bel-tab-pane\b/.test(item.elm.className);
+	      }).indexOf(item.$vnode);
 	      this.panes.splice(index, 0, item);
 	    },
 	    removePanes: function removePanes(item) {
@@ -18727,9 +18742,10 @@ module.exports =
 	    this.checked = value === true;
 
 	    var _getChildState2 = getChildState(this.childNodes),
+	        all = _getChildState2.all,
 	        allWithoutDisable = _getChildState2.allWithoutDisable;
 
-	    if (this.childNodes.length && allWithoutDisable) {
+	    if (this.childNodes.length && !all && allWithoutDisable) {
 	      this.checked = false;
 	      value = false;
 	    }
@@ -18746,10 +18762,10 @@ module.exports =
 
 	        var _getChildState3 = getChildState(childNodes),
 	            half = _getChildState3.half,
-	            all = _getChildState3.all;
+	            _all = _getChildState3.all;
 
-	        if (!all) {
-	          _this3.checked = all;
+	        if (!_all) {
+	          _this3.checked = _all;
 	          _this3.indeterminate = half;
 	        }
 	      }
@@ -19143,6 +19159,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 /***/ },
 /* 241 */
@@ -19191,6 +19208,11 @@ module.exports =
 	    },
 	    on: {
 	      "change": _vm.handleCheckChange
+	    },
+	    nativeOn: {
+	      "click": function($event) {
+	        $event.stopPropagation();
+	      }
 	    },
 	    model: {
 	      value: (_vm.node.checked),
@@ -21488,6 +21510,10 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  mixins: [_locale2.default],
@@ -21530,7 +21556,12 @@ module.exports =
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition-group', {
-	    class: ['el-upload-list', 'el-upload-list--' + _vm.listType],
+	    class: [
+	      'el-upload-list',
+	      'el-upload-list--' + _vm.listType, {
+	        'is-disabled': _vm.disabled
+	      }
+	    ],
 	    attrs: {
 	      "tag": "ul",
 	      "name": "el-list"
@@ -21562,14 +21593,14 @@ module.exports =
 	        'el-icon-circle-check': _vm.listType === 'text',
 	          'el-icon-check': ['picture-card', 'picture'].indexOf(_vm.listType) > -1
 	      }
-	    })]), _c('i', {
+	    })]), (!_vm.disabled) ? _c('i', {
 	      staticClass: "el-icon-close",
 	      on: {
 	        "click": function($event) {
 	          _vm.$emit('remove', file)
 	        }
 	      }
-	    }), (file.status === 'uploading') ? _c('el-progress', {
+	    }) : _vm._e(), (file.status === 'uploading') ? _c('el-progress', {
 	      attrs: {
 	        "type": _vm.listType === 'picture-card' ? 'circle' : 'line',
 	        "stroke-width": _vm.listType === 'picture-card' ? 6 : 2,

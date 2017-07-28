@@ -409,7 +409,7 @@ module.exports =
 
 	      var index = this.activedIndex;
 	      var activeItem = this.items[index];
-	      if (!activeItem || this.mode === 'horizontal') return;
+	      if (!activeItem || this.mode === 'horizontal' || this.collapse) return;
 
 	      var indexPath = activeItem.indexPath;
 

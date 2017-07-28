@@ -891,8 +891,10 @@ module.exports =
 	    scrollToOption: function scrollToOption() {
 	      var className = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'selected';
 
-	      var menu = this.$refs.popper.$el.querySelector('.el-select-dropdown__wrap');
-	      (0, _scrollIntoView2.default)(menu, menu.getElementsByClassName(className)[0]);
+	      if (this.$refs.popper) {
+	        var menu = this.$refs.popper.$el.querySelector('.el-select-dropdown__wrap');
+	        (0, _scrollIntoView2.default)(menu, menu.getElementsByClassName(className)[0]);
+	      }
 	    },
 	    handleMenuEnter: function handleMenuEnter() {
 	      var _this4 = this;

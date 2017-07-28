@@ -337,18 +337,19 @@ module.exports =
 	    handleMouseEnter: function handleMouseEnter() {
 	      var _this = this;
 
+	      clearTimeout(this._timer);
 	      if (this.openDelay) {
-	        setTimeout(function () {
+	        this._timer = setTimeout(function () {
 	          _this.showPopper = true;
 	        }, this.openDelay);
 	      } else {
 	        this.showPopper = true;
 	      }
-	      clearTimeout(this._timer);
 	    },
 	    handleMouseLeave: function handleMouseLeave() {
 	      var _this2 = this;
 
+	      clearTimeout(this._timer);
 	      this._timer = setTimeout(function () {
 	        _this2.showPopper = false;
 	      }, 200);

@@ -581,6 +581,10 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  mixins: [_locale2.default],
@@ -625,7 +629,12 @@ module.exports =
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition-group', {
-	    class: ['el-upload-list', 'el-upload-list--' + _vm.listType],
+	    class: [
+	      'el-upload-list',
+	      'el-upload-list--' + _vm.listType, {
+	        'is-disabled': _vm.disabled
+	      }
+	    ],
 	    attrs: {
 	      "tag": "ul",
 	      "name": "el-list"
@@ -657,14 +666,14 @@ module.exports =
 	        'el-icon-circle-check': _vm.listType === 'text',
 	          'el-icon-check': ['picture-card', 'picture'].indexOf(_vm.listType) > -1
 	      }
-	    })]), _c('i', {
+	    })]), (!_vm.disabled) ? _c('i', {
 	      staticClass: "el-icon-close",
 	      on: {
 	        "click": function($event) {
 	          _vm.$emit('remove', file)
 	        }
 	      }
-	    }), (file.status === 'uploading') ? _c('el-progress', {
+	    }) : _vm._e(), (file.status === 'uploading') ? _c('el-progress', {
 	      attrs: {
 	        "type": _vm.listType === 'picture-card' ? 'circle' : 'line',
 	        "stroke-width": _vm.listType === 'picture-card' ? 6 : 2,

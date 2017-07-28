@@ -252,6 +252,10 @@ module.exports =
 	    validate: function validate(callback) {
 	      var _this2 = this;
 
+	      if (!this.model) {
+	        console.warn('[Element Warn][Form]model is required for validate to work!');
+	        return;
+	      };
 	      var valid = true;
 	      var count = 0;
 	      // 如果需要验证的fields为空，调用验证时立刻返回callback

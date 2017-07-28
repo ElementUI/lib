@@ -1059,9 +1059,10 @@ module.exports =
 	    this.checked = value === true;
 
 	    var _getChildState2 = getChildState(this.childNodes),
+	        all = _getChildState2.all,
 	        allWithoutDisable = _getChildState2.allWithoutDisable;
 
-	    if (this.childNodes.length && allWithoutDisable) {
+	    if (this.childNodes.length && !all && allWithoutDisable) {
 	      this.checked = false;
 	      value = false;
 	    }
@@ -1078,10 +1079,10 @@ module.exports =
 
 	        var _getChildState3 = getChildState(childNodes),
 	            half = _getChildState3.half,
-	            all = _getChildState3.all;
+	            _all = _getChildState3.all;
 
-	        if (!all) {
-	          _this3.checked = all;
+	        if (!_all) {
+	          _this3.checked = _all;
 	          _this3.indeterminate = half;
 	        }
 	      }
@@ -1478,6 +1479,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 /***/ },
 
@@ -1527,6 +1529,11 @@ module.exports =
 	    },
 	    on: {
 	      "change": _vm.handleCheckChange
+	    },
+	    nativeOn: {
+	      "click": function($event) {
+	        $event.stopPropagation();
+	      }
 	    },
 	    model: {
 	      value: (_vm.node.checked),

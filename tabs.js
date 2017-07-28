@@ -261,7 +261,9 @@ module.exports =
 	      this.$emit('input', value);
 	    },
 	    addPanes: function addPanes(item) {
-	      var index = this.$slots.default.indexOf(item.$vnode);
+	      var index = this.$slots.default.filter(function (item) {
+	        return item.elm.nodeType === 1 && /\bel-tab-pane\b/.test(item.elm.className);
+	      }).indexOf(item.$vnode);
 	      this.panes.splice(index, 0, item);
 	    },
 	    removePanes: function removePanes(item) {

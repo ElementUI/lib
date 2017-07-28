@@ -19,7 +19,7 @@ exports.default = {
       startTime: 'Starttijd',
       endDate: 'Einddatum',
       endTime: 'Eindtijd',
-      year: 'Jaar',
+      year: '',
       month1: 'januari',
       month2: 'februari',
       month3: 'maart',
