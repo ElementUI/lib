@@ -443,6 +443,13 @@ module.exports =
 	        handleFocus: function handleFocus(event) {
 	          this.oldValue = event.target.value;
 	        },
+	        handleKeyUp: function handleKeyUp(event) {
+	          var key = event.key || '';
+	          var keyCode = event.keyCode || '';
+	          if (key && key === 'Enter' || keyCode && keyCode === 13) {
+	            this.handleChange({ target: event.target });
+	          }
+	        },
 	        handleChange: function handleChange(_ref) {
 	          var target = _ref.target;
 
@@ -470,7 +477,8 @@ module.exports =
 	              },
 	              on: {
 	                'change': this.handleChange,
-	                'focus': this.handleFocus
+	                'focus': this.handleFocus,
+	                'keyup': this.handleKeyUp
 	              }
 	            },
 	            []

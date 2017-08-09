@@ -204,7 +204,7 @@ module.exports =
 	  mixins: [_emitter2.default],
 
 	  props: {
-	    command: null,
+	    command: {},
 	    disabled: Boolean,
 	    divided: Boolean
 	  },

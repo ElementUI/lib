@@ -918,20 +918,21 @@ module.exports =
 
 	var weeks = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 	var months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-
-	_date2.default.i18n = {
-	  dayNamesShort: weeks.map(function (week) {
-	    return (0, _locale.t)('el.datepicker.weeks.' + week);
-	  }),
-	  dayNames: weeks.map(function (week) {
-	    return (0, _locale.t)('el.datepicker.weeks.' + week);
-	  }),
-	  monthNamesShort: months.map(function (month) {
-	    return (0, _locale.t)('el.datepicker.months.' + month);
-	  }),
-	  monthNames: months.map(function (month, index) {
-	    return (0, _locale.t)('el.datepicker.month' + (index + 1));
-	  })
+	var getI18nSettings = function getI18nSettings() {
+	  return {
+	    dayNamesShort: weeks.map(function (week) {
+	      return (0, _locale.t)('el.datepicker.weeks.' + week);
+	    }),
+	    dayNames: weeks.map(function (week) {
+	      return (0, _locale.t)('el.datepicker.weeks.' + week);
+	    }),
+	    monthNamesShort: months.map(function (month) {
+	      return (0, _locale.t)('el.datepicker.months.' + month);
+	    }),
+	    monthNames: months.map(function (month, index) {
+	      return (0, _locale.t)('el.datepicker.month' + (index + 1));
+	    })
+	  };
 	};
 
 	var newArray = function newArray(start, end) {
@@ -959,11 +960,11 @@ module.exports =
 	var formatDate = exports.formatDate = function formatDate(date, format) {
 	  date = toDate(date);
 	  if (!date) return '';
-	  return _date2.default.format(date, format || 'yyyy-MM-dd');
+	  return _date2.default.format(date, format || 'yyyy-MM-dd', getI18nSettings());
 	};
 
 	var parseDate = exports.parseDate = function parseDate(string, format) {
-	  return _date2.default.parse(string, format || 'yyyy-MM-dd');
+	  return _date2.default.parse(string, format || 'yyyy-MM-dd', getI18nSettings());
 	};
 
 	var getDayCountOfMonth = exports.getDayCountOfMonth = function getDayCountOfMonth(year, month) {

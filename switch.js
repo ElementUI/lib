@@ -298,6 +298,7 @@ module.exports =
 	  },
 	  watch: {
 	    checked: function checked() {
+	      this.$refs.input.checked = this.checked;
 	      if (this.onColor || this.offColor) {
 	        this.setBackgroundColor();
 	      }
@@ -307,8 +308,8 @@ module.exports =
 	    handleChange: function handleChange(event) {
 	      var _this = this;
 
-	      this.$emit('change', !this.checked ? this.onValue : this.offValue);
 	      this.$emit('input', !this.checked ? this.onValue : this.offValue);
+	      this.$emit('change', !this.checked ? this.onValue : this.offValue);
 	      this.$nextTick(function () {
 	        // set input's checked property
 	        // in case parent refuses to change component's value

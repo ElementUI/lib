@@ -458,6 +458,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	exports.default = {
 	  name: 'ElTable',
@@ -597,6 +598,9 @@ module.exports =
 	          _this2.layout.setMaxHeight(_this2.maxHeight);
 	        } else if (_this2.shouldUpdateHeight) {
 	          _this2.layout.updateHeight();
+	        }
+	        if (_this2.$el) {
+	          _this2.isHidden = _this2.$el.clientWidth === 0;
 	        }
 	      });
 	    }
@@ -753,6 +757,7 @@ module.exports =
 	    return {
 	      store: store,
 	      layout: layout,
+	      isHidden: false,
 	      renderExpanded: null,
 	      resizeProxyVisible: false
 	    };
@@ -1323,7 +1328,7 @@ module.exports =
 	  if (typeof reverse === 'string') {
 	    reverse = reverse === 'descending' ? -1 : 1;
 	  }
-	  if (!sortKey) {
+	  if (!sortKey && !sortMethod) {
 	    return array;
 	  }
 	  var order = reverse && reverse < 0 ? -1 : 1;
@@ -3019,6 +3024,7 @@ module.exports =
 	      'el-table--fit': _vm.fit,
 	      'el-table--striped': _vm.stripe,
 	      'el-table--border': _vm.border,
+	      'el-table--hidden': _vm.isHidden,
 	      'el-table--fluid-height': _vm.maxHeight,
 	      'el-table--enable-row-hover': !_vm.store.states.isComplex,
 	        'el-table--enable-row-transition': (_vm.store.states.data || []).length !== 0 && (_vm.store.states.data || []).length < 100

@@ -233,11 +233,6 @@ module.exports =
 	//
 	//
 	//
-	//
-	//
-	//
-	//
-	//
 
 	exports.default = {
 	  name: 'ElAutocomplete',
@@ -626,17 +621,8 @@ module.exports =
 	      expression: "close"
 	    }],
 	    staticClass: "el-autocomplete"
-	  }, [_c('el-input', {
+	  }, [_c('el-input', _vm._b({
 	    ref: "input",
-	    attrs: {
-	      "value": _vm.value,
-	      "disabled": _vm.disabled,
-	      "placeholder": _vm.placeholder,
-	      "name": _vm.name,
-	      "size": _vm.size,
-	      "icon": _vm.icon,
-	      "on-icon-click": _vm.onIconClick
-	    },
 	    on: {
 	      "change": _vm.handleChange,
 	      "focus": _vm.handleFocus
@@ -663,9 +649,12 @@ module.exports =
 	        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
 	        $event.preventDefault();
 	        _vm.handleKeyEnter($event)
+	      }, function($event) {
+	        if (!('button' in $event) && _vm._k($event.keyCode, "tab", 9)) { return null; }
+	        _vm.close($event)
 	      }]
 	    }
-	  }, [(_vm.$slots.prepend) ? _c('template', {
+	  }, 'el-input', _vm.$props), [(_vm.$slots.prepend) ? _c('template', {
 	    slot: "prepend"
 	  }, [_vm._t("prepend")], 2) : _vm._e(), (_vm.$slots.append) ? _c('template', {
 	    slot: "append"

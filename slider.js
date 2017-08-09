@@ -142,13 +142,6 @@ module.exports =
 
 /***/ },
 
-/***/ 123:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/dom");
-
-/***/ },
-
 /***/ 272:
 /***/ function(module, exports, __webpack_require__) {
 
@@ -207,59 +200,11 @@ module.exports =
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _dom = __webpack_require__(123);
-
 	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	exports.default = {
 	  name: 'ElSlider',
@@ -327,7 +272,8 @@ module.exports =
 	      firstValue: null,
 	      secondValue: null,
 	      oldValue: null,
-	      dragging: false
+	      dragging: false,
+	      sliderSize: 1
 	    };
 	  },
 
@@ -431,18 +377,20 @@ module.exports =
 	      if (this.disabled || this.dragging) return;
 	      if (this.vertical) {
 	        var sliderOffsetBottom = this.$refs.slider.getBoundingClientRect().bottom;
-	        this.setPosition((sliderOffsetBottom - event.clientY) / this.$sliderSize * 100);
+	        this.setPosition((sliderOffsetBottom - event.clientY) / this.sliderSize * 100);
 	      } else {
 	        var sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
-	        this.setPosition((event.clientX - sliderOffsetLeft) / this.$sliderSize * 100);
+	        this.setPosition((event.clientX - sliderOffsetLeft) / this.sliderSize * 100);
+	      }
+	    },
+	    resetSize: function resetSize() {
+	      if (this.$refs.slider) {
+	        this.sliderSize = this.$refs.slider['client' + (this.vertical ? 'Height' : 'Width')];
 	      }
 	    }
 	  },
 
 	  computed: {
-	    $sliderSize: function $sliderSize() {
-	      return parseInt((0, _dom.getStyle)(this.$refs.slider, this.vertical ? 'height' : 'width'), 10);
-	    },
 	    stops: function stops() {
 	      var _this2 = this;
 
@@ -517,8 +465,57 @@ module.exports =
 	      }
 	      this.oldValue = this.firstValue;
 	    }
+	    this.resetSize();
+	    window.addEventListener('resize', this.resetSize);
+	  },
+	  beforeDestroy: function beforeDestroy() {
+	    window.removeEventListener('resize', this.resetSize);
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
@@ -673,10 +670,10 @@ module.exports =
 	        var diff = 0;
 	        if (this.vertical) {
 	          this.currentY = event.clientY;
-	          diff = (this.startY - this.currentY) / this.$parent.$sliderSize * 100;
+	          diff = (this.startY - this.currentY) / this.$parent.sliderSize * 100;
 	        } else {
 	          this.currentX = event.clientX;
-	          diff = (this.currentX - this.startX) / this.$parent.$sliderSize * 100;
+	          diff = (this.currentX - this.startX) / this.$parent.sliderSize * 100;
 	        }
 	        this.newPosition = this.startPosition + diff;
 	        this.setPosition(this.newPosition);
@@ -701,6 +698,7 @@ module.exports =
 	      }
 	    },
 	    setPosition: function setPosition(newPosition) {
+	      if (newPosition === null) return;
 	      if (newPosition < 0) {
 	        newPosition = 0;
 	      } else if (newPosition > 100) {

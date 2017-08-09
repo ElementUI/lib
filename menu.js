@@ -142,13 +142,6 @@ module.exports =
 
 /***/ },
 
-/***/ 55:
-/***/ function(module, exports) {
-
-	module.exports = require("vue");
-
-/***/ },
-
 /***/ 123:
 /***/ function(module, exports) {
 
@@ -206,10 +199,6 @@ module.exports =
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(55);
-
-	var _vue2 = _interopRequireDefault(_vue);
-
 	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
@@ -218,61 +207,7 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	_vue2.default.component('el-menu-collapse-transition', {
-	  functional: true,
-	  render: function render(createElement, context) {
-	    var data = {
-	      props: {
-	        mode: 'out-in'
-	      },
-	      on: {
-	        beforeEnter: function beforeEnter(el) {
-	          el.style.opacity = 0.2;
-	        },
-	        enter: function enter(el) {
-	          (0, _dom.addClass)(el, 'el-opacity-transition');
-	          el.style.opacity = 1;
-	        },
-	        afterEnter: function afterEnter(el) {
-	          (0, _dom.removeClass)(el, 'el-opacity-transition');
-	          el.style.opacity = '';
-	        },
-	        beforeLeave: function beforeLeave(el) {
-	          if (!el.dataset) el.dataset = {};
-
-	          if ((0, _dom.hasClass)(el, 'el-menu--collapse')) {
-	            (0, _dom.removeClass)(el, 'el-menu--collapse');
-	            el.dataset.oldOverflow = el.style.overflow;
-	            el.dataset.scrollWidth = el.scrollWidth;
-	            (0, _dom.addClass)(el, 'el-menu--collapse');
-	          }
-
-	          el.style.width = el.scrollWidth + 'px';
-	          el.style.overflow = 'hidden';
-	        },
-	        leave: function leave(el) {
-	          if (!(0, _dom.hasClass)(el, 'el-menu--collapse')) {
-	            (0, _dom.addClass)(el, 'horizontal-collapse-transition');
-	            el.style.width = '64px';
-	          } else {
-	            (0, _dom.addClass)(el, 'horizontal-collapse-transition');
-	            el.style.width = el.dataset.scrollWidth + 'px';
-	          }
-	        },
-	        afterLeave: function afterLeave(el) {
-	          (0, _dom.removeClass)(el, 'horizontal-collapse-transition');
-	          if ((0, _dom.hasClass)(el, 'el-menu--collapse')) {
-	            el.style.width = el.dataset.scrollWidth + 'px';
-	          } else {
-	            el.style.width = '64px';
-	          }
-	          el.style.overflow = el.dataset.oldOverflow;
-	        }
-	      }
-	    };
-	    return createElement('transition', data, context.children);
-	  }
-	}); //
+	//
 	//
 	//
 	//
@@ -300,6 +235,64 @@ module.exports =
 	    };
 	  },
 
+
+	  components: {
+	    'el-menu-collapse-transition': {
+	      functional: true,
+	      render: function render(createElement, context) {
+	        var data = {
+	          props: {
+	            mode: 'out-in'
+	          },
+	          on: {
+	            beforeEnter: function beforeEnter(el) {
+	              el.style.opacity = 0.2;
+	            },
+	            enter: function enter(el) {
+	              (0, _dom.addClass)(el, 'el-opacity-transition');
+	              el.style.opacity = 1;
+	            },
+	            afterEnter: function afterEnter(el) {
+	              (0, _dom.removeClass)(el, 'el-opacity-transition');
+	              el.style.opacity = '';
+	            },
+	            beforeLeave: function beforeLeave(el) {
+	              if (!el.dataset) el.dataset = {};
+
+	              if ((0, _dom.hasClass)(el, 'el-menu--collapse')) {
+	                (0, _dom.removeClass)(el, 'el-menu--collapse');
+	                el.dataset.oldOverflow = el.style.overflow;
+	                el.dataset.scrollWidth = el.scrollWidth;
+	                (0, _dom.addClass)(el, 'el-menu--collapse');
+	              }
+
+	              el.style.width = el.scrollWidth + 'px';
+	              el.style.overflow = 'hidden';
+	            },
+	            leave: function leave(el) {
+	              if (!(0, _dom.hasClass)(el, 'el-menu--collapse')) {
+	                (0, _dom.addClass)(el, 'horizontal-collapse-transition');
+	                el.style.width = '64px';
+	              } else {
+	                (0, _dom.addClass)(el, 'horizontal-collapse-transition');
+	                el.style.width = el.dataset.scrollWidth + 'px';
+	              }
+	            },
+	            afterLeave: function afterLeave(el) {
+	              (0, _dom.removeClass)(el, 'horizontal-collapse-transition');
+	              if ((0, _dom.hasClass)(el, 'el-menu--collapse')) {
+	                el.style.width = el.dataset.scrollWidth + 'px';
+	              } else {
+	                el.style.width = '64px';
+	              }
+	              el.style.overflow = el.dataset.oldOverflow;
+	            }
+	          }
+	        };
+	        return createElement('transition', data, context.children);
+	      }
+	    }
+	  },
 
 	  props: {
 	    mode: {
@@ -344,6 +337,9 @@ module.exports =
 	    },
 	    defaultOpeneds: function defaultOpeneds(value) {
 	      this.openedMenus = value;
+	    },
+	    collapse: function collapse(value) {
+	      if (value) this.openedMenus = [];
 	    }
 	  },
 	  methods: {

@@ -249,8 +249,7 @@ module.exports =
 
 	  computed: {
 	    isObject: function isObject() {
-	      var type = _typeof(this.value);
-	      return type !== 'string' && type !== 'number' && type !== 'boolean';
+	      return Object.prototype.toString.call(this.value).toLowerCase() === '[object object]';
 	    },
 	    currentLabel: function currentLabel() {
 	      return this.label || (this.isObject ? '' : this.value);

@@ -297,8 +297,7 @@ module.exports =
 
 	  computed: {
 	    isObject: function isObject() {
-	      var type = _typeof(this.value);
-	      return type !== 'string' && type !== 'number' && type !== 'boolean';
+	      return Object.prototype.toString.call(this.value).toLowerCase() === '[object object]';
 	    },
 	    currentLabel: function currentLabel() {
 	      return this.label || (this.isObject ? '' : this.value);
@@ -888,25 +887,23 @@ module.exports =
 	        (0, _dom.addClass)(icon, 'is-reverse');
 	      }
 	    },
-	    scrollToOption: function scrollToOption() {
-	      var className = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'selected';
-
-	      if (this.$refs.popper) {
+	    scrollToOption: function scrollToOption(option) {
+	      var target = Array.isArray(option) && option[0] ? option[0].$el : option.$el;
+	      if (this.$refs.popper && target) {
 	        var menu = this.$refs.popper.$el.querySelector('.el-select-dropdown__wrap');
-	        (0, _scrollIntoView2.default)(menu, menu.getElementsByClassName(className)[0]);
+	        (0, _scrollIntoView2.default)(menu, target);
 	      }
 	    },
 	    handleMenuEnter: function handleMenuEnter() {
 	      var _this4 = this;
 
 	      this.$nextTick(function () {
-	        return _this4.scrollToOption();
+	        return _this4.scrollToOption(_this4.selected);
 	      });
 	    },
 	    getOption: function getOption(value) {
 	      var option = void 0;
-	      var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
-	      var isObject = type !== 'string' && type !== 'number' && type !== 'boolean';
+	      var isObject = Object.prototype.toString.call(value).toLowerCase() === '[object object]';
 	      for (var i = this.cachedOptions.length - 1; i >= 0; i--) {
 	        var cachedOption = this.cachedOptions[i];
 	        var isEqual = isObject ? (0, _util.getValueByPath)(cachedOption.value, this.valueKey) === (0, _util.getValueByPath)(value, this.valueKey) : cachedOption.value === value;
@@ -1061,7 +1058,7 @@ module.exports =
 	        this.visible = false;
 	      }
 	      this.$nextTick(function () {
-	        return _this8.scrollToOption();
+	        return _this8.scrollToOption(option);
 	      });
 	    },
 	    getValueIndex: function getValueIndex() {
@@ -1070,8 +1067,7 @@ module.exports =
 	      var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	      var value = arguments[1];
 
-	      var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
-	      var isObject = type !== 'string' && type !== 'number' && type !== 'boolean';
+	      var isObject = Object.prototype.toString.call(value).toLowerCase() === '[object object]';
 	      if (!isObject) {
 	        return arr.indexOf(value);
 	      } else {
@@ -1133,7 +1129,7 @@ module.exports =
 	        }
 	      }
 	      this.$nextTick(function () {
-	        return _this10.scrollToOption('hover');
+	        return _this10.scrollToOption(_this10.options[_this10.hoverIndex]);
 	      });
 	    },
 	    selectOption: function selectOption() {
@@ -1407,7 +1403,7 @@ module.exports =
 	    return _c('el-tag', {
 	      key: _vm.getValueKey(item),
 	      attrs: {
-	        "closable": "",
+	        "closable": !_vm.disabled,
 	        "hit": item.hitState,
 	        "type": "primary",
 	        "close-transition": ""

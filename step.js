@@ -265,6 +265,10 @@ module.exports =
 	    currentStatus: function currentStatus() {
 	      return this.status || this.internalStatus;
 	    },
+	    prevStatus: function prevStatus() {
+	      var prevStep = this.$parent.steps[this.index - 1];
+	      return prevStep ? prevStep.currentStatus : 'wait';
+	    },
 
 	    isLast: function isLast() {
 	      var parent = this.$parent;
@@ -296,7 +300,7 @@ module.exports =
 
 	      if (val > this.index) {
 	        this.internalStatus = this.$parent.finishStatus;
-	      } else if (val === this.index) {
+	      } else if (val === this.index && this.prevStatus !== 'error') {
 	        this.internalStatus = this.$parent.processStatus;
 	      } else {
 	        this.internalStatus = 'wait';
@@ -310,7 +314,7 @@ module.exports =
 
 	      style.transitionDelay = 150 * this.index + 'ms';
 	      if (status === this.$parent.processStatus) {
-	        step = 50;
+	        step = this.currentStatus !== 'error' ? 50 : 0;
 	      } else if (status === 'wait') {
 	        step = 0;
 	        style.transitionDelay = -150 * this.index + 'ms';
