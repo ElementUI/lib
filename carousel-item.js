@@ -209,6 +209,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	var CARD_SCALE = 0.83;
 	exports.default = {
@@ -229,7 +230,8 @@ module.exports =
 	      scale: 1,
 	      active: false,
 	      ready: false,
-	      inStage: false
+	      inStage: false,
+	      animating: false
 	    };
 	  },
 
@@ -256,9 +258,12 @@ module.exports =
 	        return (3 + CARD_SCALE) * parentWidth / 4;
 	      }
 	    },
-	    translateItem: function translateItem(index, activeIndex) {
+	    translateItem: function translateItem(index, activeIndex, oldIndex) {
 	      var parentWidth = this.$parent.$el.offsetWidth;
 	      var length = this.$parent.items.length;
+	      if (this.$parent.type !== 'card' && oldIndex !== undefined) {
+	        this.animating = index === activeIndex || index === oldIndex;
+	      }
 	      if (index !== activeIndex && length > 2) {
 	        index = this.processIndex(index, activeIndex, length);
 	      }
@@ -308,7 +313,8 @@ module.exports =
 	      'is-active': _vm.active,
 	      'el-carousel__item--card': _vm.$parent.type === 'card',
 	        'is-in-stage': _vm.inStage,
-	        'is-hover': _vm.hover
+	        'is-hover': _vm.hover,
+	        'is-animating': _vm.animating
 	    },
 	    style: ({
 	      msTransform: ("translateX(" + _vm.translate + "px) scale(" + _vm.scale + ")"),

@@ -318,7 +318,7 @@ module.exports =
 	  },
 	  data: function data() {
 	    return {
-	      activedIndex: this.defaultActive,
+	      activeIndex: this.defaultActive,
 	      openedMenus: this.defaultOpeneds ? this.defaultOpeneds.slice(0) : [],
 	      items: {},
 	      submenus: {}
@@ -329,10 +329,10 @@ module.exports =
 	    defaultActive: function defaultActive(value) {
 	      var item = this.items[value];
 	      if (item) {
-	        this.activedIndex = item.index;
+	        this.activeIndex = item.index;
 	        this.initOpenedMenu();
 	      } else {
-	        this.activedIndex = '';
+	        this.activeIndex = '';
 	      }
 	    },
 	    defaultOpeneds: function defaultOpeneds(value) {
@@ -387,7 +387,7 @@ module.exports =
 	      var index = item.index,
 	          indexPath = item.indexPath;
 
-	      this.activedIndex = item.index;
+	      this.activeIndex = item.index;
 	      this.$emit('select', index, indexPath, item);
 
 	      if (this.mode === 'horizontal' || this.collapse) {
@@ -403,7 +403,7 @@ module.exports =
 	    initOpenedMenu: function initOpenedMenu() {
 	      var _this = this;
 
-	      var index = this.activedIndex;
+	      var index = this.activeIndex;
 	      var activeItem = this.items[index];
 	      if (!activeItem || this.mode === 'horizontal' || this.collapse) return;
 

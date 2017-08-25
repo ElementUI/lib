@@ -22,7 +22,7 @@
         clear: 'Arassala'
       },
       datepicker: {
-        now: 'Ýaňy',
+        now: 'Şuwagt',
         today: 'Şügün',
         cancel: 'Bes et',
         clear: 'Arassala',
@@ -114,7 +114,7 @@
         noData: 'Hiçzat ýok',
         titles: ['Sanaw 1', 'Sanaw 2'],
         filterPlaceholder: 'Gözleg sözlerini giriziň',
-        noCheckedFormat: '{total} element',
+        noCheckedFormat: '{total} sany',
         hasCheckedFormat: '{checked}/{total} saýlanan'
       }
     }

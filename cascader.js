@@ -713,6 +713,26 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var copyArray = function copyArray(arr, props) {
+	  if (!arr || !Array.isArray(arr) || !props) return arr;
+	  var result = [];
+	  var configurableProps = ['__IS__FLAT__OPTIONS', 'label', 'value', 'disabled'];
+	  var childrenProp = props.children || 'children';
+	  arr.forEach(function (item) {
+	    var itemCopy = {};
+	    configurableProps.forEach(function (prop) {
+	      var propName = props[prop] || prop;
+	      var value = item[propName];
+	      if (value !== undefined) itemCopy[propName] = value;
+	    });
+	    if (Array.isArray(item[childrenProp])) {
+	      itemCopy[childrenProp] = copyArray(item[childrenProp], props);
+	    }
+	    result.push(itemCopy);
+	  });
+	  return result;
+	};
+
 	exports.default = {
 	  name: 'ElCascaderMenu',
 
@@ -760,7 +780,7 @@ module.exports =
 	            if (option.__IS__FLAT__OPTIONS) return;
 	            configurableProps.forEach(function (prop) {
 	              var value = option[_this.props[prop] || prop];
-	              if (value) option[prop] = value;
+	              if (value !== undefined) option[prop] = value;
 	            });
 	            if (Array.isArray(option.children)) {
 	              formatOptions(option.children);
@@ -785,8 +805,9 @@ module.exports =
 	          return activeOptions;
 	        };
 
-	        formatOptions(this.options);
-	        return loadActiveOptions(this.options);
+	        var optionsCopy = copyArray(this.options, this.props);
+	        formatOptions(optionsCopy);
+	        return loadActiveOptions(optionsCopy);
 	      }
 	    }
 	  },

@@ -253,10 +253,10 @@ module.exports =
 	      return TYPE_CLASSES_MAP[this.type] || 'el-icon-information';
 	    },
 	    isBigIcon: function isBigIcon() {
-	      return this.description ? 'is-big' : '';
+	      return this.description || this.$slots.default ? 'is-big' : '';
 	    },
 	    isBoldTitle: function isBoldTitle() {
-	      return this.description ? 'is-bold' : '';
+	      return this.description || this.$slots.default ? 'is-bold' : '';
 	    }
 	  }
 	};

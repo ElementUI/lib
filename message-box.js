@@ -400,6 +400,8 @@ module.exports =
 	  if ((typeof title === 'undefined' ? 'undefined' : _typeof(title)) === 'object') {
 	    options = title;
 	    title = '';
+	  } else if (title === undefined) {
+	    title = '';
 	  }
 	  return MessageBox((0, _merge2.default)({
 	    title: title,
@@ -414,6 +416,8 @@ module.exports =
 	  if ((typeof title === 'undefined' ? 'undefined' : _typeof(title)) === 'object') {
 	    options = title;
 	    title = '';
+	  } else if (title === undefined) {
+	    title = '';
 	  }
 	  return MessageBox((0, _merge2.default)({
 	    title: title,
@@ -426,6 +430,8 @@ module.exports =
 	MessageBox.prompt = function (message, title, options) {
 	  if ((typeof title === 'undefined' ? 'undefined' : _typeof(title)) === 'object') {
 	    options = title;
+	    title = '';
+	  } else if (title === undefined) {
 	    title = '';
 	  }
 	  return MessageBox((0, _merge2.default)({
@@ -770,7 +776,7 @@ module.exports =
 	    staticClass: "el-message-box__header"
 	  }, [_c('div', {
 	    staticClass: "el-message-box__title"
-	  }, [_vm._v(_vm._s(_vm.title || _vm.t('el.messagebox.title')))]), (_vm.showClose) ? _c('button', {
+	  }, [_vm._v(_vm._s(_vm.title))]), (_vm.showClose) ? _c('button', {
 	    staticClass: "el-message-box__headerbtn",
 	    attrs: {
 	      "type": "button",

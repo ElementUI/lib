@@ -335,8 +335,9 @@ module.exports =
 	    close: function close(e) {
 	      this.activated = false;
 	    },
-	    handleKeyEnter: function handleKeyEnter() {
+	    handleKeyEnter: function handleKeyEnter(e) {
 	      if (this.suggestionVisible && this.highlightedIndex >= 0 && this.highlightedIndex < this.suggestions.length) {
+	        e.preventDefault();
 	        this.select(this.suggestions[this.highlightedIndex]);
 	      }
 	    },
@@ -647,7 +648,6 @@ module.exports =
 	        _vm.highlight(_vm.highlightedIndex + 1)
 	      }, function($event) {
 	        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
-	        $event.preventDefault();
 	        _vm.handleKeyEnter($event)
 	      }, function($event) {
 	        if (!('button' in $event) && _vm._k($event.keyCode, "tab", 9)) { return null; }

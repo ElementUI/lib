@@ -771,7 +771,8 @@ module.exports =
 	    }),
 	    monthNames: months.map(function (month, index) {
 	      return (0, _locale.t)('el.datepicker.month' + (index + 1));
-	    })
+	    }),
+	    amPm: ['am', 'pm']
 	  };
 	};
 

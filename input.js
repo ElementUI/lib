@@ -404,8 +404,8 @@ module.exports =
 
 	var CONTEXT_STYLE = ['letter-spacing', 'line-height', 'padding-top', 'padding-bottom', 'font-family', 'font-weight', 'font-size', 'text-rendering', 'text-transform', 'width', 'text-indent', 'padding-left', 'padding-right', 'border-width', 'box-sizing'];
 
-	function calculateNodeStyling(node) {
-	  var style = window.getComputedStyle(node);
+	function calculateNodeStyling(targetElement) {
+	  var style = window.getComputedStyle(targetElement);
 
 	  var boxSizing = style.getPropertyValue('box-sizing');
 
@@ -420,7 +420,7 @@ module.exports =
 	  return { contextStyle: contextStyle, paddingSize: paddingSize, borderSize: borderSize, boxSizing: boxSizing };
 	}
 
-	function calcTextareaHeight(targetNode) {
+	function calcTextareaHeight(targetElement) {
 	  var minRows = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 	  var maxRows = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
@@ -429,14 +429,14 @@ module.exports =
 	    document.body.appendChild(hiddenTextarea);
 	  }
 
-	  var _calculateNodeStyling = calculateNodeStyling(targetNode),
+	  var _calculateNodeStyling = calculateNodeStyling(targetElement),
 	      paddingSize = _calculateNodeStyling.paddingSize,
 	      borderSize = _calculateNodeStyling.borderSize,
 	      boxSizing = _calculateNodeStyling.boxSizing,
 	      contextStyle = _calculateNodeStyling.contextStyle;
 
 	  hiddenTextarea.setAttribute('style', contextStyle + ';' + HIDDEN_STYLE);
-	  hiddenTextarea.value = targetNode.value || targetNode.placeholder || '';
+	  hiddenTextarea.value = targetElement.value || targetElement.placeholder || '';
 
 	  var height = hiddenTextarea.scrollHeight;
 

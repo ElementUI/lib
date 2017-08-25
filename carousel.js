@@ -300,7 +300,7 @@ module.exports =
 	      if (val.length > 0) this.setActiveItem(this.initialIndex);
 	    },
 	    activeIndex: function activeIndex(val, oldVal) {
-	      this.resetItemPosition();
+	      this.resetItemPosition(oldVal);
 	      this.$emit('change', val, oldVal);
 	    },
 	    autoplay: function autoplay(val) {
@@ -345,11 +345,11 @@ module.exports =
 	        return child.$options.name === 'ElCarouselItem';
 	      });
 	    },
-	    resetItemPosition: function resetItemPosition() {
+	    resetItemPosition: function resetItemPosition(oldIndex) {
 	      var _this2 = this;
 
 	      this.items.forEach(function (item, index) {
-	        item.translateItem(index, _this2.activeIndex);
+	        item.translateItem(index, _this2.activeIndex, oldIndex);
 	      });
 	    },
 	    playSlides: function playSlides() {

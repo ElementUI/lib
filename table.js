@@ -563,11 +563,15 @@ module.exports =
 	      });
 
 	      var scrollBodyWrapper = function scrollBodyWrapper(event) {
-	        var deltaX = event.deltaX;
+	        var deltaX = event.deltaX,
+	            deltaY = event.deltaY;
+
+
+	        if (Math.abs(deltaX) < Math.abs(deltaY)) return;
 
 	        if (deltaX > 0) {
 	          _this.bodyWrapper.scrollLeft += 10;
-	        } else {
+	        } else if (deltaX < 0) {
 	          _this.bodyWrapper.scrollLeft -= 10;
 	        }
 	      };
@@ -2884,7 +2888,7 @@ module.exports =
 	        sums[index] = values.reduce(function (prev, curr) {
 	          var value = Number(curr);
 	          if (!isNaN(value)) {
-	            return parseFloat((prev + curr).toFixed(precision));
+	            return parseFloat((prev + curr).toFixed(Math.min(precision, 20)));
 	          } else {
 	            return prev;
 	          }

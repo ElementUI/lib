@@ -353,7 +353,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.4.2',
+	  version: '1.4.3',
 	  locale: _locale2.default.use,
 	  i18n: _locale2.default.i18n,
 	  install: install,
@@ -1676,8 +1676,9 @@ module.exports =
 	    close: function close(e) {
 	      this.activated = false;
 	    },
-	    handleKeyEnter: function handleKeyEnter() {
+	    handleKeyEnter: function handleKeyEnter(e) {
 	      if (this.suggestionVisible && this.highlightedIndex >= 0 && this.highlightedIndex < this.suggestions.length) {
+	        e.preventDefault();
 	        this.select(this.suggestions[this.highlightedIndex]);
 	      }
 	    },
@@ -1982,7 +1983,6 @@ module.exports =
 	        _vm.highlight(_vm.highlightedIndex + 1)
 	      }, function($event) {
 	        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
-	        $event.preventDefault();
 	        _vm.handleKeyEnter($event)
 	      }, function($event) {
 	        if (!('button' in $event) && _vm._k($event.keyCode, "tab", 9)) { return null; }
@@ -2617,7 +2617,7 @@ module.exports =
 	  },
 	  data: function data() {
 	    return {
-	      activedIndex: this.defaultActive,
+	      activeIndex: this.defaultActive,
 	      openedMenus: this.defaultOpeneds ? this.defaultOpeneds.slice(0) : [],
 	      items: {},
 	      submenus: {}
@@ -2628,10 +2628,10 @@ module.exports =
 	    defaultActive: function defaultActive(value) {
 	      var item = this.items[value];
 	      if (item) {
-	        this.activedIndex = item.index;
+	        this.activeIndex = item.index;
 	        this.initOpenedMenu();
 	      } else {
-	        this.activedIndex = '';
+	        this.activeIndex = '';
 	      }
 	    },
 	    defaultOpeneds: function defaultOpeneds(value) {
@@ -2686,7 +2686,7 @@ module.exports =
 	      var index = item.index,
 	          indexPath = item.indexPath;
 
-	      this.activedIndex = item.index;
+	      this.activeIndex = item.index;
 	      this.$emit('select', index, indexPath, item);
 
 	      if (this.mode === 'horizontal' || this.collapse) {
@@ -2702,7 +2702,7 @@ module.exports =
 	    initOpenedMenu: function initOpenedMenu() {
 	      var _this = this;
 
-	      var index = this.activedIndex;
+	      var index = this.activeIndex;
 	      var activeItem = this.items[index];
 	      if (!activeItem || this.mode === 'horizontal' || this.collapse) return;
 
@@ -3176,7 +3176,7 @@ module.exports =
 	  },
 	  computed: {
 	    active: function active() {
-	      return this.index === this.rootMenu.activedIndex;
+	      return this.index === this.rootMenu.activeIndex;
 	    }
 	  },
 	  methods: {
@@ -3600,8 +3600,8 @@ module.exports =
 
 	var CONTEXT_STYLE = ['letter-spacing', 'line-height', 'padding-top', 'padding-bottom', 'font-family', 'font-weight', 'font-size', 'text-rendering', 'text-transform', 'width', 'text-indent', 'padding-left', 'padding-right', 'border-width', 'box-sizing'];
 
-	function calculateNodeStyling(node) {
-	  var style = window.getComputedStyle(node);
+	function calculateNodeStyling(targetElement) {
+	  var style = window.getComputedStyle(targetElement);
 
 	  var boxSizing = style.getPropertyValue('box-sizing');
 
@@ -3616,7 +3616,7 @@ module.exports =
 	  return { contextStyle: contextStyle, paddingSize: paddingSize, borderSize: borderSize, boxSizing: boxSizing };
 	}
 
-	function calcTextareaHeight(targetNode) {
+	function calcTextareaHeight(targetElement) {
 	  var minRows = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 	  var maxRows = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
@@ -3625,14 +3625,14 @@ module.exports =
 	    document.body.appendChild(hiddenTextarea);
 	  }
 
-	  var _calculateNodeStyling = calculateNodeStyling(targetNode),
+	  var _calculateNodeStyling = calculateNodeStyling(targetElement),
 	      paddingSize = _calculateNodeStyling.paddingSize,
 	      borderSize = _calculateNodeStyling.borderSize,
 	      boxSizing = _calculateNodeStyling.boxSizing,
 	      contextStyle = _calculateNodeStyling.contextStyle;
 
 	  hiddenTextarea.setAttribute('style', contextStyle + ';' + HIDDEN_STYLE);
-	  hiddenTextarea.value = targetNode.value || targetNode.placeholder || '';
+	  hiddenTextarea.value = targetElement.value || targetElement.placeholder || '';
 
 	  var height = hiddenTextarea.scrollHeight;
 
@@ -7096,6 +7096,11 @@ module.exports =
 	  methods: {
 	    handleClick: function handleClick(evt) {
 	      this.$emit('click', evt);
+	    },
+	    handleInnerClick: function handleInnerClick(evt) {
+	      if (this.disabled) {
+	        evt.stopPropagation();
+	      }
 	    }
 	  }
 	};
@@ -7124,10 +7129,20 @@ module.exports =
 	      "click": _vm.handleClick
 	    }
 	  }, [(_vm.loading) ? _c('i', {
-	    staticClass: "el-icon-loading"
+	    staticClass: "el-icon-loading",
+	    on: {
+	      "click": _vm.handleInnerClick
+	    }
 	  }) : _vm._e(), (_vm.icon && !_vm.loading) ? _c('i', {
-	    class: 'el-icon-' + _vm.icon
-	  }) : _vm._e(), (_vm.$slots.default) ? _c('span', [_vm._t("default")], 2) : _vm._e()])
+	    class: 'el-icon-' + _vm.icon,
+	    on: {
+	      "click": _vm.handleInnerClick
+	    }
+	  }) : _vm._e(), (_vm.$slots.default) ? _c('span', {
+	    on: {
+	      "click": _vm.handleInnerClick
+	    }
+	  }, [_vm._t("default")], 2) : _vm._e()])
 	},staticRenderFns: []}
 
 /***/ },
@@ -7540,11 +7555,15 @@ module.exports =
 	      });
 
 	      var scrollBodyWrapper = function scrollBodyWrapper(event) {
-	        var deltaX = event.deltaX;
+	        var deltaX = event.deltaX,
+	            deltaY = event.deltaY;
+
+
+	        if (Math.abs(deltaX) < Math.abs(deltaY)) return;
 
 	        if (deltaX > 0) {
 	          _this.bodyWrapper.scrollLeft += 10;
-	        } else {
+	        } else if (deltaX < 0) {
 	          _this.bodyWrapper.scrollLeft -= 10;
 	        }
 	      };
@@ -9873,7 +9892,7 @@ module.exports =
 	        sums[index] = values.reduce(function (prev, curr) {
 	          var value = Number(curr);
 	          if (!isNaN(value)) {
-	            return parseFloat((prev + curr).toFixed(precision));
+	            return parseFloat((prev + curr).toFixed(Math.min(precision, 20)));
 	          } else {
 	            return prev;
 	          }
@@ -11365,7 +11384,8 @@ module.exports =
 	    }),
 	    monthNames: months.map(function (month, index) {
 	      return (0, _locale.t)('el.datepicker.month' + (index + 1));
-	    })
+	    }),
+	    amPm: ['am', 'pm']
 	  };
 	};
 
@@ -12995,7 +13015,14 @@ module.exports =
 	            break;
 	          }
 	        }
-	        if (date - nextMonth === 0) flag = true;
+	        // There is a bug of Chrome.
+	        // For example:
+	        // var date = new Date('1988-04-01 00:00:00') Fri Apr 01 1988 00:00:00 GMT+0800 (CST)
+	        // date.setMonth(4) Sun May 01 1988 00:00:00 GMT+0900 (CDT)
+	        // Sometimes the time zone will change.
+	        if (date - nextMonth < 8.64e7) {
+	          flag = true;
+	        }
 	      }
 
 	      style.disabled = flag;
@@ -15966,6 +15993,8 @@ module.exports =
 	  if ((typeof title === 'undefined' ? 'undefined' : _typeof(title)) === 'object') {
 	    options = title;
 	    title = '';
+	  } else if (title === undefined) {
+	    title = '';
 	  }
 	  return MessageBox((0, _merge2.default)({
 	    title: title,
@@ -15980,6 +16009,8 @@ module.exports =
 	  if ((typeof title === 'undefined' ? 'undefined' : _typeof(title)) === 'object') {
 	    options = title;
 	    title = '';
+	  } else if (title === undefined) {
+	    title = '';
 	  }
 	  return MessageBox((0, _merge2.default)({
 	    title: title,
@@ -15992,6 +16023,8 @@ module.exports =
 	MessageBox.prompt = function (message, title, options) {
 	  if ((typeof title === 'undefined' ? 'undefined' : _typeof(title)) === 'object') {
 	    options = title;
+	    title = '';
+	  } else if (title === undefined) {
 	    title = '';
 	  }
 	  return MessageBox((0, _merge2.default)({
@@ -16333,7 +16366,7 @@ module.exports =
 	    staticClass: "el-message-box__header"
 	  }, [_c('div', {
 	    staticClass: "el-message-box__title"
-	  }, [_vm._v(_vm._s(_vm.title || _vm.t('el.messagebox.title')))]), (_vm.showClose) ? _c('button', {
+	  }, [_vm._v(_vm._s(_vm.title))]), (_vm.showClose) ? _c('button', {
 	    staticClass: "el-message-box__headerbtn",
 	    attrs: {
 	      "type": "button",
@@ -19404,10 +19437,10 @@ module.exports =
 	      return TYPE_CLASSES_MAP[this.type] || 'el-icon-information';
 	    },
 	    isBigIcon: function isBigIcon() {
-	      return this.description ? 'is-big' : '';
+	      return this.description || this.$slots.default ? 'is-big' : '';
 	    },
 	    isBoldTitle: function isBoldTitle() {
-	      return this.description ? 'is-bold' : '';
+	      return this.description || this.$slots.default ? 'is-bold' : '';
 	    }
 	  }
 	};
@@ -19998,6 +20031,7 @@ module.exports =
 	    },
 	    onSliderClick: function onSliderClick(event) {
 	      if (this.disabled || this.dragging) return;
+	      this.resetSize();
 	      if (this.vertical) {
 	        var sliderOffsetBottom = this.$refs.slider.getBoundingClientRect().bottom;
 	        this.setPosition((sliderOffsetBottom - event.clientY) / this.sliderSize * 100);
@@ -20287,6 +20321,7 @@ module.exports =
 	    onDragging: function onDragging(event) {
 	      if (this.dragging) {
 	        this.displayTooltip();
+	        this.$parent.resetSize();
 	        var diff = 0;
 	        if (this.vertical) {
 	          this.currentY = event.clientY;
@@ -20512,8 +20547,8 @@ module.exports =
 	    if (binding.value) {
 	      Vue.nextTick(function () {
 	        if (binding.modifiers.fullscreen) {
-	          el.originalPosition = document.body.style.position;
-	          el.originalOverflow = document.body.style.overflow;
+	          el.originalPosition = (0, _dom.getStyle)(document.body, 'position');
+	          el.originalOverflow = (0, _dom.getStyle)(document.body, 'overflow');
 
 	          (0, _dom.addClass)(el.mask, 'is-fullscreen');
 	          insertDom(document.body, el, binding);
@@ -20521,7 +20556,7 @@ module.exports =
 	          (0, _dom.removeClass)(el.mask, 'is-fullscreen');
 
 	          if (binding.modifiers.body) {
-	            el.originalPosition = document.body.style.position;
+	            el.originalPosition = (0, _dom.getStyle)(document.body, 'position');
 
 	            ['top', 'left'].forEach(function (property) {
 	              var scroll = property === 'top' ? 'scrollTop' : 'scrollLeft';
@@ -20533,7 +20568,7 @@ module.exports =
 
 	            insertDom(document.body, el, binding);
 	          } else {
-	            el.originalPosition = el.style.position;
+	            el.originalPosition = (0, _dom.getStyle)(el, 'position');
 	            insertDom(el, el, binding);
 	          }
 	        }
@@ -20561,7 +20596,7 @@ module.exports =
 	        el.mask.style[property] = el.maskStyle[property];
 	      });
 
-	      if (el.originalPosition !== 'absolute') {
+	      if (el.originalPosition !== 'absolute' && el.originalPosition !== 'fixed') {
 	        parent.style.position = 'relative';
 	      }
 	      if (binding.modifiers.fullscreen && binding.modifiers.lock) {
@@ -20736,6 +20771,8 @@ module.exports =
 
 	var _loading2 = _interopRequireDefault(_loading);
 
+	var _dom = __webpack_require__(44);
+
 	var _merge = __webpack_require__(64);
 
 	var _merge2 = _interopRequireDefault(_merge);
@@ -20781,10 +20818,10 @@ module.exports =
 	var addStyle = function addStyle(options, parent, instance) {
 	  var maskStyle = {};
 	  if (options.fullscreen) {
-	    instance.originalPosition = document.body.style.position;
-	    instance.originalOverflow = document.body.style.overflow;
+	    instance.originalPosition = (0, _dom.getStyle)(document.body, 'position');
+	    instance.originalOverflow = (0, _dom.getStyle)(document.body, 'overflow');
 	  } else if (options.body) {
-	    instance.originalPosition = document.body.style.position;
+	    instance.originalPosition = (0, _dom.getStyle)(document.body, 'position');
 	    ['top', 'left'].forEach(function (property) {
 	      var scroll = property === 'top' ? 'scrollTop' : 'scrollLeft';
 	      maskStyle[property] = options.target.getBoundingClientRect()[property] + document.body[scroll] + document.documentElement[scroll] + 'px';
@@ -20793,7 +20830,7 @@ module.exports =
 	      maskStyle[property] = options.target.getBoundingClientRect()[property] + 'px';
 	    });
 	  } else {
-	    instance.originalPosition = parent.style.position;
+	    instance.originalPosition = (0, _dom.getStyle)(parent, 'position');
 	  }
 	  Object.keys(maskStyle).forEach(function (property) {
 	    instance.$el.style[property] = maskStyle[property];
@@ -20825,7 +20862,7 @@ module.exports =
 	  });
 
 	  addStyle(options, parent, instance);
-	  if (instance.originalPosition !== 'absolute') {
+	  if (instance.originalPosition !== 'absolute' && instance.originalPosition !== 'fixed') {
 	    parent.style.position = 'relative';
 	  }
 	  if (options.fullscreen && options.lock) {
@@ -24036,7 +24073,7 @@ module.exports =
 	      if (val.length > 0) this.setActiveItem(this.initialIndex);
 	    },
 	    activeIndex: function activeIndex(val, oldVal) {
-	      this.resetItemPosition();
+	      this.resetItemPosition(oldVal);
 	      this.$emit('change', val, oldVal);
 	    },
 	    autoplay: function autoplay(val) {
@@ -24081,11 +24118,11 @@ module.exports =
 	        return child.$options.name === 'ElCarouselItem';
 	      });
 	    },
-	    resetItemPosition: function resetItemPosition() {
+	    resetItemPosition: function resetItemPosition(oldIndex) {
 	      var _this2 = this;
 
 	      this.items.forEach(function (item, index) {
-	        item.translateItem(index, _this2.activeIndex);
+	        item.translateItem(index, _this2.activeIndex, oldIndex);
 	      });
 	    },
 	    playSlides: function playSlides() {
@@ -24676,6 +24713,7 @@ module.exports =
 	//
 	//
 	//
+	//
 
 	var CARD_SCALE = 0.83;
 	exports.default = {
@@ -24696,7 +24734,8 @@ module.exports =
 	      scale: 1,
 	      active: false,
 	      ready: false,
-	      inStage: false
+	      inStage: false,
+	      animating: false
 	    };
 	  },
 
@@ -24723,9 +24762,12 @@ module.exports =
 	        return (3 + CARD_SCALE) * parentWidth / 4;
 	      }
 	    },
-	    translateItem: function translateItem(index, activeIndex) {
+	    translateItem: function translateItem(index, activeIndex, oldIndex) {
 	      var parentWidth = this.$parent.$el.offsetWidth;
 	      var length = this.$parent.items.length;
+	      if (this.$parent.type !== 'card' && oldIndex !== undefined) {
+	        this.animating = index === activeIndex || index === oldIndex;
+	      }
 	      if (index !== activeIndex && length > 2) {
 	        index = this.processIndex(index, activeIndex, length);
 	      }
@@ -24774,7 +24816,8 @@ module.exports =
 	      'is-active': _vm.active,
 	      'el-carousel__item--card': _vm.$parent.type === 'card',
 	        'is-in-stage': _vm.inStage,
-	        'is-hover': _vm.hover
+	        'is-hover': _vm.hover,
+	        'is-animating': _vm.animating
 	    },
 	    style: ({
 	      msTransform: ("translateX(" + _vm.translate + "px) scale(" + _vm.scale + ")"),
@@ -25577,6 +25620,26 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var copyArray = function copyArray(arr, props) {
+	  if (!arr || !Array.isArray(arr) || !props) return arr;
+	  var result = [];
+	  var configurableProps = ['__IS__FLAT__OPTIONS', 'label', 'value', 'disabled'];
+	  var childrenProp = props.children || 'children';
+	  arr.forEach(function (item) {
+	    var itemCopy = {};
+	    configurableProps.forEach(function (prop) {
+	      var propName = props[prop] || prop;
+	      var value = item[propName];
+	      if (value !== undefined) itemCopy[propName] = value;
+	    });
+	    if (Array.isArray(item[childrenProp])) {
+	      itemCopy[childrenProp] = copyArray(item[childrenProp], props);
+	    }
+	    result.push(itemCopy);
+	  });
+	  return result;
+	};
+
 	exports.default = {
 	  name: 'ElCascaderMenu',
 
@@ -25624,7 +25687,7 @@ module.exports =
 	            if (option.__IS__FLAT__OPTIONS) return;
 	            configurableProps.forEach(function (prop) {
 	              var value = option[_this.props[prop] || prop];
-	              if (value) option[prop] = value;
+	              if (value !== undefined) option[prop] = value;
 	            });
 	            if (Array.isArray(option.children)) {
 	              formatOptions(option.children);
@@ -25649,8 +25712,9 @@ module.exports =
 	          return activeOptions;
 	        };
 
-	        formatOptions(this.options);
-	        return loadActiveOptions(this.options);
+	        var optionsCopy = copyArray(this.options, this.props);
+	        formatOptions(optionsCopy);
+	        return loadActiveOptions(optionsCopy);
 	      }
 	    }
 	  },

@@ -375,6 +375,7 @@ module.exports =
 	    },
 	    onSliderClick: function onSliderClick(event) {
 	      if (this.disabled || this.dragging) return;
+	      this.resetSize();
 	      if (this.vertical) {
 	        var sliderOffsetBottom = this.$refs.slider.getBoundingClientRect().bottom;
 	        this.setPosition((sliderOffsetBottom - event.clientY) / this.sliderSize * 100);
@@ -667,6 +668,7 @@ module.exports =
 	    onDragging: function onDragging(event) {
 	      if (this.dragging) {
 	        this.displayTooltip();
+	        this.$parent.resetSize();
 	        var diff = 0;
 	        if (this.vertical) {
 	          this.currentY = event.clientY;
