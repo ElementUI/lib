@@ -1360,7 +1360,7 @@ module.exports =
 	    },
 	    handleScroll: function handleScroll(type) {
 	      var ajust = {};
-	      ajust[type + 's'] = Math.min(Math.floor((this[type + 'El'].scrollTop - 80) / 32 + 3), 59);
+	      ajust[type + 's'] = Math.min(Math.floor((this[type + 'El'].scrollTop - 80) / 32 + 3), '' + type === 'hour' ? 23 : 59);
 	      this.debounceAjustElTop(type);
 	      this.$emit('change', ajust);
 	    },

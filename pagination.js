@@ -443,18 +443,29 @@ module.exports =
 	        handleFocus: function handleFocus(event) {
 	          this.oldValue = event.target.value;
 	        },
+	        handleBlur: function handleBlur(_ref) {
+	          var target = _ref.target;
+
+	          this.reassignMaxValue(target);
+	        },
 	        handleKeyUp: function handleKeyUp(event) {
 	          var key = event.key || '';
 	          var keyCode = event.keyCode || '';
 	          if (key && key === 'Enter' || keyCode && keyCode === 13) {
+	            this.reassignMaxValue(event.target);
 	            this.handleChange({ target: event.target });
 	          }
 	        },
-	        handleChange: function handleChange(_ref) {
-	          var target = _ref.target;
+	        handleChange: function handleChange(_ref2) {
+	          var target = _ref2.target;
 
 	          this.$parent.internalCurrentPage = this.$parent.getValidCurrentPage(target.value);
 	          this.oldValue = null;
+	        },
+	        reassignMaxValue: function reassignMaxValue(target) {
+	          if (+target.value > this.$parent.internalPageCount) {
+	            target.value = this.$parent.internalPageCount;
+	          }
 	        }
 	      },
 
@@ -468,7 +479,7 @@ module.exports =
 	              'class': 'el-pagination__editor',
 	              attrs: { type: 'number',
 	                min: 1,
-	                max: this.internalPageCount,
+	                max: this.$parent.internalPageCount,
 	                value: this.$parent.internalCurrentPage,
 
 	                number: true },
@@ -478,6 +489,7 @@ module.exports =
 	              on: {
 	                'change': this.handleChange,
 	                'focus': this.handleFocus,
+	                'blur': this.handleBlur,
 	                'keyup': this.handleKeyUp
 	              }
 	            },

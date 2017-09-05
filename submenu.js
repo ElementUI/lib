@@ -368,7 +368,7 @@ module.exports =
 	      }
 	      clearTimeout(this.timeout);
 	      this.timeout = setTimeout(function () {
-	        _this2.rootMenu.closeMenu(_this2.index, _this2.indexPath);
+	        _this2.rootMenu.closeMenu(_this2.index);
 	      }, 300);
 	    }
 	  },

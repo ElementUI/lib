@@ -366,7 +366,7 @@ module.exports =
 	      }
 	      this.openedMenus.push(index);
 	    },
-	    closeMenu: function closeMenu(index, indexPath) {
+	    closeMenu: function closeMenu(index) {
 	      this.openedMenus.splice(this.openedMenus.indexOf(index), 1);
 	    },
 	    handleSubmenuClick: function handleSubmenuClick(submenu) {
@@ -376,7 +376,7 @@ module.exports =
 	      var isOpened = this.openedMenus.indexOf(index) !== -1;
 
 	      if (isOpened) {
-	        this.closeMenu(index, indexPath);
+	        this.closeMenu(index);
 	        this.$emit('close', index, indexPath);
 	      } else {
 	        this.openMenu(index, indexPath);

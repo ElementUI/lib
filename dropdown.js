@@ -297,6 +297,7 @@ module.exports =
 
 	      var triggerElm = splitButton ? this.$refs.trigger.$el : this.$slots.default[0].elm;
 
+	      if (triggerElm.disabled) return;
 	      if (trigger === 'hover') {
 	        triggerElm.addEventListener('mouseenter', show);
 	        triggerElm.addEventListener('mouseleave', hide);

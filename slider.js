@@ -259,6 +259,10 @@ module.exports =
 	    },
 	    height: {
 	      type: String
+	    },
+	    debounce: {
+	      type: Number,
+	      default: 300
 	    }
 	  },
 
@@ -473,6 +477,7 @@ module.exports =
 	    window.removeEventListener('resize', this.resetSize);
 	  }
 	}; //
+	//
 	//
 	//
 	//
@@ -795,6 +800,7 @@ module.exports =
 	      "controls": _vm.showInputControls,
 	      "min": _vm.min,
 	      "max": _vm.max,
+	      "debounce": _vm.debounce,
 	      "size": "small"
 	    },
 	    model: {

@@ -1886,7 +1886,7 @@ module.exports =
 
 	        this.tooltipContent = cell.innerText;
 	        tooltip.referenceElm = cell;
-	        tooltip.$refs.popper.style.display = 'none';
+	        tooltip.$refs.popper && (tooltip.$refs.popper.style.display = 'none');
 	        tooltip.doDestroy();
 	        tooltip.setExpectedState(true);
 	        this.activateTooltip(tooltip);

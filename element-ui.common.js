@@ -353,7 +353,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '1.4.3',
+	  version: '1.4.4',
 	  locale: _locale2.default.use,
 	  i18n: _locale2.default.i18n,
 	  install: install,
@@ -725,18 +725,29 @@ module.exports =
 	        handleFocus: function handleFocus(event) {
 	          this.oldValue = event.target.value;
 	        },
+	        handleBlur: function handleBlur(_ref) {
+	          var target = _ref.target;
+
+	          this.reassignMaxValue(target);
+	        },
 	        handleKeyUp: function handleKeyUp(event) {
 	          var key = event.key || '';
 	          var keyCode = event.keyCode || '';
 	          if (key && key === 'Enter' || keyCode && keyCode === 13) {
+	            this.reassignMaxValue(event.target);
 	            this.handleChange({ target: event.target });
 	          }
 	        },
-	        handleChange: function handleChange(_ref) {
-	          var target = _ref.target;
+	        handleChange: function handleChange(_ref2) {
+	          var target = _ref2.target;
 
 	          this.$parent.internalCurrentPage = this.$parent.getValidCurrentPage(target.value);
 	          this.oldValue = null;
+	        },
+	        reassignMaxValue: function reassignMaxValue(target) {
+	          if (+target.value > this.$parent.internalPageCount) {
+	            target.value = this.$parent.internalPageCount;
+	          }
 	        }
 	      },
 
@@ -750,7 +761,7 @@ module.exports =
 	              'class': 'el-pagination__editor',
 	              attrs: { type: 'number',
 	                min: 1,
-	                max: this.internalPageCount,
+	                max: this.$parent.internalPageCount,
 	                value: this.$parent.internalCurrentPage,
 
 	                number: true },
@@ -760,6 +771,7 @@ module.exports =
 	              on: {
 	                'change': this.handleChange,
 	                'focus': this.handleFocus,
+	                'blur': this.handleBlur,
 	                'keyup': this.handleKeyUp
 	              }
 	            },
@@ -2150,6 +2162,7 @@ module.exports =
 
 	      var triggerElm = splitButton ? this.$refs.trigger.$el : this.$slots.default[0].elm;
 
+	      if (triggerElm.disabled) return;
 	      if (trigger === 'hover') {
 	        triggerElm.addEventListener('mouseenter', show);
 	        triggerElm.addEventListener('mouseleave', hide);
@@ -2665,7 +2678,7 @@ module.exports =
 	      }
 	      this.openedMenus.push(index);
 	    },
-	    closeMenu: function closeMenu(index, indexPath) {
+	    closeMenu: function closeMenu(index) {
 	      this.openedMenus.splice(this.openedMenus.indexOf(index), 1);
 	    },
 	    handleSubmenuClick: function handleSubmenuClick(submenu) {
@@ -2675,7 +2688,7 @@ module.exports =
 	      var isOpened = this.openedMenus.indexOf(index) !== -1;
 
 	      if (isOpened) {
-	        this.closeMenu(index, indexPath);
+	        this.closeMenu(index);
 	        this.$emit('close', index, indexPath);
 	      } else {
 	        this.openMenu(index, indexPath);
@@ -2914,7 +2927,7 @@ module.exports =
 	      }
 	      clearTimeout(this.timeout);
 	      this.timeout = setTimeout(function () {
-	        _this2.rootMenu.closeMenu(_this2.index, _this2.indexPath);
+	        _this2.rootMenu.closeMenu(_this2.index);
 	      }, 300);
 	    }
 	  },
@@ -8891,7 +8904,7 @@ module.exports =
 
 	        this.tooltipContent = cell.innerText;
 	        tooltip.referenceElm = cell;
-	        tooltip.$refs.popper.style.display = 'none';
+	        tooltip.$refs.popper && (tooltip.$refs.popper.style.display = 'none');
 	        tooltip.doDestroy();
 	        tooltip.setExpectedState(true);
 	        this.activateTooltip(tooltip);
@@ -12459,7 +12472,7 @@ module.exports =
 	    },
 	    handleScroll: function handleScroll(type) {
 	      var ajust = {};
-	      ajust[type + 's'] = Math.min(Math.floor((this[type + 'El'].scrollTop - 80) / 32 + 3), 59);
+	      ajust[type + 's'] = Math.min(Math.floor((this[type + 'El'].scrollTop - 80) / 32 + 3), '' + type === 'hour' ? 23 : 59);
 	      this.debounceAjustElTop(type);
 	      this.$emit('change', ajust);
 	    },
@@ -13011,17 +13024,11 @@ module.exports =
 	        while (date < nextMonth) {
 	          if (this.disabledDate(date)) {
 	            date = new Date(date.getTime() + 8.64e7);
+	            flag = true;
 	          } else {
+	            flag = false;
 	            break;
 	          }
-	        }
-	        // There is a bug of Chrome.
-	        // For example:
-	        // var date = new Date('1988-04-01 00:00:00') Fri Apr 01 1988 00:00:00 GMT+0800 (CST)
-	        // date.setMonth(4) Sun May 01 1988 00:00:00 GMT+0900 (CDT)
-	        // Sometimes the time zone will change.
-	        if (date - nextMonth < 8.64e7) {
-	          flag = true;
 	        }
 	      }
 
@@ -19915,6 +19922,10 @@ module.exports =
 	    },
 	    height: {
 	      type: String
+	    },
+	    debounce: {
+	      type: Number,
+	      default: 300
 	    }
 	  },
 
@@ -20129,6 +20140,7 @@ module.exports =
 	    window.removeEventListener('resize', this.resetSize);
 	  }
 	}; //
+	//
 	//
 	//
 	//
@@ -20439,6 +20451,7 @@ module.exports =
 	      "controls": _vm.showInputControls,
 	      "min": _vm.min,
 	      "max": _vm.max,
+	      "debounce": _vm.debounce,
 	      "size": "small"
 	    },
 	    model: {

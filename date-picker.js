@@ -2006,7 +2006,7 @@ module.exports =
 	    },
 	    handleScroll: function handleScroll(type) {
 	      var ajust = {};
-	      ajust[type + 's'] = Math.min(Math.floor((this[type + 'El'].scrollTop - 80) / 32 + 3), 59);
+	      ajust[type + 's'] = Math.min(Math.floor((this[type + 'El'].scrollTop - 80) / 32 + 3), '' + type === 'hour' ? 23 : 59);
 	      this.debounceAjustElTop(type);
 	      this.$emit('change', ajust);
 	    },
@@ -2564,17 +2564,11 @@ module.exports =
 	        while (date < nextMonth) {
 	          if (this.disabledDate(date)) {
 	            date = new Date(date.getTime() + 8.64e7);
+	            flag = true;
 	          } else {
+	            flag = false;
 	            break;
 	          }
-	        }
-	        // There is a bug of Chrome.
-	        // For example:
-	        // var date = new Date('1988-04-01 00:00:00') Fri Apr 01 1988 00:00:00 GMT+0800 (CST)
-	        // date.setMonth(4) Sun May 01 1988 00:00:00 GMT+0900 (CDT)
-	        // Sometimes the time zone will change.
-	        if (date - nextMonth < 8.64e7) {
-	          flag = true;
 	        }
 	      }
 
