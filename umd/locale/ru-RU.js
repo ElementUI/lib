@@ -104,7 +104,7 @@
         confirmFilter: 'Подтвердить',
         resetFilter: 'Сбросить',
         clearFilter: 'Все',
-        sumText: 'Sum' // to be translated
+        sumText: 'Сумма'
       },
       tree: {
         emptyText: 'Нет данных'
@@ -112,10 +112,10 @@
       transfer: {
         noMatch: 'Совпадений не найдено',
         noData: 'Нет данных',
-        titles: ['List 1', 'List 2'], // to be translated
-        filterPlaceholder: 'Enter keyword', // to be translated
-        noCheckedFormat: '{total} items', // to be translated
-        hasCheckedFormat: '{checked}/{total} checked' // to be translated
+        titles: ['Список 1', 'Список 2'],
+        filterPlaceholder: 'Введите ключевое слово',
+        noCheckedFormat: '{total} пунктов',
+        hasCheckedFormat: '{checked}/{total} выбрано'
       }
     }
   };

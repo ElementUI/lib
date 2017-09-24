@@ -784,6 +784,7 @@ module.exports =
 	    query: function query(val) {
 	      var _this2 = this;
 
+	      if (val === null || val === undefined) return;
 	      this.$nextTick(function () {
 	        if (_this2.visible) _this2.broadcast('ElSelectDropdown', 'updatePopper');
 	      });
@@ -1194,8 +1195,7 @@ module.exports =
 	      }
 	    },
 	    getValueKey: function getValueKey(item) {
-	      var type = _typeof(item.value);
-	      if (type === 'number' || type === 'string') {
+	      if (Object.prototype.toString.call(item.value).toLowerCase() !== '[object object]') {
 	        return item.value;
 	      } else {
 	        return (0, _util.getValueByPath)(item.value, this.valueKey);
@@ -1213,7 +1213,6 @@ module.exports =
 	    if (!this.multiple && Array.isArray(this.value)) {
 	      this.$emit('input', '');
 	    }
-	    this.setSelected();
 
 	    this.debouncedOnInputChange = (0, _debounce2.default)(this.debounce, function () {
 	      _this11.onInputChange();
@@ -1238,6 +1237,7 @@ module.exports =
 	        _this12.inputWidth = _this12.$refs.reference.$el.getBoundingClientRect().width;
 	      }
 	    });
+	    this.setSelected();
 	  },
 	  beforeDestroy: function beforeDestroy() {
 	    if (this.$el && this.handleResize) (0, _resizeEvent.removeResizeListener)(this.$el, this.handleResize);
