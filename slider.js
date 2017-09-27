@@ -669,6 +669,7 @@ module.exports =
 	        this.startX = event.clientX;
 	      }
 	      this.startPosition = parseFloat(this.currentPosition);
+	      this.newPosition = this.startPosition;
 	    },
 	    onDragging: function onDragging(event) {
 	      if (this.dragging) {

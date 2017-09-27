@@ -833,7 +833,8 @@ module.exports =
 	  } else if (typeof config === 'string') {
 	    return data[config];
 	  } else if (typeof config === 'undefined') {
-	    return '';
+	    var dataProp = data[prop];
+	    return dataProp === undefined ? '' : dataProp;
 	  }
 	};
 

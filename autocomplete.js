@@ -477,7 +477,6 @@ module.exports =
 	    options: {
 	      default: function _default() {
 	        return {
-	          forceAbsolute: true,
 	          gpuAcceleration: false
 	        };
 	      }

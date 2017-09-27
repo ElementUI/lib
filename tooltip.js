@@ -169,8 +169,7 @@ module.exports =
 
 	  data: function data() {
 	    return {
-	      timeoutPending: null,
-	      handlerAdded: false
+	      timeoutPending: null
 	    };
 	  },
 	  beforeCreate: function beforeCreate() {
@@ -236,19 +235,10 @@ module.exports =
 	    var nativeOn = vnode.data.nativeOn = vnode.data.nativeOn || {};
 
 	    data.staticClass = this.concatClass(data.staticClass, 'el-tooltip');
-	    if (this.handlerAdded) return vnode;
-	    on.mouseenter = this.addEventHandle(on.mouseenter, function () {
-	      _this2.setExpectedState(true);_this2.handleShowPopper();
-	    });
-	    on.mouseleave = this.addEventHandle(on.mouseleave, function () {
-	      _this2.setExpectedState(false);_this2.debounceClose();
-	    });
-	    nativeOn.mouseenter = this.addEventHandle(nativeOn.mouseenter, function () {
-	      _this2.setExpectedState(true);_this2.handleShowPopper();
-	    });
-	    nativeOn.mouseleave = this.addEventHandle(nativeOn.mouseleave, function () {
-	      _this2.setExpectedState(false);_this2.debounceClose();
-	    });
+	    on.mouseenter = this.addEventHandle(on.mouseenter, this.show);
+	    on.mouseleave = this.addEventHandle(on.mouseleave, this.hide);
+	    nativeOn.mouseenter = this.addEventHandle(nativeOn.mouseenter, this.show);
+	    nativeOn.mouseleave = this.addEventHandle(nativeOn.mouseleave, this.hide);
 
 	    return vnode;
 	  },
@@ -258,9 +248,22 @@ module.exports =
 
 
 	  methods: {
+	    show: function show() {
+	      this.setExpectedState(true);
+	      this.handleShowPopper();
+	    },
+	    hide: function hide() {
+	      this.setExpectedState(false);
+	      this.debounceClose();
+	    },
 	    addEventHandle: function addEventHandle(old, fn) {
-	      this.handlerAdded = true;
-	      return old ? Array.isArray(old) ? old.concat(fn) : [old, fn] : fn;
+	      if (!old) {
+	        return fn;
+	      } else if (Array.isArray(old)) {
+	        return old.indexOf(fn) > -1 ? old : old.concat(fn);
+	      } else {
+	        return old === fn ? old : [old, fn];
+	      }
 	    },
 	    concatClass: function concatClass(a, b) {
 	      if (a && a.indexOf(b) > -1) return a;

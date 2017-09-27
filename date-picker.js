@@ -3468,7 +3468,7 @@ module.exports =
 
 	var calcDefaultValue = function calcDefaultValue(defaultValue) {
 	  if (Array.isArray(defaultValue)) {
-	    return new Date(defaultValue[0]);
+	    return defaultValue[0] ? new Date(defaultValue[0]) : new Date();
 	  } else {
 	    return new Date(defaultValue);
 	  }

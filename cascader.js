@@ -721,9 +721,13 @@ module.exports =
 	  arr.forEach(function (item) {
 	    var itemCopy = {};
 	    configurableProps.forEach(function (prop) {
-	      var propName = props[prop] || prop;
-	      var value = item[propName];
-	      if (value !== undefined) itemCopy[propName] = value;
+	      var name = props[prop];
+	      var value = item[name];
+	      if (value === undefined) {
+	        name = prop;
+	        value = item[name];
+	      }
+	      if (value !== undefined) itemCopy[name] = value;
 	    });
 	    if (Array.isArray(item[childrenProp])) {
 	      itemCopy[childrenProp] = copyArray(item[childrenProp], props);
