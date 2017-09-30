@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(140);
+	module.exports = __webpack_require__(151);
 
 
 /***/ },
@@ -135,28 +135,28 @@ module.exports =
 
 /***/ },
 
-/***/ 10:
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ },
 
-/***/ 14:
+/***/ 18:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 140:
+/***/ 151:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _dropdown = __webpack_require__(141);
+	var _dropdown = __webpack_require__(152);
 
 	var _dropdown2 = _interopRequireDefault(_dropdown);
 
@@ -171,12 +171,12 @@ module.exports =
 
 /***/ },
 
-/***/ 141:
+/***/ 152:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(142),
+	  __webpack_require__(153),
 	  /* template */
 	  null,
 	  /* styles */
@@ -192,26 +192,26 @@ module.exports =
 
 /***/ },
 
-/***/ 142:
+/***/ 153:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _clickoutside = __webpack_require__(10);
+	var _clickoutside = __webpack_require__(14);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(18);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _button = __webpack_require__(143);
+	var _button = __webpack_require__(154);
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _buttonGroup = __webpack_require__(144);
+	var _buttonGroup = __webpack_require__(155);
 
 	var _buttonGroup2 = _interopRequireDefault(_buttonGroup);
 
@@ -231,20 +231,33 @@ module.exports =
 	    ElButtonGroup: _buttonGroup2.default
 	  },
 
+	  provide: function provide() {
+	    return {
+	      dropdown: this
+	    };
+	  },
+
+
 	  props: {
 	    trigger: {
 	      type: String,
 	      default: 'hover'
 	    },
-	    menuAlign: {
-	      type: String,
-	      default: 'end'
-	    },
 	    type: String,
-	    size: String,
+	    size: {
+	      type: String,
+	      default: ''
+	    },
 	    splitButton: Boolean,
 	    hideOnClick: {
 	      type: Boolean,
+	      default: true
+	    },
+	    placement: {
+	      type: String,
+	      default: 'bottom-end'
+	    },
+	    visibleArrow: {
 	      default: true
 	    }
 	  },
@@ -330,8 +343,9 @@ module.exports =
 	        size = this.size;
 
 
-	    var handleClick = function handleClick(_) {
-	      _this3.$emit('click');
+	    var handleMainButtonClick = function handleMainButtonClick(event) {
+	      _this3.$emit('click', event);
+	      hide();
 	    };
 
 	    var triggerElm = !splitButton ? this.$slots.default : h(
@@ -342,7 +356,7 @@ module.exports =
 	        {
 	          attrs: { type: type, size: size },
 	          nativeOn: {
-	            'click': handleClick
+	            'click': handleMainButtonClick
 	          }
 	        },
 	        [this.$slots.default]
@@ -372,14 +386,14 @@ module.exports =
 
 /***/ },
 
-/***/ 143:
+/***/ 154:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/button");
 
 /***/ },
 
-/***/ 144:
+/***/ 155:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/button-group");

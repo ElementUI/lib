@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(22);
+	module.exports = __webpack_require__(27);
 
 
 /***/ },
@@ -135,14 +135,14 @@ module.exports =
 
 /***/ },
 
-/***/ 22:
+/***/ 27:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _breadcrumb = __webpack_require__(23);
+	var _breadcrumb = __webpack_require__(28);
 
 	var _breadcrumb2 = _interopRequireDefault(_breadcrumb);
 
@@ -157,14 +157,14 @@ module.exports =
 
 /***/ },
 
-/***/ 23:
+/***/ 28:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(24),
+	  __webpack_require__(29),
 	  /* template */
-	  __webpack_require__(25),
+	  __webpack_require__(30),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -178,7 +178,7 @@ module.exports =
 
 /***/ },
 
-/***/ 24:
+/***/ 29:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -197,18 +197,30 @@ module.exports =
 	    separator: {
 	      type: String,
 	      default: '/'
+	    },
+	    separatorClass: {
+	      type: String,
+	      default: ''
 	    }
+	  },
+	  mounted: function mounted() {
+	    var items = this.$el.querySelectorAll('.el-breadcrumb__item');
+	    items[items.length - 1].setAttribute('aria-current', 'page');
 	  }
 	};
 
 /***/ },
 
-/***/ 25:
+/***/ 30:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
-	    staticClass: "el-breadcrumb"
+	    staticClass: "el-breadcrumb",
+	    attrs: {
+	      "aria-label": "Breadcrumb",
+	      "role": "navigation"
+	    }
 	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 

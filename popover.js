@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(232);
+	module.exports = __webpack_require__(252);
 
 
 /***/ },
@@ -135,43 +135,43 @@ module.exports =
 
 /***/ },
 
-/***/ 13:
+/***/ 17:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 
-/***/ 55:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 123:
+/***/ 134:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 232:
+/***/ 252:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(233);
+	var _main = __webpack_require__(253);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _directive = __webpack_require__(236);
+	var _directive = __webpack_require__(256);
 
 	var _directive2 = _interopRequireDefault(_directive);
 
-	var _vue = __webpack_require__(55);
+	var _vue = __webpack_require__(60);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -190,14 +190,14 @@ module.exports =
 
 /***/ },
 
-/***/ 233:
+/***/ 253:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(234),
+	  __webpack_require__(254),
 	  /* template */
-	  __webpack_require__(235),
+	  __webpack_require__(255),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -211,18 +211,18 @@ module.exports =
 
 /***/ },
 
-/***/ 234:
+/***/ 254:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(13);
+	var _vuePopper = __webpack_require__(17);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _dom = __webpack_require__(123);
+	var _dom = __webpack_require__(134);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -279,6 +279,13 @@ module.exports =
 	  watch: {
 	    showPopper: function showPopper(newVal, oldVal) {
 	      newVal ? this.$emit('show') : this.$emit('hide');
+	    },
+
+	    '$refs.reference': {
+	      deep: true,
+	      handler: function handler(val) {
+	        console.log(val);
+	      }
 	    }
 	  },
 
@@ -382,7 +389,7 @@ module.exports =
 
 /***/ },
 
-/***/ 235:
+/***/ 255:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -401,8 +408,8 @@ module.exports =
 	      expression: "!disabled && showPopper"
 	    }],
 	    ref: "popper",
-	    staticClass: "el-popover",
-	    class: [_vm.popperClass],
+	    staticClass: "el-popover el-popper",
+	    class: [_vm.popperClass, _vm.content && 'el-popover--plain'],
 	    style: ({
 	      width: _vm.width + 'px'
 	    })
@@ -416,7 +423,7 @@ module.exports =
 
 /***/ },
 
-/***/ 236:
+/***/ 256:
 /***/ function(module, exports) {
 
 	"use strict";

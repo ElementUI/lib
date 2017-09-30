@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(216);
+	module.exports = __webpack_require__(237);
 
 
 /***/ },
@@ -135,21 +135,28 @@ module.exports =
 
 /***/ },
 
-/***/ 14:
+/***/ 18:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 216:
+/***/ 21:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/util");
+
+/***/ },
+
+/***/ 237:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _option = __webpack_require__(217);
+	var _option = __webpack_require__(238);
 
 	var _option2 = _interopRequireDefault(_option);
 
@@ -164,14 +171,14 @@ module.exports =
 
 /***/ },
 
-/***/ 217:
+/***/ 238:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(218),
+	  __webpack_require__(239),
 	  /* template */
-	  __webpack_require__(220),
+	  __webpack_require__(240),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,7 +192,7 @@ module.exports =
 
 /***/ },
 
-/***/ 218:
+/***/ 239:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -210,11 +217,11 @@ module.exports =
 	//
 	//
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(18);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _util = __webpack_require__(219);
+	var _util = __webpack_require__(21);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -224,6 +231,8 @@ module.exports =
 	  name: 'ElOption',
 
 	  componentName: 'ElOption',
+
+	  inject: ['select'],
 
 	  props: {
 	    value: {
@@ -242,7 +251,8 @@ module.exports =
 	      index: -1,
 	      groupDisabled: false,
 	      visible: true,
-	      hitState: false
+	      hitState: false,
+	      hover: false
 	    };
 	  },
 
@@ -257,23 +267,16 @@ module.exports =
 	    currentValue: function currentValue() {
 	      return this.value || this.label || '';
 	    },
-	    parent: function parent() {
-	      var result = this.$parent;
-	      while (!result.isSelect) {
-	        result = result.$parent;
-	      }
-	      return result;
-	    },
 	    itemSelected: function itemSelected() {
-	      if (!this.parent.multiple) {
-	        return this.isEqual(this.value, this.parent.value);
+	      if (!this.select.multiple) {
+	        return this.isEqual(this.value, this.select.value);
 	      } else {
-	        return this.contains(this.parent.value, this.value);
+	        return this.contains(this.select.value, this.value);
 	      }
 	    },
 	    limitReached: function limitReached() {
-	      if (this.parent.multiple) {
-	        return !this.itemSelected && this.parent.value.length >= this.parent.multipleLimit && this.parent.multipleLimit > 0;
+	      if (this.select.multiple) {
+	        return !this.itemSelected && this.select.value.length >= this.select.multipleLimit && this.select.multipleLimit > 0;
 	      } else {
 	        return false;
 	      }
@@ -282,10 +285,10 @@ module.exports =
 
 	  watch: {
 	    currentLabel: function currentLabel() {
-	      if (!this.created && !this.parent.remote) this.dispatch('ElSelect', 'setSelected');
+	      if (!this.created && !this.select.remote) this.dispatch('ElSelect', 'setSelected');
 	    },
 	    value: function value() {
-	      if (!this.created && !this.parent.remote) this.dispatch('ElSelect', 'setSelected');
+	      if (!this.created && !this.select.remote) this.dispatch('ElSelect', 'setSelected');
 	    }
 	  },
 
@@ -294,7 +297,7 @@ module.exports =
 	      if (!this.isObject) {
 	        return a === b;
 	      } else {
-	        var valueKey = this.parent.valueKey;
+	        var valueKey = this.select.valueKey;
 	        return (0, _util.getValueByPath)(a, valueKey) === (0, _util.getValueByPath)(b, valueKey);
 	      }
 	    },
@@ -308,7 +311,7 @@ module.exports =
 	        return arr.indexOf(target) > -1;
 	      } else {
 	        var _ret = function () {
-	          var valueKey = _this.parent.valueKey;
+	          var valueKey = _this.select.valueKey;
 	          return {
 	            v: arr.some(function (item) {
 	              return (0, _util.getValueByPath)(item, valueKey) === (0, _util.getValueByPath)(target, valueKey);
@@ -324,7 +327,7 @@ module.exports =
 	    },
 	    hoverItem: function hoverItem() {
 	      if (!this.disabled && !this.groupDisabled) {
-	        this.parent.hoverIndex = this.parent.options.indexOf(this);
+	        this.select.hoverIndex = this.select.options.indexOf(this);
 	      }
 	    },
 	    selectOptionClick: function selectOptionClick() {
@@ -337,44 +340,28 @@ module.exports =
 	      var parsedQuery = String(query).replace(/(\^|\(|\)|\[|\]|\$|\*|\+|\.|\?|\\|\{|\}|\|)/g, '\\$1');
 	      this.visible = new RegExp(parsedQuery, 'i').test(this.currentLabel) || this.created;
 	      if (!this.visible) {
-	        this.parent.filteredOptionsCount--;
+	        this.select.filteredOptionsCount--;
 	      }
-	    },
-	    resetIndex: function resetIndex() {
-	      var _this2 = this;
-
-	      this.$nextTick(function () {
-	        _this2.index = _this2.parent.options.indexOf(_this2);
-	      });
 	    }
 	  },
 
 	  created: function created() {
-	    this.parent.options.push(this);
-	    this.parent.cachedOptions.push(this);
-	    this.parent.optionsCount++;
-	    this.parent.filteredOptionsCount++;
-	    this.index = this.parent.options.indexOf(this);
+	    this.select.options.push(this);
+	    this.select.cachedOptions.push(this);
+	    this.select.optionsCount++;
+	    this.select.filteredOptionsCount++;
 
 	    this.$on('queryChange', this.queryChange);
 	    this.$on('handleGroupDisabled', this.handleGroupDisabled);
-	    this.$on('resetIndex', this.resetIndex);
 	  },
 	  beforeDestroy: function beforeDestroy() {
-	    this.dispatch('ElSelect', 'onOptionDestroy', this);
+	    this.select.onOptionDestroy(this.select.options.indexOf(this));
 	  }
 	};
 
 /***/ },
 
-/***/ 219:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/util");
-
-/***/ },
-
-/***/ 220:
+/***/ 240:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -389,7 +376,7 @@ module.exports =
 	    class: {
 	      'selected': _vm.itemSelected,
 	      'is-disabled': _vm.disabled || _vm.groupDisabled || _vm.limitReached,
-	        'hover': _vm.parent.hoverIndex === _vm.index
+	        'hover': _vm.hover
 	    },
 	    on: {
 	      "mouseenter": _vm.hoverItem,

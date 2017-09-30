@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(65);
+	module.exports = __webpack_require__(70);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 14:
+/***/ 18:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 65:
+/***/ 70:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(66);
+	var _checkbox = __webpack_require__(71);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -164,14 +164,14 @@ module.exports =
 
 /***/ },
 
-/***/ 66:
+/***/ 71:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(67),
+	  __webpack_require__(72),
 	  /* template */
-	  __webpack_require__(68),
+	  __webpack_require__(73),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,14 +185,14 @@ module.exports =
 
 /***/ },
 
-/***/ 67:
+/***/ 72:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(18);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -208,7 +208,8 @@ module.exports =
 	  data: function data() {
 	    return {
 	      selfModel: false,
-	      focus: false
+	      focus: false,
+	      isLimitExceeded: false
 	    };
 	  },
 
@@ -220,12 +221,12 @@ module.exports =
 	      },
 	      set: function set(val) {
 	        if (this.isGroup) {
-	          var isLimitExceeded = false;
-	          this._checkboxGroup.min !== undefined && val.length < this._checkboxGroup.min && (isLimitExceeded = true);
+	          this.isLimitExceeded = false;
+	          this._checkboxGroup.min !== undefined && val.length < this._checkboxGroup.min && (this.isLimitExceeded = true);
 
-	          this._checkboxGroup.max !== undefined && val.length > this._checkboxGroup.max && (isLimitExceeded = true);
+	          this._checkboxGroup.max !== undefined && val.length > this._checkboxGroup.max && (this.isLimitExceeded = true);
 
-	          isLimitExceeded === false && this.dispatch('ElCheckboxGroup', 'input', [val]);
+	          this.isLimitExceeded === false && this.dispatch('ElCheckboxGroup', 'input', [val]);
 	        } else {
 	          this.$emit('input', val);
 	          this.selfModel = val;
@@ -256,6 +257,12 @@ module.exports =
 	    },
 	    store: function store() {
 	      return this._checkboxGroup ? this._checkboxGroup.value : this.value;
+	    },
+	    isDisabled: function isDisabled() {
+	      return this.isGroup ? this._checkboxGroup.disabled || this.disabled : this.disabled;
+	    },
+	    checkboxSize: function checkboxSize() {
+	      return this.isGroup ? this._checkboxGroup.size || this.size : this.size;
 	    }
 	  },
 
@@ -267,7 +274,11 @@ module.exports =
 	    checked: Boolean,
 	    name: String,
 	    trueLabel: [String, Number],
-	    falseLabel: [String, Number]
+	    falseLabel: [String, Number],
+	    id: String, /* 当indeterminate为真时，为controls提供相关连的checkbox的id，表明元素间的控制关系*/
+	    controls: String, /* 当indeterminate为真时，为controls提供相关连的checkbox的id，表明元素间的控制关系*/
+	    border: Boolean,
+	    size: String
 	  },
 
 	  methods: {
@@ -281,17 +292,24 @@ module.exports =
 	    handleChange: function handleChange(ev) {
 	      var _this = this;
 
-	      this.$emit('change', ev);
-	      if (this.isGroup) {
-	        this.$nextTick(function (_) {
+	      this.$nextTick(function () {
+	        if (_this.isLimitExceeded) return;
+	        _this.$emit('change', _this.model, ev);
+	        if (_this.isGroup) {
 	          _this.dispatch('ElCheckboxGroup', 'change', [_this._checkboxGroup.value]);
-	        });
-	      }
+	        }
+	      });
 	    }
 	  },
 
 	  created: function created() {
 	    this.checked && this.addToStore();
+	  },
+	  mounted: function mounted() {
+	    // 为indeterminate元素 添加aria-controls 属性
+	    if (this.indeterminate) {
+	      this.$el.setAttribute('aria-controls', this.controls);
+	    }
 	  }
 	}; //
 	//
@@ -334,22 +352,53 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
-/***/ 68:
+/***/ 73:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('label', {
-	    staticClass: "el-checkbox"
+	    staticClass: "el-checkbox",
+	    class: [
+	      _vm.border && _vm.checkboxSize ? 'el-checkbox--' + _vm.checkboxSize : '', {
+	        'is-disabled': _vm.isDisabled
+	      }, {
+	        'is-bordered': _vm.border
+	      }, {
+	        'is-checked': _vm.isChecked
+	      }
+	    ],
+	    attrs: {
+	      "role": "checkbox",
+	      "aria-checked": _vm.indeterminate ? 'mixed' : _vm.isChecked,
+	      "aria-disabled": _vm.isDisabled,
+	      "id": _vm.id
+	    }
 	  }, [_c('span', {
 	    staticClass: "el-checkbox__input",
 	    class: {
-	      'is-disabled': _vm.disabled,
+	      'is-disabled': _vm.isDisabled,
 	      'is-checked': _vm.isChecked,
 	      'is-indeterminate': _vm.indeterminate,
 	      'is-focus': _vm.focus
+	    },
+	    attrs: {
+	      "aria-checked": "mixed"
 	    }
 	  }, [_c('span', {
 	    staticClass: "el-checkbox__inner"
@@ -364,7 +413,7 @@ module.exports =
 	    attrs: {
 	      "type": "checkbox",
 	      "name": _vm.name,
-	      "disabled": _vm.disabled,
+	      "disabled": _vm.isDisabled,
 	      "true-value": _vm.trueLabel,
 	      "false-value": _vm.falseLabel
 	    },
@@ -406,7 +455,7 @@ module.exports =
 	    staticClass: "el-checkbox__original",
 	    attrs: {
 	      "type": "checkbox",
-	      "disabled": _vm.disabled,
+	      "disabled": _vm.isDisabled,
 	      "name": _vm.name
 	    },
 	    domProps: {

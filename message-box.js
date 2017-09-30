@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(206);
+	module.exports = __webpack_require__(227);
 
 
 /***/ },
@@ -135,77 +135,77 @@ module.exports =
 
 /***/ },
 
-/***/ 9:
+/***/ 13:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input");
 
 /***/ },
 
-/***/ 55:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 61:
+/***/ 66:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 62:
+/***/ 67:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 123:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/dom");
-
-/***/ },
-
-/***/ 138:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/popup");
-
-/***/ },
-
-/***/ 143:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/button");
-
-/***/ },
-
-/***/ 170:
+/***/ 122:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 197:
+/***/ 134:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/dom");
+
+/***/ },
+
+/***/ 149:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/popup");
+
+/***/ },
+
+/***/ 154:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/button");
+
+/***/ },
+
+/***/ 223:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vdom");
 
 /***/ },
 
-/***/ 206:
+/***/ 227:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(207);
+	var _main = __webpack_require__(228);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -215,7 +215,7 @@ module.exports =
 
 /***/ },
 
-/***/ 207:
+/***/ 228:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -225,19 +225,19 @@ module.exports =
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var _vue = __webpack_require__(55);
+	var _vue = __webpack_require__(60);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _main = __webpack_require__(208);
+	var _main = __webpack_require__(229);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _merge = __webpack_require__(170);
+	var _merge = __webpack_require__(122);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
-	var _vdom = __webpack_require__(197);
+	var _vdom = __webpack_require__(223);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -251,6 +251,7 @@ module.exports =
 	  lockScroll: true,
 	  closeOnClickModal: true,
 	  closeOnPressEscape: true,
+	  closeOnHashChange: true,
 	  inputValue: null,
 	  inputPlaceholder: '',
 	  inputPattern: null,
@@ -266,7 +267,10 @@ module.exports =
 	  confirmButtonClass: '',
 	  cancelButtonClass: '',
 	  customClass: '',
-	  beforeClose: null
+	  beforeClose: null,
+	  dangerouslyUseHTMLString: false,
+	  center: false,
+	  roundButton: false
 	};
 
 	var MessageBoxConstructor = _vue2.default.extend(_main2.default);
@@ -339,7 +343,7 @@ module.exports =
 	        } else {
 	          delete instance.$slots.default;
 	        }
-	        ['modal', 'showClose', 'closeOnClickModal', 'closeOnPressEscape'].forEach(function (prop) {
+	        ['modal', 'showClose', 'closeOnClickModal', 'closeOnPressEscape', 'closeOnHashChange'].forEach(function (prop) {
 	          if (instance[prop] === undefined) {
 	            instance[prop] = true;
 	          }
@@ -356,15 +360,12 @@ module.exports =
 
 	var MessageBox = function MessageBox(options, callback) {
 	  if (_vue2.default.prototype.$isServer) return;
-	  if (typeof options === 'string') {
+	  if (typeof options === 'string' || (0, _vdom.isVNode)(options)) {
 	    options = {
 	      message: options
 	    };
-	    if (arguments[1]) {
+	    if (typeof arguments[1] === 'string') {
 	      options.title = arguments[1];
-	    }
-	    if (arguments[2]) {
-	      options.type = arguments[2];
 	    }
 	  } else if (options.callback && !callback) {
 	    callback = options.callback;
@@ -454,14 +455,14 @@ module.exports =
 
 /***/ },
 
-/***/ 208:
+/***/ 229:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(209),
+	  __webpack_require__(230),
 	  /* template */
-	  __webpack_require__(210),
+	  __webpack_require__(231),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -475,35 +476,45 @@ module.exports =
 
 /***/ },
 
-/***/ 209:
+/***/ 230:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _popup = __webpack_require__(138);
+	var _popup = __webpack_require__(149);
 
 	var _popup2 = _interopRequireDefault(_popup);
 
-	var _locale = __webpack_require__(61);
+	var _locale = __webpack_require__(66);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _input = __webpack_require__(9);
+	var _input = __webpack_require__(13);
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _button = __webpack_require__(143);
+	var _button = __webpack_require__(154);
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _dom = __webpack_require__(123);
+	var _dom = __webpack_require__(134);
 
-	var _locale3 = __webpack_require__(62);
+	var _locale3 = __webpack_require__(67);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -574,6 +585,17 @@ module.exports =
 	    },
 	    closeOnPressEscape: {
 	      default: true
+	    },
+	    closeOnHashChange: {
+	      default: true
+	    },
+	    center: {
+	      default: false,
+	      type: Boolean
+	    },
+	    roundButton: {
+	      default: false,
+	      type: Boolean
 	    }
 	  },
 
@@ -713,6 +735,16 @@ module.exports =
 	    }
 	  },
 
+	  mounted: function mounted() {
+	    if (this.closeOnHashChange) {
+	      window.addEventListener('hashchange', this.close);
+	    }
+	  },
+	  beforeDestroy: function beforeDestroy() {
+	    if (this.closeOnHashChange) {
+	      window.removeEventListener('hashchange', this.close);
+	    }
+	  },
 	  data: function data() {
 	    return {
 	      uid: 1,
@@ -737,14 +769,15 @@ module.exports =
 	      confirmButtonDisabled: false,
 	      cancelButtonClass: '',
 	      editorErrorMessage: null,
-	      callback: null
+	      callback: null,
+	      dangerouslyUseHTMLString: false
 	    };
 	  }
 	};
 
 /***/ },
 
-/***/ 210:
+/***/ 231:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -771,12 +804,15 @@ module.exports =
 	    }
 	  }, [_c('div', {
 	    staticClass: "el-message-box",
-	    class: _vm.customClass
+	    class: [_vm.customClass, _vm.center && 'el-message-box--center']
 	  }, [(_vm.title !== undefined) ? _c('div', {
 	    staticClass: "el-message-box__header"
 	  }, [_c('div', {
 	    staticClass: "el-message-box__title"
-	  }, [_vm._v(_vm._s(_vm.title))]), (_vm.showClose) ? _c('button', {
+	  }, [(_vm.typeClass && _vm.center) ? _c('div', {
+	    staticClass: "el-message-box__status",
+	    class: [_vm.typeClass]
+	  }) : _vm._e(), _c('span', [_vm._v(_vm._s(_vm.title))])]), (_vm.showClose) ? _c('button', {
 	    staticClass: "el-message-box__headerbtn",
 	    attrs: {
 	      "type": "button",
@@ -791,15 +827,16 @@ module.exports =
 	    staticClass: "el-message-box__close el-icon-close"
 	  })]) : _vm._e()]) : _vm._e(), (_vm.message !== '') ? _c('div', {
 	    staticClass: "el-message-box__content"
-	  }, [_c('div', {
+	  }, [(_vm.typeClass && !_vm.center) ? _c('div', {
 	    staticClass: "el-message-box__status",
 	    class: [_vm.typeClass]
-	  }), _c('div', {
-	    staticClass: "el-message-box__message",
-	    style: ({
-	      'margin-left': _vm.typeClass ? '50px' : '0'
-	    })
-	  }, [_vm._t("default", [_c('p', [_vm._v(_vm._s(_vm.message))])])], 2), _c('div', {
+	  }) : _vm._e(), _c('div', {
+	    staticClass: "el-message-box__message"
+	  }, [_vm._t("default", [(!_vm.dangerouslyUseHTMLString) ? _c('p', [_vm._v(_vm._s(_vm.message))]) : _c('p', {
+	    domProps: {
+	      "innerHTML": _vm._s(_vm.message)
+	    }
+	  })])], 2), _c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -841,7 +878,9 @@ module.exports =
 	    }],
 	    class: [_vm.cancelButtonClasses],
 	    attrs: {
-	      "loading": _vm.cancelButtonLoading
+	      "loading": _vm.cancelButtonLoading,
+	      "round": _vm.roundButton,
+	      "size": "small"
 	    },
 	    nativeOn: {
 	      "click": function($event) {
@@ -858,7 +897,9 @@ module.exports =
 	    ref: "confirm",
 	    class: [_vm.confirmButtonClasses],
 	    attrs: {
-	      "loading": _vm.confirmButtonLoading
+	      "loading": _vm.confirmButtonLoading,
+	      "round": _vm.roundButton,
+	      "size": "small"
 	    },
 	    nativeOn: {
 	      "click": function($event) {

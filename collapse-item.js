@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(83);
+	module.exports = __webpack_require__(88);
 
 
 /***/ },
@@ -135,21 +135,28 @@ module.exports =
 
 /***/ },
 
-/***/ 14:
+/***/ 18:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 83:
+/***/ 21:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/util");
+
+/***/ },
+
+/***/ 88:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _collapseItem = __webpack_require__(84);
+	var _collapseItem = __webpack_require__(89);
 
 	var _collapseItem2 = _interopRequireDefault(_collapseItem);
 
@@ -164,14 +171,14 @@ module.exports =
 
 /***/ },
 
-/***/ 84:
+/***/ 89:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(85),
+	  __webpack_require__(90),
 	  /* template */
-	  __webpack_require__(87),
+	  __webpack_require__(92),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,38 +192,24 @@ module.exports =
 
 /***/ },
 
-/***/ 85:
+/***/ 90:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _collapseTransition = __webpack_require__(86);
+	var _collapseTransition = __webpack_require__(91);
 
 	var _collapseTransition2 = _interopRequireDefault(_collapseTransition);
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(18);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _util = __webpack_require__(21);
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	  name: 'ElCollapseItem',
@@ -233,7 +226,8 @@ module.exports =
 	        height: 'auto',
 	        display: 'block'
 	      },
-	      contentHeight: 0
+	      contentHeight: 0,
+	      focusing: false
 	    };
 	  },
 
@@ -251,6 +245,9 @@ module.exports =
 	  computed: {
 	    isActive: function isActive() {
 	      return this.$parent.activeNames.indexOf(this.name) > -1;
+	    },
+	    id: function id() {
+	      return (0, _util.generateId)();
 	    }
 	  },
 
@@ -261,22 +258,64 @@ module.exports =
 	  methods: {
 	    handleHeaderClick: function handleHeaderClick() {
 	      this.dispatch('ElCollapse', 'item-click', this);
+	      this.focusing = false;
+	    },
+	    handleEnterClick: function handleEnterClick() {
+	      this.dispatch('ElCollapse', 'item-click', this);
 	    }
 	  },
 
 	  mounted: function mounted() {}
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
-/***/ 86:
+/***/ 91:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/transitions/collapse-transition");
 
 /***/ },
 
-/***/ 87:
+/***/ 92:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -286,20 +325,52 @@ module.exports =
 	      'is-active': _vm.isActive
 	    }
 	  }, [_c('div', {
+	    attrs: {
+	      "role": "tab",
+	      "aria-expanded": _vm.isActive,
+	      "aria-controls": ("el-collapse-content-" + _vm.id),
+	      "aria-describedby": ("el-collapse-content-" + _vm.id)
+	    }
+	  }, [_c('div', {
 	    staticClass: "el-collapse-item__header",
+	    class: {
+	      'focusing': _vm.focusing
+	    },
+	    attrs: {
+	      "role": "button",
+	      "id": ("el-collapse-head-" + _vm.id),
+	      "tabindex": "0"
+	    },
 	    on: {
-	      "click": _vm.handleHeaderClick
+	      "click": _vm.handleHeaderClick,
+	      "keyup": function($event) {
+	        if (!('button' in $event) && _vm._k($event.keyCode, "space", 32) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+	        $event.stopPropagation();
+	        _vm.handleEnterClick($event)
+	      },
+	      "focus": function($event) {
+	        _vm.focusing = true
+	      },
+	      "blur": function($event) {
+	        _vm.focusing = false
+	      }
 	    }
 	  }, [_c('i', {
-	    staticClass: "el-collapse-item__header__arrow el-icon-arrow-right"
-	  }), _vm._t("title", [_vm._v(_vm._s(_vm.title))])], 2), _c('el-collapse-transition', [_c('div', {
+	    staticClass: "el-collapse-item__arrow el-icon-arrow-right"
+	  }), _vm._t("title", [_vm._v(_vm._s(_vm.title))])], 2)]), _c('el-collapse-transition', [_c('div', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
 	      value: (_vm.isActive),
 	      expression: "isActive"
 	    }],
-	    staticClass: "el-collapse-item__wrap"
+	    staticClass: "el-collapse-item__wrap",
+	    attrs: {
+	      "role": "tabpanel",
+	      "aria-hidden": !_vm.isActive,
+	      "aria-labelledby": ("el-collapse-head-" + _vm.id),
+	      "id": ("el-collapse-content-" + _vm.id)
+	    }
 	  }, [_c('div', {
 	    staticClass: "el-collapse-item__content"
 	  }, [_vm._t("default")], 2)])])], 1)

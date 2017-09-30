@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(289);
+	module.exports = __webpack_require__(310);
 
 
 /***/ },
@@ -135,14 +135,14 @@ module.exports =
 
 /***/ },
 
-/***/ 289:
+/***/ 310:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _steps = __webpack_require__(290);
+	var _steps = __webpack_require__(311);
 
 	var _steps2 = _interopRequireDefault(_steps);
 
@@ -157,14 +157,14 @@ module.exports =
 
 /***/ },
 
-/***/ 290:
+/***/ 311:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(291),
+	  __webpack_require__(312),
 	  /* template */
-	  __webpack_require__(292),
+	  __webpack_require__(313),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -178,12 +178,15 @@ module.exports =
 
 /***/ },
 
-/***/ 291:
+/***/ 312:
 /***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
+	//
+	//
+	//
 	//
 	//
 	//
@@ -205,6 +208,7 @@ module.exports =
 	    },
 	    alignCenter: Boolean,
 	    center: Boolean,
+	    simple: Boolean,
 	    finishStatus: {
 	      type: String,
 	      default: 'finish'
@@ -247,13 +251,15 @@ module.exports =
 
 /***/ },
 
-/***/ 292:
+/***/ 313:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-steps",
-	    class: ['is-' + _vm.direction, _vm.center ? 'is-center' : '']
+	    class: [!_vm.simple && 'el-steps--' + _vm.direction,
+	      _vm.simple && 'el-steps--simple'
+	    ]
 	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 

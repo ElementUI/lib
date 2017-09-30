@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(182);
+	module.exports = __webpack_require__(204);
 
 
 /***/ },
@@ -135,28 +135,28 @@ module.exports =
 
 /***/ },
 
-/***/ 14:
+/***/ 18:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 123:
+/***/ 134:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 182:
+/***/ 204:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _menu = __webpack_require__(183);
+	var _menu = __webpack_require__(205);
 
 	var _menu2 = _interopRequireDefault(_menu);
 
@@ -171,14 +171,14 @@ module.exports =
 
 /***/ },
 
-/***/ 183:
+/***/ 205:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(184),
+	  __webpack_require__(206),
 	  /* template */
-	  __webpack_require__(185),
+	  __webpack_require__(211),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -192,35 +192,24 @@ module.exports =
 
 /***/ },
 
-/***/ 184:
+/***/ 206:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(18);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _dom = __webpack_require__(123);
+	var _ariaMenubar = __webpack_require__(207);
+
+	var _ariaMenubar2 = _interopRequireDefault(_ariaMenubar);
+
+	var _dom = __webpack_require__(134);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	exports.default = {
 	  name: 'ElMenu',
@@ -304,17 +293,16 @@ module.exports =
 	      default: ''
 	    },
 	    defaultOpeneds: Array,
-	    theme: {
-	      type: String,
-	      default: 'light'
-	    },
 	    uniqueOpened: Boolean,
 	    router: Boolean,
 	    menuTrigger: {
 	      type: String,
 	      default: 'hover'
 	    },
-	    collapse: Boolean
+	    collapse: Boolean,
+	    backgroundColor: String,
+	    textColor: String,
+	    activeTextColor: String
 	  },
 	  data: function data() {
 	    return {
@@ -325,6 +313,11 @@ module.exports =
 	    };
 	  },
 
+	  computed: {
+	    hoverBackground: function hoverBackground() {
+	      return this.backgroundColor ? this.mixColor(this.backgroundColor, 0.2) : '';
+	    }
+	  },
 	  watch: {
 	    defaultActive: function defaultActive(value) {
 	      var item = this.items[value];
@@ -343,6 +336,48 @@ module.exports =
 	    }
 	  },
 	  methods: {
+	    getColorChannels: function getColorChannels(color) {
+	      color = color.replace('#', '');
+	      if (/^[1-9a-fA-F]{3}$/.test(color)) {
+	        color = color.split('');
+	        for (var i = 2; i >= 0; i--) {
+	          color.splice(i, 0, color[i]);
+	        }
+	        color = color.join('');
+	      }
+	      if (/^[1-9a-fA-F]{6}$/.test(color)) {
+	        return {
+	          red: parseInt(color.slice(0, 2), 16),
+	          green: parseInt(color.slice(2, 4), 16),
+	          blue: parseInt(color.slice(4, 6), 16)
+	        };
+	      } else {
+	        return {
+	          red: 255,
+	          green: 255,
+	          blue: 255
+	        };
+	      }
+	    },
+	    mixColor: function mixColor(color, percent) {
+	      var _getColorChannels = this.getColorChannels(color),
+	          red = _getColorChannels.red,
+	          green = _getColorChannels.green,
+	          blue = _getColorChannels.blue;
+
+	      if (percent > 0) {
+	        // shade given color
+	        red *= 1 - percent;
+	        green *= 1 - percent;
+	        blue *= 1 - percent;
+	      } else {
+	        // tint given color
+	        red += (255 - red) * percent;
+	        green += (255 - green) * percent;
+	        blue += (255 - blue) * percent;
+	      }
+	      return 'rgb(' + Math.round(red) + ', ' + Math.round(green) + ', ' + Math.round(blue) + ')';
+	    },
 	    addItem: function addItem(item) {
 	      this.$set(this.items, item.index, item);
 	    },
@@ -428,12 +463,331 @@ module.exports =
 	    this.initOpenedMenu();
 	    this.$on('item-click', this.handleItemClick);
 	    this.$on('submenu-click', this.handleSubmenuClick);
+	    if (this.mode === 'horizontal') {
+	      var menu = new _ariaMenubar2.default(this.$el); // eslint-disable-line
+	    }
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
-/***/ 185:
+/***/ 207:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _ariaMenuitem = __webpack_require__(208);
+
+	var _ariaMenuitem2 = _interopRequireDefault(_ariaMenuitem);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var menu = function menu(domNode) {
+	  this.domNode = domNode;
+	  this.init();
+	};
+
+	menu.prototype.init = function () {
+	  var menuChild = this.domNode.childNodes;
+	  menuChild.forEach(function (child) {
+	    var menuItem = new _ariaMenuitem2.default(child); // eslint-disable-line
+	  });
+	};
+	exports.default = menu;
+
+/***/ },
+
+/***/ 208:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _ariaUtils = __webpack_require__(209);
+
+	var _ariaUtils2 = _interopRequireDefault(_ariaUtils);
+
+	var _ariaSubmenu = __webpack_require__(210);
+
+	var _ariaSubmenu2 = _interopRequireDefault(_ariaSubmenu);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var menuItem = function menuItem(domNode) {
+	  this.domNode = domNode;
+	  this.submenu = null;
+	  this.init();
+	};
+
+	menuItem.prototype.init = function () {
+	  this.domNode.setAttribute('tabindex', '0');
+	  var menuChild = this.domNode.querySelector('.el-menu');
+	  if (menuChild) {
+	    this.submenu = new _ariaSubmenu2.default(this, menuChild);
+	  }
+	  this.addListeners();
+	};
+
+	menuItem.prototype.addListeners = function () {
+	  var _this = this;
+
+	  var keys = _ariaUtils2.default.keys;
+	  this.domNode.addEventListener('keydown', function (event) {
+	    var prevdef = false;
+	    switch (event.keyCode) {
+	      case keys.down:
+	        _ariaUtils2.default.triggerEvent(event.currentTarget, 'mouseenter');
+	        _this.submenu.gotoSubIndex(0);
+	        prevdef = true;
+	        break;
+	      case keys.up:
+	        _ariaUtils2.default.triggerEvent(event.currentTarget, 'mouseenter');
+	        _this.submenu.gotoSubIndex(_this.submenu.subMenuItems.length - 1);
+	        prevdef = true;
+	        break;
+	      case keys.tab:
+	        _ariaUtils2.default.triggerEvent(event.currentTarget, 'mouseleave');
+	        break;
+	      case keys.enter:
+	      case keys.space:
+	        prevdef = true;
+	        event.currentTarget.click();
+	        break;
+	    }
+	    if (prevdef) {
+	      event.preventDefault();
+	    }
+	  });
+	};
+
+	exports.default = menuItem;
+
+/***/ },
+
+/***/ 209:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	var aria = aria || {};
+
+	aria.Utils = aria.Utils || {};
+
+	/**
+	 * @desc Set focus on descendant nodes until the first focusable element is
+	 *       found.
+	 * @param element
+	 *          DOM node for which to find the first focusable descendant.
+	 * @returns
+	 *  true if a focusable element is found and focus is set.
+	 */
+	aria.Utils.focusFirstDescendant = function (element) {
+	  for (var i = 0; i < element.childNodes.length; i++) {
+	    var child = element.childNodes[i];
+	    if (aria.Utils.attemptFocus(child) || aria.Utils.focusFirstDescendant(child)) {
+	      return true;
+	    }
+	  }
+	  return false;
+	};
+
+	/**
+	 * @desc Find the last descendant node that is focusable.
+	 * @param element
+	 *          DOM node for which to find the last focusable descendant.
+	 * @returns
+	 *  true if a focusable element is found and focus is set.
+	 */
+
+	aria.Utils.focusLastDescendant = function (element) {
+	  for (var i = element.childNodes.length - 1; i >= 0; i--) {
+	    var child = element.childNodes[i];
+	    if (aria.Utils.attemptFocus(child) || aria.Utils.focusLastDescendant(child)) {
+	      return true;
+	    }
+	  }
+	  return false;
+	};
+
+	/**
+	 * @desc Set Attempt to set focus on the current node.
+	 * @param element
+	 *          The node to attempt to focus on.
+	 * @returns
+	 *  true if element is focused.
+	 */
+	aria.Utils.attemptFocus = function (element) {
+	  if (!aria.Utils.isFocusable(element)) {
+	    return false;
+	  }
+	  aria.Utils.IgnoreUtilFocusChanges = true;
+	  try {
+	    element.focus();
+	  } catch (e) {}
+	  aria.Utils.IgnoreUtilFocusChanges = false;
+	  return document.activeElement === element;
+	};
+
+	aria.Utils.isFocusable = function (element) {
+	  if (element.tabIndex > 0 || element.tabIndex === 0 && element.getAttribute('tabIndex') !== null) {
+	    return true;
+	  }
+
+	  if (element.disabled) {
+	    return false;
+	  }
+
+	  switch (element.nodeName) {
+	    case 'A':
+	      return !!element.href && element.rel !== 'ignore';
+	    case 'INPUT':
+	      return element.type !== 'hidden' && element.type !== 'file';
+	    case 'BUTTON':
+	    case 'SELECT':
+	    case 'TEXTAREA':
+	      return true;
+	    default:
+	      return false;
+	  }
+	};
+
+	/**
+	 * 触发一个事件
+	 * mouseenter, mouseleave, mouseover, keyup, change, click 等
+	 * @param  {Element} elm
+	 * @param  {String} name
+	 * @param  {*} opts
+	 */
+	aria.Utils.triggerEvent = function (elm, name) {
+	  var eventName = void 0;
+
+	  if (/^mouse|click/.test(name)) {
+	    eventName = 'MouseEvents';
+	  } else if (/^key/.test(name)) {
+	    eventName = 'KeyboardEvent';
+	  } else {
+	    eventName = 'HTMLEvents';
+	  }
+	  var evt = document.createEvent(eventName);
+
+	  for (var _len = arguments.length, opts = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+	    opts[_key - 2] = arguments[_key];
+	  }
+
+	  evt.initEvent.apply(evt, [name].concat(opts));
+	  elm.dispatchEvent ? elm.dispatchEvent(evt) : elm.fireEvent('on' + name, evt);
+
+	  return elm;
+	};
+
+	aria.Utils.keys = {
+	  tab: 9,
+	  enter: 13,
+	  space: 32,
+	  left: 37,
+	  up: 38,
+	  right: 39,
+	  down: 40
+	};
+
+	exports.default = aria.Utils;
+
+/***/ },
+
+/***/ 210:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _ariaUtils = __webpack_require__(209);
+
+	var _ariaUtils2 = _interopRequireDefault(_ariaUtils);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Menu = function Menu(parent, domNode) {
+	  this.domNode = domNode;
+	  this.parent = parent;
+	  this.subMenuItems = [];
+	  this.subIndex = 0;
+	  this.init();
+	};
+
+	Menu.prototype.init = function () {
+	  this.subMenuItems = this.domNode.querySelectorAll('li');
+	  this.addListeners();
+	};
+
+	Menu.prototype.gotoSubIndex = function (idx) {
+	  if (idx === this.subMenuItems.length) {
+	    idx = 0;
+	  } else if (idx < 0) {
+	    idx = this.subMenuItems.length - 1;
+	  }
+	  this.subMenuItems[idx].focus();
+	  this.subIndex = idx;
+	};
+
+	Menu.prototype.addListeners = function () {
+	  var _this = this;
+
+	  var keys = _ariaUtils2.default.keys;
+	  var parentNode = this.parent.domNode;
+	  Array.prototype.forEach.call(this.subMenuItems, function (el) {
+	    el.addEventListener('keydown', function (event) {
+	      var prevdef = false;
+	      switch (event.keyCode) {
+	        case keys.down:
+	          _this.gotoSubIndex(_this.subIndex + 1);
+	          prevdef = true;
+	          break;
+	        case keys.up:
+	          _this.gotoSubIndex(_this.subIndex - 1);
+	          prevdef = true;
+	          break;
+	        case keys.tab:
+	          _ariaUtils2.default.triggerEvent(parentNode, 'mouseleave');
+	          break;
+	        case keys.enter:
+	        case keys.space:
+	          prevdef = true;
+	          event.currentTarget.click();
+	          break;
+	      }
+	      if (prevdef) {
+	        event.preventDefault();
+	        event.stopPropagation();
+	      }
+	      return false;
+	    });
+	  });
+	};
+
+	exports.default = Menu;
+
+/***/ },
+
+/***/ 211:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -442,8 +796,13 @@ module.exports =
 	    staticClass: "el-menu",
 	    class: {
 	      'el-menu--horizontal': _vm.mode === 'horizontal',
-	        'el-menu--dark': _vm.theme === 'dark',
 	        'el-menu--collapse': _vm.collapse
+	    },
+	    style: ({
+	      backgroundColor: _vm.backgroundColor || ''
+	    }),
+	    attrs: {
+	      "role": "menubar"
 	    }
 	  }, [_vm._t("default")], 2)])
 	},staticRenderFns: []}

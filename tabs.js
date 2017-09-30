@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(323);
+	module.exports = __webpack_require__(344);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 46:
+/***/ 51:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ },
 
-/***/ 323:
+/***/ 344:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tabs = __webpack_require__(324);
+	var _tabs = __webpack_require__(345);
 
 	var _tabs2 = _interopRequireDefault(_tabs);
 
@@ -164,12 +164,12 @@ module.exports =
 
 /***/ },
 
-/***/ 324:
+/***/ 345:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(325),
+	  __webpack_require__(346),
 	  /* template */
 	  null,
 	  /* styles */
@@ -185,14 +185,14 @@ module.exports =
 
 /***/ },
 
-/***/ 325:
+/***/ 346:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tabNav = __webpack_require__(326);
+	var _tabNav = __webpack_require__(347);
 
 	var _tabNav2 = _interopRequireDefault(_tabNav);
 
@@ -211,9 +211,18 @@ module.exports =
 	    closable: Boolean,
 	    addable: Boolean,
 	    value: {},
-	    editable: Boolean
+	    editable: Boolean,
+	    tabPosition: {
+	      type: String,
+	      default: 'top'
+	    }
 	  },
 
+	  provide: function provide() {
+	    return {
+	      rootTabs: this
+	    };
+	  },
 	  data: function data() {
 	    return {
 	      currentName: this.value || this.activeName,
@@ -275,6 +284,8 @@ module.exports =
 	    }
 	  },
 	  render: function render(h) {
+	    var _ref;
+
 	    var type = this.type,
 	        handleTabClick = this.handleTabClick,
 	        handleTabRemove = this.handleTabRemove,
@@ -282,7 +293,8 @@ module.exports =
 	        currentName = this.currentName,
 	        panes = this.panes,
 	        editable = this.editable,
-	        addable = this.addable;
+	        addable = this.addable,
+	        tabPosition = this.tabPosition;
 
 
 	    var newButton = editable || addable ? h(
@@ -311,27 +323,28 @@ module.exports =
 	      },
 	      ref: 'nav'
 	    };
+	    var header = h(
+	      'div',
+	      { 'class': 'el-tabs__header' },
+	      [newButton, h(
+	        'tab-nav',
+	        navData,
+	        []
+	      )]
+	    );
+	    var panels = h(
+	      'div',
+	      { 'class': 'el-tabs__content' },
+	      [this.$slots.default]
+	    );
 
 	    return h(
 	      'div',
-	      { 'class': {
+	      { 'class': (_ref = {
 	          'el-tabs': true,
-	          'el-tabs--card': type === 'card',
-	          'el-tabs--border-card': type === 'border-card'
-	        } },
-	      [h(
-	        'div',
-	        { 'class': 'el-tabs__header' },
-	        [newButton, h(
-	          'tab-nav',
-	          navData,
-	          []
-	        )]
-	      ), h(
-	        'div',
-	        { 'class': 'el-tabs__content' },
-	        [this.$slots.default]
-	      )]
+	          'el-tabs--card': type === 'card'
+	        }, _ref['el-tabs--' + tabPosition] = true, _ref['el-tabs--border-card'] = type === 'border-card', _ref) },
+	      [tabPosition !== 'bottom' ? [header, panels] : [panels, header]]
 	    );
 	  },
 	  created: function created() {
@@ -343,12 +356,12 @@ module.exports =
 
 /***/ },
 
-/***/ 326:
+/***/ 347:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(327),
+	  __webpack_require__(348),
 	  /* template */
 	  null,
 	  /* styles */
@@ -364,22 +377,27 @@ module.exports =
 
 /***/ },
 
-/***/ 327:
+/***/ 348:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tabBar = __webpack_require__(328);
+	var _tabBar = __webpack_require__(349);
 
 	var _tabBar2 = _interopRequireDefault(_tabBar);
 
-	var _resizeEvent = __webpack_require__(46);
+	var _resizeEvent = __webpack_require__(51);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function noop() {}
+	var firstUpperCase = function firstUpperCase(str) {
+	  return str.toLowerCase().replace(/( |^)[a-z]/g, function (L) {
+	    return L.toUpperCase();
+	  });
+	};
 
 	exports.default = {
 	  name: 'TabNav',
@@ -387,6 +405,8 @@ module.exports =
 	  components: {
 	    TabBar: _tabBar2.default
 	  },
+
+	  inject: ['rootTabs'],
 
 	  props: {
 	    panes: Array,
@@ -406,34 +426,44 @@ module.exports =
 	  data: function data() {
 	    return {
 	      scrollable: false,
-	      navStyle: {
-	        transform: ''
-	      }
+	      navOffset: 0
 	    };
 	  },
 
 
+	  computed: {
+	    navStyle: function navStyle() {
+	      var dir = ['top', 'bottom'].indexOf(this.rootTabs.tabPosition) !== -1 ? 'X' : 'Y';
+	      return {
+	        transform: 'translate' + dir + '(-' + this.navOffset + 'px)'
+	      };
+	    },
+	    sizeName: function sizeName() {
+	      return ['top', 'bottom'].indexOf(this.rootTabs.tabPosition) !== -1 ? 'width' : 'height';
+	    }
+	  },
+
 	  methods: {
 	    scrollPrev: function scrollPrev() {
-	      var containerWidth = this.$refs.navScroll.offsetWidth;
-	      var currentOffset = this.getCurrentScrollOffset();
+	      var containerSize = this.$refs.navScroll['offset' + firstUpperCase(this.sizeName)];
+	      var currentOffset = this.navOffset;
 
 	      if (!currentOffset) return;
 
-	      var newOffset = currentOffset > containerWidth ? currentOffset - containerWidth : 0;
+	      var newOffset = currentOffset > containerSize ? currentOffset - containerSize : 0;
 
-	      this.setOffset(newOffset);
+	      this.navOffset = newOffset;
 	    },
 	    scrollNext: function scrollNext() {
-	      var navWidth = this.$refs.nav.offsetWidth;
-	      var containerWidth = this.$refs.navScroll.offsetWidth;
-	      var currentOffset = this.getCurrentScrollOffset();
+	      var navSize = this.$refs.nav['offset' + firstUpperCase(this.sizeName)];
+	      var containerSize = this.$refs.navScroll['offset' + firstUpperCase(this.sizeName)];
+	      var currentOffset = this.navOffset;
 
-	      if (navWidth - currentOffset <= containerWidth) return;
+	      if (navSize - currentOffset <= containerSize) return;
 
-	      var newOffset = navWidth - currentOffset > containerWidth * 2 ? currentOffset + containerWidth : navWidth - containerWidth;
+	      var newOffset = navSize - currentOffset > containerSize * 2 ? currentOffset + containerSize : navSize - containerSize;
 
-	      this.setOffset(newOffset);
+	      this.navOffset = newOffset;
 	    },
 	    scrollToActiveTab: function scrollToActiveTab() {
 	      if (!this.scrollable) return;
@@ -443,7 +473,7 @@ module.exports =
 	      var activeTabBounding = activeTab.getBoundingClientRect();
 	      var navScrollBounding = navScroll.getBoundingClientRect();
 	      var navBounding = nav.getBoundingClientRect();
-	      var currentOffset = this.getCurrentScrollOffset();
+	      var currentOffset = this.navOffset;
 	      var newOffset = currentOffset;
 
 	      if (activeTabBounding.left < navScrollBounding.left) {
@@ -455,33 +485,27 @@ module.exports =
 	      if (navBounding.right < navScrollBounding.right) {
 	        newOffset = nav.offsetWidth - navScrollBounding.width;
 	      }
-	      this.setOffset(Math.max(newOffset, 0));
-	    },
-	    getCurrentScrollOffset: function getCurrentScrollOffset() {
-	      var navStyle = this.navStyle;
-
-	      return navStyle.transform ? Number(navStyle.transform.match(/translateX\(-(\d+(\.\d+)*)px\)/)[1]) : 0;
-	    },
-	    setOffset: function setOffset(value) {
-	      this.navStyle.transform = 'translateX(-' + value + 'px)';
+	      this.navOffset = Math.max(newOffset, 0);
 	    },
 	    update: function update() {
-	      var navWidth = this.$refs.nav.offsetWidth;
-	      var containerWidth = this.$refs.navScroll.offsetWidth;
-	      var currentOffset = this.getCurrentScrollOffset();
+	      if (!this.$refs.nav) return;
+	      var sizeName = this.sizeName;
+	      var navSize = this.$refs.nav['offset' + firstUpperCase(sizeName)];
+	      var containerSize = this.$refs.navScroll['offset' + firstUpperCase(sizeName)];
+	      var currentOffset = this.navOffset;
 
-	      if (containerWidth < navWidth) {
-	        var _currentOffset = this.getCurrentScrollOffset();
+	      if (containerSize < navSize) {
+	        var _currentOffset = this.navOffset;
 	        this.scrollable = this.scrollable || {};
 	        this.scrollable.prev = _currentOffset;
-	        this.scrollable.next = _currentOffset + containerWidth < navWidth;
-	        if (navWidth - _currentOffset < containerWidth) {
-	          this.setOffset(navWidth - containerWidth);
+	        this.scrollable.next = _currentOffset + containerSize < navSize;
+	        if (navSize - _currentOffset < containerSize) {
+	          this.navOffset = navSize - containerSize;
 	        }
 	      } else {
 	        this.scrollable = false;
 	        if (currentOffset > 0) {
-	          this.setOffset(0);
+	          this.navOffset = 0;
 	        }
 	      }
 	    }
@@ -594,14 +618,14 @@ module.exports =
 
 /***/ },
 
-/***/ 328:
+/***/ 349:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(329),
+	  __webpack_require__(350),
 	  /* template */
-	  __webpack_require__(330),
+	  __webpack_require__(351),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -615,7 +639,7 @@ module.exports =
 
 /***/ },
 
-/***/ 329:
+/***/ 350:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -632,6 +656,8 @@ module.exports =
 	    tabs: Array
 	  },
 
+	  inject: ['rootTabs'],
+
 	  computed: {
 	    barStyle: {
 	      cache: false,
@@ -641,8 +667,14 @@ module.exports =
 	        if (!this.$parent.$refs.tabs) return {};
 	        var style = {};
 	        var offset = 0;
-	        var tabWidth = 0;
-
+	        var tabSize = 0;
+	        var sizeName = ['top', 'bottom'].indexOf(this.rootTabs.tabPosition) !== -1 ? 'width' : 'height';
+	        var sizeDir = sizeName === 'width' ? 'x' : 'y';
+	        var firstUpperCase = function firstUpperCase(str) {
+	          return str.toLowerCase().replace(/( |^)[a-z]/g, function (L) {
+	            return L.toUpperCase();
+	          });
+	        };
 	        this.tabs.every(function (tab, index) {
 	          var $el = _this.$parent.$refs.tabs[index];
 	          if (!$el) {
@@ -650,16 +682,16 @@ module.exports =
 	          }
 
 	          if (!tab.active) {
-	            offset += $el.clientWidth;
+	            offset += $el['client' + firstUpperCase(sizeName)];
 	            return true;
 	          } else {
-	            tabWidth = $el.clientWidth;
+	            tabSize = $el['client' + firstUpperCase(sizeName)];
 	            return false;
 	          }
 	        });
 
-	        var transform = 'translateX(' + offset + 'px)';
-	        style.width = tabWidth + 'px';
+	        var transform = 'translate' + firstUpperCase(sizeDir) + '(' + offset + 'px)';
+	        style[sizeName] = tabSize + 'px';
 	        style.transform = transform;
 	        style.msTransform = transform;
 	        style.webkitTransform = transform;
@@ -672,7 +704,7 @@ module.exports =
 
 /***/ },
 
-/***/ 330:
+/***/ 351:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

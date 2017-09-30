@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(135);
+	module.exports = __webpack_require__(146);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 14:
+/***/ 18:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 135:
+/***/ 146:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _component = __webpack_require__(136);
+	var _component = __webpack_require__(147);
 
 	var _component2 = _interopRequireDefault(_component);
 
@@ -164,14 +164,14 @@ module.exports =
 
 /***/ },
 
-/***/ 136:
+/***/ 147:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(137),
+	  __webpack_require__(148),
 	  /* template */
-	  __webpack_require__(139),
+	  __webpack_require__(150),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,23 +185,27 @@ module.exports =
 
 /***/ },
 
-/***/ 137:
+/***/ 148:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _popup = __webpack_require__(138);
+	var _popup = __webpack_require__(149);
 
 	var _popup2 = _interopRequireDefault(_popup);
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(18);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -250,6 +254,11 @@ module.exports =
 	      default: true
 	    },
 
+	    appendToBody: {
+	      type: Boolean,
+	      default: false
+	    },
+
 	    lockScroll: {
 	      type: Boolean,
 	      default: true
@@ -270,10 +279,9 @@ module.exports =
 	      default: true
 	    },
 
-	    size: {
-	      type: String,
-	      default: 'small'
-	    },
+	    width: String,
+
+	    fullscreen: Boolean,
 
 	    customClass: {
 	      type: String,
@@ -282,10 +290,21 @@ module.exports =
 
 	    top: {
 	      type: String,
-	      default: '15%'
+	      default: '15vh'
 	    },
-	    beforeClose: Function
+	    beforeClose: Function,
+	    center: {
+	      type: Boolean,
+	      default: false
+	    }
 	  },
+
+	  data: function data() {
+	    return {
+	      closed: false
+	    };
+	  },
+
 
 	  watch: {
 	    visible: function visible(val) {
@@ -293,24 +312,32 @@ module.exports =
 
 	      this.$emit('update:visible', val);
 	      if (val) {
+	        this.closed = false;
 	        this.$emit('open');
 	        this.$el.addEventListener('scroll', this.updatePopper);
 	        this.$nextTick(function () {
 	          _this.$refs.dialog.scrollTop = 0;
 	        });
+	        if (this.appendToBody) {
+	          document.body.appendChild(this.$el);
+	        }
 	      } else {
 	        this.$el.removeEventListener('scroll', this.updatePopper);
-	        this.$emit('close');
+	        if (!this.closed) this.$emit('close');
 	      }
 	    }
 	  },
 
 	  computed: {
-	    sizeClass: function sizeClass() {
-	      return 'el-dialog--' + this.size;
-	    },
 	    style: function style() {
-	      return this.size === 'full' ? {} : { 'top': this.top };
+	      var style = {};
+	      if (this.width) {
+	        style.width = this.width;
+	      }
+	      if (!this.fullscreen) {
+	        style.marginTop = this.top;
+	      }
+	      return style;
 	    }
 	  },
 
@@ -329,7 +356,8 @@ module.exports =
 	    hide: function hide(cancel) {
 	      if (cancel !== false) {
 	        this.$emit('update:visible', false);
-	        this.$emit('visible-change', false);
+	        this.$emit('close');
+	        this.closed = true;
 	      }
 	    },
 	    updatePopper: function updatePopper() {
@@ -342,20 +370,23 @@ module.exports =
 	    if (this.visible) {
 	      this.rendered = true;
 	      this.open();
+	      if (this.appendToBody) {
+	        document.body.appendChild(this.$el);
+	      }
 	    }
 	  }
 	};
 
 /***/ },
 
-/***/ 138:
+/***/ 149:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/popup");
 
 /***/ },
 
-/***/ 139:
+/***/ 150:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -380,7 +411,10 @@ module.exports =
 	  }, [_c('div', {
 	    ref: "dialog",
 	    staticClass: "el-dialog",
-	    class: [_vm.sizeClass, _vm.customClass],
+	    class: [{
+	      'is-fullscreen': _vm.fullscreen,
+	      'el-dialog--center': _vm.center
+	    }, _vm.customClass],
 	    style: (_vm.style)
 	  }, [_c('div', {
 	    staticClass: "el-dialog__header"

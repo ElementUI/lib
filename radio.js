@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(241);
+	module.exports = __webpack_require__(261);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 14:
+/***/ 18:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 241:
+/***/ 261:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _radio = __webpack_require__(242);
+	var _radio = __webpack_require__(262);
 
 	var _radio2 = _interopRequireDefault(_radio);
 
@@ -164,14 +164,14 @@ module.exports =
 
 /***/ },
 
-/***/ 242:
+/***/ 262:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(243),
+	  __webpack_require__(263),
 	  /* template */
-	  __webpack_require__(244),
+	  __webpack_require__(264),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,14 +185,14 @@ module.exports =
 
 /***/ },
 
-/***/ 243:
+/***/ 263:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(18);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -209,7 +209,9 @@ module.exports =
 	    value: {},
 	    label: {},
 	    disabled: Boolean,
-	    name: String
+	    name: String,
+	    border: Boolean,
+	    size: String
 	  },
 
 	  data: function data() {
@@ -217,7 +219,6 @@ module.exports =
 	      focus: false
 	    };
 	  },
-
 
 	  computed: {
 	    isGroup: function isGroup() {
@@ -233,7 +234,6 @@ module.exports =
 	      return false;
 	    },
 
-
 	    model: {
 	      get: function get() {
 	        return this.isGroup ? this._radioGroup.value : this.value;
@@ -246,9 +246,25 @@ module.exports =
 	        }
 	      }
 	    },
-
+	    radioSize: function radioSize() {
+	      return this.isGroup ? this._radioGroup.size || this.size : this.size;
+	    },
 	    isDisabled: function isDisabled() {
 	      return this.isGroup ? this._radioGroup.disabled || this.disabled : this.disabled;
+	    },
+	    tabIndex: function tabIndex() {
+	      return !this.isDisabled ? this.isGroup ? this.model === this.label ? 0 : -1 : 0 : -1;
+	    }
+	  },
+
+	  methods: {
+	    handleChange: function handleChange() {
+	      var _this = this;
+
+	      this.$nextTick(function () {
+	        _this.$emit('change', _this.model);
+	        _this.isGroup && _this.dispatch('ElRadioGroup', 'handleChange', _this.model);
+	      });
 	    }
 	  }
 	}; //
@@ -277,15 +293,54 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
-/***/ 244:
+/***/ 264:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('label', {
-	    staticClass: "el-radio"
+	    staticClass: "el-radio",
+	    class: [
+	      _vm.border && _vm.radioSize ? 'el-radio--' + _vm.radioSize : '', {
+	        'is-disabled': _vm.isDisabled
+	      }, {
+	        'is-bordered': _vm.border
+	      }, {
+	        'is-checked': _vm.model === _vm.label
+	      }
+	    ],
+	    attrs: {
+	      "role": "radio",
+	      "aria-checked": _vm.model === _vm.label,
+	      "aria-disabled": _vm.isDisabled,
+	      "tabindex": _vm.tabIndex
+	    },
+	    on: {
+	      "keydown": function($event) {
+	        if (!('button' in $event) && _vm._k($event.keyCode, "space", 32)) { return null; }
+	        $event.stopPropagation();
+	        $event.preventDefault();
+	        _vm.model = _vm.label
+	      }
+	    }
 	  }, [_c('span', {
 	    staticClass: "el-radio__input",
 	    class: {
@@ -306,7 +361,8 @@ module.exports =
 	    attrs: {
 	      "type": "radio",
 	      "name": _vm.name,
-	      "disabled": _vm.isDisabled
+	      "disabled": _vm.isDisabled,
+	      "tabindex": "-1"
 	    },
 	    domProps: {
 	      "value": _vm.label,
@@ -319,6 +375,7 @@ module.exports =
 	      "blur": function($event) {
 	        _vm.focus = false
 	      },
+	      "change": _vm.handleChange,
 	      "__c": function($event) {
 	        _vm.model = _vm.label
 	      }

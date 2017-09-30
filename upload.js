@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(364);
+	module.exports = __webpack_require__(385);
 
 
 /***/ },
@@ -135,21 +135,28 @@ module.exports =
 
 /***/ },
 
-/***/ 61:
+/***/ 63:
+/***/ function(module, exports) {
+
+	module.exports = require("babel-helper-vue-jsx-merge-props");
+
+/***/ },
+
+/***/ 66:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 364:
+/***/ 385:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _src = __webpack_require__(365);
+	var _src = __webpack_require__(386);
 
 	var _src2 = _interopRequireDefault(_src);
 
@@ -164,12 +171,12 @@ module.exports =
 
 /***/ },
 
-/***/ 365:
+/***/ 386:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(366),
+	  __webpack_require__(387),
 	  /* template */
 	  null,
 	  /* styles */
@@ -185,30 +192,30 @@ module.exports =
 
 /***/ },
 
-/***/ 366:
+/***/ 387:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _uploadList = __webpack_require__(367);
+	var _uploadList = __webpack_require__(388);
 
 	var _uploadList2 = _interopRequireDefault(_uploadList);
 
-	var _upload = __webpack_require__(371);
+	var _upload = __webpack_require__(392);
 
 	var _upload2 = _interopRequireDefault(_upload);
 
-	var _iframeUpload = __webpack_require__(377);
+	var _iframeUpload = __webpack_require__(398);
 
 	var _iframeUpload2 = _interopRequireDefault(_iframeUpload);
 
-	var _progress = __webpack_require__(369);
+	var _progress = __webpack_require__(390);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
-	var _migrating = __webpack_require__(379);
+	var _migrating = __webpack_require__(400);
 
 	var _migrating2 = _interopRequireDefault(_migrating);
 
@@ -491,14 +498,14 @@ module.exports =
 
 /***/ },
 
-/***/ 367:
+/***/ 388:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(368),
+	  __webpack_require__(389),
 	  /* template */
-	  __webpack_require__(370),
+	  __webpack_require__(391),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -512,18 +519,18 @@ module.exports =
 
 /***/ },
 
-/***/ 368:
+/***/ 389:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _locale = __webpack_require__(61);
+	var _locale = __webpack_require__(66);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _progress = __webpack_require__(369);
+	var _progress = __webpack_require__(390);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -585,9 +592,21 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  mixins: [_locale2.default],
+
+	  data: function data() {
+	    return {
+	      focusing: false
+	    };
+	  },
 
 	  components: { ElProgress: _progress2.default },
 
@@ -617,14 +636,14 @@ module.exports =
 
 /***/ },
 
-/***/ 369:
+/***/ 390:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/progress");
 
 /***/ },
 
-/***/ 370:
+/***/ 391:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -642,7 +661,25 @@ module.exports =
 	  }, _vm._l((_vm.files), function(file, index) {
 	    return _c('li', {
 	      key: index,
-	      class: ['el-upload-list__item', 'is-' + file.status]
+	      class: ['el-upload-list__item', 'is-' + file.status, _vm.focusing ? 'focusing' : ''],
+	      attrs: {
+	        "tabindex": "0"
+	      },
+	      on: {
+	        "keydown": function($event) {
+	          if (!('button' in $event) && _vm._k($event.keyCode, "delete", [8, 46])) { return null; }
+	          _vm.$emit('remove', file)
+	        },
+	        "focus": function($event) {
+	          _vm.focusing = true
+	        },
+	        "blur": function($event) {
+	          _vm.focusing = false
+	        },
+	        "click": function($event) {
+	          _vm.focusing = false
+	        }
+	      }
 	    }, [(file.status !== 'uploading' && ['picture-card', 'picture'].indexOf(_vm.listType) > -1) ? _c('img', {
 	      staticClass: "el-upload-list__item-thumbnail",
 	      attrs: {
@@ -673,7 +710,9 @@ module.exports =
 	          _vm.$emit('remove', file)
 	        }
 	      }
-	    }) : _vm._e(), (file.status === 'uploading') ? _c('el-progress', {
+	    }) : _vm._e(), (!_vm.disabled) ? _c('i', {
+	      staticClass: "el-icon-close-tip"
+	    }, [_vm._v("按delete键可删除")]) : _vm._e(), (file.status === 'uploading') ? _c('el-progress', {
 	      attrs: {
 	        "type": _vm.listType === 'picture-card' ? 'circle' : 'line',
 	        "stroke-width": _vm.listType === 'picture-card' ? 6 : 2,
@@ -705,12 +744,12 @@ module.exports =
 
 /***/ },
 
-/***/ 371:
+/***/ 392:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(372),
+	  __webpack_require__(393),
 	  /* template */
 	  null,
 	  /* styles */
@@ -726,18 +765,22 @@ module.exports =
 
 /***/ },
 
-/***/ 372:
+/***/ 393:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _ajax = __webpack_require__(373);
+	var _babelHelperVueJsxMergeProps = __webpack_require__(63);
+
+	var _babelHelperVueJsxMergeProps2 = _interopRequireDefault(_babelHelperVueJsxMergeProps);
+
+	var _ajax = __webpack_require__(394);
 
 	var _ajax2 = _interopRequireDefault(_ajax);
 
-	var _uploadDragger = __webpack_require__(374);
+	var _uploadDragger = __webpack_require__(395);
 
 	var _uploadDragger2 = _interopRequireDefault(_uploadDragger);
 
@@ -899,6 +942,11 @@ module.exports =
 	        this.$refs.input.value = null;
 	        this.$refs.input.click();
 	      }
+	    },
+	    handleKeydown: function handleKeydown(e) {
+	      if (e.keyCode === 13 || e.keyCode === 32) {
+	        this.handleClick();
+	      }
 	    }
 	  },
 
@@ -911,20 +959,24 @@ module.exports =
 	        accept = this.accept,
 	        listType = this.listType,
 	        uploadFiles = this.uploadFiles,
-	        disabled = this.disabled;
+	        disabled = this.disabled,
+	        handleKeydown = this.handleKeydown;
 
 	    var data = {
 	      class: {
 	        'el-upload': true
 	      },
 	      on: {
-	        click: handleClick
+	        click: handleClick,
+	        keydown: handleKeydown
 	      }
 	    };
 	    data.class['el-upload--' + listType] = true;
 	    return h(
 	      'div',
-	      data,
+	      (0, _babelHelperVueJsxMergeProps2.default)([data, {
+	        attrs: { tabindex: '0' }
+	      }]),
 	      [drag ? h(
 	        'upload-dragger',
 	        {
@@ -949,7 +1001,7 @@ module.exports =
 
 /***/ },
 
-/***/ 373:
+/***/ 394:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1044,14 +1096,14 @@ module.exports =
 
 /***/ },
 
-/***/ 374:
+/***/ 395:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(375),
+	  __webpack_require__(396),
 	  /* template */
-	  __webpack_require__(376),
+	  __webpack_require__(397),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1065,7 +1117,7 @@ module.exports =
 
 /***/ },
 
-/***/ 375:
+/***/ 396:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1113,7 +1165,7 @@ module.exports =
 
 /***/ },
 
-/***/ 376:
+/***/ 397:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1141,12 +1193,12 @@ module.exports =
 
 /***/ },
 
-/***/ 377:
+/***/ 398:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(378),
+	  __webpack_require__(399),
 	  /* template */
 	  null,
 	  /* styles */
@@ -1162,14 +1214,14 @@ module.exports =
 
 /***/ },
 
-/***/ 378:
+/***/ 399:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _uploadDragger = __webpack_require__(374);
+	var _uploadDragger = __webpack_require__(395);
 
 	var _uploadDragger2 = _interopRequireDefault(_uploadDragger);
 
@@ -1364,7 +1416,7 @@ module.exports =
 
 /***/ },
 
-/***/ 379:
+/***/ 400:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/migrating");

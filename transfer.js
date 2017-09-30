@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(347);
+	module.exports = __webpack_require__(368);
 
 
 /***/ },
@@ -135,56 +135,56 @@ module.exports =
 
 /***/ },
 
-/***/ 9:
+/***/ 13:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input");
 
 /***/ },
 
-/***/ 14:
+/***/ 18:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 61:
+/***/ 66:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 143:
+/***/ 154:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/button");
 
 /***/ },
 
-/***/ 308:
+/***/ 329:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 317:
+/***/ 338:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox-group");
 
 /***/ },
 
-/***/ 347:
+/***/ 368:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(348);
+	var _main = __webpack_require__(369);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -199,14 +199,14 @@ module.exports =
 
 /***/ },
 
-/***/ 348:
+/***/ 369:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(349),
+	  __webpack_require__(370),
 	  /* template */
-	  __webpack_require__(353),
+	  __webpack_require__(374),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -220,26 +220,26 @@ module.exports =
 
 /***/ },
 
-/***/ 349:
+/***/ 370:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _button = __webpack_require__(143);
+	var _button = __webpack_require__(154);
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(18);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _locale = __webpack_require__(61);
+	var _locale = __webpack_require__(66);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _transferPanel = __webpack_require__(350);
+	var _transferPanel = __webpack_require__(371);
 
 	var _transferPanel2 = _interopRequireDefault(_transferPanel);
 
@@ -340,7 +340,7 @@ module.exports =
 	        return [];
 	      }
 	    },
-	    footerFormat: {
+	    format: {
 	      type: Object,
 	      default: function _default() {
 	        return {};
@@ -381,6 +381,9 @@ module.exports =
 	      return this.data.filter(function (item) {
 	        return _this2.value.indexOf(item[_this2.props.key]) > -1;
 	      });
+	    },
+	    hasButtonTexts: function hasButtonTexts() {
+	      return this.buttonTexts.length === 2;
 	    }
 	  },
 
@@ -425,14 +428,14 @@ module.exports =
 
 /***/ },
 
-/***/ 350:
+/***/ 371:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(351),
+	  __webpack_require__(372),
 	  /* template */
-	  __webpack_require__(352),
+	  __webpack_require__(373),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -446,31 +449,37 @@ module.exports =
 
 /***/ },
 
-/***/ 351:
+/***/ 372:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkboxGroup = __webpack_require__(317);
+	var _checkboxGroup = __webpack_require__(338);
 
 	var _checkboxGroup2 = _interopRequireDefault(_checkboxGroup);
 
-	var _checkbox = __webpack_require__(308);
+	var _checkbox = __webpack_require__(329);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _input = __webpack_require__(9);
+	var _input = __webpack_require__(13);
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _locale = __webpack_require__(61);
+	var _locale = __webpack_require__(66);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -565,7 +574,7 @@ module.exports =
 	    placeholder: String,
 	    title: String,
 	    filterable: Boolean,
-	    footerFormat: Object,
+	    format: Object,
 	    filterMethod: Function,
 	    defaultChecked: Array,
 	    props: Object
@@ -650,14 +659,14 @@ module.exports =
 	    checkedSummary: function checkedSummary() {
 	      var checkedLength = this.checked.length;
 	      var dataLength = this.data.length;
-	      var _footerFormat = this.footerFormat,
-	          noChecked = _footerFormat.noChecked,
-	          hasChecked = _footerFormat.hasChecked;
+	      var _format = this.format,
+	          noChecked = _format.noChecked,
+	          hasChecked = _format.hasChecked;
 
 	      if (noChecked && hasChecked) {
 	        return checkedLength > 0 ? hasChecked.replace(/\${checked}/g, checkedLength).replace(/\${total}/g, dataLength) : noChecked.replace(/\${total}/g, dataLength);
 	      } else {
-	        return checkedLength > 0 ? this.t('el.transfer.hasCheckedFormat', { total: dataLength, checked: checkedLength }) : this.t('el.transfer.noCheckedFormat', { total: dataLength });
+	        return checkedLength + '/' + dataLength;
 	      }
 	    },
 	    isIndeterminate: function isIndeterminate() {
@@ -678,6 +687,9 @@ module.exports =
 	    },
 	    disabledProp: function disabledProp() {
 	      return this.props.disabled || 'disabled';
+	    },
+	    hasFooter: function hasFooter() {
+	      return !!this.$slots.default;
 	    }
 	  },
 
@@ -695,7 +707,7 @@ module.exports =
 	    handleAllCheckedChange: function handleAllCheckedChange(value) {
 	      var _this6 = this;
 
-	      this.checked = value.target.checked ? this.checkableData.map(function (item) {
+	      this.checked = value ? this.checkableData.map(function (item) {
 	        return item[_this6.keyProp];
 	      }) : [];
 	    },
@@ -709,7 +721,7 @@ module.exports =
 
 /***/ },
 
-/***/ 352:
+/***/ 373:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -717,17 +729,27 @@ module.exports =
 	    staticClass: "el-transfer-panel"
 	  }, [_c('p', {
 	    staticClass: "el-transfer-panel__header"
-	  }, [_vm._v(_vm._s(_vm.title))]), _c('div', {
-	    staticClass: "el-transfer-panel__body"
+	  }, [_c('el-checkbox', {
+	    attrs: {
+	      "indeterminate": _vm.isIndeterminate
+	    },
+	    on: {
+	      "change": _vm.handleAllCheckedChange
+	    },
+	    model: {
+	      value: (_vm.allChecked),
+	      callback: function($$v) {
+	        _vm.allChecked = $$v
+	      },
+	      expression: "allChecked"
+	    }
+	  }, [_vm._v("\n      " + _vm._s(_vm.title) + "\n      "), _c('span', [_vm._v(_vm._s(_vm.checkedSummary))])])], 1), _c('div', {
+	    class: ['el-transfer-panel__body', _vm.hasFooter ? 'is-with-footer' : '']
 	  }, [(_vm.filterable) ? _c('el-input', {
 	    staticClass: "el-transfer-panel__filter",
 	    attrs: {
 	      "size": "small",
-	      "placeholder": _vm.placeholder,
-	      "icon": _vm.inputIcon
-	    },
-	    on: {
-	      "click": _vm.clearQuery
+	      "placeholder": _vm.placeholder
 	    },
 	    nativeOn: {
 	      "mouseenter": function($event) {
@@ -744,7 +766,13 @@ module.exports =
 	      },
 	      expression: "query"
 	    }
-	  }) : _vm._e(), _c('el-checkbox-group', {
+	  }, [_c('i', {
+	    class: ['el-input__icon', 'el-icon-' + _vm.inputIcon],
+	    on: {
+	      "click": _vm.clearQuery
+	    },
+	    slot: "prefix"
+	  })]) : _vm._e(), _c('el-checkbox-group', {
 	    directives: [{
 	      name: "show",
 	      rawName: "v-show",
@@ -791,28 +819,14 @@ module.exports =
 	      expression: "data.length === 0 && !hasNoMatch"
 	    }],
 	    staticClass: "el-transfer-panel__empty"
-	  }, [_vm._v(_vm._s(_vm.t('el.transfer.noData')))])], 1), _c('p', {
+	  }, [_vm._v(_vm._s(_vm.t('el.transfer.noData')))])], 1), (_vm.hasFooter) ? _c('p', {
 	    staticClass: "el-transfer-panel__footer"
-	  }, [_c('el-checkbox', {
-	    attrs: {
-	      "indeterminate": _vm.isIndeterminate
-	    },
-	    on: {
-	      "change": _vm.handleAllCheckedChange
-	    },
-	    model: {
-	      value: (_vm.allChecked),
-	      callback: function($$v) {
-	        _vm.allChecked = $$v
-	      },
-	      expression: "allChecked"
-	    }
-	  }, [_vm._v(_vm._s(_vm.checkedSummary))]), _vm._t("default")], 2)])
+	  }, [_vm._t("default")], 2) : _vm._e()])
 	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 353:
+/***/ 374:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -831,9 +845,9 @@ module.exports =
 	  }, 'transfer-panel', _vm.$props), [_vm._t("left-footer")], 2), _c('div', {
 	    staticClass: "el-transfer__buttons"
 	  }, [_c('el-button', {
+	    class: ['el-transfer__button', _vm.hasButtonTexts ? 'is-with-texts' : ''],
 	    attrs: {
 	      "type": "primary",
-	      "size": "small",
 	      "disabled": _vm.rightChecked.length === 0
 	    },
 	    nativeOn: {
@@ -844,9 +858,9 @@ module.exports =
 	  }, [_c('i', {
 	    staticClass: "el-icon-arrow-left"
 	  }), (_vm.buttonTexts[0] !== undefined) ? _c('span', [_vm._v(_vm._s(_vm.buttonTexts[0]))]) : _vm._e()]), _c('el-button', {
+	    class: ['el-transfer__button', _vm.hasButtonTexts ? 'is-with-texts' : ''],
 	    attrs: {
 	      "type": "primary",
-	      "size": "small",
 	      "disabled": _vm.leftChecked.length === 0
 	    },
 	    nativeOn: {

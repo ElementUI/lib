@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(26);
+	module.exports = __webpack_require__(31);
 
 
 /***/ },
@@ -135,14 +135,14 @@ module.exports =
 
 /***/ },
 
-/***/ 26:
+/***/ 31:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _breadcrumbItem = __webpack_require__(27);
+	var _breadcrumbItem = __webpack_require__(32);
 
 	var _breadcrumbItem2 = _interopRequireDefault(_breadcrumbItem);
 
@@ -157,14 +157,14 @@ module.exports =
 
 /***/ },
 
-/***/ 27:
+/***/ 32:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(28),
+	  __webpack_require__(33),
 	  /* template */
-	  __webpack_require__(29),
+	  __webpack_require__(34),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -178,12 +178,16 @@ module.exports =
 
 /***/ },
 
-/***/ 28:
+/***/ 33:
 /***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -198,16 +202,19 @@ module.exports =
 	  },
 	  data: function data() {
 	    return {
-	      separator: ''
+	      separator: '',
+	      separatorClass: ''
 	    };
 	  },
 	  mounted: function mounted() {
 	    var _this = this;
 
 	    this.separator = this.$parent.separator;
+	    this.separatorClass = this.$parent.separatorClass;
 	    var self = this;
 	    if (this.to) {
 	      var link = this.$refs.link;
+	      link.setAttribute('role', 'link');
 	      link.addEventListener('click', function (_) {
 	        var to = _this.to;
 	        self.replace ? self.$router.replace(to) : self.$router.push(to);
@@ -218,7 +225,7 @@ module.exports =
 
 /***/ },
 
-/***/ 29:
+/***/ 34:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -226,9 +233,18 @@ module.exports =
 	    staticClass: "el-breadcrumb__item"
 	  }, [_c('span', {
 	    ref: "link",
-	    staticClass: "el-breadcrumb__item__inner"
-	  }, [_vm._t("default")], 2), _c('span', {
-	    staticClass: "el-breadcrumb__separator"
+	    staticClass: "el-breadcrumb__inner",
+	    attrs: {
+	      "role": "link"
+	    }
+	  }, [_vm._t("default")], 2), (_vm.separatorClass) ? _c('i', {
+	    staticClass: "el-breadcrumb__separator",
+	    class: _vm.separatorClass
+	  }) : _c('span', {
+	    staticClass: "el-breadcrumb__separator",
+	    attrs: {
+	      "role": "presentation"
+	    }
 	  }, [_vm._v(_vm._s(_vm.separator))])])
 	},staticRenderFns: []}
 

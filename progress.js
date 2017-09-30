@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(237);
+	module.exports = __webpack_require__(257);
 
 
 /***/ },
@@ -135,14 +135,14 @@ module.exports =
 
 /***/ },
 
-/***/ 237:
+/***/ 257:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _progress = __webpack_require__(238);
+	var _progress = __webpack_require__(258);
 
 	var _progress2 = _interopRequireDefault(_progress);
 
@@ -157,14 +157,14 @@ module.exports =
 
 /***/ },
 
-/***/ 238:
+/***/ 258:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(239),
+	  __webpack_require__(259),
 	  /* template */
-	  __webpack_require__(240),
+	  __webpack_require__(260),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -178,12 +178,16 @@ module.exports =
 
 /***/ },
 
-/***/ 239:
+/***/ 259:
 /***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -313,7 +317,7 @@ module.exports =
 
 /***/ },
 
-/***/ 240:
+/***/ 260:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -325,7 +329,13 @@ module.exports =
 	        'el-progress--without-text': !_vm.showText,
 	        'el-progress--text-inside': _vm.textInside,
 	      }
-	    ]
+	    ],
+	    attrs: {
+	      "role": "progressbar",
+	      "aria-valuenow": _vm.percentage,
+	      "aria-valuemin": "0",
+	      "aria-valuemax": "100"
+	    }
 	  }, [(_vm.type === 'line') ? _c('div', {
 	    staticClass: "el-progress-bar"
 	  }, [_c('div', {

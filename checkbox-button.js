@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(69);
+	module.exports = __webpack_require__(74);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 14:
+/***/ 18:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 69:
+/***/ 74:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkboxButton = __webpack_require__(70);
+	var _checkboxButton = __webpack_require__(75);
 
 	var _checkboxButton2 = _interopRequireDefault(_checkboxButton);
 
@@ -164,14 +164,14 @@ module.exports =
 
 /***/ },
 
-/***/ 70:
+/***/ 75:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(71),
+	  __webpack_require__(76),
 	  /* template */
-	  __webpack_require__(72),
+	  __webpack_require__(77),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,14 +185,14 @@ module.exports =
 
 /***/ },
 
-/***/ 71:
+/***/ 76:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(18);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -206,7 +206,8 @@ module.exports =
 	  data: function data() {
 	    return {
 	      selfModel: false,
-	      focus: false
+	      focus: false,
+	      isLimitExceeded: false
 	    };
 	  },
 
@@ -227,12 +228,12 @@ module.exports =
 	      },
 	      set: function set(val) {
 	        if (this._checkboxGroup) {
-	          var isLimitExceeded = false;
-	          this._checkboxGroup.min !== undefined && val.length < this._checkboxGroup.min && (isLimitExceeded = true);
+	          this.isLimitExceeded = false;
+	          this._checkboxGroup.min !== undefined && val.length < this._checkboxGroup.min && (this.isLimitExceeded = true);
 
-	          this._checkboxGroup.max !== undefined && val.length > this._checkboxGroup.max && (isLimitExceeded = true);
+	          this._checkboxGroup.max !== undefined && val.length > this._checkboxGroup.max && (this.isLimitExceeded = true);
 
-	          isLimitExceeded === false && this.dispatch('ElCheckboxGroup', 'input', [val]);
+	          this.isLimitExceeded === false && this.dispatch('ElCheckboxGroup', 'input', [val]);
 	        } else if (this.value !== undefined) {
 	          this.$emit('input', val);
 	        } else {
@@ -275,6 +276,9 @@ module.exports =
 	    },
 	    size: function size() {
 	      return this._checkboxGroup.size;
+	    },
+	    isDisabled: function isDisabled() {
+	      return this._checkboxGroup ? this._checkboxGroup.disabled || this.disabled : this.disabled;
 	    }
 	  },
 	  methods: {
@@ -288,12 +292,13 @@ module.exports =
 	    handleChange: function handleChange(ev) {
 	      var _this = this;
 
-	      this.$emit('change', ev);
-	      if (this._checkboxGroup) {
-	        this.$nextTick(function (_) {
+	      this.$nextTick(function () {
+	        if (_this.isLimitExceeded) return;
+	        _this.$emit('change', _this.model, ev);
+	        if (_this._checkboxGroup) {
 	          _this.dispatch('ElCheckboxGroup', 'change', [_this._checkboxGroup.value]);
-	        });
-	      }
+	        }
+	      });
 	    }
 	  },
 
@@ -342,10 +347,13 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
 
 /***/ },
 
-/***/ 72:
+/***/ 77:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -353,12 +361,17 @@ module.exports =
 	    staticClass: "el-checkbox-button",
 	    class: [
 	      _vm.size ? 'el-checkbox-button--' + _vm.size : '', {
-	        'is-disabled': _vm.disabled
+	        'is-disabled': _vm.isDisabled
 	      }, {
 	        'is-checked': _vm.isChecked
 	      }, {
 	        'is-focus': _vm.focus
-	      } ]
+	      } ],
+	    attrs: {
+	      "role": "checkbox",
+	      "aria-checked": _vm.isChecked,
+	      "aria-disabled": _vm.isDisabled
+	    }
 	  }, [(_vm.trueLabel || _vm.falseLabel) ? _c('input', {
 	    directives: [{
 	      name: "model",
@@ -370,7 +383,7 @@ module.exports =
 	    attrs: {
 	      "type": "checkbox",
 	      "name": _vm.name,
-	      "disabled": _vm.disabled,
+	      "disabled": _vm.isDisabled,
 	      "true-value": _vm.trueLabel,
 	      "false-value": _vm.falseLabel
 	    },
@@ -413,7 +426,7 @@ module.exports =
 	    attrs: {
 	      "type": "checkbox",
 	      "name": _vm.name,
-	      "disabled": _vm.disabled
+	      "disabled": _vm.isDisabled
 	    },
 	    domProps: {
 	      "value": _vm.label,

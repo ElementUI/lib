@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(225);
+	module.exports = __webpack_require__(245);
 
 
 /***/ },
@@ -135,21 +135,28 @@ module.exports =
 
 /***/ },
 
-/***/ 61:
+/***/ 13:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/input");
+
+/***/ },
+
+/***/ 66:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 225:
+/***/ 245:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _pagination = __webpack_require__(226);
+	var _pagination = __webpack_require__(246);
 
 	var _pagination2 = _interopRequireDefault(_pagination);
 
@@ -164,26 +171,30 @@ module.exports =
 
 /***/ },
 
-/***/ 226:
+/***/ 246:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _pager = __webpack_require__(227);
+	var _pager = __webpack_require__(247);
 
 	var _pager2 = _interopRequireDefault(_pager);
 
-	var _select = __webpack_require__(230);
+	var _select = __webpack_require__(250);
 
 	var _select2 = _interopRequireDefault(_select);
 
-	var _option = __webpack_require__(231);
+	var _option = __webpack_require__(251);
 
 	var _option2 = _interopRequireDefault(_option);
 
-	var _locale = __webpack_require__(61);
+	var _input = __webpack_require__(13);
+
+	var _input2 = _interopRequireDefault(_input);
+
+	var _locale = __webpack_require__(66);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -218,7 +229,13 @@ module.exports =
 	      default: function _default() {
 	        return [10, 20, 30, 40, 50, 100];
 	      }
-	    }
+	    },
+
+	    popperClass: String,
+
+	    prevText: String,
+
+	    nextText: String
 	  },
 
 	  data: function data() {
@@ -333,7 +350,11 @@ module.exports =
 	              'click': this.$parent.prev
 	            }
 	          },
-	          [h(
+	          [this.$parent.prevText ? h(
+	            'span',
+	            null,
+	            [this.$parent.prevText]
+	          ) : h(
 	            'i',
 	            { 'class': 'el-icon el-icon-arrow-left' },
 	            []
@@ -355,7 +376,11 @@ module.exports =
 	              'click': this.$parent.next
 	            }
 	          },
-	          [h(
+	          [this.$parent.nextText ? h(
+	            'span',
+	            null,
+	            [this.$parent.nextText]
+	          ) : h(
 	            'i',
 	            { 'class': 'el-icon el-icon-arrow-right' },
 	            []
@@ -392,7 +417,8 @@ module.exports =
 	            'el-select',
 	            {
 	              attrs: {
-	                value: this.$parent.internalPageSize
+	                value: this.$parent.internalPageSize,
+	                popperClass: (this.$parent.popperClass || '') + ' is-arrow-fixed'
 	              },
 	              on: {
 	                'input': this.handleChange
@@ -404,7 +430,7 @@ module.exports =
 	                {
 	                  attrs: {
 	                    value: item,
-	                    label: item + ' ' + _this.t('el.pagination.pagesize') }
+	                    label: item + _this.t('el.pagination.pagesize') }
 	                },
 	                []
 	              );
@@ -416,7 +442,8 @@ module.exports =
 
 	      components: {
 	        ElSelect: _select2.default,
-	        ElOption: _option2.default
+	        ElOption: _option2.default,
+	        ElInput: _input2.default
 	      },
 
 	      methods: {
@@ -456,10 +483,8 @@ module.exports =
 	            this.handleChange({ target: event.target });
 	          }
 	        },
-	        handleChange: function handleChange(_ref2) {
-	          var target = _ref2.target;
-
-	          this.$parent.internalCurrentPage = this.$parent.getValidCurrentPage(target.value);
+	        handleChange: function handleChange(value) {
+	          this.$parent.internalCurrentPage = this.$parent.getValidCurrentPage(value);
 	          this.oldValue = null;
 	        },
 	        reassignMaxValue: function reassignMaxValue(target) {
@@ -474,22 +499,24 @@ module.exports =
 	          'span',
 	          { 'class': 'el-pagination__jump' },
 	          [this.t('el.pagination.goto'), h(
-	            'input',
+	            'el-input',
 	            {
-	              'class': 'el-pagination__editor',
-	              attrs: { type: 'number',
-	                min: 1,
+	              'class': 'el-pagination__editor is-in-pagination',
+	              attrs: { min: 1,
 	                max: this.$parent.internalPageCount,
 	                value: this.$parent.internalCurrentPage,
 
-	                number: true },
+	                type: 'number'
+	              },
 	              domProps: {
 	                'value': this.$parent.internalCurrentPage
 	              },
 	              on: {
 	                'change': this.handleChange,
 	                'focus': this.handleFocus,
-	                'blur': this.handleBlur,
+	                'blur': this.handleBlur
+	              },
+	              nativeOn: {
 	                'keyup': this.handleKeyUp
 	              }
 	            },
@@ -617,14 +644,14 @@ module.exports =
 
 /***/ },
 
-/***/ 227:
+/***/ 247:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(228),
+	  __webpack_require__(248),
 	  /* template */
-	  __webpack_require__(229),
+	  __webpack_require__(249),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -638,7 +665,7 @@ module.exports =
 
 /***/ },
 
-/***/ 228:
+/***/ 248:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -792,7 +819,7 @@ module.exports =
 
 /***/ },
 
-/***/ 229:
+/***/ 249:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -845,14 +872,14 @@ module.exports =
 
 /***/ },
 
-/***/ 230:
+/***/ 250:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/select");
 
 /***/ },
 
-/***/ 231:
+/***/ 251:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/option");

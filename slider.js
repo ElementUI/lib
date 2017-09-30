@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(272);
+	module.exports = __webpack_require__(293);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 14:
+/***/ 18:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 272:
+/***/ 293:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(273);
+	var _main = __webpack_require__(294);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -164,14 +164,14 @@ module.exports =
 
 /***/ },
 
-/***/ 273:
+/***/ 294:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(274),
+	  __webpack_require__(295),
 	  /* template */
-	  __webpack_require__(280),
+	  __webpack_require__(301),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,22 +185,22 @@ module.exports =
 
 /***/ },
 
-/***/ 274:
+/***/ 295:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _inputNumber = __webpack_require__(275);
+	var _inputNumber = __webpack_require__(296);
 
 	var _inputNumber2 = _interopRequireDefault(_inputNumber);
 
-	var _button = __webpack_require__(276);
+	var _button = __webpack_require__(297);
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(18);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -263,6 +263,9 @@ module.exports =
 	    debounce: {
 	      type: Number,
 	      default: 300
+	    },
+	    label: {
+	      type: String
 	    }
 	  },
 
@@ -343,7 +346,6 @@ module.exports =
 	          this.firstValue = val[0];
 	          this.secondValue = val[1];
 	          if (this.valueChanged()) {
-	            this.$emit('change', [this.minValue, this.maxValue]);
 	            this.dispatch('ElFormItem', 'el.form.change', [this.minValue, this.maxValue]);
 	            this.oldValue = val.slice();
 	          }
@@ -356,7 +358,6 @@ module.exports =
 	        } else {
 	          this.firstValue = val;
 	          if (this.valueChanged()) {
-	            this.$emit('change', val);
 	            this.dispatch('ElFormItem', 'el.form.change', val);
 	            this.oldValue = val;
 	          }
@@ -387,17 +388,25 @@ module.exports =
 	        var sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
 	        this.setPosition((event.clientX - sliderOffsetLeft) / this.sliderSize * 100);
 	      }
+	      this.emitChange();
 	    },
 	    resetSize: function resetSize() {
 	      if (this.$refs.slider) {
 	        this.sliderSize = this.$refs.slider['client' + (this.vertical ? 'Height' : 'Width')];
 	      }
+	    },
+	    emitChange: function emitChange() {
+	      var _this2 = this;
+
+	      this.$nextTick(function () {
+	        _this2.$emit('change', _this2.range ? [_this2.minValue, _this2.maxValue] : _this2.value);
+	      });
 	    }
 	  },
 
 	  computed: {
 	    stops: function stops() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      if (this.step === 0) {
 	        ("production") !== 'production' && console.warn('[Element Warn][Slider]step should not be 0.');
@@ -411,11 +420,11 @@ module.exports =
 	      }
 	      if (this.range) {
 	        return result.filter(function (step) {
-	          return step < 100 * (_this2.minValue - _this2.min) / (_this2.max - _this2.min) || step > 100 * (_this2.maxValue - _this2.min) / (_this2.max - _this2.min);
+	          return step < 100 * (_this3.minValue - _this3.min) / (_this3.max - _this3.min) || step > 100 * (_this3.maxValue - _this3.min) / (_this3.max - _this3.min);
 	        });
 	      } else {
 	        return result.filter(function (step) {
-	          return step > 100 * (_this2.firstValue - _this2.min) / (_this2.max - _this2.min);
+	          return step > 100 * (_this3.firstValue - _this3.min) / (_this3.max - _this3.min);
 	        });
 	      }
 	    },
@@ -453,6 +462,7 @@ module.exports =
 	  },
 
 	  mounted: function mounted() {
+	    var valuetext = void 0;
 	    if (this.range) {
 	      if (Array.isArray(this.value)) {
 	        this.firstValue = Math.max(this.min, this.value[0]);
@@ -462,6 +472,7 @@ module.exports =
 	        this.secondValue = this.max;
 	      }
 	      this.oldValue = [this.firstValue, this.secondValue];
+	      valuetext = this.firstValue + '-' + this.secondValue;
 	    } else {
 	      if (typeof this.value !== 'number' || isNaN(this.value)) {
 	        this.firstValue = this.min;
@@ -469,7 +480,13 @@ module.exports =
 	        this.firstValue = Math.min(this.max, Math.max(this.min, this.value));
 	      }
 	      this.oldValue = this.firstValue;
+	      valuetext = this.firstValue;
 	    }
+	    this.$el.setAttribute('aria-valuetext', valuetext);
+
+	    // label screen reader
+	    this.$el.setAttribute('aria-label', this.label ? this.label : 'slider between ' + this.min + ' and ' + this.max);
+
 	    this.resetSize();
 	    window.addEventListener('resize', this.resetSize);
 	  },
@@ -522,24 +539,31 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
-/***/ 275:
+/***/ 296:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input-number");
 
 /***/ },
 
-/***/ 276:
+/***/ 297:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(277),
+	  __webpack_require__(298),
 	  /* template */
-	  __webpack_require__(279),
+	  __webpack_require__(300),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -553,14 +577,14 @@ module.exports =
 
 /***/ },
 
-/***/ 277:
+/***/ 298:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tooltip = __webpack_require__(278);
+	var _tooltip = __webpack_require__(299);
 
 	var _tooltip2 = _interopRequireDefault(_tooltip);
 
@@ -588,6 +612,7 @@ module.exports =
 	    return {
 	      hovering: false,
 	      dragging: false,
+	      isClick: false,
 	      startX: 0,
 	      currentX: 0,
 	      startY: 0,
@@ -661,8 +686,19 @@ module.exports =
 	      window.addEventListener('mouseup', this.onDragEnd);
 	      window.addEventListener('contextmenu', this.onDragEnd);
 	    },
+	    onLeftKeyDown: function onLeftKeyDown() {
+	      if (this.disabled) return;
+	      this.newPosition = parseFloat(this.currentPosition) - this.step / (this.max - this.min) * 100;
+	      this.setPosition(this.newPosition);
+	    },
+	    onRightKeyDown: function onRightKeyDown() {
+	      if (this.disabled) return;
+	      this.newPosition = parseFloat(this.currentPosition) + this.step / (this.max - this.min) * 100;
+	      this.setPosition(this.newPosition);
+	    },
 	    onDragStart: function onDragStart(event) {
 	      this.dragging = true;
+	      this.isClick = true;
 	      if (this.vertical) {
 	        this.startY = event.clientY;
 	      } else {
@@ -673,6 +709,7 @@ module.exports =
 	    },
 	    onDragging: function onDragging(event) {
 	      if (this.dragging) {
+	        this.isClick = false;
 	        this.displayTooltip();
 	        this.$parent.resetSize();
 	        var diff = 0;
@@ -698,7 +735,10 @@ module.exports =
 	        setTimeout(function () {
 	          _this.dragging = false;
 	          _this.hideTooltip();
-	          _this.setPosition(_this.newPosition);
+	          if (!_this.isClick) {
+	            _this.setPosition(_this.newPosition);
+	            _this.$parent.emitChange();
+	          }
 	        }, 0);
 	        window.removeEventListener('mousemove', this.onDragging);
 	        window.removeEventListener('mouseup', this.onDragEnd);
@@ -706,6 +746,8 @@ module.exports =
 	      }
 	    },
 	    setPosition: function setPosition(newPosition) {
+	      var _this2 = this;
+
 	      if (newPosition === null) return;
 	      if (newPosition < 0) {
 	        newPosition = 0;
@@ -717,7 +759,9 @@ module.exports =
 	      var value = steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min;
 	      value = parseFloat(value.toFixed(this.precision));
 	      this.$emit('input', value);
-	      this.$refs.tooltip && this.$refs.tooltip.updatePopper();
+	      this.$nextTick(function () {
+	        _this2.$refs.tooltip && _this2.$refs.tooltip.updatePopper();
+	      });
 	      if (!this.dragging && this.value !== this.oldValue) {
 	        this.oldValue = this.value;
 	      }
@@ -739,17 +783,25 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
-/***/ 278:
+/***/ 299:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tooltip");
 
 /***/ },
 
-/***/ 279:
+/***/ 300:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -760,10 +812,32 @@ module.exports =
 	      'hover': _vm.hovering, 'dragging': _vm.dragging
 	    },
 	    style: (_vm.wrapperStyle),
+	    attrs: {
+	      "tabindex": "0"
+	    },
 	    on: {
 	      "mouseenter": _vm.handleMouseEnter,
 	      "mouseleave": _vm.handleMouseLeave,
-	      "mousedown": _vm.onButtonDown
+	      "mousedown": _vm.onButtonDown,
+	      "focus": _vm.handleMouseEnter,
+	      "blur": _vm.handleMouseLeave,
+	      "keydown": [function($event) {
+	        if (!('button' in $event) && _vm._k($event.keyCode, "left", 37)) { return null; }
+	        if ('button' in $event && $event.button !== 0) { return null; }
+	        _vm.onLeftKeyDown($event)
+	      }, function($event) {
+	        if (!('button' in $event) && _vm._k($event.keyCode, "right", 39)) { return null; }
+	        if ('button' in $event && $event.button !== 2) { return null; }
+	        _vm.onRightKeyDown($event)
+	      }, function($event) {
+	        if (!('button' in $event) && _vm._k($event.keyCode, "down", 40)) { return null; }
+	        $event.preventDefault();
+	        _vm.onLeftKeyDown($event)
+	      }, function($event) {
+	        if (!('button' in $event) && _vm._k($event.keyCode, "up", 38)) { return null; }
+	        $event.preventDefault();
+	        _vm.onRightKeyDown($event)
+	      }]
 	    }
 	  }, [_c('el-tooltip', {
 	    ref: "tooltip",
@@ -783,7 +857,7 @@ module.exports =
 
 /***/ },
 
-/***/ 280:
+/***/ 301:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -791,6 +865,13 @@ module.exports =
 	    staticClass: "el-slider",
 	    class: {
 	      'is-vertical': _vm.vertical, 'el-slider--with-input': _vm.showInput
+	    },
+	    attrs: {
+	      "role": "slider",
+	      "aria-valuemin": _vm.min,
+	      "aria-valuemax": _vm.max,
+	      "aria-orientation": _vm.vertical ? 'vertical' : 'horizontal',
+	      "aria-disabled": _vm.disabled
 	    }
 	  }, [(_vm.showInput && !_vm.range) ? _c('el-input-number', {
 	    ref: "input",
@@ -803,6 +884,11 @@ module.exports =
 	      "max": _vm.max,
 	      "debounce": _vm.debounce,
 	      "size": "small"
+	    },
+	    on: {
+	      "change": function($event) {
+	        _vm.$nextTick(_vm.emitChange)
+	      }
 	    },
 	    model: {
 	      value: (_vm.firstValue),

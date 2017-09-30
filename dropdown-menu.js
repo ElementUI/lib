@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(149);
+	module.exports = __webpack_require__(160);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 13:
+/***/ 17:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 
-/***/ 149:
+/***/ 160:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _dropdownMenu = __webpack_require__(150);
+	var _dropdownMenu = __webpack_require__(161);
 
 	var _dropdownMenu2 = _interopRequireDefault(_dropdownMenu);
 
@@ -164,14 +164,14 @@ module.exports =
 
 /***/ },
 
-/***/ 150:
+/***/ 161:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(151),
+	  __webpack_require__(162),
 	  /* template */
-	  __webpack_require__(152),
+	  __webpack_require__(163),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,14 +185,14 @@ module.exports =
 
 /***/ },
 
-/***/ 151:
+/***/ 162:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(13);
+	var _vuePopper = __webpack_require__(17);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -204,6 +204,16 @@ module.exports =
 	  componentName: 'ElDropdownMenu',
 
 	  mixins: [_vuePopper2.default],
+
+	  data: function data() {
+	    return {
+	      visibleArrow: this.dropdown.visibleArrow,
+	      size: this.dropdown.size
+	    };
+	  },
+
+
+	  inject: ['dropdown'],
 
 	  created: function created() {
 	    var _this = this;
@@ -222,10 +232,10 @@ module.exports =
 
 
 	  watch: {
-	    '$parent.menuAlign': {
+	    'dropdown.placement': {
 	      immediate: true,
 	      handler: function handler(val) {
-	        this.currentPlacement = 'bottom-' + val;
+	        this.currentPlacement = val;
 	      }
 	    }
 	  }
@@ -239,7 +249,7 @@ module.exports =
 
 /***/ },
 
-/***/ 152:
+/***/ 163:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -257,7 +267,8 @@ module.exports =
 	      value: (_vm.showPopper),
 	      expression: "showPopper"
 	    }],
-	    staticClass: "el-dropdown-menu"
+	    staticClass: "el-dropdown-menu el-popper",
+	    class: [_vm.size && ("el-dropdown-menu--" + _vm.size)]
 	  }, [_vm._t("default")], 2)])
 	},staticRenderFns: []}
 

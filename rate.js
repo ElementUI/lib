@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(253);
+	module.exports = __webpack_require__(273);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 123:
+/***/ 134:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 253:
+/***/ 273:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(254);
+	var _main = __webpack_require__(274);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -164,14 +164,14 @@ module.exports =
 
 /***/ },
 
-/***/ 254:
+/***/ 274:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(255),
+	  __webpack_require__(275),
 	  /* template */
-	  __webpack_require__(256),
+	  __webpack_require__(276),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,14 +185,14 @@ module.exports =
 
 /***/ },
 
-/***/ 255:
+/***/ 275:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _dom = __webpack_require__(123);
+	var _dom = __webpack_require__(134);
 
 	exports.default = {
 	  name: 'ElRate',
@@ -202,7 +202,8 @@ module.exports =
 	      classMap: {},
 	      pointerAtLeftHalf: true,
 	      currentValue: this.value,
-	      hoverIndex: -1
+	      hoverIndex: -1,
+	      focusing: false
 	    };
 	  },
 
@@ -264,6 +265,10 @@ module.exports =
 	      type: Boolean,
 	      default: false
 	    },
+	    showScore: {
+	      type: Boolean,
+	      default: false
+	    },
 	    textColor: {
 	      type: String,
 	      default: '#1f2d3d'
@@ -274,7 +279,7 @@ module.exports =
 	        return ['极差', '失望', '一般', '满意', '惊喜'];
 	      }
 	    },
-	    textTemplate: {
+	    scoreTemplate: {
 	      type: String,
 	      default: '{value}'
 	    }
@@ -283,9 +288,9 @@ module.exports =
 	  computed: {
 	    text: function text() {
 	      var result = '';
-	      if (this.disabled) {
-	        result = this.textTemplate.replace(/\{\s*value\s*\}/, this.value);
-	      } else {
+	      if (this.showScore) {
+	        result = this.scoreTemplate.replace(/\{\s*value\s*\}/, this.disabled ? this.value : this.currentValue);
+	      } else if (this.showText) {
 	        result = this.texts[Math.ceil(this.currentValue) - 1];
 	      }
 	      return result;
@@ -346,7 +351,6 @@ module.exports =
 
 	  watch: {
 	    value: function value(val) {
-	      this.$emit('change', val);
 	      this.currentValue = val;
 	      this.pointerAtLeftHalf = this.value !== Math.floor(this.value);
 	    }
@@ -382,9 +386,39 @@ module.exports =
 	      }
 	      if (this.allowHalf && this.pointerAtLeftHalf) {
 	        this.$emit('input', this.currentValue);
+	        this.$emit('change', this.currentValue);
 	      } else {
 	        this.$emit('input', value);
+	        this.$emit('change', value);
 	      }
+	      this.focusing = false;
+	    },
+	    handelKey: function handelKey(e) {
+	      var currentValue = this.currentValue;
+	      var keyCode = e.keyCode;
+	      if (keyCode === 38 || keyCode === 39) {
+	        // left / down
+	        if (this.allowHalf) {
+	          currentValue += 0.5;
+	        } else {
+	          currentValue += 1;
+	        }
+	        e.stopPropagation();
+	        e.preventDefault();
+	      } else if (keyCode === 37 || keyCode === 40) {
+	        if (this.allowHalf) {
+	          currentValue -= 0.5;
+	        } else {
+	          currentValue -= 1;
+	        }
+	        e.stopPropagation();
+	        e.preventDefault();
+	      }
+	      currentValue = currentValue < 0 ? 0 : currentValue;
+	      currentValue = currentValue > this.max ? this.max : currentValue;
+
+	      this.$emit('input', currentValue);
+	      this.$emit('change', currentValue);
 	    },
 	    setCurrentValue: function setCurrentValue(value, event) {
 	      if (this.disabled) {
@@ -455,15 +489,47 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
-/***/ 256:
+/***/ 276:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
-	    staticClass: "el-rate"
+	    staticClass: "el-rate",
+	    class: {
+	      'focusing': _vm.focusing
+	    },
+	    attrs: {
+	      "role": "slider",
+	      "aria-valuenow": _vm.currentValue,
+	      "aria-valuetext": _vm.text,
+	      "aria-valuemin": "0",
+	      "aria-valuemin": _vm.max,
+	      "tabindex": "0"
+	    },
+	    on: {
+	      "keydown": _vm.handelKey,
+	      "focus": function($event) {
+	        _vm.focusing = true
+	      },
+	      "blur": function($event) {
+	        _vm.focusing = false
+	      }
+	    }
 	  }, [_vm._l((_vm.max), function(item) {
 	    return _c('span', {
 	      staticClass: "el-rate__item",
@@ -490,7 +556,7 @@ module.exports =
 	      class: _vm.decimalIconClass,
 	      style: (_vm.decimalStyle)
 	    }) : _vm._e()])])
-	  }), (_vm.showText) ? _c('span', {
+	  }), (_vm.showText || _vm.showScore) ? _c('span', {
 	    staticClass: "el-rate__text",
 	    style: ({
 	      color: _vm.textColor

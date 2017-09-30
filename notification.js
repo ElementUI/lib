@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(211);
+	module.exports = __webpack_require__(232);
 
 
 /***/ },
@@ -135,35 +135,35 @@ module.exports =
 
 /***/ },
 
-/***/ 55:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 138:
+/***/ 149:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/popup");
 
 /***/ },
 
-/***/ 197:
+/***/ 223:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vdom");
 
 /***/ },
 
-/***/ 211:
+/***/ 232:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(212);
+	var _main = __webpack_require__(233);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -173,24 +173,24 @@ module.exports =
 
 /***/ },
 
-/***/ 212:
+/***/ 233:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(55);
+	var _vue = __webpack_require__(60);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _popup = __webpack_require__(138);
+	var _popup = __webpack_require__(149);
 
-	var _vdom = __webpack_require__(197);
+	var _vdom = __webpack_require__(223);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var NotificationConstructor = _vue2.default.extend(__webpack_require__(213));
+	var NotificationConstructor = _vue2.default.extend(__webpack_require__(234));
 
 	var instance = void 0;
 	var instances = [];
@@ -201,6 +201,7 @@ module.exports =
 	  options = options || {};
 	  var userOnClose = options.onClose;
 	  var id = 'notification_' + seed++;
+	  var position = options.position || 'top-right';
 
 	  options.onClose = function () {
 	    Notification.close(id, userOnClose);
@@ -221,13 +222,14 @@ module.exports =
 	  instance.dom = instance.vm.$el;
 	  instance.dom.style.zIndex = _popup.PopupManager.nextZIndex();
 
-	  var offset = options.offset || 0;
-	  var topDist = offset;
-	  for (var i = 0, len = instances.length; i < len; i++) {
-	    topDist += instances[i].$el.offsetHeight + 16;
-	  }
-	  topDist += 16;
-	  instance.top = topDist;
+	  var verticalOffset = options.offset || 0;
+	  instances.filter(function (item) {
+	    return item.position === position;
+	  }).forEach(function (item) {
+	    verticalOffset += item.$el.offsetHeight + 16;
+	  });
+	  verticalOffset += 16;
+	  instance.verticalOffset = verticalOffset;
 	  instances.push(instance);
 	  return instance.vm;
 	};
@@ -245,23 +247,28 @@ module.exports =
 	});
 
 	Notification.close = function (id, userOnClose) {
-	  var index = void 0;
-	  var removedHeight = void 0;
-	  for (var i = 0, len = instances.length; i < len; i++) {
-	    if (id === instances[i].id) {
-	      if (typeof userOnClose === 'function') {
-	        userOnClose(instances[i]);
-	      }
+	  var index = -1;
+	  var len = instances.length;
+	  var instance = instances.filter(function (instance, i) {
+	    if (instance.id === id) {
 	      index = i;
-	      removedHeight = instances[i].dom.offsetHeight;
-	      instances.splice(i, 1);
-	      break;
+	      return true;
 	    }
-	  }
+	    return false;
+	  })[0];
+	  if (!instance) return;
 
-	  if (len > 1) {
-	    for (i = index; i < len - 1; i++) {
-	      instances[i].dom.style.top = parseInt(instances[i].dom.style.top, 10) - removedHeight - 16 + 'px';
+	  if (typeof userOnClose === 'function') {
+	    userOnClose(instance);
+	  }
+	  instances.splice(index, 1);
+
+	  if (len <= 1) return;
+	  var position = instance.position;
+	  var removedHeight = instance.dom.offsetHeight;
+	  for (var i = index; i < len - 1; i++) {
+	    if (instances[i].position === position) {
+	      instances[i].dom.style[instance.verticalProperty] = parseInt(instances[i].dom.style[instance.verticalProperty], 10) - removedHeight - 16 + 'px';
 	    }
 	  }
 	};
@@ -270,14 +277,14 @@ module.exports =
 
 /***/ },
 
-/***/ 213:
+/***/ 234:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(214),
+	  __webpack_require__(235),
 	  /* template */
-	  __webpack_require__(215),
+	  __webpack_require__(236),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -291,12 +298,19 @@ module.exports =
 
 /***/ },
 
-/***/ 214:
+/***/ 235:
 /***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -337,13 +351,16 @@ module.exports =
 	      message: '',
 	      duration: 4500,
 	      type: '',
+	      showClose: true,
 	      customClass: '',
 	      iconClass: '',
 	      onClose: null,
 	      onClick: null,
 	      closed: false,
-	      top: null,
-	      timer: null
+	      verticalOffset: 0,
+	      timer: null,
+	      dangerouslyUseHTMLString: false,
+	      position: 'top-right'
 	    };
 	  },
 
@@ -351,6 +368,18 @@ module.exports =
 	  computed: {
 	    typeClass: function typeClass() {
 	      return this.type && typeMap[this.type] ? 'el-icon-' + typeMap[this.type] : '';
+	    },
+	    horizontalClass: function horizontalClass() {
+	      return this.position.indexOf('right') > -1 ? 'right' : 'left';
+	    },
+	    verticalProperty: function verticalProperty() {
+	      return (/^top-/.test(this.position) ? 'top' : 'bottom'
+	      );
+	    },
+	    positionStyle: function positionStyle() {
+	      var _ref;
+
+	      return _ref = {}, _ref[this.verticalProperty] = this.verticalOffset + 'px', _ref;
 	    }
 	  },
 
@@ -411,7 +440,7 @@ module.exports =
 
 /***/ },
 
-/***/ 215:
+/***/ 236:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -426,11 +455,8 @@ module.exports =
 	      value: (_vm.visible),
 	      expression: "visible"
 	    }],
-	    staticClass: "el-notification",
-	    class: _vm.customClass,
-	    style: ({
-	      top: _vm.top ? _vm.top + 'px' : 'auto'
-	    }),
+	    class: ['el-notification', _vm.customClass, _vm.horizontalClass],
+	    style: (_vm.positionStyle),
 	    on: {
 	      "mouseenter": function($event) {
 	        _vm.clearTimer()
@@ -455,7 +481,11 @@ module.exports =
 	    }
 	  }), _c('div', {
 	    staticClass: "el-notification__content"
-	  }, [_vm._t("default", [_vm._v(_vm._s(_vm.message))])], 2), _c('div', {
+	  }, [_vm._t("default", [(!_vm.dangerouslyUseHTMLString) ? _c('p', [_vm._v(_vm._s(_vm.message))]) : _c('p', {
+	    domProps: {
+	      "innerHTML": _vm._s(_vm.message)
+	    }
+	  })])], 2), (_vm.showClose) ? _c('div', {
 	    staticClass: "el-notification__closeBtn el-icon-close",
 	    on: {
 	      "click": function($event) {
@@ -463,7 +493,7 @@ module.exports =
 	        _vm.close($event)
 	      }
 	    }
-	  })])])])
+	  }) : _vm._e()])])])
 	},staticRenderFns: []}
 
 /***/ }

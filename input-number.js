@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(172);
+	module.exports = __webpack_require__(190);
 
 
 /***/ },
@@ -135,35 +135,42 @@ module.exports =
 
 /***/ },
 
-/***/ 9:
+/***/ 13:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input");
 
 /***/ },
 
-/***/ 63:
+/***/ 68:
 /***/ function(module, exports) {
 
 	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
 
-/***/ 123:
+/***/ 121:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/mixins/focus");
+
+/***/ },
+
+/***/ 134:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/dom");
 
 /***/ },
 
-/***/ 172:
+/***/ 190:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _inputNumber = __webpack_require__(173);
+	var _inputNumber = __webpack_require__(191);
 
 	var _inputNumber2 = _interopRequireDefault(_inputNumber);
 
@@ -178,14 +185,14 @@ module.exports =
 
 /***/ },
 
-/***/ 173:
+/***/ 191:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(174),
+	  __webpack_require__(192),
 	  /* template */
-	  __webpack_require__(175),
+	  __webpack_require__(193),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -199,27 +206,86 @@ module.exports =
 
 /***/ },
 
-/***/ 174:
+/***/ 192:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _input = __webpack_require__(9);
+	var _input = __webpack_require__(13);
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _dom = __webpack_require__(123);
+	var _dom = __webpack_require__(134);
 
-	var _debounce = __webpack_require__(63);
+	var _debounce = __webpack_require__(68);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
+	var _focus = __webpack_require__(121);
+
+	var _focus2 = _interopRequireDefault(_focus);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElInputNumber',
+	  mixins: [(0, _focus2.default)('input')],
 	  directives: {
 	    repeatClick: {
 	      bind: function bind(el, binding, vnode) {
@@ -270,10 +336,16 @@ module.exports =
 	      type: Boolean,
 	      default: true
 	    },
+	    controlsPosition: {
+	      type: String,
+	      default: ''
+	    },
 	    debounce: {
 	      type: Number,
 	      default: 300
-	    }
+	    },
+	    name: String,
+	    label: String
 	  },
 	  data: function data() {
 	    return {
@@ -307,6 +379,9 @@ module.exports =
 	          getPrecision = this.getPrecision;
 
 	      return Math.max(getPrecision(value), getPrecision(step));
+	    },
+	    controlsAtRight: function controlsAtRight() {
+	      return this.controlsPosition === 'right';
 	    }
 	  },
 	  methods: {
@@ -351,8 +426,12 @@ module.exports =
 	      if (newVal < this.min) return;
 	      this.setCurrentValue(newVal);
 	    },
-	    handleBlur: function handleBlur() {
+	    handleBlur: function handleBlur(event) {
+	      this.$emit('blur', event);
 	      this.$refs.input.setCurrentValue(this.currentValue);
+	    },
+	    handleFocus: function handleFocus(event) {
+	      this.$emit('focus', event);
 	    },
 	    setCurrentValue: function setCurrentValue(newVal) {
 	      var oldVal = this.currentValue;
@@ -384,56 +463,24 @@ module.exports =
 	    this.debounceHandleInput = (0, _debounce2.default)(this.debounce, function (value) {
 	      _this.handleInput(value);
 	    });
+	  },
+	  mounted: function mounted() {
+	    var innerInput = this.$refs.input.$refs.input;
+	    innerInput.setAttribute('role', 'spinbutton');
+	    innerInput.setAttribute('aria-valuemax', this.max);
+	    innerInput.setAttribute('aria-valuemin', this.min);
+	    innerInput.setAttribute('aria-valuenow', this.currentValue);
+	    innerInput.setAttribute('aria-disabled', this.disabled);
+	  },
+	  updated: function updated() {
+	    var innerInput = this.$refs.input.$refs.input;
+	    innerInput.setAttribute('aria-valuenow', this.currentValue);
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 
-/***/ 175:
+/***/ 193:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -444,6 +491,8 @@ module.exports =
 	        'is-disabled': _vm.disabled
 	      }, {
 	        'is-without-controls': !_vm.controls
+	      }, {
+	        'is-controls-right': _vm.controlsAtRight
 	      }
 	    ]
 	  }, [(_vm.controls) ? _c('span', {
@@ -456,9 +505,18 @@ module.exports =
 	    staticClass: "el-input-number__decrease",
 	    class: {
 	      'is-disabled': _vm.minDisabled
+	    },
+	    attrs: {
+	      "role": "button"
+	    },
+	    on: {
+	      "keydown": function($event) {
+	        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+	        _vm.decrease($event)
+	      }
 	    }
 	  }, [_c('i', {
-	    staticClass: "el-icon-minus"
+	    class: ("el-icon-" + (_vm.controlsAtRight ? 'arrow-down' : 'minus'))
 	  })]) : _vm._e(), (_vm.controls) ? _c('span', {
 	    directives: [{
 	      name: "repeat-click",
@@ -469,9 +527,18 @@ module.exports =
 	    staticClass: "el-input-number__increase",
 	    class: {
 	      'is-disabled': _vm.maxDisabled
+	    },
+	    attrs: {
+	      "role": "button"
+	    },
+	    on: {
+	      "keydown": function($event) {
+	        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+	        _vm.increase($event)
+	      }
 	    }
 	  }, [_c('i', {
-	    staticClass: "el-icon-plus"
+	    class: ("el-icon-" + (_vm.controlsAtRight ? 'arrow-up' : 'plus'))
 	  })]) : _vm._e(), _c('el-input', {
 	    ref: "input",
 	    attrs: {
@@ -479,10 +546,13 @@ module.exports =
 	      "disabled": _vm.disabled,
 	      "size": _vm.size,
 	      "max": _vm.max,
-	      "min": _vm.min
+	      "min": _vm.min,
+	      "name": _vm.name,
+	      "label": _vm.label
 	    },
 	    on: {
 	      "blur": _vm.handleBlur,
+	      "focus": _vm.handleFocus,
 	      "input": _vm.debounceHandleInput
 	    },
 	    nativeOn: {

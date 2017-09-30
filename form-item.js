@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(157);
+	module.exports = __webpack_require__(172);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 14:
+/***/ 18:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 157:
+/***/ 172:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _formItem = __webpack_require__(158);
+	var _formItem = __webpack_require__(173);
 
 	var _formItem2 = _interopRequireDefault(_formItem);
 
@@ -164,14 +164,14 @@ module.exports =
 
 /***/ },
 
-/***/ 158:
+/***/ 173:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(159),
+	  __webpack_require__(174),
 	  /* template */
-	  __webpack_require__(161),
+	  __webpack_require__(176),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,23 +185,35 @@ module.exports =
 
 /***/ },
 
-/***/ 159:
+/***/ 174:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _asyncValidator = __webpack_require__(160);
+	var _asyncValidator = __webpack_require__(175);
 
 	var _asyncValidator2 = _interopRequireDefault(_asyncValidator);
 
-	var _emitter = __webpack_require__(14);
+	var _emitter = __webpack_require__(18);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -252,6 +264,15 @@ module.exports =
 
 	  mixins: [_emitter2.default],
 
+	  provide: function provide() {
+	    return {
+	      elFormItem: this
+	    };
+	  },
+
+
+	  inject: ['elForm'],
+
 	  props: {
 	    label: String,
 	    labelWidth: String,
@@ -260,6 +281,10 @@ module.exports =
 	    rules: [Object, Array],
 	    error: String,
 	    validateStatus: String,
+	    inlineMessage: {
+	      type: [String, Boolean],
+	      default: ''
+	    },
 	    showMessage: {
 	      type: Boolean,
 	      default: true
@@ -454,22 +479,24 @@ module.exports =
 
 /***/ },
 
-/***/ 160:
+/***/ 175:
 /***/ function(module, exports) {
 
 	module.exports = require("async-validator");
 
 /***/ },
 
-/***/ 161:
+/***/ 176:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-form-item",
 	    class: {
-	      'is-error': _vm.validateState === 'error',
+	      'el-form-item--feedback': _vm.elForm && _vm.elForm.statusIcon,
+	        'is-error': _vm.validateState === 'error',
 	        'is-validating': _vm.validateState === 'validating',
+	        'is-success': _vm.validateState === 'success',
 	        'is-required': _vm.isRequired || _vm.required
 	    }
 	  }, [(_vm.label || _vm.$slots.label) ? _c('label', {
@@ -486,8 +513,13 @@ module.exports =
 	      "name": "el-zoom-in-top"
 	    }
 	  }, [(_vm.validateState === 'error' && _vm.showMessage && _vm.form.showMessage) ? _c('div', {
-	    staticClass: "el-form-item__error"
-	  }, [_vm._v(_vm._s(_vm.validateMessage))]) : _vm._e()])], 2)])
+	    staticClass: "el-form-item__error",
+	    class: {
+	      'el-form-item__error--inline': typeof _vm.inlineMessage === 'boolean' ?
+	        _vm.inlineMessage :
+	        (_vm.elForm && _vm.elForm.inlineMessage || false)
+	    }
+	  }, [_vm._v("\n        " + _vm._s(_vm.validateMessage) + "\n      ")]) : _vm._e()])], 2)])
 	},staticRenderFns: []}
 
 /***/ }

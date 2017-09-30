@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(191);
+	module.exports = __webpack_require__(217);
 
 
 /***/ },
@@ -135,14 +135,14 @@ module.exports =
 
 /***/ },
 
-/***/ 191:
+/***/ 217:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _menuItemGroup = __webpack_require__(192);
+	var _menuItemGroup = __webpack_require__(218);
 
 	var _menuItemGroup2 = _interopRequireDefault(_menuItemGroup);
 
@@ -157,14 +157,14 @@ module.exports =
 
 /***/ },
 
-/***/ 192:
+/***/ 218:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(193),
+	  __webpack_require__(219),
 	  /* template */
-	  __webpack_require__(194),
+	  __webpack_require__(220),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -178,7 +178,7 @@ module.exports =
 
 /***/ },
 
-/***/ 193:
+/***/ 219:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -215,7 +215,7 @@ module.exports =
 
 	  computed: {
 	    levelPadding: function levelPadding() {
-	      var padding = 10;
+	      var padding = 20;
 	      var parent = this.$parent;
 	      if (this.rootMenu.collapse) return 20;
 	      while (parent && parent.$options.componentName !== 'ElMenu') {
@@ -224,7 +224,6 @@ module.exports =
 	        }
 	        parent = parent.$parent;
 	      }
-	      padding === 10 && (padding = 20);
 	      return padding;
 	    }
 	  }
@@ -232,7 +231,7 @@ module.exports =
 
 /***/ },
 
-/***/ 194:
+/***/ 220:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
