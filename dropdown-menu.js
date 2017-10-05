@@ -205,9 +205,15 @@ module.exports =
 
 	  mixins: [_vuePopper2.default],
 
+	  props: {
+	    visibleArrow: {
+	      type: Boolean,
+	      default: true
+	    }
+	  },
+
 	  data: function data() {
 	    return {
-	      visibleArrow: this.dropdown.visibleArrow,
 	      size: this.dropdown.size
 	    };
 	  },

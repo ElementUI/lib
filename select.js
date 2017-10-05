@@ -805,7 +805,6 @@ module.exports =
 	      if (this.filterable && !this.multiple) {
 	        this.inputLength = 20;
 	      }
-	      this.dispatch('ElFormItem', 'el.form.change', val);
 	    },
 	    visible: function visible(val) {
 	      var _this2 = this;
@@ -929,6 +928,7 @@ module.exports =
 	    emitChange: function emitChange(val) {
 	      if (!valueEquals(this.value, val)) {
 	        this.$emit('change', val);
+	        this.dispatch('ElFormItem', 'el.form.change', val);
 	      }
 	    },
 	    getOption: function getOption(value) {

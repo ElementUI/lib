@@ -371,7 +371,7 @@ module.exports =
 	};
 
 	module.exports = {
-	  version: '2.0.0-alpha.1',
+	  version: '2.0.0-alpha.2',
 	  locale: _locale2.default.use,
 	  i18n: _locale2.default.i18n,
 	  install: install,
@@ -2450,9 +2450,15 @@ module.exports =
 
 	  mixins: [_vuePopper2.default],
 
+	  props: {
+	    visibleArrow: {
+	      type: Boolean,
+	      default: true
+	    }
+	  },
+
 	  data: function data() {
 	    return {
-	      visibleArrow: this.dropdown.visibleArrow,
 	      size: this.dropdown.size
 	    };
 	  },
@@ -2931,7 +2937,7 @@ module.exports =
 	    this.$on('item-click', this.handleItemClick);
 	    this.$on('submenu-click', this.handleSubmenuClick);
 	    if (this.mode === 'horizontal') {
-	      var menu = new _ariaMenubar2.default(this.$el); // eslint-disable-line
+	      new _ariaMenubar2.default(this.$el); // eslint-disable-line
 	    }
 	  }
 	}; //
@@ -2964,18 +2970,20 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var menu = function menu(domNode) {
+	var Menu = function Menu(domNode) {
 	  this.domNode = domNode;
 	  this.init();
 	};
 
-	menu.prototype.init = function () {
-	  var menuChild = this.domNode.childNodes;
-	  menuChild.forEach(function (child) {
-	    var menuItem = new _ariaMenuitem2.default(child); // eslint-disable-line
+	Menu.prototype.init = function () {
+	  var menuChildren = this.domNode.childNodes;
+	  [].filter.call(menuChildren, function (child) {
+	    return child.nodeType === 1;
+	  }).forEach(function (child) {
+	    new _ariaMenuitem2.default(child); // eslint-disable-line
 	  });
 	};
-	exports.default = menu;
+	exports.default = Menu;
 
 /***/ },
 /* 46 */
@@ -2995,13 +3003,13 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var menuItem = function menuItem(domNode) {
+	var MenuItem = function MenuItem(domNode) {
 	  this.domNode = domNode;
 	  this.submenu = null;
 	  this.init();
 	};
 
-	menuItem.prototype.init = function () {
+	MenuItem.prototype.init = function () {
 	  this.domNode.setAttribute('tabindex', '0');
 	  var menuChild = this.domNode.querySelector('.el-menu');
 	  if (menuChild) {
@@ -3010,39 +3018,39 @@ module.exports =
 	  this.addListeners();
 	};
 
-	menuItem.prototype.addListeners = function () {
+	MenuItem.prototype.addListeners = function () {
 	  var _this = this;
 
 	  var keys = _ariaUtils2.default.keys;
 	  this.domNode.addEventListener('keydown', function (event) {
-	    var prevdef = false;
+	    var prevDef = false;
 	    switch (event.keyCode) {
 	      case keys.down:
 	        _ariaUtils2.default.triggerEvent(event.currentTarget, 'mouseenter');
 	        _this.submenu.gotoSubIndex(0);
-	        prevdef = true;
+	        prevDef = true;
 	        break;
 	      case keys.up:
 	        _ariaUtils2.default.triggerEvent(event.currentTarget, 'mouseenter');
 	        _this.submenu.gotoSubIndex(_this.submenu.subMenuItems.length - 1);
-	        prevdef = true;
+	        prevDef = true;
 	        break;
 	      case keys.tab:
 	        _ariaUtils2.default.triggerEvent(event.currentTarget, 'mouseleave');
 	        break;
 	      case keys.enter:
 	      case keys.space:
-	        prevdef = true;
+	        prevDef = true;
 	        event.currentTarget.click();
 	        break;
 	    }
-	    if (prevdef) {
+	    if (prevDef) {
 	      event.preventDefault();
 	    }
 	  });
 	};
 
-	exports.default = menuItem;
+	exports.default = MenuItem;
 
 /***/ },
 /* 47 */
@@ -3188,7 +3196,7 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Menu = function Menu(parent, domNode) {
+	var SubMenu = function SubMenu(parent, domNode) {
 	  this.domNode = domNode;
 	  this.parent = parent;
 	  this.subMenuItems = [];
@@ -3196,12 +3204,12 @@ module.exports =
 	  this.init();
 	};
 
-	Menu.prototype.init = function () {
+	SubMenu.prototype.init = function () {
 	  this.subMenuItems = this.domNode.querySelectorAll('li');
 	  this.addListeners();
 	};
 
-	Menu.prototype.gotoSubIndex = function (idx) {
+	SubMenu.prototype.gotoSubIndex = function (idx) {
 	  if (idx === this.subMenuItems.length) {
 	    idx = 0;
 	  } else if (idx < 0) {
@@ -3211,33 +3219,33 @@ module.exports =
 	  this.subIndex = idx;
 	};
 
-	Menu.prototype.addListeners = function () {
+	SubMenu.prototype.addListeners = function () {
 	  var _this = this;
 
 	  var keys = _ariaUtils2.default.keys;
 	  var parentNode = this.parent.domNode;
 	  Array.prototype.forEach.call(this.subMenuItems, function (el) {
 	    el.addEventListener('keydown', function (event) {
-	      var prevdef = false;
+	      var prevDef = false;
 	      switch (event.keyCode) {
 	        case keys.down:
 	          _this.gotoSubIndex(_this.subIndex + 1);
-	          prevdef = true;
+	          prevDef = true;
 	          break;
 	        case keys.up:
 	          _this.gotoSubIndex(_this.subIndex - 1);
-	          prevdef = true;
+	          prevDef = true;
 	          break;
 	        case keys.tab:
 	          _ariaUtils2.default.triggerEvent(parentNode, 'mouseleave');
 	          break;
 	        case keys.enter:
 	        case keys.space:
-	          prevdef = true;
+	          prevDef = true;
 	          event.currentTarget.click();
 	          break;
 	      }
-	      if (prevdef) {
+	      if (prevDef) {
 	        event.preventDefault();
 	        event.stopPropagation();
 	      }
@@ -3246,7 +3254,7 @@ module.exports =
 	  });
 	};
 
-	exports.default = Menu;
+	exports.default = SubMenu;
 
 /***/ },
 /* 49 */
@@ -6798,7 +6806,6 @@ module.exports =
 	      if (this.filterable && !this.multiple) {
 	        this.inputLength = 20;
 	      }
-	      this.dispatch('ElFormItem', 'el.form.change', val);
 	    },
 	    visible: function visible(val) {
 	      var _this2 = this;
@@ -6922,6 +6929,7 @@ module.exports =
 	    emitChange: function emitChange(val) {
 	      if (!valueEquals(this.value, val)) {
 	        this.$emit('change', val);
+	        this.dispatch('ElFormItem', 'el.form.change', val);
 	      }
 	    },
 	    getOption: function getOption(value) {
@@ -8097,6 +8105,8 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElButton',
@@ -8151,6 +8161,8 @@ module.exports =
 	      }
 	    ],
 	    attrs: {
+	      "disabled": _vm.disabled,
+	      "autofocus": _vm.autofocus,
 	      "type": _vm.nativeType
 	    },
 	    on: {
@@ -28058,7 +28070,8 @@ module.exports =
 	    showAlpha: Boolean,
 	    colorFormat: String,
 	    disabled: Boolean,
-	    size: String
+	    size: String,
+	    popperClass: String
 	  },
 
 	  directives: { Clickoutside: _clickoutside2.default },
@@ -29440,7 +29453,7 @@ module.exports =
 	    staticClass: "el-color-picker__icon el-icon-arrow-down"
 	  })]), _c('picker-dropdown', {
 	    ref: "dropdown",
-	    staticClass: "el-color-picker__panel",
+	    class: ['el-color-picker__panel', _vm.popperClass || ''],
 	    attrs: {
 	      "color": _vm.color,
 	      "show-alpha": _vm.showAlpha

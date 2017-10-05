@@ -242,7 +242,8 @@ module.exports =
 	    showAlpha: Boolean,
 	    colorFormat: String,
 	    disabled: Boolean,
-	    size: String
+	    size: String,
+	    popperClass: String
 	  },
 
 	  directives: { Clickoutside: _clickoutside2.default },
@@ -1639,7 +1640,7 @@ module.exports =
 	    staticClass: "el-color-picker__icon el-icon-arrow-down"
 	  })]), _c('picker-dropdown', {
 	    ref: "dropdown",
-	    staticClass: "el-color-picker__panel",
+	    class: ['el-color-picker__panel', _vm.popperClass || ''],
 	    attrs: {
 	      "color": _vm.color,
 	      "show-alpha": _vm.showAlpha

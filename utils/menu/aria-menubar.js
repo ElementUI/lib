@@ -8,15 +8,17 @@ var _ariaMenuitem2 = _interopRequireDefault(_ariaMenuitem);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var menu = function menu(domNode) {
+var Menu = function Menu(domNode) {
   this.domNode = domNode;
   this.init();
 };
 
-menu.prototype.init = function () {
-  var menuChild = this.domNode.childNodes;
-  menuChild.forEach(function (child) {
-    var menuItem = new _ariaMenuitem2.default(child); // eslint-disable-line
+Menu.prototype.init = function () {
+  var menuChildren = this.domNode.childNodes;
+  [].filter.call(menuChildren, function (child) {
+    return child.nodeType === 1;
+  }).forEach(function (child) {
+    new _ariaMenuitem2.default(child); // eslint-disable-line
   });
 };
-exports.default = menu;
+exports.default = Menu;

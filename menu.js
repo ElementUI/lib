@@ -464,7 +464,7 @@ module.exports =
 	    this.$on('item-click', this.handleItemClick);
 	    this.$on('submenu-click', this.handleSubmenuClick);
 	    if (this.mode === 'horizontal') {
-	      var menu = new _ariaMenubar2.default(this.$el); // eslint-disable-line
+	      new _ariaMenubar2.default(this.$el); // eslint-disable-line
 	    }
 	  }
 	}; //
@@ -498,18 +498,20 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var menu = function menu(domNode) {
+	var Menu = function Menu(domNode) {
 	  this.domNode = domNode;
 	  this.init();
 	};
 
-	menu.prototype.init = function () {
-	  var menuChild = this.domNode.childNodes;
-	  menuChild.forEach(function (child) {
-	    var menuItem = new _ariaMenuitem2.default(child); // eslint-disable-line
+	Menu.prototype.init = function () {
+	  var menuChildren = this.domNode.childNodes;
+	  [].filter.call(menuChildren, function (child) {
+	    return child.nodeType === 1;
+	  }).forEach(function (child) {
+	    new _ariaMenuitem2.default(child); // eslint-disable-line
 	  });
 	};
-	exports.default = menu;
+	exports.default = Menu;
 
 /***/ },
 
@@ -530,13 +532,13 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var menuItem = function menuItem(domNode) {
+	var MenuItem = function MenuItem(domNode) {
 	  this.domNode = domNode;
 	  this.submenu = null;
 	  this.init();
 	};
 
-	menuItem.prototype.init = function () {
+	MenuItem.prototype.init = function () {
 	  this.domNode.setAttribute('tabindex', '0');
 	  var menuChild = this.domNode.querySelector('.el-menu');
 	  if (menuChild) {
@@ -545,39 +547,39 @@ module.exports =
 	  this.addListeners();
 	};
 
-	menuItem.prototype.addListeners = function () {
+	MenuItem.prototype.addListeners = function () {
 	  var _this = this;
 
 	  var keys = _ariaUtils2.default.keys;
 	  this.domNode.addEventListener('keydown', function (event) {
-	    var prevdef = false;
+	    var prevDef = false;
 	    switch (event.keyCode) {
 	      case keys.down:
 	        _ariaUtils2.default.triggerEvent(event.currentTarget, 'mouseenter');
 	        _this.submenu.gotoSubIndex(0);
-	        prevdef = true;
+	        prevDef = true;
 	        break;
 	      case keys.up:
 	        _ariaUtils2.default.triggerEvent(event.currentTarget, 'mouseenter');
 	        _this.submenu.gotoSubIndex(_this.submenu.subMenuItems.length - 1);
-	        prevdef = true;
+	        prevDef = true;
 	        break;
 	      case keys.tab:
 	        _ariaUtils2.default.triggerEvent(event.currentTarget, 'mouseleave');
 	        break;
 	      case keys.enter:
 	      case keys.space:
-	        prevdef = true;
+	        prevDef = true;
 	        event.currentTarget.click();
 	        break;
 	    }
-	    if (prevdef) {
+	    if (prevDef) {
 	      event.preventDefault();
 	    }
 	  });
 	};
 
-	exports.default = menuItem;
+	exports.default = MenuItem;
 
 /***/ },
 
@@ -725,7 +727,7 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Menu = function Menu(parent, domNode) {
+	var SubMenu = function SubMenu(parent, domNode) {
 	  this.domNode = domNode;
 	  this.parent = parent;
 	  this.subMenuItems = [];
@@ -733,12 +735,12 @@ module.exports =
 	  this.init();
 	};
 
-	Menu.prototype.init = function () {
+	SubMenu.prototype.init = function () {
 	  this.subMenuItems = this.domNode.querySelectorAll('li');
 	  this.addListeners();
 	};
 
-	Menu.prototype.gotoSubIndex = function (idx) {
+	SubMenu.prototype.gotoSubIndex = function (idx) {
 	  if (idx === this.subMenuItems.length) {
 	    idx = 0;
 	  } else if (idx < 0) {
@@ -748,33 +750,33 @@ module.exports =
 	  this.subIndex = idx;
 	};
 
-	Menu.prototype.addListeners = function () {
+	SubMenu.prototype.addListeners = function () {
 	  var _this = this;
 
 	  var keys = _ariaUtils2.default.keys;
 	  var parentNode = this.parent.domNode;
 	  Array.prototype.forEach.call(this.subMenuItems, function (el) {
 	    el.addEventListener('keydown', function (event) {
-	      var prevdef = false;
+	      var prevDef = false;
 	      switch (event.keyCode) {
 	        case keys.down:
 	          _this.gotoSubIndex(_this.subIndex + 1);
-	          prevdef = true;
+	          prevDef = true;
 	          break;
 	        case keys.up:
 	          _this.gotoSubIndex(_this.subIndex - 1);
-	          prevdef = true;
+	          prevDef = true;
 	          break;
 	        case keys.tab:
 	          _ariaUtils2.default.triggerEvent(parentNode, 'mouseleave');
 	          break;
 	        case keys.enter:
 	        case keys.space:
-	          prevdef = true;
+	          prevDef = true;
 	          event.currentTarget.click();
 	          break;
 	      }
-	      if (prevdef) {
+	      if (prevDef) {
 	        event.preventDefault();
 	        event.stopPropagation();
 	      }
@@ -783,7 +785,7 @@ module.exports =
 	  });
 	};
 
-	exports.default = Menu;
+	exports.default = SubMenu;
 
 /***/ },
 

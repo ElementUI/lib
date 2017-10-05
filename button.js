@@ -205,6 +205,8 @@ module.exports =
 	//
 	//
 	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElButton',
@@ -260,6 +262,8 @@ module.exports =
 	      }
 	    ],
 	    attrs: {
+	      "disabled": _vm.disabled,
+	      "autofocus": _vm.autofocus,
 	      "type": _vm.nativeType
 	    },
 	    on: {
