@@ -45,7 +45,7 @@ module.exports =
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(57);
+	module.exports = __webpack_require__(52);
 
 
 /***/ },
@@ -139,36 +139,36 @@ module.exports =
 /* 6 */,
 /* 7 */,
 /* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */
+/* 9 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input");
 
 /***/ },
-/* 14 */
+/* 10 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ },
-/* 15 */,
-/* 16 */,
-/* 17 */
+/* 11 */,
+/* 12 */,
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
-/* 18 */
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
 /* 19 */,
 /* 20 */,
 /* 21 */,
@@ -202,19 +202,14 @@ module.exports =
 /* 49 */,
 /* 50 */,
 /* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(58);
+	var _main = __webpack_require__(53);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -228,14 +223,14 @@ module.exports =
 	exports.default = _main2.default;
 
 /***/ },
-/* 58 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(59),
+	  __webpack_require__(54),
 	  /* template */
-	  __webpack_require__(69),
+	  __webpack_require__(64),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -248,44 +243,44 @@ module.exports =
 
 
 /***/ },
-/* 59 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(60);
+	var _vue = __webpack_require__(55);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _menu = __webpack_require__(61);
+	var _menu = __webpack_require__(56);
 
 	var _menu2 = _interopRequireDefault(_menu);
 
-	var _input = __webpack_require__(13);
+	var _input = __webpack_require__(9);
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _vuePopper = __webpack_require__(17);
+	var _vuePopper = __webpack_require__(13);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _clickoutside = __webpack_require__(14);
+	var _clickoutside = __webpack_require__(10);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _emitter = __webpack_require__(18);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _locale = __webpack_require__(66);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _locale3 = __webpack_require__(67);
+	var _locale3 = __webpack_require__(62);
 
-	var _debounce = __webpack_require__(68);
+	var _debounce = __webpack_require__(63);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -635,7 +630,7 @@ module.exports =
 	      if (this.disabled) return;
 	      if (this.filterable) {
 	        this.menuVisible = true;
-	        this.$refs.input.focus();
+	        this.$refs.input.$refs.input.focus();
 	        return;
 	      }
 	      this.menuVisible = !this.menuVisible;
@@ -673,18 +668,18 @@ module.exports =
 	};
 
 /***/ },
-/* 60 */
+/* 55 */
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
-/* 61 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(62),
+	  __webpack_require__(57),
 	  /* template */
 	  null,
 	  /* styles */
@@ -699,20 +694,20 @@ module.exports =
 
 
 /***/ },
-/* 62 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _babelHelperVueJsxMergeProps = __webpack_require__(63);
+	var _babelHelperVueJsxMergeProps = __webpack_require__(58);
 
 	var _babelHelperVueJsxMergeProps2 = _interopRequireDefault(_babelHelperVueJsxMergeProps);
 
-	var _shared = __webpack_require__(64);
+	var _shared = __webpack_require__(59);
 
-	var _scrollIntoView = __webpack_require__(65);
+	var _scrollIntoView = __webpack_require__(60);
 
 	var _scrollIntoView2 = _interopRequireDefault(_scrollIntoView);
 
@@ -950,59 +945,53 @@ module.exports =
 	            value: visible
 	          }],
 
-	          'class': ['el-cascader-menus el-popper', popperClass],
+	          'class': ['el-cascader-menus', popperClass],
 	          ref: 'wrapper'
 	        },
-	        [h(
-	          'div',
-	          {
-	            attrs: { 'x-arrow': true },
-	            'class': 'popper__arrow' },
-	          []
-	        ), menus]
+	        [menus]
 	      )]
 	    );
 	  }
 	};
 
 /***/ },
-/* 63 */
+/* 58 */
 /***/ function(module, exports) {
 
 	module.exports = require("babel-helper-vue-jsx-merge-props");
 
 /***/ },
-/* 64 */
+/* 59 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/shared");
 
 /***/ },
-/* 65 */
+/* 60 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/scroll-into-view");
 
 /***/ },
-/* 66 */
+/* 61 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
-/* 67 */
+/* 62 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
-/* 68 */
+/* 63 */
 /***/ function(module, exports) {
 
 	module.exports = require("throttle-debounce/debounce");
 
 /***/ },
-/* 69 */
+/* 64 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1050,7 +1039,7 @@ module.exports =
 	      expression: "inputValue"
 	    }
 	  }, [_c('template', {
-	    slot: "suffix"
+	    slot: "icon"
 	  }, [(_vm.clearable && _vm.inputHover && _vm.currentLabels.length) ? _c('i', {
 	    key: "1",
 	    staticClass: "el-input__icon el-icon-circle-close el-cascader__clearIcon",
@@ -1059,7 +1048,7 @@ module.exports =
 	    }
 	  }) : _c('i', {
 	    key: "2",
-	    staticClass: "el-input__icon el-icon-arrow-down",
+	    staticClass: "el-input__icon el-icon-caret-bottom",
 	    class: {
 	      'is-reverse': _vm.menuVisible
 	    }

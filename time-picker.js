@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(356);
+	module.exports = __webpack_require__(335);
 
 
 /***/ },
@@ -135,70 +135,77 @@ module.exports =
 
 /***/ },
 
-/***/ 13:
+/***/ 9:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input");
 
 /***/ },
 
-/***/ 14:
+/***/ 10:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ },
 
-/***/ 17:
+/***/ 13:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 
-/***/ 18:
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 19:
+/***/ 15:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/scrollbar");
 
 /***/ },
 
-/***/ 60:
+/***/ 55:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 66:
+/***/ 61:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 67:
+/***/ 62:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 117:
+/***/ 63:
+/***/ function(module, exports) {
+
+	module.exports = require("throttle-debounce/debounce");
+
+/***/ },
+
+/***/ 108:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(118),
+	  __webpack_require__(109),
 	  /* template */
-	  __webpack_require__(123),
+	  __webpack_require__(112),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -212,82 +219,37 @@ module.exports =
 
 /***/ },
 
-/***/ 118:
+/***/ 109:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(60);
+	var _vue = __webpack_require__(55);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _clickoutside = __webpack_require__(14);
+	var _clickoutside = __webpack_require__(10);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _util = __webpack_require__(119);
+	var _util = __webpack_require__(110);
 
-	var _vuePopper = __webpack_require__(17);
+	var _vuePopper = __webpack_require__(13);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _emitter = __webpack_require__(18);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _focus = __webpack_require__(121);
-
-	var _focus2 = _interopRequireDefault(_focus);
-
-	var _input = __webpack_require__(13);
+	var _input = __webpack_require__(9);
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _merge = __webpack_require__(122);
-
-	var _merge2 = _interopRequireDefault(_merge);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 	//
 	//
 	//
@@ -323,10 +285,7 @@ module.exports =
 	    boundariesPadding: _vuePopper2.default.props.boundariesPadding
 	  },
 	  methods: _vuePopper2.default.methods,
-	  data: function data() {
-	    return (0, _merge2.default)({ visibleArrow: true }, _vuePopper2.default.data);
-	  },
-
+	  data: _vuePopper2.default.data,
 	  beforeDestroy: _vuePopper2.default.beforeDestroy
 	};
 
@@ -348,21 +307,19 @@ module.exports =
 	var DATE_PARSER = function DATE_PARSER(text, format) {
 	  return (0, _util.parseDate)(text, format);
 	};
-	var RANGE_FORMATTER = function RANGE_FORMATTER(value, format) {
+	var RANGE_FORMATTER = function RANGE_FORMATTER(value, format, separator) {
 	  if (Array.isArray(value) && value.length === 2) {
 	    var start = value[0];
 	    var end = value[1];
 
 	    if (start && end) {
-	      return [(0, _util.formatDate)(start, format), (0, _util.formatDate)(end, format)];
+	      return (0, _util.formatDate)(start, format) + separator + (0, _util.formatDate)(end, format);
 	    }
 	  }
 	  return '';
 	};
-	var RANGE_PARSER = function RANGE_PARSER(array, format, separator) {
-	  if (!Array.isArray(array)) {
-	    array = array.split(separator);
-	  }
+	var RANGE_PARSER = function RANGE_PARSER(text, format, separator) {
+	  var array = text.split(separator);
 	  if (array.length === 2) {
 	    var range1 = array[0];
 	    var range2 = array[1];
@@ -471,16 +428,13 @@ module.exports =
 	};
 
 	exports.default = {
-	  mixins: [_emitter2.default, NewPopper, (0, _focus2.default)('reference')],
+	  mixins: [_emitter2.default, NewPopper],
 
 	  props: {
 	    size: String,
 	    format: String,
 	    readonly: Boolean,
 	    placeholder: String,
-	    startPlaceholder: String,
-	    endPlaceholder: String,
-	    name: String,
 	    disabled: Boolean,
 	    clearable: {
 	      type: Boolean,
@@ -498,7 +452,7 @@ module.exports =
 	    value: {},
 	    defaultValue: {},
 	    rangeSeparator: {
-	      default: '-'
+	      default: ' - '
 	    },
 	    pickerOptions: {}
 	  },
@@ -539,23 +493,18 @@ module.exports =
 	      }
 	    },
 	    displayValue: function displayValue(val) {
+	      this.$emit('change', val);
 	      this.dispatch('ElFormItem', 'el.form.change');
 	    }
 	  },
 
 	  computed: {
-	    ranged: function ranged() {
-	      return this.type.indexOf('range') > -1;
-	    },
 	    reference: function reference() {
-	      var reference = this.$refs.reference;
-	      return reference.$el || reference;
+	      return this.$refs.reference.$el;
 	    },
 	    refInput: function refInput() {
-	      if (this.reference) {
-	        return [].slice.call(this.reference.querySelectorAll('input'));
-	      }
-	      return [];
+	      if (this.reference) return this.reference.querySelector('input');
+	      return {};
 	    },
 	    valueIsEmpty: function valueIsEmpty() {
 	      var val = this.currentValue;
@@ -601,13 +550,13 @@ module.exports =
 	        var formatter = (TYPE_VALUE_RESOLVER_MAP[this.type] || TYPE_VALUE_RESOLVER_MAP['default']).formatter;
 	        var format = DEFAULT_FORMATS[this.type];
 
-	        return formatter(value, this.format || format);
+	        return formatter(value, this.format || format, this.rangeSeparator);
 	      },
 	      set: function set(value) {
 	        if (value) {
 	          var type = this.type;
 	          var parser = (TYPE_VALUE_RESOLVER_MAP[type] || TYPE_VALUE_RESOLVER_MAP['default']).parser;
-	          var parsedValue = parser(value, this.format || DEFAULT_FORMATS[type]);
+	          var parsedValue = parser(value, this.format || DEFAULT_FORMATS[type], this.rangeSeparator);
 
 	          if (parsedValue && this.picker) {
 	            this.picker.value = parsedValue;
@@ -632,32 +581,17 @@ module.exports =
 
 
 	  methods: {
-	    handleMouseEnter: function handleMouseEnter() {
+	    handleMouseEnterIcon: function handleMouseEnterIcon() {
 	      if (this.readonly || this.disabled) return;
 	      if (!this.valueIsEmpty && this.clearable) {
 	        this.showClose = true;
 	      }
 	    },
-	    handleStartChange: function handleStartChange(event) {
-	      if (this.displayValue && this.displayValue[1]) {
-	        this.displayValue = [event.target.value, this.displayValue[1]];
-	      } else {
-	        this.displayValue = [event.target.value, event.target.value];
-	      }
-	    },
-	    handleEndChange: function handleEndChange(event) {
-	      if (this.displayValue && this.displayValue[0]) {
-	        this.displayValue = [this.displayValue[0], event.target.value];
-	      } else {
-	        this.displayValue = [event.target.value, event.target.value];
-	      }
-	    },
-	    handleClickIcon: function handleClickIcon(event) {
+	    handleClickIcon: function handleClickIcon() {
 	      if (this.readonly || this.disabled) return;
 	      if (this.showClose) {
 	        this.currentValue = this.$options.defaultValue || '';
 	        this.showClose = false;
-	        event.stopPropagation();
 	      } else {
 	        this.pickerVisible = !this.pickerVisible;
 	      }
@@ -677,9 +611,6 @@ module.exports =
 	    },
 	    handleClose: function handleClose() {
 	      this.pickerVisible = false;
-	      if (this.ranged) {
-	        this.$emit('blur', this);
-	      }
 	    },
 	    handleFocus: function handleFocus() {
 	      var type = this.type;
@@ -700,14 +631,6 @@ module.exports =
 	        this.pickerVisible = false;
 	        event.stopPropagation();
 	      }
-	    },
-	    handleRangeClick: function handleRangeClick() {
-	      var type = this.type;
-
-	      if (HAVE_TRIGGER_TYPES.indexOf(type) !== -1 && !this.pickerVisible) {
-	        this.pickerVisible = true;
-	      }
-	      this.$emit('focus', this);
 	    },
 	    hidePicker: function hidePicker() {
 	      if (this.picker) {
@@ -735,15 +658,14 @@ module.exports =
 	      this.picker.resetView && this.picker.resetView();
 
 	      this.$nextTick(function () {
-	        _this.picker.adjustScrollTop && _this.picker.adjustScrollTop();
+	        _this.picker.ajustScrollTop && _this.picker.ajustScrollTop();
 	      });
 	    },
 	    mountPicker: function mountPicker() {
 	      var _this2 = this;
 
-	      var defaultValue = this.defaultValue || this.currentValue;
-	      var panel = (0, _merge2.default)({}, this.panel, { defaultValue: defaultValue });
-	      this.picker = new _vue2.default(panel).$mount();
+	      this.panel.defaultValue = this.defaultValue || this.currentValue;
+	      this.picker = new _vue2.default(this.panel).$mount();
 	      this.picker.popperClass = this.popperClass;
 	      this.popperElm = this.picker.$el;
 	      this.picker.width = this.reference.getBoundingClientRect().width;
@@ -789,30 +711,18 @@ module.exports =
 	      this.picker.$on('pick', function () {
 	        var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 	        var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-	        var user = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
 	        // do not emit if values are same
 	        if (!valueEquals(_this2.value, date)) {
 	          _this2.$emit('input', date);
-	          if (user && _this2.value !== date) {
-	            _this2.$nextTick(function () {
-	              return _this2.$emit('change', _this2.displayValue);
-	            });
-	          };
 	        }
 	        _this2.pickerVisible = _this2.picker.visible = visible;
 	        _this2.picker.resetView && _this2.picker.resetView();
 	      });
 
-	      this.picker.$on('select-range', function (start, end, pos) {
-	        if (_this2.refInput.length === 0) return;
-	        if (!pos || pos === 'min') {
-	          _this2.refInput[0].setSelectionRange(start, end);
-	          _this2.refInput[0].focus();
-	        } else if (pos === 'max') {
-	          _this2.refInput[1].setSelectionRange(start, end);
-	          _this2.refInput[1].focus();
-	        }
+	      this.picker.$on('select-range', function (start, end) {
+	        _this2.refInput.setSelectionRange(start, end);
+	        _this2.refInput.focus();
 	      });
 	    },
 	    unmountPicker: function unmountPicker() {
@@ -830,7 +740,7 @@ module.exports =
 
 /***/ },
 
-/***/ 119:
+/***/ 110:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -838,11 +748,11 @@ module.exports =
 	exports.__esModule = true;
 	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDate = exports.toDate = exports.equalDate = undefined;
 
-	var _date = __webpack_require__(120);
+	var _date = __webpack_require__(111);
 
 	var _date2 = _interopRequireDefault(_date);
 
-	var _locale = __webpack_require__(67);
+	var _locale = __webpack_require__(62);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1037,32 +947,18 @@ module.exports =
 
 /***/ },
 
-/***/ 120:
+/***/ 111:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/date");
 
 /***/ },
 
-/***/ 121:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/mixins/focus");
-
-/***/ },
-
-/***/ 122:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/merge");
-
-/***/ },
-
-/***/ 123:
+/***/ 112:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return (!_vm.ranged) ? _c('el-input', {
+	  return _c('el-input', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
@@ -1076,11 +972,9 @@ module.exports =
 	      "readonly": !_vm.editable || _vm.readonly,
 	      "disabled": _vm.disabled,
 	      "size": _vm.size,
-	      "name": _vm.name,
 	      "placeholder": _vm.placeholder,
 	      "value": _vm.displayValue,
-	      "validateEvent": false,
-	      "prefix-icon": _vm.triggerClass
+	      "validateEvent": false
 	    },
 	    on: {
 	      "focus": _vm.handleFocus,
@@ -1090,95 +984,34 @@ module.exports =
 	      "keydown": function($event) {
 	        _vm.handleKeydown($event)
 	      },
-	      "mouseenter": function($event) {
-	        _vm.handleMouseEnter($event)
-	      },
-	      "mouseleave": function($event) {
-	        _vm.showClose = false
-	      },
 	      "change": function($event) {
 	        _vm.displayValue = $event.target.value
 	      }
 	    }
 	  }, [(_vm.haveTrigger) ? _c('i', {
 	    staticClass: "el-input__icon",
-	    class: {
-	      'el-icon-circle-close': _vm.showClose
-	    },
+	    class: [_vm.showClose ? 'el-icon-close' : _vm.triggerClass],
 	    on: {
-	      "click": _vm.handleClickIcon
-	    },
-	    slot: "suffix"
-	  }) : _vm._e()]) : _c('div', {
-	    directives: [{
-	      name: "clickoutside",
-	      rawName: "v-clickoutside",
-	      value: (_vm.handleClose),
-	      expression: "handleClose"
-	    }],
-	    ref: "reference",
-	    staticClass: "el-date-editor el-range-editor el-input__inner",
-	    class: [
-	      'el-date-editor--' + _vm.type,
-	      'el-range-editor--' + _vm.size,
-	      _vm.pickerVisible ? 'is-active' : ''
-	    ],
-	    on: {
-	      "click": _vm.handleRangeClick,
-	      "mouseenter": _vm.handleMouseEnter,
+	      "click": _vm.handleClickIcon,
+	      "mouseenter": _vm.handleMouseEnterIcon,
 	      "mouseleave": function($event) {
 	        _vm.showClose = false
 	      }
-	    }
-	  }, [_c('i', {
-	    class: ['el-input__icon', 'el-range__icon', _vm.triggerClass]
-	  }), _c('input', {
-	    staticClass: "el-range-input",
-	    attrs: {
-	      "placeholder": _vm.startPlaceholder
 	    },
-	    domProps: {
-	      "value": _vm.displayValue && _vm.displayValue[0]
-	    },
-	    on: {
-	      "keydown": _vm.handleKeydown,
-	      "change": _vm.handleStartChange
-	    }
-	  }), _c('span', {
-	    staticClass: "el-range-separator"
-	  }, [_vm._v(_vm._s(_vm.rangeSeparator))]), _c('input', {
-	    staticClass: "el-range-input",
-	    attrs: {
-	      "placeholder": _vm.endPlaceholder
-	    },
-	    domProps: {
-	      "value": _vm.displayValue && _vm.displayValue[1]
-	    },
-	    on: {
-	      "keydown": _vm.handleKeydown,
-	      "change": _vm.handleEndChange
-	    }
-	  }), (_vm.haveTrigger) ? _c('i', {
-	    staticClass: "el-input__icon el-range__close-icon",
-	    class: {
-	      'el-icon-circle-close': _vm.showClose
-	    },
-	    on: {
-	      "click": _vm.handleClickIcon
-	    }
+	    slot: "icon"
 	  }) : _vm._e()])
 	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 126:
+/***/ 115:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(127),
+	  __webpack_require__(116),
 	  /* template */
-	  __webpack_require__(131),
+	  __webpack_require__(120),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1192,16 +1025,16 @@ module.exports =
 
 /***/ },
 
-/***/ 127:
+/***/ 116:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(119);
+	var _util = __webpack_require__(110);
 
-	var _locale = __webpack_require__(66);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
@@ -1244,10 +1077,11 @@ module.exports =
 	  mixins: [_locale2.default],
 
 	  components: {
-	    TimeSpinner: __webpack_require__(128)
+	    TimeSpinner: __webpack_require__(117)
 	  },
 
 	  props: {
+	    pickerWidth: {},
 	    date: {
 	      default: function _default() {
 	        return new Date();
@@ -1258,20 +1092,18 @@ module.exports =
 
 	  watch: {
 	    visible: function visible(val) {
-	      var _this = this;
-
 	      this.currentVisible = val;
 	      if (val) {
 	        this.oldHours = this.hours;
 	        this.oldMinutes = this.minutes;
 	        this.oldSeconds = this.seconds;
-	        this.$nextTick(function () {
-	          return _this.$refs.spinner.emitSelectRange('hours');
-	        });
 	      }
 	    },
+	    pickerWidth: function pickerWidth(val) {
+	      this.width = val;
+	    },
 	    value: function value(newVal) {
-	      var _this2 = this;
+	      var _this = this;
 
 	      var date = void 0;
 	      if (newVal instanceof Date) {
@@ -1284,18 +1116,13 @@ module.exports =
 	        hours: date.getHours(),
 	        minutes: date.getMinutes(),
 	        seconds: date.getSeconds()
-	      }, true);
+	      });
 	      this.$nextTick(function (_) {
-	        return _this2.adjustScrollTop();
+	        return _this.ajustScrollTop();
 	      });
 	    },
 	    selectableRange: function selectableRange(val) {
 	      this.$refs.spinner.selectableRange = val;
-	    },
-	    date: function date(val) {
-	      if (!val) return;
-	      this.currentDate = val;
-	      this.reinitDate();
 	    }
 	  },
 
@@ -1313,8 +1140,7 @@ module.exports =
 	      selectableRange: [],
 	      currentDate: this.$options.defaultValue || this.date || new Date(),
 	      currentVisible: this.visible || false,
-	      selectionRange: [0, 2],
-	      disabled: false
+	      width: this.pickerWidth || 0
 	    };
 	  },
 
@@ -1327,7 +1153,7 @@ module.exports =
 
 	  methods: {
 	    handleClear: function handleClear() {
-	      this.$emit('pick', '', false, true);
+	      this.$emit('pick');
 	    },
 	    handleCancel: function handleCancel() {
 	      this.currentDate.setHours(this.oldHours);
@@ -1337,9 +1163,9 @@ module.exports =
 	      this.minutes = this.currentDate.getMinutes();
 	      this.seconds = this.currentDate.getSeconds();
 	      var date = new Date((0, _util.limitRange)(this.currentDate, this.selectableRange, 'HH:mm:ss'));
-	      this.$emit('pick', date, false, true);
+	      this.$emit('pick', date);
 	    },
-	    handleChange: function handleChange(date, notUser) {
+	    handleChange: function handleChange(date) {
 	      if (date.hours !== undefined) {
 	        this.currentDate.setHours(date.hours);
 	        this.hours = this.currentDate.getHours();
@@ -1352,49 +1178,35 @@ module.exports =
 	        this.currentDate.setSeconds(date.seconds);
 	        this.seconds = this.currentDate.getSeconds();
 	      }
-	      this.handleConfirm(true, null, notUser);
+
+	      this.handleConfirm(true);
 	    },
 	    setSelectionRange: function setSelectionRange(start, end) {
 	      this.$emit('select-range', start, end);
-	      this.selectionRange = [start, end];
 	    },
 	    handleConfirm: function handleConfirm() {
 	      var visible = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 	      var first = arguments[1];
-	      var notUser = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
 	      if (first) return;
 	      var date = new Date((0, _util.limitRange)(this.currentDate, this.selectableRange, 'HH:mm:ss'));
-	      this.$emit('pick', date, visible, !notUser, false);
+	      this.$emit('pick', date, visible, first);
 	    },
-	    adjustScrollTop: function adjustScrollTop() {
-	      return this.$refs.spinner.adjustScrollTop();
-	    },
-	    scrollDown: function scrollDown(step) {
-	      this.$refs.spinner.scrollDown(step);
-	    },
-	    changeSelectionRange: function changeSelectionRange(step) {
-	      var list = [0, 3].concat(this.showSeconds ? [6] : []);
-	      var mapping = ['hours', 'minutes'].concat(this.showSeconds ? ['seconds'] : []);
-	      var index = list.indexOf(this.selectionRange[0]);
-	      var next = (index + step + list.length) % list.length;
-	      this.$refs.spinner.emitSelectRange(mapping[next]);
-	    },
-	    reinitDate: function reinitDate() {
-	      this.hours = this.currentDate.getHours();
-	      this.minutes = this.currentDate.getMinutes();
-	      this.seconds = this.currentDate.getSeconds();
+	    ajustScrollTop: function ajustScrollTop() {
+	      return this.$refs.spinner.ajustScrollTop();
 	    }
 	  },
 
 	  created: function created() {
-	    this.reinitDate();
+	    this.hours = this.currentDate.getHours();
+	    this.minutes = this.currentDate.getMinutes();
+	    this.seconds = this.currentDate.getSeconds();
 	  },
 	  mounted: function mounted() {
-	    var _this3 = this;
+	    var _this2 = this;
 
 	    this.$nextTick(function () {
-	      return _this3.handleConfirm(true, true);
+	      return _this2.handleConfirm(true, true);
 	    });
 	    this.$emit('mounted');
 	  }
@@ -1402,14 +1214,14 @@ module.exports =
 
 /***/ },
 
-/***/ 128:
+/***/ 117:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(129),
+	  __webpack_require__(118),
 	  /* template */
-	  __webpack_require__(130),
+	  __webpack_require__(119),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1423,70 +1235,24 @@ module.exports =
 
 /***/ },
 
-/***/ 129:
+/***/ 118:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(119);
+	var _util = __webpack_require__(110);
 
-	var _scrollbar = __webpack_require__(19);
+	var _scrollbar = __webpack_require__(15);
 
 	var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _debounce = __webpack_require__(63);
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	var _debounce2 = _interopRequireDefault(_debounce);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	  components: { ElScrollbar: _scrollbar2.default },
@@ -1518,21 +1284,21 @@ module.exports =
 	      if (!(newVal >= 0 && newVal <= 23)) {
 	        this.hoursPrivate = oldVal;
 	      }
-	      this.adjustElTop('hour', newVal);
+	      this.ajustElTop('hour', newVal);
 	      this.$emit('change', { hours: newVal });
 	    },
 	    minutesPrivate: function minutesPrivate(newVal, oldVal) {
 	      if (!(newVal >= 0 && newVal <= 59)) {
 	        this.minutesPrivate = oldVal;
 	      }
-	      this.adjustElTop('minute', newVal);
+	      this.ajustElTop('minute', newVal);
 	      this.$emit('change', { minutes: newVal });
 	    },
 	    secondsPrivate: function secondsPrivate(newVal, oldVal) {
 	      if (!(newVal >= 0 && newVal <= 59)) {
 	        this.secondsPrivate = oldVal;
 	      }
-	      this.adjustElTop('second', newVal);
+	      this.ajustElTop('second', newVal);
 	      this.$emit('change', { seconds: newVal });
 	    }
 	  },
@@ -1557,15 +1323,21 @@ module.exports =
 	      hoursPrivate: 0,
 	      minutesPrivate: 0,
 	      secondsPrivate: 0,
-	      selectableRange: [],
-	      currentScrollbar: null
+	      selectableRange: []
 	    };
 	  },
-	  mounted: function mounted() {
+	  created: function created() {
 	    var _this = this;
 
+	    this.debounceAjustElTop = (0, _debounce2.default)(100, function (type) {
+	      return _this.ajustElTop(type, _this[type + 's']);
+	    });
+	  },
+	  mounted: function mounted() {
+	    var _this2 = this;
+
 	    this.$nextTick(function () {
-	      _this.bindScrollEvent();
+	      _this2.bindScrollEvent();
 	    });
 	  },
 
@@ -1583,25 +1355,18 @@ module.exports =
 	    emitSelectRange: function emitSelectRange(type) {
 	      if (type === 'hours') {
 	        this.$emit('select-range', 0, 2);
-	        this.adjustElTop('minute', this.minutes);
-	        this.adjustElTop('second', this.seconds);
 	      } else if (type === 'minutes') {
 	        this.$emit('select-range', 3, 5);
-	        this.adjustElTop('hour', this.hours);
-	        this.adjustElTop('second', this.seconds);
 	      } else if (type === 'seconds') {
 	        this.$emit('select-range', 6, 8);
-	        this.adjustElTop('minute', this.minutes);
-	        this.adjustElTop('hour', this.hours);
 	      }
-	      this.currentScrollbar = type;
 	    },
 	    bindScrollEvent: function bindScrollEvent() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      var bindFuntion = function bindFuntion(type) {
-	        _this2[type + 'El'].onscroll = function (e) {
-	          _this2.handleScroll(type, e);
+	        _this3[type + 'El'].onscroll = function (e) {
+	          return _this3.handleScroll(type, e);
 	        };
 	      };
 	      bindFuntion('hour');
@@ -1609,55 +1374,76 @@ module.exports =
 	      bindFuntion('second');
 	    },
 	    handleScroll: function handleScroll(type) {
-	      var adjust = {};
-	      adjust[type + 's'] = Math.min(Math.floor((this[type + 'El'].scrollTop - 80) / 32 + 3), '' + type === 'hour' ? 23 : 59);
-	      this.$emit('change', adjust);
+	      var ajust = {};
+	      ajust[type + 's'] = Math.min(Math.floor((this[type + 'El'].scrollTop - 80) / 32 + 3), '' + type === 'hour' ? 23 : 59);
+	      this.debounceAjustElTop(type);
+	      this.$emit('change', ajust);
 	    },
-	    adjustScrollTop: function adjustScrollTop() {
-	      this.adjustElTop('hour', this.hours);
-	      this.adjustElTop('minute', this.minutes);
-	      this.adjustElTop('second', this.seconds);
+	    ajustScrollTop: function ajustScrollTop() {
+	      this.ajustElTop('hour', this.hours);
+	      this.ajustElTop('minute', this.minutes);
+	      this.ajustElTop('second', this.seconds);
 	    },
-	    adjustElTop: function adjustElTop(type, value) {
-	      if (!this[type + 'El']) return;
+	    ajustElTop: function ajustElTop(type, value) {
 	      this[type + 'El'].scrollTop = Math.max(0, (value - 2.5) * 32 + 80);
-	    },
-	    scrollDown: function scrollDown(step) {
-	      var _$emit;
-
-	      if (!this.currentScrollbar) {
-	        this.emitSelectRange('hours');
-	      }
-
-	      var label = this.currentScrollbar;
-	      var hoursList = this.hoursList;
-	      var now = this[label];
-
-	      if (this.currentScrollbar === 'hours') {
-	        var total = Math.abs(step);
-	        step = step > 0 ? 1 : -1;
-	        var length = hoursList.length;
-	        while (length-- && total) {
-	          now = (now + step + hoursList.length) % hoursList.length;
-	          if (hoursList[now]) {
-	            continue;
-	          }
-	          total--;
-	        }
-	        if (hoursList[now]) return;
-	      } else {
-	        now = (now + step + 60) % 60;
-	      }
-
-	      this.$emit('change', (_$emit = {}, _$emit[label] = now, _$emit));
-	      this.adjustElTop(label.slice(0, -1), now);
 	    }
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
-/***/ 130:
+/***/ 119:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1689,6 +1475,9 @@ module.exports =
 	      attrs: {
 	        "track-by": "hour"
 	      },
+	      domProps: {
+	        "textContent": _vm._s(hour)
+	      },
 	      on: {
 	        "click": function($event) {
 	          _vm.handleClick('hours', {
@@ -1697,7 +1486,7 @@ module.exports =
 	          }, true)
 	        }
 	      }
-	    }, [_vm._v(_vm._s(('0' + hour).slice(-2)))])
+	    })
 	  })), _c('el-scrollbar', {
 	    ref: "minute",
 	    staticClass: "el-time-spinner__wrapper",
@@ -1718,12 +1507,15 @@ module.exports =
 	      class: {
 	        'active': key === _vm.minutes
 	      },
+	      domProps: {
+	        "textContent": _vm._s(key)
+	      },
 	      on: {
 	        "click": function($event) {
 	          _vm.handleClick('minutes', key, true)
 	        }
 	      }
-	    }, [_vm._v(_vm._s(('0' + key).slice(-2)))])
+	    })
 	  })), _c('el-scrollbar', {
 	    directives: [{
 	      name: "show",
@@ -1750,18 +1542,21 @@ module.exports =
 	      class: {
 	        'active': key === _vm.seconds
 	      },
+	      domProps: {
+	        "textContent": _vm._s(key)
+	      },
 	      on: {
 	        "click": function($event) {
 	          _vm.handleClick('seconds', key, true)
 	        }
 	      }
-	    }, [_vm._v(_vm._s(('0' + key).slice(-2)))])
+	    })
 	  }))], 1)
 	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 131:
+/***/ 120:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1781,8 +1576,11 @@ module.exports =
 	      value: (_vm.currentVisible),
 	      expression: "currentVisible"
 	    }],
-	    staticClass: "el-time-panel el-popper",
-	    class: _vm.popperClass
+	    staticClass: "el-time-panel",
+	    class: _vm.popperClass,
+	    style: ({
+	      width: _vm.width + 'px'
+	    })
 	  }, [_c('div', {
 	    staticClass: "el-time-panel__content",
 	    class: {
@@ -1811,10 +1609,7 @@ module.exports =
 	      "click": _vm.handleCancel
 	    }
 	  }, [_vm._v(_vm._s(_vm.t('el.datepicker.cancel')))]), _c('button', {
-	    staticClass: "el-time-panel__btn",
-	    class: {
-	      confirm: !_vm.disabled
-	    },
+	    staticClass: "el-time-panel__btn confirm",
 	    attrs: {
 	      "type": "button"
 	    },
@@ -1828,14 +1623,14 @@ module.exports =
 
 /***/ },
 
-/***/ 356:
+/***/ 335:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _timePicker = __webpack_require__(357);
+	var _timePicker = __webpack_require__(336);
 
 	var _timePicker2 = _interopRequireDefault(_timePicker);
 
@@ -1850,22 +1645,22 @@ module.exports =
 
 /***/ },
 
-/***/ 357:
+/***/ 336:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _picker = __webpack_require__(117);
+	var _picker = __webpack_require__(108);
 
 	var _picker2 = _interopRequireDefault(_picker);
 
-	var _time = __webpack_require__(126);
+	var _time = __webpack_require__(115);
 
 	var _time2 = _interopRequireDefault(_time);
 
-	var _timeRange = __webpack_require__(358);
+	var _timeRange = __webpack_require__(337);
 
 	var _timeRange2 = _interopRequireDefault(_timeRange);
 
@@ -1904,64 +1699,19 @@ module.exports =
 	  created: function created() {
 	    this.type = this.isRange ? 'timerange' : 'time';
 	    this.panel = this.isRange ? _timeRange2.default : _time2.default;
-	  },
-
-
-	  methods: {
-	    handleKeydown: function handleKeydown(event) {
-	      var keyCode = event.keyCode;
-
-	      // TAB or ESC
-	      if (keyCode === 9 || keyCode === 27) {
-	        this.pickerVisible = false;
-	        event.stopPropagation();
-	        return;
-	      }
-
-	      var mapping = { 38: -1, 40: 1, 37: -1, 39: 1 };
-
-	      // Left or Right
-	      if (keyCode === 37 || keyCode === 39) {
-	        var step = mapping[keyCode];
-	        this.picker.changeSelectionRange(step);
-	        event.preventDefault();
-	        return;
-	      }
-
-	      // Up or Down
-	      if (keyCode === 38 || keyCode === 40) {
-	        var _step = mapping[keyCode];
-	        this.picker.scrollDown(_step);
-	        event.preventDefault();
-	        return;
-	      }
-
-	      if (keyCode === 13) {
-	        !this.isRange && this.picker.handleConfirm();
-	        if (this.$refs.reference.$refs) {
-	          this.$refs.reference.$refs.input.blur();
-	        } else {
-	          [].slice.call(this.$refs.reference.querySelectorAll('input')).forEach(function (input) {
-	            input.blur();
-	          });
-	        }
-	        event.preventDefault();
-	        return;
-	      }
-	    }
 	  }
 	};
 
 /***/ },
 
-/***/ 358:
+/***/ 337:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(359),
+	  __webpack_require__(338),
 	  /* template */
-	  __webpack_require__(360),
+	  __webpack_require__(339),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1975,26 +1725,27 @@ module.exports =
 
 /***/ },
 
-/***/ 359:
+/***/ 338:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _util = __webpack_require__(119);
+	var _util = __webpack_require__(110);
 
-	var _locale = __webpack_require__(66);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _timeSpinner = __webpack_require__(128);
+	var _timeSpinner = __webpack_require__(117);
 
 	var _timeSpinner2 = _interopRequireDefault(_timeSpinner);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var MIN_TIME = (0, _util.parseDate)('00:00:00', 'HH:mm:ss'); //
+	//
 	//
 	//
 	//
@@ -2079,12 +1830,6 @@ module.exports =
 	  computed: {
 	    showSeconds: function showSeconds() {
 	      return (this.format || '').indexOf('ss') !== -1;
-	    },
-	    offset: function offset() {
-	      return this.showSeconds ? 11 : 8;
-	    },
-	    spinner: function spinner() {
-	      return this.selectionRange[0] < this.offset ? this.$refs.minSpinner : this.$refs.maxSpinner;
 	    }
 	  },
 
@@ -2106,7 +1851,7 @@ module.exports =
 	      minSeconds: time.minTime.getSeconds(),
 	      format: 'HH:mm:ss',
 	      visible: false,
-	      selectionRange: [0, 2]
+	      width: 0
 	    };
 	  },
 
@@ -2117,17 +1862,8 @@ module.exports =
 
 	      this.panelCreated();
 	      this.$nextTick(function (_) {
-	        return _this.adjustScrollTop();
+	        return _this.ajustScrollTop();
 	      });
-	    },
-	    visible: function visible(val) {
-	      var _this2 = this;
-
-	      if (val) {
-	        this.$nextTick(function () {
-	          return _this2.$refs.minSpinner.emitSelectRange('hours');
-	        });
-	      }
 	    }
 	  },
 
@@ -2142,12 +1878,12 @@ module.exports =
 	        hours: time.minTime.getHours(),
 	        minutes: time.minTime.getMinutes(),
 	        seconds: time.minTime.getSeconds()
-	      }, true);
+	      });
 	      this.handleMaxChange({
 	        hours: time.maxTime.getHours(),
 	        minutes: time.maxTime.getMinutes(),
 	        seconds: time.maxTime.getSeconds()
-	      }, true);
+	      });
 	    },
 	    handleClear: function handleClear() {
 	      this.handleCancel();
@@ -2155,7 +1891,7 @@ module.exports =
 	    handleCancel: function handleCancel() {
 	      this.$emit('pick');
 	    },
-	    handleChange: function handleChange(notUser) {
+	    handleChange: function handleChange() {
 	      if (this.minTime > this.maxTime) return;
 	      MIN_TIME.setFullYear(this.minTime.getFullYear());
 	      MIN_TIME.setMonth(this.minTime.getMonth(), this.minTime.getDate());
@@ -2163,9 +1899,9 @@ module.exports =
 	      MAX_TIME.setMonth(this.maxTime.getMonth(), this.maxTime.getDate());
 	      this.$refs.minSpinner.selectableRange = [[MIN_TIME, this.maxTime]];
 	      this.$refs.maxSpinner.selectableRange = [[this.minTime, MAX_TIME]];
-	      this.handleConfirm(true, false, notUser);
+	      this.handleConfirm(true);
 	    },
-	    handleMaxChange: function handleMaxChange(date, notUser) {
+	    handleMaxChange: function handleMaxChange(date) {
 	      if (date.hours !== undefined) {
 	        this.maxTime.setHours(date.hours);
 	        this.maxHours = this.maxTime.getHours();
@@ -2180,7 +1916,7 @@ module.exports =
 	      }
 	      this.handleChange();
 	    },
-	    handleMinChange: function handleMinChange(date, notUser) {
+	    handleMinChange: function handleMinChange(date) {
 	      if (date.hours !== undefined) {
 	        this.minTime.setHours(date.hours);
 	        this.minHours = this.minTime.getHours();
@@ -2197,17 +1933,14 @@ module.exports =
 	      this.handleChange();
 	    },
 	    setMinSelectionRange: function setMinSelectionRange(start, end) {
-	      this.$emit('select-range', start, end, 'min');
-	      this.selectionRange = [start, end];
+	      this.$emit('select-range', start, end);
 	    },
 	    setMaxSelectionRange: function setMaxSelectionRange(start, end) {
-	      this.$emit('select-range', start, end, 'max');
-	      this.selectionRange = [start + this.offset, end + this.offset];
+	      this.$emit('select-range', start + 11, end + 11);
 	    },
 	    handleConfirm: function handleConfirm() {
 	      var visible = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 	      var first = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-	      var notUser = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
 	      var minSelectableRange = this.$refs.minSpinner.selectableRange;
 	      var maxSelectableRange = this.$refs.maxSpinner.selectableRange;
@@ -2216,41 +1949,26 @@ module.exports =
 	      this.maxTime = (0, _util.limitRange)(this.maxTime, maxSelectableRange);
 
 	      if (first) return;
-	      this.$emit('pick', [this.minTime, this.maxTime], visible, !notUser);
+	      this.$emit('pick', [this.minTime, this.maxTime], visible, first);
 	    },
-	    adjustScrollTop: function adjustScrollTop() {
-	      this.$refs.minSpinner.adjustScrollTop();
-	      this.$refs.maxSpinner.adjustScrollTop();
-	    },
-	    scrollDown: function scrollDown(step) {
-	      this.spinner.scrollDown(step);
-	    },
-	    changeSelectionRange: function changeSelectionRange(step) {
-	      var list = this.showSeconds ? [0, 3, 6, 11, 14, 17] : [0, 3, 8, 11];
-	      var mapping = ['hours', 'minutes'].concat(this.showSeconds ? ['seconds'] : []);
-	      var index = list.indexOf(this.selectionRange[0]);
-	      var next = (index + step + list.length) % list.length;
-	      var half = list.length / 2;
-	      if (next < half) {
-	        this.$refs.minSpinner.emitSelectRange(mapping[next]);
-	      } else {
-	        this.$refs.maxSpinner.emitSelectRange(mapping[next - half]);
-	      }
+	    ajustScrollTop: function ajustScrollTop() {
+	      this.$refs.minSpinner.ajustScrollTop();
+	      this.$refs.maxSpinner.ajustScrollTop();
 	    }
 	  },
 
 	  mounted: function mounted() {
-	    var _this3 = this;
+	    var _this2 = this;
 
 	    this.$nextTick(function () {
-	      return _this3.handleConfirm(true, true);
+	      return _this2.handleConfirm(true, true);
 	    });
 	  }
 	};
 
 /***/ },
 
-/***/ 360:
+/***/ 339:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2271,8 +1989,11 @@ module.exports =
 	      value: (_vm.visible),
 	      expression: "visible"
 	    }],
-	    staticClass: "el-time-range-picker el-picker-panel el-popper",
-	    class: _vm.popperClass
+	    staticClass: "el-time-range-picker el-picker-panel",
+	    class: _vm.popperClass,
+	    style: ({
+	      width: _vm.width + 'px'
+	    })
 	  }, [_c('div', {
 	    staticClass: "el-time-range-picker__content"
 	  }, [_c('div', {

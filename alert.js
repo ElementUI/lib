@@ -194,16 +194,11 @@ module.exports =
 	//
 	//
 	//
-	//
-	//
-	//
-	//
-	//
 
 	var TYPE_CLASSES_MAP = {
-	  'success': 'el-icon-success',
+	  'success': 'el-icon-circle-check',
 	  'warning': 'el-icon-warning',
-	  'error': 'el-icon-error'
+	  'error': 'el-icon-circle-cross'
 	};
 	exports.default = {
 	  name: 'ElAlert',
@@ -230,8 +225,10 @@ module.exports =
 	      type: String,
 	      default: ''
 	    },
-	    showIcon: Boolean,
-	    center: Boolean
+	    showIcon: {
+	      type: Boolean,
+	      default: false
+	    }
 	  },
 
 	  data: function data() {
@@ -253,7 +250,7 @@ module.exports =
 	      return 'el-alert--' + this.type;
 	    },
 	    iconClass: function iconClass() {
-	      return TYPE_CLASSES_MAP[this.type] || 'el-icon-info';
+	      return TYPE_CLASSES_MAP[this.type] || 'el-icon-information';
 	    },
 	    isBigIcon: function isBigIcon() {
 	      return this.description || this.$slots.default ? 'is-big' : '';
@@ -281,10 +278,7 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    staticClass: "el-alert",
-	    class: [_vm.typeClass, _vm.center ? 'is-center' : ''],
-	    attrs: {
-	      "role": "alert"
-	    }
+	    class: [_vm.typeClass]
 	  }, [(_vm.showIcon) ? _c('i', {
 	    staticClass: "el-alert__icon",
 	    class: [_vm.iconClass, _vm.isBigIcon]

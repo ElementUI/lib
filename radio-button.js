@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(265);
+	module.exports = __webpack_require__(245);
 
 
 /***/ },
@@ -135,21 +135,14 @@ module.exports =
 
 /***/ },
 
-/***/ 18:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/mixins/emitter");
-
-/***/ },
-
-/***/ 265:
+/***/ 245:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _radioButton = __webpack_require__(266);
+	var _radioButton = __webpack_require__(246);
 
 	var _radioButton2 = _interopRequireDefault(_radioButton);
 
@@ -164,14 +157,14 @@ module.exports =
 
 /***/ },
 
-/***/ 266:
+/***/ 246:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(267),
+	  __webpack_require__(247),
 	  /* template */
-	  __webpack_require__(268),
+	  __webpack_require__(248),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,23 +178,37 @@ module.exports =
 
 /***/ },
 
-/***/ 267:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 247:
+/***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
-
-	var _emitter = __webpack_require__(18);
-
-	var _emitter2 = _interopRequireDefault(_emitter);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElRadioButton',
-
-	  mixins: [_emitter2.default],
 
 	  props: {
 	    label: {},
@@ -241,55 +248,13 @@ module.exports =
 	    },
 	    isDisabled: function isDisabled() {
 	      return this.disabled || this._radioGroup.disabled;
-	    },
-	    tabIndex: function tabIndex() {
-	      return !this.isDisabled ? this._radioGroup ? this.value === this.label ? 0 : -1 : 0 : -1;
-	    }
-	  },
-
-	  methods: {
-	    handleChange: function handleChange() {
-	      var _this = this;
-
-	      this.$nextTick(function () {
-	        _this.dispatch('ElRadioGroup', 'handleChange', _this.value);
-	      });
 	    }
 	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 
-/***/ 268:
+/***/ 248:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -301,21 +266,7 @@ module.exports =
 	      }, {
 	        'is-disabled': _vm.isDisabled
 	      }
-	    ],
-	    attrs: {
-	      "role": "radio",
-	      "aria-checked": _vm.value === _vm.label,
-	      "aria-disabled": _vm.isDisabled,
-	      "tabindex": _vm.tabIndex
-	    },
-	    on: {
-	      "keydown": function($event) {
-	        if (!('button' in $event) && _vm._k($event.keyCode, "space", 32)) { return null; }
-	        $event.stopPropagation();
-	        $event.preventDefault();
-	        _vm.value = _vm.label
-	      }
-	    }
+	    ]
 	  }, [_c('input', {
 	    directives: [{
 	      name: "model",
@@ -327,15 +278,13 @@ module.exports =
 	    attrs: {
 	      "type": "radio",
 	      "name": _vm.name,
-	      "disabled": _vm.isDisabled,
-	      "tabindex": "-1"
+	      "disabled": _vm.isDisabled
 	    },
 	    domProps: {
 	      "value": _vm.label,
 	      "checked": _vm._q(_vm.value, _vm.label)
 	    },
 	    on: {
-	      "change": _vm.handleChange,
 	      "__c": function($event) {
 	        _vm.value = _vm.label
 	      }

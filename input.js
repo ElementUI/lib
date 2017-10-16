@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(185);
+	module.exports = __webpack_require__(166);
 
 
 /***/ },
@@ -135,35 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 18:
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 121:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/mixins/focus");
-
-/***/ },
-
-/***/ 122:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/merge");
-
-/***/ },
-
-/***/ 185:
+/***/ 166:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _input = __webpack_require__(186);
+	var _input = __webpack_require__(167);
 
 	var _input2 = _interopRequireDefault(_input);
 
@@ -178,14 +164,14 @@ module.exports =
 
 /***/ },
 
-/***/ 186:
+/***/ 167:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(187),
+	  __webpack_require__(168),
 	  /* template */
-	  __webpack_require__(189),
+	  __webpack_require__(171),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -199,112 +185,33 @@ module.exports =
 
 /***/ },
 
-/***/ 187:
+/***/ 168:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(18);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _focus = __webpack_require__(121);
-
-	var _focus2 = _interopRequireDefault(_focus);
-
-	var _calcTextareaHeight = __webpack_require__(188);
+	var _calcTextareaHeight = __webpack_require__(169);
 
 	var _calcTextareaHeight2 = _interopRequireDefault(_calcTextareaHeight);
 
-	var _merge = __webpack_require__(122);
+	var _merge = __webpack_require__(170);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	exports.default = {
 	  name: 'ElInput',
 
 	  componentName: 'ElInput',
 
-	  mixins: [_emitter2.default, (0, _focus2.default)('input')],
-
-	  inject: ['elFormItem'],
+	  mixins: [_emitter2.default],
 
 	  data: function data() {
 	    return {
@@ -350,22 +257,12 @@ module.exports =
 	      type: Boolean,
 	      default: true
 	    },
-	    onIconClick: Function,
-	    suffixIcon: String,
-	    prefixIcon: String,
-	    label: String
+	    onIconClick: Function
 	  },
 
 	  computed: {
-	    validateState: function validateState() {
-	      return this.elFormItem ? this.elFormItem.validateState : '';
-	    },
-	    validateIcon: function validateIcon() {
-	      return {
-	        validating: 'el-icon-loading',
-	        success: 'el-icon-circle-check',
-	        error: 'el-icon-circle-cross'
-	      }[this.validateState];
+	    validating: function validating() {
+	      return this.$parent.validateState === 'validating';
 	    },
 	    textareaStyle: function textareaStyle() {
 	      return (0, _merge2.default)({}, this.textareaCalcStyle, { resize: this.resize });
@@ -408,6 +305,12 @@ module.exports =
 	      this.setCurrentValue(value);
 	      this.$emit('change', value);
 	    },
+	    handleIconClick: function handleIconClick(event) {
+	      if (this.onIconClick) {
+	        this.onIconClick(event);
+	      }
+	      this.$emit('click', event);
+	    },
 	    setCurrentValue: function setCurrentValue(value) {
 	      var _this = this;
 
@@ -428,11 +331,67 @@ module.exports =
 	  mounted: function mounted() {
 	    this.resizeTextarea();
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
-/***/ 188:
+/***/ 169:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -510,7 +469,14 @@ module.exports =
 
 /***/ },
 
-/***/ 189:
+/***/ 170:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/merge");
+
+/***/ },
+
+/***/ 171:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -521,22 +487,25 @@ module.exports =
 	        'is-disabled': _vm.disabled,
 	        'el-input-group': _vm.$slots.prepend || _vm.$slots.append,
 	        'el-input-group--append': _vm.$slots.append,
-	        'el-input-group--prepend': _vm.$slots.prepend,
-	        'el-input--prefix': _vm.$slots.prefix || _vm.prefixIcon,
-	        'el-input--suffix': _vm.$slots.suffix || _vm.suffixIcon
+	        'el-input-group--prepend': _vm.$slots.prepend
 	      }
 	    ]
 	  }, [(_vm.type !== 'textarea') ? [(_vm.$slots.prepend) ? _c('div', {
-	    staticClass: "el-input-group__prepend",
-	    attrs: {
-	      "tabindex": "0"
+	    staticClass: "el-input-group__prepend"
+	  }, [_vm._t("prepend")], 2) : _vm._e(), _vm._t("icon", [(_vm.icon) ? _c('i', {
+	    staticClass: "el-input__icon",
+	    class: [
+	      'el-icon-' + _vm.icon,
+	      _vm.onIconClick ? 'is-clickable' : ''
+	    ],
+	    on: {
+	      "click": _vm.handleIconClick
 	    }
-	  }, [_vm._t("prepend")], 2) : _vm._e(), (_vm.type !== 'textarea') ? _c('input', _vm._b({
+	  }) : _vm._e()]), (_vm.type !== 'textarea') ? _c('input', _vm._b({
 	    ref: "input",
 	    staticClass: "el-input__inner",
 	    attrs: {
-	      "autocomplete": _vm.autoComplete,
-	      "aria-label": _vm.label
+	      "autocomplete": _vm.autoComplete
 	    },
 	    domProps: {
 	      "value": _vm.currentValue
@@ -546,30 +515,14 @@ module.exports =
 	      "focus": _vm.handleFocus,
 	      "blur": _vm.handleBlur
 	    }
-	  }, 'input', _vm.$props)) : _vm._e(), (_vm.$slots.prefix || _vm.prefixIcon) ? _c('span', {
-	    staticClass: "el-input__prefix"
-	  }, [_vm._t("prefix"), (_vm.prefixIcon) ? _c('i', {
-	    staticClass: "el-input__icon",
-	    class: _vm.prefixIcon
-	  }) : _vm._e()], 2) : _vm._e(), (_vm.$slots.suffix || _vm.suffixIcon || _vm.validateState) ? _c('span', {
-	    staticClass: "el-input__suffix"
-	  }, [_c('span', {
-	    staticClass: "el-input__suffix-inner"
-	  }, [_vm._t("suffix"), (_vm.suffixIcon) ? _c('i', {
-	    staticClass: "el-input__icon",
-	    class: _vm.suffixIcon
-	  }) : _vm._e()], 2), (_vm.validateState) ? _c('i', {
-	    staticClass: "el-input__icon",
-	    class: ['el-input__validateIcon', _vm.validateIcon]
-	  }) : _vm._e()]) : _vm._e(), (_vm.$slots.append) ? _c('div', {
+	  }, 'input', _vm.$props)) : _vm._e(), (_vm.validating) ? _c('i', {
+	    staticClass: "el-input__icon el-icon-loading"
+	  }) : _vm._e(), (_vm.$slots.append) ? _c('div', {
 	    staticClass: "el-input-group__append"
 	  }, [_vm._t("append")], 2) : _vm._e()] : _c('textarea', _vm._b({
 	    ref: "textarea",
 	    staticClass: "el-textarea__inner",
 	    style: (_vm.textareaStyle),
-	    attrs: {
-	      "aria-label": _vm.label
-	    },
 	    domProps: {
 	      "value": _vm.currentValue
 	    },

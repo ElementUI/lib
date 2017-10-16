@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(306);
+	module.exports = __webpack_require__(285);
 
 
 /***/ },
@@ -135,14 +135,14 @@ module.exports =
 
 /***/ },
 
-/***/ 306:
+/***/ 285:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _step = __webpack_require__(307);
+	var _step = __webpack_require__(286);
 
 	var _step2 = _interopRequireDefault(_step);
 
@@ -157,14 +157,14 @@ module.exports =
 
 /***/ },
 
-/***/ 307:
+/***/ 286:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(308),
+	  __webpack_require__(287),
 	  /* template */
-	  __webpack_require__(309),
+	  __webpack_require__(288),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -178,21 +178,12 @@ module.exports =
 
 /***/ },
 
-/***/ 308:
+/***/ 287:
 /***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 	//
 	//
 	//
@@ -254,6 +245,7 @@ module.exports =
 	    return {
 	      index: -1,
 	      lineStyle: {},
+	      mainOffset: 0,
 	      internalStatus: ''
 	    };
 	  },
@@ -277,36 +269,28 @@ module.exports =
 	      var prevStep = this.$parent.steps[this.index - 1];
 	      return prevStep ? prevStep.currentStatus : 'wait';
 	    },
-	    isCenter: function isCenter() {
-	      return this.$parent.alignCenter;
-	    },
-	    isVertical: function isVertical() {
-	      return this.$parent.direction === 'vertical';
-	    },
-	    isSimple: function isSimple() {
-	      return this.$parent.simple;
-	    },
+
 	    isLast: function isLast() {
 	      var parent = this.$parent;
 	      return parent.steps[parent.steps.length - 1] === this;
 	    },
-	    stepsCount: function stepsCount() {
-	      return this.$parent.steps.length;
-	    },
-	    space: function space() {
-	      var isSimple = this.isSimple,
-	          space = this.$parent.space;
-
-	      return isSimple ? '' : space;
-	    },
-
 	    style: function style() {
 	      var parent = this.$parent;
+	      var isCenter = parent.center;
 	      var len = parent.steps.length;
 
-	      var space = typeof this.space === 'number' ? this.space + 'px' : this.space ? this.space : 100 / (len - 1) + '%';
+	      if (isCenter && this.isLast) {
+	        return {};
+	      }
 
-	      return { flexBasis: space };
+	      var space = typeof parent.space === 'number' ? parent.space + 'px' : parent.space ? parent.space : 100 / (isCenter ? len - 1 : len) + '%';
+	      if (parent.direction === 'horizontal') {
+	        return { width: space };
+	      } else {
+	        if (!this.isLast) {
+	          return { height: space };
+	        }
+	      }
 	    }
 	  },
 
@@ -330,7 +314,7 @@ module.exports =
 
 	      style.transitionDelay = 150 * this.index + 'ms';
 	      if (status === this.$parent.processStatus) {
-	        step = this.currentStatus !== 'error' ? 0 : 0;
+	        step = this.currentStatus !== 'error' ? 50 : 0;
 	      } else if (status === 'wait') {
 	        step = 0;
 	        style.transitionDelay = -150 * this.index + 'ms';
@@ -346,6 +330,14 @@ module.exports =
 	  mounted: function mounted() {
 	    var _this = this;
 
+	    var parent = this.$parent;
+
+	    if (parent.direction === 'horizontal') {
+	      if (parent.alignCenter) {
+	        this.mainOffset = -this.$refs.title.getBoundingClientRect().width / 2 + 16 + 'px';
+	      }
+	    }
+
 	    var unwatch = this.$watch('index', function (val) {
 	      _this.$watch('$parent.active', _this.updateStatus, { immediate: true });
 	      unwatch();
@@ -355,53 +347,48 @@ module.exports =
 
 /***/ },
 
-/***/ 309:
+/***/ 288:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "el-step",
-	    class: [!_vm.isSimple && ("is-" + (_vm.$parent.direction)),
-	      _vm.isSimple && 'is-simple',
-	      _vm.isLast && !_vm.space && !_vm.isCenter && 'is-flex',
-	      _vm.isCenter && !_vm.isVertical && !_vm.isSimple && 'is-center'
-	    ],
-	    style: ([_vm.style, _vm.isLast ? {
-	      maxWidth: 100 / _vm.stepsCount + '%'
-	    } : {
+	    class: ['is-' + _vm.$parent.direction],
+	    style: ([_vm.style, _vm.isLast ? '' : {
 	      marginRight: -_vm.$parent.stepOffset + 'px'
 	    }])
 	  }, [_c('div', {
 	    staticClass: "el-step__head",
-	    class: ("is-" + _vm.currentStatus)
+	    class: ['is-' + _vm.currentStatus, {
+	      'is-text': !_vm.icon
+	    }]
 	  }, [_c('div', {
 	    staticClass: "el-step__line",
+	    class: ['is-' + _vm.$parent.direction, {
+	      'is-icon': _vm.icon
+	    }],
 	    style: (_vm.isLast ? '' : {
 	      marginRight: _vm.$parent.stepOffset + 'px'
 	    })
 	  }, [_c('i', {
 	    staticClass: "el-step__line-inner",
 	    style: (_vm.lineStyle)
-	  })]), _c('div', {
-	    staticClass: "el-step__icon",
-	    class: ("is-" + (_vm.icon ? 'icon' : 'text'))
+	  })]), _c('span', {
+	    staticClass: "el-step__icon"
 	  }, [(_vm.currentStatus !== 'success' && _vm.currentStatus !== 'error') ? _vm._t("icon", [(_vm.icon) ? _c('i', {
-	    staticClass: "el-step__icon-inner",
-	    class: [_vm.icon]
-	  }) : _vm._e(), (!_vm.icon && !_vm.isSimple) ? _c('div', {
-	    staticClass: "el-step__icon-inner"
-	  }, [_vm._v(_vm._s(_vm.index + 1))]) : _vm._e()]) : _c('i', {
-	    staticClass: "el-step__icon-inner is-status",
+	    class: ['el-icon-' + _vm.icon]
+	  }) : _c('div', [_vm._v(_vm._s(_vm.index + 1))])]) : _c('i', {
 	    class: ['el-icon-' + (_vm.currentStatus === 'success' ? 'check' : 'close')]
 	  })], 2)]), _c('div', {
-	    staticClass: "el-step__main"
+	    staticClass: "el-step__main",
+	    style: ({
+	      marginLeft: _vm.mainOffset
+	    })
 	  }, [_c('div', {
 	    ref: "title",
 	    staticClass: "el-step__title",
 	    class: ['is-' + _vm.currentStatus]
-	  }, [_vm._t("title", [_vm._v(_vm._s(_vm.title))])], 2), (_vm.isSimple) ? _c('div', {
-	    staticClass: "el-step__arrow"
-	  }) : _c('div', {
+	  }, [_vm._t("title", [_vm._v(_vm._s(_vm.title))])], 2), _c('div', {
 	    staticClass: "el-step__description",
 	    class: ['is-' + _vm.currentStatus]
 	  }, [_vm._t("description", [_vm._v(_vm._s(_vm.description))])], 2)])])

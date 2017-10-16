@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(212);
+	module.exports = __webpack_require__(186);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 18:
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 212:
+/***/ 186:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _menuItem = __webpack_require__(213);
+	var _menuItem = __webpack_require__(187);
 
 	var _menuItem2 = _interopRequireDefault(_menuItem);
 
@@ -164,14 +164,14 @@ module.exports =
 
 /***/ },
 
-/***/ 213:
+/***/ 187:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(214),
+	  __webpack_require__(188),
 	  /* template */
-	  __webpack_require__(216),
+	  __webpack_require__(190),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,30 +185,23 @@ module.exports =
 
 /***/ },
 
-/***/ 214:
+/***/ 188:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _menuMixin = __webpack_require__(215);
+	var _menuMixin = __webpack_require__(189);
 
 	var _menuMixin2 = _interopRequireDefault(_menuMixin);
 
-	var _emitter = __webpack_require__(18);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 	//
 	//
 	//
@@ -257,44 +250,9 @@ module.exports =
 	  computed: {
 	    active: function active() {
 	      return this.index === this.rootMenu.activeIndex;
-	    },
-	    hoverBackground: function hoverBackground() {
-	      return this.rootMenu.hoverBackground;
-	    },
-	    backgroundColor: function backgroundColor() {
-	      return this.rootMenu.backgroundColor || '';
-	    },
-	    activeTextColor: function activeTextColor() {
-	      return this.rootMenu.activeTextColor || '';
-	    },
-	    textColor: function textColor() {
-	      return this.rootMenu.textColor || '';
-	    },
-	    mode: function mode() {
-	      return this.rootMenu.mode;
-	    },
-	    itemStyle: function itemStyle() {
-	      var style = {
-	        color: this.active ? this.activeTextColor : this.textColor
-	      };
-	      if (this.mode === 'horizontal' && !this.isNested) {
-	        style.borderBottomColor = this.active ? this.rootMenu.activeTextColor ? this.activeTextColor : '' : 'transparent';
-	      }
-	      return style;
-	    },
-	    isNested: function isNested() {
-	      return this.parentMenu !== this.rootMenu;
 	    }
 	  },
 	  methods: {
-	    onMouseEnter: function onMouseEnter() {
-	      if (this.mode === 'horizontal' && !this.rootMenu.backgroundColor) return;
-	      this.$el.style.backgroundColor = this.hoverBackground;
-	    },
-	    onMouseLeave: function onMouseLeave() {
-	      if (this.mode === 'horizontal' && !this.rootMenu.backgroundColor) return;
-	      this.$el.style.backgroundColor = this.backgroundColor;
-	    },
 	    handleClick: function handleClick() {
 	      this.dispatch('ElMenu', 'item-click', this);
 	      this.$emit('click', this);
@@ -312,7 +270,7 @@ module.exports =
 
 /***/ },
 
-/***/ 215:
+/***/ 189:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -368,7 +326,7 @@ module.exports =
 
 /***/ },
 
-/***/ 216:
+/***/ 190:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -378,19 +336,9 @@ module.exports =
 	      'is-active': _vm.active,
 	      'is-disabled': _vm.disabled
 	    },
-	    style: ([_vm.paddingStyle, _vm.itemStyle, {
-	      backgroundColor: _vm.backgroundColor
-	    }]),
-	    attrs: {
-	      "role": "menuitem",
-	      "tabindex": "-1"
-	    },
+	    style: (_vm.paddingStyle),
 	    on: {
-	      "click": _vm.handleClick,
-	      "mouseenter": _vm.onMouseEnter,
-	      "focus": _vm.onMouseEnter,
-	      "blur": _vm.onMouseLeave,
-	      "mouseleave": _vm.onMouseLeave
+	      "click": _vm.handleClick
 	    }
 	  }, [(_vm.$parent === _vm.rootMenu && _vm.rootMenu.collapse) ? _c('el-tooltip', {
 	    attrs: {

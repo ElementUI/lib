@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(160);
+	module.exports = __webpack_require__(149);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 17:
+/***/ 13:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 
-/***/ 160:
+/***/ 149:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _dropdownMenu = __webpack_require__(161);
+	var _dropdownMenu = __webpack_require__(150);
 
 	var _dropdownMenu2 = _interopRequireDefault(_dropdownMenu);
 
@@ -164,14 +164,14 @@ module.exports =
 
 /***/ },
 
-/***/ 161:
+/***/ 150:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(162),
+	  __webpack_require__(151),
 	  /* template */
-	  __webpack_require__(163),
+	  __webpack_require__(152),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,14 +185,14 @@ module.exports =
 
 /***/ },
 
-/***/ 162:
+/***/ 151:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vuePopper = __webpack_require__(17);
+	var _vuePopper = __webpack_require__(13);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -204,22 +204,6 @@ module.exports =
 	  componentName: 'ElDropdownMenu',
 
 	  mixins: [_vuePopper2.default],
-
-	  props: {
-	    visibleArrow: {
-	      type: Boolean,
-	      default: true
-	    }
-	  },
-
-	  data: function data() {
-	    return {
-	      size: this.dropdown.size
-	    };
-	  },
-
-
-	  inject: ['dropdown'],
 
 	  created: function created() {
 	    var _this = this;
@@ -238,10 +222,10 @@ module.exports =
 
 
 	  watch: {
-	    'dropdown.placement': {
+	    '$parent.menuAlign': {
 	      immediate: true,
 	      handler: function handler(val) {
-	        this.currentPlacement = val;
+	        this.currentPlacement = 'bottom-' + val;
 	      }
 	    }
 	  }
@@ -255,7 +239,7 @@ module.exports =
 
 /***/ },
 
-/***/ 163:
+/***/ 152:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -273,8 +257,7 @@ module.exports =
 	      value: (_vm.showPopper),
 	      expression: "showPopper"
 	    }],
-	    staticClass: "el-dropdown-menu el-popper",
-	    class: [_vm.size && ("el-dropdown-menu--" + _vm.size)]
+	    staticClass: "el-dropdown-menu"
 	  }, [_vm._t("default")], 2)])
 	},staticRenderFns: []}
 

@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(318);
+	module.exports = __webpack_require__(297);
 
 
 /***/ },
@@ -135,14 +135,14 @@ module.exports =
 
 /***/ },
 
-/***/ 318:
+/***/ 297:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _component = __webpack_require__(319);
+	var _component = __webpack_require__(298);
 
 	var _component2 = _interopRequireDefault(_component);
 
@@ -157,14 +157,14 @@ module.exports =
 
 /***/ },
 
-/***/ 319:
+/***/ 298:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(320),
+	  __webpack_require__(299),
 	  /* template */
-	  __webpack_require__(321),
+	  __webpack_require__(300),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -178,12 +178,14 @@ module.exports =
 
 /***/ },
 
-/***/ 320:
+/***/ 299:
 /***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
+	//
+	//
 	//
 	//
 	//
@@ -245,8 +247,14 @@ module.exports =
 	      type: String,
 	      default: ''
 	    },
-	    onText: String,
-	    offText: String,
+	    onText: {
+	      type: String,
+	      default: 'ON'
+	    },
+	    offText: {
+	      type: String,
+	      default: 'OFF'
+	    },
 	    onColor: {
 	      type: String,
 	      default: ''
@@ -266,6 +274,10 @@ module.exports =
 	    name: {
 	      type: String,
 	      default: ''
+	    },
+	    allowFocus: {
+	      type: Boolean,
+	      default: false
 	    }
 	  },
 	  data: function data() {
@@ -283,8 +295,12 @@ module.exports =
 	    checked: function checked() {
 	      return this.value === this.onValue;
 	    },
+	    hasText: function hasText() {
+	      /* istanbul ignore next */
+	      return this.onText || this.offText;
+	    },
 	    transform: function transform() {
-	      return this.checked ? 'translate3d(' + (this.coreWidth - 20) + 'px, 0, 0)' : '';
+	      return this.checked ? 'translate(' + (this.coreWidth - 20) + 'px, 2px)' : 'translate(2px, 2px)';
 	    }
 	  },
 	  watch: {
@@ -312,13 +328,28 @@ module.exports =
 	      this.$refs.core.style.borderColor = newColor;
 	      this.$refs.core.style.backgroundColor = newColor;
 	    },
-	    switchValue: function switchValue() {
-	      this.$refs.input.click();
+	    setFocus: function setFocus() {
+	      // set focus on input
+	      if (this.allowFocus) {
+	        this.$refs.input.focus();
+	      }
+	    },
+	    handleBlur: function handleBlur(event) {
+	      if (this.allowFocus) {
+	        this.$emit('blur', event);
+	      }
+	    },
+	    handleFocus: function handleFocus(event) {
+	      if (this.allowFocus) {
+	        this.$emit('focus', event);
+	      }
 	    }
 	  },
 	  mounted: function mounted() {
 	    /* istanbul ignore if */
-	    this.coreWidth = this.width || 40;
+	    if (this.width === 0) {
+	      this.coreWidth = this.hasText ? 58 : 46;
+	    }
 	    if (this.onColor || this.offColor) {
 	      this.setBackgroundColor();
 	    }
@@ -328,26 +359,29 @@ module.exports =
 
 /***/ },
 
-/***/ 321:
+/***/ 300:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('div', {
+	  return _c('label', {
 	    staticClass: "el-switch",
 	    class: {
-	      'is-disabled': _vm.disabled, 'is-checked': _vm.checked
-	    },
-	    attrs: {
-	      "role": "switch",
-	      "aria-checked": _vm.checked,
-	      "aria-disabled": _vm.disabled
-	    },
-	    on: {
-	      "click": _vm.switchValue
+	      'is-disabled': _vm.disabled, 'el-switch--wide': _vm.hasText, 'is-checked': _vm.checked
 	    }
-	  }, [_c('input', {
+	  }, [_c('div', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (_vm.disabled),
+	      expression: "disabled"
+	    }],
+	    staticClass: "el-switch__mask"
+	  }), _c('input', {
 	    ref: "input",
 	    staticClass: "el-switch__input",
+	    class: {
+	      'allow-focus': _vm.allowFocus
+	    },
 	    attrs: {
 	      "type": "checkbox",
 	      "name": _vm.name,
@@ -357,39 +391,58 @@ module.exports =
 	    },
 	    on: {
 	      "change": _vm.handleChange,
-	      "keydown": function($event) {
-	        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
-	        _vm.switchValue($event)
-	      }
+	      "focus": _vm.handleFocus,
+	      "blur": _vm.handleBlur
 	    }
-	  }), (_vm.offIconClass || _vm.offText) ? _c('span', {
-	    class: ['el-switch__label', 'el-switch__label--left', !_vm.checked ? 'is-active' : '']
-	  }, [(_vm.offIconClass) ? _c('i', {
-	    class: [_vm.offIconClass]
-	  }) : _vm._e(), (!_vm.offIconClass && _vm.offText) ? _c('span', {
-	    attrs: {
-	      "aria-hidden": _vm.checked
-	    }
-	  }, [_vm._v(_vm._s(_vm.offText))]) : _vm._e()]) : _vm._e(), _c('span', {
+	  }), _c('span', {
 	    ref: "core",
 	    staticClass: "el-switch__core",
 	    style: ({
 	      'width': _vm.coreWidth + 'px'
-	    })
+	    }),
+	    on: {
+	      "click": _vm.setFocus
+	    }
 	  }, [_c('span', {
 	    staticClass: "el-switch__button",
 	    style: ({
 	      transform: _vm.transform
 	    })
-	  })]), (_vm.onIconClass || _vm.onText) ? _c('span', {
-	    class: ['el-switch__label', 'el-switch__label--right', _vm.checked ? 'is-active' : '']
+	  })]), _c('transition', {
+	    attrs: {
+	      "name": "label-fade"
+	    }
+	  }, [_c('div', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (_vm.checked),
+	      expression: "checked"
+	    }],
+	    staticClass: "el-switch__label el-switch__label--left",
+	    style: ({
+	      'width': _vm.coreWidth + 'px'
+	    })
 	  }, [(_vm.onIconClass) ? _c('i', {
 	    class: [_vm.onIconClass]
-	  }) : _vm._e(), (!_vm.onIconClass && _vm.onText) ? _c('span', {
+	  }) : _vm._e(), (!_vm.onIconClass && _vm.onText) ? _c('span', [_vm._v(_vm._s(_vm.onText))]) : _vm._e()])]), _c('transition', {
 	    attrs: {
-	      "aria-hidden": !_vm.checked
+	      "name": "label-fade"
 	    }
-	  }, [_vm._v(_vm._s(_vm.onText))]) : _vm._e()]) : _vm._e()])
+	  }, [_c('div', {
+	    directives: [{
+	      name: "show",
+	      rawName: "v-show",
+	      value: (!_vm.checked),
+	      expression: "!checked"
+	    }],
+	    staticClass: "el-switch__label el-switch__label--right",
+	    style: ({
+	      'width': _vm.coreWidth + 'px'
+	    })
+	  }, [(_vm.offIconClass) ? _c('i', {
+	    class: [_vm.offIconClass]
+	  }) : _vm._e(), (!_vm.offIconClass && _vm.offText) ? _c('span', [_vm._v(_vm._s(_vm.offText))]) : _vm._e()])])], 1)
 	},staticRenderFns: []}
 
 /***/ }

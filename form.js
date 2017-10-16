@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(168);
+	module.exports = __webpack_require__(153);
 
 
 /***/ },
@@ -135,14 +135,14 @@ module.exports =
 
 /***/ },
 
-/***/ 168:
+/***/ 153:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _form = __webpack_require__(169);
+	var _form = __webpack_require__(154);
 
 	var _form2 = _interopRequireDefault(_form);
 
@@ -157,14 +157,14 @@ module.exports =
 
 /***/ },
 
-/***/ 169:
+/***/ 154:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(170),
+	  __webpack_require__(155),
 	  /* template */
-	  __webpack_require__(171),
+	  __webpack_require__(156),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -178,7 +178,7 @@ module.exports =
 
 /***/ },
 
-/***/ 170:
+/***/ 155:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -198,13 +198,6 @@ module.exports =
 
 	  componentName: 'ElForm',
 
-	  provide: function provide() {
-	    return {
-	      elForm: this
-	    };
-	  },
-
-
 	  props: {
 	    model: Object,
 	    rules: Object,
@@ -215,8 +208,6 @@ module.exports =
 	      default: ''
 	    },
 	    inline: Boolean,
-	    inlineMessage: Boolean,
-	    statusIcon: Boolean,
 	    showMessage: {
 	      type: Boolean,
 	      default: true
@@ -297,7 +288,7 @@ module.exports =
 
 /***/ },
 
-/***/ 171:
+/***/ 156:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

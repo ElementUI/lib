@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(314);
+	module.exports = __webpack_require__(293);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 18:
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 91:
+/***/ 86:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/transitions/collapse-transition");
 
 /***/ },
 
-/***/ 215:
+/***/ 189:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -205,14 +205,14 @@ module.exports =
 
 /***/ },
 
-/***/ 314:
+/***/ 293:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _submenu = __webpack_require__(315);
+	var _submenu = __webpack_require__(294);
 
 	var _submenu2 = _interopRequireDefault(_submenu);
 
@@ -227,14 +227,14 @@ module.exports =
 
 /***/ },
 
-/***/ 315:
+/***/ 294:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(316),
+	  __webpack_require__(295),
 	  /* template */
-	  __webpack_require__(317),
+	  __webpack_require__(296),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -248,22 +248,22 @@ module.exports =
 
 /***/ },
 
-/***/ 316:
+/***/ 295:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _collapseTransition = __webpack_require__(91);
+	var _collapseTransition = __webpack_require__(86);
 
 	var _collapseTransition2 = _interopRequireDefault(_collapseTransition);
 
-	var _menuMixin = __webpack_require__(215);
+	var _menuMixin = __webpack_require__(189);
 
 	var _menuMixin2 = _interopRequireDefault(_menuMixin);
 
-	var _emitter = __webpack_require__(18);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -300,50 +300,28 @@ module.exports =
 	    opened: function opened() {
 	      return this.rootMenu.openedMenus.indexOf(this.index) > -1;
 	    },
-	    active: function active() {
-	      var isActive = false;
-	      var submenus = this.submenus;
-	      var items = this.items;
 
-	      Object.keys(items).forEach(function (index) {
-	        if (items[index].active) {
-	          isActive = true;
-	        }
-	      });
+	    active: {
+	      cache: false,
+	      get: function get() {
+	        var isActive = false;
+	        var submenus = this.submenus;
+	        var items = this.items;
 
-	      Object.keys(submenus).forEach(function (index) {
-	        if (submenus[index].active) {
-	          isActive = true;
-	        }
-	      });
+	        Object.keys(items).forEach(function (index) {
+	          if (items[index].active) {
+	            isActive = true;
+	          }
+	        });
 
-	      return isActive;
-	    },
-	    hoverBackground: function hoverBackground() {
-	      return this.rootMenu.hoverBackground;
-	    },
-	    backgroundColor: function backgroundColor() {
-	      return this.rootMenu.backgroundColor || '';
-	    },
-	    activeTextColor: function activeTextColor() {
-	      return this.rootMenu.activeTextColor || '';
-	    },
-	    textColor: function textColor() {
-	      return this.rootMenu.textColor || '';
-	    },
-	    mode: function mode() {
-	      return this.rootMenu.mode;
-	    },
-	    titleStyle: function titleStyle() {
-	      if (this.mode !== 'horizontal') {
-	        return {
-	          color: this.textColor
-	        };
+	        Object.keys(submenus).forEach(function (index) {
+	          if (submenus[index].active) {
+	            isActive = true;
+	          }
+	        });
+
+	        return isActive;
 	      }
-	      return {
-	        borderBottomColor: this.active ? this.rootMenu.activeTextColor ? this.activeTextColor : '' : 'transparent',
-	        color: this.active ? this.activeTextColor : this.textColor
-	      };
 	    }
 	  },
 	  methods: {
@@ -392,14 +370,6 @@ module.exports =
 	      this.timeout = setTimeout(function () {
 	        _this2.rootMenu.closeMenu(_this2.index);
 	      }, 300);
-	    },
-	    handleTitleMouseenter: function handleTitleMouseenter() {
-	      if (this.mode === 'horizontal' && !this.rootMenu.backgroundColor) return;
-	      this.$refs['submenu-title'].style.backgroundColor = this.rootMenu.hoverBackground;
-	    },
-	    handleTitleMouseleave: function handleTitleMouseleave() {
-	      if (this.mode === 'horizontal' && !this.rootMenu.backgroundColor) return;
-	      this.$refs['submenu-title'].style.backgroundColor = this.rootMenu.backgroundColor || '';
 	    }
 	  },
 	  created: function created() {
@@ -440,19 +410,10 @@ module.exports =
 	//
 	//
 	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 /***/ },
 
-/***/ 317:
+/***/ 296:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -462,32 +423,23 @@ module.exports =
 	      'is-active': _vm.active,
 	      'is-opened': _vm.opened
 	    },
-	    attrs: {
-	      "role": "menuitem",
-	      "aria-haspopup": "true",
-	      "aria-expanded": _vm.opened
-	    },
 	    on: {
 	      "mouseenter": _vm.handleMouseenter,
-	      "mouseleave": _vm.handleMouseleave,
-	      "focus": _vm.handleMouseenter
+	      "mouseleave": _vm.handleMouseleave
 	    }
 	  }, [_c('div', {
 	    ref: "submenu-title",
 	    staticClass: "el-submenu__title",
-	    style: ([_vm.paddingStyle, _vm.titleStyle, {
-	      backgroundColor: _vm.backgroundColor
-	    }]),
+	    style: (_vm.paddingStyle),
 	    on: {
-	      "click": _vm.handleClick,
-	      "mouseenter": _vm.handleTitleMouseenter,
-	      "mouseleave": _vm.handleTitleMouseleave
+	      "click": _vm.handleClick
 	    }
 	  }, [_vm._t("title"), _c('i', {
 	    class: {
 	      'el-submenu__icon-arrow': true,
-	      'el-icon-arrow-down': _vm.rootMenu.mode === 'horizontal' || _vm.rootMenu.mode === 'vertical' && !_vm.rootMenu.collapse,
-	        'el-icon-arrow-right': _vm.rootMenu.mode === 'vertical' && _vm.rootMenu.collapse
+	      'el-icon-caret-bottom': _vm.rootMenu.mode === 'horizontal',
+	        'el-icon-arrow-down': _vm.rootMenu.mode === 'vertical' && !_vm.rootMenu.collapse,
+	        'el-icon-caret-right': _vm.rootMenu.mode === 'vertical' && _vm.rootMenu.collapse
 	    }
 	  })], 2), (_vm.rootMenu.mode === 'horizontal' || (_vm.rootMenu.mode === 'vertical' && _vm.rootMenu.collapse)) ? [_c('transition', {
 	    attrs: {
@@ -500,13 +452,7 @@ module.exports =
 	      value: (_vm.opened),
 	      expression: "opened"
 	    }],
-	    staticClass: "el-menu",
-	    style: ({
-	      backgroundColor: _vm.rootMenu.backgroundColor || ''
-	    }),
-	    attrs: {
-	      "role": "menu"
-	    }
+	    staticClass: "el-menu"
 	  }, [_vm._t("default")], 2)])] : _c('el-collapse-transition', [_c('ul', {
 	    directives: [{
 	      name: "show",
@@ -514,13 +460,7 @@ module.exports =
 	      value: (_vm.opened),
 	      expression: "opened"
 	    }],
-	    staticClass: "el-menu",
-	    style: ({
-	      backgroundColor: _vm.rootMenu.backgroundColor || ''
-	    }),
-	    attrs: {
-	      "role": "menu"
-	    }
+	    staticClass: "el-menu"
 	  }, [_vm._t("default")], 2)])], 2)
 	},staticRenderFns: []}
 

@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(361);
+	module.exports = __webpack_require__(340);
 
 
 /***/ },
@@ -135,70 +135,70 @@ module.exports =
 
 /***/ },
 
-/***/ 13:
+/***/ 9:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/input");
 
 /***/ },
 
-/***/ 14:
+/***/ 10:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ },
 
-/***/ 17:
+/***/ 13:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 
-/***/ 18:
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 19:
+/***/ 15:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/scrollbar");
 
 /***/ },
 
-/***/ 60:
+/***/ 55:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 65:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/scroll-into-view");
 
 /***/ },
 
-/***/ 67:
+/***/ 62:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/locale");
 
 /***/ },
 
-/***/ 117:
+/***/ 108:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(118),
+	  __webpack_require__(109),
 	  /* template */
-	  __webpack_require__(123),
+	  __webpack_require__(112),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -212,82 +212,37 @@ module.exports =
 
 /***/ },
 
-/***/ 118:
+/***/ 109:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _vue = __webpack_require__(60);
+	var _vue = __webpack_require__(55);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _clickoutside = __webpack_require__(14);
+	var _clickoutside = __webpack_require__(10);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _util = __webpack_require__(119);
+	var _util = __webpack_require__(110);
 
-	var _vuePopper = __webpack_require__(17);
+	var _vuePopper = __webpack_require__(13);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _emitter = __webpack_require__(18);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _focus = __webpack_require__(121);
-
-	var _focus2 = _interopRequireDefault(_focus);
-
-	var _input = __webpack_require__(13);
+	var _input = __webpack_require__(9);
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _merge = __webpack_require__(122);
-
-	var _merge2 = _interopRequireDefault(_merge);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 	//
 	//
 	//
@@ -323,10 +278,7 @@ module.exports =
 	    boundariesPadding: _vuePopper2.default.props.boundariesPadding
 	  },
 	  methods: _vuePopper2.default.methods,
-	  data: function data() {
-	    return (0, _merge2.default)({ visibleArrow: true }, _vuePopper2.default.data);
-	  },
-
+	  data: _vuePopper2.default.data,
 	  beforeDestroy: _vuePopper2.default.beforeDestroy
 	};
 
@@ -348,21 +300,19 @@ module.exports =
 	var DATE_PARSER = function DATE_PARSER(text, format) {
 	  return (0, _util.parseDate)(text, format);
 	};
-	var RANGE_FORMATTER = function RANGE_FORMATTER(value, format) {
+	var RANGE_FORMATTER = function RANGE_FORMATTER(value, format, separator) {
 	  if (Array.isArray(value) && value.length === 2) {
 	    var start = value[0];
 	    var end = value[1];
 
 	    if (start && end) {
-	      return [(0, _util.formatDate)(start, format), (0, _util.formatDate)(end, format)];
+	      return (0, _util.formatDate)(start, format) + separator + (0, _util.formatDate)(end, format);
 	    }
 	  }
 	  return '';
 	};
-	var RANGE_PARSER = function RANGE_PARSER(array, format, separator) {
-	  if (!Array.isArray(array)) {
-	    array = array.split(separator);
-	  }
+	var RANGE_PARSER = function RANGE_PARSER(text, format, separator) {
+	  var array = text.split(separator);
 	  if (array.length === 2) {
 	    var range1 = array[0];
 	    var range2 = array[1];
@@ -471,16 +421,13 @@ module.exports =
 	};
 
 	exports.default = {
-	  mixins: [_emitter2.default, NewPopper, (0, _focus2.default)('reference')],
+	  mixins: [_emitter2.default, NewPopper],
 
 	  props: {
 	    size: String,
 	    format: String,
 	    readonly: Boolean,
 	    placeholder: String,
-	    startPlaceholder: String,
-	    endPlaceholder: String,
-	    name: String,
 	    disabled: Boolean,
 	    clearable: {
 	      type: Boolean,
@@ -498,7 +445,7 @@ module.exports =
 	    value: {},
 	    defaultValue: {},
 	    rangeSeparator: {
-	      default: '-'
+	      default: ' - '
 	    },
 	    pickerOptions: {}
 	  },
@@ -539,23 +486,18 @@ module.exports =
 	      }
 	    },
 	    displayValue: function displayValue(val) {
+	      this.$emit('change', val);
 	      this.dispatch('ElFormItem', 'el.form.change');
 	    }
 	  },
 
 	  computed: {
-	    ranged: function ranged() {
-	      return this.type.indexOf('range') > -1;
-	    },
 	    reference: function reference() {
-	      var reference = this.$refs.reference;
-	      return reference.$el || reference;
+	      return this.$refs.reference.$el;
 	    },
 	    refInput: function refInput() {
-	      if (this.reference) {
-	        return [].slice.call(this.reference.querySelectorAll('input'));
-	      }
-	      return [];
+	      if (this.reference) return this.reference.querySelector('input');
+	      return {};
 	    },
 	    valueIsEmpty: function valueIsEmpty() {
 	      var val = this.currentValue;
@@ -601,13 +543,13 @@ module.exports =
 	        var formatter = (TYPE_VALUE_RESOLVER_MAP[this.type] || TYPE_VALUE_RESOLVER_MAP['default']).formatter;
 	        var format = DEFAULT_FORMATS[this.type];
 
-	        return formatter(value, this.format || format);
+	        return formatter(value, this.format || format, this.rangeSeparator);
 	      },
 	      set: function set(value) {
 	        if (value) {
 	          var type = this.type;
 	          var parser = (TYPE_VALUE_RESOLVER_MAP[type] || TYPE_VALUE_RESOLVER_MAP['default']).parser;
-	          var parsedValue = parser(value, this.format || DEFAULT_FORMATS[type]);
+	          var parsedValue = parser(value, this.format || DEFAULT_FORMATS[type], this.rangeSeparator);
 
 	          if (parsedValue && this.picker) {
 	            this.picker.value = parsedValue;
@@ -632,32 +574,17 @@ module.exports =
 
 
 	  methods: {
-	    handleMouseEnter: function handleMouseEnter() {
+	    handleMouseEnterIcon: function handleMouseEnterIcon() {
 	      if (this.readonly || this.disabled) return;
 	      if (!this.valueIsEmpty && this.clearable) {
 	        this.showClose = true;
 	      }
 	    },
-	    handleStartChange: function handleStartChange(event) {
-	      if (this.displayValue && this.displayValue[1]) {
-	        this.displayValue = [event.target.value, this.displayValue[1]];
-	      } else {
-	        this.displayValue = [event.target.value, event.target.value];
-	      }
-	    },
-	    handleEndChange: function handleEndChange(event) {
-	      if (this.displayValue && this.displayValue[0]) {
-	        this.displayValue = [this.displayValue[0], event.target.value];
-	      } else {
-	        this.displayValue = [event.target.value, event.target.value];
-	      }
-	    },
-	    handleClickIcon: function handleClickIcon(event) {
+	    handleClickIcon: function handleClickIcon() {
 	      if (this.readonly || this.disabled) return;
 	      if (this.showClose) {
 	        this.currentValue = this.$options.defaultValue || '';
 	        this.showClose = false;
-	        event.stopPropagation();
 	      } else {
 	        this.pickerVisible = !this.pickerVisible;
 	      }
@@ -677,9 +604,6 @@ module.exports =
 	    },
 	    handleClose: function handleClose() {
 	      this.pickerVisible = false;
-	      if (this.ranged) {
-	        this.$emit('blur', this);
-	      }
 	    },
 	    handleFocus: function handleFocus() {
 	      var type = this.type;
@@ -700,14 +624,6 @@ module.exports =
 	        this.pickerVisible = false;
 	        event.stopPropagation();
 	      }
-	    },
-	    handleRangeClick: function handleRangeClick() {
-	      var type = this.type;
-
-	      if (HAVE_TRIGGER_TYPES.indexOf(type) !== -1 && !this.pickerVisible) {
-	        this.pickerVisible = true;
-	      }
-	      this.$emit('focus', this);
 	    },
 	    hidePicker: function hidePicker() {
 	      if (this.picker) {
@@ -735,15 +651,14 @@ module.exports =
 	      this.picker.resetView && this.picker.resetView();
 
 	      this.$nextTick(function () {
-	        _this.picker.adjustScrollTop && _this.picker.adjustScrollTop();
+	        _this.picker.ajustScrollTop && _this.picker.ajustScrollTop();
 	      });
 	    },
 	    mountPicker: function mountPicker() {
 	      var _this2 = this;
 
-	      var defaultValue = this.defaultValue || this.currentValue;
-	      var panel = (0, _merge2.default)({}, this.panel, { defaultValue: defaultValue });
-	      this.picker = new _vue2.default(panel).$mount();
+	      this.panel.defaultValue = this.defaultValue || this.currentValue;
+	      this.picker = new _vue2.default(this.panel).$mount();
 	      this.picker.popperClass = this.popperClass;
 	      this.popperElm = this.picker.$el;
 	      this.picker.width = this.reference.getBoundingClientRect().width;
@@ -789,30 +704,18 @@ module.exports =
 	      this.picker.$on('pick', function () {
 	        var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 	        var visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-	        var user = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
 	        // do not emit if values are same
 	        if (!valueEquals(_this2.value, date)) {
 	          _this2.$emit('input', date);
-	          if (user && _this2.value !== date) {
-	            _this2.$nextTick(function () {
-	              return _this2.$emit('change', _this2.displayValue);
-	            });
-	          };
 	        }
 	        _this2.pickerVisible = _this2.picker.visible = visible;
 	        _this2.picker.resetView && _this2.picker.resetView();
 	      });
 
-	      this.picker.$on('select-range', function (start, end, pos) {
-	        if (_this2.refInput.length === 0) return;
-	        if (!pos || pos === 'min') {
-	          _this2.refInput[0].setSelectionRange(start, end);
-	          _this2.refInput[0].focus();
-	        } else if (pos === 'max') {
-	          _this2.refInput[1].setSelectionRange(start, end);
-	          _this2.refInput[1].focus();
-	        }
+	      this.picker.$on('select-range', function (start, end) {
+	        _this2.refInput.setSelectionRange(start, end);
+	        _this2.refInput.focus();
 	      });
 	    },
 	    unmountPicker: function unmountPicker() {
@@ -830,7 +733,7 @@ module.exports =
 
 /***/ },
 
-/***/ 119:
+/***/ 110:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -838,11 +741,11 @@ module.exports =
 	exports.__esModule = true;
 	exports.limitRange = exports.getRangeHours = exports.nextMonth = exports.prevMonth = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDate = exports.toDate = exports.equalDate = undefined;
 
-	var _date = __webpack_require__(120);
+	var _date = __webpack_require__(111);
 
 	var _date2 = _interopRequireDefault(_date);
 
-	var _locale = __webpack_require__(67);
+	var _locale = __webpack_require__(62);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1037,32 +940,18 @@ module.exports =
 
 /***/ },
 
-/***/ 120:
+/***/ 111:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/date");
 
 /***/ },
 
-/***/ 121:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/mixins/focus");
-
-/***/ },
-
-/***/ 122:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/merge");
-
-/***/ },
-
-/***/ 123:
+/***/ 112:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return (!_vm.ranged) ? _c('el-input', {
+	  return _c('el-input', {
 	    directives: [{
 	      name: "clickoutside",
 	      rawName: "v-clickoutside",
@@ -1076,11 +965,9 @@ module.exports =
 	      "readonly": !_vm.editable || _vm.readonly,
 	      "disabled": _vm.disabled,
 	      "size": _vm.size,
-	      "name": _vm.name,
 	      "placeholder": _vm.placeholder,
 	      "value": _vm.displayValue,
-	      "validateEvent": false,
-	      "prefix-icon": _vm.triggerClass
+	      "validateEvent": false
 	    },
 	    on: {
 	      "focus": _vm.handleFocus,
@@ -1090,95 +977,34 @@ module.exports =
 	      "keydown": function($event) {
 	        _vm.handleKeydown($event)
 	      },
-	      "mouseenter": function($event) {
-	        _vm.handleMouseEnter($event)
-	      },
-	      "mouseleave": function($event) {
-	        _vm.showClose = false
-	      },
 	      "change": function($event) {
 	        _vm.displayValue = $event.target.value
 	      }
 	    }
 	  }, [(_vm.haveTrigger) ? _c('i', {
 	    staticClass: "el-input__icon",
-	    class: {
-	      'el-icon-circle-close': _vm.showClose
-	    },
+	    class: [_vm.showClose ? 'el-icon-close' : _vm.triggerClass],
 	    on: {
-	      "click": _vm.handleClickIcon
-	    },
-	    slot: "suffix"
-	  }) : _vm._e()]) : _c('div', {
-	    directives: [{
-	      name: "clickoutside",
-	      rawName: "v-clickoutside",
-	      value: (_vm.handleClose),
-	      expression: "handleClose"
-	    }],
-	    ref: "reference",
-	    staticClass: "el-date-editor el-range-editor el-input__inner",
-	    class: [
-	      'el-date-editor--' + _vm.type,
-	      'el-range-editor--' + _vm.size,
-	      _vm.pickerVisible ? 'is-active' : ''
-	    ],
-	    on: {
-	      "click": _vm.handleRangeClick,
-	      "mouseenter": _vm.handleMouseEnter,
+	      "click": _vm.handleClickIcon,
+	      "mouseenter": _vm.handleMouseEnterIcon,
 	      "mouseleave": function($event) {
 	        _vm.showClose = false
 	      }
-	    }
-	  }, [_c('i', {
-	    class: ['el-input__icon', 'el-range__icon', _vm.triggerClass]
-	  }), _c('input', {
-	    staticClass: "el-range-input",
-	    attrs: {
-	      "placeholder": _vm.startPlaceholder
 	    },
-	    domProps: {
-	      "value": _vm.displayValue && _vm.displayValue[0]
-	    },
-	    on: {
-	      "keydown": _vm.handleKeydown,
-	      "change": _vm.handleStartChange
-	    }
-	  }), _c('span', {
-	    staticClass: "el-range-separator"
-	  }, [_vm._v(_vm._s(_vm.rangeSeparator))]), _c('input', {
-	    staticClass: "el-range-input",
-	    attrs: {
-	      "placeholder": _vm.endPlaceholder
-	    },
-	    domProps: {
-	      "value": _vm.displayValue && _vm.displayValue[1]
-	    },
-	    on: {
-	      "keydown": _vm.handleKeydown,
-	      "change": _vm.handleEndChange
-	    }
-	  }), (_vm.haveTrigger) ? _c('i', {
-	    staticClass: "el-input__icon el-range__close-icon",
-	    class: {
-	      'el-icon-circle-close': _vm.showClose
-	    },
-	    on: {
-	      "click": _vm.handleClickIcon
-	    }
+	    slot: "icon"
 	  }) : _vm._e()])
 	},staticRenderFns: []}
 
 /***/ },
 
-/***/ 361:
+/***/ 340:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _timeSelect = __webpack_require__(362);
+	var _timeSelect = __webpack_require__(341);
 
 	var _timeSelect2 = _interopRequireDefault(_timeSelect);
 
@@ -1193,18 +1019,18 @@ module.exports =
 
 /***/ },
 
-/***/ 362:
+/***/ 341:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _picker = __webpack_require__(117);
+	var _picker = __webpack_require__(108);
 
 	var _picker2 = _interopRequireDefault(_picker);
 
-	var _timeSelect = __webpack_require__(363);
+	var _timeSelect = __webpack_require__(342);
 
 	var _timeSelect2 = _interopRequireDefault(_timeSelect);
 
@@ -1218,52 +1044,19 @@ module.exports =
 	  beforeCreate: function beforeCreate() {
 	    this.type = 'time-select';
 	    this.panel = _timeSelect2.default;
-	  },
-
-
-	  methods: {
-	    handleKeydown: function handleKeydown(event) {
-	      var keyCode = event.keyCode;
-	      // TAB or ESC or Enter
-	      if (keyCode === 9 || keyCode === 27 || keyCode === 13) {
-	        var input = this.$refs.reference;
-	        var index = this.picker.items.map(function (v) {
-	          return v.value;
-	        }).indexOf(input.currentValue);
-	        var exist = index !== -1;
-	        if (!exist) {
-	          input.currentValue = this.currentValue;
-	        } else {
-	          this.picker.handleClick(this.picker.items[index]);
-	        }
-	        this.pickerVisible = false;
-	        input.$refs.input.blur();
-	        event.stopPropagation();
-	        return;
-	      }
-
-	      if (keyCode === 38 || keyCode === 40) {
-	        var mapping = { 40: 1, 38: -1 };
-	        var offset = mapping[keyCode.toString()];
-	        this.picker.scrollDown(offset);
-	        this.currentValue = this.picker.value;
-	        event.stopPropagation();
-	        return;
-	      }
-	    }
 	  }
 	};
 
 /***/ },
 
-/***/ 363:
+/***/ 342:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(364),
+	  __webpack_require__(343),
 	  /* template */
-	  __webpack_require__(365),
+	  __webpack_require__(344),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1277,18 +1070,18 @@ module.exports =
 
 /***/ },
 
-/***/ 364:
+/***/ 343:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _scrollbar = __webpack_require__(19);
+	var _scrollbar = __webpack_require__(15);
 
 	var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
-	var _scrollIntoView = __webpack_require__(65);
+	var _scrollIntoView = __webpack_require__(60);
 
 	var _scrollIntoView2 = _interopRequireDefault(_scrollIntoView);
 
@@ -1374,9 +1167,9 @@ module.exports =
 
 	      if (!val) return;
 	      if (this.minTime && compareTime(val, this.minTime) < 0) {
-	        this.$emit('pick', '', false, false);
+	        this.$emit('pick');
 	      } else if (this.maxTime && compareTime(val, this.maxTime) > 0) {
-	        this.$emit('pick', '', false, false);
+	        this.$emit('pick');
 	      }
 	      this.$nextTick(function () {
 	        return _this.scrollToOption();
@@ -1391,7 +1184,7 @@ module.exports =
 	      }
 	    },
 	    handleClear: function handleClear() {
-	      this.$emit('pick', '', false, false);
+	      this.$emit('pick');
 	    },
 	    scrollToOption: function scrollToOption() {
 	      var className = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'selected';
@@ -1405,26 +1198,6 @@ module.exports =
 	      this.$nextTick(function () {
 	        return _this2.scrollToOption();
 	      });
-	    },
-	    scrollDown: function scrollDown(step) {
-	      var items = this.items;
-	      var index = items.map(function (item) {
-	        return item.value;
-	      }).indexOf(this.value);
-	      var length = items.length;
-	      var total = Math.abs(step);
-	      step = step > 0 ? 1 : -1;
-	      while (length-- && total) {
-	        index = (index + step + items.length) % items.length;
-	        var item = items[index];
-	        if (!item.disabled) {
-	          total--;
-	        }
-	      }
-	      if (!items[index].disabled) {
-	        this.value = items[index].value;
-	        this.$emit('pick', this.value, true);
-	      }
 	    }
 	  },
 
@@ -1469,7 +1242,7 @@ module.exports =
 
 /***/ },
 
-/***/ 365:
+/***/ 344:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1491,7 +1264,7 @@ module.exports =
 	      expression: "visible"
 	    }],
 	    ref: "popper",
-	    staticClass: "el-picker-panel time-select el-popper",
+	    staticClass: "el-picker-panel time-select",
 	    class: _vm.popperClass,
 	    style: ({
 	      width: _vm.width + 'px'

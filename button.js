@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(35);
+	module.exports = __webpack_require__(30);
 
 
 /***/ },
@@ -135,14 +135,14 @@ module.exports =
 
 /***/ },
 
-/***/ 35:
+/***/ 30:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _button = __webpack_require__(36);
+	var _button = __webpack_require__(31);
 
 	var _button2 = _interopRequireDefault(_button);
 
@@ -157,14 +157,14 @@ module.exports =
 
 /***/ },
 
-/***/ 36:
+/***/ 31:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(37),
+	  __webpack_require__(32),
 	  /* template */
-	  __webpack_require__(38),
+	  __webpack_require__(33),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -178,15 +178,12 @@ module.exports =
 
 /***/ },
 
-/***/ 37:
+/***/ 32:
 /***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
-	//
-	//
-	//
 	//
 	//
 	//
@@ -228,8 +225,7 @@ module.exports =
 	    loading: Boolean,
 	    disabled: Boolean,
 	    plain: Boolean,
-	    autofocus: Boolean,
-	    round: Boolean
+	    autofocus: Boolean
 	  },
 
 	  methods: {
@@ -246,7 +242,7 @@ module.exports =
 
 /***/ },
 
-/***/ 38:
+/***/ 33:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -257,8 +253,7 @@ module.exports =
 	      _vm.size ? 'el-button--' + _vm.size : '', {
 	        'is-disabled': _vm.disabled,
 	        'is-loading': _vm.loading,
-	        'is-plain': _vm.plain,
-	        'is-round': _vm.round
+	        'is-plain': _vm.plain
 	      }
 	    ],
 	    attrs: {
@@ -275,7 +270,7 @@ module.exports =
 	      "click": _vm.handleInnerClick
 	    }
 	  }) : _vm._e(), (_vm.icon && !_vm.loading) ? _c('i', {
-	    class: _vm.icon,
+	    class: 'el-icon-' + _vm.icon,
 	    on: {
 	      "click": _vm.handleInnerClick
 	    }

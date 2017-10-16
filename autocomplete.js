@@ -45,7 +45,7 @@ module.exports =
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(10);
+	module.exports = __webpack_require__(6);
 
 
 /***/ },
@@ -136,18 +136,14 @@ module.exports =
 /***/ },
 /* 4 */,
 /* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _autocomplete = __webpack_require__(11);
+	var _autocomplete = __webpack_require__(7);
 
 	var _autocomplete2 = _interopRequireDefault(_autocomplete);
 
@@ -161,14 +157,14 @@ module.exports =
 	exports.default = _autocomplete2.default;
 
 /***/ },
-/* 11 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(12),
+	  __webpack_require__(8),
 	  /* template */
-	  __webpack_require__(22),
+	  __webpack_require__(17),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -181,32 +177,62 @@ module.exports =
 
 
 /***/ },
-/* 12 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _input = __webpack_require__(13);
+	var _input = __webpack_require__(9);
 
 	var _input2 = _interopRequireDefault(_input);
 
-	var _clickoutside = __webpack_require__(14);
+	var _clickoutside = __webpack_require__(10);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-	var _autocompleteSuggestions = __webpack_require__(15);
+	var _autocompleteSuggestions = __webpack_require__(11);
 
 	var _autocompleteSuggestions2 = _interopRequireDefault(_autocompleteSuggestions);
 
-	var _emitter = __webpack_require__(18);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
-	var _util = __webpack_require__(21);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
 	  name: 'ElAutocomplete',
@@ -250,8 +276,7 @@ module.exports =
 	    selectWhenUnmatched: {
 	      type: Boolean,
 	      default: false
-	    },
-	    label: String
+	    }
 	  },
 	  data: function data() {
 	    return {
@@ -268,9 +293,6 @@ module.exports =
 	      var suggestions = this.suggestions;
 	      var isValidData = Array.isArray(suggestions) && suggestions.length > 0;
 	      return (isValidData || this.loading) && this.activated;
-	    },
-	    id: function id() {
-	      return 'el-autocomplete-' + (0, _util.generateId)();
 	    }
 	  },
 	  watch: {
@@ -295,7 +317,7 @@ module.exports =
 	    handleComposition: function handleComposition(event) {
 	      if (event.type === 'compositionend') {
 	        this.isOnComposition = false;
-	        this.handleChange(this.value);
+	        this.handleChange(event.target.value);
 	      } else {
 	        this.isOnComposition = true;
 	      }
@@ -308,15 +330,11 @@ module.exports =
 	      }
 	      this.getData(value);
 	    },
-	    handleFocus: function handleFocus(event) {
+	    handleFocus: function handleFocus() {
 	      this.activated = true;
-	      this.$emit('focus', event);
 	      if (this.triggerOnFocus) {
 	        this.getData(this.value);
 	      }
-	    },
-	    handleBlur: function handleBlur(event) {
-	      this.$emit('blur', event);
 	    },
 	    close: function close(e) {
 	      this.activated = false;
@@ -338,7 +356,7 @@ module.exports =
 	    select: function select(item) {
 	      var _this3 = this;
 
-	      this.$emit('input', item[this.props.label]);
+	      this.$emit('input', item[this.props.value]);
 	      this.$emit('select', item);
 	      this.$nextTick(function (_) {
 	        _this3.suggestions = [];
@@ -369,8 +387,8 @@ module.exports =
 	      if (offsetTop < scrollTop) {
 	        suggestion.scrollTop -= highlightItem.scrollHeight;
 	      }
+
 	      this.highlightedIndex = index;
-	      this.$el.querySelector('.el-input__inner').setAttribute('aria-activedescendant', this.id + '-item-' + this.highlightedIndex);
 	    }
 	  },
 	  mounted: function mounted() {
@@ -379,33 +397,118 @@ module.exports =
 	    this.$on('item-click', function (item) {
 	      _this4.select(item);
 	    });
-	    var $input = this.$el.querySelector('.el-input__inner');
-	    $input.setAttribute('role', 'textbox');
-	    $input.setAttribute('aria-autocomplete', 'list');
-	    $input.setAttribute('aria-controls', 'id');
-	    $input.setAttribute('aria-activedescendant', this.id + '-item-' + this.highlightedIndex);
 	  },
 	  beforeDestroy: function beforeDestroy() {
 	    this.$refs.suggestions.$destroy();
 	  }
+	};
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/input");
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/clickoutside");
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Component = __webpack_require__(3)(
+	  /* script */
+	  __webpack_require__(12),
+	  /* template */
+	  __webpack_require__(16),
+	  /* styles */
+	  null,
+	  /* scopeId */
+	  null,
+	  /* moduleIdentifier (server only) */
+	  null
+	)
+
+	module.exports = Component.exports
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _vuePopper = __webpack_require__(13);
+
+	var _vuePopper2 = _interopRequireDefault(_vuePopper);
+
+	var _emitter = __webpack_require__(14);
+
+	var _emitter2 = _interopRequireDefault(_emitter);
+
+	var _scrollbar = __webpack_require__(15);
+
+	var _scrollbar2 = _interopRequireDefault(_scrollbar);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	  components: { ElScrollbar: _scrollbar2.default },
+	  mixins: [_vuePopper2.default, _emitter2.default],
+
+	  componentName: 'ElAutocompleteSuggestions',
+
+	  data: function data() {
+	    return {
+	      parent: this.$parent,
+	      dropdownWidth: ''
+	    };
+	  },
+
+
+	  props: {
+	    props: Object,
+	    suggestions: Array,
+	    options: {
+	      default: function _default() {
+	        return {
+	          gpuAcceleration: false
+	        };
+	      }
+	    }
+	  },
+
+	  methods: {
+	    select: function select(item) {
+	      this.dispatch('ElAutocomplete', 'item-click', item);
+	    }
+	  },
+
+	  updated: function updated() {
+	    var _this = this;
+
+	    this.$nextTick(function (_) {
+	      _this.updatePopper();
+	    });
+	  },
+	  mounted: function mounted() {
+	    this.$parent.popperElm = this.popperElm = this.$el;
+	    this.referenceElm = this.$parent.$refs.input.$refs.input;
+	  },
+	  created: function created() {
+	    var _this2 = this;
+
+	    this.$on('visible', function (val, inputWidth) {
+	      _this2.dropdownWidth = inputWidth + 'px';
+	      _this2.showPopper = val;
+	    });
+	  }
 	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 	//
 	//
 	//
@@ -445,151 +548,22 @@ module.exports =
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/input");
+	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 /* 14 */
 /***/ function(module, exports) {
 
-	module.exports = require("element-ui/lib/utils/clickoutside");
-
-/***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Component = __webpack_require__(3)(
-	  /* script */
-	  __webpack_require__(16),
-	  /* template */
-	  __webpack_require__(20),
-	  /* styles */
-	  null,
-	  /* scopeId */
-	  null,
-	  /* moduleIdentifier (server only) */
-	  null
-	)
-
-	module.exports = Component.exports
-
-
-/***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _vuePopper = __webpack_require__(17);
-
-	var _vuePopper2 = _interopRequireDefault(_vuePopper);
-
-	var _emitter = __webpack_require__(18);
-
-	var _emitter2 = _interopRequireDefault(_emitter);
-
-	var _scrollbar = __webpack_require__(19);
-
-	var _scrollbar2 = _interopRequireDefault(_scrollbar);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = {
-	  components: { ElScrollbar: _scrollbar2.default },
-	  mixins: [_vuePopper2.default, _emitter2.default],
-
-	  componentName: 'ElAutocompleteSuggestions',
-
-	  data: function data() {
-	    return {
-	      parent: this.$parent,
-	      dropdownWidth: ''
-	    };
-	  },
-
-
-	  props: {
-	    options: {
-	      default: function _default() {
-	        return {
-	          gpuAcceleration: false
-	        };
-	      }
-	    },
-	    id: String
-	  },
-
-	  methods: {
-	    select: function select(item) {
-	      this.dispatch('ElAutocomplete', 'item-click', item);
-	    }
-	  },
-
-	  updated: function updated() {
-	    var _this = this;
-
-	    this.$nextTick(function (_) {
-	      _this.updatePopper();
-	    });
-	  },
-	  mounted: function mounted() {
-	    this.$parent.popperElm = this.popperElm = this.$el;
-	    this.referenceElm = this.$parent.$refs.input.$refs.input;
-	    this.referenceList = this.$el.querySelector('.el-autocomplete-suggestion__list');
-	    this.referenceList.setAttribute('role', 'listbox');
-	    this.referenceList.setAttribute('id', this.id);
-	  },
-	  created: function created() {
-	    var _this2 = this;
-
-	    this.$on('visible', function (val, inputWidth) {
-	      _this2.dropdownWidth = inputWidth + 'px';
-	      _this2.showPopper = val;
-	    });
-	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
-/***/ },
-/* 17 */
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/vue-popper");
-
-/***/ },
-/* 18 */
-/***/ function(module, exports) {
-
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
-/* 19 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/scrollbar");
 
 /***/ },
-/* 20 */
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -607,16 +581,13 @@ module.exports =
 	      value: (_vm.showPopper),
 	      expression: "showPopper"
 	    }],
-	    staticClass: "el-autocomplete-suggestion el-popper",
+	    staticClass: "el-autocomplete-suggestion",
 	    class: {
 	      'is-loading': _vm.parent.loading
 	    },
 	    style: ({
 	      width: _vm.dropdownWidth
-	    }),
-	    attrs: {
-	      "role": "region"
-	    }
+	    })
 	  }, [_c('el-scrollbar', {
 	    attrs: {
 	      "tag": "ul",
@@ -625,17 +596,36 @@ module.exports =
 	    }
 	  }, [(_vm.parent.loading) ? _c('li', [_c('i', {
 	    staticClass: "el-icon-loading"
-	  })]) : _vm._t("default")], 2)], 1)])
+	  })]) : _vm._l((_vm.suggestions), function(item, index) {
+	    return [(!_vm.parent.customItem) ? _c('li', {
+	      class: {
+	        'highlighted': _vm.parent.highlightedIndex === index
+	      },
+	      on: {
+	        "click": function($event) {
+	          _vm.select(item)
+	        }
+	      }
+	    }, [_vm._v("\n          " + _vm._s(item[_vm.props.label]) + "\n        ")]) : _c(_vm.parent.customItem, {
+	      tag: "component",
+	      class: {
+	        'highlighted': _vm.parent.highlightedIndex === index
+	      },
+	      attrs: {
+	        "item": item,
+	        "index": index
+	      },
+	      on: {
+	        "click": function($event) {
+	          _vm.select(item)
+	        }
+	      }
+	    })]
+	  })], 2)], 1)])
 	},staticRenderFns: []}
 
 /***/ },
-/* 21 */
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/util");
-
-/***/ },
-/* 22 */
+/* 17 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -646,22 +636,12 @@ module.exports =
 	      value: (_vm.close),
 	      expression: "close"
 	    }],
-	    staticClass: "el-autocomplete",
-	    attrs: {
-	      "aria-haspopup": "listbox",
-	      "role": "combobox",
-	      "aria-expanded": _vm.suggestionVisible,
-	      "aria-owns": _vm.id
-	    }
+	    staticClass: "el-autocomplete"
 	  }, [_c('el-input', _vm._b({
 	    ref: "input",
-	    attrs: {
-	      "label": _vm.label
-	    },
 	    on: {
 	      "change": _vm.handleChange,
-	      "focus": _vm.handleFocus,
-	      "blur": _vm.handleBlur
+	      "focus": _vm.handleFocus
 	    },
 	    nativeOn: {
 	      "compositionstart": function($event) {
@@ -697,29 +677,10 @@ module.exports =
 	    ref: "suggestions",
 	    class: [_vm.popperClass ? _vm.popperClass : ''],
 	    attrs: {
-	      "visible-arrow": "",
-	      "id": _vm.id
+	      "props": _vm.props,
+	      "suggestions": _vm.suggestions
 	    }
-	  }, _vm._l((_vm.suggestions), function(item, index) {
-	    return _c('li', {
-	      key: index,
-	      class: {
-	        'highlighted': _vm.highlightedIndex === index
-	      },
-	      attrs: {
-	        "id": (_vm.id + "-item-" + index),
-	        "role": "option",
-	        "aria-selected": _vm.highlightedIndex === index
-	      },
-	      on: {
-	        "click": function($event) {
-	          _vm.select(item)
-	        }
-	      }
-	    }, [_vm._t("default", [_vm._v("\n        " + _vm._s(item[_vm.props.label]) + "\n      ")], {
-	      item: item
-	    })], 2)
-	  }))], 1)
+	  })], 1)
 	},staticRenderFns: []}
 
 /***/ }

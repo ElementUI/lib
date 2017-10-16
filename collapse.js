@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(84);
+	module.exports = __webpack_require__(79);
 
 
 /***/ },
@@ -135,14 +135,14 @@ module.exports =
 
 /***/ },
 
-/***/ 84:
+/***/ 79:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _collapse = __webpack_require__(85);
+	var _collapse = __webpack_require__(80);
 
 	var _collapse2 = _interopRequireDefault(_collapse);
 
@@ -157,14 +157,14 @@ module.exports =
 
 /***/ },
 
-/***/ 85:
+/***/ 80:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(86),
+	  __webpack_require__(81),
 	  /* template */
-	  __webpack_require__(87),
+	  __webpack_require__(82),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -178,7 +178,7 @@ module.exports =
 
 /***/ },
 
-/***/ 86:
+/***/ 81:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -250,16 +250,12 @@ module.exports =
 
 /***/ },
 
-/***/ 87:
+/***/ 82:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
-	    staticClass: "el-collapse",
-	    attrs: {
-	      "role": "tablist",
-	      "aria-multiselectable": "true"
-	    }
+	    staticClass: "el-collapse"
 	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 

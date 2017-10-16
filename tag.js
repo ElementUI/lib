@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(352);
+	module.exports = __webpack_require__(331);
 
 
 /***/ },
@@ -135,14 +135,14 @@ module.exports =
 
 /***/ },
 
-/***/ 352:
+/***/ 331:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tag = __webpack_require__(353);
+	var _tag = __webpack_require__(332);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
@@ -157,14 +157,14 @@ module.exports =
 
 /***/ },
 
-/***/ 353:
+/***/ 332:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(354),
+	  __webpack_require__(333),
 	  /* template */
-	  __webpack_require__(355),
+	  __webpack_require__(334),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -178,16 +178,12 @@ module.exports =
 
 /***/ },
 
-/***/ 354:
+/***/ 333:
 /***/ function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
-	//
-	//
-	//
-	//
 	//
 	//
 	//
@@ -209,9 +205,8 @@ module.exports =
 	    closable: Boolean,
 	    type: String,
 	    hit: Boolean,
-	    disableTransitions: Boolean,
-	    color: String,
-	    size: String
+	    closeTransition: Boolean,
+	    color: String
 	  },
 	  methods: {
 	    handleClose: function handleClose(event) {
@@ -222,22 +217,19 @@ module.exports =
 
 /***/ },
 
-/***/ 355:
+/***/ 334:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('transition', {
 	    attrs: {
-	      "name": _vm.disableTransitions ? '' : 'el-zoom-in-center'
+	      "name": _vm.closeTransition ? '' : 'el-zoom-in-center'
 	    }
 	  }, [_c('span', {
 	    staticClass: "el-tag",
-	    class: [
-	      _vm.type ? 'el-tag--' + _vm.type : '',
-	      _vm.size && ("el-tag--" + _vm.size), {
-	        'is-hit': _vm.hit
-	      }
-	    ],
+	    class: [_vm.type ? 'el-tag--' + _vm.type : '', {
+	      'is-hit': _vm.hit
+	    }],
 	    style: ({
 	      backgroundColor: _vm.color
 	    })

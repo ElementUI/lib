@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(93);
+	module.exports = __webpack_require__(88);
 
 
 /***/ },
@@ -135,49 +135,42 @@ module.exports =
 
 /***/ },
 
-/***/ 13:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/input");
-
-/***/ },
-
-/***/ 14:
+/***/ 10:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ },
 
-/***/ 17:
+/***/ 13:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ },
 
-/***/ 60:
+/***/ 55:
 /***/ function(module, exports) {
 
 	module.exports = require("vue");
 
 /***/ },
 
-/***/ 66:
+/***/ 61:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ },
 
-/***/ 93:
+/***/ 88:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _main = __webpack_require__(94);
+	var _main = __webpack_require__(89);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -192,14 +185,14 @@ module.exports =
 
 /***/ },
 
-/***/ 94:
+/***/ 89:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(95),
+	  __webpack_require__(90),
 	  /* template */
-	  __webpack_require__(110),
+	  __webpack_require__(105),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -213,22 +206,22 @@ module.exports =
 
 /***/ },
 
-/***/ 95:
+/***/ 90:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _color = __webpack_require__(96);
+	var _color = __webpack_require__(91);
 
 	var _color2 = _interopRequireDefault(_color);
 
-	var _pickerDropdown = __webpack_require__(97);
+	var _pickerDropdown = __webpack_require__(92);
 
 	var _pickerDropdown2 = _interopRequireDefault(_pickerDropdown);
 
-	var _clickoutside = __webpack_require__(14);
+	var _clickoutside = __webpack_require__(10);
 
 	var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -238,12 +231,15 @@ module.exports =
 	  name: 'ElColorPicker',
 
 	  props: {
-	    value: String,
-	    showAlpha: Boolean,
-	    colorFormat: String,
-	    disabled: Boolean,
-	    size: String,
-	    popperClass: String
+	    value: {
+	      type: String
+	    },
+	    showAlpha: {
+	      type: Boolean
+	    },
+	    colorFormat: {
+	      type: String
+	    }
 	  },
 
 	  directives: { Clickoutside: _clickoutside2.default },
@@ -284,10 +280,6 @@ module.exports =
 	  },
 
 	  methods: {
-	    handleTrigger: function handleTrigger() {
-	      if (this.disabled) return;
-	      this.showPicker = !this.showPicker;
-	    },
 	    confirmValue: function confirmValue(value) {
 	      this.$emit('input', this.color.value);
 	      this.$emit('change', this.color.value);
@@ -364,17 +356,10 @@ module.exports =
 	//
 	//
 	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 /***/ },
 
-/***/ 96:
+/***/ 91:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -731,14 +716,14 @@ module.exports =
 
 /***/ },
 
-/***/ 97:
+/***/ 92:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(98),
+	  __webpack_require__(93),
 	  /* template */
-	  __webpack_require__(109),
+	  __webpack_require__(104),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -752,65 +737,34 @@ module.exports =
 
 /***/ },
 
-/***/ 98:
+/***/ 93:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _svPanel = __webpack_require__(99);
+	var _svPanel = __webpack_require__(94);
 
 	var _svPanel2 = _interopRequireDefault(_svPanel);
 
-	var _hueSlider = __webpack_require__(103);
+	var _hueSlider = __webpack_require__(98);
 
 	var _hueSlider2 = _interopRequireDefault(_hueSlider);
 
-	var _alphaSlider = __webpack_require__(106);
+	var _alphaSlider = __webpack_require__(101);
 
 	var _alphaSlider2 = _interopRequireDefault(_alphaSlider);
 
-	var _vuePopper = __webpack_require__(17);
+	var _vuePopper = __webpack_require__(13);
 
 	var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-	var _locale = __webpack_require__(66);
+	var _locale = __webpack_require__(61);
 
 	var _locale2 = _interopRequireDefault(_locale);
 
-	var _input = __webpack_require__(13);
-
-	var _input2 = _interopRequireDefault(_input);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 	exports.default = {
 	  name: 'el-color-picker-dropdown',
@@ -820,8 +774,7 @@ module.exports =
 	  components: {
 	    SvPanel: _svPanel2.default,
 	    HueSlider: _hueSlider2.default,
-	    AlphaSlider: _alphaSlider2.default,
-	    ElInput: _input2.default
+	    AlphaSlider: _alphaSlider2.default
 	  },
 
 	  props: {
@@ -830,13 +783,6 @@ module.exports =
 	    },
 	    showAlpha: Boolean
 	  },
-
-	  data: function data() {
-	    return {
-	      customInput: ''
-	    };
-	  },
-
 
 	  computed: {
 	    currentColor: function currentColor() {
@@ -848,37 +794,6 @@ module.exports =
 	  methods: {
 	    confirmValue: function confirmValue() {
 	      this.$emit('pick');
-	    },
-	    handleConfirm: function handleConfirm() {
-	      var valid = this.showAlpha ? this.validRGBA(this.customInput) : this.validRGBHex(this.customInput);
-	      if (valid) {
-	        this.color.fromString(this.customInput);
-	      } else {
-	        this.customInput = this.currentColor;
-	      }
-	    },
-	    validRGBHex: function validRGBHex(color) {
-	      return (/^#[A-Fa-f0-9]{6}$/.test(color)
-	      );
-	    },
-	    validRGBA: function validRGBA(color) {
-	      var matches = color.match(/^rgba\((\d+), ?(\d+), ?(\d+), ?([.0-9]+)\)$/);
-	      if (!matches) return false;
-	      var list = matches.map(function (v) {
-	        return parseInt(v, 10);
-	      }).slice(1);
-	      if (list.some(function (v) {
-	        return isNaN(v);
-	      })) return false;
-	      var r = list[0],
-	          g = list[1],
-	          b = list[2],
-	          a = list[3];
-
-	      if ([r, g, b].some(function (v) {
-	        return v < 0 || v > 255;
-	      }) || a < 0 || a > 1) return false;
-	      return true;
 	    }
 	  },
 
@@ -904,23 +819,38 @@ module.exports =
 	          alpha && alpha.update();
 	        });
 	      }
-	    },
-	    currentColor: function currentColor(val) {
-	      this.customInput = val;
 	    }
 	  }
-	};
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 /***/ },
 
-/***/ 99:
+/***/ 94:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(100),
+	  __webpack_require__(95),
 	  /* template */
-	  __webpack_require__(102),
+	  __webpack_require__(97),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -934,14 +864,14 @@ module.exports =
 
 /***/ },
 
-/***/ 100:
+/***/ 95:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(101);
+	var _draggable = __webpack_require__(96);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1050,7 +980,7 @@ module.exports =
 
 /***/ },
 
-/***/ 101:
+/***/ 96:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1095,7 +1025,7 @@ module.exports =
 	  });
 	};
 
-	var _vue = __webpack_require__(60);
+	var _vue = __webpack_require__(55);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
@@ -1105,7 +1035,7 @@ module.exports =
 
 /***/ },
 
-/***/ 102:
+/***/ 97:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1129,14 +1059,14 @@ module.exports =
 
 /***/ },
 
-/***/ 103:
+/***/ 98:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(104),
+	  __webpack_require__(99),
 	  /* template */
-	  __webpack_require__(105),
+	  __webpack_require__(100),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1150,14 +1080,14 @@ module.exports =
 
 /***/ },
 
-/***/ 104:
+/***/ 99:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(101);
+	var _draggable = __webpack_require__(96);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1287,7 +1217,7 @@ module.exports =
 
 /***/ },
 
-/***/ 105:
+/***/ 100:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1314,14 +1244,14 @@ module.exports =
 
 /***/ },
 
-/***/ 106:
+/***/ 101:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(107),
+	  __webpack_require__(102),
 	  /* template */
-	  __webpack_require__(108),
+	  __webpack_require__(103),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -1335,14 +1265,14 @@ module.exports =
 
 /***/ },
 
-/***/ 107:
+/***/ 102:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _draggable = __webpack_require__(101);
+	var _draggable = __webpack_require__(96);
 
 	var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1481,7 +1411,7 @@ module.exports =
 
 /***/ },
 
-/***/ 108:
+/***/ 103:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1511,7 +1441,7 @@ module.exports =
 
 /***/ },
 
-/***/ 109:
+/***/ 104:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1555,27 +1485,7 @@ module.exports =
 	    staticClass: "el-color-dropdown__btns"
 	  }, [_c('span', {
 	    staticClass: "el-color-dropdown__value"
-	  }, [_c('el-input', {
-	    attrs: {
-	      "size": "mini"
-	    },
-	    on: {
-	      "blur": _vm.handleConfirm
-	    },
-	    nativeOn: {
-	      "keyup": function($event) {
-	        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
-	        _vm.handleConfirm($event)
-	      }
-	    },
-	    model: {
-	      value: (_vm.customInput),
-	      callback: function($$v) {
-	        _vm.customInput = $$v
-	      },
-	      expression: "customInput"
-	    }
-	  })], 1), _c('a', {
+	  }, [_vm._v(_vm._s(_vm.currentColor))]), _c('a', {
 	    staticClass: "el-color-dropdown__link-btn",
 	    attrs: {
 	      "href": "JavaScript:"
@@ -1595,7 +1505,7 @@ module.exports =
 
 /***/ },
 
-/***/ 110:
+/***/ 105:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1606,17 +1516,13 @@ module.exports =
 	      value: (_vm.hide),
 	      expression: "hide"
 	    }],
-	    class: [
-	      'el-color-picker',
-	      _vm.disabled ? 'is-disabled' : '',
-	      _vm.size ? ("el-color-picker--" + _vm.size) : ''
-	    ]
-	  }, [(_vm.disabled) ? _c('div', {
-	    staticClass: "el-color-picker__mask"
-	  }) : _vm._e(), _c('div', {
+	    staticClass: "el-color-picker"
+	  }, [_c('div', {
 	    staticClass: "el-color-picker__trigger",
 	    on: {
-	      "click": _vm.handleTrigger
+	      "click": function($event) {
+	        _vm.showPicker = !_vm.showPicker
+	      }
 	    }
 	  }, [_c('span', {
 	    staticClass: "el-color-picker__color",
@@ -1631,16 +1537,10 @@ module.exports =
 	  }), (!_vm.value && !_vm.showPanelColor) ? _c('span', {
 	    staticClass: "el-color-picker__empty el-icon-close"
 	  }) : _vm._e()]), _c('span', {
-	    directives: [{
-	      name: "show",
-	      rawName: "v-show",
-	      value: (_vm.value || _vm.showPanelColor),
-	      expression: "value || showPanelColor"
-	    }],
-	    staticClass: "el-color-picker__icon el-icon-arrow-down"
+	    staticClass: "el-color-picker__icon el-icon-caret-bottom"
 	  })]), _c('picker-dropdown', {
 	    ref: "dropdown",
-	    class: ['el-color-picker__panel', _vm.popperClass || ''],
+	    staticClass: "el-color-picker__panel",
 	    attrs: {
 	      "color": _vm.color,
 	      "show-alpha": _vm.showAlpha

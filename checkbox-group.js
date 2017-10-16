@@ -46,7 +46,7 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(78);
+	module.exports = __webpack_require__(73);
 
 
 /***/ },
@@ -135,21 +135,21 @@ module.exports =
 
 /***/ },
 
-/***/ 18:
+/***/ 14:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ },
 
-/***/ 78:
+/***/ 73:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkboxGroup = __webpack_require__(79);
+	var _checkboxGroup = __webpack_require__(74);
 
 	var _checkboxGroup2 = _interopRequireDefault(_checkboxGroup);
 
@@ -164,14 +164,14 @@ module.exports =
 
 /***/ },
 
-/***/ 79:
+/***/ 74:
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component = __webpack_require__(3)(
 	  /* script */
-	  __webpack_require__(80),
+	  __webpack_require__(75),
 	  /* template */
-	  __webpack_require__(81),
+	  __webpack_require__(76),
 	  /* styles */
 	  null,
 	  /* scopeId */
@@ -185,14 +185,14 @@ module.exports =
 
 /***/ },
 
-/***/ 80:
+/***/ 75:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _emitter = __webpack_require__(18);
+	var _emitter = __webpack_require__(14);
 
 	var _emitter2 = _interopRequireDefault(_emitter);
 
@@ -207,7 +207,6 @@ module.exports =
 
 	  props: {
 	    value: {},
-	    disabled: Boolean,
 	    min: Number,
 	    max: Number,
 	    size: String,
@@ -224,16 +223,12 @@ module.exports =
 
 /***/ },
 
-/***/ 81:
+/***/ 76:
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
-	    staticClass: "el-checkbox-group",
-	    attrs: {
-	      "role": "group",
-	      "aria-label": "checkbox-group"
-	    }
+	    staticClass: "el-checkbox-group"
 	  }, [_vm._t("default")], 2)
 	},staticRenderFns: []}
 

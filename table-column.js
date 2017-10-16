@@ -46,47 +46,47 @@ module.exports =
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(342);
+	module.exports = __webpack_require__(321);
 
 
 /***/ },
 
-/***/ 21:
-/***/ function(module, exports) {
-
-	module.exports = require("element-ui/lib/utils/util");
-
-/***/ },
-
-/***/ 122:
+/***/ 170:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/utils/merge");
 
 /***/ },
 
-/***/ 290:
+/***/ 219:
+/***/ function(module, exports) {
+
+	module.exports = require("element-ui/lib/utils/util");
+
+/***/ },
+
+/***/ 270:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/tag");
 
 /***/ },
 
-/***/ 329:
+/***/ 308:
 /***/ function(module, exports) {
 
 	module.exports = require("element-ui/lib/checkbox");
 
 /***/ },
 
-/***/ 342:
+/***/ 321:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _tableColumn = __webpack_require__(343);
+	var _tableColumn = __webpack_require__(322);
 
 	var _tableColumn2 = _interopRequireDefault(_tableColumn);
 
@@ -101,26 +101,26 @@ module.exports =
 
 /***/ },
 
-/***/ 343:
+/***/ 322:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _checkbox = __webpack_require__(329);
+	var _checkbox = __webpack_require__(308);
 
 	var _checkbox2 = _interopRequireDefault(_checkbox);
 
-	var _tag = __webpack_require__(290);
+	var _tag = __webpack_require__(270);
 
 	var _tag2 = _interopRequireDefault(_tag);
 
-	var _merge = __webpack_require__(122);
+	var _merge = __webpack_require__(170);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
-	var _util = __webpack_require__(21);
+	var _util = __webpack_require__(219);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -441,7 +441,23 @@ module.exports =
 	    }
 
 	    column.renderCell = function (h, data) {
-	      if (_self.$scopedSlots.default) {
+	      // 未来版本移除
+	      if (_self.$vnode.data.inlineTemplate) {
+	        renderCell = function renderCell() {
+	          data._self = _self.context || data._self;
+	          if (Object.prototype.toString.call(data._self) === '[object Object]') {
+	            for (var prop in data._self) {
+	              if (!data.hasOwnProperty(prop)) {
+	                data[prop] = data._self[prop];
+	              }
+	            }
+	          }
+	          // 静态内容会缓存到 _staticTrees 内，不改的话获取的静态数据就不是内部 context
+	          data._staticTrees = _self._staticTrees;
+	          data.$options.staticRenderFns = _self.$options.staticRenderFns;
+	          return _self.customRender.call(data);
+	        };
+	      } else if (_self.$scopedSlots.default) {
 	        renderCell = function renderCell() {
 	          return _self.$scopedSlots.default(data);
 	        };
