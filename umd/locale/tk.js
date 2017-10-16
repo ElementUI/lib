@@ -95,6 +95,7 @@
         error: 'Ýalňyş girizme'
       },
       upload: {
+        deleteTip: 'press delete to remove', // to be translated
         delete: 'Poz',
         preview: 'Gör',
         continue: 'Dowam et'

@@ -81,6 +81,7 @@ exports.default = {
       error: 'Felaktig inmatning'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'Radera',
       preview: 'Förhandsvisa',
       continue: 'Fortsätt'

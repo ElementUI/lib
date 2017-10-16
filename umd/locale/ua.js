@@ -95,6 +95,7 @@
         error: 'Неприпустимий ввід даних'
       },
       upload: {
+        deleteTip: 'press delete to remove', // to be translated
         delete: 'Видалити',
         preview: 'Перегляд',
         continue: 'Продовжити'

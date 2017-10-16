@@ -95,6 +95,7 @@
         error: 'קלט לא תקין'
       },
       upload: {
+        deleteTip: 'press delete to remove', // to be translated
         delete: 'מחק',
         preview: 'תצוגה מקדימה',
         continue: 'המשך'

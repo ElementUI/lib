@@ -82,6 +82,7 @@ exports.default = {
       error: 'Fehler'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'Löschen',
       preview: 'Vorschau',
       continue: 'Fortsetzen'

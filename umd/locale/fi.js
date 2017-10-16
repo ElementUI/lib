@@ -95,6 +95,7 @@
         error: 'Virheellinen syöte'
       },
       upload: {
+        deleteTip: 'press delete to remove', // to be translated
         delete: 'Poista',
         preview: 'Esikatsele',
         continue: 'Jatka'

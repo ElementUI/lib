@@ -95,6 +95,7 @@
         error: '正しくない入力'
       },
       upload: {
+        deleteTip: 'press delete to remove', // to be translated
         delete: '削除する',
         preview: 'プレビュー',
         continue: '続行する'

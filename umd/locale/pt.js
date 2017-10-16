@@ -95,6 +95,7 @@
         error: 'Erro!'
       },
       upload: {
+        deleteTip: 'press delete to remove', // to be translated
         delete: 'Apagar',
         preview: 'Previsualizar',
         continue: 'Continuar'

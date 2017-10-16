@@ -81,6 +81,7 @@ exports.default = {
       error: 'คุณป้อนข้อมูลไม่ถูกต้อง'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'ลบ',
       preview: 'ตัวอย่าง',
       continue: 'ทำต่อ'

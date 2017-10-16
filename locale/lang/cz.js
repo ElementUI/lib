@@ -83,6 +83,7 @@ exports.default = {
       error: 'Neplatný vstup'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'Vymazat',
       preview: 'Náhled',
       continue: 'Pokračovat'
