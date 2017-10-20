@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 151);
+/******/ 	return __webpack_require__(__webpack_require__.s = 152);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -176,22 +176,22 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 12:
+/***/ 13:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/focus");
 
 /***/ }),
 
-/***/ 151:
+/***/ 152:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(152);
+module.exports = __webpack_require__(153);
 
 
 /***/ }),
 
-/***/ 152:
+/***/ 153:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -199,7 +199,7 @@ module.exports = __webpack_require__(152);
 
 exports.__esModule = true;
 
-var _component = __webpack_require__(153);
+var _component = __webpack_require__(154);
 
 var _component2 = _interopRequireDefault(_component);
 
@@ -214,14 +214,14 @@ exports.default = _component2.default;
 
 /***/ }),
 
-/***/ 153:
+/***/ 154:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_component_vue__ = __webpack_require__(154);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_component_vue__ = __webpack_require__(155);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_component_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_component_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_07b08768_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_component_vue__ = __webpack_require__(155);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_07b08768_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_component_vue__ = __webpack_require__(156);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -249,7 +249,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 154:
+/***/ 155:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -257,15 +257,57 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _focus = __webpack_require__(12);
+var _focus = __webpack_require__(13);
 
 var _focus2 = _interopRequireDefault(_focus);
 
+var _migrating = __webpack_require__(7);
+
+var _migrating2 = _interopRequireDefault(_migrating);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   name: 'ElSwitch',
-  mixins: [(0, _focus2.default)('input')],
+  mixins: [(0, _focus2.default)('input'), _migrating2.default],
   props: {
     value: {
       type: [Boolean, String, Number],
@@ -279,29 +321,29 @@ exports.default = {
       type: Number,
       default: 0
     },
-    onIconClass: {
+    activeIconClass: {
       type: String,
       default: ''
     },
-    offIconClass: {
+    inactiveIconClass: {
       type: String,
       default: ''
     },
-    onText: String,
-    offText: String,
-    onColor: {
+    activeText: String,
+    inactiveText: String,
+    activeColor: {
       type: String,
       default: ''
     },
-    offColor: {
+    inactiveColor: {
       type: String,
       default: ''
     },
-    onValue: {
+    activeValue: {
       type: [Boolean, String, Number],
       default: true
     },
-    offValue: {
+    inactiveValue: {
       type: [Boolean, String, Number],
       default: false
     },
@@ -316,14 +358,14 @@ exports.default = {
     };
   },
   created: function created() {
-    if (!~[this.onValue, this.offValue].indexOf(this.value)) {
-      this.$emit('input', this.offValue);
+    if (!~[this.activeValue, this.inactiveValue].indexOf(this.value)) {
+      this.$emit('input', this.inactiveValue);
     }
   },
 
   computed: {
     checked: function checked() {
-      return this.value === this.onValue;
+      return this.value === this.activeValue;
     },
     transform: function transform() {
       return this.checked ? 'translate3d(' + (this.coreWidth - 20) + 'px, 0, 0)' : '';
@@ -332,7 +374,7 @@ exports.default = {
   watch: {
     checked: function checked() {
       this.$refs.input.checked = this.checked;
-      if (this.onColor || this.offColor) {
+      if (this.activeColor || this.inactiveColor) {
         this.setBackgroundColor();
       }
     }
@@ -341,8 +383,8 @@ exports.default = {
     handleChange: function handleChange(event) {
       var _this = this;
 
-      this.$emit('input', !this.checked ? this.onValue : this.offValue);
-      this.$emit('change', !this.checked ? this.onValue : this.offValue);
+      this.$emit('input', !this.checked ? this.activeValue : this.inactiveValue);
+      this.$emit('change', !this.checked ? this.activeValue : this.inactiveValue);
       this.$nextTick(function () {
         // set input's checked property
         // in case parent refuses to change component's value
@@ -350,70 +392,55 @@ exports.default = {
       });
     },
     setBackgroundColor: function setBackgroundColor() {
-      var newColor = this.checked ? this.onColor : this.offColor;
+      var newColor = this.checked ? this.activeColor : this.inactiveColor;
       this.$refs.core.style.borderColor = newColor;
       this.$refs.core.style.backgroundColor = newColor;
     },
     switchValue: function switchValue() {
       this.$refs.input.click();
+    },
+    getMigratingConfig: function getMigratingConfig() {
+      return {
+        props: {
+          'on-color': 'on-color is renamed to active-color.',
+          'off-color': 'off-color is renamed to inactive-color.',
+          'on-text': 'on-text is renamed to active-text.',
+          'off-text': 'off-text is renamed to inactive-text.',
+          'on-value': 'on-value is renamed to active-value.',
+          'off-value': 'off-value is renamed to inactive-value.',
+          'on-icon-class': 'on-icon-class is renamed to active-icon-class.',
+          'off-icon-class': 'off-icon-class is renamed to inactive-icon-class.'
+        }
+      };
     }
   },
   mounted: function mounted() {
     /* istanbul ignore if */
     this.coreWidth = this.width || 40;
-    if (this.onColor || this.offColor) {
+    if (this.activeColor || this.inactiveColor) {
       this.setBackgroundColor();
     }
     this.$refs.input.checked = this.checked;
   }
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+};
 
 /***/ }),
 
-/***/ 155:
+/***/ 156:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-switch",class:{ 'is-disabled': _vm.disabled, 'is-checked': _vm.checked },attrs:{"role":"switch","aria-checked":_vm.checked,"aria-disabled":_vm.disabled},on:{"click":_vm.switchValue}},[_c('input',{ref:"input",staticClass:"el-switch__input",attrs:{"type":"checkbox","name":_vm.name,"true-value":_vm.onValue,"false-value":_vm.offValue,"disabled":_vm.disabled},on:{"change":_vm.handleChange,"keydown":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.switchValue($event)}}}),(_vm.offIconClass || _vm.offText)?_c('span',{class:['el-switch__label', 'el-switch__label--left', !_vm.checked ? 'is-active' : '']},[(_vm.offIconClass)?_c('i',{class:[_vm.offIconClass]}):_vm._e(),(!_vm.offIconClass && _vm.offText)?_c('span',{attrs:{"aria-hidden":_vm.checked}},[_vm._v(_vm._s(_vm.offText))]):_vm._e()]):_vm._e(),_c('span',{ref:"core",staticClass:"el-switch__core",style:({ 'width': _vm.coreWidth + 'px' })},[_c('span',{staticClass:"el-switch__button",style:({ transform: _vm.transform })})]),(_vm.onIconClass || _vm.onText)?_c('span',{class:['el-switch__label', 'el-switch__label--right', _vm.checked ? 'is-active' : '']},[(_vm.onIconClass)?_c('i',{class:[_vm.onIconClass]}):_vm._e(),(!_vm.onIconClass && _vm.onText)?_c('span',{attrs:{"aria-hidden":!_vm.checked}},[_vm._v(_vm._s(_vm.onText))]):_vm._e()]):_vm._e()])}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-switch",class:{ 'is-disabled': _vm.disabled, 'is-checked': _vm.checked },attrs:{"role":"switch","aria-checked":_vm.checked,"aria-disabled":_vm.disabled},on:{"click":_vm.switchValue}},[_c('input',{ref:"input",staticClass:"el-switch__input",attrs:{"type":"checkbox","name":_vm.name,"true-value":_vm.activeValue,"false-value":_vm.inactiveValue,"disabled":_vm.disabled},on:{"change":_vm.handleChange,"keydown":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.switchValue($event)}}}),(_vm.inactiveIconClass || _vm.inactiveText)?_c('span',{class:['el-switch__label', 'el-switch__label--left', !_vm.checked ? 'is-active' : '']},[(_vm.inactiveIconClass)?_c('i',{class:[_vm.inactiveIconClass]}):_vm._e(),(!_vm.inactiveIconClass && _vm.inactiveText)?_c('span',{attrs:{"aria-hidden":_vm.checked}},[_vm._v(_vm._s(_vm.inactiveText))]):_vm._e()]):_vm._e(),_c('span',{ref:"core",staticClass:"el-switch__core",style:({ 'width': _vm.coreWidth + 'px' })},[_c('span',{staticClass:"el-switch__button",style:({ transform: _vm.transform })})]),(_vm.activeIconClass || _vm.activeText)?_c('span',{class:['el-switch__label', 'el-switch__label--right', _vm.checked ? 'is-active' : '']},[(_vm.activeIconClass)?_c('i',{class:[_vm.activeIconClass]}):_vm._e(),(!_vm.activeIconClass && _vm.activeText)?_c('span',{attrs:{"aria-hidden":!_vm.checked}},[_vm._v(_vm._s(_vm.activeText))]):_vm._e()]):_vm._e()])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ })
 

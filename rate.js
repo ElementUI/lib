@@ -259,8 +259,50 @@ exports.__esModule = true;
 
 var _dom = __webpack_require__(3);
 
+var _migrating = __webpack_require__(7);
+
+var _migrating2 = _interopRequireDefault(_migrating);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 exports.default = {
   name: 'ElRate',
+
+  mixins: [_migrating2.default],
 
   data: function data() {
     return {
@@ -421,6 +463,13 @@ exports.default = {
   },
 
   methods: {
+    getMigratingConfig: function getMigratingConfig() {
+      return {
+        props: {
+          'text-template': 'text-template is renamed to score-template.'
+        }
+      };
+    },
     getValueFromMap: function getValueFromMap(value, map) {
       var result = '';
       if (value <= this.lowThreshold) {
@@ -527,39 +576,7 @@ exports.default = {
       disabledVoidClass: this.disabledVoidIconClass
     };
   }
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+};
 
 /***/ }),
 
@@ -571,6 +588,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ })
 

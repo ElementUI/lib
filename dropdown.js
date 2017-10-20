@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 72);
+/******/ 	return __webpack_require__(__webpack_require__.s = 73);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -193,19 +193,19 @@ module.exports = require("element-ui/lib/button");
 /***/ 7:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/clickoutside");
-
-/***/ }),
-
-/***/ 72:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(73);
-
+module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }),
 
 /***/ 73:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(74);
+
+
+/***/ }),
+
+/***/ 74:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -213,7 +213,7 @@ module.exports = __webpack_require__(73);
 
 exports.__esModule = true;
 
-var _dropdown = __webpack_require__(74);
+var _dropdown = __webpack_require__(75);
 
 var _dropdown2 = _interopRequireDefault(_dropdown);
 
@@ -228,12 +228,12 @@ exports.default = _dropdown2.default;
 
 /***/ }),
 
-/***/ 74:
+/***/ 75:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dropdown_vue__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dropdown_vue__ = __webpack_require__(76);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dropdown_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dropdown_vue__);
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -262,7 +262,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 75:
+/***/ 76:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -270,7 +270,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _clickoutside = __webpack_require__(7);
+var _clickoutside = __webpack_require__(8);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -278,11 +278,15 @@ var _emitter = __webpack_require__(1);
 
 var _emitter2 = _interopRequireDefault(_emitter);
 
+var _migrating = __webpack_require__(7);
+
+var _migrating2 = _interopRequireDefault(_migrating);
+
 var _button = __webpack_require__(19);
 
 var _button2 = _interopRequireDefault(_button);
 
-var _buttonGroup = __webpack_require__(76);
+var _buttonGroup = __webpack_require__(77);
 
 var _buttonGroup2 = _interopRequireDefault(_buttonGroup);
 
@@ -293,7 +297,7 @@ exports.default = {
 
   componentName: 'ElDropdown',
 
-  mixins: [_emitter2.default],
+  mixins: [_emitter2.default, _migrating2.default],
 
   directives: { Clickoutside: _clickoutside2.default },
 
@@ -362,6 +366,13 @@ exports.default = {
   },
 
   methods: {
+    getMigratingConfig: function getMigratingConfig() {
+      return {
+        props: {
+          'menu-align': 'menu-align is renamed to placement.'
+        }
+      };
+    },
     show: function show() {
       var _this = this;
 
@@ -465,10 +476,17 @@ exports.default = {
 
 /***/ }),
 
-/***/ 76:
+/***/ 77:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/button-group");
+
+/***/ }),
+
+/***/ 8:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ })
 

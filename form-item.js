@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 259);
+/******/ 	return __webpack_require__(__webpack_require__.s = 260);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -183,15 +183,15 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 259:
+/***/ 260:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(260);
+module.exports = __webpack_require__(261);
 
 
 /***/ }),
 
-/***/ 260:
+/***/ 261:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -199,7 +199,7 @@ module.exports = __webpack_require__(260);
 
 exports.__esModule = true;
 
-var _formItem = __webpack_require__(261);
+var _formItem = __webpack_require__(262);
 
 var _formItem2 = _interopRequireDefault(_formItem);
 
@@ -214,14 +214,14 @@ exports.default = _formItem2.default;
 
 /***/ }),
 
-/***/ 261:
+/***/ 262:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_form_item_vue__ = __webpack_require__(262);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_form_item_vue__ = __webpack_require__(263);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_form_item_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_form_item_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_67a5dd92_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_form_item_vue__ = __webpack_require__(264);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_67a5dd92_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_form_item_vue__ = __webpack_require__(265);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -249,7 +249,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 262:
+/***/ 263:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -257,7 +257,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _asyncValidator = __webpack_require__(263);
+var _asyncValidator = __webpack_require__(264);
 
 var _asyncValidator2 = _interopRequireDefault(_asyncValidator);
 
@@ -459,7 +459,7 @@ exports.default = {
       var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : noop;
 
       var rules = this.getFilteredRule(trigger);
-      if (!rules || rules.length === 0) {
+      if ((!rules || rules.length === 0) && !this._props.hasOwnProperty('required')) {
         callback();
         return true;
       }
@@ -505,10 +505,11 @@ exports.default = {
     getRules: function getRules() {
       var formRules = this.form.rules;
       var selfRules = this.rules;
+      var requiredRule = this._props.hasOwnProperty('required') ? { required: !!this.required } : [];
 
       formRules = formRules ? formRules[this.prop] : [];
 
-      return [].concat(selfRules || formRules || []);
+      return [].concat(selfRules || formRules || []).concat(requiredRule);
     },
     getFilteredRule: function getFilteredRule(trigger) {
       var rules = this.getRules();
@@ -543,7 +544,7 @@ exports.default = {
 
       var rules = this.getRules();
 
-      if (rules.length) {
+      if (rules.length || this._props.hasOwnProperty('required')) {
         this.$on('el.form.blur', this.onFieldBlur);
         this.$on('el.form.change', this.onFieldChange);
       }
@@ -556,14 +557,14 @@ exports.default = {
 
 /***/ }),
 
-/***/ 263:
+/***/ 264:
 /***/ (function(module, exports) {
 
 module.exports = require("async-validator");
 
 /***/ }),
 
-/***/ 264:
+/***/ 265:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

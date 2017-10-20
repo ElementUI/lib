@@ -61,20 +61,20 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 328);
+/******/ 	return __webpack_require__(__webpack_require__.s = 329);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 328:
+/***/ 329:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(329);
+module.exports = __webpack_require__(330);
 
 
 /***/ }),
 
-/***/ 329:
+/***/ 330:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -82,7 +82,7 @@ module.exports = __webpack_require__(329);
 
 exports.__esModule = true;
 
-var _col = __webpack_require__(330);
+var _col = __webpack_require__(331);
 
 var _col2 = _interopRequireDefault(_col);
 
@@ -97,7 +97,7 @@ exports.default = _col2.default;
 
 /***/ }),
 
-/***/ 330:
+/***/ 331:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -125,7 +125,8 @@ exports.default = {
     xs: [Number, Object],
     sm: [Number, Object],
     md: [Number, Object],
-    lg: [Number, Object]
+    lg: [Number, Object],
+    xl: [Number, Object]
   },
 
   computed: {
@@ -149,12 +150,12 @@ exports.default = {
     }
 
     ['span', 'offset', 'pull', 'push'].forEach(function (prop) {
-      if (_this[prop]) {
+      if (_this[prop] || _this[prop] === 0) {
         classList.push(prop !== 'span' ? 'el-col-' + prop + '-' + _this[prop] : 'el-col-' + _this[prop]);
       }
     });
 
-    ['xs', 'sm', 'md', 'lg'].forEach(function (size) {
+    ['xs', 'sm', 'md', 'lg', 'xl'].forEach(function (size) {
       if (typeof _this[size] === 'number') {
         classList.push('el-col-' + size + '-' + _this[size]);
       } else if (_typeof(_this[size]) === 'object') {

@@ -176,14 +176,14 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 15:
+/***/ 16:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/popup");
 
 /***/ }),
 
-/***/ 18:
+/***/ 20:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/vdom");
@@ -232,9 +232,9 @@ var _main = __webpack_require__(359);
 
 var _main2 = _interopRequireDefault(_main);
 
-var _popup = __webpack_require__(15);
+var _popup = __webpack_require__(16);
 
-var _vdom = __webpack_require__(18);
+var _vdom = __webpack_require__(20);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

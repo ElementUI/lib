@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 222);
+/******/ 	return __webpack_require__(__webpack_require__.s = 223);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -183,21 +183,284 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 12:
-/***/ (function(module, exports) {
+/***/ 10:
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = require("element-ui/lib/mixins/focus");
+"use strict";
+
+
+exports.__esModule = true;
+exports.nextYear = exports.prevYear = exports.nextMonth = exports.prevMonth = exports.timeWithinRange = exports.limitTimeRange = exports.clearMilliseconds = exports.clearTime = exports.modifyTime = exports.modifyDate = exports.range = exports.getRangeHours = exports.getWeekNumber = exports.getStartDateOfMonth = exports.nextDate = exports.prevDate = exports.getFirstDayOfMonth = exports.getDayCountOfYear = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDateObject = exports.isDate = exports.toDate = undefined;
+
+var _date = __webpack_require__(27);
+
+var _date2 = _interopRequireDefault(_date);
+
+var _locale = __webpack_require__(14);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var weeks = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+var months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+var getI18nSettings = function getI18nSettings() {
+  return {
+    dayNamesShort: weeks.map(function (week) {
+      return (0, _locale.t)('el.datepicker.weeks.' + week);
+    }),
+    dayNames: weeks.map(function (week) {
+      return (0, _locale.t)('el.datepicker.weeks.' + week);
+    }),
+    monthNamesShort: months.map(function (month) {
+      return (0, _locale.t)('el.datepicker.months.' + month);
+    }),
+    monthNames: months.map(function (month, index) {
+      return (0, _locale.t)('el.datepicker.month' + (index + 1));
+    }),
+    amPm: ['am', 'pm']
+  };
+};
+
+var newArray = function newArray(start, end) {
+  var result = [];
+  for (var i = start; i <= end; i++) {
+    result.push(i);
+  }
+  return result;
+};
+
+var toDate = exports.toDate = function toDate(date) {
+  return isDate(date) ? new Date(date) : null;
+};
+
+var isDate = exports.isDate = function isDate(date) {
+  if (date === null || date === undefined) return false;
+  if (isNaN(new Date(date).getTime())) return false;
+  return true;
+};
+
+var isDateObject = exports.isDateObject = function isDateObject(val) {
+  return val instanceof Date;
+};
+
+var formatDate = exports.formatDate = function formatDate(date, format) {
+  date = toDate(date);
+  if (!date) return '';
+  return _date2.default.format(date, format || 'yyyy-MM-dd', getI18nSettings());
+};
+
+var parseDate = exports.parseDate = function parseDate(string, format) {
+  return _date2.default.parse(string, format || 'yyyy-MM-dd', getI18nSettings());
+};
+
+var getDayCountOfMonth = exports.getDayCountOfMonth = function getDayCountOfMonth(year, month) {
+  if (month === 3 || month === 5 || month === 8 || month === 10) {
+    return 30;
+  }
+
+  if (month === 1) {
+    if (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0) {
+      return 29;
+    } else {
+      return 28;
+    }
+  }
+
+  return 31;
+};
+
+var getDayCountOfYear = exports.getDayCountOfYear = function getDayCountOfYear(year) {
+  var isLeapYear = year % 400 === 0 || year % 100 !== 0 && year % 4 === 0;
+  return isLeapYear ? 366 : 365;
+};
+
+var getFirstDayOfMonth = exports.getFirstDayOfMonth = function getFirstDayOfMonth(date) {
+  var temp = new Date(date.getTime());
+  temp.setDate(1);
+  return temp.getDay();
+};
+
+// see: https://stackoverflow.com/questions/3674539/incrementing-a-date-in-javascript
+// {prev, next} Date should work for Daylight Saving Time
+// Adding 24 * 60 * 60 * 1000 does not work in the above scenario
+var prevDate = exports.prevDate = function prevDate(date) {
+  var amount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() - amount);
+};
+
+var nextDate = exports.nextDate = function nextDate(date) {
+  var amount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + amount);
+};
+
+var getStartDateOfMonth = exports.getStartDateOfMonth = function getStartDateOfMonth(year, month) {
+  var result = new Date(year, month, 1);
+  var day = result.getDay();
+
+  if (day === 0) {
+    return prevDate(result, 7);
+  } else {
+    return prevDate(result, day);
+  }
+};
+
+var getWeekNumber = exports.getWeekNumber = function getWeekNumber(src) {
+  var date = new Date(src.getTime());
+  date.setHours(0, 0, 0, 0);
+  // Thursday in current week decides the year.
+  date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+  // January 4 is always in week 1.
+  var week1 = new Date(date.getFullYear(), 0, 4);
+  // Adjust to Thursday in week 1 and count number of weeks from date to week 1.
+  // Rounding should be fine for Daylight Saving Time. Its shift should never be more than 12 hours.
+  return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+};
+
+var getRangeHours = exports.getRangeHours = function getRangeHours(ranges) {
+  var hours = [];
+  var disabledHours = [];
+
+  (ranges || []).forEach(function (range) {
+    var value = range.map(function (date) {
+      return date.getHours();
+    });
+
+    disabledHours = disabledHours.concat(newArray(value[0], value[1]));
+  });
+
+  if (disabledHours.length) {
+    for (var i = 0; i < 24; i++) {
+      hours[i] = disabledHours.indexOf(i) === -1;
+    }
+  } else {
+    for (var _i = 0; _i < 24; _i++) {
+      hours[_i] = false;
+    }
+  }
+
+  return hours;
+};
+
+var range = exports.range = function range(n) {
+  // see https://stackoverflow.com/questions/3746725/create-a-javascript-array-containing-1-n
+  return Array.apply(null, { length: n }).map(function (_, n) {
+    return n;
+  });
+};
+
+var modifyDate = exports.modifyDate = function modifyDate(date, y, m, d) {
+  return new Date(y, m, d, date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+};
+
+var modifyTime = exports.modifyTime = function modifyTime(date, h, m, s) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), h, m, s, date.getMilliseconds());
+};
+
+var clearTime = exports.clearTime = function clearTime(date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+};
+
+var clearMilliseconds = exports.clearMilliseconds = function clearMilliseconds(date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), 0);
+};
+
+var limitTimeRange = exports.limitTimeRange = function limitTimeRange(date, ranges) {
+  var format = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'HH:mm:ss';
+
+  // TODO: refactory a more elegant solution
+  if (ranges.length === 0) return date;
+  var normalizeDate = function normalizeDate(date) {
+    return _date2.default.parse(_date2.default.format(date, format), format);
+  };
+  var ndate = normalizeDate(date);
+  var nranges = ranges.map(function (range) {
+    return range.map(normalizeDate);
+  });
+  if (nranges.some(function (nrange) {
+    return ndate >= nrange[0] && ndate <= nrange[1];
+  })) return date;
+
+  var minDate = nranges[0][0];
+  var maxDate = nranges[0][0];
+
+  nranges.forEach(function (nrange) {
+    minDate = new Date(Math.min(nrange[0], minDate));
+    maxDate = new Date(Math.max(nrange[1], minDate));
+  });
+
+  var ret = ndate < minDate ? minDate : maxDate;
+  // preserve Year/Month/Date
+  return modifyDate(ret, date.getFullYear(), date.getMonth(), date.getDate());
+};
+
+var timeWithinRange = exports.timeWithinRange = function timeWithinRange(date, selectableRange, format) {
+  var limitedDate = limitTimeRange(date, selectableRange, format);
+  return limitedDate.getTime() === date.getTime();
+};
+
+var prevMonth = exports.prevMonth = function prevMonth(date) {
+  var year = date.getFullYear();
+  var month = date.getMonth();
+  if (month === 0) {
+    year -= 1;
+    month = 11;
+  } else {
+    month -= 1;
+  }
+  var monthDate = Math.min(date.getDate(), getDayCountOfMonth(year, month));
+  return modifyDate(date, year, month, monthDate);
+};
+
+var nextMonth = exports.nextMonth = function nextMonth(date) {
+  var year = date.getFullYear();
+  var month = date.getMonth();
+  if (month === 11) {
+    year += 1;
+    month = 0;
+  } else {
+    month += 1;
+  }
+  var monthDate = Math.min(date.getDate(), getDayCountOfMonth(year, month));
+  return modifyDate(date, year, month, monthDate);
+};
+
+// check for leap year Feburary
+var prevYear = exports.prevYear = function prevYear(date) {
+  var amount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+  var year = date.getFullYear() - amount;
+  var month = date.getMonth();
+  var monthDate = Math.min(date.getDate(), getDayCountOfMonth(year, month));
+  return modifyDate(date, year, month, monthDate);
+};
+
+var nextYear = exports.nextYear = function nextYear(date) {
+  var amount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+  var year = date.getFullYear() + amount;
+  var month = date.getMonth();
+  var monthDate = Math.min(date.getDate(), getDayCountOfMonth(year, month));
+  return modifyDate(date, year, month, monthDate);
+};
 
 /***/ }),
 
 /***/ 13:
 /***/ (function(module, exports) {
 
+module.exports = require("element-ui/lib/mixins/focus");
+
+/***/ }),
+
+/***/ 14:
+/***/ (function(module, exports) {
+
 module.exports = require("element-ui/lib/locale");
 
 /***/ }),
 
-/***/ 16:
+/***/ 17:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/scrollbar");
@@ -211,7 +474,7 @@ module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ }),
 
-/***/ 21:
+/***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -247,15 +510,15 @@ exports.default = {
 
 /***/ }),
 
-/***/ 222:
+/***/ 223:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(223);
+module.exports = __webpack_require__(224);
 
 
 /***/ }),
 
-/***/ 223:
+/***/ 224:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -263,7 +526,7 @@ module.exports = __webpack_require__(223);
 
 exports.__esModule = true;
 
-var _timePicker = __webpack_require__(224);
+var _timePicker = __webpack_require__(225);
 
 var _timePicker2 = _interopRequireDefault(_timePicker);
 
@@ -278,7 +541,7 @@ exports.default = _timePicker2.default;
 
 /***/ }),
 
-/***/ 224:
+/***/ 225:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -286,15 +549,15 @@ exports.default = _timePicker2.default;
 
 exports.__esModule = true;
 
-var _picker = __webpack_require__(24);
+var _picker = __webpack_require__(25);
 
 var _picker2 = _interopRequireDefault(_picker);
 
-var _time = __webpack_require__(28);
+var _time = __webpack_require__(29);
 
 var _time2 = _interopRequireDefault(_time);
 
-var _timeRange = __webpack_require__(225);
+var _timeRange = __webpack_require__(226);
 
 var _timeRange2 = _interopRequireDefault(_timeRange);
 
@@ -339,14 +602,14 @@ exports.default = {
 
 /***/ }),
 
-/***/ 225:
+/***/ 226:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_time_range_vue__ = __webpack_require__(226);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_time_range_vue__ = __webpack_require__(227);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_time_range_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_time_range_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_331fa926_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_time_range_vue__ = __webpack_require__(227);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_331fa926_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_time_range_vue__ = __webpack_require__(228);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -374,7 +637,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 226:
+/***/ 227:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -382,13 +645,13 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _util = __webpack_require__(9);
+var _util = __webpack_require__(10);
 
 var _locale = __webpack_require__(2);
 
 var _locale2 = _interopRequireDefault(_locale);
 
-var _timeSpinner = __webpack_require__(29);
+var _timeSpinner = __webpack_require__(30);
 
 var _timeSpinner2 = _interopRequireDefault(_timeSpinner);
 
@@ -623,7 +886,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 227:
+/***/ 228:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -634,14 +897,14 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 24:
+/***/ 25:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_picker_vue__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_picker_vue__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_picker_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_picker_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_66b1c70c_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_picker_vue__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_66b1c70c_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_picker_vue__ = __webpack_require__(28);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -669,7 +932,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 25:
+/***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -681,11 +944,11 @@ var _vue = __webpack_require__(4);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _clickoutside = __webpack_require__(7);
+var _clickoutside = __webpack_require__(8);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-var _util = __webpack_require__(9);
+var _util = __webpack_require__(10);
 
 var _vuePopper = __webpack_require__(6);
 
@@ -695,7 +958,7 @@ var _emitter = __webpack_require__(1);
 
 var _emitter2 = _interopRequireDefault(_emitter);
 
-var _focus = __webpack_require__(12);
+var _focus = __webpack_require__(13);
 
 var _focus2 = _interopRequireDefault(_focus);
 
@@ -703,12 +966,15 @@ var _input = __webpack_require__(5);
 
 var _input2 = _interopRequireDefault(_input);
 
-var _merge = __webpack_require__(8);
+var _merge = __webpack_require__(9);
 
 var _merge2 = _interopRequireDefault(_merge);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//
+//
+//
 //
 //
 //
@@ -919,19 +1185,19 @@ var PLACEMENT_MAP = {
   right: 'bottom-end'
 };
 
-var parseAsFormatAndType = function parseAsFormatAndType(value, cutsomFormat, type) {
+var parseAsFormatAndType = function parseAsFormatAndType(value, customFormat, type) {
   var rangeSeparator = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '-';
 
   if (!value) return null;
   var parser = (TYPE_VALUE_RESOLVER_MAP[type] || TYPE_VALUE_RESOLVER_MAP['default']).parser;
-  var format = cutsomFormat || DEFAULT_FORMATS[type];
+  var format = customFormat || DEFAULT_FORMATS[type];
   return parser(value, format, rangeSeparator);
 };
 
-var formatAsFormatAndType = function formatAsFormatAndType(value, cutsomFormat, type) {
+var formatAsFormatAndType = function formatAsFormatAndType(value, customFormat, type) {
   if (!value) return null;
   var formatter = (TYPE_VALUE_RESOLVER_MAP[type] || TYPE_VALUE_RESOLVER_MAP['default']).formatter;
-  var format = cutsomFormat || DEFAULT_FORMATS[type];
+  var format = customFormat || DEFAULT_FORMATS[type];
   return formatter(value, format);
 };
 
@@ -985,7 +1251,8 @@ exports.default = {
     rangeSeparator: {
       default: '-'
     },
-    pickerOptions: {}
+    pickerOptions: {},
+    unlinkPanels: Boolean
   },
 
   components: { ElInput: _input2.default },
@@ -1097,7 +1364,7 @@ exports.default = {
       }
     },
     parsedValue: function parsedValue() {
-      var isParsed = (0, _util.isDate)(this.value) || Array.isArray(this.value) && this.value.every(_util.isDate);
+      var isParsed = (0, _util.isDateObject)(this.value) || Array.isArray(this.value) && this.value.every(_util.isDateObject);
       if (this.valueFormat && !isParsed) {
         return parseAsFormatAndType(this.value, this.valueFormat, this.type, this.rangeSeparator) || this.value;
       } else {
@@ -1131,21 +1398,18 @@ exports.default = {
 
 
     // {parse, formatTo} Value deals maps component value with internal Date
-    // parseValue validates value according to panel, requires picker to be mounted
-    parseValue: function parseValue(value, customFormat) {
-      if (!value || !Array.isArray(value) || !value.every(function (val) {
-        return val;
-      })) {
-        return null;
+    parseValue: function parseValue(value) {
+      var isParsed = (0, _util.isDateObject)(value) || Array.isArray(value) && value.every(_util.isDateObject);
+      if (this.valueFormat && !isParsed) {
+        return parseAsFormatAndType(value, this.valueFormat, this.type, this.rangeSeparator) || value;
+      } else {
+        return value;
       }
-      var format = customFormat || this.valueFormat;
-      var parsedValue = parseAsFormatAndType(value, format, this.type, this.rangeSeparator);
-      return this.isValidValue(parsedValue) ? parsedValue : null;
     },
-    formatToValue: function formatToValue(date, customFormat) {
-      if (this.valueFormat && ((0, _util.isDate)(date) || Array.isArray(date))) {
-        var format = customFormat || this.valueFormat;
-        return formatAsFormatAndType(date, format, this.type, this.rangeSeparator);
+    formatToValue: function formatToValue(date) {
+      var isFormattable = (0, _util.isDateObject)(date) || Array.isArray(date) && date.every(_util.isDateObject);
+      if (this.valueFormat && isFormattable) {
+        return formatAsFormatAndType(date, this.valueFormat, this.type, this.rangeSeparator);
       } else {
         return date;
       }
@@ -1346,6 +1610,7 @@ exports.default = {
       this.picker.width = this.reference.getBoundingClientRect().width;
       this.picker.showTime = this.type === 'datetime' || this.type === 'datetimerange';
       this.picker.selectionMode = this.selectionMode;
+      this.picker.unlinkPanels = this.unlinkPanels;
       this.picker.arrowControl = this.arrowControl || this.timeArrowControl || false;
       if (this.format) {
         this.picker.format = this.format;
@@ -1416,12 +1681,9 @@ exports.default = {
       }
     },
     emitChange: function emitChange(val) {
-      var formatted = this.formatToValue(val);
-      if (!valueEquals(this.valueOnOpen, formatted)) {
-        this.$emit('change', formatted);
-        this.dispatch('ElFormItem', 'el.form.change', formatted);
-        this.valueOnOpen = formatted;
-      }
+      this.$emit('change', val);
+      this.dispatch('ElFormItem', 'el.form.change', val);
+      this.valueOnOpen = val;
     },
     emitInput: function emitInput(val) {
       var formatted = this.formatToValue(val);
@@ -1444,25 +1706,10 @@ exports.default = {
 
 /***/ }),
 
-/***/ 26:
+/***/ 27:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/date");
-
-/***/ }),
-
-/***/ 27:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.ranged)?_c('el-input',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleClose),expression:"handleClose"}],ref:"reference",staticClass:"el-date-editor",class:'el-date-editor--' + _vm.type,attrs:{"readonly":!_vm.editable || _vm.readonly,"disabled":_vm.disabled,"size":_vm.pickerSize,"name":_vm.name,"placeholder":_vm.placeholder,"value":_vm.displayValue,"validateEvent":false,"prefix-icon":_vm.triggerClass},on:{"focus":_vm.handleFocus,"blur":_vm.handleBlur,"input":function (value) { return _vm.userInput = value; }},nativeOn:{"keydown":function($event){_vm.handleKeydown($event)},"mouseenter":function($event){_vm.handleMouseEnter($event)},"mouseleave":function($event){_vm.showClose = false},"change":function($event){_vm.handleChange($event)}}},[(_vm.haveTrigger)?_c('i',{staticClass:"el-input__icon",class:{ 'el-icon-circle-close': _vm.showClose },attrs:{"slot":"suffix"},on:{"click":_vm.handleClickIcon},slot:"suffix"}):_vm._e()]):_c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleClose),expression:"handleClose"}],ref:"reference",staticClass:"el-date-editor el-range-editor el-input__inner",class:[
-    'el-date-editor--' + _vm.type,
-    'el-range-editor--' + _vm.pickerSize,
-    _vm.pickerVisible ? 'is-active' : ''
-  ],on:{"click":_vm.handleRangeClick,"mouseenter":_vm.handleMouseEnter,"mouseleave":function($event){_vm.showClose = false},"keydown":_vm.handleKeydown}},[_c('i',{class:['el-input__icon', 'el-range__icon', _vm.triggerClass]}),_c('input',{staticClass:"el-range-input",attrs:{"placeholder":_vm.startPlaceholder},domProps:{"value":_vm.displayValue && _vm.displayValue[0]},on:{"input":_vm.handleStartInput,"change":_vm.handleStartChange,"focus":_vm.handleFocus}}),_c('span',{staticClass:"el-range-separator"},[_vm._v(_vm._s(_vm.rangeSeparator))]),_c('input',{staticClass:"el-range-input",attrs:{"placeholder":_vm.endPlaceholder},domProps:{"value":_vm.displayValue && _vm.displayValue[1]},on:{"input":_vm.handleEndInput,"change":_vm.handleEndChange,"focus":_vm.handleFocus}}),(_vm.haveTrigger)?_c('i',{staticClass:"el-input__icon el-range__close-icon",class:{ 'el-icon-circle-close': _vm.showClose },on:{"click":_vm.handleClickIcon}}):_vm._e()])}
-var staticRenderFns = []
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
@@ -1470,10 +1717,26 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.ranged)?_c('el-input',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleClose),expression:"handleClose"}],ref:"reference",staticClass:"el-date-editor",class:'el-date-editor--' + _vm.type,attrs:{"readonly":!_vm.editable || _vm.readonly,"disabled":_vm.disabled,"size":_vm.pickerSize,"name":_vm.name,"placeholder":_vm.placeholder,"value":_vm.displayValue,"validateEvent":false,"prefix-icon":_vm.triggerClass},on:{"focus":_vm.handleFocus,"blur":_vm.handleBlur,"input":function (value) { return _vm.userInput = value; }},nativeOn:{"keydown":function($event){_vm.handleKeydown($event)},"mouseenter":function($event){_vm.handleMouseEnter($event)},"mouseleave":function($event){_vm.showClose = false},"change":function($event){_vm.handleChange($event)}}},[(_vm.haveTrigger)?_c('i',{staticClass:"el-input__icon",class:{ 'el-icon-circle-close': _vm.showClose },attrs:{"slot":"suffix"},on:{"click":_vm.handleClickIcon},slot:"suffix"}):_vm._e()]):_c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleClose),expression:"handleClose"}],ref:"reference",staticClass:"el-date-editor el-range-editor el-input__inner",class:[
+    'el-date-editor--' + _vm.type,
+    _vm.pickerSize ? ("el-range-editor--" + _vm.pickerSize) : '',
+    _vm.disabled ? 'is-disabled' : '',
+    _vm.pickerVisible ? 'is-active' : ''
+  ],on:{"click":_vm.handleRangeClick,"mouseenter":_vm.handleMouseEnter,"mouseleave":function($event){_vm.showClose = false},"keydown":_vm.handleKeydown}},[_c('i',{class:['el-input__icon', 'el-range__icon', _vm.triggerClass]}),_c('input',{staticClass:"el-range-input",attrs:{"placeholder":_vm.startPlaceholder,"disabled":_vm.disabled},domProps:{"value":_vm.displayValue && _vm.displayValue[0]},on:{"input":_vm.handleStartInput,"change":_vm.handleStartChange,"focus":_vm.handleFocus}}),_c('span',{staticClass:"el-range-separator"},[_vm._v(_vm._s(_vm.rangeSeparator))]),_c('input',{staticClass:"el-range-input",attrs:{"placeholder":_vm.endPlaceholder,"disabled":_vm.disabled},domProps:{"value":_vm.displayValue && _vm.displayValue[1]},on:{"input":_vm.handleEndInput,"change":_vm.handleEndChange,"focus":_vm.handleFocus}}),(_vm.haveTrigger)?_c('i',{staticClass:"el-input__icon el-range__close-icon",class:{ 'el-icon-circle-close': _vm.showClose },on:{"click":_vm.handleClickIcon}}):_vm._e()])}
+var staticRenderFns = []
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+
+/***/ 29:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_time_vue__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_time_vue__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_time_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_time_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ee915b14_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_time_vue__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ee915b14_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_time_vue__ = __webpack_require__(43);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -1501,14 +1764,21 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 29:
+/***/ 3:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/dom");
+
+/***/ }),
+
+/***/ 30:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_time_spinner_vue__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_time_spinner_vue__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_time_spinner_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_time_spinner_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_72da32d8_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_time_spinner_vue__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_72da32d8_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_time_spinner_vue__ = __webpack_require__(42);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -1536,14 +1806,14 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/dom");
+module.exports = require("vue");
 
 /***/ }),
 
-/***/ 39:
+/***/ 40:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1551,13 +1821,13 @@ module.exports = require("element-ui/lib/utils/dom");
 
 exports.__esModule = true;
 
-var _util = __webpack_require__(9);
+var _util = __webpack_require__(10);
 
 var _locale = __webpack_require__(2);
 
 var _locale2 = _interopRequireDefault(_locale);
 
-var _timeSpinner = __webpack_require__(29);
+var _timeSpinner = __webpack_require__(30);
 
 var _timeSpinner2 = _interopRequireDefault(_timeSpinner);
 
@@ -1741,14 +2011,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 4:
-/***/ (function(module, exports) {
-
-module.exports = require("vue");
-
-/***/ }),
-
-/***/ 40:
+/***/ 41:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1756,13 +2019,13 @@ module.exports = require("vue");
 
 exports.__esModule = true;
 
-var _util = __webpack_require__(9);
+var _util = __webpack_require__(10);
 
-var _scrollbar = __webpack_require__(16);
+var _scrollbar = __webpack_require__(17);
 
 var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
-var _repeatClick = __webpack_require__(21);
+var _repeatClick = __webpack_require__(22);
 
 var _repeatClick2 = _interopRequireDefault(_repeatClick);
 
@@ -2033,7 +2296,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 41:
+/***/ 42:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2044,7 +2307,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 42:
+/***/ 43:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2069,273 +2332,17 @@ module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ }),
 
-/***/ 7:
+/***/ 8:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ }),
 
-/***/ 8:
+/***/ 9:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/merge");
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-exports.nextDate = exports.prevDate = exports.nextYear = exports.prevYear = exports.nextMonth = exports.prevMonth = exports.timeWithinRange = exports.limitTimeRange = exports.clearMilliseconds = exports.clearTime = exports.modifyTime = exports.modifyDate = exports.range = exports.getRangeHours = exports.getWeekNumber = exports.getStartDateOfMonth = exports.DAY_DURATION = exports.getFirstDayOfMonth = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDate = exports.toDate = undefined;
-
-var _date = __webpack_require__(26);
-
-var _date2 = _interopRequireDefault(_date);
-
-var _locale = __webpack_require__(13);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var weeks = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-var months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-var getI18nSettings = function getI18nSettings() {
-  return {
-    dayNamesShort: weeks.map(function (week) {
-      return (0, _locale.t)('el.datepicker.weeks.' + week);
-    }),
-    dayNames: weeks.map(function (week) {
-      return (0, _locale.t)('el.datepicker.weeks.' + week);
-    }),
-    monthNamesShort: months.map(function (month) {
-      return (0, _locale.t)('el.datepicker.months.' + month);
-    }),
-    monthNames: months.map(function (month, index) {
-      return (0, _locale.t)('el.datepicker.month' + (index + 1));
-    }),
-    amPm: ['am', 'pm']
-  };
-};
-
-var newArray = function newArray(start, end) {
-  var result = [];
-  for (var i = start; i <= end; i++) {
-    result.push(i);
-  }
-  return result;
-};
-
-var toDate = exports.toDate = function toDate(date) {
-  return isDate(date) ? new Date(date) : null;
-};
-
-var isDate = exports.isDate = function isDate(date) {
-  if (date === null || date === undefined) return false;
-  if (isNaN(new Date(date).getTime())) return false;
-  return true;
-};
-
-var formatDate = exports.formatDate = function formatDate(date, format) {
-  date = toDate(date);
-  if (!date) return '';
-  return _date2.default.format(date, format || 'yyyy-MM-dd', getI18nSettings());
-};
-
-var parseDate = exports.parseDate = function parseDate(string, format) {
-  return _date2.default.parse(string, format || 'yyyy-MM-dd', getI18nSettings());
-};
-
-var getDayCountOfMonth = exports.getDayCountOfMonth = function getDayCountOfMonth(year, month) {
-  if (month === 3 || month === 5 || month === 8 || month === 10) {
-    return 30;
-  }
-
-  if (month === 1) {
-    if (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0) {
-      return 29;
-    } else {
-      return 28;
-    }
-  }
-
-  return 31;
-};
-
-var getFirstDayOfMonth = exports.getFirstDayOfMonth = function getFirstDayOfMonth(date) {
-  var temp = new Date(date.getTime());
-  temp.setDate(1);
-  return temp.getDay();
-};
-
-var DAY_DURATION = exports.DAY_DURATION = 86400000;
-
-var getStartDateOfMonth = exports.getStartDateOfMonth = function getStartDateOfMonth(year, month) {
-  var result = new Date(year, month, 1);
-  var day = result.getDay();
-
-  if (day === 0) {
-    result.setTime(result.getTime() - DAY_DURATION * 7);
-  } else {
-    result.setTime(result.getTime() - DAY_DURATION * day);
-  }
-
-  return result;
-};
-
-var getWeekNumber = exports.getWeekNumber = function getWeekNumber(src) {
-  var date = new Date(src.getTime());
-  date.setHours(0, 0, 0, 0);
-  // Thursday in current week decides the year.
-  date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
-  // January 4 is always in week 1.
-  var week1 = new Date(date.getFullYear(), 0, 4);
-  // Adjust to Thursday in week 1 and count number of weeks from date to week 1.
-  return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
-};
-
-var getRangeHours = exports.getRangeHours = function getRangeHours(ranges) {
-  var hours = [];
-  var disabledHours = [];
-
-  (ranges || []).forEach(function (range) {
-    var value = range.map(function (date) {
-      return date.getHours();
-    });
-
-    disabledHours = disabledHours.concat(newArray(value[0], value[1]));
-  });
-
-  if (disabledHours.length) {
-    for (var i = 0; i < 24; i++) {
-      hours[i] = disabledHours.indexOf(i) === -1;
-    }
-  } else {
-    for (var _i = 0; _i < 24; _i++) {
-      hours[_i] = false;
-    }
-  }
-
-  return hours;
-};
-
-var range = exports.range = function range(n) {
-  // see https://stackoverflow.com/questions/3746725/create-a-javascript-array-containing-1-n
-  return Array.apply(null, { length: n }).map(function (_, n) {
-    return n;
-  });
-};
-
-var modifyDate = exports.modifyDate = function modifyDate(date, y, m, d) {
-  return new Date(y, m, d, date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
-};
-
-var modifyTime = exports.modifyTime = function modifyTime(date, h, m, s) {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), h, m, s, date.getMilliseconds());
-};
-
-var clearTime = exports.clearTime = function clearTime(date) {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-};
-
-var clearMilliseconds = exports.clearMilliseconds = function clearMilliseconds(date) {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), 0);
-};
-
-var limitTimeRange = exports.limitTimeRange = function limitTimeRange(date, ranges) {
-  var format = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'HH:mm:ss';
-
-  // TODO: refactory a more elegant solution
-  if (ranges.length === 0) return date;
-  var normalizeDate = function normalizeDate(date) {
-    return _date2.default.parse(_date2.default.format(date, format), format);
-  };
-  var ndate = normalizeDate(date);
-  var nranges = ranges.map(function (range) {
-    return range.map(normalizeDate);
-  });
-  if (nranges.some(function (nrange) {
-    return ndate >= nrange[0] && ndate <= nrange[1];
-  })) return date;
-
-  var minDate = nranges[0][0];
-  var maxDate = nranges[0][0];
-
-  nranges.forEach(function (nrange) {
-    minDate = new Date(Math.min(nrange[0], minDate));
-    maxDate = new Date(Math.max(nrange[1], minDate));
-  });
-
-  var ret = ndate < minDate ? minDate : maxDate;
-  // preserve Year/Month/Date
-  return modifyDate(ret, date.getFullYear(), date.getMonth(), date.getDate());
-};
-
-var timeWithinRange = exports.timeWithinRange = function timeWithinRange(date, selectableRange, format) {
-  var limitedDate = limitTimeRange(date, selectableRange, format);
-  return limitedDate.getTime() === date.getTime();
-};
-
-var prevMonth = exports.prevMonth = function prevMonth(date) {
-  var year = date.getFullYear();
-  var month = date.getMonth();
-  if (month === 0) {
-    year -= 1;
-    month = 11;
-  } else {
-    month -= 1;
-  }
-  var monthDate = Math.min(date.getDate(), getDayCountOfMonth(year, month));
-  return modifyDate(date, year, month, monthDate);
-};
-
-var nextMonth = exports.nextMonth = function nextMonth(date) {
-  var year = date.getFullYear();
-  var month = date.getMonth();
-  if (month === 11) {
-    year += 1;
-    month = 0;
-  } else {
-    month += 1;
-  }
-  var monthDate = Math.min(date.getDate(), getDayCountOfMonth(year, month));
-  return modifyDate(date, year, month, monthDate);
-};
-
-// check for leap year Feburary
-var prevYear = exports.prevYear = function prevYear(date) {
-  var amount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-
-  var year = date.getFullYear() - amount;
-  var month = date.getMonth();
-  var monthDate = Math.min(date.getDate(), getDayCountOfMonth(year, month));
-  return modifyDate(date, year, month, monthDate);
-};
-
-var nextYear = exports.nextYear = function nextYear(date) {
-  var amount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-
-  var year = date.getFullYear() + amount;
-  var month = date.getMonth();
-  var monthDate = Math.min(date.getDate(), getDayCountOfMonth(year, month));
-  return modifyDate(date, year, month, monthDate);
-};
-
-// {prev, next} Date works for daylight saving time
-// add / subtract one day's duration does not work
-var prevDate = exports.prevDate = function prevDate(date) {
-  var amount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate() - amount);
-};
-
-var nextDate = exports.nextDate = function nextDate(date) {
-  var amount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + amount);
-};
 
 /***/ })
 

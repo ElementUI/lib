@@ -176,6 +176,13 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
+/***/ 19:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/button");
+
+/***/ }),
+
 /***/ 2:
 /***/ (function(module, exports) {
 
@@ -272,7 +279,7 @@ var _pickerDropdown = __webpack_require__(425);
 
 var _pickerDropdown2 = _interopRequireDefault(_pickerDropdown);
 
-var _clickoutside = __webpack_require__(7);
+var _clickoutside = __webpack_require__(8);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -855,46 +862,11 @@ var _input = __webpack_require__(5);
 
 var _input2 = _interopRequireDefault(_input);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _button = __webpack_require__(19);
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+var _button2 = _interopRequireDefault(_button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
   name: 'el-color-picker-dropdown',
@@ -905,7 +877,8 @@ exports.default = {
     SvPanel: _svPanel2.default,
     HueSlider: _hueSlider2.default,
     AlphaSlider: _alphaSlider2.default,
-    ElInput: _input2.default
+    ElInput: _input2.default,
+    ElButton: _button2.default
   },
 
   props: {
@@ -993,7 +966,44 @@ exports.default = {
       this.customInput = val;
     }
   }
-};
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 
@@ -1040,7 +1050,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _draggable = __webpack_require__(44);
+var _draggable = __webpack_require__(45);
 
 var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1208,7 +1218,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _draggable = __webpack_require__(44);
+var _draggable = __webpack_require__(45);
 
 var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1395,7 +1405,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _draggable = __webpack_require__(44);
+var _draggable = __webpack_require__(45);
 
 var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1578,7 +1588,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 44:
+/***/ 45:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1648,7 +1658,7 @@ module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ }),
 
-/***/ 7:
+/***/ 8:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/clickoutside");

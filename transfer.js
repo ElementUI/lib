@@ -183,7 +183,7 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 14:
+/***/ 15:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/checkbox");
@@ -204,7 +204,7 @@ module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ }),
 
-/***/ 38:
+/***/ 39:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/checkbox-group");
@@ -301,54 +301,16 @@ var _transferPanel = __webpack_require__(442);
 
 var _transferPanel2 = _interopRequireDefault(_transferPanel);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _migrating = __webpack_require__(7);
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+var _migrating2 = _interopRequireDefault(_migrating);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
   name: 'ElTransfer',
 
-  mixins: [_emitter2.default, _locale2.default],
+  mixins: [_emitter2.default, _locale2.default, _migrating2.default],
 
   components: {
     TransferPanel: _transferPanel2.default,
@@ -452,6 +414,13 @@ exports.default = {
   },
 
   methods: {
+    getMigratingConfig: function getMigratingConfig() {
+      return {
+        props: {
+          'footer-format': 'footer-format is renamed to format.'
+        }
+      };
+    },
     onSourceCheckedChange: function onSourceCheckedChange(val) {
       this.leftChecked = val;
     },
@@ -482,7 +451,47 @@ exports.default = {
       this.$emit('change', currentValue, 'right', this.leftChecked);
     }
   }
-};
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 
@@ -529,11 +538,11 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _checkboxGroup = __webpack_require__(38);
+var _checkboxGroup = __webpack_require__(39);
 
 var _checkboxGroup2 = _interopRequireDefault(_checkboxGroup);
 
-var _checkbox = __webpack_require__(14);
+var _checkbox = __webpack_require__(15);
 
 var _checkbox2 = _interopRequireDefault(_checkbox);
 
@@ -820,6 +829,13 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/input");
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ })
 

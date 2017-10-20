@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 87);
+/******/ 	return __webpack_require__(__webpack_require__.s = 88);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -190,7 +190,7 @@ module.exports = require("element-ui/lib/utils/dom");
 
 /***/ }),
 
-/***/ 45:
+/***/ 46:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -322,15 +322,22 @@ exports.default = aria.Utils;
 
 /***/ }),
 
-/***/ 87:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 7:
+/***/ (function(module, exports) {
 
-module.exports = __webpack_require__(88);
-
+module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }),
 
 /***/ 88:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(89);
+
+
+/***/ }),
+
+/***/ 89:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -338,7 +345,7 @@ module.exports = __webpack_require__(88);
 
 exports.__esModule = true;
 
-var _menu = __webpack_require__(89);
+var _menu = __webpack_require__(90);
 
 var _menu2 = _interopRequireDefault(_menu);
 
@@ -353,14 +360,14 @@ exports.default = _menu2.default;
 
 /***/ }),
 
-/***/ 89:
+/***/ 90:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_menu_vue__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_menu_vue__ = __webpack_require__(91);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_menu_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_menu_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3cf4208e_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_menu_vue__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3cf4208e_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_menu_vue__ = __webpack_require__(95);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -388,7 +395,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 90:
+/***/ 91:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -400,7 +407,11 @@ var _emitter = __webpack_require__(1);
 
 var _emitter2 = _interopRequireDefault(_emitter);
 
-var _ariaMenubar = __webpack_require__(91);
+var _migrating = __webpack_require__(7);
+
+var _migrating2 = _interopRequireDefault(_migrating);
+
+var _ariaMenubar = __webpack_require__(92);
 
 var _ariaMenubar2 = _interopRequireDefault(_ariaMenubar);
 
@@ -408,12 +419,28 @@ var _dom = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 exports.default = {
   name: 'ElMenu',
 
   componentName: 'ElMenu',
 
-  mixins: [_emitter2.default],
+  mixins: [_emitter2.default, _migrating2.default],
 
   provide: function provide() {
     return {
@@ -533,6 +560,13 @@ exports.default = {
     }
   },
   methods: {
+    getMigratingConfig: function getMigratingConfig() {
+      return {
+        props: {
+          'theme': 'theme is removed.'
+        }
+      };
+    },
     getColorChannels: function getColorChannels(color) {
       color = color.replace('#', '');
       if (/^[1-9a-fA-F]{3}$/.test(color)) {
@@ -599,7 +633,10 @@ exports.default = {
       this.openedMenus.push(index);
     },
     closeMenu: function closeMenu(index) {
-      this.openedMenus.splice(this.openedMenus.indexOf(index), 1);
+      var i = this.openedMenus.indexOf(index);
+      if (i !== -1) {
+        this.openedMenus.splice(i, 1);
+      }
     },
     handleSubmenuClick: function handleSubmenuClick(submenu) {
       var index = submenu.index,
@@ -676,25 +713,11 @@ exports.default = {
       new _ariaMenubar2.default(this.$el); // eslint-disable-line
     }
   }
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+};
 
 /***/ }),
 
-/***/ 91:
+/***/ 92:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -702,7 +725,7 @@ exports.default = {
 
 exports.__esModule = true;
 
-var _ariaMenuitem = __webpack_require__(92);
+var _ariaMenuitem = __webpack_require__(93);
 
 var _ariaMenuitem2 = _interopRequireDefault(_ariaMenuitem);
 
@@ -725,7 +748,7 @@ exports.default = Menu;
 
 /***/ }),
 
-/***/ 92:
+/***/ 93:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -733,11 +756,11 @@ exports.default = Menu;
 
 exports.__esModule = true;
 
-var _ariaUtils = __webpack_require__(45);
+var _ariaUtils = __webpack_require__(46);
 
 var _ariaUtils2 = _interopRequireDefault(_ariaUtils);
 
-var _ariaSubmenu = __webpack_require__(93);
+var _ariaSubmenu = __webpack_require__(94);
 
 var _ariaSubmenu2 = _interopRequireDefault(_ariaSubmenu);
 
@@ -794,7 +817,7 @@ exports.default = MenuItem;
 
 /***/ }),
 
-/***/ 93:
+/***/ 94:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -802,7 +825,7 @@ exports.default = MenuItem;
 
 exports.__esModule = true;
 
-var _ariaUtils = __webpack_require__(45);
+var _ariaUtils = __webpack_require__(46);
 
 var _ariaUtils2 = _interopRequireDefault(_ariaUtils);
 
@@ -870,7 +893,7 @@ exports.default = SubMenu;
 
 /***/ }),
 
-/***/ 94:
+/***/ 95:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

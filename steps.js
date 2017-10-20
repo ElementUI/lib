@@ -249,20 +249,17 @@ var Component = normalizeComponent(
 
 
 exports.__esModule = true;
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+var _migrating = __webpack_require__(7);
+
+var _migrating2 = _interopRequireDefault(_migrating);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
   name: 'ElSteps',
+
+  mixins: [_migrating2.default],
 
   props: {
     space: [Number, String],
@@ -272,7 +269,6 @@ exports.default = {
       default: 'horizontal'
     },
     alignCenter: Boolean,
-    center: Boolean,
     simple: Boolean,
     finishStatus: {
       type: String,
@@ -292,27 +288,37 @@ exports.default = {
   },
 
 
+  methods: {
+    getMigratingConfig: function getMigratingConfig() {
+      return {
+        props: {
+          'center': 'center is removed.'
+        }
+      };
+    }
+  },
+
   watch: {
     active: function active(newVal, oldVal) {
       this.$emit('change', newVal, oldVal);
     },
     steps: function steps(_steps) {
-      var _this = this;
-
       _steps.forEach(function (child, index) {
         child.index = index;
       });
-      if (this.center) {
-        (function () {
-          var len = _steps.length;
-          _this.$nextTick(function () {
-            _this.stepOffset = _steps[len - 1].$el.getBoundingClientRect().width / (len - 1);
-          });
-        })();
-      }
     }
   }
-};
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 
@@ -327,6 +333,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ })
 
