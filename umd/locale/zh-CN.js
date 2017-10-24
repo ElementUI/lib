@@ -95,7 +95,6 @@
         error: '输入的数据不合法!'
       },
       upload: {
-        deleteTip: '按delete键可删除',
         delete: '删除',
         preview: '查看图片',
         continue: '继续上传'

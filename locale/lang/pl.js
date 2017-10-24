@@ -81,7 +81,6 @@ exports.default = {
       error: 'Wiadomość zawiera niedozwolone znaki'
     },
     upload: {
-      deleteTip: 'press delete to remove', // to be translated
       delete: 'Kasuj',
       preview: 'Podgląd',
       continue: 'Kontynuuj'

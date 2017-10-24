@@ -81,7 +81,6 @@ exports.default = {
       error: 'Недопустимый ввод данных'
     },
     upload: {
-      deleteTip: 'press delete to remove', // to be translated
       delete: 'Удалить',
       preview: 'Превью',
       continue: 'Продолжить'

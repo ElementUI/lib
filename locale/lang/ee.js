@@ -81,7 +81,6 @@ exports.default = {
       error: 'Vigane sisend'
     },
     upload: {
-      deleteTip: 'press delete to remove', // to be translated
       delete: 'Kustuta',
       preview: 'Eelvaate',
       continue: 'Jätka'

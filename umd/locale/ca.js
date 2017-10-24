@@ -94,7 +94,6 @@
         error: 'Entrada invàlida'
       },
       upload: {
-        deleteTip: 'press delete to remove', // to be translated
         delete: 'Eliminar',
         preview: 'Vista Prèvia',
         continue: 'Continuar'

@@ -42,7 +42,3 @@ var getValueByPath = exports.getValueByPath = function getValueByPath(object, pr
   }
   return result;
 };
-
-var generateId = exports.generateId = function generateId() {
-  return Math.floor(Math.random() * 10000);
-};

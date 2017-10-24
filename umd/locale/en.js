@@ -95,7 +95,6 @@
         error: 'Illegal input'
       },
       upload: {
-        deleteTip: 'press delete to remove',
         delete: 'Delete',
         preview: 'Preview',
         continue: 'Continue'

@@ -95,7 +95,6 @@
         error: 'Masukan ilegal'
       },
       upload: {
-        deleteTip: 'press delete to remove', // to be translated
         delete: 'Hapus',
         preview: 'Pratinjau',
         continue: 'Lanjutkan'

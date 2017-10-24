@@ -80,7 +80,6 @@ exports.default = {
       error: 'Ugyldig input'
     },
     upload: {
-      deleteTip: 'press delete to remove', // to be translated
       delete: 'Slett',
       preview: 'Forhåndsvisning',
       continue: 'Fortsett'
