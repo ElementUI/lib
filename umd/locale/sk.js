@@ -97,6 +97,7 @@
         error: 'Neplatný vstup'
       },
       upload: {
+        deleteTip: 'press delete to remove', // to be translated
         delete: 'Vymazať',
         preview: 'Prehliadať',
         continue: 'Pokračovať'

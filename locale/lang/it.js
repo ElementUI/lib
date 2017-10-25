@@ -80,6 +80,7 @@ exports.default = {
       error: 'Input non valido'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'Cancella',
       preview: 'Anteprima',
       continue: 'Continua'

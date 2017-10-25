@@ -95,6 +95,7 @@
         error: 'Nederīga ievade'
       },
       upload: {
+        deleteTip: 'press delete to remove', // to be translated
         delete: 'Dzēst',
         preview: 'Priekšskatīt',
         continue: 'Turpināt'

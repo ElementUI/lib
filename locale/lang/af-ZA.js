@@ -81,6 +81,7 @@ exports.default = {
       error: 'Ongeldige invoer'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'Verwyder',
       preview: 'Voorskou',
       continue: 'Gaan voort'

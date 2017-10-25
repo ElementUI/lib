@@ -81,6 +81,7 @@ exports.default = {
       error: 'Άκυρη εισαγωγή'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'Διαγραφή',
       preview: 'Προεπισκόπηση',
       continue: 'Συνέχεια'

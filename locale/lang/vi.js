@@ -81,6 +81,7 @@ exports.default = {
       error: 'Dữ liệu không hợp lệ'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'Xóa',
       preview: 'Xem trước',
       continue: 'Tiếp tục'

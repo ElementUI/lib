@@ -95,6 +95,7 @@
         error: 'Nedovoljen vnos'
       },
       upload: {
+        deleteTip: 'press delete to remove', // to be translated
         delete: 'Izbriši',
         preview: 'Predogled',
         continue: 'Nadaljuj'
