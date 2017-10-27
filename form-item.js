@@ -414,6 +414,7 @@ exports.default = {
 
       var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _util.noop;
 
+      this.validateDisabled = false;
       var rules = this.getFilteredRule(trigger);
       if ((!rules || rules.length === 0) && !this._props.hasOwnProperty('required')) {
         callback();

@@ -56,6 +56,7 @@ function getPropByPath(obj, path, strict) {
   var keyArr = path.split('.');
   var i = 0;
   for (var len = keyArr.length; i < len - 1; ++i) {
+    if (!tempObj && !strict) break;
     var key = keyArr[i];
     if (key in tempObj) {
       tempObj = tempObj[key];
@@ -69,7 +70,7 @@ function getPropByPath(obj, path, strict) {
   return {
     o: tempObj,
     k: keyArr[i],
-    v: tempObj[keyArr[i]]
+    v: tempObj ? tempObj[keyArr[i]] : null
   };
 };
 
