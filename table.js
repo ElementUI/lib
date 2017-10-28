@@ -179,7 +179,7 @@ module.exports = function normalizeComponent (
 /***/ 10:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/util");
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ }),
 
@@ -866,7 +866,7 @@ var _debounce = __webpack_require__(13);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _merge = __webpack_require__(9);
+var _merge = __webpack_require__(10);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -2804,7 +2804,7 @@ var _locale = __webpack_require__(2);
 
 var _locale2 = _interopRequireDefault(_locale);
 
-var _clickoutside = __webpack_require__(8);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -3321,7 +3321,7 @@ exports.getRowIdentity = exports.mousewheel = exports.getColumnByCell = exports.
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _util = __webpack_require__(10);
+var _util = __webpack_require__(8);
 
 var getCell = exports.getCell = function getCell(event) {
   var cell = event.target;
@@ -3454,14 +3454,14 @@ module.exports = require("element-ui/lib/utils/vue-popper");
 /***/ 8:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/clickoutside");
+module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
 /***/ 9:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/merge");
+module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ })
 

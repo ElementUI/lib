@@ -66,13 +66,6 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
-/***/ 10:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/util");
-
-/***/ }),
-
 /***/ 19:
 /***/ (function(module, exports) {
 
@@ -139,7 +132,7 @@ var _scrollbarWidth = __webpack_require__(37);
 
 var _scrollbarWidth2 = _interopRequireDefault(_scrollbarWidth);
 
-var _util = __webpack_require__(10);
+var _util = __webpack_require__(8);
 
 var _bar = __webpack_require__(395);
 
@@ -443,6 +436,13 @@ function renderThumbStyle(_ref) {
 
   return style;
 };
+
+/***/ }),
+
+/***/ 8:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/util");
 
 /***/ })
 

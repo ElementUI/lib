@@ -183,6 +183,13 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
+/***/ 10:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
+
+/***/ }),
+
 /***/ 11:
 /***/ (function(module, exports) {
 
@@ -280,7 +287,7 @@ var _calcTextareaHeight = __webpack_require__(115);
 
 var _calcTextareaHeight2 = _interopRequireDefault(_calcTextareaHeight);
 
-var _merge = __webpack_require__(9);
+var _merge = __webpack_require__(10);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -661,13 +668,6 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/migrating");
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

@@ -183,13 +183,6 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 10:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/util");
-
-/***/ }),
-
 /***/ 11:
 /***/ (function(module, exports) {
 
@@ -422,7 +415,7 @@ var _debounce = __webpack_require__(13);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _clickoutside = __webpack_require__(8);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -436,7 +429,7 @@ var _scrollIntoView = __webpack_require__(24);
 
 var _scrollIntoView2 = _interopRequireDefault(_scrollIntoView);
 
-var _util = __webpack_require__(10);
+var _util = __webpack_require__(8);
 
 var _navigationMixin = __webpack_require__(164);
 
@@ -448,18 +441,6 @@ var sizeMap = {
   'medium': 36,
   'small': 32,
   'mini': 28
-};
-
-var valueEquals = function valueEquals(a, b) {
-  // see: https://stackoverflow.com/questions/3115982/how-to-check-if-two-arrays-are-equal-with-javascript
-  if (a === b) return true;
-  if (!(a instanceof Array)) return false;
-  if (!(b instanceof Array)) return false;
-  if (a.length !== b.length) return false;
-  for (var i = 0; i !== a.length; ++i) {
-    if (a[i] !== b[i]) return false;
-  }
-  return true;
 };
 
 exports.default = {
@@ -742,7 +723,7 @@ exports.default = {
       });
     },
     emitChange: function emitChange(val) {
-      if (!valueEquals(this.value, val)) {
+      if (!(0, _util.valueEquals)(this.value, val)) {
         this.$emit('change', val);
         this.dispatch('ElFormItem', 'el.form.change', val);
       }
@@ -1383,7 +1364,7 @@ var _emitter = __webpack_require__(1);
 
 var _emitter2 = _interopRequireDefault(_emitter);
 
-var _util = __webpack_require__(10);
+var _util = __webpack_require__(8);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1553,6 +1534,13 @@ module.exports = require("element-ui/lib/utils/vue-popper");
 /***/ }),
 
 /***/ 8:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/util");
+
+/***/ }),
+
+/***/ 9:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/clickoutside");

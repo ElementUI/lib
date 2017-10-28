@@ -69,7 +69,7 @@ module.exports =
 /***/ 10:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/util");
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ }),
 
@@ -127,11 +127,11 @@ var _tag = __webpack_require__(23);
 
 var _tag2 = _interopRequireDefault(_tag);
 
-var _merge = __webpack_require__(9);
+var _merge = __webpack_require__(10);
 
 var _merge2 = _interopRequireDefault(_merge);
 
-var _util = __webpack_require__(10);
+var _util = __webpack_require__(8);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -585,10 +585,10 @@ module.exports = require("element-ui/lib/tag");
 
 /***/ }),
 
-/***/ 9:
+/***/ 8:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/merge");
+module.exports = require("element-ui/lib/utils/util");
 
 /***/ })
 

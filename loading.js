@@ -176,6 +176,13 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
+/***/ 10:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
+
+/***/ }),
+
 /***/ 3:
 /***/ (function(module, exports) {
 
@@ -431,7 +438,7 @@ var _loading2 = _interopRequireDefault(_loading);
 
 var _dom = __webpack_require__(3);
 
-var _merge = __webpack_require__(9);
+var _merge = __webpack_require__(10);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -581,13 +588,6 @@ var Component = normalizeComponent(
 
 /* harmony default export */ __webpack_exports__["default"] = (Component.exports);
 
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

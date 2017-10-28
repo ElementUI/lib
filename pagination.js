@@ -249,6 +249,8 @@ var _locale = __webpack_require__(2);
 
 var _locale2 = _interopRequireDefault(_locale);
 
+var _util = __webpack_require__(8);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
@@ -450,9 +452,10 @@ exports.default = {
       watch: {
         pageSizes: {
           immediate: true,
-          handler: function handler(value) {
-            if (Array.isArray(value)) {
-              this.$parent.internalPageSize = value.indexOf(this.$parent.pageSize) > -1 ? this.$parent.pageSize : this.pageSizes[0];
+          handler: function handler(newVal, oldVal) {
+            if ((0, _util.valueEquals)(newVal, oldVal)) return;
+            if (Array.isArray(newVal)) {
+              this.$parent.internalPageSize = newVal.indexOf(this.$parent.pageSize) > -1 ? this.$parent.pageSize : this.pageSizes[0];
             }
           }
         }
@@ -493,8 +496,7 @@ exports.default = {
 
       components: {
         ElSelect: _select2.default,
-        ElOption: _option2.default,
-        ElInput: _input2.default
+        ElOption: _option2.default
       },
 
       methods: {
@@ -516,6 +518,8 @@ exports.default = {
         };
       },
 
+
+      components: { ElInput: _input2.default },
 
       methods: {
         handleFocus: function handleFocus(event) {
@@ -907,6 +911,13 @@ module.exports = require("element-ui/lib/select");
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/option");
+
+/***/ }),
+
+/***/ 8:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/util");
 
 /***/ })
 
