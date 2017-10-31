@@ -575,6 +575,7 @@ var TreeStore = function () {
           node.visible = allHidden === false;
         }
       }
+      if (!value) return;
 
       if (node.visible && !node.isLeaf) node.expand();
     };
@@ -1611,7 +1612,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     'is-expanded': _vm.expanded,
     'is-current': _vm.tree.store.currentNode === _vm.node,
     'is-hidden': !_vm.node.visible
-  },on:{"click":function($event){$event.stopPropagation();_vm.handleClick($event)}}},[_c('div',{staticClass:"el-tree-node__content",style:({ 'padding-left': (_vm.node.level - 1) * _vm.tree.indent + 'px' })},[_c('span',{staticClass:"el-tree-node__expand-icon",class:{ 'is-leaf': _vm.node.isLeaf, expanded: !_vm.node.isLeaf && _vm.expanded },on:{"click":function($event){$event.stopPropagation();_vm.handleExpandIconClick($event)}}}),(_vm.showCheckbox)?_c('el-checkbox',{attrs:{"indeterminate":_vm.node.indeterminate,"disabled":!!_vm.node.disabled},on:{"change":_vm.handleCheckChange},nativeOn:{"click":function($event){$event.stopPropagation();}},model:{value:(_vm.node.checked),callback:function ($$v) {_vm.$set(_vm.node, "checked", $$v)},expression:"node.checked"}}):_vm._e(),(_vm.node.loading)?_c('span',{staticClass:"el-tree-node__loading-icon el-icon-loading"}):_vm._e(),_c('node-content',{attrs:{"node":_vm.node}})],1),_c('el-collapse-transition',[(_vm.childNodeRendered)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.expanded),expression:"expanded"}],staticClass:"el-tree-node__children"},_vm._l((_vm.node.childNodes),function(child){return _c('el-tree-node',{key:_vm.getNodeKey(child),attrs:{"render-content":_vm.renderContent,"node":child},on:{"node-expand":_vm.handleChildNodeExpand}})})):_vm._e()])],1)}
+  },on:{"click":function($event){$event.stopPropagation();_vm.handleClick($event)}}},[_c('div',{staticClass:"el-tree-node__content",style:({ 'padding-left': (_vm.node.level - 1) * _vm.tree.indent + 'px' })},[_c('span',{staticClass:"el-tree-node__expand-icon el-icon-caret-right",class:{ 'is-leaf': _vm.node.isLeaf, expanded: !_vm.node.isLeaf && _vm.expanded },on:{"click":function($event){$event.stopPropagation();_vm.handleExpandIconClick($event)}}}),(_vm.showCheckbox)?_c('el-checkbox',{attrs:{"indeterminate":_vm.node.indeterminate,"disabled":!!_vm.node.disabled},on:{"change":_vm.handleCheckChange},nativeOn:{"click":function($event){$event.stopPropagation();}},model:{value:(_vm.node.checked),callback:function ($$v) {_vm.$set(_vm.node, "checked", $$v)},expression:"node.checked"}}):_vm._e(),(_vm.node.loading)?_c('span',{staticClass:"el-tree-node__loading-icon el-icon-loading"}):_vm._e(),_c('node-content',{attrs:{"node":_vm.node}})],1),_c('el-collapse-transition',[(_vm.childNodeRendered)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.expanded),expression:"expanded"}],staticClass:"el-tree-node__children"},_vm._l((_vm.node.childNodes),function(child){return _c('el-tree-node',{key:_vm.getNodeKey(child),attrs:{"render-content":_vm.renderContent,"node":child},on:{"node-expand":_vm.handleChildNodeExpand}})})):_vm._e()])],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

@@ -284,14 +284,9 @@ exports.install = function (Vue) {
       if (el.domVisible) {
         el.instance.$on('after-leave', function (_) {
           el.domVisible = false;
-          if (binding.modifiers.fullscreen && el.originalOverflow !== 'hidden') {
-            document.body.style.overflow = el.originalOverflow;
-          }
-          if (binding.modifiers.fullscreen || binding.modifiers.body) {
-            document.body.style.position = el.originalPosition;
-          } else {
-            el.style.position = el.originalPosition;
-          }
+          var target = binding.modifiers.fullscreen || binding.modifiers.body ? document.body : el;
+          (0, _dom.removeClass)(target, 'el-loading-parent--relative');
+          (0, _dom.removeClass)(target, 'el-loading-parent--hidden');
         });
         el.instance.visible = false;
       }
@@ -304,10 +299,10 @@ exports.install = function (Vue) {
       });
 
       if (el.originalPosition !== 'absolute' && el.originalPosition !== 'fixed') {
-        parent.style.position = 'relative';
+        (0, _dom.addClass)(parent, 'el-loading-parent--relative');
       }
       if (binding.modifiers.fullscreen && binding.modifiers.lock) {
-        parent.style.overflow = 'hidden';
+        (0, _dom.addClass)(parent, 'el-loading-parent--hidden');
       }
       el.domVisible = true;
 
@@ -466,14 +461,9 @@ LoadingConstructor.prototype.close = function () {
     fullscreenLoading = undefined;
   }
   this.$on('after-leave', function (_) {
-    if (_this.fullscreen && _this.originalOverflow !== 'hidden') {
-      document.body.style.overflow = _this.originalOverflow;
-    }
-    if (_this.fullscreen || _this.body) {
-      document.body.style.position = _this.originalPosition;
-    } else {
-      _this.target.style.position = _this.originalPosition;
-    }
+    var target = _this.fullscreen || _this.body ? document.body : _this.target;
+    (0, _dom.removeClass)(target, 'el-loading-parent--relative');
+    (0, _dom.removeClass)(target, 'el-loading-parent--hidden');
     if (_this.$el && _this.$el.parentNode) {
       _this.$el.parentNode.removeChild(_this.$el);
     }
@@ -530,10 +520,10 @@ var Loading = function Loading() {
 
   addStyle(options, parent, instance);
   if (instance.originalPosition !== 'absolute' && instance.originalPosition !== 'fixed') {
-    parent.style.position = 'relative';
+    (0, _dom.addClass)(parent, 'el-loading-parent--relative');
   }
   if (options.fullscreen && options.lock) {
-    parent.style.overflow = 'hidden';
+    (0, _dom.addClass)(parent, 'el-loading-parent--hidden');
   }
   parent.appendChild(instance.$el);
   _vue2.default.nextTick(function () {

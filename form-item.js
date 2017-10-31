@@ -289,7 +289,10 @@ exports.default = {
     label: String,
     labelWidth: String,
     prop: String,
-    required: Boolean,
+    required: {
+      type: Boolean,
+      default: undefined
+    },
     rules: [Object, Array],
     error: String,
     validateStatus: String,
@@ -409,7 +412,7 @@ exports.default = {
 
       this.validateDisabled = false;
       var rules = this.getFilteredRule(trigger);
-      if ((!rules || rules.length === 0) && !this._props.hasOwnProperty('required')) {
+      if ((!rules || rules.length === 0) && this.required === undefined) {
         callback();
         return true;
       }
@@ -460,7 +463,7 @@ exports.default = {
     getRules: function getRules() {
       var formRules = this.form.rules;
       var selfRules = this.rules;
-      var requiredRule = this._props.hasOwnProperty('required') ? { required: !!this.required } : [];
+      var requiredRule = this.required !== undefined ? { required: !!this.required } : [];
 
       formRules = formRules ? formRules[this.prop] : [];
 
@@ -499,7 +502,7 @@ exports.default = {
 
       var rules = this.getRules();
 
-      if (rules.length || this._props.hasOwnProperty('required')) {
+      if (rules.length || this.required !== undefined) {
         this.$on('el.form.blur', this.onFieldBlur);
         this.$on('el.form.change', this.onFieldChange);
       }

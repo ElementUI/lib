@@ -657,6 +657,7 @@ exports.default = {
       this.updateScrollY();
       this.layout.update();
       this.$nextTick(function () {
+        if (_this2.destroyed) return;
         if (_this2.height) {
           _this2.layout.setHeight(_this2.height);
         } else if (_this2.maxHeight) {
@@ -668,7 +669,7 @@ exports.default = {
           _this2.isHidden = _this2.$el.clientWidth === 0;
           if (_this2.isHidden && _this2.layout.bodyWidth) {
             setTimeout(function () {
-              return _this2.doLayout();
+              return _this2.debouncedLayout();
             });
           }
         }
@@ -803,6 +804,7 @@ exports.default = {
   },
 
   destroyed: function destroyed() {
+    this.destroyed = true;
     if (this.windowResizeListener) (0, _resizeEvent.removeResizeListener)(this.$el, this.windowResizeListener);
   },
   mounted: function mounted() {
@@ -843,7 +845,8 @@ exports.default = {
       resizeProxyVisible: false,
       // 是否拥有多级表头
       isGroup: false,
-      scrollPosition: 'left'
+      scrollPosition: 'left',
+      destroyed: false
     };
   }
 };
@@ -879,7 +882,7 @@ var sortData = function sortData(data, states) {
   if (!sortingColumn || typeof sortingColumn.sortable === 'string') {
     return data;
   }
-  return (0, _util.orderBy)(data, states.sortProp, states.sortOrder, sortingColumn.sortMethod);
+  return (0, _util.orderBy)(data, states.sortProp, states.sortOrder, sortingColumn.sortMethod, sortingColumn.sortBy);
 };
 
 var getKeysMap = function getKeysMap(array, rowKey) {
@@ -3340,27 +3343,62 @@ var isObject = function isObject(obj) {
   return obj !== null && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object';
 };
 
-var orderBy = exports.orderBy = function orderBy(array, sortKey, reverse, sortMethod) {
-  if (typeof reverse === 'string') {
-    reverse = reverse === 'descending' ? -1 : 1;
-  }
-  if (!sortKey && !sortMethod) {
+var orderBy = exports.orderBy = function orderBy(array, sortKey, reverse, sortMethod, sortBy) {
+  if (!sortKey && !sortMethod && (!sortBy || Array.isArray(sortBy) && !sortBy.length)) {
     return array;
   }
-  var order = reverse && reverse < 0 ? -1 : 1;
-
-  // sort on a copy to avoid mutating original array
-  return array.slice().sort(sortMethod ? function (a, b) {
-    var result = sortMethod(a, b);
-    return result === 0 ? 0 : result > 0 ? order : -order;
-  } : function (a, b) {
-    if (sortKey !== '$key') {
-      if (isObject(a) && '$value' in a) a = a.$value;
-      if (isObject(b) && '$value' in b) b = b.$value;
+  if (typeof reverse === 'string') {
+    reverse = reverse === 'descending' ? -1 : 1;
+  } else {
+    reverse = reverse && reverse < 0 ? -1 : 1;
+  }
+  var getKey = sortMethod ? null : function (value, index) {
+    if (sortBy) {
+      if (!Array.isArray(sortBy)) {
+        sortBy = [sortBy];
+      }
+      return sortBy.map(function (by) {
+        if (typeof by === 'string') {
+          return (0, _util.getValueByPath)(value, by);
+        } else {
+          return by(value, index, array);
+        }
+      });
     }
-    a = isObject(a) ? (0, _util.getValueByPath)(a, sortKey) : a;
-    b = isObject(b) ? (0, _util.getValueByPath)(b, sortKey) : b;
-    return a === b ? 0 : a > b ? order : -order;
+    if (sortKey !== '$key') {
+      if (isObject(value) && '$value' in value) value = value.$value;
+    }
+    return [isObject(value) ? (0, _util.getValueByPath)(value, sortKey) : value];
+  };
+  var compare = function compare(a, b) {
+    if (sortMethod) {
+      return sortMethod(a.value, b.value);
+    }
+    for (var i = 0, len = a.key.length; i < len; i++) {
+      if (a.key[i] < b.key[i]) {
+        return -1;
+      }
+      if (a.key[i] > b.key[i]) {
+        return 1;
+      }
+    }
+    return 0;
+  };
+  return array.map(function (value, index) {
+    return {
+      value: value,
+      index: index,
+      key: getKey ? getKey(value, index) : null
+    };
+  }).sort(function (a, b) {
+    var order = compare(a, b);
+    if (!order) {
+      // make stable https://en.wikipedia.org/wiki/Sorting_algorithm#Stability
+      order = a.index - b.index;
+    }
+    return order * reverse;
+  }).map(function (item) {
+    return item.value;
   });
 };
 

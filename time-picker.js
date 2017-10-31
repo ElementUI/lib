@@ -506,7 +506,8 @@ exports.default = {
       interval = null;
     };
 
-    (0, _dom.on)(el, 'mousedown', function () {
+    (0, _dom.on)(el, 'mousedown', function (e) {
+      if (e.button !== 0) return;
       startTime = new Date();
       (0, _dom.once)(document, 'mouseup', clear);
       clearInterval(interval);
@@ -1117,8 +1118,14 @@ var TYPE_VALUE_RESOLVER_MAP = {
   },
   week: {
     formatter: function formatter(value, format) {
-      var date = (0, _util.formatDate)(value, format);
       var week = (0, _util.getWeekNumber)(value);
+      var month = value.getMonth();
+      var trueDate = new Date(value);
+      if (week === 1 && month === 11) {
+        trueDate.setHours(0, 0, 0, 0);
+        trueDate.setDate(trueDate.getDate() + 3 - (trueDate.getDay() + 6) % 7);
+      }
+      var date = (0, _util.formatDate)(trueDate, format);
 
       date = /WW/.test(date) ? date.replace(/WW/, week < 10 ? '0' + week : week) : date.replace(/W/, week);
       return date;

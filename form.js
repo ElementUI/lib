@@ -330,11 +330,25 @@ exports.default = {
       });
     },
     validate: function validate(callback) {
+      var _this2 = this;
+
       if (!this.model) {
         console.warn('[Element Warn][Form]model is required for validate to work!');
         return;
       }
+
+      var promise = void 0;
+      // if no callback, return promise
+      if (typeof callback !== 'function' && window.Promise) {
+        promise = new window.Promise(function (resolve, reject) {
+          callback = function callback(valid) {
+            valid ? resolve(valid) : reject(valid);
+          };
+        });
+      }
+
       var valid = true;
+      var count = 0;
       // 如果需要验证的fields为空，调用验证时立刻返回callback
       if (this.fields.length === 0 && callback) {
         callback(true);
@@ -344,13 +358,14 @@ exports.default = {
           if (errors) {
             valid = false;
           }
+          if (typeof callback === 'function' && ++count === _this2.fields.length) {
+            callback(valid);
+          }
         });
       });
 
-      if (typeof callback === 'function') {
-        callback(valid);
-      } else if (window.Promise) {
-        return Promise[valid ? 'resolve' : 'reject'](valid); // eslint-disable-line
+      if (promise) {
+        return promise;
       }
     },
     validateField: function validateField(prop, cb) {

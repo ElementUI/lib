@@ -367,9 +367,15 @@ exports.default = {
     handleChange: function handleChange(ev) {
       var _this = this;
 
+      if (this.isLimitExceeded) return;
+      var value = void 0;
+      if (ev.target.checked) {
+        value = this.trueLabel === undefined ? true : this.trueLabel;
+      } else {
+        value = this.falseLabel === undefined ? false : this.falseLabel;
+      }
+      this.$emit('change', value, ev);
       this.$nextTick(function () {
-        if (_this.isLimitExceeded) return;
-        _this.$emit('change', _this.model, ev);
         if (_this.isGroup) {
           _this.dispatch('ElCheckboxGroup', 'change', [_this._checkboxGroup.value]);
         }

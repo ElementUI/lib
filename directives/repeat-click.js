@@ -19,7 +19,8 @@ exports.default = {
       interval = null;
     };
 
-    (0, _dom.on)(el, 'mousedown', function () {
+    (0, _dom.on)(el, 'mousedown', function (e) {
+      if (e.button !== 0) return;
       startTime = new Date();
       (0, _dom.once)(document, 'mouseup', clear);
       clearInterval(interval);

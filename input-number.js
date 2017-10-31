@@ -484,6 +484,15 @@ exports.default = {
       if (value === '') {
         return;
       }
+
+      if (value.indexOf('.') === value.length - 1) {
+        return;
+      }
+
+      if (value.indexOf('-') === value.length - 1) {
+        return;
+      }
+
       var newVal = Number(value);
       if (!isNaN(newVal)) {
         this.setCurrentValue(newVal);
@@ -563,7 +572,8 @@ exports.default = {
       interval = null;
     };
 
-    (0, _dom.on)(el, 'mousedown', function () {
+    (0, _dom.on)(el, 'mousedown', function (e) {
+      if (e.button !== 0) return;
       startTime = new Date();
       (0, _dom.once)(document, 'mouseup', clear);
       clearInterval(interval);
