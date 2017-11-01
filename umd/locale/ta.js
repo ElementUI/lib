@@ -94,7 +94,6 @@
         error: 'பொருத்தாமில்லாத உள்ளீடு'
       },
       upload: {
-        deleteTip: 'press delete to remove', // to be translated
         delete: 'நீக்கு',
         preview: 'முன்னோட்டம் பார்',
         continue: 'தொடரு'
@@ -114,8 +113,8 @@
         noData: 'தரவு இல்லை',
         titles: ['பட்டியல் 1', 'பட்டியல் 2'],
         filterPlaceholder: 'சொல்லை உள்ளீடு செய்',
-        noCheckedFormat: '{total} items', // to be translated
-        hasCheckedFormat: '{checked}/{total} தேர்வு செய்யப்பட்டவைகள்'
+        noCheckedFormat: '{மொத்தம்} items',
+        hasCheckedFormat: '{தேர்வு செய்யப்பட்டவைகள்}/{மொத்தம்} தேர்வு செய்யப்பட்டவைகள்'
       }
     }
   };

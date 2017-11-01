@@ -95,7 +95,6 @@
         error: 'Невалидни данни'
       },
       upload: {
-        deleteTip: 'press delete to remove', // to be translated
         delete: 'Изтрий',
         preview: 'Прегледай',
         continue: 'Продължи'

@@ -95,7 +95,6 @@
         error: 'İllegal giriş'
       },
       upload: {
-        deleteTip: 'press delete to remove', // to be translated
         delete: 'Sil',
         preview: 'Görüntüle',
         continue: 'Devam'

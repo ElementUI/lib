@@ -95,7 +95,6 @@
         error: 'ورودی غیر مجاز'
       },
       upload: {
-        deleteTip: 'press delete to remove', // to be translated
         delete: 'حذف',
         preview: 'پیش‌نمایش',
         continue: 'ادهمه'

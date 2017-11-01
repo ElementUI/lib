@@ -80,7 +80,6 @@ exports.default = {
       error: 'Erreur'
     },
     upload: {
-      deleteTip: 'press delete to remove', // to be translated
       delete: 'Supprimer',
       preview: 'Aperçu',
       continue: 'Continuer'
