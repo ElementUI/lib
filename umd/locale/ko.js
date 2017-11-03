@@ -33,6 +33,10 @@
         startTime: '시작 시간',
         endDate: '종료 날짜',
         endTime: '종료 시간',
+        prevYear: 'Previous Year', // to be translated
+        nextYear: 'Next Year', // to be translated
+        prevMonth: 'Previous Month', // to be translated
+        nextMonth: 'Next Month', // to be translated
         year: '년',
         month1: '1월',
         month2: '2월',
@@ -95,6 +99,7 @@
         error: '올바르지 않은 입력'
       },
       upload: {
+        deleteTip: 'press delete to remove', // to be translated
         delete: '삭제',
         preview: '미리보기',
         continue: '계속하기'

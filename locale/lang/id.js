@@ -19,6 +19,10 @@ exports.default = {
       startTime: 'Waktu Mulai',
       endDate: 'Tanggal Selesai',
       endTime: 'Waktu Selesai',
+      prevYear: 'Previous Year', // to be translated
+      nextYear: 'Next Year', // to be translated
+      prevMonth: 'Previous Month', // to be translated
+      nextMonth: 'Next Month', // to be translated
       year: 'Tahun',
       month1: 'Januari',
       month2: 'Februari',
@@ -81,6 +85,7 @@ exports.default = {
       error: 'Masukan ilegal'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'Hapus',
       preview: 'Pratinjau',
       continue: 'Lanjutkan'

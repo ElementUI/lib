@@ -33,6 +33,10 @@
         startTime: 'Starttijd',
         endDate: 'Einddatum',
         endTime: 'Eindtijd',
+        prevYear: 'Previous Year', // to be translated
+        nextYear: 'Next Year', // to be translated
+        prevMonth: 'Previous Month', // to be translated
+        nextMonth: 'Next Month', // to be translated
         year: '',
         month1: 'januari',
         month2: 'februari',
@@ -95,6 +99,7 @@
         error: 'Ongeldige invoer'
       },
       upload: {
+        deleteTip: 'press delete to remove', // to be translated
         delete: 'Verwijder',
         preview: 'Voorbeeld',
         continue: 'Doorgaan'

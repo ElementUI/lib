@@ -33,6 +33,10 @@
         startTime: 'Horaire début',
         endDate: 'Date fin',
         endTime: 'Horaire fin',
+        prevYear: 'Previous Year', // to be translated
+        nextYear: 'Next Year', // to be translated
+        prevMonth: 'Previous Month', // to be translated
+        nextMonth: 'Next Month', // to be translated
         year: '',
         month1: 'Janvier',
         month2: 'Février',
@@ -94,6 +98,7 @@
         error: 'Erreur'
       },
       upload: {
+        deleteTip: 'press delete to remove', // to be translated
         delete: 'Supprimer',
         preview: 'Aperçu',
         continue: 'Continuer'

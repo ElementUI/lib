@@ -19,6 +19,10 @@ exports.default = {
       startTime: 'Время начала',
       endDate: 'Дата окончания',
       endTime: 'Время окончания',
+      prevYear: 'Previous Year', // to be translated
+      nextYear: 'Next Year', // to be translated
+      prevMonth: 'Previous Month', // to be translated
+      nextMonth: 'Next Month', // to be translated
       year: '',
       month1: 'Январь',
       month2: 'Февраль',
@@ -81,6 +85,7 @@ exports.default = {
       error: 'Недопустимый ввод данных'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'Удалить',
       preview: 'Превью',
       continue: 'Продолжить'
