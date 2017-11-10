@@ -268,6 +268,12 @@ exports.default = {
       default: ''
     }
   },
+
+  provide: function provide() {
+    return {
+      elBreadcrumb: this
+    };
+  },
   mounted: function mounted() {
     var items = this.$el.querySelectorAll('.el-breadcrumb__item');
     items[items.length - 1].setAttribute('aria-current', 'page');

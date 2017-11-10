@@ -176,13 +176,6 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 7:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/vue-popper");
-
-/***/ }),
-
 /***/ 78:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -211,6 +204,13 @@ _dropdownMenu2.default.install = function (Vue) {
 };
 
 exports.default = _dropdownMenu2.default;
+
+/***/ }),
+
+/***/ 8:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ }),
 
@@ -257,7 +257,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _vuePopper = __webpack_require__(7);
+var _vuePopper = __webpack_require__(8);
 
 var _vuePopper2 = _interopRequireDefault(_vuePopper);
 

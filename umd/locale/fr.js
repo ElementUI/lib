@@ -33,11 +33,11 @@
         startTime: 'Horaire début',
         endDate: 'Date fin',
         endTime: 'Horaire fin',
-        prevYear: 'Previous Year', // to be translated
-        nextYear: 'Next Year', // to be translated
-        prevMonth: 'Previous Month', // to be translated
-        nextMonth: 'Next Month', // to be translated
-        year: '',
+        prevYear: 'Année précédente',
+        nextYear: 'Année suivante',
+        prevMonth: 'Mois précédent',
+        nextMonth: 'Mois suivant',
+        year: 'Année',
         month1: 'Janvier',
         month2: 'Février',
         month3: 'Mars',
@@ -98,7 +98,7 @@
         error: 'Erreur'
       },
       upload: {
-        deleteTip: 'press delete to remove', // to be translated
+        deleteTip: 'Cliquer sur supprimer pour retirer le fichier',
         delete: 'Supprimer',
         preview: 'Aperçu',
         continue: 'Continuer'
@@ -108,7 +108,7 @@
         confirmFilter: 'Confirmer',
         resetFilter: 'Réinitialiser',
         clearFilter: 'Tous',
-        sumText: 'Sum' // to be translated
+        sumText: 'Somme'
       },
       tree: {
         emptyText: 'Aucune donnée'
@@ -116,10 +116,10 @@
       transfer: {
         noMatch: 'Aucune correspondance',
         noData: 'Aucune donnée',
-        titles: ['List 1', 'List 2'], // to be translated
-        filterPlaceholder: 'Enter keyword', // to be translated
-        noCheckedFormat: '{total} items', // to be translated
-        hasCheckedFormat: '{checked}/{total} checked' // to be translated
+        titles: ['Liste 1', 'Liste 2'],
+        filterPlaceholder: 'Entrer un mot clef',
+        noCheckedFormat: '{total} elements',
+        hasCheckedFormat: '{checked}/{total} coché(s)'
       }
     }
   };

@@ -183,17 +183,10 @@ module.exports = require("element-ui/lib/button");
 
 /***/ }),
 
-/***/ 2:
+/***/ 3:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/locale");
-
-/***/ }),
-
-/***/ 4:
-/***/ (function(module, exports) {
-
-module.exports = require("vue");
 
 /***/ }),
 
@@ -850,15 +843,15 @@ var _alphaSlider = __webpack_require__(433);
 
 var _alphaSlider2 = _interopRequireDefault(_alphaSlider);
 
-var _vuePopper = __webpack_require__(7);
+var _vuePopper = __webpack_require__(8);
 
 var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-var _locale = __webpack_require__(2);
+var _locale = __webpack_require__(3);
 
 var _locale2 = _interopRequireDefault(_locale);
 
-var _input = __webpack_require__(5);
+var _input = __webpack_require__(6);
 
 var _input2 = _interopRequireDefault(_input);
 
@@ -1634,7 +1627,7 @@ exports.default = function (element, options) {
   });
 };
 
-var _vue = __webpack_require__(4);
+var _vue = __webpack_require__(5);
 
 var _vue2 = _interopRequireDefault(_vue);
 
@@ -1647,11 +1640,18 @@ var isDragging = false;
 /***/ 5:
 /***/ (function(module, exports) {
 
+module.exports = require("vue");
+
+/***/ }),
+
+/***/ 6:
+/***/ (function(module, exports) {
+
 module.exports = require("element-ui/lib/input");
 
 /***/ }),
 
-/***/ 7:
+/***/ 8:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/vue-popper");
