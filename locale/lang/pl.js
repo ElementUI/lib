@@ -19,10 +19,6 @@ exports.default = {
       startTime: 'Godzina początkowa',
       endDate: 'Data końcowa',
       endTime: 'Czas końcowa',
-      prevYear: 'Previous Year', // to be translated
-      nextYear: 'Next Year', // to be translated
-      prevMonth: 'Previous Month', // to be translated
-      nextMonth: 'Next Month', // to be translated
       year: 'rok',
       month1: 'styczeń',
       month2: 'luty',
@@ -85,7 +81,6 @@ exports.default = {
       error: 'Wiadomość zawiera niedozwolone znaki'
     },
     upload: {
-      deleteTip: 'press delete to remove', // to be translated
       delete: 'Kasuj',
       preview: 'Podgląd',
       continue: 'Kontynuuj'
