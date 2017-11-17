@@ -19,6 +19,10 @@ exports.default = {
       startTime: 'Sākuma laiks',
       endDate: 'Beigu datums',
       endTime: 'Beigu laiks',
+      prevYear: 'Previous Year', // to be translated
+      nextYear: 'Next Year', // to be translated
+      prevMonth: 'Previous Month', // to be translated
+      nextMonth: 'Next Month', // to be translated
       year: '',
       month1: 'Janvāris',
       month2: 'Februāris',
@@ -81,6 +85,7 @@ exports.default = {
       error: 'Nederīga ievade'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'Dzēst',
       preview: 'Priekšskatīt',
       continue: 'Turpināt'

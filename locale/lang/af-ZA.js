@@ -19,6 +19,10 @@ exports.default = {
       startTime: 'Begintyd',
       endDate: 'Einddatum',
       endTime: 'Eindtyd',
+      prevYear: 'Previous Year', // to be translated
+      nextYear: 'Next Year', // to be translated
+      prevMonth: 'Previous Month', // to be translated
+      nextMonth: 'Next Month', // to be translated
       year: 'Jaar',
       month1: 'Jan',
       month2: 'Feb',
@@ -81,6 +85,7 @@ exports.default = {
       error: 'Ongeldige invoer'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'Verwyder',
       preview: 'Voorskou',
       continue: 'Gaan voort'

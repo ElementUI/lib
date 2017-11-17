@@ -69,10 +69,6 @@ var getDOM = function getDOM(dom) {
 };
 
 exports.default = {
-  model: {
-    prop: 'visible',
-    event: 'visible-change'
-  },
   props: {
     visible: {
       type: Boolean,
@@ -167,7 +163,6 @@ exports.default = {
 
       if (!this.rendered) {
         this.rendered = true;
-        this.$emit('visible-change', true);
       }
 
       var props = (0, _merge2.default)({}, this.$props || this, options);
@@ -194,8 +189,6 @@ exports.default = {
       if (this.opened) return;
 
       this._opening = true;
-
-      this.$emit('visible-change', true);
 
       var dom = getDOM(this.$el);
 
@@ -268,7 +261,6 @@ exports.default = {
     doClose: function doClose() {
       var _this4 = this;
 
-      this.$emit('visible-change', false);
       this._closing = true;
 
       this.onClose && this.onClose();

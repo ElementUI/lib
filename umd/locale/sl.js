@@ -33,6 +33,10 @@
         startTime: 'Začetni čas',
         endDate: 'Končni datum',
         endTime: 'Končni čas',
+        prevYear: 'Previous Year', // to be translated
+        nextYear: 'Next Year', // to be translated
+        prevMonth: 'Previous Month', // to be translated
+        nextMonth: 'Next Month', // to be translated
         year: 'Leto',
         month1: 'Jan',
         month2: 'Feb',
@@ -95,6 +99,7 @@
         error: 'Nedovoljen vnos'
       },
       upload: {
+        deleteTip: 'press delete to remove', // to be translated
         delete: 'Izbriši',
         preview: 'Predogled',
         continue: 'Nadaljuj'
