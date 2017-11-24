@@ -114,7 +114,6 @@ var PopupManager = {
     if (zIndex) {
       modalDom.style.zIndex = zIndex;
     }
-    modalDom.tabIndex = 0;
     modalDom.style.display = '';
 
     this.modalStack.push({ id: id, zIndex: zIndex, modalClass: modalClass });

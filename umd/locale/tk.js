@@ -29,14 +29,10 @@
         confirm: 'OK',
         selectDate: 'Güni saýlaň',
         selectTime: 'Wagty saýlaň',
-        startDate: 'Başlaýan güni',
-        startTime: 'Başlaýan wagty',
-        endDate: 'Gutarýan güni',
-        endTime: 'Gutarýan wagty',
-        prevYear: 'Previous Year', // to be translated
-        nextYear: 'Next Year', // to be translated
-        prevMonth: 'Previous Month', // to be translated
-        nextMonth: 'Next Month', // to be translated
+        startDate: 'Başlaýan Güni',
+        startTime: 'Başlaýan Wagty',
+        endDate: 'Sonky Güni',
+        endTime: 'Sonky Wagty',
         year: '',
         month1: 'Ýan',
         month2: 'Few',
@@ -46,7 +42,7 @@
         month6: 'Iýn',
         month7: 'Iýl',
         month8: 'Awg',
-        month9: 'Sen',
+        month9: 'Sep',
         month10: 'Okt',
         month11: 'Noý',
         month12: 'Dek',
@@ -84,7 +80,7 @@
       cascader: {
         noMatch: 'Hiçzat tapylmady',
         loading: 'Indirilýär',
-        placeholder: 'Saýlaň'
+        placeholder: 'saýlaň'
       },
       pagination: {
         goto: 'Git',
@@ -99,7 +95,6 @@
         error: 'Ýalňyş girizme'
       },
       upload: {
-        deleteTip: 'Pozmak üçin "poz" düwmä basyň',
         delete: 'Poz',
         preview: 'Gör',
         continue: 'Dowam et'

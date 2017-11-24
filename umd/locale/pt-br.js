@@ -33,10 +33,6 @@
         startTime: 'Hora inicial',
         endDate: 'Data final',
         endTime: 'Hora final',
-        prevYear: 'Previous Year', // to be translated
-        nextYear: 'Next Year', // to be translated
-        prevMonth: 'Previous Month', // to be translated
-        nextMonth: 'Next Month', // to be translated
         year: '',
         month1: 'Janeiro',
         month2: 'Fevereiro',
@@ -99,7 +95,6 @@
         error: 'Erro!'
       },
       upload: {
-        deleteTip: 'press delete to remove', // to be translated
         delete: 'Apagar',
         preview: 'Pré-visualizar',
         continue: 'Continuar'
