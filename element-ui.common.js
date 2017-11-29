@@ -1613,7 +1613,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 };
 
 module.exports = {
-  version: '2.0.6',
+  version: '2.0.7',
   locale: _locale2.default.use,
   i18n: _locale2.default.i18n,
   install: install,
