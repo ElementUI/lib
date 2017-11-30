@@ -19,10 +19,6 @@ exports.default = {
       startTime: 'Starttidspunkt',
       endDate: 'Slutdato',
       endTime: 'Sluttidspunkt',
-      prevYear: 'Previous Year', // to be translated
-      nextYear: 'Next Year', // to be translated
-      prevMonth: 'Previous Month', // to be translated
-      nextMonth: 'Next Month', // to be translated
       year: 'År',
       month1: 'Januar',
       month2: 'Februar',
@@ -84,7 +80,6 @@ exports.default = {
       error: 'Ugyldig input'
     },
     upload: {
-      deleteTip: 'press delete to remove', // to be translated
       delete: 'Slet',
       preview: 'Forhåndsvisning',
       continue: 'Fortsæt'

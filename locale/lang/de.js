@@ -19,10 +19,6 @@ exports.default = {
       startTime: 'Startzeit',
       endDate: 'Enddatum',
       endTime: 'Endzeit',
-      prevYear: 'Previous Year', // to be translated
-      nextYear: 'Next Year', // to be translated
-      prevMonth: 'Previous Month', // to be translated
-      nextMonth: 'Next Month', // to be translated
       day: 'Tag',
       week: 'Woche',
       month: 'Monat',
@@ -86,7 +82,6 @@ exports.default = {
       error: 'Fehler'
     },
     upload: {
-      deleteTip: 'press delete to remove', // to be translated
       delete: 'Löschen',
       preview: 'Vorschau',
       continue: 'Fortsetzen'

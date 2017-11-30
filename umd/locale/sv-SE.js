@@ -33,10 +33,6 @@
         startTime: 'Starttid',
         endDate: 'Slutdatum',
         endTime: 'Sluttid',
-        prevYear: 'Previous Year', // to be translated
-        nextYear: 'Next Year', // to be translated
-        prevMonth: 'Previous Month', // to be translated
-        nextMonth: 'Next Month', // to be translated
         year: 'År',
         month1: 'Januari',
         month2: 'Februari',
@@ -99,7 +95,6 @@
         error: 'Felaktig inmatning'
       },
       upload: {
-        deleteTip: 'press delete to remove', // to be translated
         delete: 'Radera',
         preview: 'Förhandsvisa',
         continue: 'Fortsätt'
