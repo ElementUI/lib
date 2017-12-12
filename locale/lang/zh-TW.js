@@ -19,6 +19,10 @@ exports.default = {
       startTime: '開始時間',
       endDate: '結束日期',
       endTime: '結束時間',
+      prevYear: '前一年',
+      nextYear: '後一年',
+      prevMonth: '上個月',
+      nextMonth: '下個月',
       year: '年',
       month1: '1 月',
       month2: '2 月',
@@ -81,6 +85,7 @@ exports.default = {
       error: '輸入的資料不符規定!'
     },
     upload: {
+      deleteTip: '按 delete 鍵可刪除',
       delete: '刪除',
       preview: '查看圖片',
       continue: '繼續上傳'

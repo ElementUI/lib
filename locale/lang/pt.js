@@ -19,6 +19,10 @@ exports.default = {
       startTime: 'Hora de inicio',
       endDate: 'Data de fim',
       endTime: 'Hora de fim',
+      prevYear: 'Previous Year', // to be translated
+      nextYear: 'Next Year', // to be translated
+      prevMonth: 'Previous Month', // to be translated
+      nextMonth: 'Next Month', // to be translated
       year: '',
       month1: 'Janeiro',
       month2: 'Fevereiro',
@@ -81,6 +85,7 @@ exports.default = {
       error: 'Erro!'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'Apagar',
       preview: 'Previsualizar',
       continue: 'Continuar'
