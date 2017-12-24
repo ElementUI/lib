@@ -319,6 +319,7 @@ exports.default = {
       default: 'select'
     },
     beforeUpload: Function,
+    beforeRemove: Function,
     onRemove: {
       type: Function,
       default: noop
@@ -441,13 +442,30 @@ exports.default = {
       this.onChange(file, this.uploadFiles);
     },
     handleRemove: function handleRemove(file, raw) {
+      var _this2 = this;
+
       if (raw) {
         file = this.getFile(raw);
       }
-      this.abort(file);
-      var fileList = this.uploadFiles;
-      fileList.splice(fileList.indexOf(file), 1);
-      this.onRemove(file, fileList);
+      var doRemove = function doRemove() {
+        _this2.abort(file);
+        var fileList = _this2.uploadFiles;
+        fileList.splice(fileList.indexOf(file), 1);
+        _this2.onRemove(file, fileList);
+      };
+
+      if (!this.beforeRemove) {
+        doRemove();
+      } else if (typeof this.beforeRemove === 'function') {
+        var before = this.beforeRemove(file, this.uploadFiles);
+        if (before && before.then) {
+          before.then(function () {
+            doRemove();
+          }, noop);
+        } else if (before !== false) {
+          doRemove();
+        }
+      }
     },
     getFile: function getFile(rawFile) {
       var fileList = this.uploadFiles;
@@ -465,12 +483,12 @@ exports.default = {
       this.uploadFiles = [];
     },
     submit: function submit() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.uploadFiles.filter(function (file) {
         return file.status === 'ready';
       }).forEach(function (file) {
-        _this2.$refs['upload-inner'].upload(file.raw);
+        _this3.$refs['upload-inner'].upload(file.raw);
       });
     },
     getMigratingConfig: function getMigratingConfig() {

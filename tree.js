@@ -314,6 +314,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
 
 exports.default = {
   name: 'ElTree',
@@ -344,6 +345,10 @@ exports.default = {
       default: function _default() {
         return (0, _locale.t)('el.tree.emptyText');
       }
+    },
+    renderAfterExpand: {
+      type: Boolean,
+      default: true
     },
     nodeKey: String,
     checkStrictly: Boolean,
@@ -435,6 +440,18 @@ exports.default = {
         return node.data[nodeKey];
       }
       return index;
+    },
+    getNodePath: function getNodePath(data) {
+      if (!this.nodeKey) throw new Error('[Tree] nodeKey is required in getNodePath');
+      var node = this.store.getNode(data);
+      if (!node) return [];
+      var path = [node.data];
+      var parent = node.parent;
+      while (parent && parent !== this.root) {
+        path.push(parent.data);
+        parent = parent.parent;
+      }
+      return path.reverse();
     },
     getCheckedNodes: function getCheckedNodes(leafOnly) {
       return this.store.getCheckedNodes(leafOnly);
@@ -1470,7 +1487,11 @@ exports.default = {
       }
     },
     props: {},
-    renderContent: Function
+    renderContent: Function,
+    renderAfterExpand: {
+      type: Boolean,
+      default: true
+    }
   },
 
   components: {
@@ -1669,6 +1690,7 @@ exports.default = {
 //
 //
 //
+//
 
 /***/ }),
 
@@ -1682,7 +1704,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     'is-hidden': !_vm.node.visible,
     'is-focusable': !_vm.node.disabled,
     'is-checked': !_vm.node.disabled && _vm.node.checked
-  },attrs:{"role":"treeitem","tabindex":"-1","aria-expanded":_vm.expanded,"aria-disabled":_vm.node.disabled,"aria-checked":_vm.node.checked},on:{"click":function($event){$event.stopPropagation();_vm.handleClick($event)}}},[_c('div',{staticClass:"el-tree-node__content",style:({ 'padding-left': (_vm.node.level - 1) * _vm.tree.indent + 'px' })},[_c('span',{staticClass:"el-tree-node__expand-icon el-icon-caret-right",class:{ 'is-leaf': _vm.node.isLeaf, expanded: !_vm.node.isLeaf && _vm.expanded },on:{"click":function($event){$event.stopPropagation();_vm.handleExpandIconClick($event)}}}),(_vm.showCheckbox)?_c('el-checkbox',{attrs:{"indeterminate":_vm.node.indeterminate,"disabled":!!_vm.node.disabled},on:{"change":_vm.handleCheckChange},nativeOn:{"click":function($event){$event.stopPropagation();}},model:{value:(_vm.node.checked),callback:function ($$v) {_vm.$set(_vm.node, "checked", $$v)},expression:"node.checked"}}):_vm._e(),(_vm.node.loading)?_c('span',{staticClass:"el-tree-node__loading-icon el-icon-loading"}):_vm._e(),_c('node-content',{attrs:{"node":_vm.node}})],1),_c('el-collapse-transition',[(_vm.childNodeRendered)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.expanded),expression:"expanded"}],staticClass:"el-tree-node__children",attrs:{"role":"group","aria-expanded":_vm.expanded}},_vm._l((_vm.node.childNodes),function(child){return _c('el-tree-node',{key:_vm.getNodeKey(child),attrs:{"render-content":_vm.renderContent,"node":child},on:{"node-expand":_vm.handleChildNodeExpand}})})):_vm._e()])],1)}
+  },attrs:{"role":"treeitem","tabindex":"-1","aria-expanded":_vm.expanded,"aria-disabled":_vm.node.disabled,"aria-checked":_vm.node.checked},on:{"click":function($event){$event.stopPropagation();_vm.handleClick($event)}}},[_c('div',{staticClass:"el-tree-node__content",style:({ 'padding-left': (_vm.node.level - 1) * _vm.tree.indent + 'px' })},[_c('span',{staticClass:"el-tree-node__expand-icon el-icon-caret-right",class:{ 'is-leaf': _vm.node.isLeaf, expanded: !_vm.node.isLeaf && _vm.expanded },on:{"click":function($event){$event.stopPropagation();_vm.handleExpandIconClick($event)}}}),(_vm.showCheckbox)?_c('el-checkbox',{attrs:{"indeterminate":_vm.node.indeterminate,"disabled":!!_vm.node.disabled},on:{"change":_vm.handleCheckChange},nativeOn:{"click":function($event){$event.stopPropagation();}},model:{value:(_vm.node.checked),callback:function ($$v) {_vm.$set(_vm.node, "checked", $$v)},expression:"node.checked"}}):_vm._e(),(_vm.node.loading)?_c('span',{staticClass:"el-tree-node__loading-icon el-icon-loading"}):_vm._e(),_c('node-content',{attrs:{"node":_vm.node}})],1),_c('el-collapse-transition',[(!_vm.renderAfterExpand || _vm.childNodeRendered)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.expanded),expression:"expanded"}],staticClass:"el-tree-node__children",attrs:{"role":"group","aria-expanded":_vm.expanded}},_vm._l((_vm.node.childNodes),function(child){return _c('el-tree-node',{key:_vm.getNodeKey(child),attrs:{"render-content":_vm.renderContent,"render-after-expand":_vm.renderAfterExpand,"node":child},on:{"node-expand":_vm.handleChildNodeExpand}})})):_vm._e()])],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -1693,7 +1715,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-tree",class:{ 'el-tree--highlight-current': _vm.highlightCurrent },attrs:{"role":"tree"}},[_vm._l((_vm.root.childNodes),function(child){return _c('el-tree-node',{key:_vm.getNodeKey(child),attrs:{"node":child,"props":_vm.props,"render-content":_vm.renderContent},on:{"node-expand":_vm.handleNodeExpand}})}),(!_vm.root.childNodes || _vm.root.childNodes.length === 0)?_c('div',{staticClass:"el-tree__empty-block"},[_c('span',{staticClass:"el-tree__empty-text"},[_vm._v(_vm._s(_vm.emptyText))])]):_vm._e()],2)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-tree",class:{ 'el-tree--highlight-current': _vm.highlightCurrent },attrs:{"role":"tree"}},[_vm._l((_vm.root.childNodes),function(child){return _c('el-tree-node',{key:_vm.getNodeKey(child),attrs:{"node":child,"props":_vm.props,"render-after-expand":_vm.renderAfterExpand,"render-content":_vm.renderContent},on:{"node-expand":_vm.handleNodeExpand}})}),(!_vm.root.childNodes || _vm.root.childNodes.length === 0)?_c('div',{staticClass:"el-tree__empty-block"},[_c('span',{staticClass:"el-tree__empty-text"},[_vm._v(_vm._s(_vm.emptyText))])]):_vm._e()],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

@@ -416,6 +416,8 @@ exports.default = {
     name: String,
     size: String,
     value: String,
+    maxlength: Number,
+    minlength: Number,
     autofocus: Boolean,
     fetchSuggestions: Function,
     triggerOnFocus: {

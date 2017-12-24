@@ -2320,7 +2320,7 @@ exports.default = {
                     },
                     [h(
                       'i',
-                      { 'class': 'sort-caret ascending el-icon-caret-top', on: {
+                      { 'class': 'sort-caret ascending', on: {
                           'click': function click($event) {
                             return _this.handleSortClick($event, column, 'ascending');
                           }
@@ -2329,7 +2329,7 @@ exports.default = {
                       []
                     ), h(
                       'i',
-                      { 'class': 'sort-caret descending el-icon-caret-bottom', on: {
+                      { 'class': 'sort-caret descending', on: {
                           'click': function click($event) {
                             return _this.handleSortClick($event, column, 'descending');
                           }
@@ -3424,7 +3424,7 @@ var isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.toLowerC
 
 var mousewheel = exports.mousewheel = function mousewheel(element, callback) {
   if (element && element.addEventListener) {
-    element.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', callback);
+    element.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', callback, { passive: true });
   }
 };
 

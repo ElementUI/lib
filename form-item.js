@@ -344,9 +344,12 @@ exports.default = {
     size: String
   },
   watch: {
-    error: function error(value) {
-      this.validateMessage = value;
-      this.validateState = value ? 'error' : '';
+    error: {
+      immediate: true,
+      handler: function handler(value) {
+        this.validateMessage = value;
+        this.validateState = value ? 'error' : '';
+      }
     },
     validateStatus: function validateStatus(value) {
       this.validateState = value;
@@ -506,7 +509,7 @@ exports.default = {
       var selfRules = this.rules;
       var requiredRule = this.required !== undefined ? { required: !!this.required } : [];
 
-      formRules = formRules ? (0, _util.getPropByPath)(formRules, this.prop || '').v : [];
+      formRules = formRules ? (0, _util.getPropByPath)(formRules, this.prop || '').o[this.prop || ''] : [];
 
       return [].concat(selfRules || formRules || []).concat(requiredRule);
     },

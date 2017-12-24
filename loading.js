@@ -312,6 +312,7 @@ exports.install = function (Vue) {
       var textExr = el.getAttribute('element-loading-text');
       var spinnerExr = el.getAttribute('element-loading-spinner');
       var backgroundExr = el.getAttribute('element-loading-background');
+      var customClassExr = el.getAttribute('element-loading-custom-class');
       var vm = vnode.context;
       var mask = new Mask({
         el: document.createElement('div'),
@@ -319,6 +320,7 @@ exports.install = function (Vue) {
           text: vm && vm[textExr] || textExr,
           spinner: vm && vm[spinnerExr] || spinnerExr,
           background: vm && vm[backgroundExr] || backgroundExr,
+          customClass: vm && vm[customClassExr] || customClassExr,
           fullscreen: !!binding.modifiers.fullscreen
         }
       });
@@ -339,6 +341,7 @@ exports.install = function (Vue) {
     unbind: function unbind(el, binding) {
       if (el.domInserted) {
         el.mask && el.mask.parentNode && el.mask.parentNode.removeChild(el.mask);
+        toggleLoading(el, { value: false, modifiers: binding.modifiers });
       }
     }
   });

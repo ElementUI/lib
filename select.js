@@ -1009,18 +1009,28 @@ exports.default = {
     },
     checkDefaultFirstOption: function checkDefaultFirstOption() {
       this.hoverIndex = -1;
-      for (var i = 0; i !== this.options.length; ++i) {
-        var option = this.options[i];
+      // highlight the created option
+      var hasCreated = false;
+      for (var i = this.options.length - 1; i >= 0; i--) {
+        if (this.options[i].created) {
+          hasCreated = true;
+          this.hoverIndex = i;
+          break;
+        }
+      }
+      if (hasCreated) return;
+      for (var _i = 0; _i !== this.options.length; ++_i) {
+        var option = this.options[_i];
         if (this.query) {
-          // pick first options that passes the filter
+          // highlight first options that passes the filter
           if (!option.disabled && !option.groupDisabled && option.visible) {
-            this.hoverIndex = i;
+            this.hoverIndex = _i;
             break;
           }
         } else {
-          // pick currently selected option
+          // highlight currently selected option
           if (option.itemSelected) {
-            this.hoverIndex = i;
+            this.hoverIndex = _i;
             break;
           }
         }

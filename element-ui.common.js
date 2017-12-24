@@ -685,7 +685,7 @@ var isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.toLowerC
 
 var mousewheel = exports.mousewheel = function mousewheel(element, callback) {
   if (element && element.addEventListener) {
-    element.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', callback);
+    element.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', callback, { passive: true });
   }
 };
 
@@ -1611,7 +1611,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 };
 
 module.exports = {
-  version: '2.0.8',
+  version: '2.0.9',
   locale: _locale2.default.use,
   i18n: _locale2.default.i18n,
   install: install,
@@ -2851,6 +2851,8 @@ exports.default = {
     name: String,
     size: String,
     value: String,
+    maxlength: Number,
+    minlength: Number,
     autofocus: Boolean,
     fetchSuggestions: Function,
     triggerOnFocus: {
@@ -8088,18 +8090,28 @@ exports.default = {
     },
     checkDefaultFirstOption: function checkDefaultFirstOption() {
       this.hoverIndex = -1;
-      for (var i = 0; i !== this.options.length; ++i) {
-        var option = this.options[i];
+      // highlight the created option
+      var hasCreated = false;
+      for (var i = this.options.length - 1; i >= 0; i--) {
+        if (this.options[i].created) {
+          hasCreated = true;
+          this.hoverIndex = i;
+          break;
+        }
+      }
+      if (hasCreated) return;
+      for (var _i = 0; _i !== this.options.length; ++_i) {
+        var option = this.options[_i];
         if (this.query) {
-          // pick first options that passes the filter
+          // highlight first options that passes the filter
           if (!option.disabled && !option.groupDisabled && option.visible) {
-            this.hoverIndex = i;
+            this.hoverIndex = _i;
             break;
           }
         } else {
-          // pick currently selected option
+          // highlight currently selected option
           if (option.itemSelected) {
-            this.hoverIndex = i;
+            this.hoverIndex = _i;
             break;
           }
         }
@@ -11041,7 +11053,7 @@ exports.default = {
                     },
                     [h(
                       'i',
-                      { 'class': 'sort-caret ascending el-icon-caret-top', on: {
+                      { 'class': 'sort-caret ascending', on: {
                           'click': function click($event) {
                             return _this.handleSortClick($event, column, 'ascending');
                           }
@@ -11050,7 +11062,7 @@ exports.default = {
                       []
                     ), h(
                       'i',
-                      { 'class': 'sort-caret descending el-icon-caret-bottom', on: {
+                      { 'class': 'sort-caret descending', on: {
                           'click': function click($event) {
                             return _this.handleSortClick($event, column, 'descending');
                           }
@@ -12183,7 +12195,7 @@ var getDefaultColumn = function getDefaultColumn(type, options) {
     column.minWidth = 80;
   }
 
-  column.realWidth = column.width || column.minWidth;
+  column.realWidth = column.width === undefined ? column.minWidth : column.width;
 
   return column;
 };
@@ -18418,9 +18430,12 @@ exports.default = {
     size: String
   },
   watch: {
-    error: function error(value) {
-      this.validateMessage = value;
-      this.validateState = value ? 'error' : '';
+    error: {
+      immediate: true,
+      handler: function handler(value) {
+        this.validateMessage = value;
+        this.validateState = value ? 'error' : '';
+      }
     },
     validateStatus: function validateStatus(value) {
       this.validateState = value;
@@ -18580,7 +18595,7 @@ exports.default = {
       var selfRules = this.rules;
       var requiredRule = this.required !== undefined ? { required: !!this.required } : [];
 
-      formRules = formRules ? (0, _util.getPropByPath)(formRules, this.prop || '').v : [];
+      formRules = formRules ? (0, _util.getPropByPath)(formRules, this.prop || '').o[this.prop || ''] : [];
 
       return [].concat(selfRules || formRules || []).concat(requiredRule);
     },
@@ -19704,6 +19719,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
 
 exports.default = {
   name: 'ElTree',
@@ -19734,6 +19750,10 @@ exports.default = {
       default: function _default() {
         return (0, _locale.t)('el.tree.emptyText');
       }
+    },
+    renderAfterExpand: {
+      type: Boolean,
+      default: true
     },
     nodeKey: String,
     checkStrictly: Boolean,
@@ -19825,6 +19845,18 @@ exports.default = {
         return node.data[nodeKey];
       }
       return index;
+    },
+    getNodePath: function getNodePath(data) {
+      if (!this.nodeKey) throw new Error('[Tree] nodeKey is required in getNodePath');
+      var node = this.store.getNode(data);
+      if (!node) return [];
+      var path = [node.data];
+      var parent = node.parent;
+      while (parent && parent !== this.root) {
+        path.push(parent.data);
+        parent = parent.parent;
+      }
+      return path.reverse();
     },
     getCheckedNodes: function getCheckedNodes(leafOnly) {
       return this.store.getCheckedNodes(leafOnly);
@@ -20856,7 +20888,11 @@ exports.default = {
       }
     },
     props: {},
-    renderContent: Function
+    renderContent: Function,
+    renderAfterExpand: {
+      type: Boolean,
+      default: true
+    }
   },
 
   components: {
@@ -21055,6 +21091,7 @@ exports.default = {
 //
 //
 //
+//
 
 /***/ }),
 /* 255 */
@@ -21067,7 +21104,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     'is-hidden': !_vm.node.visible,
     'is-focusable': !_vm.node.disabled,
     'is-checked': !_vm.node.disabled && _vm.node.checked
-  },attrs:{"role":"treeitem","tabindex":"-1","aria-expanded":_vm.expanded,"aria-disabled":_vm.node.disabled,"aria-checked":_vm.node.checked},on:{"click":function($event){$event.stopPropagation();_vm.handleClick($event)}}},[_c('div',{staticClass:"el-tree-node__content",style:({ 'padding-left': (_vm.node.level - 1) * _vm.tree.indent + 'px' })},[_c('span',{staticClass:"el-tree-node__expand-icon el-icon-caret-right",class:{ 'is-leaf': _vm.node.isLeaf, expanded: !_vm.node.isLeaf && _vm.expanded },on:{"click":function($event){$event.stopPropagation();_vm.handleExpandIconClick($event)}}}),(_vm.showCheckbox)?_c('el-checkbox',{attrs:{"indeterminate":_vm.node.indeterminate,"disabled":!!_vm.node.disabled},on:{"change":_vm.handleCheckChange},nativeOn:{"click":function($event){$event.stopPropagation();}},model:{value:(_vm.node.checked),callback:function ($$v) {_vm.$set(_vm.node, "checked", $$v)},expression:"node.checked"}}):_vm._e(),(_vm.node.loading)?_c('span',{staticClass:"el-tree-node__loading-icon el-icon-loading"}):_vm._e(),_c('node-content',{attrs:{"node":_vm.node}})],1),_c('el-collapse-transition',[(_vm.childNodeRendered)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.expanded),expression:"expanded"}],staticClass:"el-tree-node__children",attrs:{"role":"group","aria-expanded":_vm.expanded}},_vm._l((_vm.node.childNodes),function(child){return _c('el-tree-node',{key:_vm.getNodeKey(child),attrs:{"render-content":_vm.renderContent,"node":child},on:{"node-expand":_vm.handleChildNodeExpand}})})):_vm._e()])],1)}
+  },attrs:{"role":"treeitem","tabindex":"-1","aria-expanded":_vm.expanded,"aria-disabled":_vm.node.disabled,"aria-checked":_vm.node.checked},on:{"click":function($event){$event.stopPropagation();_vm.handleClick($event)}}},[_c('div',{staticClass:"el-tree-node__content",style:({ 'padding-left': (_vm.node.level - 1) * _vm.tree.indent + 'px' })},[_c('span',{staticClass:"el-tree-node__expand-icon el-icon-caret-right",class:{ 'is-leaf': _vm.node.isLeaf, expanded: !_vm.node.isLeaf && _vm.expanded },on:{"click":function($event){$event.stopPropagation();_vm.handleExpandIconClick($event)}}}),(_vm.showCheckbox)?_c('el-checkbox',{attrs:{"indeterminate":_vm.node.indeterminate,"disabled":!!_vm.node.disabled},on:{"change":_vm.handleCheckChange},nativeOn:{"click":function($event){$event.stopPropagation();}},model:{value:(_vm.node.checked),callback:function ($$v) {_vm.$set(_vm.node, "checked", $$v)},expression:"node.checked"}}):_vm._e(),(_vm.node.loading)?_c('span',{staticClass:"el-tree-node__loading-icon el-icon-loading"}):_vm._e(),_c('node-content',{attrs:{"node":_vm.node}})],1),_c('el-collapse-transition',[(!_vm.renderAfterExpand || _vm.childNodeRendered)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.expanded),expression:"expanded"}],staticClass:"el-tree-node__children",attrs:{"role":"group","aria-expanded":_vm.expanded}},_vm._l((_vm.node.childNodes),function(child){return _c('el-tree-node',{key:_vm.getNodeKey(child),attrs:{"render-content":_vm.renderContent,"render-after-expand":_vm.renderAfterExpand,"node":child},on:{"node-expand":_vm.handleChildNodeExpand}})})):_vm._e()])],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -21077,7 +21114,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-tree",class:{ 'el-tree--highlight-current': _vm.highlightCurrent },attrs:{"role":"tree"}},[_vm._l((_vm.root.childNodes),function(child){return _c('el-tree-node',{key:_vm.getNodeKey(child),attrs:{"node":child,"props":_vm.props,"render-content":_vm.renderContent},on:{"node-expand":_vm.handleNodeExpand}})}),(!_vm.root.childNodes || _vm.root.childNodes.length === 0)?_c('div',{staticClass:"el-tree__empty-block"},[_c('span',{staticClass:"el-tree__empty-text"},[_vm._v(_vm._s(_vm.emptyText))])]):_vm._e()],2)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-tree",class:{ 'el-tree--highlight-current': _vm.highlightCurrent },attrs:{"role":"tree"}},[_vm._l((_vm.root.childNodes),function(child){return _c('el-tree-node',{key:_vm.getNodeKey(child),attrs:{"node":child,"props":_vm.props,"render-after-expand":_vm.renderAfterExpand,"render-content":_vm.renderContent},on:{"node-expand":_vm.handleNodeExpand}})}),(!_vm.root.childNodes || _vm.root.childNodes.length === 0)?_c('div',{staticClass:"el-tree__empty-block"},[_c('span',{staticClass:"el-tree__empty-text"},[_vm._v(_vm._s(_vm.emptyText))])]):_vm._e()],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -22387,6 +22424,7 @@ exports.install = function (Vue) {
       var textExr = el.getAttribute('element-loading-text');
       var spinnerExr = el.getAttribute('element-loading-spinner');
       var backgroundExr = el.getAttribute('element-loading-background');
+      var customClassExr = el.getAttribute('element-loading-custom-class');
       var vm = vnode.context;
       var mask = new Mask({
         el: document.createElement('div'),
@@ -22394,6 +22432,7 @@ exports.install = function (Vue) {
           text: vm && vm[textExr] || textExr,
           spinner: vm && vm[spinnerExr] || spinnerExr,
           background: vm && vm[backgroundExr] || backgroundExr,
+          customClass: vm && vm[customClassExr] || customClassExr,
           fullscreen: !!binding.modifiers.fullscreen
         }
       });
@@ -22414,6 +22453,7 @@ exports.install = function (Vue) {
     unbind: function unbind(el, binding) {
       if (el.domInserted) {
         el.mask && el.mask.parentNode && el.mask.parentNode.removeChild(el.mask);
+        toggleLoading(el, { value: false, modifiers: binding.modifiers });
       }
     }
   });
@@ -22997,6 +23037,7 @@ exports.default = {
       default: 'select'
     },
     beforeUpload: Function,
+    beforeRemove: Function,
     onRemove: {
       type: Function,
       default: noop
@@ -23119,13 +23160,30 @@ exports.default = {
       this.onChange(file, this.uploadFiles);
     },
     handleRemove: function handleRemove(file, raw) {
+      var _this2 = this;
+
       if (raw) {
         file = this.getFile(raw);
       }
-      this.abort(file);
-      var fileList = this.uploadFiles;
-      fileList.splice(fileList.indexOf(file), 1);
-      this.onRemove(file, fileList);
+      var doRemove = function doRemove() {
+        _this2.abort(file);
+        var fileList = _this2.uploadFiles;
+        fileList.splice(fileList.indexOf(file), 1);
+        _this2.onRemove(file, fileList);
+      };
+
+      if (!this.beforeRemove) {
+        doRemove();
+      } else if (typeof this.beforeRemove === 'function') {
+        var before = this.beforeRemove(file, this.uploadFiles);
+        if (before && before.then) {
+          before.then(function () {
+            doRemove();
+          }, noop);
+        } else if (before !== false) {
+          doRemove();
+        }
+      }
     },
     getFile: function getFile(rawFile) {
       var fileList = this.uploadFiles;
@@ -23143,12 +23201,12 @@ exports.default = {
       this.uploadFiles = [];
     },
     submit: function submit() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.uploadFiles.filter(function (file) {
         return file.status === 'ready';
       }).forEach(function (file) {
-        _this2.$refs['upload-inner'].upload(file.raw);
+        _this3.$refs['upload-inner'].upload(file.raw);
       });
     },
     getMigratingConfig: function getMigratingConfig() {
@@ -25798,6 +25856,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
 
 exports.default = {
   name: 'ElCarousel',
@@ -25937,12 +25997,16 @@ exports.default = {
         return;
       }
       var length = this.items.length;
+      var oldIndex = this.activeIndex;
       if (index < 0) {
         this.activeIndex = length - 1;
       } else if (index >= length) {
         this.activeIndex = 0;
       } else {
         this.activeIndex = index;
+      }
+      if (oldIndex === this.activeIndex) {
+        this.resetItemPosition(oldIndex);
       }
     },
     prev: function prev() {
@@ -25993,7 +26057,7 @@ exports.default = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-carousel",class:{ 'el-carousel--card': _vm.type === 'card' },on:{"mouseenter":function($event){$event.stopPropagation();_vm.handleMouseEnter($event)},"mouseleave":function($event){$event.stopPropagation();_vm.handleMouseLeave($event)}}},[_c('div',{staticClass:"el-carousel__container",style:({ height: _vm.height })},[_c('transition',{attrs:{"name":"carousel-arrow-left"}},[(_vm.arrow !== 'never')?_c('button',{directives:[{name:"show",rawName:"v-show",value:(_vm.arrow === 'always' || _vm.hover),expression:"arrow === 'always' || hover"}],staticClass:"el-carousel__arrow el-carousel__arrow--left",on:{"mouseenter":function($event){_vm.handleButtonEnter('left')},"mouseleave":_vm.handleButtonLeave,"click":function($event){$event.stopPropagation();_vm.throttledArrowClick(_vm.activeIndex - 1)}}},[_c('i',{staticClass:"el-icon-arrow-left"})]):_vm._e()]),_c('transition',{attrs:{"name":"carousel-arrow-right"}},[(_vm.arrow !== 'never')?_c('button',{directives:[{name:"show",rawName:"v-show",value:(_vm.arrow === 'always' || _vm.hover),expression:"arrow === 'always' || hover"}],staticClass:"el-carousel__arrow el-carousel__arrow--right",on:{"mouseenter":function($event){_vm.handleButtonEnter('right')},"mouseleave":_vm.handleButtonLeave,"click":function($event){$event.stopPropagation();_vm.throttledArrowClick(_vm.activeIndex + 1)}}},[_c('i',{staticClass:"el-icon-arrow-right"})]):_vm._e()]),_vm._t("default")],2),(_vm.indicatorPosition !== 'none')?_c('ul',{staticClass:"el-carousel__indicators",class:{ 'el-carousel__indicators--labels': _vm.hasLabel, 'el-carousel__indicators--outside': _vm.indicatorPosition === 'outside' || _vm.type === 'card' }},_vm._l((_vm.items),function(item,index){return _c('li',{staticClass:"el-carousel__indicator",class:{ 'is-active': index === _vm.activeIndex },on:{"mouseenter":function($event){_vm.throttledIndicatorHover(index)},"click":function($event){$event.stopPropagation();_vm.handleIndicatorClick(index)}}},[_c('button',{staticClass:"el-carousel__button"},[(_vm.hasLabel)?_c('span',[_vm._v(_vm._s(item.label))]):_vm._e()])])})):_vm._e()])}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-carousel",class:{ 'el-carousel--card': _vm.type === 'card' },on:{"mouseenter":function($event){$event.stopPropagation();_vm.handleMouseEnter($event)},"mouseleave":function($event){$event.stopPropagation();_vm.handleMouseLeave($event)}}},[_c('div',{staticClass:"el-carousel__container",style:({ height: _vm.height })},[_c('transition',{attrs:{"name":"carousel-arrow-left"}},[(_vm.arrow !== 'never')?_c('button',{directives:[{name:"show",rawName:"v-show",value:(_vm.arrow === 'always' || _vm.hover),expression:"arrow === 'always' || hover"}],staticClass:"el-carousel__arrow el-carousel__arrow--left",attrs:{"type":"button"},on:{"mouseenter":function($event){_vm.handleButtonEnter('left')},"mouseleave":_vm.handleButtonLeave,"click":function($event){$event.stopPropagation();_vm.throttledArrowClick(_vm.activeIndex - 1)}}},[_c('i',{staticClass:"el-icon-arrow-left"})]):_vm._e()]),_c('transition',{attrs:{"name":"carousel-arrow-right"}},[(_vm.arrow !== 'never')?_c('button',{directives:[{name:"show",rawName:"v-show",value:(_vm.arrow === 'always' || _vm.hover),expression:"arrow === 'always' || hover"}],staticClass:"el-carousel__arrow el-carousel__arrow--right",attrs:{"type":"button"},on:{"mouseenter":function($event){_vm.handleButtonEnter('right')},"mouseleave":_vm.handleButtonLeave,"click":function($event){$event.stopPropagation();_vm.throttledArrowClick(_vm.activeIndex + 1)}}},[_c('i',{staticClass:"el-icon-arrow-right"})]):_vm._e()]),_vm._t("default")],2),(_vm.indicatorPosition !== 'none')?_c('ul',{staticClass:"el-carousel__indicators",class:{ 'el-carousel__indicators--labels': _vm.hasLabel, 'el-carousel__indicators--outside': _vm.indicatorPosition === 'outside' || _vm.type === 'card' }},_vm._l((_vm.items),function(item,index){return _c('li',{staticClass:"el-carousel__indicator",class:{ 'is-active': index === _vm.activeIndex },on:{"mouseenter":function($event){_vm.throttledIndicatorHover(index)},"click":function($event){$event.stopPropagation();_vm.handleIndicatorClick(index)}}},[_c('button',{staticClass:"el-carousel__button"},[(_vm.hasLabel)?_c('span',[_vm._v(_vm._s(item.label))]):_vm._e()])])})):_vm._e()])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
