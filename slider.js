@@ -480,6 +480,7 @@ exports.default = {
     stops: function stops() {
       var _this3 = this;
 
+      if (!this.showStops) return [];
       if (this.step === 0) {
         "production" !== 'production' && console.warn('[Element Warn][Slider]step should not be 0.');
         return [];
