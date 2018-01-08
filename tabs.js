@@ -397,7 +397,7 @@ exports.default = {
     };
     var header = h(
       'div',
-      { 'class': 'el-tabs__header' },
+      { 'class': ['el-tabs__header', 'is-' + tabPosition] },
       [newButton, h(
         'tab-nav',
         navData,
@@ -680,6 +680,8 @@ exports.default = {
     )] : null;
 
     var tabs = this._l(panes, function (pane, index) {
+      var _ref;
+
       var tabName = pane.name || pane.index || index;
       var closable = pane.isClosable || editable;
 
@@ -701,13 +703,9 @@ exports.default = {
       return h(
         'div',
         {
-          'class': {
-            'el-tabs__item': true,
-            'is-active': pane.active,
-            'is-disabled': pane.disabled,
-            'is-closable': closable,
-            'is-focus': _this.isFocus
-          },
+          'class': (_ref = {
+            'el-tabs__item': true
+          }, _ref['is-' + _this.rootTabs.tabPosition] = true, _ref['is-active'] = pane.active, _ref['is-disabled'] = pane.disabled, _ref['is-closable'] = closable, _ref['is-focus'] = _this.isFocus, _ref),
           attrs: { id: 'tab-' + tabName,
             'aria-controls': 'pane-' + tabName,
             role: 'tab',
@@ -738,7 +736,7 @@ exports.default = {
     });
     return h(
       'div',
-      { 'class': ['el-tabs__nav-wrap', scrollable ? 'is-scrollable' : ''] },
+      { 'class': ['el-tabs__nav-wrap', scrollable ? 'is-scrollable' : '', 'is-' + this.rootTabs.tabPosition] },
       [scrollBtn, h(
         'div',
         { 'class': ['el-tabs__nav-scroll'], ref: 'navScroll' },
@@ -853,7 +851,7 @@ exports.default = {
             return true;
           } else {
             tabSize = $el['client' + firstUpperCase(sizeName)];
-            if (sizeName === 'width') {
+            if (sizeName === 'width' && _this.tabs.length > 1) {
               tabSize -= index === 0 || index === _this.tabs.length - 1 ? 20 : 40;
             }
             return false;
@@ -881,7 +879,7 @@ exports.default = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-tabs__active-bar",style:(_vm.barStyle)})}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-tabs__active-bar",class:("is-" + (_vm.rootTabs.tabPosition)),style:(_vm.barStyle)})}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

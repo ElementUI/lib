@@ -543,15 +543,8 @@ exports.default = {
     }
   },
   watch: {
-    defaultActive: function defaultActive(value) {
-      var item = this.items[value];
-      if (item) {
-        this.activeIndex = item.index;
-        this.initOpenedMenu();
-      } else {
-        this.activeIndex = '';
-      }
-    },
+    defaultActive: 'updateActiveIndex',
+
     defaultOpeneds: function defaultOpeneds(value) {
       if (!this.collapse) {
         this.openedMenus = value;
@@ -562,6 +555,15 @@ exports.default = {
     }
   },
   methods: {
+    updateActiveIndex: function updateActiveIndex() {
+      var item = this.items[this.defaultActive];
+      if (item) {
+        this.activeIndex = item.index;
+        this.initOpenedMenu();
+      } else {
+        this.activeIndex = null;
+      }
+    },
     getMigratingConfig: function getMigratingConfig() {
       return {
         props: {
@@ -717,6 +719,7 @@ exports.default = {
     if (this.mode === 'horizontal') {
       new _ariaMenubar2.default(this.$el); // eslint-disable-line
     }
+    this.$watch('items', this.updateActiveIndex);
   }
 };
 

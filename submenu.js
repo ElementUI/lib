@@ -367,6 +367,14 @@ exports.default = {
     index: {
       type: String,
       required: true
+    },
+    showTimeout: {
+      type: Number,
+      default: 300
+    },
+    hideTimeout: {
+      type: Number,
+      default: 300
     }
   },
 
@@ -463,7 +471,7 @@ exports.default = {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
         _this.rootMenu.openMenu(_this.index, _this.indexPath);
-      }, 300);
+      }, this.showTimeout);
     },
     handleMouseleave: function handleMouseleave() {
       var _this2 = this;
@@ -476,7 +484,7 @@ exports.default = {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
         _this2.rootMenu.closeMenu(_this2.index);
-      }, 300);
+      }, this.hideTimeout);
     },
     handleTitleMouseenter: function handleTitleMouseenter() {
       if (this.mode === 'horizontal' && !this.rootMenu.backgroundColor) return;

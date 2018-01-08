@@ -425,6 +425,12 @@ exports.default = {
         document.body.appendChild(this.$el);
       }
     }
+  },
+  destroyed: function destroyed() {
+    // if appendToBody is true, remove DOM node after destroy
+    if (this.appendToBody && this.$el) {
+      this.$el.parentNode.removeChild(this.$el);
+    }
   }
 }; //
 //

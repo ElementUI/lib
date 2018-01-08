@@ -1611,7 +1611,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 };
 
 module.exports = {
-  version: '2.0.10',
+  version: '2.0.11',
   locale: _locale2.default.use,
   i18n: _locale2.default.i18n,
   install: install,
@@ -2626,6 +2626,12 @@ exports.default = {
       if (this.appendToBody) {
         document.body.appendChild(this.$el);
       }
+    }
+  },
+  destroyed: function destroyed() {
+    // if appendToBody is true, remove DOM node after destroy
+    if (this.appendToBody && this.$el) {
+      this.$el.parentNode.removeChild(this.$el);
     }
   }
 }; //
@@ -4032,15 +4038,8 @@ exports.default = {
     }
   },
   watch: {
-    defaultActive: function defaultActive(value) {
-      var item = this.items[value];
-      if (item) {
-        this.activeIndex = item.index;
-        this.initOpenedMenu();
-      } else {
-        this.activeIndex = '';
-      }
-    },
+    defaultActive: 'updateActiveIndex',
+
     defaultOpeneds: function defaultOpeneds(value) {
       if (!this.collapse) {
         this.openedMenus = value;
@@ -4051,6 +4050,15 @@ exports.default = {
     }
   },
   methods: {
+    updateActiveIndex: function updateActiveIndex() {
+      var item = this.items[this.defaultActive];
+      if (item) {
+        this.activeIndex = item.index;
+        this.initOpenedMenu();
+      } else {
+        this.activeIndex = null;
+      }
+    },
     getMigratingConfig: function getMigratingConfig() {
       return {
         props: {
@@ -4206,6 +4214,7 @@ exports.default = {
     if (this.mode === 'horizontal') {
       new _ariaMenubar2.default(this.$el); // eslint-disable-line
     }
+    this.$watch('items', this.updateActiveIndex);
   }
 };
 
@@ -4487,6 +4496,14 @@ exports.default = {
     index: {
       type: String,
       required: true
+    },
+    showTimeout: {
+      type: Number,
+      default: 300
+    },
+    hideTimeout: {
+      type: Number,
+      default: 300
     }
   },
 
@@ -4583,7 +4600,7 @@ exports.default = {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
         _this.rootMenu.openMenu(_this.index, _this.indexPath);
-      }, 300);
+      }, this.showTimeout);
     },
     handleMouseleave: function handleMouseleave() {
       var _this2 = this;
@@ -4596,7 +4613,7 @@ exports.default = {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
         _this2.rootMenu.closeMenu(_this2.index);
-      }, 300);
+      }, this.hideTimeout);
     },
     handleTitleMouseenter: function handleTitleMouseenter() {
       if (this.mode === 'horizontal' && !this.rootMenu.backgroundColor) return;
@@ -7956,7 +7973,7 @@ exports.default = {
     resetInputHeight: function resetInputHeight() {
       var _this7 = this;
 
-      if (this.collapseTags) return;
+      if (this.collapseTags && !this.filterable) return;
       this.$nextTick(function () {
         if (!_this7.$refs.reference) return;
         var inputChildNodes = _this7.$refs.reference.$el.childNodes;
@@ -8070,7 +8087,7 @@ exports.default = {
         value.splice(index, 1);
         this.$emit('input', value);
         this.emitChange(value);
-        this.$emit('remove-tag', tag);
+        this.$emit('remove-tag', tag.value);
       }
       event.stopPropagation();
     },
@@ -10658,7 +10675,7 @@ exports.default = {
       var newRow = rows[data.indexOf(newVal)];
       if (oldRow) {
         (0, _dom.removeClass)(oldRow, 'current-row');
-      } else if (rows) {
+      } else {
         [].forEach.call(rows, function (row) {
           return (0, _dom.removeClass)(row, 'current-row');
         });
@@ -11454,7 +11471,7 @@ exports.default = {
       var sortOrder = void 0;
       var sortingColumn = states.sortingColumn;
 
-      if (sortingColumn !== column) {
+      if (sortingColumn !== column || sortingColumn === column && sortingColumn.order === null) {
         if (sortingColumn) {
           sortingColumn.order = null;
         }
@@ -12406,7 +12423,7 @@ exports.default = {
 
       return _self.showOverflowTooltip || _self.showTooltipWhenOverflow ? h(
         'div',
-        { 'class': 'cell el-tooltip', style: 'width:' + (data.column.realWidth || data.column.width) + 'px' },
+        { 'class': 'cell el-tooltip', style: { width: (data.column.realWidth || data.column.width) + 'px' } },
         [renderCell(h, data)]
       ) : h(
         'div',
@@ -13822,8 +13839,8 @@ exports.default = {
       this.$emit('dodestroy');
       document.body.removeEventListener('keydown', this.handleKeydown);
     },
-    handleKeydown: function handleKeydown(e) {
-      var keyCode = e.keyCode;
+    handleKeydown: function handleKeydown(event) {
+      var keyCode = event.keyCode;
       var list = [38, 40, 37, 39];
       if (this.visible && !this.timePickerVisible) {
         if (list.indexOf(keyCode) !== -1) {
@@ -18889,7 +18906,7 @@ exports.default = {
     };
     var header = h(
       'div',
-      { 'class': 'el-tabs__header' },
+      { 'class': ['el-tabs__header', 'is-' + tabPosition] },
       [newButton, h(
         'tab-nav',
         navData,
@@ -19170,6 +19187,8 @@ exports.default = {
     )] : null;
 
     var tabs = this._l(panes, function (pane, index) {
+      var _ref;
+
       var tabName = pane.name || pane.index || index;
       var closable = pane.isClosable || editable;
 
@@ -19191,13 +19210,9 @@ exports.default = {
       return h(
         'div',
         {
-          'class': {
-            'el-tabs__item': true,
-            'is-active': pane.active,
-            'is-disabled': pane.disabled,
-            'is-closable': closable,
-            'is-focus': _this.isFocus
-          },
+          'class': (_ref = {
+            'el-tabs__item': true
+          }, _ref['is-' + _this.rootTabs.tabPosition] = true, _ref['is-active'] = pane.active, _ref['is-disabled'] = pane.disabled, _ref['is-closable'] = closable, _ref['is-focus'] = _this.isFocus, _ref),
           attrs: { id: 'tab-' + tabName,
             'aria-controls': 'pane-' + tabName,
             role: 'tab',
@@ -19228,7 +19243,7 @@ exports.default = {
     });
     return h(
       'div',
-      { 'class': ['el-tabs__nav-wrap', scrollable ? 'is-scrollable' : ''] },
+      { 'class': ['el-tabs__nav-wrap', scrollable ? 'is-scrollable' : '', 'is-' + this.rootTabs.tabPosition] },
       [scrollBtn, h(
         'div',
         { 'class': ['el-tabs__nav-scroll'], ref: 'navScroll' },
@@ -19341,7 +19356,7 @@ exports.default = {
             return true;
           } else {
             tabSize = $el['client' + firstUpperCase(sizeName)];
-            if (sizeName === 'width') {
+            if (sizeName === 'width' && _this.tabs.length > 1) {
               tabSize -= index === 0 || index === _this.tabs.length - 1 ? 20 : 40;
             }
             return false;
@@ -19368,7 +19383,7 @@ exports.default = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-tabs__active-bar",style:(_vm.barStyle)})}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-tabs__active-bar",class:("is-" + (_vm.rootTabs.tabPosition)),style:(_vm.barStyle)})}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

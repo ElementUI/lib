@@ -1,6 +1,6 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define('element/locale/cz', ['module', 'exports'], factory);
+    define('element/locale/cs-CZ', ['module', 'exports'], factory);
   } else if (typeof exports !== "undefined") {
     factory(module, exports);
   } else {
@@ -9,7 +9,7 @@
     };
     factory(mod, mod.exports);
     global.ELEMENT.lang = global.ELEMENT.lang || {}; 
-    global.ELEMENT.lang.cz = mod.exports;
+    global.ELEMENT.lang.csCZ = mod.exports;
   }
 })(this, function (module, exports) {
   'use strict';

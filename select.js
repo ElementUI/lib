@@ -872,7 +872,7 @@ exports.default = {
     resetInputHeight: function resetInputHeight() {
       var _this7 = this;
 
-      if (this.collapseTags) return;
+      if (this.collapseTags && !this.filterable) return;
       this.$nextTick(function () {
         if (!_this7.$refs.reference) return;
         var inputChildNodes = _this7.$refs.reference.$el.childNodes;
@@ -986,7 +986,7 @@ exports.default = {
         value.splice(index, 1);
         this.$emit('input', value);
         this.emitChange(value);
-        this.$emit('remove-tag', tag);
+        this.$emit('remove-tag', tag.value);
       }
       event.stopPropagation();
     },

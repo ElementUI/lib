@@ -26,7 +26,7 @@
         today: '今日',
         cancel: 'キャンセル',
         clear: 'クリア',
-        confirm: 'はい',
+        confirm: 'OK',
         selectDate: '日付を選択',
         selectTime: '時間を選択',
         startDate: '開始日',
@@ -94,7 +94,7 @@
       },
       messagebox: {
         title: 'メッセージ',
-        confirm: 'はい',
+        confirm: 'OK',
         cancel: 'キャンセル',
         error: '正しくない入力'
       },

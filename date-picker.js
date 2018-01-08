@@ -994,8 +994,8 @@ exports.default = {
       this.$emit('dodestroy');
       document.body.removeEventListener('keydown', this.handleKeydown);
     },
-    handleKeydown: function handleKeydown(e) {
-      var keyCode = e.keyCode;
+    handleKeydown: function handleKeydown(event) {
+      var keyCode = event.keyCode;
       var list = [38, 40, 37, 39];
       if (this.visible && !this.timePickerVisible) {
         if (list.indexOf(keyCode) !== -1) {

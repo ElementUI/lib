@@ -1911,7 +1911,7 @@ exports.default = {
       var newRow = rows[data.indexOf(newVal)];
       if (oldRow) {
         (0, _dom.removeClass)(oldRow, 'current-row');
-      } else if (rows) {
+      } else {
         [].forEach.call(rows, function (row) {
           return (0, _dom.removeClass)(row, 'current-row');
         });
@@ -2715,7 +2715,7 @@ exports.default = {
       var sortOrder = void 0;
       var sortingColumn = states.sortingColumn;
 
-      if (sortingColumn !== column) {
+      if (sortingColumn !== column || sortingColumn === column && sortingColumn.order === null) {
         if (sortingColumn) {
           sortingColumn.order = null;
         }
