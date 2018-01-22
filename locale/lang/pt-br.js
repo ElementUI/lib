@@ -19,10 +19,6 @@ exports.default = {
       startTime: 'Hora inicial',
       endDate: 'Data final',
       endTime: 'Hora final',
-      prevYear: 'Ano anterior',
-      nextYear: 'Próximo ano',
-      prevMonth: 'Mês anterior',
-      nextMonth: 'Próximo mês',
       year: '',
       month1: 'Janeiro',
       month2: 'Fevereiro',
@@ -85,7 +81,6 @@ exports.default = {
       error: 'Erro!'
     },
     upload: {
-      deleteTip: 'aperte delete para apagar',
       delete: 'Apagar',
       preview: 'Pré-visualizar',
       continue: 'Continuar'

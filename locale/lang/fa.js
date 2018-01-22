@@ -5,24 +5,20 @@ exports.default = {
   el: {
     colorpicker: {
       confirm: 'باشد',
-      clear: 'حذف'
+      clear: 'خذف'
     },
     datepicker: {
       now: 'اکنون',
       today: 'امروز',
       cancel: 'لغو',
-      clear: 'حذف',
-      confirm: 'باشه',
+      clear: 'خذف',
+      confirm: 'باشد',
       selectDate: 'انتخاب تاریخ',
       selectTime: 'انتخاب زمان',
       startDate: 'تاریخ شروع',
       startTime: 'زمان شروع',
       endDate: 'تاریخ پایان',
       endTime: 'زمان پایان',
-      prevYear: 'سال قبل',
-      nextYear: 'سال بعد',
-      prevMonth: 'ماه قبل',
-      nextMonth: 'ماه بعد',
       year: 'سال',
       month1: 'ژانویه',
       month2: 'فوریه',
@@ -80,15 +76,14 @@ exports.default = {
     },
     messagebox: {
       title: 'پیام',
-      confirm: 'باشه',
+      confirm: 'باشد',
       cancel: 'لغو',
       error: 'ورودی غیر مجاز'
     },
     upload: {
-      deleteTip: 'press delete to remove', // to be translated
       delete: 'حذف',
       preview: 'پیش‌نمایش',
-      continue: 'ادامه'
+      continue: 'ادهمه'
     },
     table: {
       emptyText: 'اطلاعاتی وجود ندارد',
@@ -104,7 +99,7 @@ exports.default = {
       noMatch: 'هیچ داده‌ای پیدا نشد',
       noData: 'اطلاعاتی وجود ندارد',
       titles: ['List 1', 'List 2'], // to be translated
-      filterPlaceholder: 'کلید واژه هارو وارد کن',
+      filterPlaceholder: 'Enter keyword', // to be translated
       noCheckedFormat: '{total} items', // to be translated
       hasCheckedFormat: '{checked}/{total} checked' // to be translated
     }

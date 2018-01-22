@@ -33,11 +33,7 @@
         startTime: 'Horaire début',
         endDate: 'Date fin',
         endTime: 'Horaire fin',
-        prevYear: 'Année précédente',
-        nextYear: 'Année suivante',
-        prevMonth: 'Mois précédent',
-        nextMonth: 'Mois suivant',
-        year: '', // In french, like in english, we don't say "Année" after the year number.
+        year: '',
         month1: 'Janvier',
         month2: 'Février',
         month3: 'Mars',
@@ -98,7 +94,6 @@
         error: 'Erreur'
       },
       upload: {
-        deleteTip: 'Cliquer sur supprimer pour retirer le fichier',
         delete: 'Supprimer',
         preview: 'Aperçu',
         continue: 'Continuer'
@@ -108,7 +103,7 @@
         confirmFilter: 'Confirmer',
         resetFilter: 'Réinitialiser',
         clearFilter: 'Tous',
-        sumText: 'Somme'
+        sumText: 'Sum' // to be translated
       },
       tree: {
         emptyText: 'Aucune donnée'
@@ -116,10 +111,10 @@
       transfer: {
         noMatch: 'Aucune correspondance',
         noData: 'Aucune donnée',
-        titles: ['Liste 1', 'Liste 2'],
-        filterPlaceholder: 'Entrer un mot clef',
-        noCheckedFormat: '{total} elements',
-        hasCheckedFormat: '{checked}/{total} coché(s)'
+        titles: ['List 1', 'List 2'], // to be translated
+        filterPlaceholder: 'Enter keyword', // to be translated
+        noCheckedFormat: '{total} items', // to be translated
+        hasCheckedFormat: '{checked}/{total} checked' // to be translated
       }
     }
   };

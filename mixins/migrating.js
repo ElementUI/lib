@@ -28,10 +28,8 @@ exports.default = {
     if (!this.$vnode) return;
 
     var _getMigratingConfig = this.getMigratingConfig(),
-        _getMigratingConfig$p = _getMigratingConfig.props,
-        props = _getMigratingConfig$p === undefined ? {} : _getMigratingConfig$p,
-        _getMigratingConfig$e = _getMigratingConfig.events,
-        events = _getMigratingConfig$e === undefined ? {} : _getMigratingConfig$e;
+        props = _getMigratingConfig.props,
+        events = _getMigratingConfig.events;
 
     var _$vnode = this.$vnode,
         data = _$vnode.data,
@@ -42,13 +40,13 @@ exports.default = {
 
     for (var propName in definedProps) {
       if (definedProps.hasOwnProperty(propName) && props[propName]) {
-        console.warn('[Element Migrating][' + this.$options.name + '][Attribute]: ' + props[propName]);
+        console.warn('[Element Migrating][Attribute]: ' + props[propName]);
       }
     }
 
     for (var eventName in definedEvents) {
       if (definedEvents.hasOwnProperty(eventName) && events[eventName]) {
-        console.warn('[Element Migrating][' + this.$options.name + '][Event]: ' + events[eventName]);
+        console.warn('[Element Migrating][Event]: ' + events[eventName]);
       }
     }
   },

@@ -5,7 +5,7 @@ exports.default = {
   el: {
     colorpicker: {
       confirm: 'Bevestig',
-      clear: 'Wissen'
+      clear: 'Legen'
     },
     datepicker: {
       now: 'Nu',
@@ -19,10 +19,6 @@ exports.default = {
       startTime: 'Starttijd',
       endDate: 'Einddatum',
       endTime: 'Eindtijd',
-      prevYear: 'Vorig jaar',
-      nextYear: 'Volgend jaar',
-      prevMonth: 'Vorige maand',
-      nextMonth: 'Volgende maand',
       year: '',
       month1: 'januari',
       month2: 'februari',
@@ -74,7 +70,7 @@ exports.default = {
     },
     pagination: {
       goto: 'Ga naar',
-      pagesize: '/pagina',
+      pagesize: '/page',
       total: 'Totaal {total}',
       pageClassifier: ''
     },
@@ -85,7 +81,6 @@ exports.default = {
       error: 'Ongeldige invoer'
     },
     upload: {
-      deleteTip: 'Kies verwijder om te wissen',
       delete: 'Verwijder',
       preview: 'Voorbeeld',
       continue: 'Doorgaan'
@@ -95,7 +90,7 @@ exports.default = {
       confirmFilter: 'Bevestigen',
       resetFilter: 'Reset',
       clearFilter: 'Alles',
-      sumText: 'Som'
+      sumText: 'Sum' // to be translated
     },
     tree: {
       emptyText: 'Geen data'
@@ -103,10 +98,10 @@ exports.default = {
     transfer: {
       noMatch: 'Geen overeenkomende resultaten',
       noData: 'Geen data',
-      titles: ['Lijst 1', 'Lijst 2'],
-      filterPlaceholder: 'Geef zoekwoerd',
-      noCheckedFormat: '{total} items',
-      hasCheckedFormat: '{checked}/{total} geselecteerd'
+      titles: ['List 1', 'List 2'], // to be translated
+      filterPlaceholder: 'Enter keyword', // to be translated
+      noCheckedFormat: '{total} items', // to be translated
+      hasCheckedFormat: '{checked}/{total} checked' // to be translated
     }
   }
 };
