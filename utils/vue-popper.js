@@ -25,6 +25,10 @@ var stop = function stop(e) {
  */
 exports.default = {
   props: {
+    transformOrigin: {
+      type: [Boolean, String],
+      default: true
+    },
     placement: {
       type: String,
       default: 'bottom'
@@ -40,6 +44,10 @@ exports.default = {
     },
     value: Boolean,
     visibleArrow: Boolean,
+    arrowOffset: {
+      type: Number,
+      default: 35
+    },
     transition: String,
     appendToBody: {
       type: Boolean,
@@ -105,6 +113,7 @@ exports.default = {
 
       options.placement = this.currentPlacement;
       options.offset = this.offset;
+      options.arrowOffset = this.arrowOffset;
       this.popperJS = new PopperJS(reference, popper, options);
       this.popperJS.onCreate(function (_) {
         _this.$emit('created', _this);
@@ -118,7 +127,15 @@ exports.default = {
       this.popperElm.addEventListener('click', stop);
     },
     updatePopper: function updatePopper() {
-      this.popperJS ? this.popperJS.update() : this.createPopper();
+      var popperJS = this.popperJS;
+      if (popperJS) {
+        popperJS.update();
+        if (popperJS._popper) {
+          popperJS._popper.style.zIndex = _popup.PopupManager.nextZIndex();
+        }
+      } else {
+        this.createPopper();
+      }
     },
     doDestroy: function doDestroy() {
       /* istanbul ignore if */
@@ -132,6 +149,7 @@ exports.default = {
       }
     },
     resetTransformOrigin: function resetTransformOrigin() {
+      if (!this.transformOrigin) return;
       var placementMap = {
         top: 'bottom',
         bottom: 'top',
@@ -140,7 +158,7 @@ exports.default = {
       };
       var placement = this.popperJS._popper.getAttribute('x-placement').split('-')[0];
       var origin = placementMap[placement];
-      this.popperJS._popper.style.transformOrigin = ['top', 'bottom'].indexOf(placement) > -1 ? 'center ' + origin : origin + ' center';
+      this.popperJS._popper.style.transformOrigin = typeof this.transformOrigin === 'string' ? this.transformOrigin : ['top', 'bottom'].indexOf(placement) > -1 ? 'center ' + origin : origin + ' center';
     },
     appendArrow: function appendArrow(element) {
       var hash = void 0;

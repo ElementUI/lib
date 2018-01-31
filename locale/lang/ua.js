@@ -19,6 +19,10 @@ exports.default = {
       startTime: 'Час початку',
       endDate: 'Дата завершення',
       endTime: 'Час завершення',
+      prevYear: 'Previous Year', // to be translated
+      nextYear: 'Next Year', // to be translated
+      prevMonth: 'Previous Month', // to be translated
+      nextMonth: 'Next Month', // to be translated
       year: '',
       month1: 'Січень',
       month2: 'Лютий',
@@ -81,6 +85,7 @@ exports.default = {
       error: 'Неприпустимий ввід даних'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'Видалити',
       preview: 'Перегляд',
       continue: 'Продовжити'

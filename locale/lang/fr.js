@@ -19,7 +19,11 @@ exports.default = {
       startTime: 'Horaire début',
       endDate: 'Date fin',
       endTime: 'Horaire fin',
-      year: '',
+      prevYear: 'Année précédente',
+      nextYear: 'Année suivante',
+      prevMonth: 'Mois précédent',
+      nextMonth: 'Mois suivant',
+      year: '', // In french, like in english, we don't say "Année" after the year number.
       month1: 'Janvier',
       month2: 'Février',
       month3: 'Mars',
@@ -80,6 +84,7 @@ exports.default = {
       error: 'Erreur'
     },
     upload: {
+      deleteTip: 'Cliquer sur supprimer pour retirer le fichier',
       delete: 'Supprimer',
       preview: 'Aperçu',
       continue: 'Continuer'
@@ -89,7 +94,7 @@ exports.default = {
       confirmFilter: 'Confirmer',
       resetFilter: 'Réinitialiser',
       clearFilter: 'Tous',
-      sumText: 'Sum' // to be translated
+      sumText: 'Somme'
     },
     tree: {
       emptyText: 'Aucune donnée'
@@ -97,10 +102,10 @@ exports.default = {
     transfer: {
       noMatch: 'Aucune correspondance',
       noData: 'Aucune donnée',
-      titles: ['List 1', 'List 2'], // to be translated
-      filterPlaceholder: 'Enter keyword', // to be translated
-      noCheckedFormat: '{total} items', // to be translated
-      hasCheckedFormat: '{checked}/{total} checked' // to be translated
+      titles: ['Liste 1', 'Liste 2'],
+      filterPlaceholder: 'Entrer un mot clef',
+      noCheckedFormat: '{total} elements',
+      hasCheckedFormat: '{checked}/{total} coché(s)'
     }
   }
 };

@@ -19,6 +19,10 @@ exports.default = {
       startTime: 'Ωρα Έναρξης',
       endDate: 'Ημερομηνία Λήξης',
       endTime: 'Ωρα Λήξης',
+      prevYear: 'Previous Year', // to be translated
+      nextYear: 'Next Year', // to be translated
+      prevMonth: 'Previous Month', // to be translated
+      nextMonth: 'Next Month', // to be translated
       year: 'Έτος',
       month1: 'Ιανουάριος',
       month2: 'Φεβρουάριος',
@@ -81,6 +85,7 @@ exports.default = {
       error: 'Άκυρη εισαγωγή'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'Διαγραφή',
       preview: 'Προεπισκόπηση',
       continue: 'Συνέχεια'

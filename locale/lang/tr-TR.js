@@ -19,6 +19,10 @@ exports.default = {
       startTime: 'Başlangıç Saati',
       endDate: 'Bitiş Tarihi',
       endTime: 'Bitiş Saati',
+      prevYear: 'Önceki Yıl',
+      nextYear: 'Sonraki Yıl',
+      prevMonth: 'Önceki Ay',
+      nextMonth: 'Sonraki Ay',
       year: '',
       month1: 'Ocak',
       month2: 'Şubat',
@@ -81,6 +85,7 @@ exports.default = {
       error: 'İllegal giriş'
     },
     upload: {
+      deleteTip: 'kaldırmak için delete tuşuna bas',
       delete: 'Sil',
       preview: 'Görüntüle',
       continue: 'Devam'
