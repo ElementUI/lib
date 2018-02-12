@@ -257,7 +257,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _menuMixin = __webpack_require__(32);
+var _menuMixin = __webpack_require__(33);
 
 var _menuMixin2 = _interopRequireDefault(_menuMixin);
 
@@ -285,14 +285,8 @@ exports.default = {
       type: String,
       required: true
     },
-    route: {
-      type: [String, Object],
-      required: false
-    },
-    disabled: {
-      type: Boolean,
-      required: false
-    }
+    route: [String, Object],
+    disabled: Boolean
   },
   computed: {
     active: function active() {
@@ -404,7 +398,7 @@ module.exports = require("element-ui/lib/tooltip");
 
 /***/ }),
 
-/***/ 32:
+/***/ 33:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

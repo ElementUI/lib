@@ -137,9 +137,9 @@ exports.default = {
         this.createPopper();
       }
     },
-    doDestroy: function doDestroy() {
+    doDestroy: function doDestroy(forceDestroy) {
       /* istanbul ignore if */
-      if (this.showPopper || !this.popperJS) return;
+      if (!this.popperJS || this.showPopper && !forceDestroy) return;
       this.popperJS.destroy();
       this.popperJS = null;
     },
@@ -187,7 +187,7 @@ exports.default = {
   },
 
   beforeDestroy: function beforeDestroy() {
-    this.doDestroy();
+    this.doDestroy(true);
     if (this.popperElm && this.popperElm.parentNode === document.body) {
       this.popperElm.removeEventListener('click', stop);
       document.body.removeChild(this.popperElm);

@@ -195,7 +195,7 @@ var _collapseTransition = __webpack_require__(21);
 
 var _collapseTransition2 = _interopRequireDefault(_collapseTransition);
 
-var _menuMixin = __webpack_require__(32);
+var _menuMixin = __webpack_require__(33);
 
 var _menuMixin2 = _interopRequireDefault(_menuMixin);
 
@@ -246,7 +246,9 @@ exports.default = {
     hideTimeout: {
       type: Number,
       default: 300
-    }
+    },
+    popperClass: String,
+    disabled: Boolean
   },
 
   data: function data() {
@@ -350,9 +352,10 @@ exports.default = {
       delete this.submenus[item.index];
     },
     handleClick: function handleClick() {
-      var rootMenu = this.rootMenu;
+      var rootMenu = this.rootMenu,
+          disabled = this.disabled;
 
-      if (rootMenu.menuTrigger === 'hover' && rootMenu.mode === 'horizontal' || rootMenu.collapse && rootMenu.mode === 'vertical') {
+      if (rootMenu.menuTrigger === 'hover' && rootMenu.mode === 'horizontal' || rootMenu.collapse && rootMenu.mode === 'vertical' || disabled) {
         return;
       }
       this.dispatch('ElMenu', 'submenu-click', this);
@@ -360,9 +363,10 @@ exports.default = {
     handleMouseenter: function handleMouseenter() {
       var _this2 = this;
 
-      var rootMenu = this.rootMenu;
+      var rootMenu = this.rootMenu,
+          disabled = this.disabled;
 
-      if (rootMenu.menuTrigger === 'click' && rootMenu.mode === 'horizontal' || !rootMenu.collapse && rootMenu.mode === 'vertical') {
+      if (rootMenu.menuTrigger === 'click' && rootMenu.mode === 'horizontal' || !rootMenu.collapse && rootMenu.mode === 'vertical' || disabled) {
         return;
       }
       clearTimeout(this.timeout);
@@ -394,7 +398,7 @@ exports.default = {
       title && (title.style.backgroundColor = this.rootMenu.backgroundColor || '');
     },
     updatePlacement: function updatePlacement() {
-      this.currentPlacement = this.mode === 'horizontal' ? 'bottom-start' : 'right-start';
+      this.currentPlacement = this.mode === 'horizontal' && this.rootMenu === this.$parent ? 'bottom-start' : 'right-start';
     },
     initPopper: function initPopper() {
       this.referenceElm = this.$el;
@@ -420,11 +424,14 @@ exports.default = {
         paddingStyle = this.paddingStyle,
         titleStyle = this.titleStyle,
         backgroundColor = this.backgroundColor,
-        $slots = this.$slots,
         rootMenu = this.rootMenu,
         currentPlacement = this.currentPlacement,
         menuTransitionName = this.menuTransitionName,
-        mode = this.mode;
+        mode = this.mode,
+        disabled = this.disabled,
+        popperClass = this.popperClass,
+        $slots = this.$slots,
+        $parent = this.$parent;
 
 
     var popupMenu = h(
@@ -441,7 +448,7 @@ exports.default = {
             value: opened
           }],
 
-          'class': ['el-menu--' + mode],
+          'class': ['el-menu--' + mode, popperClass],
           on: {
             'mouseenter': this.handleMouseenter,
             'mouseleave': this.handleMouseleave,
@@ -481,13 +488,16 @@ exports.default = {
       )]
     );
 
+    var submenuTitleIcon = rootMenu.mode === 'horizontal' && $parent === rootMenu || rootMenu.mode === 'vertical' && !rootMenu.collapse ? 'el-icon-arrow-down' : 'el-icon-arrow-right';
+
     return h(
       'li',
       {
         'class': {
           'el-submenu': true,
           'is-active': active,
-          'is-opened': opened
+          'is-opened': opened,
+          'is-disabled': disabled
         },
         attrs: { role: 'menuitem',
           'aria-haspopup': 'true',
@@ -514,11 +524,7 @@ exports.default = {
         },
         [$slots.title, h(
           'i',
-          { 'class': {
-              'el-submenu__icon-arrow': true,
-              'el-icon-arrow-down': rootMenu.mode === 'horizontal' || rootMenu.mode === 'vertical' && !rootMenu.collapse,
-              'el-icon-arrow-right': rootMenu.mode === 'vertical' && rootMenu.collapse
-            } },
+          { 'class': ['el-submenu__icon-arrow', submenuTitleIcon] },
           []
         )]
       ), this.isMenuPopup ? popupMenu : inlineMenu]
@@ -535,7 +541,7 @@ module.exports = require("element-ui/lib/transitions/collapse-transition");
 
 /***/ }),
 
-/***/ 32:
+/***/ 33:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
