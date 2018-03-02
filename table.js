@@ -1438,6 +1438,7 @@ TableStore.prototype.toggleRowExpansion = function (row, expanded) {
   var changed = toggleRowExpansion(this.states, row, expanded);
   if (changed) {
     this.table.$emit('expand-change', row, this.states.expandRows);
+    this.scheduleLayout();
   }
 };
 
@@ -1695,6 +1696,7 @@ var TableLayout = function () {
 
     var prop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'height';
 
+    if (_vue2.default.prototype.$isServer) return;
     var el = this.table.$el;
     if (typeof value === 'string' && /^\d+$/.test(value)) {
       value = Number(value);

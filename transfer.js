@@ -369,6 +369,10 @@ exports.default = {
           disabled: 'disabled'
         };
       }
+    },
+    targetOrder: {
+      type: String,
+      default: 'original'
     }
   },
 
@@ -381,6 +385,12 @@ exports.default = {
 
 
   computed: {
+    dataObj: function dataObj() {
+      var key = this.props.key;
+      return this.data.reduce(function (o, cur) {
+        return (o[cur[key]] = cur) && o;
+      }, {});
+    },
     sourceData: function sourceData() {
       var _this = this;
 
@@ -391,8 +401,10 @@ exports.default = {
     targetData: function targetData() {
       var _this2 = this;
 
-      return this.data.filter(function (item) {
+      return this.targetOrder === 'original' ? this.data.filter(function (item) {
         return _this2.value.indexOf(item[_this2.props.key]) > -1;
+      }) : this.value.map(function (key) {
+        return _this2.dataObj[key];
       });
     },
     hasButtonTexts: function hasButtonTexts() {
@@ -435,11 +447,15 @@ exports.default = {
       var _this3 = this;
 
       var currentValue = this.value.slice();
-      this.leftChecked.forEach(function (item) {
-        if (_this3.value.indexOf(item) === -1) {
-          currentValue = currentValue.concat(item);
+      var itemsToBeMoved = [];
+      var key = this.props.key;
+      this.data.forEach(function (item) {
+        var itemKey = item[key];
+        if (_this3.leftChecked.indexOf(itemKey) > -1 && _this3.value.indexOf(itemKey) === -1) {
+          itemsToBeMoved.push(itemKey);
         }
       });
+      currentValue = this.targetOrder === 'unshift' ? itemsToBeMoved.concat(currentValue) : currentValue.concat(itemsToBeMoved);
       this.$emit('input', currentValue);
       this.$emit('change', currentValue, 'right', this.leftChecked);
     },

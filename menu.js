@@ -670,7 +670,7 @@ exports.default = {
       if (this.router) {
         this.routeToItem(item, function (error) {
           _this.activeIndex = oldActiveIndex;
-          console.error(error);
+          if (error) console.error(error);
         });
       }
     },
