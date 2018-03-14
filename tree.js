@@ -183,6 +183,13 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
+/***/ 10:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
+
+/***/ }),
+
 /***/ 12:
 /***/ (function(module, exports) {
 
@@ -988,7 +995,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _merge = __webpack_require__(9);
+var _merge = __webpack_require__(10);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -1695,6 +1702,10 @@ exports.default = {
       this.tree.$emit('node-click', this.node.data, this.node, this);
     },
     handleContextMenu: function handleContextMenu(event) {
+      if (this.tree._events['node-contextmenu'] && this.tree._events['node-contextmenu'].length > 0) {
+        event.stopPropagation();
+        event.preventDefault();
+      }
       this.tree.$emit('node-contextmenu', event, this.node.data, this.node, this);
     },
     handleExpandIconClick: function handleExpandIconClick() {
@@ -1822,13 +1833,6 @@ var getNodeKey = exports.getNodeKey = function getNodeKey(key, data) {
   if (!key) return data[NODE_KEY];
   return data[key];
 };
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

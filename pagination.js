@@ -290,7 +290,9 @@ exports.default = {
 
     nextText: String,
 
-    background: Boolean
+    background: Boolean,
+
+    disabled: Boolean
   },
 
   data: function data() {
@@ -324,7 +326,7 @@ exports.default = {
       pager: h(
         'pager',
         {
-          attrs: { currentPage: this.internalCurrentPage, pageCount: this.internalPageCount },
+          attrs: { currentPage: this.internalCurrentPage, pageCount: this.internalPageCount, disabled: this.disabled },
           on: {
             'change': this.handleCurrentChange
           }
@@ -364,6 +366,8 @@ exports.default = {
     );
     var haveRightWrapper = false;
 
+    template.children = template.children || [];
+    rightWrapper.children = rightWrapper.children || [];
     components.forEach(function (compo) {
       if (compo === '->') {
         haveRightWrapper = true;
@@ -399,7 +403,7 @@ exports.default = {
             attrs: {
               type: 'button'
             },
-            'class': ['btn-prev', { disabled: this.$parent.internalCurrentPage <= 1 }],
+            'class': ['btn-prev', { disabled: this.$parent.disabled || this.$parent.internalCurrentPage <= 1 }],
             on: {
               'click': this.$parent.prev
             }
@@ -425,7 +429,7 @@ exports.default = {
             attrs: {
               type: 'button'
             },
-            'class': ['btn-next', { disabled: this.$parent.internalCurrentPage === this.$parent.internalPageCount || this.$parent.internalPageCount === 0 }],
+            'class': ['btn-next', { disabled: this.$parent.disabled || this.$parent.internalCurrentPage === this.$parent.internalPageCount || this.$parent.internalPageCount === 0 }],
             on: {
               'click': this.$parent.next
             }
@@ -473,8 +477,9 @@ exports.default = {
             {
               attrs: {
                 value: this.$parent.internalPageSize,
-                popperClass: this.$parent.popperClass || ''
-              },
+                popperClass: this.$parent.popperClass || '',
+
+                disabled: this.$parent.disabled },
               on: {
                 'input': this.handleChange
               }
@@ -521,6 +526,16 @@ exports.default = {
 
 
       components: { ElInput: _input2.default },
+
+      watch: {
+        '$parent.internalPageSize': function $parentInternalPageSize() {
+          var _this2 = this;
+
+          this.$nextTick(function () {
+            _this2.$refs.input.$el.querySelector('input').value = _this2.$parent.internalCurrentPage;
+          });
+        }
+      },
 
       methods: {
         handleFocus: function handleFocus(event) {
@@ -574,13 +589,14 @@ exports.default = {
                 max: this.$parent.internalPageCount,
                 value: this.$parent.internalCurrentPage,
 
-                type: 'number'
+                type: 'number',
+
+                disabled: this.$parent.disabled
               },
               domProps: {
                 'value': this.$parent.internalCurrentPage
               },
-              ref: 'input',
-              nativeOn: {
+              ref: 'input', nativeOn: {
                 'keyup': this.handleKeyup
               },
               on: {
@@ -615,10 +631,12 @@ exports.default = {
       this.internalCurrentPage = this.getValidCurrentPage(val);
     },
     prev: function prev() {
+      if (this.disabled) return;
       var newVal = this.internalCurrentPage - 1;
       this.internalCurrentPage = this.getValidCurrentPage(newVal);
     },
     next: function next() {
+      if (this.disabled) return;
       var newVal = this.internalCurrentPage + 1;
       this.internalCurrentPage = this.getValidCurrentPage(newVal);
     },
@@ -675,7 +693,7 @@ exports.default = {
     },
 
     internalCurrentPage: function internalCurrentPage(newVal, oldVal) {
-      var _this2 = this;
+      var _this3 = this;
 
       newVal = parseInt(newVal, 10);
 
@@ -688,10 +706,10 @@ exports.default = {
 
       if (newVal !== undefined) {
         this.$nextTick(function () {
-          _this2.internalCurrentPage = newVal;
+          _this3.internalCurrentPage = newVal;
           if (oldVal !== newVal) {
-            _this2.$emit('update:currentPage', newVal);
-            _this2.$emit('current-change', _this2.internalCurrentPage);
+            _this3.$emit('update:currentPage', newVal);
+            _this3.$emit('current-change', _this3.internalCurrentPage);
           }
         });
       } else {
@@ -794,7 +812,9 @@ exports.default = {
   props: {
     currentPage: Number,
 
-    pageCount: Number
+    pageCount: Number,
+
+    disabled: Boolean
   },
 
   watch: {
@@ -809,7 +829,7 @@ exports.default = {
   methods: {
     onPagerClick: function onPagerClick(event) {
       var target = event.target;
-      if (target.tagName === 'UL') {
+      if (target.tagName === 'UL' || this.disabled) {
         return;
       }
 
@@ -838,6 +858,14 @@ exports.default = {
 
       if (newPage !== currentPage) {
         this.$emit('change', newPage);
+      }
+    },
+    onMouseenter: function onMouseenter(direction) {
+      if (this.disabled) return;
+      if (direction === 'left') {
+        this.quickprevIconClass = 'el-icon-d-arrow-left';
+      } else {
+        this.quicknextIconClass = 'el-icon-d-arrow-right';
       }
     }
   },
@@ -908,7 +936,7 @@ exports.default = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('ul',{staticClass:"el-pager",on:{"click":_vm.onPagerClick}},[(_vm.pageCount > 0)?_c('li',{staticClass:"number",class:{ active: _vm.currentPage === 1 }},[_vm._v("1")]):_vm._e(),(_vm.showPrevMore)?_c('li',{staticClass:"el-icon more btn-quickprev",class:[_vm.quickprevIconClass],on:{"mouseenter":function($event){_vm.quickprevIconClass = 'el-icon-d-arrow-left'},"mouseleave":function($event){_vm.quickprevIconClass = 'el-icon-more'}}}):_vm._e(),_vm._l((_vm.pagers),function(pager){return _c('li',{key:pager,staticClass:"number",class:{ active: _vm.currentPage === pager }},[_vm._v(_vm._s(pager))])}),(_vm.showNextMore)?_c('li',{staticClass:"el-icon more btn-quicknext",class:[_vm.quicknextIconClass],on:{"mouseenter":function($event){_vm.quicknextIconClass = 'el-icon-d-arrow-right'},"mouseleave":function($event){_vm.quicknextIconClass = 'el-icon-more'}}}):_vm._e(),(_vm.pageCount > 1)?_c('li',{staticClass:"number",class:{ active: _vm.currentPage === _vm.pageCount }},[_vm._v(_vm._s(_vm.pageCount))]):_vm._e()],2)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('ul',{staticClass:"el-pager",on:{"click":_vm.onPagerClick}},[(_vm.pageCount > 0)?_c('li',{staticClass:"number",class:{ active: _vm.currentPage === 1, disabled: _vm.disabled }},[_vm._v("1")]):_vm._e(),(_vm.showPrevMore)?_c('li',{staticClass:"el-icon more btn-quickprev",class:[_vm.quickprevIconClass, { disabled: _vm.disabled }],on:{"mouseenter":function($event){_vm.onMouseenter('left')},"mouseleave":function($event){_vm.quickprevIconClass = 'el-icon-more'}}}):_vm._e(),_vm._l((_vm.pagers),function(pager){return _c('li',{key:pager,staticClass:"number",class:{ active: _vm.currentPage === pager, disabled: _vm.disabled }},[_vm._v(_vm._s(pager))])}),(_vm.showNextMore)?_c('li',{staticClass:"el-icon more btn-quicknext",class:[_vm.quicknextIconClass, { disabled: _vm.disabled }],on:{"mouseenter":function($event){_vm.onMouseenter('right')},"mouseleave":function($event){_vm.quicknextIconClass = 'el-icon-more'}}}):_vm._e(),(_vm.pageCount > 1)?_c('li',{staticClass:"number",class:{ active: _vm.currentPage === _vm.pageCount, disabled: _vm.disabled }},[_vm._v(_vm._s(_vm.pageCount))]):_vm._e()],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

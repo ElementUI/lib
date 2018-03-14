@@ -183,6 +183,13 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
+/***/ 10:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
+
+/***/ }),
+
 /***/ 262:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -265,7 +272,7 @@ var _emitter = __webpack_require__(1);
 
 var _emitter2 = _interopRequireDefault(_emitter);
 
-var _merge = __webpack_require__(9);
+var _merge = __webpack_require__(10);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -496,13 +503,16 @@ exports.default = {
 
       var prop = (0, _util.getPropByPath)(model, path, true);
 
+      this.validateDisabled = true;
       if (Array.isArray(value)) {
-        this.validateDisabled = true;
         prop.o[prop.k] = [].concat(this.initialValue);
       } else {
-        this.validateDisabled = true;
         prop.o[prop.k] = this.initialValue;
       }
+      /* Select 的值被代码改变时不会触发校验，
+         这里需要强行触发一次，刷新 validateDisabled 的值，
+         确保 Select 下一次值改变时能正确触发校验 */
+      this.broadcast('ElSelect', 'fieldReset');
     },
     getRules: function getRules() {
       var formRules = this.form.rules;
@@ -595,13 +605,6 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/util");
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

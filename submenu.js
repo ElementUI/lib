@@ -274,7 +274,7 @@ exports.default = {
   computed: {
     // popper option
     appendToBody: function appendToBody() {
-      return this.rootMenu === this.$parent;
+      return this.isFirstLevel;
     },
     menuTransitionName: function menuTransitionName() {
       return this.rootMenu.collapse ? 'el-zoom-in-left' : 'el-zoom-in-top';
@@ -329,6 +329,19 @@ exports.default = {
         borderBottomColor: this.active ? this.rootMenu.activeTextColor ? this.activeTextColor : '' : 'transparent',
         color: this.active ? this.activeTextColor : this.textColor
       };
+    },
+    isFirstLevel: function isFirstLevel() {
+      var isFirstLevel = true;
+      var parent = this.$parent;
+      while (parent && parent !== this.rootMenu) {
+        if (['ElSubmenu', 'ElMenuItemGroup'].indexOf(parent.$options.componentName) > -1) {
+          isFirstLevel = false;
+          break;
+        } else {
+          parent = parent.$parent;
+        }
+      }
+      return isFirstLevel;
     }
   },
   methods: {
@@ -398,7 +411,7 @@ exports.default = {
       title && (title.style.backgroundColor = this.rootMenu.backgroundColor || '');
     },
     updatePlacement: function updatePlacement() {
-      this.currentPlacement = this.mode === 'horizontal' && this.rootMenu === this.$parent ? 'bottom-start' : 'right-start';
+      this.currentPlacement = this.mode === 'horizontal' && this.isFirstLevel ? 'bottom-start' : 'right-start';
     },
     initPopper: function initPopper() {
       this.referenceElm = this.$el;
@@ -431,7 +444,7 @@ exports.default = {
         disabled = this.disabled,
         popperClass = this.popperClass,
         $slots = this.$slots,
-        $parent = this.$parent;
+        isFirstLevel = this.isFirstLevel;
 
 
     var popupMenu = h(
@@ -488,7 +501,7 @@ exports.default = {
       )]
     );
 
-    var submenuTitleIcon = rootMenu.mode === 'horizontal' && $parent === rootMenu || rootMenu.mode === 'vertical' && !rootMenu.collapse ? 'el-icon-arrow-down' : 'el-icon-arrow-right';
+    var submenuTitleIcon = rootMenu.mode === 'horizontal' && isFirstLevel || rootMenu.mode === 'vertical' && !rootMenu.collapse ? 'el-icon-arrow-down' : 'el-icon-arrow-right';
 
     return h(
       'li',

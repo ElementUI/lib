@@ -179,7 +179,7 @@ module.exports = function normalizeComponent (
 /***/ 10:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/clickoutside");
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ }),
 
@@ -770,7 +770,7 @@ exports.default = {
       return this.$refs.bodyWrapper;
     },
     shouldUpdateHeight: function shouldUpdateHeight() {
-      return this.height || this.fixedColumns.length > 0 || this.rightFixedColumns.length > 0;
+      return this.height || this.maxHeight || this.fixedColumns.length > 0 || this.rightFixedColumns.length > 0;
     },
     selection: function selection() {
       return this.store.states.selection;
@@ -1009,7 +1009,7 @@ var _debounce = __webpack_require__(14);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _merge = __webpack_require__(9);
+var _merge = __webpack_require__(10);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -3009,7 +3009,7 @@ var _locale = __webpack_require__(5);
 
 var _locale2 = _interopRequireDefault(_locale);
 
-var _clickoutside = __webpack_require__(10);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -3488,29 +3488,29 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
     },
     _vm.fixedHeight])},[(_vm.showHeader)?_c('div',{ref:"fixedHeaderWrapper",staticClass:"el-table__fixed-header-wrapper"},[_c('table-header',{ref:"fixedTableHeader",style:({
-          width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
+          width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
         }),attrs:{"fixed":"left","border":_vm.border,"store":_vm.store}})],1):_vm._e(),_c('div',{ref:"fixedBodyWrapper",staticClass:"el-table__fixed-body-wrapper",style:([{
         top: _vm.layout.headerHeight + 'px'
       },
       _vm.fixedBodyHeight])},[_c('table-body',{style:({
-          width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
+          width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
         }),attrs:{"fixed":"left","store":_vm.store,"stripe":_vm.stripe,"highlight":_vm.highlightCurrentRow,"row-class-name":_vm.rowClassName,"row-style":_vm.rowStyle}}),(_vm.$slots.append)?_c('div',{staticClass:"el-table__append-gutter",style:({
           height: _vm.layout.appendHeight + 'px'
         })}):_vm._e()],1),(_vm.showSummary)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.data && _vm.data.length > 0),expression:"data && data.length > 0"}],ref:"fixedFooterWrapper",staticClass:"el-table__fixed-footer-wrapper"},[_c('table-footer',{style:({
-          width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
+          width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
         }),attrs:{"fixed":"left","border":_vm.border,"sum-text":_vm.sumText || _vm.t('el.table.sumText'),"summary-method":_vm.summaryMethod,"store":_vm.store}})],1):_vm._e()]):_vm._e(),(_vm.rightFixedColumns.length > 0)?_c('div',{directives:[{name:"mousewheel",rawName:"v-mousewheel",value:(_vm.handleFixedMousewheel),expression:"handleFixedMousewheel"}],ref:"rightFixedWrapper",staticClass:"el-table__fixed-right",style:([{
       width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : '',
       right: _vm.layout.scrollY ? (_vm.border ? _vm.layout.gutterWidth : (_vm.layout.gutterWidth || 0)) + 'px' : ''
     },
     _vm.fixedHeight])},[(_vm.showHeader)?_c('div',{ref:"rightFixedHeaderWrapper",staticClass:"el-table__fixed-header-wrapper"},[_c('table-header',{ref:"rightFixedTableHeader",style:({
-          width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
+          width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
         }),attrs:{"fixed":"right","border":_vm.border,"store":_vm.store}})],1):_vm._e(),_c('div',{ref:"rightFixedBodyWrapper",staticClass:"el-table__fixed-body-wrapper",style:([{
         top: _vm.layout.headerHeight + 'px'
       },
       _vm.fixedBodyHeight])},[_c('table-body',{style:({
-          width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
+          width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
         }),attrs:{"fixed":"right","store":_vm.store,"stripe":_vm.stripe,"row-class-name":_vm.rowClassName,"row-style":_vm.rowStyle,"highlight":_vm.highlightCurrentRow}})],1),(_vm.showSummary)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.data && _vm.data.length > 0),expression:"data && data.length > 0"}],ref:"rightFixedFooterWrapper",staticClass:"el-table__fixed-footer-wrapper"},[_c('table-footer',{style:({
-          width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : ''
+          width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
         }),attrs:{"fixed":"right","border":_vm.border,"sum-text":_vm.sumText || _vm.t('el.table.sumText'),"summary-method":_vm.summaryMethod,"store":_vm.store}})],1):_vm._e()]):_vm._e(),(_vm.rightFixedColumns.length > 0)?_c('div',{ref:"rightFixedPatch",staticClass:"el-table__fixed-right-patch",style:({
       width: _vm.layout.scrollY ? _vm.layout.gutterWidth + 'px' : '0',
       height: _vm.layout.headerHeight + 'px'
@@ -3797,7 +3797,7 @@ module.exports = require("element-ui/lib/mixins/migrating");
 /***/ 9:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/merge");
+module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ })
 

@@ -275,13 +275,26 @@ exports.default = {
     return vnode;
   },
   mounted: function mounted() {
+    var _this3 = this;
+
     this.referenceElm = this.$el;
     if (this.$el.nodeType === 1) {
       this.$el.setAttribute('aria-describedby', this.tooltipId);
       this.$el.setAttribute('tabindex', 0);
       (0, _dom.on)(this.referenceElm, 'mouseenter', this.show);
       (0, _dom.on)(this.referenceElm, 'mouseleave', this.hide);
-      (0, _dom.on)(this.referenceElm, 'focus', this.handleFocus);
+      (0, _dom.on)(this.referenceElm, 'focus', function () {
+        if (!_this3.$slots.default || !_this3.$slots.default.length) {
+          _this3.handleFocus();
+          return;
+        }
+        var instance = _this3.$slots.default[0].componentInstance;
+        if (instance && instance.focus) {
+          instance.focus();
+        } else {
+          _this3.handleFocus();
+        }
+      });
       (0, _dom.on)(this.referenceElm, 'blur', this.handleBlur);
       (0, _dom.on)(this.referenceElm, 'click', this.removeFocusing);
     }
@@ -321,17 +334,17 @@ exports.default = {
       return a ? b ? a + ' ' + b : a : b || '';
     },
     handleShowPopper: function handleShowPopper() {
-      var _this3 = this;
+      var _this4 = this;
 
       if (!this.expectedState || this.manual) return;
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
-        _this3.showPopper = true;
+        _this4.showPopper = true;
       }, this.openDelay);
 
       if (this.hideAfter > 0) {
         this.timeoutPending = setTimeout(function () {
-          _this3.showPopper = false;
+          _this4.showPopper = false;
         }, this.hideAfter);
       }
     },

@@ -312,7 +312,6 @@ exports.default = {
 
   data: function data() {
     return {
-      classMap: {},
       pointerAtLeftHalf: true,
       currentValue: this.value,
       hoverIndex: -1
@@ -459,6 +458,15 @@ exports.default = {
       }
       return result;
     },
+    classMap: function classMap() {
+      return {
+        lowClass: this.iconClasses[0],
+        mediumClass: this.iconClasses[1],
+        highClass: this.iconClasses[2],
+        voidClass: this.voidIconClass,
+        disabledVoidClass: this.disabledVoidIconClass
+      };
+    },
     rateDisabled: function rateDisabled() {
       return this.disabled || (this.elForm || {}).disabled;
     }
@@ -577,13 +585,6 @@ exports.default = {
     if (!this.value) {
       this.$emit('input', 0);
     }
-    this.classMap = {
-      lowClass: this.iconClasses[0],
-      mediumClass: this.iconClasses[1],
-      highClass: this.iconClasses[2],
-      voidClass: this.voidIconClass,
-      disabledVoidClass: this.disabledVoidIconClass
-    };
   }
 };
 

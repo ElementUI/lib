@@ -183,13 +183,6 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 10:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/clickoutside");
-
-/***/ }),
-
 /***/ 15:
 /***/ (function(module, exports) {
 
@@ -277,7 +270,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _clickoutside = __webpack_require__(10);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -624,6 +617,13 @@ module.exports = require("element-ui/lib/button-group");
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/migrating");
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ })
 

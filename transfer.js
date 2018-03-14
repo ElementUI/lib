@@ -426,11 +426,15 @@ exports.default = {
         }
       };
     },
-    onSourceCheckedChange: function onSourceCheckedChange(val) {
+    onSourceCheckedChange: function onSourceCheckedChange(val, movedKeys) {
       this.leftChecked = val;
+      if (movedKeys === undefined) return;
+      this.$emit('left-check-change', val, movedKeys);
     },
-    onTargetCheckedChange: function onTargetCheckedChange(val) {
+    onTargetCheckedChange: function onTargetCheckedChange(val, movedKeys) {
       this.rightChecked = val;
+      if (movedKeys === undefined) return;
+      this.$emit('right-check-change', val, movedKeys);
     },
     addToLeft: function addToLeft() {
       var currentValue = this.value.slice();
@@ -685,15 +689,24 @@ exports.default = {
       checked: [],
       allChecked: false,
       query: '',
-      inputHover: false
+      inputHover: false,
+      checkChangeByUser: true
     };
   },
 
 
   watch: {
-    checked: function checked(val) {
+    checked: function checked(val, oldVal) {
       this.updateAllChecked();
-      this.$emit('checked-change', val);
+      if (this.checkChangeByUser) {
+        var movedKeys = val.concat(oldVal).filter(function (v) {
+          return val.indexOf(v) === -1 || oldVal.indexOf(v) === -1;
+        });
+        this.$emit('checked-change', val, movedKeys);
+      } else {
+        this.$emit('checked-change', val);
+        this.checkChangeByUser = true;
+      }
     },
     data: function data() {
       var _this = this;
@@ -707,6 +720,7 @@ exports.default = {
           checked.push(item);
         }
       });
+      this.checkChangeByUser = false;
       this.checked = checked;
     },
     checkableData: function checkableData() {
@@ -731,6 +745,7 @@ exports.default = {
             checked.push(item);
           }
         });
+        this.checkChangeByUser = false;
         this.checked = checked;
       }
     }

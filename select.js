@@ -183,13 +183,6 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 10:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/clickoutside");
-
-/***/ }),
-
 /***/ 12:
 /***/ (function(module, exports) {
 
@@ -443,7 +436,7 @@ var _debounce = __webpack_require__(14);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _clickoutside = __webpack_require__(10);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -719,7 +712,7 @@ exports.default = {
       var _this4 = this;
 
       if (this.previousQuery === val) return;
-      if (this.previousQuery === null && typeof this.filterMethod === 'function') {
+      if (this.previousQuery === null && (typeof this.filterMethod === 'function' || typeof this.remoteMethod === 'function')) {
         this.previousQuery = val;
         return;
       }
@@ -943,6 +936,7 @@ exports.default = {
         this.visible = false;
       }
       this.$nextTick(function () {
+        if (_this9.visible) return;
         _this9.scrollToOption(option);
         _this9.setSoftFocus();
       });
@@ -1089,6 +1083,9 @@ exports.default = {
 
     this.$on('handleOptionClick', this.handleOptionSelect);
     this.$on('setSelected', this.setSelected);
+    this.$on('fieldReset', function () {
+      _this11.dispatch('ElFormItem', 'el.form.change');
+    });
   },
   mounted: function mounted() {
     var _this12 = this;
@@ -1619,6 +1616,13 @@ module.exports = require("element-ui/lib/input");
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/vue-popper");
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ })
 

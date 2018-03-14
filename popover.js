@@ -299,6 +299,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
 
 exports.default = {
   name: 'ElPopover',
@@ -348,6 +351,8 @@ exports.default = {
   },
 
   mounted: function mounted() {
+    var _this = this;
+
     var reference = this.referenceElm = this.reference || this.$refs.reference;
     var popper = this.popper || this.$refs.popper;
 
@@ -362,7 +367,13 @@ exports.default = {
       popper.setAttribute('tabindex', 0);
 
       if (this.trigger !== 'click') {
-        (0, _dom.on)(reference, 'focusin', this.handleFocus);
+        (0, _dom.on)(reference, 'focusin', function () {
+          _this.handleFocus();
+          var instance = reference.__vue__;
+          if (instance && instance.focus) {
+            instance.focus();
+          }
+        });
         (0, _dom.on)(popper, 'focusin', this.handleFocus);
         (0, _dom.on)(reference, 'focusout', this.handleBlur);
         (0, _dom.on)(popper, 'focusout', this.handleBlur);
@@ -427,12 +438,12 @@ exports.default = {
       if (this.trigger !== 'manual') this.showPopper = false;
     },
     handleMouseEnter: function handleMouseEnter() {
-      var _this = this;
+      var _this2 = this;
 
       clearTimeout(this._timer);
       if (this.openDelay) {
         this._timer = setTimeout(function () {
-          _this.showPopper = true;
+          _this2.showPopper = true;
         }, this.openDelay);
       } else {
         this.showPopper = true;
@@ -445,11 +456,11 @@ exports.default = {
       }
     },
     handleMouseLeave: function handleMouseLeave() {
-      var _this2 = this;
+      var _this3 = this;
 
       clearTimeout(this._timer);
       this._timer = setTimeout(function () {
-        _this2.showPopper = false;
+        _this3.showPopper = false;
       }, 200);
     },
     handleDocumentClick: function handleDocumentClick(e) {
@@ -461,6 +472,13 @@ exports.default = {
       }
       if (!this.$el || !reference || this.$el.contains(e.target) || reference.contains(e.target) || !popper || popper.contains(e.target)) return;
       this.showPopper = false;
+    },
+    handleAfterEnter: function handleAfterEnter() {
+      this.$emit('after-enter');
+    },
+    handleAfterLeave: function handleAfterLeave() {
+      this.$emit('after-leave');
+      this.doDestroy();
     }
   },
 
@@ -484,7 +502,7 @@ exports.default = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',[_c('transition',{attrs:{"name":_vm.transition},on:{"after-leave":_vm.doDestroy}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.disabled && _vm.showPopper),expression:"!disabled && showPopper"}],ref:"popper",staticClass:"el-popover el-popper",class:[_vm.popperClass, _vm.content && 'el-popover--plain'],style:({ width: _vm.width + 'px' }),attrs:{"role":"tooltip","id":_vm.tooltipId,"aria-hidden":(_vm.disabled || !_vm.showPopper) ? 'true' : 'false'}},[(_vm.title)?_c('div',{staticClass:"el-popover__title",domProps:{"textContent":_vm._s(_vm.title)}}):_vm._e(),_vm._t("default",[_vm._v(_vm._s(_vm.content))])],2)]),_vm._t("reference")],2)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',[_c('transition',{attrs:{"name":_vm.transition},on:{"after-enter":_vm.handleAfterEnter,"after-leave":_vm.handleAfterLeave}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.disabled && _vm.showPopper),expression:"!disabled && showPopper"}],ref:"popper",staticClass:"el-popover el-popper",class:[_vm.popperClass, _vm.content && 'el-popover--plain'],style:({ width: _vm.width + 'px' }),attrs:{"role":"tooltip","id":_vm.tooltipId,"aria-hidden":(_vm.disabled || !_vm.showPopper) ? 'true' : 'false'}},[(_vm.title)?_c('div',{staticClass:"el-popover__title",domProps:{"textContent":_vm._s(_vm.title)}}):_vm._e(),_vm._t("default",[_vm._v(_vm._s(_vm.content))])],2)]),_vm._t("reference")],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

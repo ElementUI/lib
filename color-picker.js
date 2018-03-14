@@ -176,13 +176,6 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 10:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/clickoutside");
-
-/***/ }),
-
 /***/ 15:
 /***/ (function(module, exports) {
 
@@ -279,7 +272,7 @@ var _pickerDropdown = __webpack_require__(428);
 
 var _pickerDropdown2 = _interopRequireDefault(_pickerDropdown);
 
-var _clickoutside = __webpack_require__(10);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -664,9 +657,9 @@ var Color = function () {
     }
 
     var fromHSV = function fromHSV(h, s, v) {
-      _this._hue = h;
-      _this._saturation = s;
-      _this._value = v;
+      _this._hue = Math.max(0, Math.min(360, h));
+      _this._saturation = Math.max(0, Math.min(100, s));
+      _this._value = Math.max(0, Math.min(100, v));
 
       _this.doOnChange();
     };
@@ -913,35 +906,7 @@ exports.default = {
       this.$emit('pick');
     },
     handleConfirm: function handleConfirm() {
-      var valid = this.showAlpha ? this.validRGBA(this.customInput) : this.validRGBHex(this.customInput);
-      if (valid) {
-        this.color.fromString(this.customInput);
-      } else {
-        this.customInput = this.currentColor;
-      }
-    },
-    validRGBHex: function validRGBHex(color) {
-      return (/^#[A-Fa-f0-9]{6}$/.test(color)
-      );
-    },
-    validRGBA: function validRGBA(color) {
-      var matches = color.match(/^rgba\((\d+), ?(\d+), ?(\d+), ?([.0-9]+)\)$/);
-      if (!matches) return false;
-      var list = matches.map(function (v) {
-        return parseInt(v, 10);
-      }).slice(1);
-      if (list.some(function (v) {
-        return isNaN(v);
-      })) return false;
-      var r = list[0],
-          g = list[1],
-          b = list[2],
-          a = list[3];
-
-      if ([r, g, b].some(function (v) {
-        return v < 0 || v > 255;
-      }) || a < 0 || a > 1) return false;
-      return true;
+      this.color.fromString(this.customInput);
     }
   },
 
@@ -1668,6 +1633,13 @@ module.exports = require("element-ui/lib/input");
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/vue-popper");
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ })
 

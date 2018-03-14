@@ -176,6 +176,13 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
+/***/ 10:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
+
+/***/ }),
+
 /***/ 13:
 /***/ (function(module, exports) {
 
@@ -458,7 +465,7 @@ var _afterLeave = __webpack_require__(50);
 
 var _afterLeave2 = _interopRequireDefault(_afterLeave);
 
-var _merge = __webpack_require__(9);
+var _merge = __webpack_require__(10);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -611,13 +618,6 @@ var Component = normalizeComponent(
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/after-leave");
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 
