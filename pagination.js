@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 53);
+/******/ 	return __webpack_require__(__webpack_require__.s = 54);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -190,15 +190,15 @@ module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ }),
 
-/***/ 53:
+/***/ 54:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(54);
+module.exports = __webpack_require__(55);
 
 
 /***/ }),
 
-/***/ 54:
+/***/ 55:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -206,7 +206,7 @@ module.exports = __webpack_require__(54);
 
 exports.__esModule = true;
 
-var _pagination = __webpack_require__(55);
+var _pagination = __webpack_require__(56);
 
 var _pagination2 = _interopRequireDefault(_pagination);
 
@@ -221,7 +221,7 @@ exports.default = _pagination2.default;
 
 /***/ }),
 
-/***/ 55:
+/***/ 56:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -229,15 +229,15 @@ exports.default = _pagination2.default;
 
 exports.__esModule = true;
 
-var _pager = __webpack_require__(56);
+var _pager = __webpack_require__(57);
 
 var _pager2 = _interopRequireDefault(_pager);
 
-var _select = __webpack_require__(59);
+var _select = __webpack_require__(60);
 
 var _select2 = _interopRequireDefault(_select);
 
-var _option = __webpack_require__(60);
+var _option = __webpack_require__(61);
 
 var _option2 = _interopRequireDefault(_option);
 
@@ -298,7 +298,9 @@ exports.default = {
   data: function data() {
     return {
       internalCurrentPage: 1,
-      internalPageSize: 0
+      internalPageSize: 0,
+      lastEmittedPage: -1,
+      userChangePageSize: false
     };
   },
   render: function render(h) {
@@ -509,6 +511,7 @@ exports.default = {
         handleChange: function handleChange(val) {
           if (val !== this.$parent.internalPageSize) {
             this.$parent.internalPageSize = val = parseInt(val, 10);
+            this.$parent.userChangePageSize = true;
             this.$parent.$emit('size-change', val);
           }
         }
@@ -557,6 +560,7 @@ exports.default = {
         },
         handleChange: function handleChange(value) {
           this.$parent.internalCurrentPage = this.$parent.getValidCurrentPage(value);
+          this.$parent.emitChange();
           this.oldValue = null;
           this.resetValueIfNeed(value);
         },
@@ -629,16 +633,19 @@ exports.default = {
   methods: {
     handleCurrentChange: function handleCurrentChange(val) {
       this.internalCurrentPage = this.getValidCurrentPage(val);
+      this.emitChange();
     },
     prev: function prev() {
       if (this.disabled) return;
       var newVal = this.internalCurrentPage - 1;
       this.internalCurrentPage = this.getValidCurrentPage(newVal);
+      this.emitChange();
     },
     next: function next() {
       if (this.disabled) return;
       var newVal = this.internalCurrentPage + 1;
       this.internalCurrentPage = this.getValidCurrentPage(newVal);
+      this.emitChange();
     },
     getValidCurrentPage: function getValidCurrentPage(value) {
       value = parseInt(value, 10);
@@ -663,6 +670,16 @@ exports.default = {
       }
 
       return resetValue === undefined ? value : resetValue;
+    },
+    emitChange: function emitChange() {
+      var _this3 = this;
+
+      this.$nextTick(function () {
+        if (_this3.internalCurrentPage !== _this3.lastEmittedPage) {
+          _this3.$emit('current-change', _this3.internalCurrentPage);
+          _this3.lastEmittedPage = _this3.internalCurrentPage;
+        }
+      });
     }
   },
 
@@ -693,7 +710,7 @@ exports.default = {
     },
 
     internalCurrentPage: function internalCurrentPage(newVal, oldVal) {
-      var _this3 = this;
+      var _this4 = this;
 
       newVal = parseInt(newVal, 10);
 
@@ -706,15 +723,13 @@ exports.default = {
 
       if (newVal !== undefined) {
         this.$nextTick(function () {
-          _this3.internalCurrentPage = newVal;
+          _this4.internalCurrentPage = newVal;
           if (oldVal !== newVal) {
-            _this3.$emit('update:currentPage', newVal);
-            _this3.$emit('current-change', _this3.internalCurrentPage);
+            _this4.$emit('update:currentPage', newVal);
           }
         });
       } else {
         this.$emit('update:currentPage', newVal);
-        this.$emit('current-change', this.internalCurrentPage);
       }
     },
     internalPageCount: function internalPageCount(newVal) {
@@ -724,21 +739,23 @@ exports.default = {
         this.internalCurrentPage = 1;
       } else if (oldPage > newVal) {
         this.internalCurrentPage = newVal === 0 ? 1 : newVal;
+        this.userChangePageSize && this.emitChange();
       }
+      this.userChangePageSize = false;
     }
   }
 };
 
 /***/ }),
 
-/***/ 56:
+/***/ 57:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_pager_vue__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_pager_vue__ = __webpack_require__(58);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_pager_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_pager_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4c57ea14_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_pager_vue__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4c57ea14_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_pager_vue__ = __webpack_require__(59);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -766,7 +783,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 57:
+/***/ 58:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -932,7 +949,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 58:
+/***/ 59:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -940,13 +957,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-
-/***/ 59:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/select");
 
 /***/ }),
 
@@ -958,6 +968,13 @@ module.exports = require("element-ui/lib/input");
 /***/ }),
 
 /***/ 60:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/select");
+
+/***/ }),
+
+/***/ 61:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/option");

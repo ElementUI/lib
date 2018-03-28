@@ -516,11 +516,20 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 
 exports.__esModule = true;
+var getReference = function getReference(el, binding, vnode) {
+  var _ref = binding.expression ? binding.value : binding.arg;
+  var popper = vnode.context.$refs[_ref];
+  if (popper) {
+    popper.$refs.reference = el;
+  }
+};
+
 exports.default = {
   bind: function bind(el, binding, vnode) {
-    // vue中 v-popover:argument 和 v-popover="variate|| expression"得到的binding数据是不同的。后者可以指向动态popver组件，可以极大的增强popover指令的灵活程度。
-    var _ref = binding.expression ? binding.value : binding.arg;
-    vnode.context.$refs[_ref].$refs.reference = el;
+    getReference(el, binding, vnode);
+  },
+  inserted: function inserted(el, binding, vnode) {
+    getReference(el, binding, vnode);
   }
 };
 

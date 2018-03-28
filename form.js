@@ -249,14 +249,12 @@ var Component = normalizeComponent(
 
 
 exports.__esModule = true;
-//
-//
-//
-//
-//
-//
-//
-//
+
+var _merge = __webpack_require__(9);
+
+var _merge2 = _interopRequireDefault(_merge);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
   name: 'ElForm',
@@ -360,13 +358,15 @@ exports.default = {
       if (this.fields.length === 0 && callback) {
         callback(true);
       }
-      this.fields.forEach(function (field, index) {
-        field.validate('', function (errors) {
-          if (errors) {
+      var invalidFields = {};
+      this.fields.forEach(function (field) {
+        field.validate('', function (message, field) {
+          if (message) {
             valid = false;
           }
+          invalidFields = (0, _merge2.default)({}, invalidFields, field);
           if (typeof callback === 'function' && ++count === _this2.fields.length) {
-            callback(valid);
+            callback(valid, invalidFields);
           }
         });
       });
@@ -386,7 +386,14 @@ exports.default = {
       field.validate('', cb);
     }
   }
-};
+}; //
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 
@@ -401,6 +408,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

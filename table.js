@@ -179,7 +179,7 @@ module.exports = function normalizeComponent (
 /***/ 10:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/merge");
+module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ }),
 
@@ -623,7 +623,12 @@ exports.default = {
 
     tooltipEffect: String,
 
-    spanMethod: Function
+    spanMethod: Function,
+
+    selectOnIndeterminate: {
+      type: Boolean,
+      default: true
+    }
   },
 
   components: {
@@ -745,10 +750,10 @@ exports.default = {
       }
     },
     doLayout: function doLayout() {
+      this.layout.updateColumnsWidth();
       if (this.shouldUpdateHeight) {
         this.layout.updateElsHeight();
       }
-      this.layout.updateColumnsWidth();
     }
   },
 
@@ -926,7 +931,8 @@ exports.default = {
   data: function data() {
     var store = new _tableStore2.default(this, {
       rowKey: this.rowKey,
-      defaultExpandAll: this.defaultExpandAll
+      defaultExpandAll: this.defaultExpandAll,
+      selectOnIndeterminate: this.selectOnIndeterminate
     });
     var layout = new _tableLayout2.default({
       store: store,
@@ -1009,7 +1015,7 @@ var _debounce = __webpack_require__(14);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _merge = __webpack_require__(10);
+var _merge = __webpack_require__(9);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -1123,7 +1129,8 @@ var TableStore = function TableStore(table) {
     hoverRow: null,
     filters: {},
     expandRows: [],
-    defaultExpandAll: false
+    defaultExpandAll: false,
+    selectOnIndeterminate: false
   };
 
   for (var prop in initialState) {
@@ -1326,8 +1333,10 @@ TableStore.prototype.mutations = {
   toggleAllSelection: (0, _debounce2.default)(10, function (states) {
     var data = states.data || [];
     if (data.length === 0) return;
-    var value = !states.isAllSelected;
     var selection = this.states.selection;
+    // when only some rows are selected (but not all), select or deselect all of them
+    // depending on the value of selectOnIndeterminate
+    var value = states.selectOnIndeterminate ? !states.isAllSelected : !(states.isAllSelected || selection.length);
     var selectionChanged = false;
 
     data.forEach(function (item, index) {
@@ -2745,7 +2754,8 @@ exports.default = {
     handleFilterClick: function handleFilterClick(event, column) {
       event.stopPropagation();
       var target = event.target;
-      var cell = target.parentNode;
+      var cell = target.tagName === 'TH' ? target : target.parentNode;
+      cell = cell.querySelector('.el-table__column-filter-trigger') || cell;
       var table = this.$parent;
 
       var filterPanel = this.filterPanels[column.id];
@@ -3009,7 +3019,7 @@ var _locale = __webpack_require__(5);
 
 var _locale2 = _interopRequireDefault(_locale);
 
-var _clickoutside = __webpack_require__(9);
+var _clickoutside = __webpack_require__(10);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -3086,7 +3096,11 @@ exports.default = {
       return filter.value === this.filterValue;
     },
     handleOutsideClick: function handleOutsideClick() {
-      this.showPopper = false;
+      var _this = this;
+
+      setTimeout(function () {
+        _this.showPopper = false;
+      }, 16);
     },
     handleConfirm: function handleConfirm() {
       this.confirmFilter(this.filteredValue);
@@ -3170,20 +3184,20 @@ exports.default = {
   },
 
   mounted: function mounted() {
-    var _this = this;
+    var _this2 = this;
 
     this.popperElm = this.$el;
     this.referenceElm = this.cell;
     this.table.bodyWrapper.addEventListener('scroll', function () {
-      _this.updatePopper();
+      _this2.updatePopper();
     });
 
     this.$watch('showPopper', function (value) {
-      if (_this.column) _this.column.filterOpened = value;
+      if (_this2.column) _this2.column.filterOpened = value;
       if (value) {
-        _dropdown2.default.open(_this);
+        _dropdown2.default.open(_this2);
       } else {
-        _dropdown2.default.close(_this);
+        _dropdown2.default.close(_this2);
       }
     });
   },
@@ -3196,6 +3210,14 @@ exports.default = {
     }
   }
 }; //
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3279,7 +3301,7 @@ exports.default = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"el-zoom-in-top"}},[(_vm.multiple)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showPopper),expression:"showPopper"}],staticClass:"el-table-filter"},[_c('div',{staticClass:"el-table-filter__content"},[_c('el-checkbox-group',{staticClass:"el-table-filter__checkbox-group",model:{value:(_vm.filteredValue),callback:function ($$v) {_vm.filteredValue=$$v},expression:"filteredValue"}},_vm._l((_vm.filters),function(filter){return _c('el-checkbox',{key:filter.value,attrs:{"label":filter.value}},[_vm._v(_vm._s(filter.text))])}))],1),_c('div',{staticClass:"el-table-filter__bottom"},[_c('button',{class:{ 'is-disabled': _vm.filteredValue.length === 0 },attrs:{"disabled":_vm.filteredValue.length === 0},on:{"click":_vm.handleConfirm}},[_vm._v(_vm._s(_vm.t('el.table.confirmFilter')))]),_c('button',{on:{"click":_vm.handleReset}},[_vm._v(_vm._s(_vm.t('el.table.resetFilter')))])])]):_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showPopper),expression:"showPopper"}],staticClass:"el-table-filter"},[_c('ul',{staticClass:"el-table-filter__list"},[_c('li',{staticClass:"el-table-filter__list-item",class:{ 'is-active': _vm.filterValue === undefined || _vm.filterValue === null },on:{"click":function($event){_vm.handleSelect(null)}}},[_vm._v(_vm._s(_vm.t('el.table.clearFilter')))]),_vm._l((_vm.filters),function(filter){return _c('li',{key:filter.value,staticClass:"el-table-filter__list-item",class:{ 'is-active': _vm.isActive(filter) },attrs:{"label":filter.value},on:{"click":function($event){_vm.handleSelect(filter.value)}}},[_vm._v(_vm._s(filter.text))])})],2)])])}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"el-zoom-in-top"}},[(_vm.multiple)?_c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleOutsideClick),expression:"handleOutsideClick"},{name:"show",rawName:"v-show",value:(_vm.showPopper),expression:"showPopper"}],staticClass:"el-table-filter"},[_c('div',{staticClass:"el-table-filter__content"},[_c('el-checkbox-group',{staticClass:"el-table-filter__checkbox-group",model:{value:(_vm.filteredValue),callback:function ($$v) {_vm.filteredValue=$$v},expression:"filteredValue"}},_vm._l((_vm.filters),function(filter){return _c('el-checkbox',{key:filter.value,attrs:{"label":filter.value}},[_vm._v(_vm._s(filter.text))])}))],1),_c('div',{staticClass:"el-table-filter__bottom"},[_c('button',{class:{ 'is-disabled': _vm.filteredValue.length === 0 },attrs:{"disabled":_vm.filteredValue.length === 0},on:{"click":_vm.handleConfirm}},[_vm._v(_vm._s(_vm.t('el.table.confirmFilter')))]),_c('button',{on:{"click":_vm.handleReset}},[_vm._v(_vm._s(_vm.t('el.table.resetFilter')))])])]):_c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleOutsideClick),expression:"handleOutsideClick"},{name:"show",rawName:"v-show",value:(_vm.showPopper),expression:"showPopper"}],staticClass:"el-table-filter"},[_c('ul',{staticClass:"el-table-filter__list"},[_c('li',{staticClass:"el-table-filter__list-item",class:{ 'is-active': _vm.filterValue === undefined || _vm.filterValue === null },on:{"click":function($event){_vm.handleSelect(null)}}},[_vm._v(_vm._s(_vm.t('el.table.clearFilter')))]),_vm._l((_vm.filters),function(filter){return _c('li',{key:filter.value,staticClass:"el-table-filter__list-item",class:{ 'is-active': _vm.isActive(filter) },attrs:{"label":filter.value},on:{"click":function($event){_vm.handleSelect(filter.value)}}},[_vm._v(_vm._s(filter.text))])})],2)])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -3488,29 +3510,29 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       width: _vm.layout.fixedWidth ? _vm.layout.fixedWidth + 'px' : ''
     },
     _vm.fixedHeight])},[(_vm.showHeader)?_c('div',{ref:"fixedHeaderWrapper",staticClass:"el-table__fixed-header-wrapper"},[_c('table-header',{ref:"fixedTableHeader",style:({
-          width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
+          width: _vm.bodyWidth
         }),attrs:{"fixed":"left","border":_vm.border,"store":_vm.store}})],1):_vm._e(),_c('div',{ref:"fixedBodyWrapper",staticClass:"el-table__fixed-body-wrapper",style:([{
         top: _vm.layout.headerHeight + 'px'
       },
       _vm.fixedBodyHeight])},[_c('table-body',{style:({
-          width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
+          width: _vm.bodyWidth
         }),attrs:{"fixed":"left","store":_vm.store,"stripe":_vm.stripe,"highlight":_vm.highlightCurrentRow,"row-class-name":_vm.rowClassName,"row-style":_vm.rowStyle}}),(_vm.$slots.append)?_c('div',{staticClass:"el-table__append-gutter",style:({
           height: _vm.layout.appendHeight + 'px'
         })}):_vm._e()],1),(_vm.showSummary)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.data && _vm.data.length > 0),expression:"data && data.length > 0"}],ref:"fixedFooterWrapper",staticClass:"el-table__fixed-footer-wrapper"},[_c('table-footer',{style:({
-          width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
+          width: _vm.bodyWidth
         }),attrs:{"fixed":"left","border":_vm.border,"sum-text":_vm.sumText || _vm.t('el.table.sumText'),"summary-method":_vm.summaryMethod,"store":_vm.store}})],1):_vm._e()]):_vm._e(),(_vm.rightFixedColumns.length > 0)?_c('div',{directives:[{name:"mousewheel",rawName:"v-mousewheel",value:(_vm.handleFixedMousewheel),expression:"handleFixedMousewheel"}],ref:"rightFixedWrapper",staticClass:"el-table__fixed-right",style:([{
       width: _vm.layout.rightFixedWidth ? _vm.layout.rightFixedWidth + 'px' : '',
       right: _vm.layout.scrollY ? (_vm.border ? _vm.layout.gutterWidth : (_vm.layout.gutterWidth || 0)) + 'px' : ''
     },
     _vm.fixedHeight])},[(_vm.showHeader)?_c('div',{ref:"rightFixedHeaderWrapper",staticClass:"el-table__fixed-header-wrapper"},[_c('table-header',{ref:"rightFixedTableHeader",style:({
-          width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
+          width: _vm.bodyWidth
         }),attrs:{"fixed":"right","border":_vm.border,"store":_vm.store}})],1):_vm._e(),_c('div',{ref:"rightFixedBodyWrapper",staticClass:"el-table__fixed-body-wrapper",style:([{
         top: _vm.layout.headerHeight + 'px'
       },
       _vm.fixedBodyHeight])},[_c('table-body',{style:({
-          width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
+          width: _vm.bodyWidth
         }),attrs:{"fixed":"right","store":_vm.store,"stripe":_vm.stripe,"row-class-name":_vm.rowClassName,"row-style":_vm.rowStyle,"highlight":_vm.highlightCurrentRow}})],1),(_vm.showSummary)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.data && _vm.data.length > 0),expression:"data && data.length > 0"}],ref:"rightFixedFooterWrapper",staticClass:"el-table__fixed-footer-wrapper"},[_c('table-footer',{style:({
-          width: _vm.layout.bodyWidth ? _vm.layout.bodyWidth + 'px' : ''
+          width: _vm.bodyWidth
         }),attrs:{"fixed":"right","border":_vm.border,"sum-text":_vm.sumText || _vm.t('el.table.sumText'),"summary-method":_vm.summaryMethod,"store":_vm.store}})],1):_vm._e()]):_vm._e(),(_vm.rightFixedColumns.length > 0)?_c('div',{ref:"rightFixedPatch",staticClass:"el-table__fixed-right-patch",style:({
       width: _vm.layout.scrollY ? _vm.layout.gutterWidth + 'px' : '0',
       height: _vm.layout.headerHeight + 'px'
@@ -3797,7 +3819,7 @@ module.exports = require("element-ui/lib/mixins/migrating");
 /***/ 9:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/clickoutside");
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

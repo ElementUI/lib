@@ -176,13 +176,6 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 10:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
-
-/***/ }),
-
 /***/ 13:
 /***/ (function(module, exports) {
 
@@ -284,7 +277,7 @@ loadingDirective.install = function (Vue) {
 
             ['top', 'left'].forEach(function (property) {
               var scroll = property === 'top' ? 'scrollTop' : 'scrollLeft';
-              el.maskStyle[property] = el.getBoundingClientRect()[property] + document.body[scroll] + document.documentElement[scroll] + 'px';
+              el.maskStyle[property] = el.getBoundingClientRect()[property] + document.body[scroll] + document.documentElement[scroll] - parseInt((0, _dom.getStyle)(document.body, 'margin-' + property), 10) + 'px';
             });
             ['height', 'width'].forEach(function (property) {
               el.maskStyle[property] = el.getBoundingClientRect()[property] + 'px';
@@ -465,7 +458,7 @@ var _afterLeave = __webpack_require__(50);
 
 var _afterLeave2 = _interopRequireDefault(_afterLeave);
 
-var _merge = __webpack_require__(10);
+var _merge = __webpack_require__(9);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -618,6 +611,13 @@ var Component = normalizeComponent(
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/after-leave");
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

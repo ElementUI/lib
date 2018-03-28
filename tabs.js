@@ -556,6 +556,7 @@ exports.default = {
       if (!this.scrollable) return;
       var nav = this.$refs.nav;
       var activeTab = this.$el.querySelector('.is-active');
+      if (!activeTab) return;
       var navScroll = this.$refs.navScroll;
       var activeTabBounding = activeTab.getBoundingClientRect();
       var navScrollBounding = navScroll.getBoundingClientRect();

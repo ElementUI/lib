@@ -325,12 +325,17 @@ exports.default = {
     showText: {
       type: Boolean,
       default: true
+    },
+    color: {
+      type: String,
+      default: ''
     }
   },
   computed: {
     barStyle: function barStyle() {
       var style = {};
       style.width = this.percentage + '%';
+      style.backgroundColor = this.color;
       return style;
     },
     relativeStrokeWidth: function relativeStrokeWidth() {
@@ -355,15 +360,19 @@ exports.default = {
     },
     stroke: function stroke() {
       var ret = void 0;
-      switch (this.status) {
-        case 'success':
-          ret = '#13ce66';
-          break;
-        case 'exception':
-          ret = '#ff4949';
-          break;
-        default:
-          ret = '#20a0ff';
+      if (this.color) {
+        ret = this.color;
+      } else {
+        switch (this.status) {
+          case 'success':
+            ret = '#13ce66';
+            break;
+          case 'exception':
+            ret = '#ff4949';
+            break;
+          default:
+            ret = '#20a0ff';
+        }
       }
       return ret;
     },

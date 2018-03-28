@@ -272,11 +272,15 @@ exports.__esModule = true;
 //
 //
 //
+//
 
 exports.default = {
   name: 'ElButton',
 
   inject: {
+    elForm: {
+      default: ''
+    },
     elFormItem: {
       default: ''
     }
@@ -300,7 +304,8 @@ exports.default = {
     disabled: Boolean,
     plain: Boolean,
     autofocus: Boolean,
-    round: Boolean
+    round: Boolean,
+    circle: Boolean
   },
 
   computed: {
@@ -309,6 +314,9 @@ exports.default = {
     },
     buttonSize: function buttonSize() {
       return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
+    },
+    buttonDisabled: function buttonDisabled() {
+      return this.disabled || (this.elForm || {}).disabled;
     }
   },
 
@@ -329,12 +337,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     _vm.type ? 'el-button--' + _vm.type : '',
     _vm.buttonSize ? 'el-button--' + _vm.buttonSize : '',
     {
-      'is-disabled': _vm.disabled,
+      'is-disabled': _vm.buttonDisabled,
       'is-loading': _vm.loading,
       'is-plain': _vm.plain,
-      'is-round': _vm.round
+      'is-round': _vm.round,
+      'is-circle': _vm.circle
     }
-  ],attrs:{"disabled":_vm.disabled || _vm.loading,"autofocus":_vm.autofocus,"type":_vm.nativeType},on:{"click":_vm.handleClick}},[(_vm.loading)?_c('i',{staticClass:"el-icon-loading"}):_vm._e(),(_vm.icon && !_vm.loading)?_c('i',{class:_vm.icon}):_vm._e(),(_vm.$slots.default)?_c('span',[_vm._t("default")],2):_vm._e()])}
+  ],attrs:{"disabled":_vm.buttonDisabled || _vm.loading,"autofocus":_vm.autofocus,"type":_vm.nativeType},on:{"click":_vm.handleClick}},[(_vm.loading)?_c('i',{staticClass:"el-icon-loading"}):_vm._e(),(_vm.icon && !_vm.loading)?_c('i',{class:_vm.icon}):_vm._e(),(_vm.$slots.default)?_c('span',[_vm._t("default")],2):_vm._e()])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

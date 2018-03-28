@@ -285,9 +285,12 @@ exports.default = {
     IframeUpload: _iframeUpload2.default
   },
 
-  provide: {
-    uploader: undefined
+  provide: function provide() {
+    return {
+      uploader: this
+    };
   },
+
 
   inject: {
     elForm: {
@@ -1158,6 +1161,11 @@ exports.default = {
   props: {
     disabled: Boolean
   },
+  inject: {
+    uploader: {
+      default: ''
+    }
+  },
   data: function data() {
     return {
       dragover: false
@@ -1171,10 +1179,36 @@ exports.default = {
       }
     },
     onDrop: function onDrop(e) {
-      if (!this.disabled) {
-        this.dragover = false;
+      if (this.disabled || !this.uploader) return;
+      var accept = this.uploader.accept;
+      this.dragover = false;
+      if (!accept) {
         this.$emit('file', e.dataTransfer.files);
+        return;
       }
+      this.$emit('file', [].slice.call(e.dataTransfer.files).filter(function (file) {
+        var type = file.type,
+            name = file.name;
+
+        var extension = name.indexOf('.') > -1 ? '.' + name.split('.').pop() : '';
+        var baseType = type.replace(/\/.*$/, '');
+        return accept.split(',').map(function (type) {
+          return type.trim();
+        }).filter(function (type) {
+          return type;
+        }).some(function (acceptedType) {
+          if (/\..+$/.test(acceptedType)) {
+            return extension === acceptedType;
+          }
+          if (/\/\*$/.test(acceptedType)) {
+            return baseType === acceptedType.replace(/\/\*$/, '');
+          }
+          if (/^[^\/]+\/[^\/]+$/.test(acceptedType)) {
+            return type === acceptedType;
+          }
+          return false;
+        });
+      }));
     }
   }
 };

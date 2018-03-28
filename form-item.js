@@ -183,13 +183,6 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 10:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
-
-/***/ }),
-
 /***/ 262:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -272,7 +265,7 @@ var _emitter = __webpack_require__(1);
 
 var _emitter2 = _interopRequireDefault(_emitter);
 
-var _merge = __webpack_require__(10);
+var _merge = __webpack_require__(9);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -478,11 +471,12 @@ exports.default = {
 
       model[this.prop] = this.fieldValue;
 
-      validator.validate(model, { firstFields: true }, function (errors, fields) {
+      validator.validate(model, { firstFields: true }, function (errors, invalidFields) {
         _this.validateState = !errors ? 'success' : 'error';
         _this.validateMessage = errors ? errors[0].message : '';
 
-        callback(_this.validateMessage);
+        callback(_this.validateMessage, invalidFields);
+        _this.elForm && _this.elForm.$emit('validate', _this.prop, !errors);
       });
     },
     clearValidate: function clearValidate() {
@@ -513,13 +507,16 @@ exports.default = {
          这里需要强行触发一次，刷新 validateDisabled 的值，
          确保 Select 下一次值改变时能正确触发校验 */
       this.broadcast('ElSelect', 'fieldReset');
+
+      this.broadcast('ElTimeSelect', 'fieldReset', this.initialValue);
     },
     getRules: function getRules() {
       var formRules = this.form.rules;
       var selfRules = this.rules;
       var requiredRule = this.required !== undefined ? { required: !!this.required } : [];
 
-      formRules = formRules ? (0, _util.getPropByPath)(formRules, this.prop || '').o[this.prop || ''] : [];
+      var prop = (0, _util.getPropByPath)(formRules, this.prop || '');
+      formRules = formRules ? prop.o[this.prop || ''] || prop.v : [];
 
       return [].concat(selfRules || formRules || []).concat(requiredRule);
     },
@@ -527,7 +524,12 @@ exports.default = {
       var rules = this.getRules();
 
       return rules.filter(function (rule) {
-        return !rule.trigger || rule.trigger.indexOf(trigger) !== -1;
+        if (!rule.trigger || trigger === '') return true;
+        if (Array.isArray(rule.trigger)) {
+          return rule.trigger.indexOf(trigger) > -1;
+        } else {
+          return rule.trigger === trigger;
+        }
       }).map(function (rule) {
         return (0, _merge2.default)({}, rule);
       });
@@ -605,6 +607,13 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/util");
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

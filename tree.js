@@ -183,13 +183,6 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 10:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
-
-/***/ }),
-
 /***/ 12:
 /***/ (function(module, exports) {
 
@@ -201,6 +194,13 @@ module.exports = require("element-ui/lib/locale");
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/checkbox");
+
+/***/ }),
+
+/***/ 2:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/dom");
 
 /***/ }),
 
@@ -301,7 +301,41 @@ var _emitter = __webpack_require__(1);
 
 var _emitter2 = _interopRequireDefault(_emitter);
 
+var _dom = __webpack_require__(2);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   name: 'ElTree',
@@ -318,7 +352,13 @@ exports.default = {
       root: null,
       currentNode: null,
       treeItems: null,
-      checkboxItems: []
+      checkboxItems: [],
+      dragState: {
+        showDropIndicator: false,
+        draggingNode: null,
+        dropNode: null,
+        allowDrop: true
+      }
     };
   },
 
@@ -359,6 +399,12 @@ exports.default = {
       type: Boolean,
       default: false
     },
+    draggable: {
+      type: Boolean,
+      default: false
+    },
+    allowDrag: Function,
+    allowDrop: Function,
     props: {
       default: function _default() {
         return {
@@ -392,6 +438,7 @@ exports.default = {
         return this.data;
       }
     },
+
     treeItemArray: function treeItemArray() {
       return Array.prototype.slice.call(this.treeItems);
     }
@@ -499,7 +546,7 @@ exports.default = {
       if (!this.nodeKey) throw new Error('[Tree] nodeKey is required in updateKeyChild');
       this.store.updateChildren(key, data);
     },
-    initTabindex: function initTabindex() {
+    initTabIndex: function initTabIndex() {
       this.treeItems = this.$el.querySelectorAll('.is-focusable[role=treeitem]');
       this.checkboxItems = this.$el.querySelectorAll('input[type=checkbox]');
       var checkedItem = this.$el.querySelectorAll('.is-checked[role=treeitem]');
@@ -527,21 +574,21 @@ exports.default = {
         }
         this.treeItemArray[nextIndex].focus(); // 选中
       }
-      var hasInput = currentItem.querySelector('[type="checkbox"]');
       if ([37, 39].indexOf(keyCode) > -1) {
         // left、right 展开
         currentItem.click(); // 选中
       }
-      if ([13, 32].indexOf(keyCode) > -1) {
+      var hasInput = currentItem.querySelector('[type="checkbox"]');
+      if ([13, 32].indexOf(keyCode) > -1 && hasInput) {
         // space enter选中checkbox
-        if (hasInput) {
-          hasInput.click();
-        }
+        hasInput.click();
       }
     }
   },
 
   created: function created() {
+    var _this = this;
+
     this.isTree = true;
 
     this.store = new _treeStore2.default({
@@ -561,36 +608,149 @@ exports.default = {
     });
 
     this.root = this.store.root;
+
+    var dragState = this.dragState;
+    this.$on('tree-node-drag-start', function (event, treeNode) {
+      if (typeof _this.allowDrag === 'function' && !_this.allowDrag(treeNode.node)) {
+        event.preventDefault();
+        return false;
+      }
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/plain', treeNode.node.label);
+      dragState.draggingNode = treeNode;
+      _this.$emit('node-drag-start', treeNode.node, event);
+    });
+
+    this.$on('tree-node-drag-over', function (event, treeNode) {
+      var dropNode = (0, _util.findNearestComponent)(event.target, 'ElTreeNode');
+      var oldDropNode = dragState.dropNode;
+      if (oldDropNode && oldDropNode !== dropNode) {
+        (0, _dom.removeClass)(oldDropNode.$el, 'is-drop-inner');
+      }
+      var draggingNode = dragState.draggingNode;
+      if (!draggingNode || !dropNode) return;
+
+      var allowDrop = true;
+      if (typeof _this.allowDrop === 'function' && !_this.allowDrop(draggingNode.node, dropNode.node)) {
+        allowDrop = false;
+      }
+      dragState.allowDrop = allowDrop;
+      event.dataTransfer.dropEffect = allowDrop ? 'move' : 'none';
+      if (allowDrop && oldDropNode !== dropNode) {
+        if (oldDropNode) {
+          _this.$emit('node-drag-leave', draggingNode.node, oldDropNode.node, event);
+        }
+        _this.$emit('node-drag-enter', draggingNode.node, dropNode.node, event);
+      }
+
+      if (allowDrop) {
+        dragState.dropNode = dropNode;
+      }
+
+      var dropPrev = allowDrop;
+      var dropInner = allowDrop;
+      var dropNext = allowDrop;
+
+      if (dropNode.node.nextSibling === draggingNode.node) {
+        dropNext = false;
+      }
+      if (dropNode.node.previousSibling === draggingNode.node) {
+        dropPrev = false;
+      }
+      if (dropNode.node.contains(draggingNode.node, false)) {
+        dropInner = false;
+      }
+      if (draggingNode.node === dropNode.node || draggingNode.node.contains(dropNode.node)) {
+        dropPrev = false;
+        dropInner = false;
+        dropNext = false;
+      }
+
+      var targetPosition = dropNode.$el.querySelector('.el-tree-node__expand-icon').getBoundingClientRect();
+      var treePosition = _this.$el.getBoundingClientRect();
+
+      var dropType = void 0;
+      var prevPercent = dropPrev ? dropInner ? 0.25 : dropNext ? 0.5 : 1 : -1;
+      var nextPercent = dropNext ? dropInner ? 0.75 : dropPrev ? 0.5 : 0 : 1;
+
+      var indicatorTop = -9999;
+      var distance = event.clientY - targetPosition.top;
+      if (distance < targetPosition.height * prevPercent) {
+        dropType = 'before';
+      } else if (distance > targetPosition.height * nextPercent) {
+        dropType = 'after';
+      } else if (dropInner) {
+        dropType = 'inner';
+      } else {
+        dropType = 'none';
+      }
+
+      var dropIndicator = _this.$refs.dropIndicator;
+      if (dropType === 'before') {
+        indicatorTop = targetPosition.top - treePosition.top;
+      } else if (dropType === 'after') {
+        indicatorTop = targetPosition.bottom - treePosition.top;
+      }
+      dropIndicator.style.top = indicatorTop + 'px';
+      dropIndicator.style.left = targetPosition.right - treePosition.left + 'px';
+
+      if (dropType === 'inner') {
+        (0, _dom.addClass)(dropNode.$el, 'is-drop-inner');
+      } else {
+        (0, _dom.removeClass)(dropNode.$el, 'is-drop-inner');
+      }
+
+      dragState.showDropIndicator = dropType === 'before' || dropType === 'after';
+      dragState.dropType = dropType;
+      _this.$emit('node-drag-over', draggingNode.node, dropNode.node, event);
+    });
+
+    this.$on('tree-node-drag-end', function (event) {
+      var draggingNode = dragState.draggingNode,
+          dropType = dragState.dropType,
+          dropNode = dragState.dropNode;
+
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'move';
+
+      if (draggingNode && dropNode) {
+        var data = draggingNode.node.data;
+        if (dropType === 'before') {
+          draggingNode.node.remove();
+          dropNode.node.parent.insertBefore({ data: data }, dropNode.node);
+        } else if (dropType === 'after') {
+          draggingNode.node.remove();
+          dropNode.node.parent.insertAfter({ data: data }, dropNode.node);
+        } else if (dropType === 'inner') {
+          dropNode.node.insertChild({ data: data });
+          draggingNode.node.remove();
+        }
+        (0, _dom.removeClass)(dropNode.$el, 'is-drop-inner');
+
+        _this.$emit('node-drag-end', draggingNode.node, dropNode.node, dropType, event);
+        if (dropType !== 'none') {
+          _this.$emit('node-drop', draggingNode.node, dropNode.node, dropType, event);
+        }
+      }
+      if (draggingNode && !dropNode) {
+        _this.$emit('node-drag-end', draggingNode.node, dropNode.node, dropType, event);
+      }
+
+      dragState.showDropIndicator = false;
+      dragState.draggingNode = null;
+      dragState.dropNode = null;
+      dragState.allowDrop = true;
+    });
   },
   mounted: function mounted() {
-    this.initTabindex();
+    this.initTabIndex();
     this.$el.addEventListener('keydown', this.handelKeydown);
   },
   updated: function updated() {
     this.treeItems = this.$el.querySelectorAll('[role=treeitem]');
     this.checkboxItems = this.$el.querySelectorAll('input[type=checkbox]');
   }
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+};
 
 /***/ }),
 
@@ -995,7 +1155,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _merge = __webpack_require__(10);
+var _merge = __webpack_require__(9);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -1160,12 +1320,38 @@ var Node = function () {
     }
   };
 
+  Node.prototype.contains = function contains(target) {
+    var deep = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+    var walk = function walk(parent) {
+      var children = parent.childNodes || [];
+      var result = false;
+      for (var i = 0, j = children.length; i < j; i++) {
+        var child = children[i];
+        if (child === target || deep && walk(child)) {
+          result = true;
+          break;
+        }
+      }
+      return result;
+    };
+
+    return walk(this);
+  };
+
+  Node.prototype.remove = function remove() {
+    var parent = this.parent;
+    if (parent) {
+      parent.removeChild(this);
+    }
+  };
+
   Node.prototype.insertChild = function insertChild(child, index, batch) {
     if (!child) throw new Error('insertChild error: child is required.');
 
     if (!(child instanceof Node)) {
       if (!batch) {
-        var children = this.getChildren() || [];
+        var children = this.getChildren(true);
         if (children.indexOf(child.data) === -1) {
           if (typeof index === 'undefined' || index < 0) {
             children.push(child.data);
@@ -1370,6 +1556,7 @@ var Node = function () {
   };
 
   Node.prototype.getChildren = function getChildren() {
+    var forceInit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
     // this is data
     if (this.level === 0) return this.data;
     var data = this.data;
@@ -1383,6 +1570,10 @@ var Node = function () {
 
     if (data[children] === undefined) {
       data[children] = null;
+    }
+
+    if (forceInit && !data[children]) {
+      data[children] = [];
     }
 
     return data[children];
@@ -1471,6 +1662,30 @@ var Node = function () {
     key: 'disabled',
     get: function get() {
       return getPropertyFromData(this, 'disabled');
+    }
+  }, {
+    key: 'nextSibling',
+    get: function get() {
+      var parent = this.parent;
+      if (parent) {
+        var index = parent.childNodes.indexOf(this);
+        if (index > -1) {
+          return parent.childNodes[index + 1];
+        }
+      }
+      return null;
+    }
+  }, {
+    key: 'previousSibling',
+    get: function get() {
+      var parent = this.parent;
+      if (parent) {
+        var index = parent.childNodes.indexOf(this);
+        if (index > -1) {
+          return index > 0 ? parent.childNodes[index - 1] : null;
+        }
+      }
+      return null;
     }
   }]);
 
@@ -1602,6 +1817,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   name: 'ElTreeNode',
@@ -1643,7 +1864,7 @@ exports.default = {
         return parent.renderContent ? parent.renderContent.call(parent._renderProxy, h, { _self: tree.$vnode.context, node: node, data: data, store: store }) : tree.$scopedSlots.default ? tree.$scopedSlots.default({ node: node, data: data }) : h(
           'span',
           { 'class': 'el-tree-node__label' },
-          [this.node.label]
+          [node.label]
         );
       }
     }
@@ -1735,6 +1956,19 @@ exports.default = {
     handleChildNodeExpand: function handleChildNodeExpand(nodeData, node, instance) {
       this.broadcast('ElTreeNode', 'tree-node-expand', node);
       this.tree.$emit('node-expand', nodeData, node, instance);
+    },
+    handleDragStart: function handleDragStart(event) {
+      this.tree.$emit('tree-node-drag-start', event, this);
+    },
+    handleDragOver: function handleDragOver(event) {
+      this.tree.$emit('tree-node-drag-over', event, this);
+      event.preventDefault();
+    },
+    handleDrop: function handleDrop(event) {
+      event.preventDefault();
+    },
+    handleDragEnd: function handleDragEnd(event) {
+      this.tree.$emit('tree-node-drag-end', event, this);
     }
   },
 
@@ -1786,13 +2020,13 @@ exports.default = {
 "use strict";
 var render = function () {
 var this$1 = this;
-var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.node.visible),expression:"node.visible"}],staticClass:"el-tree-node",class:{
+var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.node.visible),expression:"node.visible"}],ref:"node",staticClass:"el-tree-node",class:{
     'is-expanded': _vm.expanded,
     'is-current': _vm.tree.store.currentNode === _vm.node,
     'is-hidden': !_vm.node.visible,
     'is-focusable': !_vm.node.disabled,
     'is-checked': !_vm.node.disabled && _vm.node.checked
-  },attrs:{"role":"treeitem","tabindex":"-1","aria-expanded":_vm.expanded,"aria-disabled":_vm.node.disabled,"aria-checked":_vm.node.checked},on:{"click":function($event){$event.stopPropagation();_vm.handleClick($event)},"contextmenu":function ($event) { return this$1.handleContextMenu($event); }}},[_c('div',{staticClass:"el-tree-node__content",style:({ 'padding-left': (_vm.node.level - 1) * _vm.tree.indent + 'px' })},[_c('span',{staticClass:"el-tree-node__expand-icon el-icon-caret-right",class:{ 'is-leaf': _vm.node.isLeaf, expanded: !_vm.node.isLeaf && _vm.expanded },on:{"click":function($event){$event.stopPropagation();_vm.handleExpandIconClick($event)}}}),(_vm.showCheckbox)?_c('el-checkbox',{attrs:{"indeterminate":_vm.node.indeterminate,"disabled":!!_vm.node.disabled},on:{"change":_vm.handleCheckChange},nativeOn:{"click":function($event){$event.stopPropagation();}},model:{value:(_vm.node.checked),callback:function ($$v) {_vm.$set(_vm.node, "checked", $$v)},expression:"node.checked"}}):_vm._e(),(_vm.node.loading)?_c('span',{staticClass:"el-tree-node__loading-icon el-icon-loading"}):_vm._e(),_c('node-content',{attrs:{"node":_vm.node}})],1),_c('el-collapse-transition',[(!_vm.renderAfterExpand || _vm.childNodeRendered)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.expanded),expression:"expanded"}],staticClass:"el-tree-node__children",attrs:{"role":"group","aria-expanded":_vm.expanded}},_vm._l((_vm.node.childNodes),function(child){return _c('el-tree-node',{key:_vm.getNodeKey(child),attrs:{"render-content":_vm.renderContent,"render-after-expand":_vm.renderAfterExpand,"node":child},on:{"node-expand":_vm.handleChildNodeExpand}})})):_vm._e()])],1)}
+  },attrs:{"role":"treeitem","tabindex":"-1","aria-expanded":_vm.expanded,"aria-disabled":_vm.node.disabled,"aria-checked":_vm.node.checked,"draggable":_vm.tree.draggable},on:{"click":function($event){$event.stopPropagation();_vm.handleClick($event)},"contextmenu":function ($event) { return this$1.handleContextMenu($event); },"dragstart":function($event){$event.stopPropagation();_vm.handleDragStart($event)},"dragover":function($event){$event.stopPropagation();_vm.handleDragOver($event)},"dragend":function($event){$event.stopPropagation();_vm.handleDragEnd($event)},"drop":function($event){$event.stopPropagation();_vm.handleDrop($event)}}},[_c('div',{staticClass:"el-tree-node__content",style:({ 'padding-left': (_vm.node.level - 1) * _vm.tree.indent + 'px' })},[_c('span',{staticClass:"el-tree-node__expand-icon el-icon-caret-right",class:{ 'is-leaf': _vm.node.isLeaf, expanded: !_vm.node.isLeaf && _vm.expanded },on:{"click":function($event){$event.stopPropagation();_vm.handleExpandIconClick($event)}}}),(_vm.showCheckbox)?_c('el-checkbox',{attrs:{"indeterminate":_vm.node.indeterminate,"disabled":!!_vm.node.disabled},on:{"change":_vm.handleCheckChange},nativeOn:{"click":function($event){$event.stopPropagation();}},model:{value:(_vm.node.checked),callback:function ($$v) {_vm.$set(_vm.node, "checked", $$v)},expression:"node.checked"}}):_vm._e(),(_vm.node.loading)?_c('span',{staticClass:"el-tree-node__loading-icon el-icon-loading"}):_vm._e(),_c('node-content',{attrs:{"node":_vm.node}})],1),_c('el-collapse-transition',[(!_vm.renderAfterExpand || _vm.childNodeRendered)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.expanded),expression:"expanded"}],staticClass:"el-tree-node__children",attrs:{"role":"group","aria-expanded":_vm.expanded}},_vm._l((_vm.node.childNodes),function(child){return _c('el-tree-node',{key:_vm.getNodeKey(child),attrs:{"render-content":_vm.renderContent,"render-after-expand":_vm.renderAfterExpand,"node":child},on:{"node-expand":_vm.handleChildNodeExpand}})})):_vm._e()])],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -1803,7 +2037,12 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-tree",class:{ 'el-tree--highlight-current': _vm.highlightCurrent },attrs:{"role":"tree"}},[_vm._l((_vm.root.childNodes),function(child){return _c('el-tree-node',{key:_vm.getNodeKey(child),attrs:{"node":child,"props":_vm.props,"render-after-expand":_vm.renderAfterExpand,"render-content":_vm.renderContent},on:{"node-expand":_vm.handleNodeExpand}})}),(!_vm.root.childNodes || _vm.root.childNodes.length === 0)?_c('div',{staticClass:"el-tree__empty-block"},[_c('span',{staticClass:"el-tree__empty-text"},[_vm._v(_vm._s(_vm.emptyText))])]):_vm._e()],2)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-tree",class:{
+    'el-tree--highlight-current': _vm.highlightCurrent,
+    'is-dragging': !!_vm.dragState.draggingNode,
+    'is-drop-not-allow': !_vm.dragState.allowDrop,
+    'is-drop-inner': _vm.dragState.dropType === 'inner'
+  },attrs:{"role":"tree"}},[_vm._l((_vm.root.childNodes),function(child){return _c('el-tree-node',{key:_vm.getNodeKey(child),attrs:{"node":child,"props":_vm.props,"render-after-expand":_vm.renderAfterExpand,"render-content":_vm.renderContent},on:{"node-expand":_vm.handleNodeExpand}})}),(!_vm.root.childNodes || _vm.root.childNodes.length === 0)?_c('div',{staticClass:"el-tree__empty-block"},[_c('span',{staticClass:"el-tree__empty-text"},[_vm._v(_vm._s(_vm.emptyText))])]):_vm._e(),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.dragState.showDropIndicator),expression:"dragState.showDropIndicator"}],ref:"dropIndicator",staticClass:"el-tree__drop-indicator"})],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -1833,6 +2072,24 @@ var getNodeKey = exports.getNodeKey = function getNodeKey(key, data) {
   if (!key) return data[NODE_KEY];
   return data[key];
 };
+
+var findNearestComponent = exports.findNearestComponent = function findNearestComponent(element, componentName) {
+  var target = element;
+  while (target && target.tagName !== 'BODY') {
+    if (target.__vue__ && target.__vue__.$options.name === componentName) {
+      return target.__vue__;
+    }
+    target = target.parentNode;
+  }
+  return null;
+};
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 
