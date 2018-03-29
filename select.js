@@ -700,7 +700,12 @@ exports.default = {
       this.$emit('visible-change', val);
     },
     options: function options() {
+      var _this4 = this;
+
       if (this.$isServer) return;
+      this.$nextTick(function () {
+        _this4.broadcast('ElSelectDropdown', 'updatePopper');
+      });
       if (this.multiple) {
         this.resetInputHeight();
       }
@@ -716,7 +721,7 @@ exports.default = {
 
   methods: {
     handleQueryChange: function handleQueryChange(val) {
-      var _this4 = this;
+      var _this5 = this;
 
       if (this.previousQuery === val) return;
       if (this.previousQuery === null && (typeof this.filterMethod === 'function' || typeof this.remoteMethod === 'function')) {
@@ -725,7 +730,7 @@ exports.default = {
       }
       this.previousQuery = val;
       this.$nextTick(function () {
-        if (_this4.visible) _this4.broadcast('ElSelectDropdown', 'updatePopper');
+        if (_this5.visible) _this5.broadcast('ElSelectDropdown', 'updatePopper');
       });
       this.hoverIndex = -1;
       if (this.multiple && this.filterable) {
@@ -770,10 +775,10 @@ exports.default = {
       this.$refs.scrollbar && this.$refs.scrollbar.handleScroll();
     },
     handleMenuEnter: function handleMenuEnter() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.$nextTick(function () {
-        return _this5.scrollToOption(_this5.selected);
+        return _this6.scrollToOption(_this6.selected);
       });
     },
     emitChange: function emitChange(val) {
@@ -805,7 +810,7 @@ exports.default = {
       return newOption;
     },
     setSelected: function setSelected() {
-      var _this6 = this;
+      var _this7 = this;
 
       if (!this.multiple) {
         var option = this.getOption(this.value);
@@ -823,12 +828,12 @@ exports.default = {
       var result = [];
       if (Array.isArray(this.value)) {
         this.value.forEach(function (value) {
-          result.push(_this6.getOption(value));
+          result.push(_this7.getOption(value));
         });
       }
       this.selected = result;
       this.$nextTick(function () {
-        _this6.resetInputHeight();
+        _this7.resetInputHeight();
       });
     },
     handleFocus: function handleFocus(event) {
@@ -837,6 +842,10 @@ exports.default = {
       } else {
         this.softFocus = false;
       }
+    },
+    blur: function blur() {
+      this.visible = false;
+      this.$refs.reference.blur();
     },
     handleBlur: function handleBlur(event) {
       this.$emit('blur', event);
@@ -884,42 +893,42 @@ exports.default = {
       this.resetInputHeight();
     },
     resetInputHeight: function resetInputHeight() {
-      var _this7 = this;
+      var _this8 = this;
 
       if (this.collapseTags && !this.filterable) return;
       this.$nextTick(function () {
-        if (!_this7.$refs.reference) return;
-        var inputChildNodes = _this7.$refs.reference.$el.childNodes;
+        if (!_this8.$refs.reference) return;
+        var inputChildNodes = _this8.$refs.reference.$el.childNodes;
         var input = [].filter.call(inputChildNodes, function (item) {
           return item.tagName === 'INPUT';
         })[0];
-        var tags = _this7.$refs.tags;
-        var sizeInMap = sizeMap[_this7.selectSize] || 40;
-        input.style.height = _this7.selected.length === 0 ? sizeInMap + 'px' : Math.max(tags ? tags.clientHeight + (tags.clientHeight > sizeInMap ? 6 : 0) : 0, sizeInMap) + 'px';
-        if (_this7.visible && _this7.emptyText !== false) {
-          _this7.broadcast('ElSelectDropdown', 'updatePopper');
+        var tags = _this8.$refs.tags;
+        var sizeInMap = sizeMap[_this8.selectSize] || 40;
+        input.style.height = _this8.selected.length === 0 ? sizeInMap + 'px' : Math.max(tags ? tags.clientHeight + (tags.clientHeight > sizeInMap ? 6 : 0) : 0, sizeInMap) + 'px';
+        if (_this8.visible && _this8.emptyText !== false) {
+          _this8.broadcast('ElSelectDropdown', 'updatePopper');
         }
       });
     },
     resetHoverIndex: function resetHoverIndex() {
-      var _this8 = this;
+      var _this9 = this;
 
       setTimeout(function () {
-        if (!_this8.multiple) {
-          _this8.hoverIndex = _this8.options.indexOf(_this8.selected);
+        if (!_this9.multiple) {
+          _this9.hoverIndex = _this9.options.indexOf(_this9.selected);
         } else {
-          if (_this8.selected.length > 0) {
-            _this8.hoverIndex = Math.min.apply(null, _this8.selected.map(function (item) {
-              return _this8.options.indexOf(item);
+          if (_this9.selected.length > 0) {
+            _this9.hoverIndex = Math.min.apply(null, _this9.selected.map(function (item) {
+              return _this9.options.indexOf(item);
             }));
           } else {
-            _this8.hoverIndex = -1;
+            _this9.hoverIndex = -1;
           }
         }
       }, 300);
     },
     handleOptionSelect: function handleOptionSelect(option) {
-      var _this9 = this;
+      var _this10 = this;
 
       if (this.multiple) {
         var value = this.value.slice();
@@ -943,9 +952,9 @@ exports.default = {
         this.visible = false;
       }
       this.$nextTick(function () {
-        if (_this9.visible) return;
-        _this9.scrollToOption(option);
-        _this9.setSoftFocus();
+        if (_this10.visible) return;
+        _this10.scrollToOption(option);
+        _this10.setSoftFocus();
       });
     },
     setSoftFocus: function setSoftFocus() {
@@ -953,7 +962,7 @@ exports.default = {
       (this.$refs.input || this.$refs.reference).focus();
     },
     getValueIndex: function getValueIndex() {
-      var _this10 = this;
+      var _this11 = this;
 
       var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
       var value = arguments[1];
@@ -963,7 +972,7 @@ exports.default = {
         return arr.indexOf(value);
       } else {
         var _ret = function () {
-          var valueKey = _this10.valueKey;
+          var valueKey = _this11.valueKey;
           var index = -1;
           arr.some(function (item, i) {
             if ((0, _util.getValueByPath)(item, valueKey) === (0, _util.getValueByPath)(value, valueKey)) {
@@ -1074,7 +1083,7 @@ exports.default = {
   },
 
   created: function created() {
-    var _this11 = this;
+    var _this12 = this;
 
     this.cachedPlaceHolder = this.currentPlaceholder = this.placeholder;
     if (this.multiple && !Array.isArray(this.value)) {
@@ -1085,17 +1094,17 @@ exports.default = {
     }
 
     this.debouncedOnInputChange = (0, _debounce2.default)(this.debounce, function () {
-      _this11.onInputChange();
+      _this12.onInputChange();
     });
 
     this.$on('handleOptionClick', this.handleOptionSelect);
     this.$on('setSelected', this.setSelected);
     this.$on('fieldReset', function () {
-      _this11.dispatch('ElFormItem', 'el.form.change');
+      _this12.dispatch('ElFormItem', 'el.form.change');
     });
   },
   mounted: function mounted() {
-    var _this12 = this;
+    var _this13 = this;
 
     if (this.multiple && Array.isArray(this.value) && this.value.length > 0) {
       this.currentPlaceholder = '';
@@ -1105,8 +1114,8 @@ exports.default = {
       this.resetInputHeight();
     }
     this.$nextTick(function () {
-      if (_this12.$refs.reference && _this12.$refs.reference.$el) {
-        _this12.inputWidth = _this12.$refs.reference.$el.getBoundingClientRect().width;
+      if (_this13.$refs.reference && _this13.$refs.reference.$el) {
+        _this13.inputWidth = _this13.$refs.reference.$el.getBoundingClientRect().width;
       }
     });
     this.setSelected();
