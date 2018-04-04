@@ -616,7 +616,13 @@ exports.default = {
         return false;
       }
       event.dataTransfer.effectAllowed = 'move';
-      event.dataTransfer.setData('text/plain', treeNode.node.label);
+
+      // wrap in try catch to address IE's error when first param is 'text/plain'
+      try {
+        // setData is required for draggable to work in FireFox
+        // the content has to be '' so dragging a node out of the tree won't open a new tab in FireFox
+        event.dataTransfer.setData('text/plain', '');
+      } catch (e) {}
       dragState.draggingNode = treeNode;
       _this.$emit('node-drag-start', treeNode.node, event);
     });
@@ -733,7 +739,7 @@ exports.default = {
         }
       }
       if (draggingNode && !dropNode) {
-        _this.$emit('node-drag-end', draggingNode.node, dropNode.node, dropType, event);
+        _this.$emit('node-drag-end', draggingNode.node, null, dropType, event);
       }
 
       dragState.showDropIndicator = false;

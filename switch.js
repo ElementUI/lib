@@ -317,7 +317,7 @@ exports.default = {
     },
     width: {
       type: Number,
-      default: 0
+      default: 40
     },
     activeIconClass: {
       type: String,

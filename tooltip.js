@@ -356,6 +356,10 @@ exports.default = {
         clearTimeout(this.timeoutPending);
       }
       this.showPopper = false;
+
+      if (this.disabled) {
+        this.doDestroy();
+      }
     },
     setExpectedState: function setExpectedState(expectedState) {
       if (expectedState === false) {

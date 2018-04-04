@@ -410,8 +410,8 @@ exports.default = {
         this.$refs.input.setCurrentValue(this.currentValue);
         return;
       }
-      this.$emit('change', newVal, oldVal);
       this.$emit('input', newVal);
+      this.$emit('change', newVal, oldVal);
       this.currentValue = newVal;
     },
     handleInputChange: function handleInputChange(value) {

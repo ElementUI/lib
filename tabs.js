@@ -513,7 +513,8 @@ exports.default = {
     return {
       scrollable: false,
       navOffset: 0,
-      isFocus: false
+      isFocus: false,
+      focusable: true
     };
   },
 
@@ -631,10 +632,30 @@ exports.default = {
       this.setFocus();
     },
     setFocus: function setFocus() {
-      this.isFocus = true;
+      if (this.focusable) {
+        this.isFocus = true;
+      }
     },
     removeFocus: function removeFocus() {
       this.isFocus = false;
+    },
+    visibilityChangeHandler: function visibilityChangeHandler() {
+      var visibility = document.visibilityState;
+      if (visibility === 'hidden') {
+        this.focusable = false;
+      } else if (visibility === 'visible') {
+        this.focusable = true;
+      }
+    },
+    windowBlurHandler: function windowBlurHandler() {
+      this.focusable = false;
+    },
+    windowFocusHandler: function windowFocusHandler() {
+      var _this = this;
+
+      setTimeout(function () {
+        _this.focusable = true;
+      }, 50);
     }
   },
 
@@ -642,7 +663,7 @@ exports.default = {
     this.update();
   },
   render: function render(h) {
-    var _this = this;
+    var _this2 = this;
 
     var type = this.type,
         panes = this.panes,
@@ -707,7 +728,7 @@ exports.default = {
         {
           'class': (_ref = {
             'el-tabs__item': true
-          }, _ref['is-' + _this.rootTabs.tabPosition] = true, _ref['is-active'] = pane.active, _ref['is-disabled'] = pane.disabled, _ref['is-closable'] = closable, _ref['is-focus'] = _this.isFocus, _ref),
+          }, _ref['is-' + _this2.rootTabs.tabPosition] = true, _ref['is-active'] = pane.active, _ref['is-disabled'] = pane.disabled, _ref['is-closable'] = closable, _ref['is-focus'] = _this2.isFocus, _ref),
           attrs: { id: 'tab-' + tabName,
             'aria-controls': 'pane-' + tabName,
             role: 'tab',
@@ -762,9 +783,15 @@ exports.default = {
   },
   mounted: function mounted() {
     (0, _resizeEvent.addResizeListener)(this.$el, this.update);
+    document.addEventListener('visibilitychange', this.visibilityChangeHandler);
+    window.addEventListener('blur', this.windowBlurHandler);
+    window.addEventListener('focus', this.windowFocusHandler);
   },
   beforeDestroy: function beforeDestroy() {
     if (this.$el && this.update) (0, _resizeEvent.removeResizeListener)(this.$el, this.update);
+    document.removeEventListener('visibilitychange', this.visibilityChangeHandler);
+    window.removeEventListener('blur', this.windowBlurHandler);
+    window.removeEventListener('focus', this.windowFocusHandler);
   }
 };
 

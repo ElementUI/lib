@@ -248,7 +248,11 @@ exports.default = {
       default: 300
     },
     popperClass: String,
-    disabled: Boolean
+    disabled: Boolean,
+    popperAppendToBody: {
+      type: Boolean,
+      default: undefined
+    }
   },
 
   data: function data() {
@@ -256,7 +260,8 @@ exports.default = {
       popperJS: null,
       timeout: null,
       items: {},
-      submenus: {}
+      submenus: {},
+      mouseInChild: false
     };
   },
 
@@ -274,7 +279,7 @@ exports.default = {
   computed: {
     // popper option
     appendToBody: function appendToBody() {
-      return this.isFirstLevel;
+      return this.popperAppendToBody === undefined ? this.isFirstLevel : this.popperAppendToBody;
     },
     menuTransitionName: function menuTransitionName() {
       return this.rootMenu.collapse ? 'el-zoom-in-left' : 'el-zoom-in-top';
@@ -382,6 +387,7 @@ exports.default = {
       if (rootMenu.menuTrigger === 'click' && rootMenu.mode === 'horizontal' || !rootMenu.collapse && rootMenu.mode === 'vertical' || disabled) {
         return;
       }
+      this.dispatch('ElSubmenu', 'mouse-enter-child');
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
         _this2.rootMenu.openMenu(_this2.index, _this2.indexPath);
@@ -395,9 +401,10 @@ exports.default = {
       if (rootMenu.menuTrigger === 'click' && rootMenu.mode === 'horizontal' || !rootMenu.collapse && rootMenu.mode === 'vertical') {
         return;
       }
+      this.dispatch('ElSubmenu', 'mouse-leave-child');
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
-        _this3.rootMenu.closeMenu(_this3.index);
+        !_this3.mouseInChild && _this3.rootMenu.closeMenu(_this3.index);
       }, this.hideTimeout);
     },
     handleTitleMouseenter: function handleTitleMouseenter() {
@@ -420,9 +427,19 @@ exports.default = {
     }
   },
   created: function created() {
+    var _this4 = this;
+
     this.parentMenu.addSubmenu(this);
     this.rootMenu.addSubmenu(this);
     this.$on('toggle-collapse', this.handleCollapseToggle);
+    this.$on('mouse-enter-child', function () {
+      _this4.mouseInChild = true;
+      clearTimeout(_this4.timeout);
+    });
+    this.$on('mouse-leave-child', function () {
+      _this4.mouseInChild = false;
+      clearTimeout(_this4.timeout);
+    });
   },
   mounted: function mounted() {
     this.initPopper();

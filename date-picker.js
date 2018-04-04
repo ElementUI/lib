@@ -197,7 +197,7 @@ module.exports = require("element-ui/lib/utils/clickoutside");
 
 
 exports.__esModule = true;
-exports.extractTimeFormat = exports.extractDateFormat = exports.nextYear = exports.prevYear = exports.nextMonth = exports.prevMonth = exports.changeYearMonthAndClampDate = exports.timeWithinRange = exports.limitTimeRange = exports.clearMilliseconds = exports.clearTime = exports.modifyTime = exports.modifyDate = exports.range = exports.getRangeHours = exports.getWeekNumber = exports.getStartDateOfMonth = exports.nextDate = exports.prevDate = exports.getFirstDayOfMonth = exports.getDayCountOfYear = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDateObject = exports.isDate = exports.toDate = undefined;
+exports.extractTimeFormat = exports.extractDateFormat = exports.nextYear = exports.prevYear = exports.nextMonth = exports.prevMonth = exports.changeYearMonthAndClampDate = exports.timeWithinRange = exports.limitTimeRange = exports.clearMilliseconds = exports.clearTime = exports.modifyWithDefaultTime = exports.modifyTime = exports.modifyDate = exports.range = exports.getRangeHours = exports.getWeekNumber = exports.getStartDateOfMonth = exports.nextDate = exports.prevDate = exports.getFirstDayOfMonth = exports.getDayCountOfYear = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDateObject = exports.isDate = exports.toDate = undefined;
 
 var _date = __webpack_require__(28);
 
@@ -362,6 +362,14 @@ var modifyDate = exports.modifyDate = function modifyDate(date, y, m, d) {
 
 var modifyTime = exports.modifyTime = function modifyTime(date, h, m, s) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate(), h, m, s, date.getMilliseconds());
+};
+
+var modifyWithDefaultTime = exports.modifyWithDefaultTime = function modifyWithDefaultTime(date, time) {
+  if (date == null || !time) {
+    return date;
+  }
+  time = parseDate(time, 'HH:mm:ss');
+  return modifyTime(date, time.getHours(), time.getMinutes(), time.getSeconds());
 };
 
 var clearTime = exports.clearTime = function clearTime(date) {
@@ -785,7 +793,7 @@ exports.default = {
     },
     handleTimePick: function handleTimePick(value, visible, first) {
       if ((0, _util.isDate)(value)) {
-        var newDate = (0, _util.modifyTime)(this.date, value.getHours(), value.getMinutes(), value.getSeconds());
+        var newDate = this.value ? (0, _util.modifyTime)(this.date, value.getHours(), value.getMinutes(), value.getSeconds()) : (0, _util.modifyWithDefaultTime)(value, this.defaultTime);
         this.date = newDate;
         this.emit(this.date, true);
       } else {
@@ -808,7 +816,7 @@ exports.default = {
     },
     handleDatePick: function handleDatePick(value) {
       if (this.selectionMode === 'day') {
-        this.date = (0, _util.modifyDate)(this.date, value.getFullYear(), value.getMonth(), value.getDate());
+        this.date = this.value ? (0, _util.modifyDate)(this.date, value.getFullYear(), value.getMonth(), value.getDate()) : (0, _util.modifyWithDefaultTime)(value, this.defaultTime);
         this.emit(this.date, this.showTime);
       } else if (this.selectionMode === 'week') {
         this.emit(value.date);
@@ -834,7 +842,8 @@ exports.default = {
       }
     },
     confirm: function confirm() {
-      this.emit(this.date);
+      var date = this.value ? this.date : (0, _util.modifyWithDefaultTime)(this.date, this.defaultTime);
+      this.emit(date);
     },
     resetView: function resetView() {
       if (this.selectionMode === 'month') {
@@ -942,6 +951,7 @@ exports.default = {
       date: new Date(),
       value: '',
       defaultValue: null,
+      defaultTime: null,
       showTime: false,
       selectionMode: 'day',
       shortcuts: '',
@@ -2260,14 +2270,6 @@ var calcDefaultValue = function calcDefaultValue(defaultValue) {
   }
 };
 
-var modifyWithGivenTime = function modifyWithGivenTime(date, time) {
-  if (date == null || time == null) {
-    return date;
-  }
-  time = (0, _util.parseDate)(time, 'HH:mm:ss');
-  return (0, _util.modifyTime)(date, time.getHours(), time.getMinutes(), time.getSeconds());
-};
-
 exports.default = {
   mixins: [_locale2.default],
 
@@ -2525,8 +2527,8 @@ exports.default = {
       var close = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
       var defaultTime = this.defaultTime || [];
-      var minDate = modifyWithGivenTime(val.minDate, defaultTime[0]);
-      var maxDate = modifyWithGivenTime(val.maxDate, defaultTime[1]);
+      var minDate = (0, _util.modifyWithDefaultTime)(val.minDate, defaultTime[0]);
+      var maxDate = (0, _util.modifyWithDefaultTime)(val.maxDate, defaultTime[1]);
 
       if (this.maxDate === maxDate && this.minDate === minDate) {
         return;
