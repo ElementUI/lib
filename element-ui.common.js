@@ -2063,7 +2063,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 module.exports = {
-  version: '2.3.3',
+  version: '2.3.4',
   locale: _locale2.default.use,
   i18n: _locale2.default.i18n,
   install: install,
@@ -2346,10 +2346,11 @@ exports.default = {
           'button',
           {
             attrs: {
-              type: 'button'
+              type: 'button',
+
+              disabled: this.$parent.disabled || this.$parent.internalCurrentPage <= 1
             },
-            'class': ['btn-prev', { disabled: this.$parent.disabled || this.$parent.internalCurrentPage <= 1 }],
-            on: {
+            'class': 'btn-prev', on: {
               'click': this.$parent.prev
             }
           },
@@ -2372,10 +2373,11 @@ exports.default = {
           'button',
           {
             attrs: {
-              type: 'button'
+              type: 'button',
+
+              disabled: this.$parent.disabled || this.$parent.internalCurrentPage === this.$parent.internalPageCount || this.$parent.internalPageCount === 0
             },
-            'class': ['btn-next', { disabled: this.$parent.disabled || this.$parent.internalCurrentPage === this.$parent.internalPageCount || this.$parent.internalPageCount === 0 }],
-            on: {
+            'class': 'btn-next', on: {
               'click': this.$parent.next
             }
           },
@@ -2576,6 +2578,7 @@ exports.default = {
   methods: {
     handleCurrentChange: function handleCurrentChange(val) {
       this.internalCurrentPage = this.getValidCurrentPage(val);
+      this.userChangePageSize = true;
       this.emitChange();
     },
     prev: function prev() {
@@ -2618,9 +2621,10 @@ exports.default = {
       var _this3 = this;
 
       this.$nextTick(function () {
-        if (_this3.internalCurrentPage !== _this3.lastEmittedPage) {
+        if (_this3.internalCurrentPage !== _this3.lastEmittedPage || _this3.userChangePageSize) {
           _this3.$emit('current-change', _this3.internalCurrentPage);
           _this3.lastEmittedPage = _this3.internalCurrentPage;
+          _this3.userChangePageSize = false;
         }
       });
     }
@@ -2648,33 +2652,33 @@ exports.default = {
     pageSize: {
       immediate: true,
       handler: function handler(val) {
-        this.internalPageSize = val;
+        this.internalPageSize = isNaN(val) ? 10 : val;
       }
     },
 
-    internalCurrentPage: function internalCurrentPage(newVal, oldVal) {
-      var _this4 = this;
+    internalCurrentPage: {
+      immediate: true,
+      handler: function handler(newVal, oldVal) {
+        newVal = parseInt(newVal, 10);
 
-      newVal = parseInt(newVal, 10);
+        /* istanbul ignore if */
+        if (isNaN(newVal)) {
+          newVal = oldVal || 1;
+        } else {
+          newVal = this.getValidCurrentPage(newVal);
+        }
 
-      /* istanbul ignore if */
-      if (isNaN(newVal)) {
-        newVal = oldVal || 1;
-      } else {
-        newVal = this.getValidCurrentPage(newVal);
-      }
-
-      if (newVal !== undefined) {
-        this.$nextTick(function () {
-          _this4.internalCurrentPage = newVal;
+        if (newVal !== undefined) {
+          this.internalCurrentPage = newVal;
           if (oldVal !== newVal) {
-            _this4.$emit('update:currentPage', newVal);
+            this.$emit('update:currentPage', newVal);
           }
-        });
-      } else {
-        this.$emit('update:currentPage', newVal);
+        } else {
+          this.$emit('update:currentPage', newVal);
+        }
       }
     },
+
     internalPageCount: function internalPageCount(newVal) {
       /* istanbul ignore if */
       var oldPage = this.internalCurrentPage;
@@ -5883,7 +5887,7 @@ exports.default = {
 
   data: function data() {
     return {
-      currentValue: this.value,
+      currentValue: this.value || '',
       textareaCalcStyle: {},
       prefixOffset: null,
       suffixOffset: null,
@@ -8461,7 +8465,7 @@ exports.default = {
         });
         if (!this.multiple) {
           if (this.selected) {
-            if (this.filterable && this.allowCreate && this.createdSelected && this.createdOption) {
+            if (this.filterable && this.allowCreate && this.createdSelected && this.createdLabel) {
               this.selectedLabel = this.createdLabel;
             } else {
               this.selectedLabel = this.selected.currentLabel;
@@ -11334,6 +11338,7 @@ var TableLayout = function () {
       }
 
       this.bodyWidth = Math.max(bodyMinWidth, bodyWidth);
+      this.table.resizeState.width = this.bodyWidth;
     } else {
       flattenColumns.forEach(function (column) {
         if (!column.width && !column.minWidth) {
@@ -13241,12 +13246,13 @@ var getDefaultColumn = function getDefaultColumn(type, options) {
 
 var DEFAULT_RENDER_CELL = function DEFAULT_RENDER_CELL(h, _ref7) {
   var row = _ref7.row,
-      column = _ref7.column;
+      column = _ref7.column,
+      $index = _ref7.$index;
 
   var property = column.property;
   var value = property && (0, _util.getPropByPath)(row, property).v;
   if (column && column.formatter) {
-    return column.formatter(row, column, value);
+    return column.formatter(row, column, value, $index);
   }
   return value;
 };
@@ -20365,21 +20371,25 @@ exports.default = {
       this.isFocus = false;
     },
     visibilityChangeHandler: function visibilityChangeHandler() {
+      var _this = this;
+
       var visibility = document.visibilityState;
       if (visibility === 'hidden') {
         this.focusable = false;
       } else if (visibility === 'visible') {
-        this.focusable = true;
+        setTimeout(function () {
+          _this.focusable = true;
+        }, 50);
       }
     },
     windowBlurHandler: function windowBlurHandler() {
       this.focusable = false;
     },
     windowFocusHandler: function windowFocusHandler() {
-      var _this = this;
+      var _this2 = this;
 
       setTimeout(function () {
-        _this.focusable = true;
+        _this2.focusable = true;
       }, 50);
     }
   },
@@ -20388,7 +20398,7 @@ exports.default = {
     this.update();
   },
   render: function render(h) {
-    var _this2 = this;
+    var _this3 = this;
 
     var type = this.type,
         panes = this.panes,
@@ -20453,7 +20463,7 @@ exports.default = {
         {
           'class': (_ref = {
             'el-tabs__item': true
-          }, _ref['is-' + _this2.rootTabs.tabPosition] = true, _ref['is-active'] = pane.active, _ref['is-disabled'] = pane.disabled, _ref['is-closable'] = closable, _ref['is-focus'] = _this2.isFocus, _ref),
+          }, _ref['is-' + _this3.rootTabs.tabPosition] = true, _ref['is-active'] = pane.active, _ref['is-disabled'] = pane.disabled, _ref['is-closable'] = closable, _ref['is-focus'] = _this3.isFocus, _ref),
           attrs: { id: 'tab-' + tabName,
             'aria-controls': 'pane-' + tabName,
             role: 'tab',
@@ -25362,6 +25372,7 @@ exports.default = {
       }
     },
     handleKeydown: function handleKeydown(e) {
+      if (e.target !== e.currentTarget) return;
       if (e.keyCode === 13 || e.keyCode === 32) {
         this.handleClick();
       }
@@ -26993,7 +27004,7 @@ exports.default = {
         this.$emit('change', value);
       }
     },
-    handelKey: function handelKey(e) {
+    handleKey: function handleKey(e) {
       var currentValue = this.currentValue;
       var keyCode = e.keyCode;
       if (keyCode === 38 || keyCode === 39) {
@@ -27064,7 +27075,7 @@ exports.default = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-rate",attrs:{"role":"slider","aria-valuenow":_vm.currentValue,"aria-valuetext":_vm.text,"aria-valuemin":"0","aria-valuemax":_vm.max,"tabindex":"0"},on:{"keydown":_vm.handelKey}},[_vm._l((_vm.max),function(item){return _c('span',{staticClass:"el-rate__item",style:({ cursor: _vm.rateDisabled ? 'auto' : 'pointer' }),on:{"mousemove":function($event){_vm.setCurrentValue(item, $event)},"mouseleave":_vm.resetCurrentValue,"click":function($event){_vm.selectValue(item)}}},[_c('i',{staticClass:"el-rate__icon",class:[_vm.classes[item - 1], { 'hover': _vm.hoverIndex === item }],style:(_vm.getIconStyle(item))},[(_vm.showDecimalIcon(item))?_c('i',{staticClass:"el-rate__decimal",class:_vm.decimalIconClass,style:(_vm.decimalStyle)}):_vm._e()])])}),(_vm.showText || _vm.showScore)?_c('span',{staticClass:"el-rate__text",style:({ color: _vm.textColor })},[_vm._v(_vm._s(_vm.text))]):_vm._e()],2)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-rate",attrs:{"role":"slider","aria-valuenow":_vm.currentValue,"aria-valuetext":_vm.text,"aria-valuemin":"0","aria-valuemax":_vm.max,"tabindex":"0"},on:{"keydown":_vm.handleKey}},[_vm._l((_vm.max),function(item){return _c('span',{staticClass:"el-rate__item",style:({ cursor: _vm.rateDisabled ? 'auto' : 'pointer' }),on:{"mousemove":function($event){_vm.setCurrentValue(item, $event)},"mouseleave":_vm.resetCurrentValue,"click":function($event){_vm.selectValue(item)}}},[_c('i',{staticClass:"el-rate__icon",class:[_vm.classes[item - 1], { 'hover': _vm.hoverIndex === item }],style:(_vm.getIconStyle(item))},[(_vm.showDecimalIcon(item))?_c('i',{staticClass:"el-rate__decimal",class:_vm.decimalIconClass,style:(_vm.decimalStyle)}):_vm._e()])])}),(_vm.showText || _vm.showScore)?_c('span',{staticClass:"el-rate__text",style:({ color: _vm.textColor })},[_vm._v(_vm._s(_vm.text))]):_vm._e()],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -31285,11 +31296,12 @@ exports.default = {
             return vm;
           }
         };
-        var parent = getParent(this);
-        return parent.renderContent ? parent.renderContent(h, this.option) : h(
+        var panel = getParent(this);
+        var transfer = panel.$parent || panel;
+        return panel.renderContent ? panel.renderContent(h, this.option) : transfer.$scopedSlots.default ? transfer.$scopedSlots.default({ option: this.option }) : h(
           'span',
           null,
-          [this.option[parent.labelProp] || this.option[parent.keyProp]]
+          [this.option[panel.labelProp] || this.option[panel.keyProp]]
         );
       }
     }

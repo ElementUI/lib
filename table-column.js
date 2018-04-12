@@ -290,12 +290,13 @@ var getDefaultColumn = function getDefaultColumn(type, options) {
 
 var DEFAULT_RENDER_CELL = function DEFAULT_RENDER_CELL(h, _ref7) {
   var row = _ref7.row,
-      column = _ref7.column;
+      column = _ref7.column,
+      $index = _ref7.$index;
 
   var property = column.property;
   var value = property && (0, _util.getPropByPath)(row, property).v;
   if (column && column.formatter) {
-    return column.formatter(row, column, value);
+    return column.formatter(row, column, value, $index);
   }
   return value;
 };

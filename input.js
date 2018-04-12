@@ -393,7 +393,7 @@ exports.default = {
 
   data: function data() {
     return {
-      currentValue: this.value,
+      currentValue: this.value || '',
       textareaCalcStyle: {},
       prefixOffset: null,
       suffixOffset: null,

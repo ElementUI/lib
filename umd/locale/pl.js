@@ -120,7 +120,7 @@
         titles: ['Lista 1', 'Lista 2'],
         filterPlaceholder: 'Wpisz szukaną frazę',
         noCheckedFormat: 'razem: {total}',
-        hasCheckedFormat: 'wybranyh: {checked}/{total}'
+        hasCheckedFormat: 'wybranych: {checked}/{total}'
       }
     }
   };

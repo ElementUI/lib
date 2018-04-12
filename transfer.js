@@ -657,11 +657,12 @@ exports.default = {
             return vm;
           }
         };
-        var parent = getParent(this);
-        return parent.renderContent ? parent.renderContent(h, this.option) : h(
+        var panel = getParent(this);
+        var transfer = panel.$parent || panel;
+        return panel.renderContent ? panel.renderContent(h, this.option) : transfer.$scopedSlots.default ? transfer.$scopedSlots.default({ option: this.option }) : h(
           'span',
           null,
-          [this.option[parent.labelProp] || this.option[parent.keyProp]]
+          [this.option[panel.labelProp] || this.option[panel.keyProp]]
         );
       }
     }

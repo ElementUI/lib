@@ -640,21 +640,25 @@ exports.default = {
       this.isFocus = false;
     },
     visibilityChangeHandler: function visibilityChangeHandler() {
+      var _this = this;
+
       var visibility = document.visibilityState;
       if (visibility === 'hidden') {
         this.focusable = false;
       } else if (visibility === 'visible') {
-        this.focusable = true;
+        setTimeout(function () {
+          _this.focusable = true;
+        }, 50);
       }
     },
     windowBlurHandler: function windowBlurHandler() {
       this.focusable = false;
     },
     windowFocusHandler: function windowFocusHandler() {
-      var _this = this;
+      var _this2 = this;
 
       setTimeout(function () {
-        _this.focusable = true;
+        _this2.focusable = true;
       }, 50);
     }
   },
@@ -663,7 +667,7 @@ exports.default = {
     this.update();
   },
   render: function render(h) {
-    var _this2 = this;
+    var _this3 = this;
 
     var type = this.type,
         panes = this.panes,
@@ -728,7 +732,7 @@ exports.default = {
         {
           'class': (_ref = {
             'el-tabs__item': true
-          }, _ref['is-' + _this2.rootTabs.tabPosition] = true, _ref['is-active'] = pane.active, _ref['is-disabled'] = pane.disabled, _ref['is-closable'] = closable, _ref['is-focus'] = _this2.isFocus, _ref),
+          }, _ref['is-' + _this3.rootTabs.tabPosition] = true, _ref['is-active'] = pane.active, _ref['is-disabled'] = pane.disabled, _ref['is-closable'] = closable, _ref['is-focus'] = _this3.isFocus, _ref),
           attrs: { id: 'tab-' + tabName,
             'aria-controls': 'pane-' + tabName,
             role: 'tab',
