@@ -197,7 +197,7 @@ module.exports = require("element-ui/lib/checkbox");
 
 /***/ }),
 
-/***/ 39:
+/***/ 40:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/checkbox-group");
@@ -560,7 +560,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _checkboxGroup = __webpack_require__(39);
+var _checkboxGroup = __webpack_require__(40);
 
 var _checkboxGroup2 = _interopRequireDefault(_checkboxGroup);
 

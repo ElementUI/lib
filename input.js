@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 111);
+/******/ 	return __webpack_require__(__webpack_require__.s = 112);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -183,15 +183,15 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 111:
+/***/ 112:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(112);
+module.exports = __webpack_require__(113);
 
 
 /***/ }),
 
-/***/ 112:
+/***/ 113:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -199,7 +199,7 @@ module.exports = __webpack_require__(112);
 
 exports.__esModule = true;
 
-var _input = __webpack_require__(113);
+var _input = __webpack_require__(114);
 
 var _input2 = _interopRequireDefault(_input);
 
@@ -214,14 +214,14 @@ exports.default = _input2.default;
 
 /***/ }),
 
-/***/ 113:
+/***/ 114:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__ = __webpack_require__(115);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5ce34479_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5ce34479_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__ = __webpack_require__(117);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -249,7 +249,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 114:
+/***/ 115:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -265,7 +265,7 @@ var _migrating = __webpack_require__(8);
 
 var _migrating2 = _interopRequireDefault(_migrating);
 
-var _calcTextareaHeight = __webpack_require__(115);
+var _calcTextareaHeight = __webpack_require__(116);
 
 var _calcTextareaHeight2 = _interopRequireDefault(_calcTextareaHeight);
 
@@ -273,105 +273,9 @@ var _merge = __webpack_require__(9);
 
 var _merge2 = _interopRequireDefault(_merge);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _shared = __webpack_require__(23);
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
   name: 'ElInput',
@@ -393,7 +297,7 @@ exports.default = {
 
   data: function data() {
     return {
-      currentValue: this.value || '',
+      currentValue: this.value === undefined ? '' : this.value,
       textareaCalcStyle: {},
       prefixOffset: null,
       suffixOffset: null,
@@ -530,7 +434,9 @@ exports.default = {
         this.isOnComposition = false;
         this.handleInput(event);
       } else {
-        this.isOnComposition = true;
+        var text = event.target.value;
+        var lastCharacter = text[text.length - 1] || '';
+        this.isOnComposition = !(0, _shared.isKorean)(lastCharacter);
       }
     },
     handleInput: function handleInput(event) {
@@ -585,11 +491,107 @@ exports.default = {
       this.suffixOffset = this.calcIconOffset('suf');
     }
   }
-};
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 
-/***/ 115:
+/***/ 116:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -672,7 +674,7 @@ function calcTextareaHeight(targetElement) {
 
 /***/ }),
 
-/***/ 116:
+/***/ 117:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -691,6 +693,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+
+/***/ 23:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/shared");
 
 /***/ }),
 

@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 54);
+/******/ 	return __webpack_require__(__webpack_require__.s = 55);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -190,15 +190,15 @@ module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ }),
 
-/***/ 54:
+/***/ 55:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(55);
+module.exports = __webpack_require__(56);
 
 
 /***/ }),
 
-/***/ 55:
+/***/ 56:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -206,7 +206,7 @@ module.exports = __webpack_require__(55);
 
 exports.__esModule = true;
 
-var _pagination = __webpack_require__(56);
+var _pagination = __webpack_require__(57);
 
 var _pagination2 = _interopRequireDefault(_pagination);
 
@@ -221,7 +221,7 @@ exports.default = _pagination2.default;
 
 /***/ }),
 
-/***/ 56:
+/***/ 57:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -229,15 +229,15 @@ exports.default = _pagination2.default;
 
 exports.__esModule = true;
 
-var _pager = __webpack_require__(57);
+var _pager = __webpack_require__(58);
 
 var _pager2 = _interopRequireDefault(_pager);
 
-var _select = __webpack_require__(60);
+var _select = __webpack_require__(61);
 
 var _select2 = _interopRequireDefault(_select);
 
-var _option = __webpack_require__(61);
+var _option = __webpack_require__(62);
 
 var _option2 = _interopRequireDefault(_option);
 
@@ -267,6 +267,15 @@ exports.default = {
     total: Number,
 
     pageCount: Number,
+
+    pagerCount: {
+      type: Number,
+      validator: function validator(value) {
+        return (value | 0) === value && value > 4 && value < 22 && value % 2 === 1;
+      },
+
+      default: 7
+    },
 
     currentPage: {
       type: Number,
@@ -328,7 +337,7 @@ exports.default = {
       pager: h(
         'pager',
         {
-          attrs: { currentPage: this.internalCurrentPage, pageCount: this.internalPageCount, disabled: this.disabled },
+          attrs: { currentPage: this.internalCurrentPage, pageCount: this.internalPageCount, pagerCount: this.pagerCount, disabled: this.disabled },
           on: {
             'change': this.handleCurrentChange
           }
@@ -642,12 +651,14 @@ exports.default = {
       if (this.disabled) return;
       var newVal = this.internalCurrentPage - 1;
       this.internalCurrentPage = this.getValidCurrentPage(newVal);
+      this.$emit('prev-click', this.internalCurrentPage);
       this.emitChange();
     },
     next: function next() {
       if (this.disabled) return;
       var newVal = this.internalCurrentPage + 1;
       this.internalCurrentPage = this.getValidCurrentPage(newVal);
+      this.$emit('next-click', this.internalCurrentPage);
       this.emitChange();
     },
     getValidCurrentPage: function getValidCurrentPage(value) {
@@ -752,14 +763,14 @@ exports.default = {
 
 /***/ }),
 
-/***/ 57:
+/***/ 58:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_pager_vue__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_pager_vue__ = __webpack_require__(59);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_pager_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_pager_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4c57ea14_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_pager_vue__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4c57ea14_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_pager_vue__ = __webpack_require__(60);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -787,7 +798,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 58:
+/***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -835,6 +846,8 @@ exports.default = {
 
     pageCount: Number,
 
+    pagerCount: Number,
+
     disabled: Boolean
   },
 
@@ -857,12 +870,13 @@ exports.default = {
       var newPage = Number(event.target.textContent);
       var pageCount = this.pageCount;
       var currentPage = this.currentPage;
+      var pagerCountOffset = this.pagerCount - 2;
 
       if (target.className.indexOf('more') !== -1) {
         if (target.className.indexOf('quickprev') !== -1) {
-          newPage = currentPage - 5;
+          newPage = currentPage - pagerCountOffset;
         } else if (target.className.indexOf('quicknext') !== -1) {
-          newPage = currentPage + 5;
+          newPage = currentPage + pagerCountOffset;
         }
       }
 
@@ -893,7 +907,8 @@ exports.default = {
 
   computed: {
     pagers: function pagers() {
-      var pagerCount = 7;
+      var pagerCount = this.pagerCount;
+      var halfPagerCount = (pagerCount - 1) / 2;
 
       var currentPage = Number(this.currentPage);
       var pageCount = Number(this.pageCount);
@@ -902,11 +917,11 @@ exports.default = {
       var showNextMore = false;
 
       if (pageCount > pagerCount) {
-        if (currentPage > pagerCount - 3) {
+        if (currentPage > pagerCount - halfPagerCount) {
           showPrevMore = true;
         }
 
-        if (currentPage < pageCount - 3) {
+        if (currentPage < pageCount - halfPagerCount) {
           showNextMore = true;
         }
       }
@@ -953,7 +968,14 @@ exports.default = {
 
 /***/ }),
 
-/***/ 59:
+/***/ 6:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/input");
+
+/***/ }),
+
+/***/ 60:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -964,21 +986,14 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 6:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/input");
-
-/***/ }),
-
-/***/ 60:
+/***/ 61:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/select");
 
 /***/ }),
 
-/***/ 61:
+/***/ 62:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/option");

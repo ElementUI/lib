@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 334);
+/******/ 	return __webpack_require__(__webpack_require__.s = 335);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -176,15 +176,15 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 334:
+/***/ 335:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(335);
+module.exports = __webpack_require__(336);
 
 
 /***/ }),
 
-/***/ 335:
+/***/ 336:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -192,7 +192,7 @@ module.exports = __webpack_require__(335);
 
 exports.__esModule = true;
 
-var _src = __webpack_require__(336);
+var _src = __webpack_require__(337);
 
 var _src2 = _interopRequireDefault(_src);
 
@@ -207,12 +207,12 @@ exports.default = _src2.default;
 
 /***/ }),
 
-/***/ 336:
+/***/ 337:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(337);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(338);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_index_vue__);
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -241,7 +241,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 337:
+/***/ 338:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -249,19 +249,19 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _uploadList = __webpack_require__(338);
+var _uploadList = __webpack_require__(339);
 
 var _uploadList2 = _interopRequireDefault(_uploadList);
 
-var _upload = __webpack_require__(341);
+var _upload = __webpack_require__(342);
 
 var _upload2 = _interopRequireDefault(_upload);
 
-var _iframeUpload = __webpack_require__(346);
+var _iframeUpload = __webpack_require__(347);
 
 var _iframeUpload2 = _interopRequireDefault(_iframeUpload);
 
-var _progress = __webpack_require__(51);
+var _progress = __webpack_require__(52);
 
 var _progress2 = _interopRequireDefault(_progress);
 
@@ -588,14 +588,14 @@ exports.default = {
 
 /***/ }),
 
-/***/ 338:
+/***/ 339:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_list_vue__ = __webpack_require__(339);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_list_vue__ = __webpack_require__(340);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_list_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_list_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0443ae62_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_list_vue__ = __webpack_require__(340);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0443ae62_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_list_vue__ = __webpack_require__(341);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -623,7 +623,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 339:
+/***/ 340:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -635,7 +635,7 @@ var _locale = __webpack_require__(5);
 
 var _locale2 = _interopRequireDefault(_locale);
 
-var _progress = __webpack_require__(51);
+var _progress = __webpack_require__(52);
 
 var _progress2 = _interopRequireDefault(_progress);
 
@@ -741,7 +741,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 340:
+/***/ 341:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -760,12 +760,12 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 341:
+/***/ 342:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_vue__ = __webpack_require__(342);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_vue__ = __webpack_require__(343);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_vue__);
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -794,7 +794,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 342:
+/***/ 343:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -802,15 +802,15 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _babelHelperVueJsxMergeProps = __webpack_require__(44);
+var _babelHelperVueJsxMergeProps = __webpack_require__(45);
 
 var _babelHelperVueJsxMergeProps2 = _interopRequireDefault(_babelHelperVueJsxMergeProps);
 
-var _ajax = __webpack_require__(343);
+var _ajax = __webpack_require__(344);
 
 var _ajax2 = _interopRequireDefault(_ajax);
 
-var _uploadDragger = __webpack_require__(52);
+var _uploadDragger = __webpack_require__(53);
 
 var _uploadDragger2 = _interopRequireDefault(_uploadDragger);
 
@@ -1040,7 +1040,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 343:
+/***/ 344:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1136,7 +1136,7 @@ function upload(option) {
 
 /***/ }),
 
-/***/ 344:
+/***/ 345:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1216,7 +1216,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 345:
+/***/ 346:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1229,12 +1229,12 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 346:
+/***/ 347:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_iframe_upload_vue__ = __webpack_require__(347);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_iframe_upload_vue__ = __webpack_require__(348);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_iframe_upload_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_iframe_upload_vue__);
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -1263,7 +1263,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 347:
+/***/ 348:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1271,7 +1271,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _uploadDragger = __webpack_require__(52);
+var _uploadDragger = __webpack_require__(53);
 
 var _uploadDragger2 = _interopRequireDefault(_uploadDragger);
 
@@ -1473,7 +1473,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 44:
+/***/ 45:
 /***/ (function(module, exports) {
 
 module.exports = require("babel-helper-vue-jsx-merge-props");
@@ -1487,21 +1487,21 @@ module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ }),
 
-/***/ 51:
+/***/ 52:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/progress");
 
 /***/ }),
 
-/***/ 52:
+/***/ 53:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_dragger_vue__ = __webpack_require__(344);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_dragger_vue__ = __webpack_require__(345);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_dragger_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_dragger_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2651be8c_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_dragger_vue__ = __webpack_require__(345);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2651be8c_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_dragger_vue__ = __webpack_require__(346);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 

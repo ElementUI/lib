@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 122);
+/******/ 	return __webpack_require__(__webpack_require__.s = 123);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -183,15 +183,15 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 122:
+/***/ 123:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(123);
+module.exports = __webpack_require__(124);
 
 
 /***/ }),
 
-/***/ 123:
+/***/ 124:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -199,7 +199,7 @@ module.exports = __webpack_require__(123);
 
 exports.__esModule = true;
 
-var _radio = __webpack_require__(124);
+var _radio = __webpack_require__(125);
 
 var _radio2 = _interopRequireDefault(_radio);
 
@@ -214,14 +214,14 @@ exports.default = _radio2.default;
 
 /***/ }),
 
-/***/ 124:
+/***/ 125:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_radio_vue__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_radio_vue__ = __webpack_require__(126);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_radio_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_radio_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3e60daca_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_radio_vue__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3e60daca_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_radio_vue__ = __webpack_require__(127);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -249,7 +249,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 125:
+/***/ 126:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -388,10 +388,11 @@ exports.default = {
 //
 //
 //
+//
 
 /***/ }),
 
-/***/ 126:
+/***/ 127:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -404,7 +405,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   ],attrs:{"role":"radio","aria-checked":_vm.model === _vm.label,"aria-disabled":_vm.isDisabled,"tabindex":_vm.tabIndex},on:{"keydown":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"space",32,$event.key)){ return null; }$event.stopPropagation();$event.preventDefault();_vm.model = _vm.label}}},[_c('span',{staticClass:"el-radio__input",class:{
       'is-disabled': _vm.isDisabled,
       'is-checked': _vm.model === _vm.label
-    }},[_c('span',{staticClass:"el-radio__inner"}),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],staticClass:"el-radio__original",attrs:{"type":"radio","name":_vm.name,"disabled":_vm.isDisabled,"tabindex":"-1"},domProps:{"value":_vm.label,"checked":_vm._q(_vm.model,_vm.label)},on:{"focus":function($event){_vm.focus = true},"blur":function($event){_vm.focus = false},"change":[function($event){_vm.model=_vm.label},_vm.handleChange]}})]),_c('span',{staticClass:"el-radio__label"},[_vm._t("default"),(!_vm.$slots.default)?[_vm._v(_vm._s(_vm.label))]:_vm._e()],2)])}
+    }},[_c('span',{staticClass:"el-radio__inner"}),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.model),expression:"model"}],staticClass:"el-radio__original",attrs:{"type":"radio","aria-hidden":"true","name":_vm.name,"disabled":_vm.isDisabled,"tabindex":"-1"},domProps:{"value":_vm.label,"checked":_vm._q(_vm.model,_vm.label)},on:{"focus":function($event){_vm.focus = true},"blur":function($event){_vm.focus = false},"change":[function($event){_vm.model=_vm.label},_vm.handleChange]}})]),_c('span',{staticClass:"el-radio__label"},[_vm._t("default"),(!_vm.$slots.default)?[_vm._v(_vm._s(_vm.label))]:_vm._e()],2)])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

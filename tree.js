@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 287);
+/******/ 	return __webpack_require__(__webpack_require__.s = 288);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -211,15 +211,15 @@ module.exports = require("element-ui/lib/transitions/collapse-transition");
 
 /***/ }),
 
-/***/ 287:
+/***/ 288:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(288);
+module.exports = __webpack_require__(289);
 
 
 /***/ }),
 
-/***/ 288:
+/***/ 289:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -227,7 +227,7 @@ module.exports = __webpack_require__(288);
 
 exports.__esModule = true;
 
-var _tree = __webpack_require__(289);
+var _tree = __webpack_require__(290);
 
 var _tree2 = _interopRequireDefault(_tree);
 
@@ -242,14 +242,14 @@ exports.default = _tree2.default;
 
 /***/ }),
 
-/***/ 289:
+/***/ 290:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_vue__ = __webpack_require__(290);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_vue__ = __webpack_require__(291);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8ac7d2ce_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_tree_vue__ = __webpack_require__(296);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8ac7d2ce_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_tree_vue__ = __webpack_require__(297);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -277,7 +277,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 290:
+/***/ 291:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -285,13 +285,13 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _treeStore = __webpack_require__(291);
+var _treeStore = __webpack_require__(292);
 
 var _treeStore2 = _interopRequireDefault(_treeStore);
 
-var _util = __webpack_require__(32);
+var _util = __webpack_require__(33);
 
-var _treeNode = __webpack_require__(293);
+var _treeNode = __webpack_require__(294);
 
 var _treeNode2 = _interopRequireDefault(_treeNode);
 
@@ -637,8 +637,14 @@ exports.default = {
       if (!draggingNode || !dropNode) return;
 
       var allowDrop = true;
-      if (typeof _this.allowDrop === 'function' && !_this.allowDrop(draggingNode.node, dropNode.node)) {
-        allowDrop = false;
+      var dropPrev = true;
+      var dropInner = true;
+      var dropNext = true;
+      if (typeof _this.allowDrop === 'function') {
+        dropPrev = _this.allowDrop(draggingNode.node, dropNode.node, 'prev');
+        dropInner = _this.allowDrop(draggingNode.node, dropNode.node, 'inner');
+        dropNext = _this.allowDrop(draggingNode.node, dropNode.node, 'next');
+        allowDrop = dropInner;
       }
       dragState.allowDrop = allowDrop;
       event.dataTransfer.dropEffect = allowDrop ? 'move' : 'none';
@@ -652,10 +658,6 @@ exports.default = {
       if (allowDrop) {
         dragState.dropNode = dropNode;
       }
-
-      var dropPrev = allowDrop;
-      var dropInner = allowDrop;
-      var dropNext = allowDrop;
 
       if (dropNode.node.nextSibling === draggingNode.node) {
         dropNext = false;
@@ -760,7 +762,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 291:
+/***/ 292:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -770,11 +772,11 @@ exports.__esModule = true;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _node = __webpack_require__(292);
+var _node = __webpack_require__(293);
 
 var _node2 = _interopRequireDefault(_node);
 
-var _util = __webpack_require__(32);
+var _util = __webpack_require__(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1148,7 +1150,7 @@ exports.default = TreeStore;
 
 /***/ }),
 
-/***/ 292:
+/***/ 293:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1165,7 +1167,7 @@ var _merge = __webpack_require__(9);
 
 var _merge2 = _interopRequireDefault(_merge);
 
-var _util = __webpack_require__(32);
+var _util = __webpack_require__(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1702,14 +1704,14 @@ exports.default = Node;
 
 /***/ }),
 
-/***/ 293:
+/***/ 294:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_node_vue__ = __webpack_require__(294);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_node_vue__ = __webpack_require__(295);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_node_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_node_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_09d50766_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_tree_node_vue__ = __webpack_require__(295);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_09d50766_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_tree_node_vue__ = __webpack_require__(296);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -1737,7 +1739,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 294:
+/***/ 295:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1757,7 +1759,7 @@ var _emitter = __webpack_require__(1);
 
 var _emitter2 = _interopRequireDefault(_emitter);
 
-var _util = __webpack_require__(32);
+var _util = __webpack_require__(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2020,7 +2022,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 295:
+/***/ 296:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2039,7 +2041,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 296:
+/***/ 297:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2055,7 +2057,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 32:
+/***/ 33:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

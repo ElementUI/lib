@@ -271,7 +271,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _color = __webpack_require__(53);
+var _color = __webpack_require__(54);
 
 var _color2 = _interopRequireDefault(_color);
 
@@ -681,7 +681,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _draggable = __webpack_require__(45);
+var _draggable = __webpack_require__(46);
 
 var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -849,7 +849,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _draggable = __webpack_require__(45);
+var _draggable = __webpack_require__(46);
 
 var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1036,7 +1036,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _draggable = __webpack_require__(45);
+var _draggable = __webpack_require__(46);
 
 var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1234,7 +1234,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _color = __webpack_require__(53);
+var _color = __webpack_require__(54);
 
 var _color2 = _interopRequireDefault(_color);
 
@@ -1339,7 +1339,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 45:
+/***/ 46:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1402,7 +1402,7 @@ module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ }),
 
-/***/ 53:
+/***/ 54:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

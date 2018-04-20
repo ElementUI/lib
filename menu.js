@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 90);
+/******/ 	return __webpack_require__(__webpack_require__.s = 91);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -190,7 +190,7 @@ module.exports = require("element-ui/lib/utils/dom");
 
 /***/ }),
 
-/***/ 46:
+/***/ 47:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -329,15 +329,15 @@ module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }),
 
-/***/ 90:
+/***/ 91:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(91);
+module.exports = __webpack_require__(92);
 
 
 /***/ }),
 
-/***/ 91:
+/***/ 92:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -345,7 +345,7 @@ module.exports = __webpack_require__(91);
 
 exports.__esModule = true;
 
-var _menu = __webpack_require__(92);
+var _menu = __webpack_require__(93);
 
 var _menu2 = _interopRequireDefault(_menu);
 
@@ -360,12 +360,12 @@ exports.default = _menu2.default;
 
 /***/ }),
 
-/***/ 92:
+/***/ 93:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_menu_vue__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_menu_vue__ = __webpack_require__(94);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_menu_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_menu_vue__);
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -394,7 +394,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 93:
+/***/ 94:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -410,7 +410,7 @@ var _migrating = __webpack_require__(8);
 
 var _migrating2 = _interopRequireDefault(_migrating);
 
-var _ariaMenubar = __webpack_require__(94);
+var _ariaMenubar = __webpack_require__(95);
 
 var _ariaMenubar2 = _interopRequireDefault(_ariaMenubar);
 
@@ -744,7 +744,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 94:
+/***/ 95:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -752,7 +752,7 @@ exports.default = {
 
 exports.__esModule = true;
 
-var _ariaMenuitem = __webpack_require__(95);
+var _ariaMenuitem = __webpack_require__(96);
 
 var _ariaMenuitem2 = _interopRequireDefault(_ariaMenuitem);
 
@@ -775,7 +775,7 @@ exports.default = Menu;
 
 /***/ }),
 
-/***/ 95:
+/***/ 96:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -783,11 +783,11 @@ exports.default = Menu;
 
 exports.__esModule = true;
 
-var _ariaUtils = __webpack_require__(46);
+var _ariaUtils = __webpack_require__(47);
 
 var _ariaUtils2 = _interopRequireDefault(_ariaUtils);
 
-var _ariaSubmenu = __webpack_require__(96);
+var _ariaSubmenu = __webpack_require__(97);
 
 var _ariaSubmenu2 = _interopRequireDefault(_ariaSubmenu);
 
@@ -844,7 +844,7 @@ exports.default = MenuItem;
 
 /***/ }),
 
-/***/ 96:
+/***/ 97:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -852,7 +852,7 @@ exports.default = MenuItem;
 
 exports.__esModule = true;
 
-var _ariaUtils = __webpack_require__(46);
+var _ariaUtils = __webpack_require__(47);
 
 var _ariaUtils2 = _interopRequireDefault(_ariaUtils);
 

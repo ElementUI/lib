@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 219);
+/******/ 	return __webpack_require__(__webpack_require__.s = 220);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -199,7 +199,7 @@ module.exports = require("element-ui/lib/utils/clickoutside");
 exports.__esModule = true;
 exports.extractTimeFormat = exports.extractDateFormat = exports.nextYear = exports.prevYear = exports.nextMonth = exports.prevMonth = exports.changeYearMonthAndClampDate = exports.timeWithinRange = exports.limitTimeRange = exports.clearMilliseconds = exports.clearTime = exports.modifyWithDefaultTime = exports.modifyTime = exports.modifyDate = exports.range = exports.getRangeHours = exports.getWeekNumber = exports.getStartDateOfMonth = exports.nextDate = exports.prevDate = exports.getFirstDayOfMonth = exports.getDayCountOfYear = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDateObject = exports.isDate = exports.toDate = undefined;
 
-var _date = __webpack_require__(28);
+var _date = __webpack_require__(29);
 
 var _date2 = _interopRequireDefault(_date);
 
@@ -313,6 +313,7 @@ var getStartDateOfMonth = exports.getStartDateOfMonth = function getStartDateOfM
 };
 
 var getWeekNumber = exports.getWeekNumber = function getWeekNumber(src) {
+  if (!isDate(src)) return null;
   var date = new Date(src.getTime());
   date.setHours(0, 0, 0, 0);
   // Thursday in current week decides the year.
@@ -473,15 +474,15 @@ module.exports = require("element-ui/lib/scrollbar");
 
 /***/ }),
 
-/***/ 219:
+/***/ 220:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(220);
+module.exports = __webpack_require__(221);
 
 
 /***/ }),
 
-/***/ 220:
+/***/ 221:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -489,7 +490,7 @@ module.exports = __webpack_require__(220);
 
 exports.__esModule = true;
 
-var _timeSelect = __webpack_require__(221);
+var _timeSelect = __webpack_require__(222);
 
 var _timeSelect2 = _interopRequireDefault(_timeSelect);
 
@@ -504,7 +505,7 @@ exports.default = _timeSelect2.default;
 
 /***/ }),
 
-/***/ 221:
+/***/ 222:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -512,11 +513,11 @@ exports.default = _timeSelect2.default;
 
 exports.__esModule = true;
 
-var _picker = __webpack_require__(26);
+var _picker = __webpack_require__(27);
 
 var _picker2 = _interopRequireDefault(_picker);
 
-var _timeSelect = __webpack_require__(222);
+var _timeSelect = __webpack_require__(223);
 
 var _timeSelect2 = _interopRequireDefault(_timeSelect);
 
@@ -543,14 +544,14 @@ exports.default = {
 
 /***/ }),
 
-/***/ 222:
+/***/ 223:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_time_select_vue__ = __webpack_require__(223);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_time_select_vue__ = __webpack_require__(224);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_time_select_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_time_select_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3cf1dfe3_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_time_select_vue__ = __webpack_require__(224);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3cf1dfe3_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_time_select_vue__ = __webpack_require__(225);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -578,7 +579,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 223:
+/***/ 224:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -590,7 +591,7 @@ var _scrollbar = __webpack_require__(17);
 
 var _scrollbar2 = _interopRequireDefault(_scrollbar);
 
-var _scrollIntoView = __webpack_require__(25);
+var _scrollIntoView = __webpack_require__(26);
 
 var _scrollIntoView2 = _interopRequireDefault(_scrollIntoView);
 
@@ -786,7 +787,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 224:
+/***/ 225:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -797,21 +798,21 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 25:
+/***/ 26:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/scroll-into-view");
 
 /***/ }),
 
-/***/ 26:
+/***/ 27:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_picker_vue__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_picker_vue__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_picker_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_picker_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_66b1c70c_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_picker_vue__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_66b1c70c_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_picker_vue__ = __webpack_require__(30);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -839,7 +840,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 27:
+/***/ 28:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -981,7 +982,7 @@ var DEFAULT_FORMATS = {
   datetimerange: 'yyyy-MM-dd HH:mm:ss',
   year: 'yyyy'
 };
-var HAVE_TRIGGER_TYPES = ['date', 'datetime', 'time', 'time-select', 'week', 'month', 'year', 'daterange', 'timerange', 'datetimerange'];
+var HAVE_TRIGGER_TYPES = ['date', 'datetime', 'time', 'time-select', 'week', 'month', 'year', 'daterange', 'timerange', 'datetimerange', 'dates'];
 var DATE_FORMATTER = function DATE_FORMATTER(value, format) {
   if (format === 'timestamp') return value.getTime();
   return (0, _util.formatDate)(value, format);
@@ -1097,6 +1098,18 @@ var TYPE_VALUE_RESOLVER_MAP = {
         return null;
       }
     }
+  },
+  dates: {
+    formatter: function formatter(value, format) {
+      return value.map(function (date) {
+        return DATE_FORMATTER(date, format);
+      });
+    },
+    parser: function parser(value, format) {
+      return (typeof value === 'string' ? value.split(', ') : value).map(function (date) {
+        return date instanceof Date ? date : DATE_PARSER(date, format);
+      });
+    }
   }
 };
 var PLACEMENT_MAP = {
@@ -1126,7 +1139,12 @@ var valueEquals = function valueEquals(a, b) {
   var aIsArray = a instanceof Array;
   var bIsArray = b instanceof Array;
   if (aIsArray && bIsArray) {
-    return new Date(a[0]).getTime() === new Date(b[0]).getTime() && new Date(a[1]).getTime() === new Date(b[1]).getTime();
+    if (a.length !== b.length) {
+      return false;
+    }
+    return a.every(function (item, index) {
+      return new Date(item).getTime() === new Date(b[index]).getTime();
+    });
   }
   if (!aIsArray && !bIsArray) {
     return new Date(a).getTime() === new Date(b).getTime();
@@ -1220,16 +1238,11 @@ exports.default = {
       if (this.readonly || this.pickerDisabled) return;
       if (val) {
         this.showPicker();
-        this.valueOnOpen = this.value;
+        this.valueOnOpen = Array.isArray(this.value) ? [].concat(this.value) : this.value;
       } else {
         this.hidePicker();
         this.emitChange(this.value);
-        // flush user input if it is parsable
-        // this.displayValue here is not a typo, it merges text for both panels in range mode
-        var parsedValue = this.parseString(this.displayValue);
-        if (this.userInput && parsedValue && this.isValidValue(parsedValue)) {
-          this.userInput = null;
-        }
+        this.userInput = null;
         this.dispatch('ElFormItem', 'el.form.blur');
         this.$emit('blur', this);
         this.blur();
@@ -1241,6 +1254,7 @@ exports.default = {
       handler: function handler(val) {
         if (this.picker) {
           this.picker.value = val;
+          this.picker.selectedDate = Array.isArray(val) ? val : [];
         }
       }
     },
@@ -1291,6 +1305,8 @@ exports.default = {
         return 'month';
       } else if (this.type === 'year') {
         return 'year';
+      } else if (this.type === 'dates') {
+        return 'dates';
       }
 
       return 'day';
@@ -1305,8 +1321,12 @@ exports.default = {
       var formattedValue = formatAsFormatAndType(this.parsedValue, this.format, this.type, this.rangeSeparator);
       if (Array.isArray(this.userInput)) {
         return [this.userInput[0] || formattedValue && formattedValue[0] || '', this.userInput[1] || formattedValue && formattedValue[1] || ''];
+      } else if (this.userInput !== null) {
+        return this.userInput;
+      } else if (formattedValue) {
+        return this.type === 'dates' ? formattedValue.join(', ') : formattedValue;
       } else {
-        return this.userInput !== null ? this.userInput : formattedValue || '';
+        return '';
       }
     },
     parsedValue: function parsedValue() {
@@ -1480,7 +1500,17 @@ exports.default = {
       }
     },
     handleClose: function handleClose() {
+      if (!this.pickerVisible) return;
       this.pickerVisible = false;
+      var type = this.type,
+          valueOnOpen = this.valueOnOpen,
+          valueFormat = this.valueFormat,
+          rangeSeparator = this.rangeSeparator;
+
+      if (type === 'dates' && this.picker) {
+        this.picker.selectedDate = parseAsFormatAndType(valueOnOpen, valueFormat, type, rangeSeparator) || valueOnOpen;
+        this.emitInput(this.picker.selectedDate);
+      }
     },
     handleFieldReset: function handleFieldReset(initialValue) {
       this.userInput = initialValue;
@@ -1593,6 +1623,7 @@ exports.default = {
       this.picker.selectionMode = this.selectionMode;
       this.picker.unlinkPanels = this.unlinkPanels;
       this.picker.arrowControl = this.arrowControl || this.timeArrowControl || false;
+      this.picker.selectedDate = Array.isArray(this.value) && this.value || [];
       this.$watch('format', function (format) {
         _this3.picker.format = format;
       });
@@ -1676,7 +1707,7 @@ exports.default = {
     },
     emitInput: function emitInput(val) {
       var formatted = this.formatToValue(val);
-      if (!valueEquals(this.value, formatted)) {
+      if (!valueEquals(this.value, formatted) || this.type === 'dates') {
         this.$emit('input', formatted);
       }
     },
@@ -1695,18 +1726,18 @@ exports.default = {
 
 /***/ }),
 
-/***/ 28:
+/***/ 29:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/date");
 
 /***/ }),
 
-/***/ 29:
+/***/ 30:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.ranged)?_c('el-input',_vm._b({directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleClose),expression:"handleClose"}],ref:"reference",staticClass:"el-date-editor",class:'el-date-editor--' + _vm.type,attrs:{"readonly":!_vm.editable || _vm.readonly,"disabled":_vm.pickerDisabled,"size":_vm.pickerSize,"name":_vm.name,"placeholder":_vm.placeholder,"value":_vm.displayValue,"validateEvent":false},on:{"focus":_vm.handleFocus,"input":function (value) { return _vm.userInput = value; },"change":_vm.handleChange},nativeOn:{"keydown":function($event){_vm.handleKeydown($event)},"mouseenter":function($event){_vm.handleMouseEnter($event)},"mouseleave":function($event){_vm.showClose = false}}},'el-input',_vm.firstInputId,false),[_c('i',{staticClass:"el-input__icon",class:_vm.triggerClass,attrs:{"slot":"prefix"},on:{"click":_vm.handleFocus},slot:"prefix"}),(_vm.haveTrigger)?_c('i',{staticClass:"el-input__icon",class:[_vm.showClose ? '' + _vm.clearIcon : ''],attrs:{"slot":"suffix"},on:{"click":_vm.handleClickIcon},slot:"suffix"}):_vm._e()]):_c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleClose),expression:"handleClose"}],ref:"reference",staticClass:"el-date-editor el-range-editor el-input__inner",class:[
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.ranged)?_c('el-input',_vm._b({directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleClose),expression:"handleClose"}],ref:"reference",staticClass:"el-date-editor",class:'el-date-editor--' + _vm.type,attrs:{"readonly":!_vm.editable || _vm.readonly || _vm.type === 'dates',"disabled":_vm.pickerDisabled,"size":_vm.pickerSize,"name":_vm.name,"placeholder":_vm.placeholder,"value":_vm.displayValue,"validateEvent":false},on:{"focus":_vm.handleFocus,"input":function (value) { return _vm.userInput = value; },"change":_vm.handleChange},nativeOn:{"keydown":function($event){_vm.handleKeydown($event)},"mouseenter":function($event){_vm.handleMouseEnter($event)},"mouseleave":function($event){_vm.showClose = false}}},'el-input',_vm.firstInputId,false),[_c('i',{staticClass:"el-input__icon",class:_vm.triggerClass,attrs:{"slot":"prefix"},on:{"click":_vm.handleFocus},slot:"prefix"}),(_vm.haveTrigger)?_c('i',{staticClass:"el-input__icon",class:[_vm.showClose ? '' + _vm.clearIcon : ''],attrs:{"slot":"suffix"},on:{"click":_vm.handleClickIcon},slot:"suffix"}):_vm._e()]):_c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleClose),expression:"handleClose"}],ref:"reference",staticClass:"el-date-editor el-range-editor el-input__inner",class:[
     'el-date-editor--' + _vm.type,
     _vm.pickerSize ? ("el-range-editor--" + _vm.pickerSize) : '',
     _vm.pickerDisabled ? 'is-disabled' : '',
