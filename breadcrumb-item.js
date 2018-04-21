@@ -283,14 +283,15 @@ exports.default = {
 
     this.separator = this.elBreadcrumb.separator;
     this.separatorClass = this.elBreadcrumb.separatorClass;
-    var self = this;
     if (this.to) {
-      var link = this.$refs.link;
-      link.setAttribute('role', 'link');
-      link.addEventListener('click', function (_) {
+      (function () {
+        var link = _this.$refs.link;
         var to = _this.to;
-        self.replace ? self.$router.replace(to) : self.$router.push(to);
-      });
+        link.setAttribute('role', 'link');
+        link.addEventListener('click', function (_) {
+          _this.replace ? _this.$router.replace(to) : _this.$router.push(to);
+        });
+      })();
     }
   }
 };

@@ -636,7 +636,6 @@ exports.default = {
       var draggingNode = dragState.draggingNode;
       if (!draggingNode || !dropNode) return;
 
-      var allowDrop = true;
       var dropPrev = true;
       var dropInner = true;
       var dropNext = true;
@@ -644,18 +643,17 @@ exports.default = {
         dropPrev = _this.allowDrop(draggingNode.node, dropNode.node, 'prev');
         dropInner = _this.allowDrop(draggingNode.node, dropNode.node, 'inner');
         dropNext = _this.allowDrop(draggingNode.node, dropNode.node, 'next');
-        allowDrop = dropInner;
       }
-      dragState.allowDrop = allowDrop;
-      event.dataTransfer.dropEffect = allowDrop ? 'move' : 'none';
-      if (allowDrop && oldDropNode !== dropNode) {
+      dragState.allowDrop = dropInner;
+      event.dataTransfer.dropEffect = dropInner ? 'move' : 'none';
+      if ((dropPrev || dropInner || dropNext) && oldDropNode !== dropNode) {
         if (oldDropNode) {
           _this.$emit('node-drag-leave', draggingNode.node, oldDropNode.node, event);
         }
         _this.$emit('node-drag-enter', draggingNode.node, dropNode.node, event);
       }
 
-      if (allowDrop) {
+      if (dropPrev || dropInner || dropNext) {
         dragState.dropNode = dropNode;
       }
 
