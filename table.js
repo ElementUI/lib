@@ -671,6 +671,7 @@ exports.default = {
     },
     updateScrollY: function updateScrollY() {
       this.layout.updateScrollY();
+      this.layout.updateColumnsWidth();
     },
     handleFixedMousewheel: function handleFixedMousewheel(event, data) {
       var bodyWrapper = this.bodyWrapper;
