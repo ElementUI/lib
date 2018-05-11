@@ -744,6 +744,7 @@ exports.default = {
         } else {
           this.$emit('update:currentPage', newVal);
         }
+        this.lastEmittedPage = -1;
       }
     },
 

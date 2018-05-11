@@ -242,6 +242,7 @@ var toDate = exports.toDate = function toDate(date) {
 var isDate = exports.isDate = function isDate(date) {
   if (date === null || date === undefined) return false;
   if (isNaN(new Date(date).getTime())) return false;
+  if (Array.isArray(date)) return false; // deal with `new Date([ new Date() ]) -> new Date()`
   return true;
 };
 
@@ -1134,8 +1135,26 @@ var formatAsFormatAndType = function formatAsFormatAndType(value, customFormat, 
   return formatter(value, format);
 };
 
-// only considers date-picker's value: Date or [Date, Date]
+/*
+ * Considers:
+ *   1. Date object
+ *   2. date string
+ *   3. array of 1 or 2
+ */
 var valueEquals = function valueEquals(a, b) {
+  // considers Date object and string
+  var dateEquals = function dateEquals(a, b) {
+    var aIsDate = a instanceof Date;
+    var bIsDate = b instanceof Date;
+    if (aIsDate && bIsDate) {
+      return a.getTime() === b.getTime();
+    }
+    if (!aIsDate && !bIsDate) {
+      return a === b;
+    }
+    return false;
+  };
+
   var aIsArray = a instanceof Array;
   var bIsArray = b instanceof Array;
   if (aIsArray && bIsArray) {
@@ -1143,11 +1162,11 @@ var valueEquals = function valueEquals(a, b) {
       return false;
     }
     return a.every(function (item, index) {
-      return new Date(item).getTime() === new Date(b[index]).getTime();
+      return dateEquals(item, b[index]);
     });
   }
   if (!aIsArray && !bIsArray) {
-    return new Date(a).getTime() === new Date(b).getTime();
+    return dateEquals(a, b);
   }
   return false;
 };
@@ -1699,7 +1718,7 @@ exports.default = {
     },
     emitChange: function emitChange(val) {
       // determine user real change only
-      if (val !== this.valueOnOpen) {
+      if (!valueEquals(val, this.valueOnOpen)) {
         this.$emit('change', val);
         this.dispatch('ElFormItem', 'el.form.change', val);
         this.valueOnOpen = val;
@@ -1707,7 +1726,7 @@ exports.default = {
     },
     emitInput: function emitInput(val) {
       var formatted = this.formatToValue(val);
-      if (!valueEquals(this.value, formatted) || this.type === 'dates') {
+      if (!valueEquals(this.value, formatted)) {
         this.$emit('input', formatted);
       }
     },

@@ -333,10 +333,10 @@ exports.default = {
       if (!this.disabled) {
         this.dispatch('ElMenu', 'item-click', this);
         this.$emit('click', this);
-      };
+      }
     }
   },
-  created: function created() {
+  mounted: function mounted() {
     this.parentMenu.addItem(this);
     this.rootMenu.addItem(this);
   },

@@ -384,6 +384,7 @@ exports.default = {
       type: Boolean,
       default: true
     },
+    checkOnClickNode: Boolean,
     checkDescendants: {
       type: Boolean,
       default: false
@@ -1929,6 +1930,11 @@ exports.default = {
       if (this.tree.expandOnClickNode) {
         this.handleExpandIconClick();
       }
+      if (this.tree.checkOnClickNode) {
+        this.handleCheckChange(null, {
+          target: { checked: !this.node.checked }
+        });
+      }
       this.tree.$emit('node-click', this.node.data, this.node, this);
     },
     handleContextMenu: function handleContextMenu(event) {
@@ -1967,9 +1973,11 @@ exports.default = {
       this.tree.$emit('node-expand', nodeData, node, instance);
     },
     handleDragStart: function handleDragStart(event) {
+      if (!this.tree.draggable) return;
       this.tree.$emit('tree-node-drag-start', event, this);
     },
     handleDragOver: function handleDragOver(event) {
+      if (!this.tree.draggable) return;
       this.tree.$emit('tree-node-drag-over', event, this);
       event.preventDefault();
     },
@@ -1977,6 +1985,7 @@ exports.default = {
       event.preventDefault();
     },
     handleDragEnd: function handleDragEnd(event) {
+      if (!this.tree.draggable) return;
       this.tree.$emit('tree-node-drag-end', event, this);
     }
   },

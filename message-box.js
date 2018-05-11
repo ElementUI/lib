@@ -773,10 +773,10 @@ exports.default = {
       (0, _dom.removeClass)(this.getInputElement(), 'invalid');
       return true;
     },
-    getFistFocus: function getFistFocus() {
-      var $btns = this.$el.querySelector('.el-message-box__btns .el-button');
-      var $title = this.$el.querySelector('.el-message-box__btns .el-message-box__title');
-      return $btns && $btns[0] || $title;
+    getFirstFocus: function getFirstFocus() {
+      var btn = this.$el.querySelector('.el-message-box__btns .el-button');
+      var title = this.$el.querySelector('.el-message-box__btns .el-message-box__title');
+      return btn || title;
     },
     getInputElement: function getInputElement() {
       var inputRefs = this.$refs.input.$refs;
@@ -809,7 +809,7 @@ exports.default = {
           });
         }
         this.focusAfterClosed = document.activeElement;
-        messageBox = new _ariaDialog2.default(this.$el, this.focusAfterClosed, this.getFistFocus());
+        messageBox = new _ariaDialog2.default(this.$el, this.focusAfterClosed, this.getFirstFocus());
       }
 
       // prompt

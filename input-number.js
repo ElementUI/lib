@@ -430,6 +430,7 @@ exports.default = {
     innerInput.setAttribute('aria-disabled', this.inputNumberDisabled);
   },
   updated: function updated() {
+    if (!this.$refs || !this.$refs.input) return;
     var innerInput = this.$refs.input.$refs.input;
     innerInput.setAttribute('aria-valuenow', this.currentValue);
   }

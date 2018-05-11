@@ -1780,6 +1780,7 @@ var TableLayout = function () {
   };
 
   TableLayout.prototype.updateColumnsWidth = function updateColumnsWidth() {
+    if (_vue2.default.prototype.$isServer) return;
     var fit = this.fit;
     var bodyWidth = this.table.$el.clientWidth;
     var bodyMinWidth = 0;
@@ -2301,8 +2302,14 @@ exports.default = {
 
       // 判断是否text-overflow, 如果是就显示tooltip
       var cellChild = event.target.querySelector('.cell');
-
-      if ((0, _dom.hasClass)(cellChild, 'el-tooltip') && cellChild.scrollWidth > cellChild.offsetWidth && this.$refs.tooltip) {
+      // use range width instead of scrollWidth to determine whether the text is overflowing
+      // to address a potential FireFox bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1074543#c3
+      var range = document.createRange();
+      range.setStart(cellChild, 0);
+      range.setEnd(cellChild, 1);
+      var rangeWidth = range.getBoundingClientRect().width;
+      var padding = (parseInt((0, _dom.getStyle)(cellChild, 'paddingLeft'), 10) || 0) + (parseInt((0, _dom.getStyle)(cellChild, 'paddingRight'), 10) || 0);
+      if ((0, _dom.hasClass)(cellChild, 'el-tooltip') && rangeWidth + padding > cellChild.offsetWidth && this.$refs.tooltip) {
         var tooltip = this.$refs.tooltip;
         // TODO 会引起整个 Table 的重新渲染，需要优化
         this.tooltipContent = cell.textContent || cell.innerText;
