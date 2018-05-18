@@ -1166,6 +1166,8 @@ TableStore.prototype.mutations = {
 
     this.updateCurrentRow();
 
+    var rowKey = states.rowKey;
+
     if (!states.reserveSelection) {
       if (dataInstanceChanged) {
         this.clearSelection();
@@ -1174,32 +1176,56 @@ TableStore.prototype.mutations = {
       }
       this.updateAllSelected();
     } else {
-      (function () {
-        var rowKey = states.rowKey;
-        if (rowKey) {
-          (function () {
-            var selection = states.selection;
-            var selectedMap = getKeysMap(selection, rowKey);
+      if (rowKey) {
+        (function () {
+          var selection = states.selection;
+          var selectedMap = getKeysMap(selection, rowKey);
 
-            states.data.forEach(function (row) {
-              var rowId = (0, _util.getRowIdentity)(row, rowKey);
-              var rowInfo = selectedMap[rowId];
-              if (rowInfo) {
-                selection[rowInfo.index] = row;
-              }
-            });
+          states.data.forEach(function (row) {
+            var rowId = (0, _util.getRowIdentity)(row, rowKey);
+            var rowInfo = selectedMap[rowId];
+            if (rowInfo) {
+              selection[rowInfo.index] = row;
+            }
+          });
 
-            _this.updateAllSelected();
-          })();
-        } else {
-          console.warn('WARN: rowKey is required when reserve-selection is enabled.');
-        }
-      })();
+          _this.updateAllSelected();
+        })();
+      } else {
+        console.warn('WARN: rowKey is required when reserve-selection is enabled.');
+      }
     }
 
     var defaultExpandAll = states.defaultExpandAll;
     if (defaultExpandAll) {
       this.states.expandRows = (states.data || []).slice(0);
+    } else if (rowKey) {
+      // update expandRows to new rows according to rowKey
+      var ids = getKeysMap(this.states.expandRows, rowKey);
+      var expandRows = [];
+      for (var _iterator = states.data, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+        var _ref;
+
+        if (_isArray) {
+          if (_i >= _iterator.length) break;
+          _ref = _iterator[_i++];
+        } else {
+          _i = _iterator.next();
+          if (_i.done) break;
+          _ref = _i.value;
+        }
+
+        var row = _ref;
+
+        var rowId = (0, _util.getRowIdentity)(row, rowKey);
+        if (ids[rowId]) {
+          expandRows.push(row);
+        }
+      }
+      this.states.expandRows = expandRows;
+    } else {
+      // clear the old rows
+      this.states.expandRows = [];
     }
 
     _vue2.default.nextTick(function () {
@@ -2302,14 +2328,17 @@ exports.default = {
 
       // 判断是否text-overflow, 如果是就显示tooltip
       var cellChild = event.target.querySelector('.cell');
+      if (!(0, _dom.hasClass)(cellChild, 'el-tooltip')) {
+        return;
+      }
       // use range width instead of scrollWidth to determine whether the text is overflowing
       // to address a potential FireFox bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1074543#c3
       var range = document.createRange();
       range.setStart(cellChild, 0);
-      range.setEnd(cellChild, 1);
+      range.setEnd(cellChild, cellChild.childNodes.length);
       var rangeWidth = range.getBoundingClientRect().width;
       var padding = (parseInt((0, _dom.getStyle)(cellChild, 'paddingLeft'), 10) || 0) + (parseInt((0, _dom.getStyle)(cellChild, 'paddingRight'), 10) || 0);
-      if ((0, _dom.hasClass)(cellChild, 'el-tooltip') && rangeWidth + padding > cellChild.offsetWidth && this.$refs.tooltip) {
+      if ((rangeWidth + padding > cellChild.offsetWidth || cellChild.scrollWidth > cellChild.offsetWidth) && this.$refs.tooltip) {
         var tooltip = this.$refs.tooltip;
         // TODO 会引起整个 Table 的重新渲染，需要优化
         this.tooltipContent = cell.textContent || cell.innerText;

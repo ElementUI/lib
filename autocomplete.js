@@ -692,7 +692,7 @@ exports.default = {
     var _this = this;
 
     this.$nextTick(function (_) {
-      _this.updatePopper();
+      _this.popperJS && _this.updatePopper();
     });
   },
   mounted: function mounted() {

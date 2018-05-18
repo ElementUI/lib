@@ -531,6 +531,9 @@ exports.default = {
     childrenKey: function childrenKey() {
       return this.props.children || 'children';
     },
+    disabledKey: function disabledKey() {
+      return this.props.disabled || 'disabled';
+    },
     currentLabels: function currentLabels() {
       var _this = this;
 
@@ -692,7 +695,10 @@ exports.default = {
             value: optionStack.map(function (item) {
               return item[_this5.valueKey];
             }),
-            label: _this5.renderFilteredOptionLabel(value, optionStack)
+            label: _this5.renderFilteredOptionLabel(value, optionStack),
+            disabled: optionStack.some(function (item) {
+              return item[_this5.disabledKey];
+            })
           };
         });
       } else {

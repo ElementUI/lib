@@ -1138,6 +1138,10 @@ var TreeStore = function () {
   };
 
   TreeStore.prototype.setCurrentNodeKey = function setCurrentNodeKey(key) {
+    if (key === null) {
+      this.currentNode = null;
+      return;
+    }
     var node = this.getNode(key);
     if (node) {
       this.currentNode = node;

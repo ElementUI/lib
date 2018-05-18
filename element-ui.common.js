@@ -2071,7 +2071,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 module.exports = {
-  version: '2.3.8',
+  version: '2.3.9',
   locale: _locale2.default.use,
   i18n: _locale2.default.i18n,
   install: install,
@@ -3661,7 +3661,7 @@ exports.default = {
     var _this = this;
 
     this.$nextTick(function (_) {
-      _this.updatePopper();
+      _this.popperJS && _this.updatePopper();
     });
   },
   mounted: function mounted() {
@@ -10737,6 +10737,8 @@ TableStore.prototype.mutations = {
 
     this.updateCurrentRow();
 
+    var rowKey = states.rowKey;
+
     if (!states.reserveSelection) {
       if (dataInstanceChanged) {
         this.clearSelection();
@@ -10745,32 +10747,56 @@ TableStore.prototype.mutations = {
       }
       this.updateAllSelected();
     } else {
-      (function () {
-        var rowKey = states.rowKey;
-        if (rowKey) {
-          (function () {
-            var selection = states.selection;
-            var selectedMap = getKeysMap(selection, rowKey);
+      if (rowKey) {
+        (function () {
+          var selection = states.selection;
+          var selectedMap = getKeysMap(selection, rowKey);
 
-            states.data.forEach(function (row) {
-              var rowId = (0, _util.getRowIdentity)(row, rowKey);
-              var rowInfo = selectedMap[rowId];
-              if (rowInfo) {
-                selection[rowInfo.index] = row;
-              }
-            });
+          states.data.forEach(function (row) {
+            var rowId = (0, _util.getRowIdentity)(row, rowKey);
+            var rowInfo = selectedMap[rowId];
+            if (rowInfo) {
+              selection[rowInfo.index] = row;
+            }
+          });
 
-            _this.updateAllSelected();
-          })();
-        } else {
-          console.warn('WARN: rowKey is required when reserve-selection is enabled.');
-        }
-      })();
+          _this.updateAllSelected();
+        })();
+      } else {
+        console.warn('WARN: rowKey is required when reserve-selection is enabled.');
+      }
     }
 
     var defaultExpandAll = states.defaultExpandAll;
     if (defaultExpandAll) {
       this.states.expandRows = (states.data || []).slice(0);
+    } else if (rowKey) {
+      // update expandRows to new rows according to rowKey
+      var ids = getKeysMap(this.states.expandRows, rowKey);
+      var expandRows = [];
+      for (var _iterator = states.data, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+        var _ref;
+
+        if (_isArray) {
+          if (_i >= _iterator.length) break;
+          _ref = _iterator[_i++];
+        } else {
+          _i = _iterator.next();
+          if (_i.done) break;
+          _ref = _i.value;
+        }
+
+        var row = _ref;
+
+        var rowId = (0, _util.getRowIdentity)(row, rowKey);
+        if (ids[rowId]) {
+          expandRows.push(row);
+        }
+      }
+      this.states.expandRows = expandRows;
+    } else {
+      // clear the old rows
+      this.states.expandRows = [];
     }
 
     _vue2.default.nextTick(function () {
@@ -11871,14 +11897,17 @@ exports.default = {
 
       // 判断是否text-overflow, 如果是就显示tooltip
       var cellChild = event.target.querySelector('.cell');
+      if (!(0, _dom.hasClass)(cellChild, 'el-tooltip')) {
+        return;
+      }
       // use range width instead of scrollWidth to determine whether the text is overflowing
       // to address a potential FireFox bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1074543#c3
       var range = document.createRange();
       range.setStart(cellChild, 0);
-      range.setEnd(cellChild, 1);
+      range.setEnd(cellChild, cellChild.childNodes.length);
       var rangeWidth = range.getBoundingClientRect().width;
       var padding = (parseInt((0, _dom.getStyle)(cellChild, 'paddingLeft'), 10) || 0) + (parseInt((0, _dom.getStyle)(cellChild, 'paddingRight'), 10) || 0);
-      if ((0, _dom.hasClass)(cellChild, 'el-tooltip') && rangeWidth + padding > cellChild.offsetWidth && this.$refs.tooltip) {
+      if ((rangeWidth + padding > cellChild.offsetWidth || cellChild.scrollWidth > cellChild.offsetWidth) && this.$refs.tooltip) {
         var tooltip = this.$refs.tooltip;
         // TODO 会引起整个 Table 的重新渲染，需要优化
         this.tooltipContent = cell.textContent || cell.innerText;
@@ -19068,20 +19097,10 @@ exports.default = {
       this.onClose && this.onClose();
       messageBox.closeDialog(); // 解绑
       if (this.lockScroll) {
-        setTimeout(function () {
-          if (_this2.modal && _this2.bodyOverflow !== 'hidden') {
-            document.body.style.overflow = _this2.bodyOverflow;
-            document.body.style.paddingRight = _this2.bodyPaddingRight;
-          }
-          _this2.bodyOverflow = null;
-          _this2.bodyPaddingRight = null;
-        }, 200);
+        setTimeout(this.restoreBodyStyle, 200);
       }
       this.opened = false;
-
-      if (!this.transition) {
-        this.doAfterClose();
-      }
+      this.doAfterClose();
       setTimeout(function () {
         if (_this2.action) _this2.callback(_this2.action, _this2);
       });
@@ -19190,9 +19209,13 @@ exports.default = {
   },
 
   mounted: function mounted() {
-    if (this.closeOnHashChange) {
-      window.addEventListener('hashchange', this.close);
-    }
+    var _this5 = this;
+
+    this.$nextTick(function () {
+      if (_this5.closeOnHashChange) {
+        window.addEventListener('hashchange', _this5.close);
+      }
+    });
   },
   beforeDestroy: function beforeDestroy() {
     if (this.closeOnHashChange) {
@@ -22002,6 +22025,10 @@ var TreeStore = function () {
   };
 
   TreeStore.prototype.setCurrentNodeKey = function setCurrentNodeKey(key) {
+    if (key === null) {
+      this.currentNode = null;
+      return;
+    }
     var node = this.getNode(key);
     if (node) {
       this.currentNode = node;
@@ -25488,7 +25515,7 @@ exports.default = {
         if (_this.autoUpload) _this.upload(rawFile);
       });
     },
-    upload: function upload(rawFile, file) {
+    upload: function upload(rawFile) {
       var _this2 = this;
 
       this.$refs.input.value = null;
@@ -25501,7 +25528,10 @@ exports.default = {
       if (before && before.then) {
         before.then(function (processedFile) {
           var fileType = Object.prototype.toString.call(processedFile);
+
           if (fileType === '[object File]' || fileType === '[object Blob]') {
+            processedFile.name = rawFile.name;
+            processedFile.uid = rawFile.uid;
             _this2.post(processedFile);
           } else {
             _this2.post(rawFile);
@@ -25688,7 +25718,7 @@ function upload(option) {
     });
   }
 
-  formData.append(option.filename, option.file);
+  formData.append(option.filename, option.file, option.file.name);
 
   xhr.onerror = function error(e) {
     option.onError(e);
@@ -26245,7 +26275,7 @@ exports.default = {
     },
     iconClass: function iconClass() {
       if (this.type === 'line') {
-        return this.status === 'success' ? 'el-icon-circle-check' : 'el-icon-circle-cross';
+        return this.status === 'success' ? 'el-icon-circle-check' : 'el-icon-circle-close';
       } else {
         return this.status === 'success' ? 'el-icon-check' : 'el-icon-close';
       }
@@ -29185,6 +29215,9 @@ exports.default = {
     childrenKey: function childrenKey() {
       return this.props.children || 'children';
     },
+    disabledKey: function disabledKey() {
+      return this.props.disabled || 'disabled';
+    },
     currentLabels: function currentLabels() {
       var _this = this;
 
@@ -29346,7 +29379,10 @@ exports.default = {
             value: optionStack.map(function (item) {
               return item[_this5.valueKey];
             }),
-            label: _this5.renderFilteredOptionLabel(value, optionStack)
+            label: _this5.renderFilteredOptionLabel(value, optionStack),
+            disabled: optionStack.some(function (item) {
+              return item[_this5.disabledKey];
+            })
           };
         });
       } else {

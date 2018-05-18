@@ -902,7 +902,7 @@ exports.default = {
         if (_this.autoUpload) _this.upload(rawFile);
       });
     },
-    upload: function upload(rawFile, file) {
+    upload: function upload(rawFile) {
       var _this2 = this;
 
       this.$refs.input.value = null;
@@ -915,7 +915,10 @@ exports.default = {
       if (before && before.then) {
         before.then(function (processedFile) {
           var fileType = Object.prototype.toString.call(processedFile);
+
           if (fileType === '[object File]' || fileType === '[object Blob]') {
+            processedFile.name = rawFile.name;
+            processedFile.uid = rawFile.uid;
             _this2.post(processedFile);
           } else {
             _this2.post(rawFile);
@@ -1103,7 +1106,7 @@ function upload(option) {
     });
   }
 
-  formData.append(option.filename, option.file);
+  formData.append(option.filename, option.file, option.file.name);
 
   xhr.onerror = function error(e) {
     option.onError(e);
