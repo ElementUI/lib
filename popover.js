@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 232);
+/******/ 	return __webpack_require__(__webpack_require__.s = 203);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -183,15 +183,7 @@ module.exports = require("element-ui/lib/utils/dom");
 
 /***/ }),
 
-/***/ 232:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(233);
-
-
-/***/ }),
-
-/***/ 233:
+/***/ 203:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -199,11 +191,11 @@ module.exports = __webpack_require__(233);
 
 exports.__esModule = true;
 
-var _main = __webpack_require__(234);
+var _main = __webpack_require__(204);
 
 var _main2 = _interopRequireDefault(_main);
 
-var _directive = __webpack_require__(237);
+var _directive = __webpack_require__(207);
 
 var _directive2 = _interopRequireDefault(_directive);
 
@@ -226,14 +218,14 @@ exports.default = _main2.default;
 
 /***/ }),
 
-/***/ 234:
+/***/ 204:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__ = __webpack_require__(235);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__ = __webpack_require__(205);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_896c4ec2_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_main_vue__ = __webpack_require__(236);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_896c4ec2_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_main_vue__ = __webpack_require__(206);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -261,7 +253,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 235:
+/***/ 205:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -370,7 +362,7 @@ exports.default = {
         (0, _dom.on)(reference, 'focusin', function () {
           _this.handleFocus();
           var instance = reference.__vue__;
-          if (instance && instance.focus) {
+          if (instance && typeof instance.focus === 'function') {
             instance.focus();
           }
         });
@@ -498,7 +490,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 236:
+/***/ 206:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -509,7 +501,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 237:
+/***/ 207:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 288);
+/******/ 	return __webpack_require__(__webpack_require__.s = 249);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -211,15 +211,7 @@ module.exports = require("element-ui/lib/transitions/collapse-transition");
 
 /***/ }),
 
-/***/ 288:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(289);
-
-
-/***/ }),
-
-/***/ 289:
+/***/ 249:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -227,7 +219,7 @@ module.exports = __webpack_require__(289);
 
 exports.__esModule = true;
 
-var _tree = __webpack_require__(290);
+var _tree = __webpack_require__(250);
 
 var _tree2 = _interopRequireDefault(_tree);
 
@@ -242,14 +234,14 @@ exports.default = _tree2.default;
 
 /***/ }),
 
-/***/ 290:
+/***/ 250:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_vue__ = __webpack_require__(291);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_vue__ = __webpack_require__(251);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8ac7d2ce_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_tree_vue__ = __webpack_require__(297);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8ac7d2ce_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_tree_vue__ = __webpack_require__(257);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -277,7 +269,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 291:
+/***/ 251:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -285,13 +277,13 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _treeStore = __webpack_require__(292);
+var _treeStore = __webpack_require__(252);
 
 var _treeStore2 = _interopRequireDefault(_treeStore);
 
 var _util = __webpack_require__(33);
 
-var _treeNode = __webpack_require__(294);
+var _treeNode = __webpack_require__(254);
 
 var _treeNode2 = _interopRequireDefault(_treeNode);
 
@@ -764,7 +756,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 292:
+/***/ 252:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -774,7 +766,7 @@ exports.__esModule = true;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _node = __webpack_require__(293);
+var _node = __webpack_require__(253);
 
 var _node2 = _interopRequireDefault(_node);
 
@@ -1156,7 +1148,7 @@ exports.default = TreeStore;
 
 /***/ }),
 
-/***/ 293:
+/***/ 253:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1710,14 +1702,14 @@ exports.default = Node;
 
 /***/ }),
 
-/***/ 294:
+/***/ 254:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_node_vue__ = __webpack_require__(295);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_node_vue__ = __webpack_require__(255);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_node_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_node_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_09d50766_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_tree_node_vue__ = __webpack_require__(296);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_09d50766_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_tree_node_vue__ = __webpack_require__(256);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -1745,7 +1737,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 295:
+/***/ 255:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2036,7 +2028,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 296:
+/***/ 256:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2055,7 +2047,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 297:
+/***/ 257:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2081,7 +2073,7 @@ exports.__esModule = true;
 var NODE_KEY = exports.NODE_KEY = '$treeNodeId';
 
 var markNodeData = exports.markNodeData = function markNodeData(node, data) {
-  if (data[NODE_KEY]) return;
+  if (!data || data[NODE_KEY]) return;
   Object.defineProperty(data, NODE_KEY, {
     value: node.id,
     enumerable: false,

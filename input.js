@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 112);
+/******/ 	return __webpack_require__(__webpack_require__.s = 102);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -183,15 +183,7 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 112:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(113);
-
-
-/***/ }),
-
-/***/ 113:
+/***/ 102:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -199,7 +191,7 @@ module.exports = __webpack_require__(113);
 
 exports.__esModule = true;
 
-var _input = __webpack_require__(114);
+var _input = __webpack_require__(103);
 
 var _input2 = _interopRequireDefault(_input);
 
@@ -214,14 +206,14 @@ exports.default = _input2.default;
 
 /***/ }),
 
-/***/ 114:
+/***/ 103:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__ = __webpack_require__(104);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5ce34479_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5ce34479_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_vue__ = __webpack_require__(106);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -249,7 +241,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 115:
+/***/ 104:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -265,7 +257,7 @@ var _migrating = __webpack_require__(8);
 
 var _migrating2 = _interopRequireDefault(_migrating);
 
-var _calcTextareaHeight = __webpack_require__(116);
+var _calcTextareaHeight = __webpack_require__(105);
 
 var _calcTextareaHeight2 = _interopRequireDefault(_calcTextareaHeight);
 
@@ -303,7 +295,8 @@ exports.default = {
       suffixOffset: null,
       hovering: false,
       focused: false,
-      isOnComposition: false
+      isOnComposition: false,
+      valueBeforeComposition: null
     };
   },
 
@@ -432,18 +425,23 @@ exports.default = {
     handleComposition: function handleComposition(event) {
       if (event.type === 'compositionend') {
         this.isOnComposition = false;
+        this.currentValue = this.valueBeforeComposition;
+        this.valueBeforeComposition = null;
         this.handleInput(event);
       } else {
         var text = event.target.value;
         var lastCharacter = text[text.length - 1] || '';
         this.isOnComposition = !(0, _shared.isKorean)(lastCharacter);
+        if (this.isOnComposition && event.type === 'compositionstart') {
+          this.valueBeforeComposition = text;
+        }
       }
     },
     handleInput: function handleInput(event) {
-      if (this.isOnComposition) return;
       var value = event.target.value;
-      this.$emit('input', value);
       this.setCurrentValue(value);
+      if (this.isOnComposition) return;
+      this.$emit('input', value);
     },
     handleChange: function handleChange(event) {
       this.$emit('change', event.target.value);
@@ -451,11 +449,12 @@ exports.default = {
     setCurrentValue: function setCurrentValue(value) {
       var _this = this;
 
-      if (value === this.currentValue) return;
+      if (this.isOnComposition && value === this.valueBeforeComposition) return;
+      this.currentValue = value;
+      if (this.isOnComposition) return;
       this.$nextTick(function (_) {
         _this.resizeTextarea();
       });
-      this.currentValue = value;
       if (this.validateEvent) {
         this.dispatch('ElFormItem', 'el.form.change', [value]);
       }
@@ -591,7 +590,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 116:
+/***/ 105:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -674,7 +673,7 @@ function calcTextareaHeight(targetElement) {
 
 /***/ }),
 
-/***/ 117:
+/***/ 106:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

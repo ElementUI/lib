@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 200);
+/******/ 	return __webpack_require__(__webpack_require__.s = 175);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -73,15 +73,7 @@ module.exports = require("element-ui/lib/checkbox");
 
 /***/ }),
 
-/***/ 200:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(201);
-
-
-/***/ }),
-
-/***/ 201:
+/***/ 175:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -89,7 +81,7 @@ module.exports = __webpack_require__(201);
 
 exports.__esModule = true;
 
-var _tableColumn = __webpack_require__(202);
+var _tableColumn = __webpack_require__(176);
 
 var _tableColumn2 = _interopRequireDefault(_tableColumn);
 
@@ -104,7 +96,7 @@ exports.default = _tableColumn2.default;
 
 /***/ }),
 
-/***/ 202:
+/***/ 176:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -365,7 +357,18 @@ exports.default = {
       type: Boolean,
       default: true
     },
-    index: [Number, Function]
+    index: [Number, Function],
+    sortOrders: {
+      type: Array,
+      default: function _default() {
+        return ['ascending', 'descending', null];
+      },
+      validator: function validator(val) {
+        return val.every(function (order) {
+          return ['ascending', 'descending', null].indexOf(order) > -1;
+        });
+      }
+    }
   },
 
   data: function data() {
@@ -455,7 +458,8 @@ exports.default = {
       filterOpened: false,
       filteredValue: this.filteredValue || [],
       filterPlacement: this.filterPlacement || '',
-      index: this.index
+      index: this.index,
+      sortOrders: this.sortOrders
     });
 
     (0, _merge2.default)(column, forced[type] || {});

@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 98);
+/******/ 	return __webpack_require__(__webpack_require__.s = 91);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -183,12 +183,100 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 100:
+/***/ 21:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/transitions/collapse-transition");
+
+/***/ }),
+
+/***/ 34:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.default = {
+  inject: ['rootMenu'],
+  computed: {
+    indexPath: function indexPath() {
+      var path = [this.index];
+      var parent = this.$parent;
+      while (parent.$options.componentName !== 'ElMenu') {
+        if (parent.index) {
+          path.unshift(parent.index);
+        }
+        parent = parent.$parent;
+      }
+      return path;
+    },
+    parentMenu: function parentMenu() {
+      var parent = this.$parent;
+      while (parent && ['ElMenu', 'ElSubmenu'].indexOf(parent.$options.componentName) === -1) {
+        parent = parent.$parent;
+      }
+      return parent;
+    },
+    paddingStyle: function paddingStyle() {
+      if (this.rootMenu.mode !== 'vertical') return {};
+
+      var padding = 20;
+      var parent = this.$parent;
+
+      if (this.rootMenu.collapse) {
+        padding = 20;
+      } else {
+        while (parent && parent.$options.componentName !== 'ElMenu') {
+          if (parent.$options.componentName === 'ElSubmenu') {
+            padding += 20;
+          }
+          parent = parent.$parent;
+        }
+      }
+      return { paddingLeft: padding + 'px' };
+    }
+  }
+};
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/vue-popper");
+
+/***/ }),
+
+/***/ 91:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _submenu = __webpack_require__(92);
+
+var _submenu2 = _interopRequireDefault(_submenu);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* istanbul ignore next */
+_submenu2.default.install = function (Vue) {
+  Vue.component(_submenu2.default.name, _submenu2.default);
+};
+
+exports.default = _submenu2.default;
+
+/***/ }),
+
+/***/ 92:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_submenu_vue__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_submenu_vue__ = __webpack_require__(93);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_submenu_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_submenu_vue__);
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -217,7 +305,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 101:
+/***/ 93:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -595,102 +683,6 @@ exports.default = {
     );
   }
 };
-
-/***/ }),
-
-/***/ 21:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/transitions/collapse-transition");
-
-/***/ }),
-
-/***/ 34:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-exports.default = {
-  inject: ['rootMenu'],
-  computed: {
-    indexPath: function indexPath() {
-      var path = [this.index];
-      var parent = this.$parent;
-      while (parent.$options.componentName !== 'ElMenu') {
-        if (parent.index) {
-          path.unshift(parent.index);
-        }
-        parent = parent.$parent;
-      }
-      return path;
-    },
-    parentMenu: function parentMenu() {
-      var parent = this.$parent;
-      while (parent && ['ElMenu', 'ElSubmenu'].indexOf(parent.$options.componentName) === -1) {
-        parent = parent.$parent;
-      }
-      return parent;
-    },
-    paddingStyle: function paddingStyle() {
-      if (this.rootMenu.mode !== 'vertical') return {};
-
-      var padding = 20;
-      var parent = this.$parent;
-
-      if (this.rootMenu.collapse) {
-        padding = 20;
-      } else {
-        while (parent && parent.$options.componentName !== 'ElMenu') {
-          if (parent.$options.componentName === 'ElSubmenu') {
-            padding += 20;
-          }
-          parent = parent.$parent;
-        }
-      }
-      return { paddingLeft: padding + 'px' };
-    }
-  }
-};
-
-/***/ }),
-
-/***/ 7:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/vue-popper");
-
-/***/ }),
-
-/***/ 98:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(99);
-
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-
-var _submenu = __webpack_require__(100);
-
-var _submenu2 = _interopRequireDefault(_submenu);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/* istanbul ignore next */
-_submenu2.default.install = function (Vue) {
-  Vue.component(_submenu2.default.name, _submenu2.default);
-};
-
-exports.default = _submenu2.default;
 
 /***/ })
 

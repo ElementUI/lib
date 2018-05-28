@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 184);
+/******/ 	return __webpack_require__(__webpack_require__.s = 160);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -204,22 +204,7 @@ module.exports = require("element-ui/lib/checkbox");
 
 /***/ }),
 
-/***/ 18:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/resize-event");
-
-/***/ }),
-
-/***/ 184:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(185);
-
-
-/***/ }),
-
-/***/ 185:
+/***/ 160:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -227,7 +212,7 @@ module.exports = __webpack_require__(185);
 
 exports.__esModule = true;
 
-var _table = __webpack_require__(186);
+var _table = __webpack_require__(161);
 
 var _table2 = _interopRequireDefault(_table);
 
@@ -242,14 +227,14 @@ exports.default = _table2.default;
 
 /***/ }),
 
-/***/ 186:
+/***/ 161:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_vue__ = __webpack_require__(187);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_vue__ = __webpack_require__(162);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7f7bd8fe_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_table_vue__ = __webpack_require__(199);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7f7bd8fe_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_table_vue__ = __webpack_require__(174);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -277,7 +262,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 187:
+/***/ 162:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -295,7 +280,7 @@ var _debounce2 = _interopRequireDefault(_debounce);
 
 var _resizeEvent = __webpack_require__(18);
 
-var _mousewheel = __webpack_require__(188);
+var _mousewheel = __webpack_require__(163);
 
 var _mousewheel2 = _interopRequireDefault(_mousewheel);
 
@@ -307,23 +292,23 @@ var _migrating = __webpack_require__(8);
 
 var _migrating2 = _interopRequireDefault(_migrating);
 
-var _tableStore = __webpack_require__(190);
+var _tableStore = __webpack_require__(165);
 
 var _tableStore2 = _interopRequireDefault(_tableStore);
 
-var _tableLayout = __webpack_require__(191);
+var _tableLayout = __webpack_require__(166);
 
 var _tableLayout2 = _interopRequireDefault(_tableLayout);
 
-var _tableBody = __webpack_require__(192);
+var _tableBody = __webpack_require__(167);
 
 var _tableBody2 = _interopRequireDefault(_tableBody);
 
-var _tableHeader = __webpack_require__(193);
+var _tableHeader = __webpack_require__(168);
 
 var _tableHeader2 = _interopRequireDefault(_tableHeader);
 
-var _tableFooter = __webpack_require__(198);
+var _tableFooter = __webpack_require__(173);
 
 var _tableFooter2 = _interopRequireDefault(_tableFooter);
 
@@ -755,6 +740,9 @@ exports.default = {
       if (this.shouldUpdateHeight) {
         this.layout.updateElsHeight();
       }
+    },
+    sort: function sort(prop, order) {
+      this.store.commit('sort', { prop: prop, order: order });
     }
   },
 
@@ -960,7 +948,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 188:
+/***/ 163:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -968,7 +956,7 @@ exports.default = {
 
 exports.__esModule = true;
 
-var _normalizeWheel = __webpack_require__(189);
+var _normalizeWheel = __webpack_require__(164);
 
 var _normalizeWheel2 = _interopRequireDefault(_normalizeWheel);
 
@@ -993,14 +981,14 @@ exports.default = {
 
 /***/ }),
 
-/***/ 189:
+/***/ 164:
 /***/ (function(module, exports) {
 
 module.exports = require("normalize-wheel");
 
 /***/ }),
 
-/***/ 190:
+/***/ 165:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1019,6 +1007,8 @@ var _debounce2 = _interopRequireDefault(_debounce);
 var _merge = __webpack_require__(9);
 
 var _merge2 = _interopRequireDefault(_merge);
+
+var _dom = __webpack_require__(2);
 
 var _util = __webpack_require__(48);
 
@@ -1237,6 +1227,21 @@ TableStore.prototype.mutations = {
 
     states.data = sortData(states.filteredData || states._data || [], states);
 
+    var el = this.table.$el;
+    if (el) {
+      var data = states.data;
+      var tr = el.querySelector('tbody').children;
+      var rows = [].filter.call(tr, function (row) {
+        return (0, _dom.hasClass)(row, 'el-table__row');
+      });
+      var row = rows[data.indexOf(states.currentRow)];
+
+      [].forEach.call(rows, function (row) {
+        return (0, _dom.removeClass)(row, 'current-row');
+      });
+      (0, _dom.addClass)(row, 'current-row');
+    }
+
     if (!options || !options.silent) {
       this.table.$emit('sort-change', {
         column: this.states.sortingColumn,
@@ -1249,8 +1254,33 @@ TableStore.prototype.mutations = {
       return _this2.table.updateScrollY();
     });
   },
-  filterChange: function filterChange(states, options) {
+  sort: function sort(states, options) {
     var _this3 = this;
+
+    var prop = options.prop,
+        order = options.order;
+
+    if (prop) {
+      states.sortProp = prop;
+      states.sortOrder = order || 'ascending';
+      _vue2.default.nextTick(function () {
+        for (var i = 0, length = states.columns.length; i < length; i++) {
+          var column = states.columns[i];
+          if (column.property === states.sortProp) {
+            column.order = states.sortOrder;
+            states.sortingColumn = column;
+            break;
+          }
+        }
+
+        if (states.sortingColumn) {
+          _this3.commit('changeSortCondition');
+        }
+      });
+    }
+  },
+  filterChange: function filterChange(states, options) {
+    var _this4 = this;
 
     var column = options.column,
         values = options.values,
@@ -1273,7 +1303,7 @@ TableStore.prototype.mutations = {
     Object.keys(states.filters).forEach(function (columnId) {
       var values = states.filters[columnId];
       if (!values || values.length === 0) return;
-      var column = (0, _util.getColumnById)(_this3.states, columnId);
+      var column = (0, _util.getColumnById)(_this4.states, columnId);
       if (column && column.filterMethod) {
         data = data.filter(function (row) {
           return values.some(function (value) {
@@ -1291,7 +1321,7 @@ TableStore.prototype.mutations = {
     }
 
     _vue2.default.nextTick(function () {
-      return _this3.table.updateScrollY();
+      return _this4.table.updateScrollY();
     });
   },
   insertColumn: function insertColumn(states, column, index, parent) {
@@ -1657,7 +1687,7 @@ exports.default = TableStore;
 
 /***/ }),
 
-/***/ 191:
+/***/ 166:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1939,7 +1969,7 @@ exports.default = TableLayout;
 
 /***/ }),
 
-/***/ 192:
+/***/ 167:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2398,7 +2428,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 193:
+/***/ 168:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2420,7 +2450,7 @@ var _vue = __webpack_require__(4);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _filterPanel = __webpack_require__(194);
+var _filterPanel = __webpack_require__(169);
 
 var _filterPanel2 = _interopRequireDefault(_filterPanel);
 
@@ -2677,29 +2707,11 @@ exports.default = {
     this.filterPanels = {};
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _defaultSort = this.defaultSort,
+        prop = _defaultSort.prop,
+        order = _defaultSort.order;
 
-    if (this.defaultSort.prop) {
-      (function () {
-        var states = _this2.store.states;
-        states.sortProp = _this2.defaultSort.prop;
-        states.sortOrder = _this2.defaultSort.order || 'ascending';
-        _this2.$nextTick(function (_) {
-          for (var i = 0, length = _this2.columns.length; i < length; i++) {
-            var column = _this2.columns[i];
-            if (column.property === states.sortProp) {
-              column.order = states.sortOrder;
-              states.sortingColumn = column;
-              break;
-            }
-          }
-
-          if (states.sortingColumn) {
-            _this2.store.commit('changeSortCondition');
-          }
-        });
-      })();
-    }
+    this.store.commit('sort', { prop: prop, order: order });
   },
   beforeDestroy: function beforeDestroy() {
     var panels = this.filterPanels;
@@ -2832,27 +2844,27 @@ exports.default = {
       this.$parent.$emit('header-contextmenu', column, event);
     },
     handleMouseDown: function handleMouseDown(event, column) {
-      var _this3 = this;
+      var _this2 = this;
 
       if (this.$isServer) return;
       if (column.children && column.children.length > 0) return;
       /* istanbul ignore if */
       if (this.draggingColumn && this.border) {
         (function () {
-          _this3.dragging = true;
+          _this2.dragging = true;
 
-          _this3.$parent.resizeProxyVisible = true;
+          _this2.$parent.resizeProxyVisible = true;
 
-          var table = _this3.$parent;
+          var table = _this2.$parent;
           var tableEl = table.$el;
           var tableLeft = tableEl.getBoundingClientRect().left;
-          var columnEl = _this3.$el.querySelector('th.' + column.id);
+          var columnEl = _this2.$el.querySelector('th.' + column.id);
           var columnRect = columnEl.getBoundingClientRect();
           var minLeft = columnRect.left - tableLeft + 30;
 
           (0, _dom.addClass)(columnEl, 'noclick');
 
-          _this3.dragState = {
+          _this2.dragState = {
             startMouseLeft: event.clientX,
             startLeft: columnRect.right - tableLeft,
             startColumnLeft: columnRect.left - tableLeft,
@@ -2860,7 +2872,7 @@ exports.default = {
           };
 
           var resizeProxy = table.$refs.resizeProxy;
-          resizeProxy.style.left = _this3.dragState.startLeft + 'px';
+          resizeProxy.style.left = _this2.dragState.startLeft + 'px';
 
           document.onselectstart = function () {
             return false;
@@ -2870,15 +2882,15 @@ exports.default = {
           };
 
           var handleMouseMove = function handleMouseMove(event) {
-            var deltaLeft = event.clientX - _this3.dragState.startMouseLeft;
-            var proxyLeft = _this3.dragState.startLeft + deltaLeft;
+            var deltaLeft = event.clientX - _this2.dragState.startMouseLeft;
+            var proxyLeft = _this2.dragState.startLeft + deltaLeft;
 
             resizeProxy.style.left = Math.max(minLeft, proxyLeft) + 'px';
           };
 
           var handleMouseUp = function handleMouseUp() {
-            if (_this3.dragging) {
-              var _dragState = _this3.dragState,
+            if (_this2.dragging) {
+              var _dragState = _this2.dragState,
                   startColumnLeft = _dragState.startColumnLeft,
                   startLeft = _dragState.startLeft;
 
@@ -2887,12 +2899,12 @@ exports.default = {
               column.width = column.realWidth = columnWidth;
               table.$emit('header-dragend', column.width, startLeft - startColumnLeft, column, event);
 
-              _this3.store.scheduleLayout();
+              _this2.store.scheduleLayout();
 
               document.body.style.cursor = '';
-              _this3.dragging = false;
-              _this3.draggingColumn = null;
-              _this3.dragState = {};
+              _this2.dragging = false;
+              _this2.draggingColumn = null;
+              _this2.dragState = {};
 
               table.resizeProxyVisible = false;
             }
@@ -2944,12 +2956,17 @@ exports.default = {
       if (this.$isServer) return;
       document.body.style.cursor = '';
     },
-    toggleOrder: function toggleOrder(order) {
-      return !order ? 'ascending' : order === 'ascending' ? 'descending' : null;
+    toggleOrder: function toggleOrder(_ref) {
+      var order = _ref.order,
+          sortOrders = _ref.sortOrders;
+
+      if (order === '') return sortOrders[0];
+      var index = sortOrders.indexOf(order || null);
+      return sortOrders[index > sortOrders.length - 2 ? 0 : index + 1];
     },
     handleSortClick: function handleSortClick(event, column, givenOrder) {
       event.stopPropagation();
-      var order = givenOrder || this.toggleOrder(column.order);
+      var order = givenOrder || this.toggleOrder(column);
 
       var target = event.target;
       while (target && target.tagName !== 'TH') {
@@ -3004,14 +3021,14 @@ exports.default = {
 
 /***/ }),
 
-/***/ 194:
+/***/ 169:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_filter_panel_vue__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_filter_panel_vue__ = __webpack_require__(170);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_filter_panel_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_filter_panel_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6c30520c_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_filter_panel_vue__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6c30520c_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_filter_panel_vue__ = __webpack_require__(172);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -3039,7 +3056,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 195:
+/***/ 170:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3061,7 +3078,7 @@ var _clickoutside = __webpack_require__(10);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-var _dropdown = __webpack_require__(196);
+var _dropdown = __webpack_require__(171);
 
 var _dropdown2 = _interopRequireDefault(_dropdown);
 
@@ -3289,10 +3306,12 @@ exports.default = {
 //
 //
 //
+//
+//
 
 /***/ }),
 
-/***/ 196:
+/***/ 171:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3335,18 +3354,18 @@ exports.default = {
 
 /***/ }),
 
-/***/ 197:
+/***/ 172:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"el-zoom-in-top"}},[(_vm.multiple)?_c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleOutsideClick),expression:"handleOutsideClick"},{name:"show",rawName:"v-show",value:(_vm.showPopper),expression:"showPopper"}],staticClass:"el-table-filter"},[_c('div',{staticClass:"el-table-filter__content"},[_c('el-checkbox-group',{staticClass:"el-table-filter__checkbox-group",model:{value:(_vm.filteredValue),callback:function ($$v) {_vm.filteredValue=$$v},expression:"filteredValue"}},_vm._l((_vm.filters),function(filter){return _c('el-checkbox',{key:filter.value,attrs:{"label":filter.value}},[_vm._v(_vm._s(filter.text))])}))],1),_c('div',{staticClass:"el-table-filter__bottom"},[_c('button',{class:{ 'is-disabled': _vm.filteredValue.length === 0 },attrs:{"disabled":_vm.filteredValue.length === 0},on:{"click":_vm.handleConfirm}},[_vm._v(_vm._s(_vm.t('el.table.confirmFilter')))]),_c('button',{on:{"click":_vm.handleReset}},[_vm._v(_vm._s(_vm.t('el.table.resetFilter')))])])]):_c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleOutsideClick),expression:"handleOutsideClick"},{name:"show",rawName:"v-show",value:(_vm.showPopper),expression:"showPopper"}],staticClass:"el-table-filter"},[_c('ul',{staticClass:"el-table-filter__list"},[_c('li',{staticClass:"el-table-filter__list-item",class:{ 'is-active': _vm.filterValue === undefined || _vm.filterValue === null },on:{"click":function($event){_vm.handleSelect(null)}}},[_vm._v(_vm._s(_vm.t('el.table.clearFilter')))]),_vm._l((_vm.filters),function(filter){return _c('li',{key:filter.value,staticClass:"el-table-filter__list-item",class:{ 'is-active': _vm.isActive(filter) },attrs:{"label":filter.value},on:{"click":function($event){_vm.handleSelect(filter.value)}}},[_vm._v(_vm._s(filter.text))])})],2)])])}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"el-zoom-in-top"}},[(_vm.multiple)?_c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleOutsideClick),expression:"handleOutsideClick"},{name:"show",rawName:"v-show",value:(_vm.showPopper),expression:"showPopper"}],staticClass:"el-table-filter"},[_c('div',{staticClass:"el-table-filter__content"},[_c('el-scrollbar',{attrs:{"wrap-class":"el-table-filter__wrap"}},[_c('el-checkbox-group',{staticClass:"el-table-filter__checkbox-group",model:{value:(_vm.filteredValue),callback:function ($$v) {_vm.filteredValue=$$v},expression:"filteredValue"}},_vm._l((_vm.filters),function(filter){return _c('el-checkbox',{key:filter.value,attrs:{"label":filter.value}},[_vm._v(_vm._s(filter.text))])}))],1)],1),_c('div',{staticClass:"el-table-filter__bottom"},[_c('button',{class:{ 'is-disabled': _vm.filteredValue.length === 0 },attrs:{"disabled":_vm.filteredValue.length === 0},on:{"click":_vm.handleConfirm}},[_vm._v(_vm._s(_vm.t('el.table.confirmFilter')))]),_c('button',{on:{"click":_vm.handleReset}},[_vm._v(_vm._s(_vm.t('el.table.resetFilter')))])])]):_c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleOutsideClick),expression:"handleOutsideClick"},{name:"show",rawName:"v-show",value:(_vm.showPopper),expression:"showPopper"}],staticClass:"el-table-filter"},[_c('ul',{staticClass:"el-table-filter__list"},[_c('li',{staticClass:"el-table-filter__list-item",class:{ 'is-active': _vm.filterValue === undefined || _vm.filterValue === null },on:{"click":function($event){_vm.handleSelect(null)}}},[_vm._v(_vm._s(_vm.t('el.table.clearFilter')))]),_vm._l((_vm.filters),function(filter){return _c('li',{key:filter.value,staticClass:"el-table-filter__list-item",class:{ 'is-active': _vm.isActive(filter) },attrs:{"label":filter.value},on:{"click":function($event){_vm.handleSelect(filter.value)}}},[_vm._v(_vm._s(filter.text))])})],2)])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
 
-/***/ 198:
+/***/ 173:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3521,7 +3540,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 199:
+/***/ 174:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3578,6 +3597,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+
+/***/ 18:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ }),
 

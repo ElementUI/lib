@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 263);
+/******/ 	return __webpack_require__(__webpack_require__.s = 228);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -183,15 +183,7 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 263:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(264);
-
-
-/***/ }),
-
-/***/ 264:
+/***/ 228:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -199,7 +191,7 @@ module.exports = __webpack_require__(264);
 
 exports.__esModule = true;
 
-var _formItem = __webpack_require__(265);
+var _formItem = __webpack_require__(229);
 
 var _formItem2 = _interopRequireDefault(_formItem);
 
@@ -214,14 +206,14 @@ exports.default = _formItem2.default;
 
 /***/ }),
 
-/***/ 265:
+/***/ 229:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_form_item_vue__ = __webpack_require__(266);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_form_item_vue__ = __webpack_require__(230);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_form_item_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_form_item_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_67a5dd92_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_form_item_vue__ = __webpack_require__(268);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_67a5dd92_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_form_item_vue__ = __webpack_require__(232);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -249,7 +241,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 266:
+/***/ 230:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -257,7 +249,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _asyncValidator = __webpack_require__(267);
+var _asyncValidator = __webpack_require__(231);
 
 var _asyncValidator2 = _interopRequireDefault(_asyncValidator);
 
@@ -573,14 +565,14 @@ exports.default = {
 
 /***/ }),
 
-/***/ 267:
+/***/ 231:
 /***/ (function(module, exports) {
 
 module.exports = require("async-validator");
 
 /***/ }),
 
-/***/ 268:
+/***/ 232:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

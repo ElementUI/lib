@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 118);
+/******/ 	return __webpack_require__(__webpack_require__.s = 107);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -176,15 +176,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 118:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(119);
-
-
-/***/ }),
-
-/***/ 119:
+/***/ 107:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -192,7 +184,7 @@ module.exports = __webpack_require__(119);
 
 exports.__esModule = true;
 
-var _inputNumber = __webpack_require__(120);
+var _inputNumber = __webpack_require__(108);
 
 var _inputNumber2 = _interopRequireDefault(_inputNumber);
 
@@ -207,14 +199,14 @@ exports.default = _inputNumber2.default;
 
 /***/ }),
 
-/***/ 120:
+/***/ 108:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_number_vue__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_number_vue__ = __webpack_require__(109);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_number_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_input_number_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_591d2a59_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_number_vue__ = __webpack_require__(122);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_591d2a59_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_input_number_vue__ = __webpack_require__(110);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -242,7 +234,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 121:
+/***/ 109:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -306,7 +298,13 @@ exports.default = {
       default: ''
     },
     name: String,
-    label: String
+    label: String,
+    precision: {
+      type: Number,
+      validator: function validator(val) {
+        return val >= 0 && val === parseInt(val, 10);
+      }
+    }
   },
   data: function data() {
     return {
@@ -319,7 +317,14 @@ exports.default = {
       immediate: true,
       handler: function handler(value) {
         var newVal = value === undefined ? value : Number(value);
-        if (newVal !== undefined && isNaN(newVal)) return;
+        if (newVal !== undefined) {
+          if (isNaN(newVal)) {
+            return;
+          }
+          if (this.precision !== undefined) {
+            newVal = this.toPrecision(newVal, this.precision);
+          }
+        }
         if (newVal >= this.max) newVal = this.max;
         if (newVal <= this.min) newVal = this.min;
         this.currentValue = newVal;
@@ -334,12 +339,21 @@ exports.default = {
     maxDisabled: function maxDisabled() {
       return this._increase(this.value, this.step) > this.max;
     },
-    precision: function precision() {
+    numPrecision: function numPrecision() {
       var value = this.value,
           step = this.step,
-          getPrecision = this.getPrecision;
+          getPrecision = this.getPrecision,
+          precision = this.precision;
 
-      return Math.max(getPrecision(value), getPrecision(step));
+      var stepPrecision = getPrecision(step);
+      if (precision !== undefined) {
+        if (stepPrecision > precision) {
+          console.warn('[Element Warn][InputNumber]precision should not be less than the decimal places of step');
+        }
+        return precision;
+      } else {
+        return Math.max(getPrecision(value), stepPrecision);
+      }
     },
     controlsAtRight: function controlsAtRight() {
       return this.controlsPosition === 'right';
@@ -352,11 +366,19 @@ exports.default = {
     },
     inputNumberDisabled: function inputNumberDisabled() {
       return this.disabled || (this.elForm || {}).disabled;
+    },
+    currentInputValue: function currentInputValue() {
+      var currentValue = this.currentValue;
+      if (typeof currentValue === 'number' && this.precision !== undefined) {
+        return currentValue.toFixed(this.precision);
+      } else {
+        return currentValue;
+      }
     }
   },
   methods: {
     toPrecision: function toPrecision(num, precision) {
-      if (precision === undefined) precision = this.precision;
+      if (precision === undefined) precision = this.numPrecision;
       return parseFloat(parseFloat(Number(num).toFixed(precision)));
     },
     getPrecision: function getPrecision(value) {
@@ -372,14 +394,14 @@ exports.default = {
     _increase: function _increase(val, step) {
       if (typeof val !== 'number' && val !== undefined) return this.currentValue;
 
-      var precisionFactor = Math.pow(10, this.precision);
+      var precisionFactor = Math.pow(10, this.numPrecision);
       // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
       return this.toPrecision((precisionFactor * val + precisionFactor * step) / precisionFactor);
     },
     _decrease: function _decrease(val, step) {
       if (typeof val !== 'number' && val !== undefined) return this.currentValue;
 
-      var precisionFactor = Math.pow(10, this.precision);
+      var precisionFactor = Math.pow(10, this.numPrecision);
 
       return this.toPrecision((precisionFactor * val - precisionFactor * step) / precisionFactor);
     },
@@ -397,17 +419,20 @@ exports.default = {
     },
     handleBlur: function handleBlur(event) {
       this.$emit('blur', event);
-      this.$refs.input.setCurrentValue(this.currentValue);
+      this.$refs.input.setCurrentValue(this.currentInputValue);
     },
     handleFocus: function handleFocus(event) {
       this.$emit('focus', event);
     },
     setCurrentValue: function setCurrentValue(newVal) {
       var oldVal = this.currentValue;
+      if (typeof newVal === 'number' && this.precision !== undefined) {
+        newVal = this.toPrecision(newVal, this.precision);
+      }
       if (newVal >= this.max) newVal = this.max;
       if (newVal <= this.min) newVal = this.min;
       if (oldVal === newVal) {
-        this.$refs.input.setCurrentValue(this.currentValue);
+        this.$refs.input.setCurrentValue(this.currentInputValue);
         return;
       }
       this.$emit('input', newVal);
@@ -488,7 +513,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 122:
+/***/ 110:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -498,7 +523,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     { 'is-disabled': _vm.inputNumberDisabled },
     { 'is-without-controls': !_vm.controls },
     { 'is-controls-right': _vm.controlsAtRight }
-  ],on:{"dragstart":function($event){$event.preventDefault();}}},[(_vm.controls)?_c('span',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.decrease),expression:"decrease"}],staticClass:"el-input-number__decrease",class:{'is-disabled': _vm.minDisabled},attrs:{"role":"button"},on:{"keydown":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.decrease($event)}}},[_c('i',{class:("el-icon-" + (_vm.controlsAtRight ? 'arrow-down' : 'minus'))})]):_vm._e(),(_vm.controls)?_c('span',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.increase),expression:"increase"}],staticClass:"el-input-number__increase",class:{'is-disabled': _vm.maxDisabled},attrs:{"role":"button"},on:{"keydown":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.increase($event)}}},[_c('i',{class:("el-icon-" + (_vm.controlsAtRight ? 'arrow-up' : 'plus'))})]):_vm._e(),_c('el-input',{ref:"input",attrs:{"value":_vm.currentValue,"disabled":_vm.inputNumberDisabled,"size":_vm.inputNumberSize,"max":_vm.max,"min":_vm.min,"name":_vm.name,"label":_vm.label},on:{"blur":_vm.handleBlur,"focus":_vm.handleFocus,"change":_vm.handleInputChange},nativeOn:{"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key)){ return null; }$event.preventDefault();_vm.increase($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key)){ return null; }$event.preventDefault();_vm.decrease($event)}]}},[(_vm.$slots.prepend)?_c('template',{attrs:{"slot":"prepend"},slot:"prepend"},[_vm._t("prepend")],2):_vm._e(),(_vm.$slots.append)?_c('template',{attrs:{"slot":"append"},slot:"append"},[_vm._t("append")],2):_vm._e()],2)],1)}
+  ],on:{"dragstart":function($event){$event.preventDefault();}}},[(_vm.controls)?_c('span',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.decrease),expression:"decrease"}],staticClass:"el-input-number__decrease",class:{'is-disabled': _vm.minDisabled},attrs:{"role":"button"},on:{"keydown":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.decrease($event)}}},[_c('i',{class:("el-icon-" + (_vm.controlsAtRight ? 'arrow-down' : 'minus'))})]):_vm._e(),(_vm.controls)?_c('span',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.increase),expression:"increase"}],staticClass:"el-input-number__increase",class:{'is-disabled': _vm.maxDisabled},attrs:{"role":"button"},on:{"keydown":function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.increase($event)}}},[_c('i',{class:("el-icon-" + (_vm.controlsAtRight ? 'arrow-up' : 'plus'))})]):_vm._e(),_c('el-input',{ref:"input",attrs:{"value":_vm.currentInputValue,"disabled":_vm.inputNumberDisabled,"size":_vm.inputNumberSize,"max":_vm.max,"min":_vm.min,"name":_vm.name,"label":_vm.label},on:{"blur":_vm.handleBlur,"focus":_vm.handleFocus,"change":_vm.handleInputChange},nativeOn:{"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key)){ return null; }$event.preventDefault();_vm.increase($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key)){ return null; }$event.preventDefault();_vm.decrease($event)}]}},[(_vm.$slots.prepend)?_c('template',{attrs:{"slot":"prepend"},slot:"prepend"},[_vm._t("prepend")],2):_vm._e(),(_vm.$slots.append)?_c('template',{attrs:{"slot":"append"},slot:"append"},[_vm._t("append")],2):_vm._e()],2)],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
