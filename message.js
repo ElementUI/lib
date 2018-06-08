@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 309);
+/******/ 	return __webpack_require__(__webpack_require__.s = 307);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -190,7 +190,7 @@ module.exports = require("element-ui/lib/utils/vdom");
 
 /***/ }),
 
-/***/ 309:
+/***/ 307:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -198,7 +198,7 @@ module.exports = require("element-ui/lib/utils/vdom");
 
 exports.__esModule = true;
 
-var _main = __webpack_require__(310);
+var _main = __webpack_require__(308);
 
 var _main2 = _interopRequireDefault(_main);
 
@@ -208,7 +208,7 @@ exports.default = _main2.default;
 
 /***/ }),
 
-/***/ 310:
+/***/ 308:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -220,7 +220,7 @@ var _vue = __webpack_require__(4);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _main = __webpack_require__(311);
+var _main = __webpack_require__(309);
 
 var _main2 = _interopRequireDefault(_main);
 
@@ -301,14 +301,14 @@ exports.default = Message;
 
 /***/ }),
 
-/***/ 311:
+/***/ 309:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__ = __webpack_require__(312);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__ = __webpack_require__(310);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4696067d_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_main_vue__ = __webpack_require__(313);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4696067d_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_main_vue__ = __webpack_require__(311);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -336,7 +336,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 312:
+/***/ 310:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -396,13 +396,6 @@ exports.default = {
 
 
   computed: {
-    iconWrapClass: function iconWrapClass() {
-      var classes = ['el-message__icon'];
-      if (this.type && !this.iconClass) {
-        classes.push('el-message__icon--' + this.type);
-      }
-      return classes;
-    },
     typeClass: function typeClass() {
       return this.type && !this.iconClass ? 'el-message__icon el-icon-' + typeMap[this.type] : '';
     }
@@ -463,7 +456,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 313:
+/***/ 311:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -472,7 +465,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       _vm.type && !_vm.iconClass ? ("el-message--" + _vm.type) : '',
       _vm.center ? 'is-center' : '',
       _vm.showClose ? 'is-closable' : '',
-      _vm.customClass],attrs:{"role":"alert"},on:{"mouseenter":_vm.clearTimer,"mouseleave":_vm.startTimer}},[(_vm.iconClass)?_c('i',{class:_vm.iconClass}):_c('i',{class:_vm.typeClass}),_vm._t("default",[(!_vm.dangerouslyUseHTMLString)?_c('p',{staticClass:"el-message__content"},[_vm._v(_vm._s(_vm.message))]):_c('p',{staticClass:"el-message__content",domProps:{"innerHTML":_vm._s(_vm.message)}})]),(_vm.showClose)?_c('i',{staticClass:"el-message__closeBtn el-icon-close",on:{"click":_vm.close}}):_vm._e()],2)])}
+      _vm.customClass
+    ],attrs:{"role":"alert"},on:{"mouseenter":_vm.clearTimer,"mouseleave":_vm.startTimer}},[(_vm.iconClass)?_c('i',{class:_vm.iconClass}):_c('i',{class:_vm.typeClass}),_vm._t("default",[(!_vm.dangerouslyUseHTMLString)?_c('p',{staticClass:"el-message__content"},[_vm._v(_vm._s(_vm.message))]):_c('p',{staticClass:"el-message__content",domProps:{"innerHTML":_vm._s(_vm.message)}})]),(_vm.showClose)?_c('i',{staticClass:"el-message__closeBtn el-icon-close",on:{"click":_vm.close}}):_vm._e()],2)])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 160);
+/******/ 	return __webpack_require__(__webpack_require__.s = 159);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -197,14 +197,7 @@ module.exports = require("throttle-debounce/debounce");
 
 /***/ }),
 
-/***/ 16:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/checkbox");
-
-/***/ }),
-
-/***/ 160:
+/***/ 159:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -212,7 +205,7 @@ module.exports = require("element-ui/lib/checkbox");
 
 exports.__esModule = true;
 
-var _table = __webpack_require__(161);
+var _table = __webpack_require__(160);
 
 var _table2 = _interopRequireDefault(_table);
 
@@ -227,14 +220,21 @@ exports.default = _table2.default;
 
 /***/ }),
 
-/***/ 161:
+/***/ 16:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/checkbox");
+
+/***/ }),
+
+/***/ 160:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_vue__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_vue__ = __webpack_require__(161);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7f7bd8fe_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_table_vue__ = __webpack_require__(174);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7f7bd8fe_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_table_vue__ = __webpack_require__(173);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -262,7 +262,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 162:
+/***/ 161:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -280,7 +280,7 @@ var _debounce2 = _interopRequireDefault(_debounce);
 
 var _resizeEvent = __webpack_require__(18);
 
-var _mousewheel = __webpack_require__(163);
+var _mousewheel = __webpack_require__(162);
 
 var _mousewheel2 = _interopRequireDefault(_mousewheel);
 
@@ -292,23 +292,23 @@ var _migrating = __webpack_require__(8);
 
 var _migrating2 = _interopRequireDefault(_migrating);
 
-var _tableStore = __webpack_require__(165);
+var _tableStore = __webpack_require__(164);
 
 var _tableStore2 = _interopRequireDefault(_tableStore);
 
-var _tableLayout = __webpack_require__(166);
+var _tableLayout = __webpack_require__(165);
 
 var _tableLayout2 = _interopRequireDefault(_tableLayout);
 
-var _tableBody = __webpack_require__(167);
+var _tableBody = __webpack_require__(166);
 
 var _tableBody2 = _interopRequireDefault(_tableBody);
 
-var _tableHeader = __webpack_require__(168);
+var _tableHeader = __webpack_require__(167);
 
 var _tableHeader2 = _interopRequireDefault(_tableHeader);
 
-var _tableFooter = __webpack_require__(173);
+var _tableFooter = __webpack_require__(172);
 
 var _tableFooter2 = _interopRequireDefault(_tableFooter);
 
@@ -948,7 +948,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 163:
+/***/ 162:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -956,7 +956,7 @@ exports.default = {
 
 exports.__esModule = true;
 
-var _normalizeWheel = __webpack_require__(164);
+var _normalizeWheel = __webpack_require__(163);
 
 var _normalizeWheel2 = _interopRequireDefault(_normalizeWheel);
 
@@ -981,14 +981,14 @@ exports.default = {
 
 /***/ }),
 
-/***/ 164:
+/***/ 163:
 /***/ (function(module, exports) {
 
 module.exports = require("normalize-wheel");
 
 /***/ }),
 
-/***/ 165:
+/***/ 164:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1687,7 +1687,7 @@ exports.default = TableStore;
 
 /***/ }),
 
-/***/ 166:
+/***/ 165:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1969,7 +1969,7 @@ exports.default = TableLayout;
 
 /***/ }),
 
-/***/ 167:
+/***/ 166:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2292,7 +2292,8 @@ exports.default = {
       return rowStyle;
     },
     getRowClass: function getRowClass(row, rowIndex) {
-      var classes = ['el-table__row'];
+      var currentRow = this.store.states.currentRow;
+      var classes = currentRow === row ? ['el-table__row', 'current-row'] : ['el-table__row'];
 
       if (this.stripe && rowIndex % 2 === 1) {
         classes.push('el-table__row--striped');
@@ -2428,7 +2429,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 168:
+/***/ 167:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2450,7 +2451,7 @@ var _vue = __webpack_require__(4);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _filterPanel = __webpack_require__(169);
+var _filterPanel = __webpack_require__(168);
 
 var _filterPanel2 = _interopRequireDefault(_filterPanel);
 
@@ -3021,14 +3022,14 @@ exports.default = {
 
 /***/ }),
 
-/***/ 169:
+/***/ 168:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_filter_panel_vue__ = __webpack_require__(170);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_filter_panel_vue__ = __webpack_require__(169);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_filter_panel_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_filter_panel_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6c30520c_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_filter_panel_vue__ = __webpack_require__(172);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6c30520c_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_filter_panel_vue__ = __webpack_require__(171);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -3056,7 +3057,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 170:
+/***/ 169:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3078,7 +3079,7 @@ var _clickoutside = __webpack_require__(10);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
-var _dropdown = __webpack_require__(171);
+var _dropdown = __webpack_require__(170);
 
 var _dropdown2 = _interopRequireDefault(_dropdown);
 
@@ -3311,7 +3312,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 171:
+/***/ 170:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3354,7 +3355,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 172:
+/***/ 171:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3365,7 +3366,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 173:
+/***/ 172:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3388,37 +3389,41 @@ exports.default = {
     var _this = this;
 
     var sums = [];
-    this.columns.forEach(function (column, index) {
-      if (index === 0) {
-        sums[index] = _this.sumText;
-        return;
-      }
-      var values = _this.store.states.data.map(function (item) {
-        return Number(item[column.property]);
-      });
-      var precisions = [];
-      var notNumber = true;
-      values.forEach(function (value) {
-        if (!isNaN(value)) {
-          notNumber = false;
-          var decimal = ('' + value).split('.')[1];
-          precisions.push(decimal ? decimal.length : 0);
+    if (this.summaryMethod) {
+      sums = this.summaryMethod({ columns: this.columns, data: this.store.states.data });
+    } else {
+      this.columns.forEach(function (column, index) {
+        if (index === 0) {
+          sums[index] = _this.sumText;
+          return;
+        }
+        var values = _this.store.states.data.map(function (item) {
+          return Number(item[column.property]);
+        });
+        var precisions = [];
+        var notNumber = true;
+        values.forEach(function (value) {
+          if (!isNaN(value)) {
+            notNumber = false;
+            var decimal = ('' + value).split('.')[1];
+            precisions.push(decimal ? decimal.length : 0);
+          }
+        });
+        var precision = Math.max.apply(null, precisions);
+        if (!notNumber) {
+          sums[index] = values.reduce(function (prev, curr) {
+            var value = Number(curr);
+            if (!isNaN(value)) {
+              return parseFloat((prev + curr).toFixed(Math.min(precision, 20)));
+            } else {
+              return prev;
+            }
+          }, 0);
+        } else {
+          sums[index] = '';
         }
       });
-      var precision = Math.max.apply(null, precisions);
-      if (!notNumber) {
-        sums[index] = values.reduce(function (prev, curr) {
-          var value = Number(curr);
-          if (!isNaN(value)) {
-            return parseFloat((prev + curr).toFixed(Math.min(precision, 20)));
-          } else {
-            return prev;
-          }
-        }, 0);
-      } else {
-        sums[index] = '';
-      }
-    });
+    }
 
     return h(
       'table',
@@ -3464,7 +3469,7 @@ exports.default = {
               [h(
                 'div',
                 { 'class': ['cell', column.labelClassName] },
-                [_this.summaryMethod ? _this.summaryMethod({ columns: _this.columns, data: _this.store.states.data })[cellIndex] : sums[cellIndex]]
+                [sums[cellIndex]]
               )]
             );
           }), this.hasGutter ? h(
@@ -3540,7 +3545,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 174:
+/***/ 173:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

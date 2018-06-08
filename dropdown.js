@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 73);
+/******/ 	return __webpack_require__(__webpack_require__.s = 72);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -204,7 +204,7 @@ module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
-/***/ 73:
+/***/ 72:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -212,7 +212,7 @@ module.exports = require("element-ui/lib/utils/util");
 
 exports.__esModule = true;
 
-var _dropdown = __webpack_require__(74);
+var _dropdown = __webpack_require__(73);
 
 var _dropdown2 = _interopRequireDefault(_dropdown);
 
@@ -227,12 +227,12 @@ exports.default = _dropdown2.default;
 
 /***/ }),
 
-/***/ 74:
+/***/ 73:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dropdown_vue__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dropdown_vue__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dropdown_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_dropdown_vue__);
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -261,7 +261,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 75:
+/***/ 74:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -285,7 +285,7 @@ var _button = __webpack_require__(15);
 
 var _button2 = _interopRequireDefault(_button);
 
-var _buttonGroup = __webpack_require__(76);
+var _buttonGroup = __webpack_require__(75);
 
 var _buttonGroup2 = _interopRequireDefault(_buttonGroup);
 
@@ -471,7 +471,7 @@ exports.default = {
         // enter选中
         this.triggerElm.focus();
         target.click();
-        if (!this.hideOnClick) {
+        if (this.hideOnClick) {
           // click关闭
           this.visible = false;
         }
@@ -608,7 +608,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 76:
+/***/ 75:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/button-group");

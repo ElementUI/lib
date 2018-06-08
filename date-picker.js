@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 177);
+/******/ 	return __webpack_require__(__webpack_require__.s = 176);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -197,7 +197,7 @@ module.exports = require("element-ui/lib/utils/clickoutside");
 
 
 exports.__esModule = true;
-exports.extractTimeFormat = exports.extractDateFormat = exports.nextYear = exports.prevYear = exports.nextMonth = exports.prevMonth = exports.changeYearMonthAndClampDate = exports.timeWithinRange = exports.limitTimeRange = exports.clearMilliseconds = exports.clearTime = exports.modifyWithDefaultTime = exports.modifyTime = exports.modifyDate = exports.range = exports.getRangeHours = exports.getWeekNumber = exports.getStartDateOfMonth = exports.nextDate = exports.prevDate = exports.getFirstDayOfMonth = exports.getDayCountOfYear = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDateObject = exports.isDate = exports.toDate = undefined;
+exports.extractTimeFormat = exports.extractDateFormat = exports.nextYear = exports.prevYear = exports.nextMonth = exports.prevMonth = exports.changeYearMonthAndClampDate = exports.timeWithinRange = exports.limitTimeRange = exports.clearMilliseconds = exports.clearTime = exports.modifyWithTimeString = exports.modifyTime = exports.modifyDate = exports.range = exports.getRangeHours = exports.getWeekNumber = exports.getStartDateOfMonth = exports.nextDate = exports.prevDate = exports.getFirstDayOfMonth = exports.getDayCountOfYear = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDateObject = exports.isDate = exports.toDate = undefined;
 
 var _date = __webpack_require__(29);
 
@@ -366,7 +366,7 @@ var modifyTime = exports.modifyTime = function modifyTime(date, h, m, s) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate(), h, m, s, date.getMilliseconds());
 };
 
-var modifyWithDefaultTime = exports.modifyWithDefaultTime = function modifyWithDefaultTime(date, time) {
+var modifyWithTimeString = exports.modifyWithTimeString = function modifyWithTimeString(date, time) {
   if (date == null || !time) {
     return date;
   }
@@ -482,7 +482,7 @@ module.exports = require("element-ui/lib/scrollbar");
 
 /***/ }),
 
-/***/ 177:
+/***/ 176:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -490,7 +490,7 @@ module.exports = require("element-ui/lib/scrollbar");
 
 exports.__esModule = true;
 
-var _datePicker = __webpack_require__(178);
+var _datePicker = __webpack_require__(177);
 
 var _datePicker2 = _interopRequireDefault(_datePicker);
 
@@ -505,7 +505,7 @@ exports.default = _datePicker2.default;
 
 /***/ }),
 
-/***/ 178:
+/***/ 177:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -517,11 +517,11 @@ var _picker = __webpack_require__(27);
 
 var _picker2 = _interopRequireDefault(_picker);
 
-var _date = __webpack_require__(179);
+var _date = __webpack_require__(178);
 
 var _date2 = _interopRequireDefault(_date);
 
-var _dateRange = __webpack_require__(190);
+var _dateRange = __webpack_require__(189);
 
 var _dateRange2 = _interopRequireDefault(_dateRange);
 
@@ -566,14 +566,14 @@ exports.default = {
 
 /***/ }),
 
-/***/ 179:
+/***/ 178:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_date_vue__ = __webpack_require__(180);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_date_vue__ = __webpack_require__(179);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_date_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_date_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6f6496d7_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_date_vue__ = __webpack_require__(189);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6f6496d7_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_date_vue__ = __webpack_require__(188);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -601,7 +601,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 180:
+/***/ 179:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -631,11 +631,11 @@ var _time = __webpack_require__(31);
 
 var _time2 = _interopRequireDefault(_time);
 
-var _yearTable = __webpack_require__(181);
+var _yearTable = __webpack_require__(180);
 
 var _yearTable2 = _interopRequireDefault(_yearTable);
 
-var _monthTable = __webpack_require__(184);
+var _monthTable = __webpack_require__(183);
 
 var _monthTable2 = _interopRequireDefault(_monthTable);
 
@@ -668,7 +668,7 @@ exports.default = {
       if ((0, _util.isDate)(val)) {
         this.date = new Date(val);
       } else {
-        this.date = this.defaultValue ? new Date(this.defaultValue) : new Date();
+        this.date = this.getDefaultValue();
       }
     },
     defaultValue: function defaultValue(val) {
@@ -717,7 +717,7 @@ exports.default = {
       date(this.date);
     },
     handleClear: function handleClear() {
-      this.date = this.defaultValue ? new Date(this.defaultValue) : new Date();
+      this.date = this.getDefaultValue();
       this.$emit('pick', null);
     },
     emit: function emit(value) {
@@ -790,7 +790,7 @@ exports.default = {
     },
     handleTimePick: function handleTimePick(value, visible, first) {
       if ((0, _util.isDate)(value)) {
-        var newDate = this.value ? (0, _util.modifyTime)(this.date, value.getHours(), value.getMinutes(), value.getSeconds()) : (0, _util.modifyWithDefaultTime)(value, this.defaultTime);
+        var newDate = this.value ? (0, _util.modifyTime)(this.value, value.getHours(), value.getMinutes(), value.getSeconds()) : (0, _util.modifyWithTimeString)(this.getDefaultValue(), this.defaultTime);
         this.date = newDate;
         this.emit(this.date, true);
       } else {
@@ -818,7 +818,7 @@ exports.default = {
     },
     handleDatePick: function handleDatePick(value) {
       if (this.selectionMode === 'day') {
-        this.date = this.value ? (0, _util.modifyDate)(this.date, value.getFullYear(), value.getMonth(), value.getDate()) : (0, _util.modifyWithDefaultTime)(value, this.defaultTime);
+        this.date = this.value ? (0, _util.modifyDate)(this.value, value.getFullYear(), value.getMonth(), value.getDate()) : (0, _util.modifyWithTimeString)(value, this.defaultTime);
         this.emit(this.date, this.showTime);
       } else if (this.selectionMode === 'week') {
         this.emit(value.date);
@@ -847,8 +847,11 @@ exports.default = {
       if (this.selectionMode === 'dates') {
         this.emit(this.selectedDate);
       } else {
-        var date = this.value ? this.date : (0, _util.modifyWithDefaultTime)(this.date, this.defaultTime);
-        this.emit(date);
+        // value were emitted in handle{Date,Time}Pick, nothing to update here
+        // deal with the scenario where: user opens the picker, then confirm without doing anything
+        var value = this.value ? this.value : (0, _util.modifyWithTimeString)(this.getDefaultValue(), this.defaultTime);
+        this.date = new Date(value); // refresh date
+        this.emit(value);
       }
     },
     resetView: function resetView() {
@@ -944,6 +947,11 @@ exports.default = {
     },
     isValidValue: function isValidValue(value) {
       return value && !isNaN(value) && (typeof this.disabledDate === 'function' ? !this.disabledDate(value) : true);
+    },
+    getDefaultValue: function getDefaultValue() {
+      // if default-value is set, return it
+      // otherwise, return now (the moment this method gets called)
+      return this.defaultValue ? new Date(this.defaultValue) : new Date();
     }
   },
 
@@ -956,7 +964,7 @@ exports.default = {
       popperClass: '',
       date: new Date(),
       value: '',
-      defaultValue: null,
+      defaultValue: null, // use getDefaultValue() for time computation
       defaultTime: null,
       showTime: false,
       selectionMode: 'day',
@@ -1179,14 +1187,14 @@ exports.default = {
 
 /***/ }),
 
-/***/ 181:
+/***/ 180:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_year_table_vue__ = __webpack_require__(182);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_year_table_vue__ = __webpack_require__(181);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_year_table_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_year_table_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4c7e813d_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_year_table_vue__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4c7e813d_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_year_table_vue__ = __webpack_require__(182);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -1214,7 +1222,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 182:
+/***/ 181:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1324,7 +1332,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 183:
+/***/ 182:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1335,14 +1343,14 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 184:
+/***/ 183:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_month_table_vue__ = __webpack_require__(185);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_month_table_vue__ = __webpack_require__(184);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_month_table_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_month_table_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_332101d2_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_month_table_vue__ = __webpack_require__(186);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_332101d2_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_month_table_vue__ = __webpack_require__(185);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -1370,7 +1378,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 185:
+/***/ 184:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1485,7 +1493,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 186:
+/***/ 185:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1496,7 +1504,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 187:
+/***/ 186:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2022,7 +2030,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 188:
+/***/ 187:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2033,7 +2041,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 189:
+/***/ 188:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2047,14 +2055,14 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 190:
+/***/ 189:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_date_range_vue__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_date_range_vue__ = __webpack_require__(190);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_date_range_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_date_range_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_51f33e72_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_date_range_vue__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_51f33e72_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_date_range_vue__ = __webpack_require__(191);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -2082,7 +2090,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 191:
+/***/ 190:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2573,8 +2581,8 @@ exports.default = {
       var close = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
       var defaultTime = this.defaultTime || [];
-      var minDate = (0, _util.modifyWithDefaultTime)(val.minDate, defaultTime[0]);
-      var maxDate = (0, _util.modifyWithDefaultTime)(val.maxDate, defaultTime[1]);
+      var minDate = (0, _util.modifyWithTimeString)(val.minDate, defaultTime[0]);
+      var maxDate = (0, _util.modifyWithTimeString)(val.maxDate, defaultTime[1]);
 
       if (this.maxDate === maxDate && this.minDate === minDate) {
         return;
@@ -2684,7 +2692,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 192:
+/***/ 191:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4310,9 +4318,9 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_date_table_vue__ = __webpack_require__(187);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_date_table_vue__ = __webpack_require__(186);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_date_table_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_date_table_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0dd30f6e_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_date_table_vue__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0dd30f6e_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_date_table_vue__ = __webpack_require__(187);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 

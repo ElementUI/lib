@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 241);
+/******/ 	return __webpack_require__(__webpack_require__.s = 240);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -176,7 +176,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 241:
+/***/ 240:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -184,7 +184,7 @@ module.exports = function normalizeComponent (
 
 exports.__esModule = true;
 
-var _tabPane = __webpack_require__(242);
+var _tabPane = __webpack_require__(241);
 
 var _tabPane2 = _interopRequireDefault(_tabPane);
 
@@ -199,14 +199,14 @@ exports.default = _tabPane2.default;
 
 /***/ }),
 
-/***/ 242:
+/***/ 241:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tab_pane_vue__ = __webpack_require__(243);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tab_pane_vue__ = __webpack_require__(242);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tab_pane_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tab_pane_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_76941f3b_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_tab_pane_vue__ = __webpack_require__(244);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_76941f3b_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_tab_pane_vue__ = __webpack_require__(243);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -234,7 +234,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 243:
+/***/ 242:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -271,7 +271,8 @@ exports.default = {
 
   data: function data() {
     return {
-      index: null
+      index: null,
+      loaded: false
     };
   },
 
@@ -281,7 +282,11 @@ exports.default = {
       return this.closable || this.$parent.closable;
     },
     active: function active() {
-      return this.$parent.currentName === (this.name || this.index);
+      var active = this.$parent.currentName === (this.name || this.index);
+      if (active) {
+        this.loaded = true;
+      }
+      return active;
     },
     paneName: function paneName() {
       return this.name || this.index;
@@ -308,11 +313,11 @@ exports.default = {
 
 /***/ }),
 
-/***/ 244:
+/***/ 243:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (!_vm.lazy || _vm.active)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.active),expression:"active"}],staticClass:"el-tab-pane",attrs:{"role":"tabpanel","aria-hidden":!_vm.active,"id":("pane-" + _vm.paneName),"aria-labelledby":("tab-" + _vm.paneName)}},[_vm._t("default")],2):_vm._e()}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return ((!_vm.lazy || _vm.loaded) || _vm.active)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.active),expression:"active"}],staticClass:"el-tab-pane",attrs:{"role":"tabpanel","aria-hidden":!_vm.active,"id":("pane-" + _vm.paneName),"aria-labelledby":("tab-" + _vm.paneName)}},[_vm._t("default")],2):_vm._e()}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
