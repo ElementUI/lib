@@ -551,8 +551,6 @@ exports.default = {
   created: function created() {
     var _this4 = this;
 
-    this.parentMenu.addSubmenu(this);
-    this.rootMenu.addSubmenu(this);
     this.$on('toggle-collapse', this.handleCollapseToggle);
     this.$on('mouse-enter-child', function () {
       _this4.mouseInChild = true;
@@ -564,6 +562,8 @@ exports.default = {
     });
   },
   mounted: function mounted() {
+    this.parentMenu.addSubmenu(this);
+    this.rootMenu.addSubmenu(this);
     this.initPopper();
   },
   beforeDestroy: function beforeDestroy() {

@@ -515,7 +515,11 @@ var getReference = function getReference(el, binding, vnode) {
   var _ref = binding.expression ? binding.value : binding.arg;
   var popper = vnode.context.$refs[_ref];
   if (popper) {
-    popper.$refs.reference = el;
+    if (Array.isArray(popper)) {
+      popper[0].$refs.reference = el;
+    } else {
+      popper.$refs.reference = el;
+    }
   }
 };
 

@@ -331,7 +331,7 @@ exports.default = {
         _this2.$emit('input', value);
       };
       if (this.currentName !== value && this.beforeLeave) {
-        var before = this.beforeLeave();
+        var before = this.beforeLeave(value, this.currentName);
         if (before && before.then) {
           before.then(function () {
             changeCurrentName();
@@ -784,7 +784,7 @@ exports.default = {
         [h(
           'div',
           {
-            'class': ['el-tabs__nav', stretch && ['top', 'bottom'].indexOf(this.rootTabs.tabPosition) !== -1 ? 'is-stretch' : ''],
+            'class': ['el-tabs__nav', 'is-' + this.rootTabs.tabPosition, stretch && ['top', 'bottom'].indexOf(this.rootTabs.tabPosition) !== -1 ? 'is-stretch' : ''],
             ref: 'nav',
             style: navStyle,
             attrs: { role: 'tablist'

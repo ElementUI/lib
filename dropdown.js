@@ -354,7 +354,8 @@ exports.default = {
       menuItems: null,
       menuItemsArray: null,
       dropdownElm: null,
-      focusing: false
+      focusing: false,
+      listId: 'dropdown-menu-' + (0, _util.generateId)()
     };
   },
 
@@ -362,9 +363,6 @@ exports.default = {
   computed: {
     dropdownSize: function dropdownSize() {
       return this.size || (this.$ELEMENT || {}).size;
-    },
-    listId: function listId() {
-      return 'dropdown-menu-' + (0, _util.generateId)();
     }
   },
 

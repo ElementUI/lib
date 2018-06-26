@@ -1227,10 +1227,13 @@ TableStore.prototype.mutations = {
 
     states.data = sortData(states.filteredData || states._data || [], states);
 
-    var el = this.table.$el;
-    if (el) {
+    var _table = this.table,
+        $el = _table.$el,
+        highlightCurrentRow = _table.highlightCurrentRow;
+
+    if ($el && highlightCurrentRow) {
       var data = states.data;
-      var tr = el.querySelector('tbody').children;
+      var tr = $el.querySelector('tbody').children;
       var rows = [].filter.call(tr, function (row) {
         return (0, _dom.hasClass)(row, 'el-table__row');
       });
@@ -2293,7 +2296,7 @@ exports.default = {
     },
     getRowClass: function getRowClass(row, rowIndex) {
       var currentRow = this.store.states.currentRow;
-      var classes = currentRow === row ? ['el-table__row', 'current-row'] : ['el-table__row'];
+      var classes = this.table.highlightCurrentRow && currentRow === row ? ['el-table__row', 'current-row'] : ['el-table__row'];
 
       if (this.stripe && rowIndex % 2 === 1) {
         classes.push('el-table__row--striped');

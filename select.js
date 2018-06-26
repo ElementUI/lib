@@ -643,7 +643,7 @@ exports.default = {
     placeholder: function placeholder(val) {
       this.cachedPlaceHolder = this.currentPlaceholder = val;
     },
-    value: function value(val) {
+    value: function value(val, oldVal) {
       if (this.multiple) {
         this.resetInputHeight();
         if (val.length > 0 || this.$refs.input && this.query !== '') {
@@ -659,6 +659,9 @@ exports.default = {
       this.setSelected();
       if (this.filterable && !this.multiple) {
         this.inputLength = 20;
+      }
+      if (!(0, _util.valueEquals)(val, oldVal)) {
+        this.dispatch('ElFormItem', 'el.form.change', val);
       }
     },
     visible: function visible(val) {
@@ -804,12 +807,13 @@ exports.default = {
     emitChange: function emitChange(val) {
       if (!(0, _util.valueEquals)(this.value, val)) {
         this.$emit('change', val);
-        this.dispatch('ElFormItem', 'el.form.change', val);
       }
     },
     getOption: function getOption(value) {
       var option = void 0;
       var isObject = Object.prototype.toString.call(value).toLowerCase() === '[object object]';
+      var isNull = Object.prototype.toString.call(value).toLowerCase() === '[object null]';
+
       for (var i = this.cachedOptions.length - 1; i >= 0; i--) {
         var cachedOption = this.cachedOptions[i];
         var isEqual = isObject ? (0, _util.getValueByPath)(cachedOption.value, this.valueKey) === (0, _util.getValueByPath)(value, this.valueKey) : cachedOption.value === value;
@@ -819,7 +823,7 @@ exports.default = {
         }
       }
       if (option) return option;
-      var label = !isObject ? value : '';
+      var label = !isObject && !isNull ? value : '';
       var newOption = {
         value: value,
         currentLabel: label

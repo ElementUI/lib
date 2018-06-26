@@ -2037,7 +2037,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 module.exports = {
-  version: '2.4.1',
+  version: '2.4.2',
   locale: _locale2.default.use,
   i18n: _locale2.default.i18n,
   install: install,
@@ -2408,6 +2408,7 @@ exports.default = {
               attrs: {
                 value: this.$parent.internalPageSize,
                 popperClass: this.$parent.popperClass || '',
+                size: 'mini',
 
                 disabled: this.$parent.disabled },
               on: {
@@ -2496,15 +2497,16 @@ exports.default = {
           var num = parseInt(value, 10);
           if (!isNaN(num)) {
             if (num < 1) {
-              this.$refs.input.$el.querySelector('input').value = 1;
+              this.$refs.input.setCurrentValue(1);
             } else {
               this.reassignMaxValue(value);
             }
           }
         },
         reassignMaxValue: function reassignMaxValue(value) {
-          if (+value > this.$parent.internalPageCount) {
-            this.$refs.input.$el.querySelector('input').value = this.$parent.internalPageCount;
+          var internalPageCount = this.$parent.internalPageCount;
+          if (+value > internalPageCount) {
+            this.$refs.input.setCurrentValue(internalPageCount);
           }
         }
       },
@@ -3336,12 +3338,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-//
 
 exports.default = {
   name: 'ElAutocomplete',
 
   mixins: [_emitter2.default, (0, _focus2.default)('input'), _migrating2.default],
+
+  inheritAttrs: false,
 
   componentName: 'ElAutocomplete',
 
@@ -3681,7 +3684,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.close),expression:"close"}],staticClass:"el-autocomplete",attrs:{"aria-haspopup":"listbox","role":"combobox","aria-expanded":_vm.suggestionVisible,"aria-owns":_vm.id}},[_c('el-input',_vm._b({ref:"input",attrs:{"label":_vm.label},on:{"input":_vm.handleChange,"focus":_vm.handleFocus,"blur":_vm.handleBlur},nativeOn:{"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key)){ return null; }$event.preventDefault();_vm.highlight(_vm.highlightedIndex - 1)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key)){ return null; }$event.preventDefault();_vm.highlight(_vm.highlightedIndex + 1)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.handleKeyEnter($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"tab",9,$event.key)){ return null; }_vm.close($event)}]}},'el-input',_vm.$props,false),[(_vm.$slots.prepend)?_c('template',{attrs:{"slot":"prepend"},slot:"prepend"},[_vm._t("prepend")],2):_vm._e(),(_vm.$slots.append)?_c('template',{attrs:{"slot":"append"},slot:"append"},[_vm._t("append")],2):_vm._e(),(_vm.$slots.prefix)?_c('template',{attrs:{"slot":"prefix"},slot:"prefix"},[_vm._t("prefix")],2):_vm._e(),(_vm.$slots.suffix)?_c('template',{attrs:{"slot":"suffix"},slot:"suffix"},[_vm._t("suffix")],2):_vm._e()],2),_c('el-autocomplete-suggestions',{ref:"suggestions",class:[_vm.popperClass ? _vm.popperClass : ''],attrs:{"visible-arrow":"","popper-options":_vm.popperOptions,"placement":_vm.placement,"id":_vm.id}},_vm._l((_vm.suggestions),function(item,index){return _c('li',{key:index,class:{'highlighted': _vm.highlightedIndex === index},attrs:{"id":(_vm.id + "-item-" + index),"role":"option","aria-selected":_vm.highlightedIndex === index},on:{"click":function($event){_vm.select(item)}}},[_vm._t("default",[_vm._v("\n        "+_vm._s(item[_vm.valueKey])+"\n      ")],{item:item})],2)}))],1)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.close),expression:"close"}],staticClass:"el-autocomplete",attrs:{"aria-haspopup":"listbox","role":"combobox","aria-expanded":_vm.suggestionVisible,"aria-owns":_vm.id}},[_c('el-input',_vm._b({ref:"input",on:{"input":_vm.handleChange,"focus":_vm.handleFocus,"blur":_vm.handleBlur},nativeOn:{"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key)){ return null; }$event.preventDefault();_vm.highlight(_vm.highlightedIndex - 1)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key)){ return null; }$event.preventDefault();_vm.highlight(_vm.highlightedIndex + 1)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.handleKeyEnter($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"tab",9,$event.key)){ return null; }_vm.close($event)}]}},'el-input',[_vm.$props, _vm.$attrs],false),[(_vm.$slots.prepend)?_c('template',{attrs:{"slot":"prepend"},slot:"prepend"},[_vm._t("prepend")],2):_vm._e(),(_vm.$slots.append)?_c('template',{attrs:{"slot":"append"},slot:"append"},[_vm._t("append")],2):_vm._e(),(_vm.$slots.prefix)?_c('template',{attrs:{"slot":"prefix"},slot:"prefix"},[_vm._t("prefix")],2):_vm._e(),(_vm.$slots.suffix)?_c('template',{attrs:{"slot":"suffix"},slot:"suffix"},[_vm._t("suffix")],2):_vm._e()],2),_c('el-autocomplete-suggestions',{ref:"suggestions",class:[_vm.popperClass ? _vm.popperClass : ''],attrs:{"visible-arrow":"","popper-options":_vm.popperOptions,"placement":_vm.placement,"id":_vm.id}},_vm._l((_vm.suggestions),function(item,index){return _c('li',{key:index,class:{'highlighted': _vm.highlightedIndex === index},attrs:{"id":(_vm.id + "-item-" + index),"role":"option","aria-selected":_vm.highlightedIndex === index},on:{"click":function($event){_vm.select(item)}}},[_vm._t("default",[_vm._v("\n        "+_vm._s(item[_vm.valueKey])+"\n      ")],{item:item})],2)}))],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -3835,7 +3838,8 @@ exports.default = {
       menuItems: null,
       menuItemsArray: null,
       dropdownElm: null,
-      focusing: false
+      focusing: false,
+      listId: 'dropdown-menu-' + (0, _util.generateId)()
     };
   },
 
@@ -3843,9 +3847,6 @@ exports.default = {
   computed: {
     dropdownSize: function dropdownSize() {
       return this.size || (this.$ELEMENT || {}).size;
-    },
-    listId: function listId() {
-      return 'dropdown-menu-' + (0, _util.generateId)();
     }
   },
 
@@ -5227,8 +5228,6 @@ exports.default = {
   created: function created() {
     var _this4 = this;
 
-    this.parentMenu.addSubmenu(this);
-    this.rootMenu.addSubmenu(this);
     this.$on('toggle-collapse', this.handleCollapseToggle);
     this.$on('mouse-enter-child', function () {
       _this4.mouseInChild = true;
@@ -5240,6 +5239,8 @@ exports.default = {
     });
   },
   mounted: function mounted() {
+    this.parentMenu.addSubmenu(this);
+    this.rootMenu.addSubmenu(this);
     this.initPopper();
   },
   beforeDestroy: function beforeDestroy() {
@@ -8484,7 +8485,7 @@ exports.default = {
     placeholder: function placeholder(val) {
       this.cachedPlaceHolder = this.currentPlaceholder = val;
     },
-    value: function value(val) {
+    value: function value(val, oldVal) {
       if (this.multiple) {
         this.resetInputHeight();
         if (val.length > 0 || this.$refs.input && this.query !== '') {
@@ -8500,6 +8501,9 @@ exports.default = {
       this.setSelected();
       if (this.filterable && !this.multiple) {
         this.inputLength = 20;
+      }
+      if (!(0, _util.valueEquals)(val, oldVal)) {
+        this.dispatch('ElFormItem', 'el.form.change', val);
       }
     },
     visible: function visible(val) {
@@ -8645,12 +8649,13 @@ exports.default = {
     emitChange: function emitChange(val) {
       if (!(0, _util.valueEquals)(this.value, val)) {
         this.$emit('change', val);
-        this.dispatch('ElFormItem', 'el.form.change', val);
       }
     },
     getOption: function getOption(value) {
       var option = void 0;
       var isObject = Object.prototype.toString.call(value).toLowerCase() === '[object object]';
+      var isNull = Object.prototype.toString.call(value).toLowerCase() === '[object null]';
+
       for (var i = this.cachedOptions.length - 1; i >= 0; i--) {
         var cachedOption = this.cachedOptions[i];
         var isEqual = isObject ? (0, _util.getValueByPath)(cachedOption.value, this.valueKey) === (0, _util.getValueByPath)(value, this.valueKey) : cachedOption.value === value;
@@ -8660,7 +8665,7 @@ exports.default = {
         }
       }
       if (option) return option;
-      var label = !isObject ? value : '';
+      var label = !isObject && !isNull ? value : '';
       var newOption = {
         value: value,
         currentLabel: label
@@ -10829,10 +10834,13 @@ TableStore.prototype.mutations = {
 
     states.data = sortData(states.filteredData || states._data || [], states);
 
-    var el = this.table.$el;
-    if (el) {
+    var _table = this.table,
+        $el = _table.$el,
+        highlightCurrentRow = _table.highlightCurrentRow;
+
+    if ($el && highlightCurrentRow) {
       var data = states.data;
-      var tr = el.querySelector('tbody').children;
+      var tr = $el.querySelector('tbody').children;
       var rows = [].filter.call(tr, function (row) {
         return (0, _dom.hasClass)(row, 'el-table__row');
       });
@@ -11893,7 +11901,7 @@ exports.default = {
     },
     getRowClass: function getRowClass(row, rowIndex) {
       var currentRow = this.store.states.currentRow;
-      var classes = currentRow === row ? ['el-table__row', 'current-row'] : ['el-table__row'];
+      var classes = this.table.highlightCurrentRow && currentRow === row ? ['el-table__row', 'current-row'] : ['el-table__row'];
 
       if (this.stripe && rowIndex % 2 === 1) {
         classes.push('el-table__row--striped');
@@ -13709,6 +13717,16 @@ exports.default = {
       if (this.columnConfig) {
         this.columnConfig.formatter = newVal;
       }
+    },
+    className: function className(newVal) {
+      if (this.columnConfig) {
+        this.columnConfig.className = newVal;
+      }
+    },
+    labelClassName: function labelClassName(newVal) {
+      if (this.columnConfig) {
+        this.columnConfig.labelClassName = newVal;
+      }
     }
   },
 
@@ -14318,12 +14336,23 @@ exports.default = {
       }
     },
     parsedValue: function parsedValue() {
-      var isParsed = (0, _util.isDateObject)(this.value) || Array.isArray(this.value) && this.value.every(_util.isDateObject);
-      if (this.valueFormat && !isParsed) {
-        return parseAsFormatAndType(this.value, this.valueFormat, this.type, this.rangeSeparator) || this.value;
-      } else {
+      if (!this.value) return this.value; // component value is not set
+      if (this.type === 'time-select') return this.value; // time-select does not require parsing, this might change in next major version
+
+      var valueIsDateObject = (0, _util.isDateObject)(this.value) || Array.isArray(this.value) && this.value.every(_util.isDateObject);
+      if (valueIsDateObject) {
         return this.value;
       }
+
+      if (this.valueFormat) {
+        return parseAsFormatAndType(this.value, this.valueFormat, this.type, this.rangeSeparator) || this.value;
+      }
+
+      // NOTE: deal with common but incorrect usage, should remove in next major version
+      // user might provide string / timestamp without value-format, coerce them into date (or array of date)
+      return Array.isArray(this.value) ? this.value.map(function (val) {
+        return new Date(val);
+      }) : new Date(this.value);
     },
     _elFormItemSize: function _elFormItemSize() {
       return (this.elFormItem || {}).elFormItemSize;
@@ -18393,7 +18422,11 @@ var getReference = function getReference(el, binding, vnode) {
   var _ref = binding.expression ? binding.value : binding.arg;
   var popper = vnode.context.$refs[_ref];
   if (popper) {
-    popper.$refs.reference = el;
+    if (Array.isArray(popper)) {
+      popper[0].$refs.reference = el;
+    } else {
+      popper.$refs.reference = el;
+    }
   }
 };
 
@@ -20361,7 +20394,7 @@ exports.default = {
         _this2.$emit('input', value);
       };
       if (this.currentName !== value && this.beforeLeave) {
-        var before = this.beforeLeave();
+        var before = this.beforeLeave(value, this.currentName);
         if (before && before.then) {
           before.then(function () {
             changeCurrentName();
@@ -20812,7 +20845,7 @@ exports.default = {
         [h(
           'div',
           {
-            'class': ['el-tabs__nav', stretch && ['top', 'bottom'].indexOf(this.rootTabs.tabPosition) !== -1 ? 'is-stretch' : ''],
+            'class': ['el-tabs__nav', 'is-' + this.rootTabs.tabPosition, stretch && ['top', 'bottom'].indexOf(this.rootTabs.tabPosition) !== -1 ? 'is-stretch' : ''],
             ref: 'nav',
             style: navStyle,
             attrs: { role: 'tablist'
@@ -21647,12 +21680,12 @@ exports.default = {
       var dropPrev = true;
       var dropInner = true;
       var dropNext = true;
+      var userAllowDropInner = true;
       if (typeof _this.allowDrop === 'function') {
         dropPrev = _this.allowDrop(draggingNode.node, dropNode.node, 'prev');
-        dropInner = _this.allowDrop(draggingNode.node, dropNode.node, 'inner');
+        userAllowDropInner = dropInner = _this.allowDrop(draggingNode.node, dropNode.node, 'inner');
         dropNext = _this.allowDrop(draggingNode.node, dropNode.node, 'next');
       }
-      dragState.allowDrop = dropInner;
       event.dataTransfer.dropEffect = dropInner ? 'move' : 'none';
       if ((dropPrev || dropInner || dropNext) && oldDropNode !== dropNode) {
         if (oldDropNode) {
@@ -21684,8 +21717,8 @@ exports.default = {
       var treePosition = _this.$el.getBoundingClientRect();
 
       var dropType = void 0;
-      var prevPercent = dropPrev ? dropInner ? 0.25 : dropNext ? 0.5 : 1 : -1;
-      var nextPercent = dropNext ? dropInner ? 0.75 : dropPrev ? 0.5 : 0 : 1;
+      var prevPercent = dropPrev ? dropInner ? 0.25 : dropNext ? 0.45 : 1 : -1;
+      var nextPercent = dropNext ? dropInner ? 0.75 : dropPrev ? 0.55 : 0 : 1;
 
       var indicatorTop = -9999;
       var distance = event.clientY - targetPosition.top;
@@ -21715,6 +21748,7 @@ exports.default = {
       }
 
       dragState.showDropIndicator = dropType === 'before' || dropType === 'after';
+      dragState.allowDrop = dragState.showDropIndicator || userAllowDropInner;
       dragState.dropType = dropType;
       _this.$emit('node-drag-over', draggingNode.node, dropNode.node, event);
     });
@@ -29104,7 +29138,9 @@ exports.default = {
       menuVisible: false,
       inputHover: false,
       inputValue: '',
-      flatOptions: null
+      flatOptions: null,
+      id: (0, _util.generateId)(),
+      needFocus: true
     };
   },
 
@@ -29146,9 +29182,6 @@ exports.default = {
     },
     cascaderDisabled: function cascaderDisabled() {
       return this.disabled || (this.elForm || {}).disabled;
-    },
-    id: function id() {
-      return (0, _util.generateId)();
     }
   },
 
@@ -29214,7 +29247,11 @@ exports.default = {
     hideMenu: function hideMenu() {
       this.inputValue = '';
       this.menu.visible = false;
-      this.$refs.input.focus();
+      if (this.needFocus) {
+        this.$refs.input.focus();
+      } else {
+        this.needFocus = true;
+      }
     },
     handleActiveItemChange: function handleActiveItemChange(value) {
       var _this3 = this;
@@ -29343,6 +29380,11 @@ exports.default = {
       this.handlePick([], true);
     },
     handleClickoutside: function handleClickoutside() {
+      var pickFinished = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+      if (this.menuVisible && !pickFinished) {
+        this.needFocus = false;
+      }
       this.menuVisible = false;
     },
     handleClick: function handleClick() {
@@ -29487,7 +29529,8 @@ exports.default = {
       changeOnSelect: false,
       popperClass: '',
       hoverTimer: 0,
-      clicking: false
+      clicking: false,
+      id: (0, _util.generateId)()
     };
   },
 
@@ -29550,9 +29593,6 @@ exports.default = {
         formatOptions(optionsCopy);
         return loadActiveOptions(optionsCopy);
       }
-    },
-    id: function id() {
-      return (0, _util.generateId)();
     }
   },
 
@@ -29708,6 +29748,13 @@ exports.default = {
                 });
               };
               events.on[triggerEvent] = triggerHandler;
+              if (triggerEvent === 'mouseenter' && _this3.changeOnSelect) {
+                events.on.click = function () {
+                  if (_this3.activeValue.indexOf(item.value) !== -1) {
+                    _this3.$emit('closeInside', true);
+                  }
+                };
+              }
               events.on['mousedown'] = function () {
                 _this3.clicking = true;
               };
@@ -29867,7 +29914,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       'is-disabled': _vm.cascaderDisabled
     },
     _vm.cascaderSize ? 'el-cascader--' + _vm.cascaderSize : ''
-  ],on:{"click":_vm.handleClick,"mouseenter":function($event){_vm.inputHover = true},"focus":function($event){_vm.inputHover = true},"mouseleave":function($event){_vm.inputHover = false},"blur":function($event){_vm.inputHover = false},"keydown":_vm.handleKeydown}},[_c('el-input',{ref:"input",attrs:{"readonly":!_vm.filterable,"placeholder":_vm.currentLabels.length ? undefined : _vm.placeholder,"validate-event":false,"size":_vm.size,"disabled":_vm.cascaderDisabled},on:{"input":_vm.debouncedInputChange,"focus":_vm.handleFocus,"blur":_vm.handleBlur},model:{value:(_vm.inputValue),callback:function ($$v) {_vm.inputValue=$$v},expression:"inputValue"}},[_c('template',{attrs:{"slot":"suffix"},slot:"suffix"},[(_vm.clearable && _vm.inputHover && _vm.currentLabels.length)?_c('i',{key:"1",staticClass:"el-input__icon el-icon-circle-close el-cascader__clearIcon",on:{"click":_vm.clearValue}}):_c('i',{key:"2",staticClass:"el-input__icon el-icon-arrow-down",class:{ 'is-reverse': _vm.menuVisible }})])],2),_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.inputValue === ''),expression:"inputValue === ''"}],staticClass:"el-cascader__label"},[(_vm.showAllLevels)?[_vm._l((_vm.currentLabels),function(label,index){return [_vm._v("\n        "+_vm._s(label)+"\n        "),(index < _vm.currentLabels.length - 1)?_c('span',[_vm._v(" "+_vm._s(_vm.separator)+" ")]):_vm._e()]})]:[_vm._v("\n      "+_vm._s(_vm.currentLabels[_vm.currentLabels.length - 1])+"\n    ")]],2)],1)}
+  ],on:{"click":_vm.handleClick,"mouseenter":function($event){_vm.inputHover = true},"focus":function($event){_vm.inputHover = true},"mouseleave":function($event){_vm.inputHover = false},"blur":function($event){_vm.inputHover = false},"keydown":_vm.handleKeydown}},[_c('el-input',{ref:"input",attrs:{"readonly":!_vm.filterable,"placeholder":_vm.currentLabels.length ? undefined : _vm.placeholder,"validate-event":false,"size":_vm.size,"disabled":_vm.cascaderDisabled},on:{"input":_vm.debouncedInputChange,"focus":_vm.handleFocus,"blur":_vm.handleBlur},model:{value:(_vm.inputValue),callback:function ($$v) {_vm.inputValue=$$v},expression:"inputValue"}},[_c('template',{attrs:{"slot":"suffix"},slot:"suffix"},[(_vm.clearable && _vm.inputHover && _vm.currentLabels.length)?_c('i',{key:"1",staticClass:"el-input__icon el-icon-circle-close el-cascader__clearIcon",on:{"click":_vm.clearValue}}):_c('i',{key:"2",staticClass:"el-input__icon el-icon-arrow-down",class:{ 'is-reverse': _vm.menuVisible }})])],2),_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.inputValue === ''),expression:"inputValue === ''"}],staticClass:"el-cascader__label"},[(_vm.showAllLevels)?[_vm._l((_vm.currentLabels),function(label,index){return [_vm._v("\n        "+_vm._s(label)+"\n        "),(index < _vm.currentLabels.length - 1)?_c('span',{key:index},[_vm._v(" "+_vm._s(_vm.separator)+" ")]):_vm._e()]})]:[_vm._v("\n      "+_vm._s(_vm.currentLabels[_vm.currentLabels.length - 1])+"\n    ")]],2)],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
