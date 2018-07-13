@@ -37,7 +37,7 @@
         nextYear: 'Anno successivo',
         prevMonth: 'Mese precedente',
         nextMonth: 'Mese successivo',
-        year: 'Anno',
+        year: '',
         month1: 'Gennaio',
         month2: 'Febbraio',
         month3: 'Marzo',

@@ -1653,9 +1653,7 @@ TableStore.prototype.setCurrentRowKey = function (key) {
   var data = states.data || [];
   var keysMap = getKeysMap(data, rowKey);
   var info = keysMap[key];
-  if (info) {
-    states.currentRow = info.row;
-  }
+  states.currentRow = info ? info.row : null;
 };
 
 TableStore.prototype.updateCurrentRow = function () {
@@ -2295,8 +2293,10 @@ exports.default = {
       return rowStyle;
     },
     getRowClass: function getRowClass(row, rowIndex) {
-      var currentRow = this.store.states.currentRow;
-      var classes = this.table.highlightCurrentRow && currentRow === row ? ['el-table__row', 'current-row'] : ['el-table__row'];
+      var classes = ['el-table__row'];
+      if (this.table.highlightCurrentRow && row === this.store.states.currentRow) {
+        classes.push('current-row');
+      }
 
       if (this.stripe && rowIndex % 2 === 1) {
         classes.push('el-table__row--striped');
@@ -2838,7 +2838,7 @@ exports.default = {
     handleHeaderClick: function handleHeaderClick(event, column) {
       if (!column.filters && column.sortable) {
         this.handleSortClick(event, column);
-      } else if (column.filters && !column.sortable) {
+      } else if (column.filterable && !column.sortable) {
         this.handleFilterClick(event, column);
       }
 

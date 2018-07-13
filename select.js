@@ -1144,9 +1144,6 @@ exports.default = {
 
     this.$on('handleOptionClick', this.handleOptionSelect);
     this.$on('setSelected', this.setSelected);
-    this.$on('fieldReset', function () {
-      _this13.dispatch('ElFormItem', 'el.form.change');
-    });
   },
   mounted: function mounted() {
     var _this14 = this;
