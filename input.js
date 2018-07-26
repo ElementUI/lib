@@ -456,8 +456,16 @@ exports.default = {
       }
     },
     calcIconOffset: function calcIconOffset(place) {
-      var el = this.$el.querySelector('.el-input__' + place);
-      if (!el || el.parentNode !== this.$el) return;
+      var elList = [].slice.call(this.$el.querySelectorAll('.el-input__' + place) || []);
+      if (!elList.length) return;
+      var el = null;
+      for (var i = 0; i < elList.length; i++) {
+        if (elList[i].parentNode === this.$el) {
+          el = elList[i];
+          break;
+        }
+      }
+      if (!el) return;
       var pendantMap = {
         suffix: 'append',
         prefix: 'prepend'

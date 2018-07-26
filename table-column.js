@@ -453,7 +453,7 @@ exports.default = {
       fixed: this.fixed === '' ? true : this.fixed,
       filterMethod: this.filterMethod,
       filters: this.filters,
-      filterable: this.filters && this.filters.length && this.filterMethod,
+      filterable: this.filters && this.filters.length || this.filterMethod,
       filterMultiple: this.filterMultiple,
       filterOpened: false,
       filteredValue: this.filteredValue || [],
@@ -462,7 +462,15 @@ exports.default = {
       sortOrders: this.sortOrders
     });
 
-    (0, _merge2.default)(column, forced[type] || {});
+    var source = forced[type] || {};
+    for (var prop in source) {
+      if (source.hasOwnProperty(prop)) {
+        var value = source[prop];
+        if (value !== undefined) {
+          column[prop] = prop === 'className' ? column[prop] + ' ' + value : value;
+        }
+      }
+    }
 
     this.columnConfig = column;
 
