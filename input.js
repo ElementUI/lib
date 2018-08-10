@@ -364,7 +364,7 @@ exports.default = {
   },
 
   watch: {
-    'value': function value(val, oldValue) {
+    value: function value(val, oldValue) {
       this.setCurrentValue(val);
     }
   },
@@ -443,15 +443,11 @@ exports.default = {
       this.$emit('change', event.target.value);
     },
     setCurrentValue: function setCurrentValue(value) {
-      var _this = this;
-
       if (this.isOnComposition && value === this.valueBeforeComposition) return;
       this.currentValue = value;
       if (this.isOnComposition) return;
-      this.$nextTick(function (_) {
-        _this.resizeTextarea();
-      });
-      if (this.validateEvent) {
+      this.$nextTick(this.resizeTextarea);
+      if (this.validateEvent && this.currentValue === this.value) {
         this.dispatch('ElFormItem', 'el.form.change', [value]);
       }
     },

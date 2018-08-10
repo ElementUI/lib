@@ -2011,7 +2011,7 @@ var install = function install(Vue) {
   _locale2.default.use(opts.locale);
   _locale2.default.i18n(opts.i18n);
 
-  components.map(function (component) {
+  components.forEach(function (component) {
     Vue.component(component.name, component);
   });
 
@@ -2037,7 +2037,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 module.exports = {
-  version: '2.4.5',
+  version: '2.4.6',
   locale: _locale2.default.use,
   i18n: _locale2.default.i18n,
   install: install,
@@ -2442,6 +2442,7 @@ exports.default = {
             this.$parent.internalPageSize = val = parseInt(val, 10);
             this.$parent.userChangePageSize = true;
             this.$parent.$emit('size-change', val);
+            this.$parent.$emit('update:pageSize', val);
           }
         }
       }
@@ -3082,11 +3083,11 @@ exports.default = {
   computed: {
     style: function style() {
       var style = {};
-      if (this.width) {
-        style.width = this.width;
-      }
       if (!this.fullscreen) {
         style.marginTop = this.top;
+        if (this.width) {
+          style.width = this.width;
+        }
       }
       return style;
     }
@@ -3338,6 +3339,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
 
 exports.default = {
   name: 'ElAutocomplete',
@@ -3391,7 +3393,11 @@ exports.default = {
       type: String,
       default: 'bottom-start'
     },
-    hideLoading: Boolean
+    hideLoading: Boolean,
+    popperAppendToBody: {
+      type: Boolean,
+      default: true
+    }
   },
   data: function data() {
     return {
@@ -3684,7 +3690,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.close),expression:"close"}],staticClass:"el-autocomplete",attrs:{"aria-haspopup":"listbox","role":"combobox","aria-expanded":_vm.suggestionVisible,"aria-owns":_vm.id}},[_c('el-input',_vm._b({ref:"input",on:{"input":_vm.handleChange,"focus":_vm.handleFocus,"blur":_vm.handleBlur},nativeOn:{"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key)){ return null; }$event.preventDefault();_vm.highlight(_vm.highlightedIndex - 1)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key)){ return null; }$event.preventDefault();_vm.highlight(_vm.highlightedIndex + 1)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.handleKeyEnter($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"tab",9,$event.key)){ return null; }_vm.close($event)}]}},'el-input',[_vm.$props, _vm.$attrs],false),[(_vm.$slots.prepend)?_c('template',{attrs:{"slot":"prepend"},slot:"prepend"},[_vm._t("prepend")],2):_vm._e(),(_vm.$slots.append)?_c('template',{attrs:{"slot":"append"},slot:"append"},[_vm._t("append")],2):_vm._e(),(_vm.$slots.prefix)?_c('template',{attrs:{"slot":"prefix"},slot:"prefix"},[_vm._t("prefix")],2):_vm._e(),(_vm.$slots.suffix)?_c('template',{attrs:{"slot":"suffix"},slot:"suffix"},[_vm._t("suffix")],2):_vm._e()],2),_c('el-autocomplete-suggestions',{ref:"suggestions",class:[_vm.popperClass ? _vm.popperClass : ''],attrs:{"visible-arrow":"","popper-options":_vm.popperOptions,"placement":_vm.placement,"id":_vm.id}},_vm._l((_vm.suggestions),function(item,index){return _c('li',{key:index,class:{'highlighted': _vm.highlightedIndex === index},attrs:{"id":(_vm.id + "-item-" + index),"role":"option","aria-selected":_vm.highlightedIndex === index},on:{"click":function($event){_vm.select(item)}}},[_vm._t("default",[_vm._v("\n        "+_vm._s(item[_vm.valueKey])+"\n      ")],{item:item})],2)}))],1)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.close),expression:"close"}],staticClass:"el-autocomplete",attrs:{"aria-haspopup":"listbox","role":"combobox","aria-expanded":_vm.suggestionVisible,"aria-owns":_vm.id}},[_c('el-input',_vm._b({ref:"input",on:{"input":_vm.handleChange,"focus":_vm.handleFocus,"blur":_vm.handleBlur},nativeOn:{"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key)){ return null; }$event.preventDefault();_vm.highlight(_vm.highlightedIndex - 1)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key)){ return null; }$event.preventDefault();_vm.highlight(_vm.highlightedIndex + 1)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }_vm.handleKeyEnter($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"tab",9,$event.key)){ return null; }_vm.close($event)}]}},'el-input',[_vm.$props, _vm.$attrs],false),[(_vm.$slots.prepend)?_c('template',{attrs:{"slot":"prepend"},slot:"prepend"},[_vm._t("prepend")],2):_vm._e(),(_vm.$slots.append)?_c('template',{attrs:{"slot":"append"},slot:"append"},[_vm._t("append")],2):_vm._e(),(_vm.$slots.prefix)?_c('template',{attrs:{"slot":"prefix"},slot:"prefix"},[_vm._t("prefix")],2):_vm._e(),(_vm.$slots.suffix)?_c('template',{attrs:{"slot":"suffix"},slot:"suffix"},[_vm._t("suffix")],2):_vm._e()],2),_c('el-autocomplete-suggestions',{ref:"suggestions",class:[_vm.popperClass ? _vm.popperClass : ''],attrs:{"visible-arrow":"","popper-options":_vm.popperOptions,"append-to-body":_vm.popperAppendToBody,"placement":_vm.placement,"id":_vm.id}},_vm._l((_vm.suggestions),function(item,index){return _c('li',{key:index,class:{'highlighted': _vm.highlightedIndex === index},attrs:{"id":(_vm.id + "-item-" + index),"role":"option","aria-selected":_vm.highlightedIndex === index},on:{"click":function($event){_vm.select(item)}}},[_vm._t("default",[_vm._v("\n        "+_vm._s(item[_vm.valueKey])+"\n      ")],{item:item})],2)}))],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -4578,8 +4584,8 @@ exports.default = {
     }
   },
   methods: {
-    updateActiveIndex: function updateActiveIndex() {
-      var item = this.items[this.defaultActive];
+    updateActiveIndex: function updateActiveIndex(val) {
+      var item = this.items[val] || this.items[this.activeIndex] || this.items[this.defaultActive];
       if (item) {
         this.activeIndex = item.index;
         this.initOpenedMenu();
@@ -5856,7 +5862,7 @@ exports.default = {
   },
 
   watch: {
-    'value': function value(val, oldValue) {
+    value: function value(val, oldValue) {
       this.setCurrentValue(val);
     }
   },
@@ -5935,15 +5941,11 @@ exports.default = {
       this.$emit('change', event.target.value);
     },
     setCurrentValue: function setCurrentValue(value) {
-      var _this = this;
-
       if (this.isOnComposition && value === this.valueBeforeComposition) return;
       this.currentValue = value;
       if (this.isOnComposition) return;
-      this.$nextTick(function (_) {
-        _this.resizeTextarea();
-      });
-      if (this.validateEvent) {
+      this.$nextTick(this.resizeTextarea);
+      if (this.validateEvent && this.currentValue === this.value) {
         this.dispatch('ElFormItem', 'el.form.change', [value]);
       }
     },
@@ -8255,7 +8257,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 //
-//
 
 var _emitter = __webpack_require__(1);
 
@@ -8993,6 +8994,10 @@ exports.default = {
       _this13.onInputChange();
     });
 
+    this.debouncedQueryChange = (0, _debounce2.default)(this.debounce, function (e) {
+      _this13.handleQueryChange(e.target.value);
+    });
+
     this.$on('handleOptionClick', this.handleOptionSelect);
     this.$on('setSelected', this.setSelected);
   },
@@ -9247,8 +9252,17 @@ exports.default = {
     currentLabel: function currentLabel() {
       if (!this.created && !this.select.remote) this.dispatch('ElSelect', 'setSelected');
     },
-    value: function value() {
-      if (!this.created && !this.select.remote) this.dispatch('ElSelect', 'setSelected');
+    value: function value(val, oldVal) {
+      var _select = this.select,
+          remote = _select.remote,
+          valueKey = _select.valueKey;
+
+      if (!this.created && !remote) {
+        if (valueKey && (typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object' && (typeof oldVal === 'undefined' ? 'undefined' : _typeof(oldVal)) === 'object' && val[valueKey] === oldVal[valueKey]) {
+          return;
+        }
+        this.dispatch('ElSelect', 'setSelected');
+      }
     }
   },
 
@@ -9296,9 +9310,7 @@ exports.default = {
       }
     },
     queryChange: function queryChange(query) {
-      // query 里如果有正则中的特殊字符，需要先将这些字符转义
-      var parsedQuery = String(query).replace(/(\^|\(|\)|\[|\]|\$|\*|\+|\.|\?|\\|\{|\}|\|)/g, '\\$1');
-      this.visible = new RegExp(parsedQuery, 'i').test(this.currentLabel) || this.created;
+      this.visible = new RegExp((0, _util.escapeRegexpString)(query), 'i').test(this.currentLabel) || this.created;
       if (!this.visible) {
         this.select.filteredOptionsCount--;
       }
@@ -9410,7 +9422,7 @@ exports.default = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleClose),expression:"handleClose"}],staticClass:"el-select",class:[_vm.selectSize ? 'el-select--' + _vm.selectSize : ''],on:{"click":function($event){$event.stopPropagation();_vm.toggleMenu($event)}}},[(_vm.multiple)?_c('div',{ref:"tags",staticClass:"el-select__tags",style:({ 'max-width': _vm.inputWidth - 32 + 'px' })},[(_vm.collapseTags && _vm.selected.length)?_c('span',[_c('el-tag',{attrs:{"closable":!_vm.selectDisabled,"size":_vm.collapseTagSize,"hit":_vm.selected[0].hitState,"type":"info","disable-transitions":""},on:{"close":function($event){_vm.deleteTag($event, _vm.selected[0])}}},[_c('span',{staticClass:"el-select__tags-text"},[_vm._v(_vm._s(_vm.selected[0].currentLabel))])]),(_vm.selected.length > 1)?_c('el-tag',{attrs:{"closable":false,"size":_vm.collapseTagSize,"type":"info","disable-transitions":""}},[_c('span',{staticClass:"el-select__tags-text"},[_vm._v("+ "+_vm._s(_vm.selected.length - 1))])]):_vm._e()],1):_vm._e(),(!_vm.collapseTags)?_c('transition-group',{on:{"after-leave":_vm.resetInputHeight}},_vm._l((_vm.selected),function(item){return _c('el-tag',{key:_vm.getValueKey(item),attrs:{"closable":!_vm.selectDisabled,"size":_vm.collapseTagSize,"hit":item.hitState,"type":"info","disable-transitions":""},on:{"close":function($event){_vm.deleteTag($event, item)}}},[_c('span',{staticClass:"el-select__tags-text"},[_vm._v(_vm._s(item.currentLabel))])])})):_vm._e(),(_vm.filterable)?_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.query),expression:"query"}],ref:"input",staticClass:"el-select__input",class:[_vm.selectSize ? ("is-" + _vm.selectSize) : ''],style:({ width: _vm.inputLength + 'px', 'max-width': _vm.inputWidth - 42 + 'px' }),attrs:{"type":"text","disabled":_vm.selectDisabled,"autocomplete":_vm.autoComplete,"debounce":_vm.remote ? 300 : 0},domProps:{"value":(_vm.query)},on:{"focus":_vm.handleFocus,"blur":function($event){_vm.softFocus = false},"click":function($event){$event.stopPropagation();},"keyup":_vm.managePlaceholder,"keydown":[_vm.resetInputState,function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key)){ return null; }$event.preventDefault();_vm.navigateOptions('next')},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key)){ return null; }$event.preventDefault();_vm.navigateOptions('prev')},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }$event.preventDefault();_vm.selectOption($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"esc",27,$event.key)){ return null; }$event.stopPropagation();$event.preventDefault();_vm.visible = false},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"delete",[8,46],$event.key)){ return null; }_vm.deletePrevTag($event)}],"compositionstart":_vm.handleComposition,"compositionupdate":_vm.handleComposition,"compositionend":_vm.handleComposition,"input":[function($event){if($event.target.composing){ return; }_vm.query=$event.target.value},function (e) { return _vm.handleQueryChange(e.target.value); }]}}):_vm._e()],1):_vm._e(),_c('el-input',{ref:"reference",class:{ 'is-focus': _vm.visible },attrs:{"type":"text","placeholder":_vm.currentPlaceholder,"name":_vm.name,"id":_vm.id,"auto-complete":_vm.autoComplete,"size":_vm.selectSize,"disabled":_vm.selectDisabled,"readonly":_vm.readonly,"validate-event":false},on:{"focus":_vm.handleFocus,"blur":_vm.handleBlur},nativeOn:{"keyup":function($event){_vm.debouncedOnInputChange($event)},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key)){ return null; }$event.stopPropagation();$event.preventDefault();_vm.navigateOptions('next')},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key)){ return null; }$event.stopPropagation();$event.preventDefault();_vm.navigateOptions('prev')},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }$event.preventDefault();_vm.selectOption($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"esc",27,$event.key)){ return null; }$event.stopPropagation();$event.preventDefault();_vm.visible = false},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"tab",9,$event.key)){ return null; }_vm.visible = false}],"paste":function($event){_vm.debouncedOnInputChange($event)},"mouseenter":function($event){_vm.inputHovering = true},"mouseleave":function($event){_vm.inputHovering = false}},model:{value:(_vm.selectedLabel),callback:function ($$v) {_vm.selectedLabel=$$v},expression:"selectedLabel"}},[(_vm.$slots.prefix)?_c('template',{attrs:{"slot":"prefix"},slot:"prefix"},[_vm._t("prefix")],2):_vm._e(),_c('i',{class:['el-select__caret', 'el-input__icon', 'el-icon-' + _vm.iconClass],attrs:{"slot":"suffix"},on:{"click":_vm.handleIconClick},slot:"suffix"})],2),_c('transition',{attrs:{"name":"el-zoom-in-top"},on:{"before-enter":_vm.handleMenuEnter,"after-leave":_vm.doDestroy}},[_c('el-select-menu',{directives:[{name:"show",rawName:"v-show",value:(_vm.visible && _vm.emptyText !== false),expression:"visible && emptyText !== false"}],ref:"popper",attrs:{"append-to-body":_vm.popperAppendToBody}},[_c('el-scrollbar',{directives:[{name:"show",rawName:"v-show",value:(_vm.options.length > 0 && !_vm.loading),expression:"options.length > 0 && !loading"}],ref:"scrollbar",class:{ 'is-empty': !_vm.allowCreate && _vm.query && _vm.filteredOptionsCount === 0 },attrs:{"tag":"ul","wrap-class":"el-select-dropdown__wrap","view-class":"el-select-dropdown__list"}},[(_vm.showNewOption)?_c('el-option',{attrs:{"value":_vm.query,"created":""}}):_vm._e(),_vm._t("default")],2),(_vm.emptyText &&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"clickoutside",rawName:"v-clickoutside",value:(_vm.handleClose),expression:"handleClose"}],staticClass:"el-select",class:[_vm.selectSize ? 'el-select--' + _vm.selectSize : ''],on:{"click":function($event){$event.stopPropagation();_vm.toggleMenu($event)}}},[(_vm.multiple)?_c('div',{ref:"tags",staticClass:"el-select__tags",style:({ 'max-width': _vm.inputWidth - 32 + 'px' })},[(_vm.collapseTags && _vm.selected.length)?_c('span',[_c('el-tag',{attrs:{"closable":!_vm.selectDisabled,"size":_vm.collapseTagSize,"hit":_vm.selected[0].hitState,"type":"info","disable-transitions":""},on:{"close":function($event){_vm.deleteTag($event, _vm.selected[0])}}},[_c('span',{staticClass:"el-select__tags-text"},[_vm._v(_vm._s(_vm.selected[0].currentLabel))])]),(_vm.selected.length > 1)?_c('el-tag',{attrs:{"closable":false,"size":_vm.collapseTagSize,"type":"info","disable-transitions":""}},[_c('span',{staticClass:"el-select__tags-text"},[_vm._v("+ "+_vm._s(_vm.selected.length - 1))])]):_vm._e()],1):_vm._e(),(!_vm.collapseTags)?_c('transition-group',{on:{"after-leave":_vm.resetInputHeight}},_vm._l((_vm.selected),function(item){return _c('el-tag',{key:_vm.getValueKey(item),attrs:{"closable":!_vm.selectDisabled,"size":_vm.collapseTagSize,"hit":item.hitState,"type":"info","disable-transitions":""},on:{"close":function($event){_vm.deleteTag($event, item)}}},[_c('span',{staticClass:"el-select__tags-text"},[_vm._v(_vm._s(item.currentLabel))])])})):_vm._e(),(_vm.filterable)?_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.query),expression:"query"}],ref:"input",staticClass:"el-select__input",class:[_vm.selectSize ? ("is-" + _vm.selectSize) : ''],style:({ width: _vm.inputLength + 'px', 'max-width': _vm.inputWidth - 42 + 'px' }),attrs:{"type":"text","disabled":_vm.selectDisabled,"autocomplete":_vm.autoComplete},domProps:{"value":(_vm.query)},on:{"focus":_vm.handleFocus,"blur":function($event){_vm.softFocus = false},"click":function($event){$event.stopPropagation();},"keyup":_vm.managePlaceholder,"keydown":[_vm.resetInputState,function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key)){ return null; }$event.preventDefault();_vm.navigateOptions('next')},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key)){ return null; }$event.preventDefault();_vm.navigateOptions('prev')},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }$event.preventDefault();_vm.selectOption($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"esc",27,$event.key)){ return null; }$event.stopPropagation();$event.preventDefault();_vm.visible = false},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"delete",[8,46],$event.key)){ return null; }_vm.deletePrevTag($event)}],"compositionstart":_vm.handleComposition,"compositionupdate":_vm.handleComposition,"compositionend":_vm.handleComposition,"input":[function($event){if($event.target.composing){ return; }_vm.query=$event.target.value},_vm.debouncedQueryChange]}}):_vm._e()],1):_vm._e(),_c('el-input',{ref:"reference",class:{ 'is-focus': _vm.visible },attrs:{"type":"text","placeholder":_vm.currentPlaceholder,"name":_vm.name,"id":_vm.id,"auto-complete":_vm.autoComplete,"size":_vm.selectSize,"disabled":_vm.selectDisabled,"readonly":_vm.readonly,"validate-event":false},on:{"focus":_vm.handleFocus,"blur":_vm.handleBlur},nativeOn:{"keyup":function($event){_vm.debouncedOnInputChange($event)},"keydown":[function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"down",40,$event.key)){ return null; }$event.stopPropagation();$event.preventDefault();_vm.navigateOptions('next')},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"up",38,$event.key)){ return null; }$event.stopPropagation();$event.preventDefault();_vm.navigateOptions('prev')},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"enter",13,$event.key)){ return null; }$event.preventDefault();_vm.selectOption($event)},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"esc",27,$event.key)){ return null; }$event.stopPropagation();$event.preventDefault();_vm.visible = false},function($event){if(!('button' in $event)&&_vm._k($event.keyCode,"tab",9,$event.key)){ return null; }_vm.visible = false}],"paste":function($event){_vm.debouncedOnInputChange($event)},"mouseenter":function($event){_vm.inputHovering = true},"mouseleave":function($event){_vm.inputHovering = false}},model:{value:(_vm.selectedLabel),callback:function ($$v) {_vm.selectedLabel=$$v},expression:"selectedLabel"}},[(_vm.$slots.prefix)?_c('template',{attrs:{"slot":"prefix"},slot:"prefix"},[_vm._t("prefix")],2):_vm._e(),_c('i',{class:['el-select__caret', 'el-input__icon', 'el-icon-' + _vm.iconClass],attrs:{"slot":"suffix"},on:{"click":_vm.handleIconClick},slot:"suffix"})],2),_c('transition',{attrs:{"name":"el-zoom-in-top"},on:{"before-enter":_vm.handleMenuEnter,"after-leave":_vm.doDestroy}},[_c('el-select-menu',{directives:[{name:"show",rawName:"v-show",value:(_vm.visible && _vm.emptyText !== false),expression:"visible && emptyText !== false"}],ref:"popper",attrs:{"append-to-body":_vm.popperAppendToBody}},[_c('el-scrollbar',{directives:[{name:"show",rawName:"v-show",value:(_vm.options.length > 0 && !_vm.loading),expression:"options.length > 0 && !loading"}],ref:"scrollbar",class:{ 'is-empty': !_vm.allowCreate && _vm.query && _vm.filteredOptionsCount === 0 },attrs:{"tag":"ul","wrap-class":"el-select-dropdown__wrap","view-class":"el-select-dropdown__list"}},[(_vm.showNewOption)?_c('el-option',{attrs:{"value":_vm.query,"created":""}}):_vm._e(),_vm._t("default")],2),(_vm.emptyText &&
           (!_vm.allowCreate || _vm.loading || (_vm.allowCreate && _vm.options.length === 0 )))?_c('p',{staticClass:"el-select-dropdown__empty"},[_vm._v("\n        "+_vm._s(_vm.emptyText)+"\n      ")]):_vm._e()],1)],1)],1)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
@@ -12217,7 +12229,7 @@ exports.default = {
                       },
                       []
                     )]
-                  ) : '', column.filterable ? h(
+                  ) : '', column.filters && column.filters.length || column.filterMethod ? h(
                     'span',
                     { 'class': 'el-table__column-filter-trigger', on: {
                         'click': function click($event) {
@@ -18301,22 +18313,7 @@ exports.default = {
       (0, _dom.on)(reference, 'mouseleave', this.handleMouseLeave);
       (0, _dom.on)(popper, 'mouseleave', this.handleMouseLeave);
     } else if (this.trigger === 'focus') {
-      var found = false;
-
-      if ([].slice.call(reference.children).length) {
-        var children = reference.childNodes;
-        var len = children.length;
-        for (var i = 0; i < len; i++) {
-          if (children[i].nodeName === 'INPUT' || children[i].nodeName === 'TEXTAREA') {
-            (0, _dom.on)(children[i], 'focusin', this.doShow);
-            (0, _dom.on)(children[i], 'focusout', this.doClose);
-            found = true;
-            break;
-          }
-        }
-      }
-      if (found) return;
-      if (reference.nodeName === 'INPUT' || reference.nodeName === 'TEXTAREA') {
+      if (reference.querySelector('input, textarea')) {
         (0, _dom.on)(reference, 'focusin', this.doShow);
         (0, _dom.on)(reference, 'focusout', this.doClose);
       } else {
@@ -18401,6 +18398,8 @@ exports.default = {
     (0, _dom.off)(reference, 'mousedown', this.doShow);
     (0, _dom.off)(reference, 'focusin', this.doShow);
     (0, _dom.off)(reference, 'focusout', this.doClose);
+    (0, _dom.off)(reference, 'mousedown', this.doShow);
+    (0, _dom.off)(reference, 'mouseup', this.doClose);
     (0, _dom.off)(reference, 'mouseleave', this.handleMouseLeave);
     (0, _dom.off)(reference, 'mouseenter', this.handleMouseEnter);
     (0, _dom.off)(document, 'click', this.handleDocumentClick);
@@ -20053,22 +20052,18 @@ exports.default = {
       }
       return parent;
     },
-
-    fieldValue: {
-      cache: false,
-      get: function get() {
-        var model = this.form.model;
-        if (!model || !this.prop) {
-          return;
-        }
-
-        var path = this.prop;
-        if (path.indexOf(':') !== -1) {
-          path = path.replace(/:/, '.');
-        }
-
-        return (0, _util.getPropByPath)(model, path, true).v;
+    fieldValue: function fieldValue() {
+      var model = this.form.model;
+      if (!model || !this.prop) {
+        return;
       }
+
+      var path = this.prop;
+      if (path.indexOf(':') !== -1) {
+        path = path.replace(/:/, '.');
+      }
+
+      return (0, _util.getPropByPath)(model, path, true).v;
     },
     isRequired: function isRequired() {
       var rules = this.getRules();
@@ -21781,17 +21776,21 @@ exports.default = {
       event.dataTransfer.dropEffect = 'move';
 
       if (draggingNode && dropNode) {
-        var data = draggingNode.node.data;
-        if (dropType === 'before') {
-          draggingNode.node.remove();
-          dropNode.node.parent.insertBefore({ data: data }, dropNode.node);
-        } else if (dropType === 'after') {
-          draggingNode.node.remove();
-          dropNode.node.parent.insertAfter({ data: data }, dropNode.node);
-        } else if (dropType === 'inner') {
-          dropNode.node.insertChild({ data: data });
+        var draggingNodeCopy = { data: draggingNode.node.data };
+        if (dropType !== 'none') {
           draggingNode.node.remove();
         }
+        if (dropType === 'before') {
+          dropNode.node.parent.insertBefore(draggingNodeCopy, dropNode.node);
+        } else if (dropType === 'after') {
+          dropNode.node.parent.insertAfter(draggingNodeCopy, dropNode.node);
+        } else if (dropType === 'inner') {
+          dropNode.node.insertChild(draggingNodeCopy);
+        }
+        if (dropType !== 'none') {
+          _this.store.registerNode(draggingNodeCopy);
+        }
+
         (0, _dom.removeClass)(dropNode.$el, 'is-drop-inner');
 
         _this.$emit('node-drag-end', draggingNode.node, dropNode.node, dropType, event);
@@ -21934,7 +21933,7 @@ var TreeStore = function () {
 
   TreeStore.prototype.remove = function remove(data) {
     var node = this.getNode(data);
-    if (node) {
+    if (node && node.parent) {
       node.parent.removeChild(node);
     }
   };
@@ -21986,14 +21985,14 @@ var TreeStore = function () {
   };
 
   TreeStore.prototype.deregisterNode = function deregisterNode(node) {
+    var _this3 = this;
+
     var key = this.key;
     if (!key || !node || !node.data) return;
 
-    var childNodes = node.childNodes;
-    for (var i = 0, j = childNodes.length; i < j; i++) {
-      var child = childNodes[i];
-      this.deregisterNode(child);
-    }
+    node.childNodes.forEach(function (child) {
+      _this3.deregisterNode(child);
+    });
 
     delete this.nodesMap[node.key];
   };
@@ -22021,12 +22020,12 @@ var TreeStore = function () {
   };
 
   TreeStore.prototype.getCheckedKeys = function getCheckedKeys() {
-    var _this3 = this;
+    var _this4 = this;
 
     var leafOnly = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
     return this.getCheckedNodes(leafOnly).map(function (data) {
-      return (data || {})[_this3.key];
+      return (data || {})[_this4.key];
     });
   };
 
@@ -22050,10 +22049,10 @@ var TreeStore = function () {
   };
 
   TreeStore.prototype.getHalfCheckedKeys = function getHalfCheckedKeys() {
-    var _this4 = this;
+    var _this5 = this;
 
     return this.getHalfCheckedNodes().map(function (data) {
-      return (data || {})[_this4.key];
+      return (data || {})[_this5.key];
     });
   };
 
@@ -22162,14 +22161,14 @@ var TreeStore = function () {
   };
 
   TreeStore.prototype.setDefaultExpandedKeys = function setDefaultExpandedKeys(keys) {
-    var _this5 = this;
+    var _this6 = this;
 
     keys = keys || [];
     this.defaultExpandedKeys = keys;
 
     keys.forEach(function (key) {
-      var node = _this5.getNode(key);
-      if (node) node.expand(null, _this5.autoExpandParent);
+      var node = _this6.getNode(key);
+      if (node) node.expand(null, _this6.autoExpandParent);
     });
   };
 
@@ -22488,11 +22487,13 @@ var Node = function () {
 
   Node.prototype.removeChildByData = function removeChildByData(data) {
     var targetNode = null;
-    this.childNodes.forEach(function (node) {
-      if (node.data === data) {
-        targetNode = node;
+
+    for (var i = 0; i < this.childNodes.length; i++) {
+      if (this.childNodes[i] === data) {
+        targetNode = this.childNodes[i];
+        break;
       }
-    });
+    }
 
     if (targetNode) {
       this.removeChild(targetNode);
@@ -22671,9 +22672,11 @@ var Node = function () {
       }
     });
 
-    oldData.forEach(function (item) {
-      if (!newDataMap[item[_util.NODE_KEY]]) _this4.removeChildByData(item);
-    });
+    if (!this.store.lazy) {
+      oldData.forEach(function (item) {
+        if (!newDataMap[item[_util.NODE_KEY]]) _this4.removeChildByData(item);
+      });
+    }
 
     newNodes.forEach(function (_ref) {
       var index = _ref.index,
@@ -24285,7 +24288,7 @@ exports.default = {
     setPosition: function setPosition(newPosition) {
       var _this2 = this;
 
-      if (newPosition === null) return;
+      if (newPosition === null || isNaN(newPosition)) return;
       if (newPosition < 0) {
         newPosition = 0;
       } else if (newPosition > 100) {
@@ -29338,7 +29341,7 @@ exports.default = {
 
       var filteredFlatOptions = flatOptions.filter(function (optionsStack) {
         return optionsStack.some(function (option) {
-          return new RegExp(value, 'i').test(option[_this5.labelKey]);
+          return new RegExp((0, _util.escapeRegexpString)(value), 'i').test(option[_this5.labelKey]);
         });
       });
 

@@ -89,3 +89,8 @@ var valueEquals = exports.valueEquals = function valueEquals(a, b) {
   }
   return true;
 };
+
+var escapeRegexpString = exports.escapeRegexpString = function escapeRegexpString() {
+  var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  return String(value).replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
+};

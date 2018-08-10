@@ -385,22 +385,7 @@ exports.default = {
       (0, _dom.on)(reference, 'mouseleave', this.handleMouseLeave);
       (0, _dom.on)(popper, 'mouseleave', this.handleMouseLeave);
     } else if (this.trigger === 'focus') {
-      var found = false;
-
-      if ([].slice.call(reference.children).length) {
-        var children = reference.childNodes;
-        var len = children.length;
-        for (var i = 0; i < len; i++) {
-          if (children[i].nodeName === 'INPUT' || children[i].nodeName === 'TEXTAREA') {
-            (0, _dom.on)(children[i], 'focusin', this.doShow);
-            (0, _dom.on)(children[i], 'focusout', this.doClose);
-            found = true;
-            break;
-          }
-        }
-      }
-      if (found) return;
-      if (reference.nodeName === 'INPUT' || reference.nodeName === 'TEXTAREA') {
+      if (reference.querySelector('input, textarea')) {
         (0, _dom.on)(reference, 'focusin', this.doShow);
         (0, _dom.on)(reference, 'focusout', this.doClose);
       } else {
@@ -485,6 +470,8 @@ exports.default = {
     (0, _dom.off)(reference, 'mousedown', this.doShow);
     (0, _dom.off)(reference, 'focusin', this.doShow);
     (0, _dom.off)(reference, 'focusout', this.doClose);
+    (0, _dom.off)(reference, 'mousedown', this.doShow);
+    (0, _dom.off)(reference, 'mouseup', this.doClose);
     (0, _dom.off)(reference, 'mouseleave', this.handleMouseLeave);
     (0, _dom.off)(reference, 'mouseenter', this.handleMouseEnter);
     (0, _dom.off)(document, 'click', this.handleDocumentClick);

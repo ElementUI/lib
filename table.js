@@ -2607,7 +2607,7 @@ exports.default = {
                       },
                       []
                     )]
-                  ) : '', column.filterable ? h(
+                  ) : '', column.filters && column.filters.length || column.filterMethod ? h(
                     'span',
                     { 'class': 'el-table__column-filter-trigger', on: {
                         'click': function click($event) {

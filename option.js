@@ -344,8 +344,17 @@ exports.default = {
     currentLabel: function currentLabel() {
       if (!this.created && !this.select.remote) this.dispatch('ElSelect', 'setSelected');
     },
-    value: function value() {
-      if (!this.created && !this.select.remote) this.dispatch('ElSelect', 'setSelected');
+    value: function value(val, oldVal) {
+      var _select = this.select,
+          remote = _select.remote,
+          valueKey = _select.valueKey;
+
+      if (!this.created && !remote) {
+        if (valueKey && (typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object' && (typeof oldVal === 'undefined' ? 'undefined' : _typeof(oldVal)) === 'object' && val[valueKey] === oldVal[valueKey]) {
+          return;
+        }
+        this.dispatch('ElSelect', 'setSelected');
+      }
     }
   },
 
@@ -393,9 +402,7 @@ exports.default = {
       }
     },
     queryChange: function queryChange(query) {
-      // query 里如果有正则中的特殊字符，需要先将这些字符转义
-      var parsedQuery = String(query).replace(/(\^|\(|\)|\[|\]|\$|\*|\+|\.|\?|\\|\{|\}|\|)/g, '\\$1');
-      this.visible = new RegExp(parsedQuery, 'i').test(this.currentLabel) || this.created;
+      this.visible = new RegExp((0, _util.escapeRegexpString)(query), 'i').test(this.currentLabel) || this.created;
       if (!this.visible) {
         this.select.filteredOptionsCount--;
       }

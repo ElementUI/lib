@@ -679,7 +679,7 @@ exports.default = {
 
       var filteredFlatOptions = flatOptions.filter(function (optionsStack) {
         return optionsStack.some(function (option) {
-          return new RegExp(value, 'i').test(option[_this5.labelKey]);
+          return new RegExp((0, _util.escapeRegexpString)(value), 'i').test(option[_this5.labelKey]);
         });
       });
 

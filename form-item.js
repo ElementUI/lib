@@ -383,22 +383,18 @@ exports.default = {
       }
       return parent;
     },
-
-    fieldValue: {
-      cache: false,
-      get: function get() {
-        var model = this.form.model;
-        if (!model || !this.prop) {
-          return;
-        }
-
-        var path = this.prop;
-        if (path.indexOf(':') !== -1) {
-          path = path.replace(/:/, '.');
-        }
-
-        return (0, _util.getPropByPath)(model, path, true).v;
+    fieldValue: function fieldValue() {
+      var model = this.form.model;
+      if (!model || !this.prop) {
+        return;
       }
+
+      var path = this.prop;
+      if (path.indexOf(':') !== -1) {
+        path = path.replace(/:/, '.');
+      }
+
+      return (0, _util.getPropByPath)(model, path, true).v;
     },
     isRequired: function isRequired() {
       var rules = this.getRules();

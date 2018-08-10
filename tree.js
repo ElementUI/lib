@@ -726,17 +726,21 @@ exports.default = {
       event.dataTransfer.dropEffect = 'move';
 
       if (draggingNode && dropNode) {
-        var data = draggingNode.node.data;
-        if (dropType === 'before') {
-          draggingNode.node.remove();
-          dropNode.node.parent.insertBefore({ data: data }, dropNode.node);
-        } else if (dropType === 'after') {
-          draggingNode.node.remove();
-          dropNode.node.parent.insertAfter({ data: data }, dropNode.node);
-        } else if (dropType === 'inner') {
-          dropNode.node.insertChild({ data: data });
+        var draggingNodeCopy = { data: draggingNode.node.data };
+        if (dropType !== 'none') {
           draggingNode.node.remove();
         }
+        if (dropType === 'before') {
+          dropNode.node.parent.insertBefore(draggingNodeCopy, dropNode.node);
+        } else if (dropType === 'after') {
+          dropNode.node.parent.insertAfter(draggingNodeCopy, dropNode.node);
+        } else if (dropType === 'inner') {
+          dropNode.node.insertChild(draggingNodeCopy);
+        }
+        if (dropType !== 'none') {
+          _this.store.registerNode(draggingNodeCopy);
+        }
+
         (0, _dom.removeClass)(dropNode.$el, 'is-drop-inner');
 
         _this.$emit('node-drag-end', draggingNode.node, dropNode.node, dropType, event);
@@ -880,7 +884,7 @@ var TreeStore = function () {
 
   TreeStore.prototype.remove = function remove(data) {
     var node = this.getNode(data);
-    if (node) {
+    if (node && node.parent) {
       node.parent.removeChild(node);
     }
   };
@@ -932,14 +936,14 @@ var TreeStore = function () {
   };
 
   TreeStore.prototype.deregisterNode = function deregisterNode(node) {
+    var _this3 = this;
+
     var key = this.key;
     if (!key || !node || !node.data) return;
 
-    var childNodes = node.childNodes;
-    for (var i = 0, j = childNodes.length; i < j; i++) {
-      var child = childNodes[i];
-      this.deregisterNode(child);
-    }
+    node.childNodes.forEach(function (child) {
+      _this3.deregisterNode(child);
+    });
 
     delete this.nodesMap[node.key];
   };
@@ -967,12 +971,12 @@ var TreeStore = function () {
   };
 
   TreeStore.prototype.getCheckedKeys = function getCheckedKeys() {
-    var _this3 = this;
+    var _this4 = this;
 
     var leafOnly = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
     return this.getCheckedNodes(leafOnly).map(function (data) {
-      return (data || {})[_this3.key];
+      return (data || {})[_this4.key];
     });
   };
 
@@ -996,10 +1000,10 @@ var TreeStore = function () {
   };
 
   TreeStore.prototype.getHalfCheckedKeys = function getHalfCheckedKeys() {
-    var _this4 = this;
+    var _this5 = this;
 
     return this.getHalfCheckedNodes().map(function (data) {
-      return (data || {})[_this4.key];
+      return (data || {})[_this5.key];
     });
   };
 
@@ -1108,14 +1112,14 @@ var TreeStore = function () {
   };
 
   TreeStore.prototype.setDefaultExpandedKeys = function setDefaultExpandedKeys(keys) {
-    var _this5 = this;
+    var _this6 = this;
 
     keys = keys || [];
     this.defaultExpandedKeys = keys;
 
     keys.forEach(function (key) {
-      var node = _this5.getNode(key);
-      if (node) node.expand(null, _this5.autoExpandParent);
+      var node = _this6.getNode(key);
+      if (node) node.expand(null, _this6.autoExpandParent);
     });
   };
 
@@ -1435,11 +1439,13 @@ var Node = function () {
 
   Node.prototype.removeChildByData = function removeChildByData(data) {
     var targetNode = null;
-    this.childNodes.forEach(function (node) {
-      if (node.data === data) {
-        targetNode = node;
+
+    for (var i = 0; i < this.childNodes.length; i++) {
+      if (this.childNodes[i] === data) {
+        targetNode = this.childNodes[i];
+        break;
       }
-    });
+    }
 
     if (targetNode) {
       this.removeChild(targetNode);
@@ -1618,9 +1624,11 @@ var Node = function () {
       }
     });
 
-    oldData.forEach(function (item) {
-      if (!newDataMap[item[_util.NODE_KEY]]) _this4.removeChildByData(item);
-    });
+    if (!this.store.lazy) {
+      oldData.forEach(function (item) {
+        if (!newDataMap[item[_util.NODE_KEY]]) _this4.removeChildByData(item);
+      });
+    }
 
     newNodes.forEach(function (_ref) {
       var index = _ref.index,
