@@ -1011,7 +1011,7 @@ var _merge = __webpack_require__(9);
 
 var _merge2 = _interopRequireDefault(_merge);
 
-var _dom = __webpack_require__(2);
+var _dom = __webpack_require__(3);
 
 var _util = __webpack_require__(48);
 
@@ -1985,7 +1985,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _util = __webpack_require__(48);
 
-var _dom = __webpack_require__(2);
+var _dom = __webpack_require__(3);
 
 var _checkbox = __webpack_require__(16);
 
@@ -2420,7 +2420,7 @@ exports.default = {
 
 exports.__esModule = true;
 
-var _dom = __webpack_require__(2);
+var _dom = __webpack_require__(3);
 
 var _checkbox = __webpack_require__(16);
 
@@ -2607,7 +2607,7 @@ exports.default = {
                       },
                       []
                     )]
-                  ) : '', column.filters && column.filters.length || column.filterMethod ? h(
+                  ) : '', column.filterable ? h(
                     'span',
                     { 'class': 'el-table__column-filter-trigger', on: {
                         'click': function click($event) {
@@ -3598,7 +3598,7 @@ module.exports = require("element-ui/lib/utils/resize-event");
 /***/ 2:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/dom");
+module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
@@ -3619,7 +3619,7 @@ module.exports = require("element-ui/lib/tag");
 /***/ 3:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/util");
+module.exports = require("element-ui/lib/utils/dom");
 
 /***/ }),
 
@@ -3732,7 +3732,7 @@ exports.getRowIdentity = exports.getColumnByCell = exports.getColumnById = expor
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _util = __webpack_require__(3);
+var _util = __webpack_require__(2);
 
 var getCell = exports.getCell = function getCell(event) {
   var cell = event.target;

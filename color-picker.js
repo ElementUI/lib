@@ -718,12 +718,9 @@ exports.default = {
       var value = this.color.get('value');
 
       var el = this.$el;
+      var width = el.clientWidth,
+          height = el.clientHeight;
 
-      var _el$getBoundingClient = el.getBoundingClientRect(),
-          width = _el$getBoundingClient.width,
-          height = _el$getBoundingClient.height;
-
-      if (!height) height = width * 3 / 4;
 
       this.cursorLeft = saturation * width / 100;
       this.cursorTop = (100 - value) * height / 100;

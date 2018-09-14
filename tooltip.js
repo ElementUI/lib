@@ -76,7 +76,7 @@ module.exports = require("throttle-debounce/debounce");
 /***/ 2:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/dom");
+module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
@@ -126,11 +126,11 @@ var _debounce = __webpack_require__(14);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _dom = __webpack_require__(2);
+var _dom = __webpack_require__(3);
 
 var _vdom = __webpack_require__(20);
 
-var _util = __webpack_require__(3);
+var _util = __webpack_require__(2);
 
 var _vue = __webpack_require__(4);
 
@@ -376,7 +376,7 @@ exports.default = {
 /***/ 3:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/util");
+module.exports = require("element-ui/lib/utils/dom");
 
 /***/ }),
 

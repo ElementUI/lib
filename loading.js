@@ -183,13 +183,6 @@ module.exports = require("element-ui/lib/utils/popup");
 
 /***/ }),
 
-/***/ 2:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/dom");
-
-/***/ }),
-
 /***/ 274:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -236,7 +229,7 @@ var _loading = __webpack_require__(50);
 
 var _loading2 = _interopRequireDefault(_loading);
 
-var _dom = __webpack_require__(2);
+var _dom = __webpack_require__(3);
 
 var _popup = __webpack_require__(13);
 
@@ -442,7 +435,7 @@ var _loading = __webpack_require__(50);
 
 var _loading2 = _interopRequireDefault(_loading);
 
-var _dom = __webpack_require__(2);
+var _dom = __webpack_require__(3);
 
 var _popup = __webpack_require__(13);
 
@@ -554,6 +547,13 @@ var Loading = function Loading() {
 };
 
 exports.default = Loading;
+
+/***/ }),
+
+/***/ 3:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/dom");
 
 /***/ }),
 
