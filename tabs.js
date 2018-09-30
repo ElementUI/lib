@@ -300,14 +300,35 @@ exports.default = {
       var _this = this;
 
       if (this.$refs.nav) {
-        this.$nextTick(function (_) {
-          _this.$refs.nav.scrollToActiveTab();
+        this.$nextTick(function () {
+          _this.$refs.nav.$nextTick(function (_) {
+            _this.$refs.nav.scrollToActiveTab();
+          });
         });
       }
     }
   },
 
   methods: {
+    calcPaneInstances: function calcPaneInstances() {
+      var _this2 = this;
+
+      if (this.$slots.default) {
+        var paneSlots = this.$slots.default.filter(function (vnode) {
+          return vnode.tag && vnode.componentOptions && vnode.componentOptions.Ctor.options.name === 'ElTabPane';
+        });
+        // update indeed
+        var panes = paneSlots.map(function (_ref) {
+          var componentInstance = _ref.componentInstance;
+          return componentInstance;
+        });
+        if (!(panes.length === this.panes.length && panes.every(function (pane, index) {
+          return pane === _this2.panes[index];
+        }))) {
+          this.panes = panes;
+        }
+      }
+    },
     handleTabClick: function handleTabClick(tab, tabName, event) {
       if (tab.disabled) return;
       this.setCurrentName(tabName);
@@ -324,11 +345,11 @@ exports.default = {
       this.$emit('tab-add');
     },
     setCurrentName: function setCurrentName(value) {
-      var _this2 = this;
+      var _this3 = this;
 
       var changeCurrentName = function changeCurrentName() {
-        _this2.currentName = value;
-        _this2.$emit('input', value);
+        _this3.currentName = value;
+        _this3.$emit('input', value);
       };
       if (this.currentName !== value && this.beforeLeave) {
         var before = this.beforeLeave(value, this.currentName);
@@ -336,7 +357,7 @@ exports.default = {
           before.then(function () {
             changeCurrentName();
 
-            _this2.$refs.nav && _this2.$refs.nav.removeFocus();
+            _this3.$refs.nav && _this3.$refs.nav.removeFocus();
           });
         } else if (before !== false) {
           changeCurrentName();
@@ -344,23 +365,11 @@ exports.default = {
       } else {
         changeCurrentName();
       }
-    },
-    addPanes: function addPanes(item) {
-      var index = this.$slots.default.filter(function (item) {
-        return item.elm.nodeType === 1 && /\bel-tab-pane\b/.test(item.elm.className) || item.elm.nodeType === 8;
-      }).indexOf(item.$vnode);
-      this.panes.splice(index, 0, item);
-    },
-    removePanes: function removePanes(item) {
-      var panes = this.panes;
-      var index = panes.indexOf(item);
-      if (index > -1) {
-        panes.splice(index, 1);
-      }
     }
   },
+
   render: function render(h) {
-    var _ref;
+    var _ref2;
 
     var type = this.type,
         handleTabClick = this.handleTabClick,
@@ -426,10 +435,10 @@ exports.default = {
 
     return h(
       'div',
-      { 'class': (_ref = {
+      { 'class': (_ref2 = {
           'el-tabs': true,
           'el-tabs--card': type === 'card'
-        }, _ref['el-tabs--' + tabPosition] = true, _ref['el-tabs--border-card'] = type === 'border-card', _ref) },
+        }, _ref2['el-tabs--' + tabPosition] = true, _ref2['el-tabs--border-card'] = type === 'border-card', _ref2) },
       [tabPosition !== 'bottom' ? [header, panels] : [panels, header]]
     );
   },
@@ -437,6 +446,12 @@ exports.default = {
     if (!this.currentName) {
       this.setCurrentName('0');
     }
+  },
+  mounted: function mounted() {
+    this.calcPaneInstances();
+  },
+  updated: function updated() {
+    this.calcPaneInstances();
   }
 };
 
@@ -576,7 +591,7 @@ exports.default = {
       var navScroll = this.$refs.navScroll;
       var activeTabBounding = activeTab.getBoundingClientRect();
       var navScrollBounding = navScroll.getBoundingClientRect();
-      var navBounding = nav.getBoundingClientRect();
+      var maxOffset = nav.offsetWidth - navScrollBounding.width;
       var currentOffset = this.navOffset;
       var newOffset = currentOffset;
 
@@ -586,10 +601,9 @@ exports.default = {
       if (activeTabBounding.right > navScrollBounding.right) {
         newOffset = currentOffset + activeTabBounding.right - navScrollBounding.right;
       }
-      if (navBounding.right < navScrollBounding.right) {
-        newOffset = nav.offsetWidth - navScrollBounding.width;
-      }
-      this.navOffset = Math.max(newOffset, 0);
+
+      newOffset = Math.max(newOffset, 0);
+      this.navOffset = Math.min(newOffset, maxOffset);
     },
     update: function update() {
       if (!this.$refs.nav) return;

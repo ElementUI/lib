@@ -106,7 +106,7 @@ exports.default = {
       titles: ['Λίστα 1', 'Λίστα 2'],
       filterPlaceholder: 'Αναζήτηση',
       noCheckedFormat: '{total} Αντικείμενα',
-      hasCheckedFormat: '{checked}/{total} checked' // to be translated
+      hasCheckedFormat: '{checked}/{total} επιλεγμένα'
     }
   }
 };

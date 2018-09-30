@@ -689,14 +689,15 @@ exports.default = {
         dropType = 'none';
       }
 
+      var iconPosition = dropNode.$el.querySelector('.el-tree-node__expand-icon').getBoundingClientRect();
       var dropIndicator = _this.$refs.dropIndicator;
       if (dropType === 'before') {
-        indicatorTop = targetPosition.top - treePosition.top;
+        indicatorTop = iconPosition.top - treePosition.top;
       } else if (dropType === 'after') {
-        indicatorTop = targetPosition.bottom - treePosition.top;
+        indicatorTop = iconPosition.bottom - treePosition.top;
       }
       dropIndicator.style.top = indicatorTop + 'px';
-      dropIndicator.style.left = targetPosition.right - treePosition.left + 'px';
+      dropIndicator.style.left = iconPosition.right - treePosition.left + 'px';
 
       if (dropType === 'inner') {
         (0, _dom.addClass)(dropNode.$el, 'is-drop-inner');

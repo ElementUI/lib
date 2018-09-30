@@ -307,6 +307,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
 
 exports.default = {
   name: 'ElFormItem',
@@ -475,7 +476,7 @@ exports.default = {
         _this.validateMessage = errors ? errors[0].message : '';
 
         callback(_this.validateMessage, invalidFields);
-        _this.elForm && _this.elForm.$emit('validate', _this.prop, !errors);
+        _this.elForm && _this.elForm.$emit('validate', _this.prop, !errors, _this.validateMessage || null);
       });
     },
     clearValidate: function clearValidate() {
@@ -584,7 +585,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     'is-error': _vm.validateState === 'error',
     'is-validating': _vm.validateState === 'validating',
     'is-success': _vm.validateState === 'success',
-    'is-required': _vm.isRequired || _vm.required
+    'is-required': _vm.isRequired || _vm.required,
+    'is-no-asterisk': _vm.elForm && _vm.elForm.hideRequiredAsterisk
   },
   _vm.sizeClass ? 'el-form-item--' + _vm.sizeClass : ''
 ]},[(_vm.label || _vm.$slots.label)?_c('label',{staticClass:"el-form-item__label",style:(_vm.labelStyle),attrs:{"for":_vm.labelFor}},[_vm._t("label",[_vm._v(_vm._s(_vm.label + _vm.form.labelSuffix))])],2):_vm._e(),_c('div',{staticClass:"el-form-item__content",style:(_vm.contentStyle)},[_vm._t("default"),_c('transition',{attrs:{"name":"el-zoom-in-top"}},[(_vm.validateState === 'error' && _vm.showMessage && _vm.form.showMessage)?_vm._t("error",[_c('div',{staticClass:"el-form-item__error",class:{

@@ -293,17 +293,6 @@ exports.default = {
     }
   },
 
-  mounted: function mounted() {
-    this.$parent.addPanes(this);
-  },
-  destroyed: function destroyed() {
-    if (this.$el && this.$el.parentNode) {
-      this.$el.parentNode.removeChild(this.$el);
-    }
-    this.$parent.removePanes(this);
-  },
-
-
   watch: {
     label: function label() {
       this.$parent.$forceUpdate();

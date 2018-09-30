@@ -2576,7 +2576,8 @@ exports.default = {
                   },
 
                   style: _this.getHeaderCellStyle(rowIndex, cellIndex, columns, column),
-                  'class': _this.getHeaderCellClass(rowIndex, cellIndex, columns, column) },
+                  'class': _this.getHeaderCellClass(rowIndex, cellIndex, columns, column),
+                  key: column.id },
                 [h(
                   'div',
                   { 'class': ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : '', column.labelClassName] },
