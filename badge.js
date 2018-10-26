@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 312);
+/******/ 	return __webpack_require__(__webpack_require__.s = 311);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -176,7 +176,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 312:
+/***/ 311:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -184,7 +184,7 @@ module.exports = function normalizeComponent (
 
 exports.__esModule = true;
 
-var _main = __webpack_require__(313);
+var _main = __webpack_require__(312);
 
 var _main2 = _interopRequireDefault(_main);
 
@@ -199,14 +199,14 @@ exports.default = _main2.default;
 
 /***/ }),
 
-/***/ 313:
+/***/ 312:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__ = __webpack_require__(314);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__ = __webpack_require__(313);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2047caa1_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_main_vue__ = __webpack_require__(315);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2047caa1_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_main_vue__ = __webpack_require__(314);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -234,13 +234,19 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 314:
+/***/ 313:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 exports.__esModule = true;
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -263,7 +269,13 @@ exports.default = {
     value: {},
     max: Number,
     isDot: Boolean,
-    hidden: Boolean
+    hidden: Boolean,
+    type: {
+      type: String,
+      validator: function validator(val) {
+        return ['primary', 'success', 'warning', 'info', 'danger'].indexOf(val) > -1;
+      }
+    }
   },
 
   computed: {
@@ -284,11 +296,17 @@ exports.default = {
 
 /***/ }),
 
-/***/ 315:
+/***/ 314:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-badge"},[_vm._t("default"),_c('transition',{attrs:{"name":"el-zoom-in-center"}},[_c('sup',{directives:[{name:"show",rawName:"v-show",value:(!_vm.hidden && (_vm.content || _vm.content === 0 || _vm.isDot)),expression:"!hidden && (content || content === 0 || isDot)"}],staticClass:"el-badge__content",class:{ 'is-fixed': _vm.$slots.default, 'is-dot': _vm.isDot },domProps:{"textContent":_vm._s(_vm.content)}})])],2)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-badge"},[_vm._t("default"),_c('transition',{attrs:{"name":"el-zoom-in-center"}},[_c('sup',{directives:[{name:"show",rawName:"v-show",value:(!_vm.hidden && (_vm.content || _vm.content === 0 || _vm.isDot)),expression:"!hidden && (content || content === 0 || isDot)"}],staticClass:"el-badge__content",class:[
+        'el-badge__content--' + _vm.type,
+        {
+          'is-fixed': _vm.$slots.default,
+          'is-dot': _vm.isDot
+        }
+      ],domProps:{"textContent":_vm._s(_vm.content)}})])],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

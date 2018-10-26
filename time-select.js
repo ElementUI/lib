@@ -197,7 +197,7 @@ module.exports = require("element-ui/lib/utils/clickoutside");
 
 
 exports.__esModule = true;
-exports.extractTimeFormat = exports.extractDateFormat = exports.nextYear = exports.prevYear = exports.nextMonth = exports.prevMonth = exports.changeYearMonthAndClampDate = exports.timeWithinRange = exports.limitTimeRange = exports.clearMilliseconds = exports.clearTime = exports.modifyWithTimeString = exports.modifyTime = exports.modifyDate = exports.range = exports.getRangeHours = exports.getWeekNumber = exports.getStartDateOfMonth = exports.nextDate = exports.prevDate = exports.getFirstDayOfMonth = exports.getDayCountOfYear = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDateObject = exports.isDate = exports.toDate = undefined;
+exports.extractTimeFormat = exports.extractDateFormat = exports.nextYear = exports.prevYear = exports.nextMonth = exports.prevMonth = exports.changeYearMonthAndClampDate = exports.timeWithinRange = exports.limitTimeRange = exports.clearMilliseconds = exports.clearTime = exports.modifyWithTimeString = exports.modifyTime = exports.modifyDate = exports.range = exports.getRangeMinutes = exports.getRangeHours = exports.getWeekNumber = exports.getStartDateOfMonth = exports.nextDate = exports.prevDate = exports.getFirstDayOfMonth = exports.getDayCountOfYear = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDateObject = exports.isDate = exports.toDate = undefined;
 
 var _date = __webpack_require__(29);
 
@@ -349,6 +349,39 @@ var getRangeHours = exports.getRangeHours = function getRangeHours(ranges) {
   }
 
   return hours;
+};
+
+function setRangeData(arr, start, end, value) {
+  for (var i = start; i < end; i++) {
+    arr[i] = value;
+  }
+}
+
+var getRangeMinutes = exports.getRangeMinutes = function getRangeMinutes(ranges, hour) {
+  var minutes = new Array(60);
+
+  if (ranges.length > 0) {
+    ranges.forEach(function (range) {
+      var start = range[0];
+      var end = range[1];
+      var startHour = start.getHours();
+      var startMinute = start.getMinutes();
+      var endHour = end.getHours();
+      var endMinute = end.getMinutes();
+      if (startHour === hour && endHour !== hour) {
+        setRangeData(minutes, startMinute, 60, true);
+      } else if (startHour === hour && endHour === hour) {
+        setRangeData(minutes, startMinute, endMinute + 1, true);
+      } else if (startHour !== hour && endHour === hour) {
+        setRangeData(minutes, 0, endMinute + 1, true);
+      } else if (startHour < hour && endHour > hour) {
+        setRangeData(minutes, 0, 60, true);
+      }
+    });
+  } else {
+    setRangeData(minutes, 0, 60, true);
+  }
+  return minutes;
 };
 
 var range = exports.range = function range(n) {

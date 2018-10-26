@@ -197,7 +197,7 @@ module.exports = require("element-ui/lib/utils/clickoutside");
 
 
 exports.__esModule = true;
-exports.extractTimeFormat = exports.extractDateFormat = exports.nextYear = exports.prevYear = exports.nextMonth = exports.prevMonth = exports.changeYearMonthAndClampDate = exports.timeWithinRange = exports.limitTimeRange = exports.clearMilliseconds = exports.clearTime = exports.modifyWithTimeString = exports.modifyTime = exports.modifyDate = exports.range = exports.getRangeHours = exports.getWeekNumber = exports.getStartDateOfMonth = exports.nextDate = exports.prevDate = exports.getFirstDayOfMonth = exports.getDayCountOfYear = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDateObject = exports.isDate = exports.toDate = undefined;
+exports.extractTimeFormat = exports.extractDateFormat = exports.nextYear = exports.prevYear = exports.nextMonth = exports.prevMonth = exports.changeYearMonthAndClampDate = exports.timeWithinRange = exports.limitTimeRange = exports.clearMilliseconds = exports.clearTime = exports.modifyWithTimeString = exports.modifyTime = exports.modifyDate = exports.range = exports.getRangeMinutes = exports.getRangeHours = exports.getWeekNumber = exports.getStartDateOfMonth = exports.nextDate = exports.prevDate = exports.getFirstDayOfMonth = exports.getDayCountOfYear = exports.getDayCountOfMonth = exports.parseDate = exports.formatDate = exports.isDateObject = exports.isDate = exports.toDate = undefined;
 
 var _date = __webpack_require__(29);
 
@@ -349,6 +349,39 @@ var getRangeHours = exports.getRangeHours = function getRangeHours(ranges) {
   }
 
   return hours;
+};
+
+function setRangeData(arr, start, end, value) {
+  for (var i = start; i < end; i++) {
+    arr[i] = value;
+  }
+}
+
+var getRangeMinutes = exports.getRangeMinutes = function getRangeMinutes(ranges, hour) {
+  var minutes = new Array(60);
+
+  if (ranges.length > 0) {
+    ranges.forEach(function (range) {
+      var start = range[0];
+      var end = range[1];
+      var startHour = start.getHours();
+      var startMinute = start.getMinutes();
+      var endHour = end.getHours();
+      var endMinute = end.getMinutes();
+      if (startHour === hour && endHour !== hour) {
+        setRangeData(minutes, startMinute, 60, true);
+      } else if (startHour === hour && endHour === hour) {
+        setRangeData(minutes, startMinute, endMinute + 1, true);
+      } else if (startHour !== hour && endHour === hour) {
+        setRangeData(minutes, 0, endMinute + 1, true);
+      } else if (startHour < hour && endHour > hour) {
+        setRangeData(minutes, 0, 60, true);
+      }
+    });
+  } else {
+    setRangeData(minutes, 0, 60, true);
+  }
+  return minutes;
 };
 
 var range = exports.range = function range(n) {
@@ -4086,6 +4119,9 @@ exports.default = {
     hoursList: function hoursList() {
       return (0, _util.getRangeHours)(this.selectableRange);
     },
+    minutesList: function minutesList() {
+      return (0, _util.getRangeMinutes)(this.selectableRange, this.hours);
+    },
     arrowHourList: function arrowHourList() {
       var hours = this.hours;
       return [hours > 0 ? hours - 1 : undefined, hours, hours < 23 ? hours + 1 : undefined];
@@ -4340,7 +4376,7 @@ exports.default = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-time-spinner",class:{ 'has-seconds': _vm.showSeconds }},[(!_vm.arrowControl)?[_c('el-scrollbar',{ref:"hours",staticClass:"el-time-spinner__wrapper",attrs:{"wrap-style":"max-height: inherit;","view-class":"el-time-spinner__list","noresize":"","tag":"ul"},nativeOn:{"mouseenter":function($event){_vm.emitSelectRange('hours')},"mousemove":function($event){_vm.adjustCurrentSpinner('hours')}}},_vm._l((_vm.hoursList),function(disabled,hour){return _c('li',{staticClass:"el-time-spinner__item",class:{ 'active': hour === _vm.hours, 'disabled': disabled },on:{"click":function($event){_vm.handleClick('hours', { value: hour, disabled: disabled })}}},[_vm._v(_vm._s(('0' + (_vm.amPmMode ? (hour % 12 || 12) : hour )).slice(-2))+_vm._s(_vm.amPm(hour)))])})),_c('el-scrollbar',{ref:"minutes",staticClass:"el-time-spinner__wrapper",attrs:{"wrap-style":"max-height: inherit;","view-class":"el-time-spinner__list","noresize":"","tag":"ul"},nativeOn:{"mouseenter":function($event){_vm.emitSelectRange('minutes')},"mousemove":function($event){_vm.adjustCurrentSpinner('minutes')}}},_vm._l((60),function(minute,key){return _c('li',{staticClass:"el-time-spinner__item",class:{ 'active': key === _vm.minutes },on:{"click":function($event){_vm.handleClick('minutes', { value: key, disabled: false })}}},[_vm._v(_vm._s(('0' + key).slice(-2)))])})),_c('el-scrollbar',{directives:[{name:"show",rawName:"v-show",value:(_vm.showSeconds),expression:"showSeconds"}],ref:"seconds",staticClass:"el-time-spinner__wrapper",attrs:{"wrap-style":"max-height: inherit;","view-class":"el-time-spinner__list","noresize":"","tag":"ul"},nativeOn:{"mouseenter":function($event){_vm.emitSelectRange('seconds')},"mousemove":function($event){_vm.adjustCurrentSpinner('seconds')}}},_vm._l((60),function(second,key){return _c('li',{key:key,staticClass:"el-time-spinner__item",class:{ 'active': key === _vm.seconds },on:{"click":function($event){_vm.handleClick('seconds', { value: key, disabled: false })}}},[_vm._v(_vm._s(('0' + key).slice(-2)))])}))]:_vm._e(),(_vm.arrowControl)?[_c('div',{staticClass:"el-time-spinner__wrapper is-arrow",on:{"mouseenter":function($event){_vm.emitSelectRange('hours')}}},[_c('i',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.decrease),expression:"decrease"}],staticClass:"el-time-spinner__arrow el-icon-arrow-up"}),_c('i',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.increase),expression:"increase"}],staticClass:"el-time-spinner__arrow el-icon-arrow-down"}),_c('ul',{ref:"hours",staticClass:"el-time-spinner__list"},_vm._l((_vm.arrowHourList),function(hour,key){return _c('li',{key:key,staticClass:"el-time-spinner__item",class:{ 'active': hour === _vm.hours, 'disabled': _vm.hoursList[hour] }},[_vm._v(_vm._s(hour === undefined ? '' : ('0' + (_vm.amPmMode ? (hour % 12 || 12) : hour )).slice(-2) + _vm.amPm(hour)))])}))]),_c('div',{staticClass:"el-time-spinner__wrapper is-arrow",on:{"mouseenter":function($event){_vm.emitSelectRange('minutes')}}},[_c('i',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.decrease),expression:"decrease"}],staticClass:"el-time-spinner__arrow el-icon-arrow-up"}),_c('i',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.increase),expression:"increase"}],staticClass:"el-time-spinner__arrow el-icon-arrow-down"}),_c('ul',{ref:"minutes",staticClass:"el-time-spinner__list"},_vm._l((_vm.arrowMinuteList),function(minute,key){return _c('li',{key:key,staticClass:"el-time-spinner__item",class:{ 'active': minute === _vm.minutes }},[_vm._v("\n          "+_vm._s(minute === undefined ? '' : ('0' + minute).slice(-2))+"\n        ")])}))]),(_vm.showSeconds)?_c('div',{staticClass:"el-time-spinner__wrapper is-arrow",on:{"mouseenter":function($event){_vm.emitSelectRange('seconds')}}},[_c('i',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.decrease),expression:"decrease"}],staticClass:"el-time-spinner__arrow el-icon-arrow-up"}),_c('i',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.increase),expression:"increase"}],staticClass:"el-time-spinner__arrow el-icon-arrow-down"}),_c('ul',{ref:"seconds",staticClass:"el-time-spinner__list"},_vm._l((_vm.arrowSecondList),function(second,key){return _c('li',{key:key,staticClass:"el-time-spinner__item",class:{ 'active': second === _vm.seconds }},[_vm._v("\n          "+_vm._s(second === undefined ? '' : ('0' + second).slice(-2))+"\n        ")])}))]):_vm._e()]:_vm._e()],2)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"el-time-spinner",class:{ 'has-seconds': _vm.showSeconds }},[(!_vm.arrowControl)?[_c('el-scrollbar',{ref:"hours",staticClass:"el-time-spinner__wrapper",attrs:{"wrap-style":"max-height: inherit;","view-class":"el-time-spinner__list","noresize":"","tag":"ul"},nativeOn:{"mouseenter":function($event){_vm.emitSelectRange('hours')},"mousemove":function($event){_vm.adjustCurrentSpinner('hours')}}},_vm._l((_vm.hoursList),function(disabled,hour){return _c('li',{staticClass:"el-time-spinner__item",class:{ 'active': hour === _vm.hours, 'disabled': disabled },on:{"click":function($event){_vm.handleClick('hours', { value: hour, disabled: disabled })}}},[_vm._v(_vm._s(('0' + (_vm.amPmMode ? (hour % 12 || 12) : hour )).slice(-2))+_vm._s(_vm.amPm(hour)))])})),_c('el-scrollbar',{ref:"minutes",staticClass:"el-time-spinner__wrapper",attrs:{"wrap-style":"max-height: inherit;","view-class":"el-time-spinner__list","noresize":"","tag":"ul"},nativeOn:{"mouseenter":function($event){_vm.emitSelectRange('minutes')},"mousemove":function($event){_vm.adjustCurrentSpinner('minutes')}}},_vm._l((_vm.minutesList),function(enabled,key){return _c('li',{staticClass:"el-time-spinner__item",class:{ 'active': key === _vm.minutes, disabled: !enabled },on:{"click":function($event){_vm.handleClick('minutes', { value: key, disabled: false })}}},[_vm._v(_vm._s(('0' + key).slice(-2)))])})),_c('el-scrollbar',{directives:[{name:"show",rawName:"v-show",value:(_vm.showSeconds),expression:"showSeconds"}],ref:"seconds",staticClass:"el-time-spinner__wrapper",attrs:{"wrap-style":"max-height: inherit;","view-class":"el-time-spinner__list","noresize":"","tag":"ul"},nativeOn:{"mouseenter":function($event){_vm.emitSelectRange('seconds')},"mousemove":function($event){_vm.adjustCurrentSpinner('seconds')}}},_vm._l((60),function(second,key){return _c('li',{key:key,staticClass:"el-time-spinner__item",class:{ 'active': key === _vm.seconds },on:{"click":function($event){_vm.handleClick('seconds', { value: key, disabled: false })}}},[_vm._v(_vm._s(('0' + key).slice(-2)))])}))]:_vm._e(),(_vm.arrowControl)?[_c('div',{staticClass:"el-time-spinner__wrapper is-arrow",on:{"mouseenter":function($event){_vm.emitSelectRange('hours')}}},[_c('i',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.decrease),expression:"decrease"}],staticClass:"el-time-spinner__arrow el-icon-arrow-up"}),_c('i',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.increase),expression:"increase"}],staticClass:"el-time-spinner__arrow el-icon-arrow-down"}),_c('ul',{ref:"hours",staticClass:"el-time-spinner__list"},_vm._l((_vm.arrowHourList),function(hour,key){return _c('li',{key:key,staticClass:"el-time-spinner__item",class:{ 'active': hour === _vm.hours, 'disabled': _vm.hoursList[hour] }},[_vm._v(_vm._s(hour === undefined ? '' : ('0' + (_vm.amPmMode ? (hour % 12 || 12) : hour )).slice(-2) + _vm.amPm(hour)))])}))]),_c('div',{staticClass:"el-time-spinner__wrapper is-arrow",on:{"mouseenter":function($event){_vm.emitSelectRange('minutes')}}},[_c('i',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.decrease),expression:"decrease"}],staticClass:"el-time-spinner__arrow el-icon-arrow-up"}),_c('i',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.increase),expression:"increase"}],staticClass:"el-time-spinner__arrow el-icon-arrow-down"}),_c('ul',{ref:"minutes",staticClass:"el-time-spinner__list"},_vm._l((_vm.arrowMinuteList),function(minute,key){return _c('li',{key:key,staticClass:"el-time-spinner__item",class:{ 'active': minute === _vm.minutes }},[_vm._v("\n          "+_vm._s(minute === undefined ? '' : ('0' + minute).slice(-2))+"\n        ")])}))]),(_vm.showSeconds)?_c('div',{staticClass:"el-time-spinner__wrapper is-arrow",on:{"mouseenter":function($event){_vm.emitSelectRange('seconds')}}},[_c('i',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.decrease),expression:"decrease"}],staticClass:"el-time-spinner__arrow el-icon-arrow-up"}),_c('i',{directives:[{name:"repeat-click",rawName:"v-repeat-click",value:(_vm.increase),expression:"increase"}],staticClass:"el-time-spinner__arrow el-icon-arrow-down"}),_c('ul',{ref:"seconds",staticClass:"el-time-spinner__list"},_vm._l((_vm.arrowSecondList),function(second,key){return _c('li',{key:key,staticClass:"el-time-spinner__item",class:{ 'active': second === _vm.seconds }},[_vm._v("\n          "+_vm._s(second === undefined ? '' : ('0' + second).slice(-2))+"\n        ")])}))]):_vm._e()]:_vm._e()],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

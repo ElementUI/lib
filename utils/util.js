@@ -1,10 +1,18 @@
 'use strict';
 
 exports.__esModule = true;
+exports.isEdge = exports.isIE = exports.coerceTruthyValueToArray = exports.arrayFind = exports.arrayFindIndex = exports.escapeRegexpString = exports.valueEquals = exports.generateId = exports.getValueByPath = undefined;
 exports.noop = noop;
 exports.hasOwn = hasOwn;
 exports.toObject = toObject;
 exports.getPropByPath = getPropByPath;
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 function noop() {};
@@ -119,4 +127,12 @@ var coerceTruthyValueToArray = exports.coerceTruthyValueToArray = function coerc
   } else {
     return [];
   }
+};
+
+var isIE = exports.isIE = function isIE() {
+  return !_vue2.default.prototype.$isServer && !isNaN(Number(document.documentMode));
+};
+
+var isEdge = exports.isEdge = function isEdge() {
+  return !_vue2.default.prototype.$isServer && navigator.userAgent.indexOf('Edge') > -1;
 };

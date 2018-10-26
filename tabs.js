@@ -327,6 +327,8 @@ exports.default = {
         }))) {
           this.panes = panes;
         }
+      } else if (this.panes.length !== 0) {
+        this.panes = [];
       }
     },
     handleTabClick: function handleTabClick(tab, tabName, event) {
@@ -764,13 +766,14 @@ exports.default = {
             'el-tabs__item': true
           }, _ref['is-' + _this3.rootTabs.tabPosition] = true, _ref['is-active'] = pane.active, _ref['is-disabled'] = pane.disabled, _ref['is-closable'] = closable, _ref['is-focus'] = _this3.isFocus, _ref),
           attrs: { id: 'tab-' + tabName,
+
             'aria-controls': 'pane-' + tabName,
             role: 'tab',
             'aria-selected': pane.active,
 
             tabindex: tabindex
           },
-          ref: 'tabs', refInFor: true,
+          key: 'tab-' + tabName, ref: 'tabs', refInFor: true,
           on: {
             'focus': function focus() {
               setFocus();

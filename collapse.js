@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 345);
+/******/ 	return __webpack_require__(__webpack_require__.s = 344);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -176,7 +176,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 345:
+/***/ 344:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -184,7 +184,7 @@ module.exports = function normalizeComponent (
 
 exports.__esModule = true;
 
-var _collapse = __webpack_require__(346);
+var _collapse = __webpack_require__(345);
 
 var _collapse2 = _interopRequireDefault(_collapse);
 
@@ -199,14 +199,14 @@ exports.default = _collapse2.default;
 
 /***/ }),
 
-/***/ 346:
+/***/ 345:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_collapse_vue__ = __webpack_require__(347);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_collapse_vue__ = __webpack_require__(346);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_collapse_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_collapse_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3f6d51f9_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_collapse_vue__ = __webpack_require__(348);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3f6d51f9_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_collapse_vue__ = __webpack_require__(347);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -234,7 +234,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 347:
+/***/ 346:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -312,7 +312,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 348:
+/***/ 347:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

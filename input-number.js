@@ -356,7 +356,7 @@ exports.default = {
       }
     },
     controlsAtRight: function controlsAtRight() {
-      return this.controlsPosition === 'right';
+      return this.controls && this.controlsPosition === 'right';
     },
     _elFormItemSize: function _elFormItemSize() {
       return (this.elFormItem || {}).elFormItemSize;

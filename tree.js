@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 248);
+/******/ 	return __webpack_require__(__webpack_require__.s = 247);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -204,7 +204,7 @@ module.exports = require("element-ui/lib/transitions/collapse-transition");
 
 /***/ }),
 
-/***/ 248:
+/***/ 247:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -212,7 +212,7 @@ module.exports = require("element-ui/lib/transitions/collapse-transition");
 
 exports.__esModule = true;
 
-var _tree = __webpack_require__(249);
+var _tree = __webpack_require__(248);
 
 var _tree2 = _interopRequireDefault(_tree);
 
@@ -227,14 +227,14 @@ exports.default = _tree2.default;
 
 /***/ }),
 
-/***/ 249:
+/***/ 248:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_vue__ = __webpack_require__(250);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_vue__ = __webpack_require__(249);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8ac7d2ce_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_tree_vue__ = __webpack_require__(256);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8ac7d2ce_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_tree_vue__ = __webpack_require__(255);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -262,7 +262,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 250:
+/***/ 249:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -270,13 +270,13 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _treeStore = __webpack_require__(251);
+var _treeStore = __webpack_require__(250);
 
 var _treeStore2 = _interopRequireDefault(_treeStore);
 
 var _util = __webpack_require__(33);
 
-var _treeNode = __webpack_require__(253);
+var _treeNode = __webpack_require__(252);
 
 var _treeNode2 = _interopRequireDefault(_treeNode);
 
@@ -764,7 +764,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 251:
+/***/ 250:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -774,7 +774,7 @@ exports.__esModule = true;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _node = __webpack_require__(252);
+var _node = __webpack_require__(251);
 
 var _node2 = _interopRequireDefault(_node);
 
@@ -1158,7 +1158,7 @@ exports.default = TreeStore;
 
 /***/ }),
 
-/***/ 252:
+/***/ 251:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1718,14 +1718,14 @@ exports.default = Node;
 
 /***/ }),
 
-/***/ 253:
+/***/ 252:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_node_vue__ = __webpack_require__(254);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_node_vue__ = __webpack_require__(253);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_node_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_tree_node_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_09d50766_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_tree_node_vue__ = __webpack_require__(255);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_09d50766_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_tree_node_vue__ = __webpack_require__(254);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -1753,7 +1753,7 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 254:
+/***/ 253:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2044,7 +2044,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 255:
+/***/ 254:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2063,7 +2063,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 
 /***/ }),
 
-/***/ 256:
+/***/ 255:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 257);
+/******/ 	return __webpack_require__(__webpack_require__.s = 256);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -176,7 +176,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 257:
+/***/ 256:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -184,7 +184,7 @@ module.exports = function normalizeComponent (
 
 exports.__esModule = true;
 
-var _main = __webpack_require__(258);
+var _main = __webpack_require__(257);
 
 var _main2 = _interopRequireDefault(_main);
 
@@ -199,14 +199,14 @@ exports.default = _main2.default;
 
 /***/ }),
 
-/***/ 258:
+/***/ 257:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__ = __webpack_require__(259);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__ = __webpack_require__(258);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_main_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_65fe9cf0_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_main_vue__ = __webpack_require__(260);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_65fe9cf0_hasScoped_false_preserveWhitespace_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_main_vue__ = __webpack_require__(259);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -234,13 +234,15 @@ var Component = normalizeComponent(
 
 /***/ }),
 
-/***/ 259:
+/***/ 258:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 exports.__esModule = true;
+//
+//
 //
 //
 //
@@ -328,11 +330,11 @@ exports.default = {
 
 /***/ }),
 
-/***/ 260:
+/***/ 259:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"el-alert-fade"}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.visible),expression:"visible"}],staticClass:"el-alert",class:[_vm.typeClass, _vm.center ? 'is-center' : ''],attrs:{"role":"alert"}},[(_vm.showIcon)?_c('i',{staticClass:"el-alert__icon",class:[ _vm.iconClass, _vm.isBigIcon ]}):_vm._e(),_c('div',{staticClass:"el-alert__content"},[(_vm.title)?_c('span',{staticClass:"el-alert__title",class:[ _vm.isBoldTitle ]},[_vm._v(_vm._s(_vm.title))]):_vm._e(),_vm._t("default",[(_vm.description)?_c('p',{staticClass:"el-alert__description"},[_vm._v(_vm._s(_vm.description))]):_vm._e()]),_c('i',{directives:[{name:"show",rawName:"v-show",value:(_vm.closable),expression:"closable"}],staticClass:"el-alert__closebtn",class:{ 'is-customed': _vm.closeText !== '', 'el-icon-close': _vm.closeText === '' },on:{"click":function($event){_vm.close()}}},[_vm._v(_vm._s(_vm.closeText))])],2)])])}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"el-alert-fade"}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.visible),expression:"visible"}],staticClass:"el-alert",class:[_vm.typeClass, _vm.center ? 'is-center' : ''],attrs:{"role":"alert"}},[(_vm.showIcon)?_c('i',{staticClass:"el-alert__icon",class:[ _vm.iconClass, _vm.isBigIcon ]}):_vm._e(),_c('div',{staticClass:"el-alert__content"},[(_vm.title || _vm.$slots.title)?_c('span',{staticClass:"el-alert__title",class:[ _vm.isBoldTitle ]},[_vm._t("title",[_vm._v(_vm._s(_vm.title))])],2):_vm._e(),_vm._t("default",[(_vm.description)?_c('p',{staticClass:"el-alert__description"},[_vm._v(_vm._s(_vm.description))]):_vm._e()]),_c('i',{directives:[{name:"show",rawName:"v-show",value:(_vm.closable),expression:"closable"}],staticClass:"el-alert__closebtn",class:{ 'is-customed': _vm.closeText !== '', 'el-icon-close': _vm.closeText === '' },on:{"click":function($event){_vm.close()}}},[_vm._v(_vm._s(_vm.closeText))])],2)])])}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

@@ -4,7 +4,7 @@ exports.__esModule = true;
 exports.default = {
   el: {
     colorpicker: {
-      confirm: 'جەزىملەش',
+      confirm: 'جەزملەش',
       clear: 'قۇرۇقداش'
     },
     datepicker: {
@@ -12,7 +12,7 @@ exports.default = {
       today: 'بۈگۈن',
       cancel: 'بىكار قىلىش',
       clear: 'قۇرۇقداش',
-      confirm: 'جەزىملەش',
+      confirm: 'جەزملەش',
       selectDate: 'چىسلا تاللاڭ',
       selectTime: 'ۋاقىت تاللاڭ',
       startDate: 'باشلانغان چىسلا',
@@ -23,7 +23,7 @@ exports.default = {
       nextYear: 'كىيىنكى يىل',
       prevMonth: 'ئالدىنقى ئاي',
       nextMonth: 'كىيىنكى ئاي',
-      year: 'يىل',
+      year: '- يىل',
       month1: '1-ئاي',
       month2: '2-ئاي',
       month3: '3-ئاي',
@@ -80,7 +80,7 @@ exports.default = {
     },
     messagebox: {
       title: 'ئەسكەرتىش',
-      confirm: 'جەزىملەش',
+      confirm: 'جەزملەش',
       cancel: 'بىكار قىلىش',
       error: 'كىرگۈزگەن ئۇچۇرىڭىزدا خاتالىق بار!'
     },
