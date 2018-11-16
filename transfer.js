@@ -386,11 +386,19 @@ exports.default = {
     targetData: function targetData() {
       var _this2 = this;
 
-      return this.targetOrder === 'original' ? this.data.filter(function (item) {
-        return _this2.value.indexOf(item[_this2.props.key]) > -1;
-      }) : this.value.map(function (key) {
-        return _this2.dataObj[key];
-      });
+      if (this.targetOrder === 'original') {
+        return this.data.filter(function (item) {
+          return _this2.value.indexOf(item[_this2.props.key]) > -1;
+        });
+      } else {
+        return this.value.reduce(function (arr, cur) {
+          var val = _this2.dataObj[cur];
+          if (val) {
+            arr.push(val);
+          }
+          return arr;
+        }, []);
+      }
     },
     hasButtonTexts: function hasButtonTexts() {
       return this.buttonTexts.length === 2;

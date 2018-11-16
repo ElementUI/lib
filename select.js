@@ -183,13 +183,6 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 10:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/clickoutside");
-
-/***/ }),
-
 /***/ 12:
 /***/ (function(module, exports) {
 
@@ -441,7 +434,7 @@ var _debounce = __webpack_require__(14);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _clickoutside = __webpack_require__(10);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -495,7 +488,7 @@ exports.default = {
       return !this.filterable || this.multiple || !(0, _util.isIE)() && !(0, _util.isEdge)() && !this.visible;
     },
     showClose: function showClose() {
-      var hasValue = this.multiple ? this.value.length > 0 : this.value !== undefined && this.value !== null && this.value !== '';
+      var hasValue = this.multiple ? Array.isArray(this.value) && this.value.length > 0 : this.value !== undefined && this.value !== null && this.value !== '';
       var criteria = this.clearable && !this.selectDisabled && this.inputHovering && hasValue;
       return criteria;
     },
@@ -678,6 +671,7 @@ exports.default = {
         this.previousQuery = null;
         this.selectedLabel = '';
         this.inputLength = 20;
+        this.menuVisibleOnFocus = false;
         this.resetHoverIndex();
         this.$nextTick(function () {
           if (_this3.$refs.input && _this3.$refs.input.value === '' && _this3.selected.length === 0) {
@@ -1684,6 +1678,13 @@ module.exports = require("element-ui/lib/input");
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/vue-popper");
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ })
 

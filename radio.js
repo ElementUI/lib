@@ -324,7 +324,7 @@ exports.default = {
       return this.isGroup ? this._radioGroup.disabled || this.disabled || (this.elForm || {}).disabled : this.disabled || (this.elForm || {}).disabled;
     },
     tabIndex: function tabIndex() {
-      return !this.isDisabled ? this.isGroup ? this.model === this.label ? 0 : -1 : 0 : -1;
+      return this.isDisabled || this.isGroup && this.model !== this.label ? -1 : 0;
     }
   },
 

@@ -275,8 +275,7 @@ exports.default = {
   props: {
     title: {
       type: String,
-      default: '',
-      required: true
+      default: ''
     },
     description: {
       type: String,

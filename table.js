@@ -179,7 +179,7 @@ module.exports = function normalizeComponent (
 /***/ 10:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/clickoutside");
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ }),
 
@@ -644,8 +644,8 @@ exports.default = {
     clearSelection: function clearSelection() {
       this.store.clearSelection();
     },
-    clearFilter: function clearFilter() {
-      this.store.clearFilter();
+    clearFilter: function clearFilter(columnKeys) {
+      this.store.clearFilter(columnKeys);
     },
     clearSort: function clearSort() {
       this.store.clearSort();
@@ -1007,7 +1007,7 @@ var _debounce = __webpack_require__(14);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _merge = __webpack_require__(9);
+var _merge = __webpack_require__(10);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -1290,18 +1290,26 @@ TableStore.prototype.mutations = {
 
     var column = options.column,
         values = options.values,
-        silent = options.silent;
+        silent = options.silent,
+        multi = options.multi;
 
     if (values && !Array.isArray(values)) {
       values = [values];
     }
-
-    var prop = column.property;
     var filters = {};
 
-    if (prop) {
-      states.filters[column.id] = values;
-      filters[column.columnKey || column.id] = values;
+    if (multi) {
+      column.forEach(function (col) {
+        states.filters[col.id] = values;
+        filters[col.columnKey || col.id] = values;
+      });
+    } else {
+      var prop = column.property;
+
+      if (prop) {
+        states.filters[column.id] = values;
+        filters[column.columnKey || column.id] = values;
+      }
     }
 
     var data = states._data;
@@ -1556,7 +1564,9 @@ TableStore.prototype.cleanSelection = function () {
   }
 };
 
-TableStore.prototype.clearFilter = function () {
+TableStore.prototype.clearFilter = function (columnKeys) {
+  var _this5 = this;
+
   var states = this.states;
   var _table$$refs = this.table.$refs,
       tableHeader = _table$$refs.tableHeader,
@@ -1572,17 +1582,42 @@ TableStore.prototype.clearFilter = function () {
   var keys = Object.keys(panels);
   if (!keys.length) return;
 
-  keys.forEach(function (key) {
-    panels[key].filteredValue = [];
-  });
+  if (typeof columnKeys === 'string') {
+    columnKeys = [columnKeys];
+  }
+  if (Array.isArray(columnKeys)) {
+    (function () {
+      var columns = columnKeys.map(function (key) {
+        return (0, _util.getColumnByKey)(states, key);
+      });
+      keys.forEach(function (key) {
+        var column = columns.find(function (col) {
+          return col.id === key;
+        });
+        if (column) {
+          panels[key].filteredValue = [];
+        }
+      });
+      _this5.commit('filterChange', {
+        column: columns,
+        value: [],
+        silent: true,
+        multi: true
+      });
+    })();
+  } else {
+    keys.forEach(function (key) {
+      panels[key].filteredValue = [];
+    });
 
-  states.filters = {};
+    states.filters = {};
 
-  this.commit('filterChange', {
-    column: {},
-    values: [],
-    silent: true
-  });
+    this.commit('filterChange', {
+      column: {},
+      values: [],
+      silent: true
+    });
+  }
 };
 
 TableStore.prototype.clearSort = function () {
@@ -1666,6 +1701,20 @@ TableStore.prototype.updateCurrentRow = function () {
   var oldCurrentRow = states.currentRow;
 
   if (data.indexOf(oldCurrentRow) === -1) {
+    if (states.rowKey && oldCurrentRow) {
+      var newCurrentRow = null;
+      for (var i = 0; i < data.length; i++) {
+        var item = data[i];
+        if (item && item[states.rowKey] === oldCurrentRow[states.rowKey]) {
+          newCurrentRow = item;
+          break;
+        }
+      }
+      if (newCurrentRow) {
+        states.currentRow = newCurrentRow;
+        return;
+      }
+    }
     states.currentRow = null;
 
     if (states.currentRow !== oldCurrentRow) {
@@ -2342,7 +2391,7 @@ exports.default = {
 
       // 判断是否text-overflow, 如果是就显示tooltip
       var cellChild = event.target.querySelector('.cell');
-      if (!(0, _dom.hasClass)(cellChild, 'el-tooltip')) {
+      if (!((0, _dom.hasClass)(cellChild, 'el-tooltip') && cellChild.childNodes.length)) {
         return;
       }
       // use range width instead of scrollWidth to determine whether the text is overflowing
@@ -2783,7 +2832,8 @@ exports.default = {
 
       return classes.join(' ');
     },
-    toggleAllSelection: function toggleAllSelection() {
+    toggleAllSelection: function toggleAllSelection(event) {
+      event.stopPropagation();
       this.store.commit('toggleAllSelection');
     },
     handleFilterClick: function handleFilterClick(event, column) {
@@ -3059,7 +3109,7 @@ var _locale = __webpack_require__(5);
 
 var _locale2 = _interopRequireDefault(_locale);
 
-var _clickoutside = __webpack_require__(10);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -3729,7 +3779,7 @@ module.exports = require("element-ui/lib/checkbox-group");
 
 
 exports.__esModule = true;
-exports.getRowIdentity = exports.getColumnByCell = exports.getColumnById = exports.orderBy = exports.getCell = undefined;
+exports.getRowIdentity = exports.getColumnByCell = exports.getColumnByKey = exports.getColumnById = exports.orderBy = exports.getCell = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -3821,6 +3871,18 @@ var getColumnById = exports.getColumnById = function getColumnById(table, column
   return column;
 };
 
+var getColumnByKey = exports.getColumnByKey = function getColumnByKey(table, columnKey) {
+  var column = null;
+  for (var i = 0; i < table.columns.length; i++) {
+    var item = table.columns[i];
+    if (item.columnKey === columnKey) {
+      column = item;
+      break;
+    }
+  }
+  return column;
+};
+
 var getColumnByCell = exports.getColumnByCell = function getColumnByCell(table, cell) {
   var matches = (cell.className || '').match(/el-table_[^\s]+/gm);
   if (matches) {
@@ -3872,7 +3934,7 @@ module.exports = require("element-ui/lib/mixins/migrating");
 /***/ 9:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/merge");
+module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ })
 

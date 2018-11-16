@@ -176,6 +176,13 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
+/***/ 10:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
+
+/***/ }),
+
 /***/ 12:
 /***/ (function(module, exports) {
 
@@ -241,7 +248,7 @@ var _main = __webpack_require__(211);
 
 var _main2 = _interopRequireDefault(_main);
 
-var _merge = __webpack_require__(9);
+var _merge = __webpack_require__(10);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -904,13 +911,6 @@ module.exports = require("element-ui/lib/mixins/locale");
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/input");
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

@@ -66,6 +66,13 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
+/***/ 10:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
+
+/***/ }),
+
 /***/ 16:
 /***/ (function(module, exports) {
 
@@ -112,7 +119,7 @@ var _tag = __webpack_require__(25);
 
 var _tag2 = _interopRequireDefault(_tag);
 
-var _merge = __webpack_require__(9);
+var _merge = __webpack_require__(10);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -618,6 +625,8 @@ exports.default = {
   },
 
   mounted: function mounted() {
+    var _this2 = this;
+
     var owner = this.owner;
     var parent = this.columnOrTableParent;
     var columnIndex = void 0;
@@ -632,7 +641,9 @@ exports.default = {
       if (this.type === 'selection') {
         console.warn('[Element Warn][TableColumn]Selection column doesn\'t allow to set scoped-slot header.');
       } else {
-        this.columnConfig.renderHeader = this.$scopedSlots.header;
+        this.columnConfig.renderHeader = function (h, scope) {
+          return _this2.$scopedSlots.header(scope);
+        };
       }
     }
 
@@ -653,13 +664,6 @@ module.exports = require("element-ui/lib/utils/util");
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/tag");
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

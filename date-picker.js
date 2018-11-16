@@ -186,7 +186,7 @@ module.exports = require("element-ui/lib/mixins/emitter");
 /***/ 10:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/clickoutside");
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ }),
 
@@ -644,7 +644,7 @@ exports.__esModule = true;
 
 var _util = __webpack_require__(11);
 
-var _clickoutside = __webpack_require__(10);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -1553,8 +1553,6 @@ exports.__esModule = true;
 
 var _util = __webpack_require__(11);
 
-var _dom = __webpack_require__(3);
-
 var _locale = __webpack_require__(5);
 
 var _locale2 = _interopRequireDefault(_locale);
@@ -1563,7 +1561,7 @@ var _util2 = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//
+var _WEEKS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']; //
 //
 //
 //
@@ -1597,11 +1595,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 
-var _WEEKS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-var clearHours = function clearHours(time) {
-  var cloneDate = new Date(time);
-  cloneDate.setHours(0, 0, 0, 0);
-  return cloneDate.getTime();
+var getDateTimestamp = function getDateTimestamp(time) {
+  if (typeof time === 'number' || typeof time === 'string') {
+    return (0, _util.clearTime)(new Date(time)).getTime();
+  } else if (time instanceof Date) {
+    return (0, _util.clearTime)(time).getTime();
+  } else {
+    return NaN;
+  }
 };
 
 // remove the first element that satisfies `pred` from arr
@@ -1654,9 +1655,7 @@ exports.default = {
       default: function _default() {
         return {
           endDate: null,
-          selecting: false,
-          row: null,
-          column: null
+          selecting: false
         };
       }
     }
@@ -1700,7 +1699,7 @@ exports.default = {
       var startDate = this.startDate;
       var disabledDate = this.disabledDate;
       var selectedDate = this.selectionMode === 'dates' ? (0, _util2.coerceTruthyValueToArray)(this.value) : [];
-      var now = clearHours(new Date());
+      var now = getDateTimestamp(new Date());
 
       for (var i = 0; i < 6; i++) {
         var row = rows[i];
@@ -1721,9 +1720,9 @@ exports.default = {
 
           var index = i * 7 + j;
           var time = (0, _util.nextDate)(startDate, index - offset).getTime();
-          cell.inRange = time >= clearHours(_this.minDate) && time <= clearHours(_this.maxDate);
-          cell.start = _this.minDate && time === clearHours(_this.minDate);
-          cell.end = _this.maxDate && time === clearHours(_this.maxDate);
+          cell.inRange = time >= getDateTimestamp(_this.minDate) && time <= getDateTimestamp(_this.maxDate);
+          cell.start = _this.minDate && time === getDateTimestamp(_this.minDate);
+          cell.end = _this.maxDate && time === getDateTimestamp(_this.maxDate);
           var isToday = time === now;
 
           if (isToday) {
@@ -1785,30 +1784,25 @@ exports.default = {
 
   watch: {
     'rangeState.endDate': function rangeStateEndDate(newVal) {
-      this.markRange(newVal);
+      this.markRange(this.minDate, newVal);
     },
     minDate: function minDate(newVal, oldVal) {
-      if (newVal && !oldVal) {
-        this.rangeState.selecting = true;
-        this.markRange(newVal);
-      } else if (!newVal) {
-        this.rangeState.selecting = false;
-        this.markRange(newVal);
-      } else {
-        this.markRange();
+      if (getDateTimestamp(newVal) !== getDateTimestamp(oldVal)) {
+        this.markRange(this.minDate, this.maxDate);
       }
     },
     maxDate: function maxDate(newVal, oldVal) {
-      if (newVal && !oldVal) {
-        this.rangeState.selecting = false;
-        this.markRange(newVal);
+      if (getDateTimestamp(newVal) !== getDateTimestamp(oldVal)) {
+        this.markRange(this.minDate, this.maxDate);
       }
     }
   },
 
   data: function data() {
     return {
-      tableRows: [[], [], [], [], [], []]
+      tableRows: [[], [], [], [], [], []],
+      lastRow: null,
+      lastColumn: null
     };
   },
 
@@ -1891,14 +1885,16 @@ exports.default = {
       var valueYear = (0, _util.isDate)(this.value) ? this.value.getFullYear() : null;
       return year === valueYear && (0, _util.getWeekNumber)(newDate) === (0, _util.getWeekNumber)(this.value);
     },
-    markRange: function markRange(maxDate) {
-      var startDate = this.startDate;
-      if (!maxDate) {
-        maxDate = this.maxDate;
-      }
+    markRange: function markRange(minDate, maxDate) {
+      minDate = getDateTimestamp(minDate);
+      maxDate = getDateTimestamp(maxDate) || minDate;
+      var _ref = [Math.min(minDate, maxDate), Math.max(minDate, maxDate)];
+      minDate = _ref[0];
+      maxDate = _ref[1];
 
+
+      var startDate = this.startDate;
       var rows = this.rows;
-      var minDate = this.minDate;
       for (var i = 0, k = rows.length; i < k; i++) {
         var row = rows[i];
         for (var j = 0, l = row.length; j < l; j++) {
@@ -1908,27 +1904,15 @@ exports.default = {
           var index = i * 7 + j + (this.showWeekNumber ? -1 : 0);
           var time = (0, _util.nextDate)(startDate, index - this.offsetDay).getTime();
 
-          if (maxDate && maxDate < minDate) {
-            _cell.inRange = minDate && time >= clearHours(maxDate) && time <= clearHours(minDate);
-            _cell.start = maxDate && time === clearHours(maxDate.getTime());
-            _cell.end = minDate && time === clearHours(minDate.getTime());
-          } else {
-            _cell.inRange = minDate && time >= clearHours(minDate) && time <= clearHours(maxDate);
-            _cell.start = minDate && time === clearHours(minDate.getTime());
-            _cell.end = maxDate && time === clearHours(maxDate.getTime());
-          }
+          _cell.inRange = minDate && time >= minDate && time <= maxDate;
+          _cell.start = minDate && time === minDate;
+          _cell.end = maxDate && time === maxDate;
         }
       }
     },
     handleMouseMove: function handleMouseMove(event) {
       if (!this.rangeState.selecting) return;
 
-      this.$emit('changerange', {
-        minDate: this.minDate,
-        maxDate: this.maxDate,
-        rangeState: this.rangeState
-      });
-
       var target = event.target;
       if (target.tagName === 'SPAN') {
         target = target.parentNode.parentNode;
@@ -1938,23 +1922,28 @@ exports.default = {
       }
       if (target.tagName !== 'TD') return;
 
-      var column = target.cellIndex;
       var row = target.parentNode.rowIndex - 1;
-      var _rangeState = this.rangeState,
-          oldRow = _rangeState.row,
-          oldColumn = _rangeState.column;
+      var column = target.cellIndex;
 
+      // can not select disabled date
+      if (this.rows[row][column].disabled) return;
 
-      if (oldRow !== row || oldColumn !== column) {
-        this.rangeState.row = row;
-        this.rangeState.column = column;
-
-        this.rangeState.endDate = this.getDateOfCell(row, column);
+      // only update rangeState when mouse moves to a new cell
+      // this avoids frequent Date object creation and improves performance
+      if (row !== this.lastRow || column !== this.lastColumn) {
+        this.lastRow = row;
+        this.lastColumn = column;
+        this.$emit('changerange', {
+          minDate: this.minDate,
+          maxDate: this.maxDate,
+          rangeState: {
+            selecting: true,
+            endDate: this.getDateOfCell(row, column)
+          }
+        });
       }
     },
     handleClick: function handleClick(event) {
-      var _this3 = this;
-
       var target = event.target;
       if (target.tagName === 'SPAN') {
         target = target.parentNode.parentNode;
@@ -1964,86 +1953,31 @@ exports.default = {
       }
 
       if (target.tagName !== 'TD') return;
-      if ((0, _dom.hasClass)(target, 'disabled') || (0, _dom.hasClass)(target, 'week')) return;
 
-      var selectionMode = this.selectionMode;
+      var row = target.parentNode.rowIndex - 1;
+      var column = this.selectionMode === 'week' ? 1 : target.cellIndex;
+      var cell = this.rows[row][column];
 
-      if (selectionMode === 'week') {
-        target = target.parentNode.cells[1];
-      }
+      if (cell.disabled || cell.type === 'week') return;
 
-      var year = Number(this.year);
-      var month = Number(this.month);
-
-      var cellIndex = target.cellIndex;
-      var rowIndex = target.parentNode.rowIndex;
-
-      var cell = this.rows[rowIndex - 1][cellIndex];
-      var text = cell.text;
-      var className = target.className;
-
-      var newDate = new Date(year, month, 1);
-
-      if (className.indexOf('prev') !== -1) {
-        if (month === 0) {
-          year = year - 1;
-          month = 11;
-        } else {
-          month = month - 1;
-        }
-        newDate.setFullYear(year);
-        newDate.setMonth(month);
-      } else if (className.indexOf('next') !== -1) {
-        if (month === 11) {
-          year = year + 1;
-          month = 0;
-        } else {
-          month = month + 1;
-        }
-        newDate.setFullYear(year);
-        newDate.setMonth(month);
-      }
-
-      newDate.setDate(parseInt(text, 10));
+      var newDate = this.getDateOfCell(row, column);
 
       if (this.selectionMode === 'range') {
-        if (this.minDate && this.maxDate) {
-          var minDate = new Date(newDate.getTime());
-          var maxDate = null;
-
-          this.$emit('pick', { minDate: minDate, maxDate: maxDate }, false);
+        if (!this.rangeState.selecting) {
+          this.$emit('pick', { minDate: newDate, maxDate: null });
           this.rangeState.selecting = true;
-          this.markRange(this.minDate);
-          this.$nextTick(function () {
-            _this3.handleMouseMove(event);
-          });
-        } else if (this.minDate && !this.maxDate) {
+        } else {
           if (newDate >= this.minDate) {
-            var _maxDate = new Date(newDate.getTime());
-            this.rangeState.selecting = false;
-
-            this.$emit('pick', {
-              minDate: this.minDate,
-              maxDate: _maxDate
-            });
+            this.$emit('pick', { minDate: this.minDate, maxDate: newDate });
           } else {
-            var _minDate = new Date(newDate.getTime());
-            this.rangeState.selecting = false;
-
-            this.$emit('pick', { minDate: _minDate, maxDate: this.minDate });
+            this.$emit('pick', { minDate: newDate, maxDate: this.minDate });
           }
-        } else if (!this.minDate) {
-          var _minDate2 = new Date(newDate.getTime());
-
-          this.$emit('pick', { minDate: _minDate2, maxDate: this.maxDate }, false);
-          this.rangeState.selecting = true;
-          this.markRange(this.minDate);
+          this.rangeState.selecting = false;
         }
-      } else if (selectionMode === 'day') {
+      } else if (this.selectionMode === 'day') {
         this.$emit('pick', newDate);
-      } else if (selectionMode === 'week') {
+      } else if (this.selectionMode === 'week') {
         var weekNumber = (0, _util.getWeekNumber)(newDate);
-
         var value = newDate.getFullYear() + 'w' + weekNumber;
         this.$emit('pick', {
           year: newDate.getFullYear(),
@@ -2051,7 +1985,7 @@ exports.default = {
           value: value,
           date: newDate
         });
-      } else if (selectionMode === 'dates') {
+      } else if (this.selectionMode === 'dates') {
         var _value = this.value || [];
         var newValue = cell.selected ? removeFromArray(_value, function (date) {
           return date.getTime() === newDate.getTime();
@@ -2134,7 +2068,7 @@ exports.__esModule = true;
 
 var _util = __webpack_require__(11);
 
-var _clickoutside = __webpack_require__(10);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -2845,7 +2779,7 @@ var _vue = __webpack_require__(4);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _clickoutside = __webpack_require__(10);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -2863,7 +2797,7 @@ var _input = __webpack_require__(6);
 
 var _input2 = _interopRequireDefault(_input);
 
-var _merge = __webpack_require__(9);
+var _merge = __webpack_require__(10);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -2883,6 +2817,8 @@ var NewPopper = {
 
   beforeDestroy: _vuePopper2.default.beforeDestroy
 }; //
+//
+//
 //
 //
 //
@@ -3773,7 +3709,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     _vm.pickerSize ? ("el-range-editor--" + _vm.pickerSize) : '',
     _vm.pickerDisabled ? 'is-disabled' : '',
     _vm.pickerVisible ? 'is-active' : ''
-  ],on:{"click":_vm.handleRangeClick,"mouseenter":_vm.handleMouseEnter,"mouseleave":function($event){_vm.showClose = false},"keydown":_vm.handleKeydown}},[_c('i',{class:['el-input__icon', 'el-range__icon', _vm.triggerClass]}),_c('input',_vm._b({staticClass:"el-range-input",attrs:{"autocomplete":"off","placeholder":_vm.startPlaceholder,"disabled":_vm.pickerDisabled,"readonly":!_vm.editable || _vm.readonly,"name":_vm.name && _vm.name[0]},domProps:{"value":_vm.displayValue && _vm.displayValue[0]},on:{"input":_vm.handleStartInput,"change":_vm.handleStartChange,"focus":_vm.handleFocus}},'input',_vm.firstInputId,false)),_c('span',{staticClass:"el-range-separator"},[_vm._v(_vm._s(_vm.rangeSeparator))]),_c('input',_vm._b({staticClass:"el-range-input",attrs:{"autocomplete":"off","placeholder":_vm.endPlaceholder,"disabled":_vm.pickerDisabled,"readonly":!_vm.editable || _vm.readonly,"name":_vm.name && _vm.name[1]},domProps:{"value":_vm.displayValue && _vm.displayValue[1]},on:{"input":_vm.handleEndInput,"change":_vm.handleEndChange,"focus":_vm.handleFocus}},'input',_vm.secondInputId,false)),(_vm.haveTrigger)?_c('i',{staticClass:"el-input__icon el-range__close-icon",class:[_vm.showClose ? '' + _vm.clearIcon : ''],on:{"click":_vm.handleClickIcon}}):_vm._e()])}
+  ],on:{"click":_vm.handleRangeClick,"mouseenter":_vm.handleMouseEnter,"mouseleave":function($event){_vm.showClose = false},"keydown":_vm.handleKeydown}},[_c('i',{class:['el-input__icon', 'el-range__icon', _vm.triggerClass]}),_c('input',_vm._b({staticClass:"el-range-input",attrs:{"autocomplete":"off","placeholder":_vm.startPlaceholder,"disabled":_vm.pickerDisabled,"readonly":!_vm.editable || _vm.readonly,"name":_vm.name && _vm.name[0]},domProps:{"value":_vm.displayValue && _vm.displayValue[0]},on:{"input":_vm.handleStartInput,"change":_vm.handleStartChange,"focus":_vm.handleFocus}},'input',_vm.firstInputId,false)),_vm._t("range-separator",[_c('span',{staticClass:"el-range-separator"},[_vm._v(_vm._s(_vm.rangeSeparator))])]),_c('input',_vm._b({staticClass:"el-range-input",attrs:{"autocomplete":"off","placeholder":_vm.endPlaceholder,"disabled":_vm.pickerDisabled,"readonly":!_vm.editable || _vm.readonly,"name":_vm.name && _vm.name[1]},domProps:{"value":_vm.displayValue && _vm.displayValue[1]},on:{"input":_vm.handleEndInput,"change":_vm.handleEndChange,"focus":_vm.handleFocus}},'input',_vm.secondInputId,false)),(_vm.haveTrigger)?_c('i',{staticClass:"el-input__icon el-range__close-icon",class:[_vm.showClose ? '' + _vm.clearIcon : ''],on:{"click":_vm.handleClickIcon}}):_vm._e()],2)}
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -4453,7 +4389,7 @@ module.exports = require("element-ui/lib/utils/vue-popper");
 /***/ 9:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/merge");
+module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ })
 

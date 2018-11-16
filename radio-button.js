@@ -318,7 +318,7 @@ exports.default = {
       return this.disabled || this._radioGroup.disabled || (this.elForm || {}).disabled;
     },
     tabIndex: function tabIndex() {
-      return !this.isDisabled ? this._radioGroup ? this.value === this.label ? 0 : -1 : 0 : -1;
+      return this.isDisabled || this._radioGroup && this.value !== this.label ? -1 : 0;
     }
   },
 

@@ -176,6 +176,13 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
+/***/ 10:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
+
+/***/ }),
+
 /***/ 223:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -242,7 +249,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _merge = __webpack_require__(9);
+var _merge = __webpack_require__(10);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -318,7 +325,7 @@ exports.default = {
   methods: {
     resetFields: function resetFields() {
       if (!this.model) {
-        "production" !== 'production' && console.warn('[Element Warn][Form]model is required for resetFields to work.');
+        console.warn('[Element Warn][Form]model is required for resetFields to work.');
         return;
       }
       this.fields.forEach(function (field) {
@@ -378,15 +385,19 @@ exports.default = {
         return promise;
       }
     },
-    validateField: function validateField(prop, cb) {
-      var field = this.fields.filter(function (field) {
-        return field.prop === prop;
-      })[0];
-      if (!field) {
-        throw new Error('must call validateField with valid prop string!');
+    validateField: function validateField(props, cb) {
+      props = [].concat(props);
+      var fields = this.fields.filter(function (field) {
+        return props.indexOf(field.prop) !== -1;
+      });
+      if (!fields.length) {
+        confirm.warn('[Element Warn]please pass correct props!');
+        return;
       }
 
-      field.validate('', cb);
+      fields.forEach(function (field) {
+        field.validate('', cb);
+      });
     }
   }
 }; //
@@ -411,13 +422,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
 var staticRenderFns = []
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

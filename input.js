@@ -183,6 +183,13 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
+/***/ 10:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
+
+/***/ }),
+
 /***/ 101:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -261,7 +268,7 @@ var _calcTextareaHeight = __webpack_require__(104);
 
 var _calcTextareaHeight2 = _interopRequireDefault(_calcTextareaHeight);
 
-var _merge = __webpack_require__(9);
+var _merge = __webpack_require__(10);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -367,7 +374,7 @@ exports.default = {
       return this.disabled || (this.elForm || {}).disabled;
     },
     showClear: function showClear() {
-      return this.clearable && !this.disabled && !this.readonly && this.currentValue !== '' && (this.focused || this.hovering);
+      return this.clearable && !this.inputDisabled && !this.readonly && this.currentValue !== '' && (this.focused || this.hovering);
     }
   },
 
@@ -491,7 +498,6 @@ exports.default = {
       this.$emit('change', '');
       this.$emit('clear');
       this.setCurrentValue('');
-      this.focus();
     }
   },
 
@@ -723,13 +729,6 @@ module.exports = require("element-ui/lib/utils/shared");
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/migrating");
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 
