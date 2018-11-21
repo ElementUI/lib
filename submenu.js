@@ -248,13 +248,6 @@ module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ }),
 
-/***/ 9:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/clickoutside");
-
-/***/ }),
-
 /***/ 90:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -336,10 +329,6 @@ var _vuePopper = __webpack_require__(7);
 
 var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-var _clickoutside = __webpack_require__(9);
-
-var _clickoutside2 = _interopRequireDefault(_clickoutside);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var poperMixins = {
@@ -366,8 +355,6 @@ exports.default = {
   mixins: [_menuMixin2.default, _emitter2.default, poperMixins],
 
   components: { ElCollapseTransition: _collapseTransition2.default },
-
-  directives: { Clickoutside: _clickoutside2.default },
 
   props: {
     index: {
@@ -559,26 +546,19 @@ exports.default = {
       this.referenceElm = this.$el;
       this.popperElm = this.$refs.menu;
       this.updatePlacement();
-    },
-    close: function close() {
-      var _this4 = this;
-
-      this.$nextTick(function () {
-        if (_this4.opened) _this4.rootMenu.closeMenu(_this4.index);
-      });
     }
   },
   created: function created() {
-    var _this5 = this;
+    var _this4 = this;
 
     this.$on('toggle-collapse', this.handleCollapseToggle);
     this.$on('mouse-enter-child', function () {
-      _this5.mouseInChild = true;
-      clearTimeout(_this5.timeout);
+      _this4.mouseInChild = true;
+      clearTimeout(_this4.timeout);
     });
     this.$on('mouse-leave-child', function () {
-      _this5.mouseInChild = false;
-      clearTimeout(_this5.timeout);
+      _this4.mouseInChild = false;
+      clearTimeout(_this4.timeout);
     });
   },
   mounted: function mounted() {
@@ -679,11 +659,7 @@ exports.default = {
           'mouseenter': this.handleMouseenter,
           'mouseleave': this.handleMouseleave,
           'focus': this.handleMouseenter
-        },
-        directives: [{
-          name: 'clickoutside',
-          value: this.close
-        }]
+        }
       },
       [h(
         'div',

@@ -66,13 +66,6 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
-/***/ 10:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
-
-/***/ }),
-
 /***/ 16:
 /***/ (function(module, exports) {
 
@@ -119,7 +112,7 @@ var _tag = __webpack_require__(25);
 
 var _tag2 = _interopRequireDefault(_tag);
 
-var _merge = __webpack_require__(10);
+var _merge = __webpack_require__(9);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -664,6 +657,13 @@ module.exports = require("element-ui/lib/utils/util");
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/tag");
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

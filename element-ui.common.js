@@ -219,13 +219,13 @@ module.exports = require("element-ui/lib/mixins/migrating");
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/clickoutside");
+module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/vue-popper");
+module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ }),
 /* 10 */
@@ -2082,7 +2082,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 module.exports = {
-  version: '2.4.10',
+  version: '2.4.11',
   locale: _locale2.default.use,
   i18n: _locale2.default.i18n,
   install: install,
@@ -3312,7 +3312,7 @@ var _input = __webpack_require__(6);
 
 var _input2 = _interopRequireDefault(_input);
 
-var _clickoutside = __webpack_require__(8);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -3650,7 +3650,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _vuePopper = __webpack_require__(9);
+var _vuePopper = __webpack_require__(8);
 
 var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -3821,7 +3821,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _clickoutside = __webpack_require__(8);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -4227,7 +4227,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _vuePopper = __webpack_require__(9);
+var _vuePopper = __webpack_require__(8);
 
 var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -5070,13 +5070,9 @@ var _emitter = __webpack_require__(1);
 
 var _emitter2 = _interopRequireDefault(_emitter);
 
-var _vuePopper = __webpack_require__(9);
+var _vuePopper = __webpack_require__(8);
 
 var _vuePopper2 = _interopRequireDefault(_vuePopper);
-
-var _clickoutside = __webpack_require__(8);
-
-var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5104,8 +5100,6 @@ exports.default = {
   mixins: [_menuMixin2.default, _emitter2.default, poperMixins],
 
   components: { ElCollapseTransition: _collapseTransition2.default },
-
-  directives: { Clickoutside: _clickoutside2.default },
 
   props: {
     index: {
@@ -5297,26 +5291,19 @@ exports.default = {
       this.referenceElm = this.$el;
       this.popperElm = this.$refs.menu;
       this.updatePlacement();
-    },
-    close: function close() {
-      var _this4 = this;
-
-      this.$nextTick(function () {
-        if (_this4.opened) _this4.rootMenu.closeMenu(_this4.index);
-      });
     }
   },
   created: function created() {
-    var _this5 = this;
+    var _this4 = this;
 
     this.$on('toggle-collapse', this.handleCollapseToggle);
     this.$on('mouse-enter-child', function () {
-      _this5.mouseInChild = true;
-      clearTimeout(_this5.timeout);
+      _this4.mouseInChild = true;
+      clearTimeout(_this4.timeout);
     });
     this.$on('mouse-leave-child', function () {
-      _this5.mouseInChild = false;
-      clearTimeout(_this5.timeout);
+      _this4.mouseInChild = false;
+      clearTimeout(_this4.timeout);
     });
   },
   mounted: function mounted() {
@@ -5417,11 +5404,7 @@ exports.default = {
           'mouseenter': this.handleMouseenter,
           'mouseleave': this.handleMouseleave,
           'focus': this.handleMouseenter
-        },
-        directives: [{
-          name: 'clickoutside',
-          value: this.close
-        }]
+        }
       },
       [h(
         'div',
@@ -8386,7 +8369,7 @@ var _debounce = __webpack_require__(13);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _clickoutside = __webpack_require__(8);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -9157,7 +9140,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _vuePopper = __webpack_require__(9);
+var _vuePopper = __webpack_require__(8);
 
 var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -12810,7 +12793,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _vuePopper = __webpack_require__(9);
+var _vuePopper = __webpack_require__(8);
 
 var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -12820,7 +12803,7 @@ var _locale = __webpack_require__(3);
 
 var _locale2 = _interopRequireDefault(_locale);
 
-var _clickoutside = __webpack_require__(8);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -14010,13 +13993,13 @@ var _vue = __webpack_require__(5);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _clickoutside = __webpack_require__(8);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
 var _util = __webpack_require__(11);
 
-var _vuePopper = __webpack_require__(9);
+var _vuePopper = __webpack_require__(8);
 
 var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -14981,7 +14964,7 @@ exports.__esModule = true;
 
 var _util = __webpack_require__(11);
 
-var _clickoutside = __webpack_require__(8);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -16927,7 +16910,7 @@ exports.__esModule = true;
 
 var _util = __webpack_require__(11);
 
-var _clickoutside = __webpack_require__(8);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -18306,7 +18289,7 @@ var Component = normalizeComponent(
 
 exports.__esModule = true;
 
-var _vuePopper = __webpack_require__(9);
+var _vuePopper = __webpack_require__(8);
 
 var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -18593,7 +18576,7 @@ exports.default = _main2.default;
 
 exports.__esModule = true;
 
-var _vuePopper = __webpack_require__(9);
+var _vuePopper = __webpack_require__(8);
 
 var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
@@ -29143,11 +29126,11 @@ var _input = __webpack_require__(6);
 
 var _input2 = _interopRequireDefault(_input);
 
-var _vuePopper = __webpack_require__(9);
+var _vuePopper = __webpack_require__(8);
 
 var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
-var _clickoutside = __webpack_require__(8);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -30208,7 +30191,7 @@ var _pickerDropdown = __webpack_require__(363);
 
 var _pickerDropdown2 = _interopRequireDefault(_pickerDropdown);
 
-var _clickoutside = __webpack_require__(8);
+var _clickoutside = __webpack_require__(9);
 
 var _clickoutside2 = _interopRequireDefault(_clickoutside);
 
@@ -30462,7 +30445,7 @@ var _predefine = __webpack_require__(374);
 
 var _predefine2 = _interopRequireDefault(_predefine);
 
-var _vuePopper = __webpack_require__(9);
+var _vuePopper = __webpack_require__(8);
 
 var _vuePopper2 = _interopRequireDefault(_vuePopper);
 
