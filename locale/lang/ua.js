@@ -1,7 +1,4 @@
-'use strict';
-
-exports.__esModule = true;
-exports.default = {
+export default {
   el: {
     colorpicker: {
       confirm: 'OK',
@@ -36,7 +33,7 @@ exports.default = {
       month10: 'Жовтень',
       month11: 'Листопад',
       month12: 'Грудень',
-      // week: 'week',
+      week: 'тиждень',
       weeks: {
         sun: 'Нд',
         mon: 'Пн',

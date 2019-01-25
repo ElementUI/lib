@@ -1,12 +1,4 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _ariaUtils = require('../aria-utils');
-
-var _ariaUtils2 = _interopRequireDefault(_ariaUtils);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import Utils from '../aria-utils';
 
 var SubMenu = function SubMenu(parent, domNode) {
   this.domNode = domNode;
@@ -34,7 +26,7 @@ SubMenu.prototype.gotoSubIndex = function (idx) {
 SubMenu.prototype.addListeners = function () {
   var _this = this;
 
-  var keys = _ariaUtils2.default.keys;
+  var keys = Utils.keys;
   var parentNode = this.parent.domNode;
   Array.prototype.forEach.call(this.subMenuItems, function (el) {
     el.addEventListener('keydown', function (event) {
@@ -49,7 +41,7 @@ SubMenu.prototype.addListeners = function () {
           prevDef = true;
           break;
         case keys.tab:
-          _ariaUtils2.default.triggerEvent(parentNode, 'mouseleave');
+          Utils.triggerEvent(parentNode, 'mouseleave');
           break;
         case keys.enter:
         case keys.space:
@@ -66,4 +58,4 @@ SubMenu.prototype.addListeners = function () {
   });
 };
 
-exports.default = SubMenu;
+export default SubMenu;

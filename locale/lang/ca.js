@@ -1,7 +1,4 @@
-'use strict';
-
-exports.__esModule = true;
-exports.default = {
+export default {
   el: {
     colorpicker: {
       confirm: 'Confirmar',
@@ -19,10 +16,10 @@ exports.default = {
       startTime: 'Hora Inici',
       endDate: 'Data Final',
       endTime: 'Hora Final',
-      prevYear: 'Previous Year', // to be translated
-      nextYear: 'Next Year', // to be translated
-      prevMonth: 'Previous Month', // to be translated
-      nextMonth: 'Next Month', // to be translated
+      prevYear: 'Any anterior',
+      nextYear: 'Pròxim Any',
+      prevMonth: 'Mes anterior',
+      nextMonth: 'Pròxim Mes',
       year: 'Any',
       month1: 'Gener',
       month2: 'Febrer',
@@ -84,7 +81,7 @@ exports.default = {
       error: 'Entrada invàlida'
     },
     upload: {
-      deleteTip: 'press delete to remove', // to be translated
+      deleteTip: 'premi eliminar per descartar',
       delete: 'Eliminar',
       preview: 'Vista Prèvia',
       continue: 'Continuar'

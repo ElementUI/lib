@@ -1,10 +1,6 @@
-'use strict';
+import { once, on } from 'element-ui/lib/utils/dom';
 
-exports.__esModule = true;
-
-var _dom = require('element-ui/lib/utils/dom');
-
-exports.default = {
+export default {
   bind: function bind(el, binding, vnode) {
     var interval = null;
     var startTime = void 0;
@@ -19,10 +15,10 @@ exports.default = {
       interval = null;
     };
 
-    (0, _dom.on)(el, 'mousedown', function (e) {
+    on(el, 'mousedown', function (e) {
       if (e.button !== 0) return;
       startTime = new Date();
-      (0, _dom.once)(document, 'mouseup', clear);
+      once(document, 'mouseup', clear);
       clearInterval(interval);
       interval = setInterval(handler, 100);
     });

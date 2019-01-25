@@ -1,8 +1,4 @@
-"use strict";
-
-exports.__esModule = true;
-
-exports.default = function (ref) {
+export default function (ref) {
   return {
     methods: {
       focus: function focus() {
@@ -11,5 +7,3 @@ exports.default = function (ref) {
     }
   };
 };
-
-;

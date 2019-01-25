@@ -1,5 +1,3 @@
-'use strict';
-
 /* Modified from https://github.com/taylorhakes/fecha
  *
  * The MIT License (MIT)
@@ -342,4 +340,4 @@
   } else {
     main.fecha = fecha;
   }
-})(undefined);
+})(this);

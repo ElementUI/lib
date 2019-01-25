@@ -1,13 +1,4 @@
-'use strict';
-
-exports.__esModule = true;
-exports.removeResizeListener = exports.addResizeListener = undefined;
-
-var _resizeObserverPolyfill = require('resize-observer-polyfill');
-
-var _resizeObserverPolyfill2 = _interopRequireDefault(_resizeObserverPolyfill);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import ResizeObserver from 'resize-observer-polyfill';
 
 var isServer = typeof window === 'undefined';
 
@@ -37,18 +28,18 @@ var resizeHandler = function resizeHandler(entries) {
 };
 
 /* istanbul ignore next */
-var addResizeListener = exports.addResizeListener = function addResizeListener(element, fn) {
+export var addResizeListener = function addResizeListener(element, fn) {
   if (isServer) return;
   if (!element.__resizeListeners__) {
     element.__resizeListeners__ = [];
-    element.__ro__ = new _resizeObserverPolyfill2.default(resizeHandler);
+    element.__ro__ = new ResizeObserver(resizeHandler);
     element.__ro__.observe(element);
   }
   element.__resizeListeners__.push(fn);
 };
 
 /* istanbul ignore next */
-var removeResizeListener = exports.removeResizeListener = function removeResizeListener(element, fn) {
+export var removeResizeListener = function removeResizeListener(element, fn) {
   if (!element || !element.__resizeListeners__) return;
   element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1);
   if (!element.__resizeListeners__.length) {

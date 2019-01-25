@@ -1,6 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
 var aria = aria || {};
 
 aria.Utils = aria.Utils || {};
@@ -122,4 +119,4 @@ aria.Utils.keys = {
   down: 40
 };
 
-exports.default = aria.Utils;
+export default aria.Utils;

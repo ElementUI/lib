@@ -1,14 +1,6 @@
-'use strict';
-
-exports.__esModule = true;
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _ariaUtils = require('./aria-utils');
-
-var _ariaUtils2 = _interopRequireDefault(_ariaUtils);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import Utils from './aria-utils';
 
 /**
  * @constructor
@@ -57,7 +49,7 @@ aria.Dialog = function (dialog, focusAfterClosed, focusFirst) {
   if (this.focusFirst) {
     this.focusFirst.focus();
   } else {
-    _ariaUtils2.default.focusFirstDescendant(this.dialogNode);
+    Utils.focusFirstDescendant(this.dialogNode);
   }
 
   this.lastFocus = document.activeElement;
@@ -87,18 +79,18 @@ aria.Dialog.prototype.closeDialog = function () {
 };
 
 aria.Dialog.prototype.trapFocus = function (event) {
-  if (_ariaUtils2.default.IgnoreUtilFocusChanges) {
+  if (Utils.IgnoreUtilFocusChanges) {
     return;
   }
   if (this.dialogNode.contains(event.target)) {
     this.lastFocus = event.target;
   } else {
-    _ariaUtils2.default.focusFirstDescendant(this.dialogNode);
+    Utils.focusFirstDescendant(this.dialogNode);
     if (this.lastFocus === document.activeElement) {
-      _ariaUtils2.default.focusLastDescendant(this.dialogNode);
+      Utils.focusLastDescendant(this.dialogNode);
     }
     this.lastFocus = document.activeElement;
   }
 };
 
-exports.default = aria.Dialog;
+export default aria.Dialog;

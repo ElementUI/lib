@@ -1,12 +1,4 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _ariaMenuitem = require('./aria-menuitem');
-
-var _ariaMenuitem2 = _interopRequireDefault(_ariaMenuitem);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import MenuItem from './aria-menuitem';
 
 var Menu = function Menu(domNode) {
   this.domNode = domNode;
@@ -18,7 +10,7 @@ Menu.prototype.init = function () {
   [].filter.call(menuChildren, function (child) {
     return child.nodeType === 1;
   }).forEach(function (child) {
-    new _ariaMenuitem2.default(child); // eslint-disable-line
+    new MenuItem(child); // eslint-disable-line
   });
 };
-exports.default = Menu;
+export default Menu;

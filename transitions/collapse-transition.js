@@ -1,10 +1,6 @@
-'use strict';
-
-exports.__esModule = true;
-
-var _dom = require('element-ui/lib/utils/dom');
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+import { addClass, removeClass } from 'element-ui/lib/utils/dom';
 
 var Transition = function () {
   function Transition() {
@@ -12,7 +8,7 @@ var Transition = function () {
   }
 
   Transition.prototype.beforeEnter = function beforeEnter(el) {
-    (0, _dom.addClass)(el, 'collapse-transition');
+    addClass(el, 'collapse-transition');
     if (!el.dataset) el.dataset = {};
 
     el.dataset.oldPaddingTop = el.style.paddingTop;
@@ -40,7 +36,7 @@ var Transition = function () {
 
   Transition.prototype.afterEnter = function afterEnter(el) {
     // for safari: remove class then reset height is necessary
-    (0, _dom.removeClass)(el, 'collapse-transition');
+    removeClass(el, 'collapse-transition');
     el.style.height = '';
     el.style.overflow = el.dataset.oldOverflow;
   };
@@ -58,7 +54,7 @@ var Transition = function () {
   Transition.prototype.leave = function leave(el) {
     if (el.scrollHeight !== 0) {
       // for safari: add class after set height, or it will jump to zero height suddenly, weired
-      (0, _dom.addClass)(el, 'collapse-transition');
+      addClass(el, 'collapse-transition');
       el.style.height = 0;
       el.style.paddingTop = 0;
       el.style.paddingBottom = 0;
@@ -66,7 +62,7 @@ var Transition = function () {
   };
 
   Transition.prototype.afterLeave = function afterLeave(el) {
-    (0, _dom.removeClass)(el, 'collapse-transition');
+    removeClass(el, 'collapse-transition');
     el.style.height = '';
     el.style.overflow = el.dataset.oldOverflow;
     el.style.paddingTop = el.dataset.oldPaddingTop;
@@ -76,7 +72,7 @@ var Transition = function () {
   return Transition;
 }();
 
-exports.default = {
+export default {
   name: 'ElCollapseTransition',
   functional: true,
   render: function render(h, _ref) {

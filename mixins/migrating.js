@@ -1,6 +1,3 @@
-'use strict';
-
-exports.__esModule = true;
 /**
  * Show migrating guide in browser console.
  *
@@ -22,7 +19,7 @@ exports.__esModule = true;
  *    };
  *  },
  */
-exports.default = {
+export default {
   mounted: function mounted() {
     if (process.env.NODE_ENV === 'production') return;
     if (!this.$vnode) return;
