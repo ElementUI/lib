@@ -1,5 +1,18 @@
-import Utils from '../aria-utils';
-import SubMenu from './aria-submenu';
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _ariaUtils = require('../aria-utils');
+
+var _ariaUtils2 = _interopRequireDefault(_ariaUtils);
+
+var _ariaSubmenu = require('./aria-submenu');
+
+var _ariaSubmenu2 = _interopRequireDefault(_ariaSubmenu);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MenuItem = function MenuItem(domNode) {
   this.domNode = domNode;
@@ -11,7 +24,7 @@ MenuItem.prototype.init = function () {
   this.domNode.setAttribute('tabindex', '0');
   var menuChild = this.domNode.querySelector('.el-menu');
   if (menuChild) {
-    this.submenu = new SubMenu(this, menuChild);
+    this.submenu = new _ariaSubmenu2.default(this, menuChild);
   }
   this.addListeners();
 };
@@ -19,22 +32,22 @@ MenuItem.prototype.init = function () {
 MenuItem.prototype.addListeners = function () {
   var _this = this;
 
-  var keys = Utils.keys;
+  var keys = _ariaUtils2.default.keys;
   this.domNode.addEventListener('keydown', function (event) {
     var prevDef = false;
     switch (event.keyCode) {
       case keys.down:
-        Utils.triggerEvent(event.currentTarget, 'mouseenter');
+        _ariaUtils2.default.triggerEvent(event.currentTarget, 'mouseenter');
         _this.submenu && _this.submenu.gotoSubIndex(0);
         prevDef = true;
         break;
       case keys.up:
-        Utils.triggerEvent(event.currentTarget, 'mouseenter');
+        _ariaUtils2.default.triggerEvent(event.currentTarget, 'mouseenter');
         _this.submenu && _this.submenu.gotoSubIndex(_this.submenu.subMenuItems.length - 1);
         prevDef = true;
         break;
       case keys.tab:
-        Utils.triggerEvent(event.currentTarget, 'mouseleave');
+        _ariaUtils2.default.triggerEvent(event.currentTarget, 'mouseleave');
         break;
       case keys.enter:
       case keys.space:
@@ -48,4 +61,4 @@ MenuItem.prototype.addListeners = function () {
   });
 };
 
-export default MenuItem;
+exports.default = MenuItem;

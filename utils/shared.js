@@ -1,7 +1,14 @@
-export function isDef(val) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isDef = isDef;
+exports.isKorean = isKorean;
+function isDef(val) {
   return val !== undefined && val !== null;
 }
-export function isKorean(text) {
+function isKorean(text) {
   var reg = /([(\uAC00-\uD7AF)|(\u3130-\u318F)])+/gi;
   return reg.test(text);
 }

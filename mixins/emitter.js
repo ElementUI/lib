@@ -1,3 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 function _broadcast(componentName, eventName, params) {
   this.$children.forEach(function (child) {
     var name = child.$options.componentName;
@@ -9,7 +14,7 @@ function _broadcast(componentName, eventName, params) {
     }
   });
 }
-export default {
+exports.default = {
   methods: {
     dispatch: function dispatch(componentName, eventName, params) {
       var parent = this.$parent || this.$root;

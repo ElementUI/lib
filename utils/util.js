@@ -1,10 +1,25 @@
-import Vue from 'vue';
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isEdge = exports.isIE = exports.coerceTruthyValueToArray = exports.arrayFind = exports.arrayFindIndex = exports.escapeRegexpString = exports.valueEquals = exports.generateId = exports.getValueByPath = undefined;
+exports.noop = noop;
+exports.hasOwn = hasOwn;
+exports.toObject = toObject;
+exports.getPropByPath = getPropByPath;
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-export function noop() {};
+function noop() {};
 
-export function hasOwn(obj, key) {
+function hasOwn(obj, key) {
   return hasOwnProperty.call(obj, key);
 };
 
@@ -15,7 +30,7 @@ function extend(to, _from) {
   return to;
 };
 
-export function toObject(arr) {
+function toObject(arr) {
   var res = {};
   for (var i = 0; i < arr.length; i++) {
     if (arr[i]) {
@@ -25,7 +40,7 @@ export function toObject(arr) {
   return res;
 };
 
-export var getValueByPath = function getValueByPath(object, prop) {
+var getValueByPath = exports.getValueByPath = function getValueByPath(object, prop) {
   prop = prop || '';
   var paths = prop.split('.');
   var current = object;
@@ -43,7 +58,7 @@ export var getValueByPath = function getValueByPath(object, prop) {
   return result;
 };
 
-export function getPropByPath(obj, path, strict) {
+function getPropByPath(obj, path, strict) {
   var tempObj = obj;
   path = path.replace(/\[(\w+)\]/g, '.$1');
   path = path.replace(/^\./, '');
@@ -69,11 +84,11 @@ export function getPropByPath(obj, path, strict) {
   };
 };
 
-export var generateId = function generateId() {
+var generateId = exports.generateId = function generateId() {
   return Math.floor(Math.random() * 10000);
 };
 
-export var valueEquals = function valueEquals(a, b) {
+var valueEquals = exports.valueEquals = function valueEquals(a, b) {
   // see: https://stackoverflow.com/questions/3115982/how-to-check-if-two-arrays-are-equal-with-javascript
   if (a === b) return true;
   if (!(a instanceof Array)) return false;
@@ -85,13 +100,13 @@ export var valueEquals = function valueEquals(a, b) {
   return true;
 };
 
-export var escapeRegexpString = function escapeRegexpString() {
+var escapeRegexpString = exports.escapeRegexpString = function escapeRegexpString() {
   var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
   return String(value).replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
 };
 
 // TODO: use native Array.find, Array.findIndex when IE support is dropped
-export var arrayFindIndex = function arrayFindIndex(arr, pred) {
+var arrayFindIndex = exports.arrayFindIndex = function arrayFindIndex(arr, pred) {
   for (var i = 0; i !== arr.length; ++i) {
     if (pred(arr[i])) {
       return i;
@@ -100,13 +115,13 @@ export var arrayFindIndex = function arrayFindIndex(arr, pred) {
   return -1;
 };
 
-export var arrayFind = function arrayFind(arr, pred) {
+var arrayFind = exports.arrayFind = function arrayFind(arr, pred) {
   var idx = arrayFindIndex(arr, pred);
   return idx !== -1 ? arr[idx] : undefined;
 };
 
 // coerce truthy value to array
-export var coerceTruthyValueToArray = function coerceTruthyValueToArray(val) {
+var coerceTruthyValueToArray = exports.coerceTruthyValueToArray = function coerceTruthyValueToArray(val) {
   if (Array.isArray(val)) {
     return val;
   } else if (val) {
@@ -116,10 +131,10 @@ export var coerceTruthyValueToArray = function coerceTruthyValueToArray(val) {
   }
 };
 
-export var isIE = function isIE() {
-  return !Vue.prototype.$isServer && !isNaN(Number(document.documentMode));
+var isIE = exports.isIE = function isIE() {
+  return !_vue2.default.prototype.$isServer && !isNaN(Number(document.documentMode));
 };
 
-export var isEdge = function isEdge() {
-  return !Vue.prototype.$isServer && navigator.userAgent.indexOf('Edge') > -1;
+var isEdge = exports.isEdge = function isEdge() {
+  return !_vue2.default.prototype.$isServer && navigator.userAgent.indexOf('Edge') > -1;
 };

@@ -1,10 +1,24 @@
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+'use strict';
 
-/* istanbul ignore next */
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getStyle = exports.once = exports.off = exports.on = undefined;
 
-import Vue from 'vue';
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /* istanbul ignore next */
 
-var isServer = Vue.prototype.$isServer;
+exports.hasClass = hasClass;
+exports.addClass = addClass;
+exports.removeClass = removeClass;
+exports.setStyle = setStyle;
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var isServer = _vue2.default.prototype.$isServer;
 var SPECIAL_CHARS_REGEXP = /([\:\-\_]+(.))/g;
 var MOZ_HACK_REGEXP = /^moz([A-Z])/;
 var ieVersion = isServer ? 0 : Number(document.documentMode);
@@ -21,7 +35,7 @@ var camelCase = function camelCase(name) {
 };
 
 /* istanbul ignore next */
-export var on = function () {
+var on = exports.on = function () {
   if (!isServer && document.addEventListener) {
     return function (element, event, handler) {
       if (element && event && handler) {
@@ -38,7 +52,7 @@ export var on = function () {
 }();
 
 /* istanbul ignore next */
-export var off = function () {
+var off = exports.off = function () {
   if (!isServer && document.removeEventListener) {
     return function (element, event, handler) {
       if (element && event) {
@@ -55,7 +69,7 @@ export var off = function () {
 }();
 
 /* istanbul ignore next */
-export var once = function once(el, event, fn) {
+var once = exports.once = function once(el, event, fn) {
   var listener = function listener() {
     if (fn) {
       fn.apply(this, arguments);
@@ -66,7 +80,7 @@ export var once = function once(el, event, fn) {
 };
 
 /* istanbul ignore next */
-export function hasClass(el, cls) {
+function hasClass(el, cls) {
   if (!el || !cls) return false;
   if (cls.indexOf(' ') !== -1) throw new Error('className should not contain space.');
   if (el.classList) {
@@ -77,7 +91,7 @@ export function hasClass(el, cls) {
 };
 
 /* istanbul ignore next */
-export function addClass(el, cls) {
+function addClass(el, cls) {
   if (!el) return;
   var curClass = el.className;
   var classes = (cls || '').split(' ');
@@ -98,7 +112,7 @@ export function addClass(el, cls) {
 };
 
 /* istanbul ignore next */
-export function removeClass(el, cls) {
+function removeClass(el, cls) {
   if (!el || !cls) return;
   var classes = cls.split(' ');
   var curClass = ' ' + el.className + ' ';
@@ -119,7 +133,7 @@ export function removeClass(el, cls) {
 };
 
 /* istanbul ignore next */
-export var getStyle = ieVersion < 9 ? function (element, styleName) {
+var getStyle = exports.getStyle = ieVersion < 9 ? function (element, styleName) {
   if (isServer) return;
   if (!element || !styleName) return null;
   styleName = camelCase(styleName);
@@ -156,7 +170,7 @@ export var getStyle = ieVersion < 9 ? function (element, styleName) {
 };
 
 /* istanbul ignore next */
-export function setStyle(element, styleName, value) {
+function setStyle(element, styleName, value) {
   if (!element || !styleName) return;
 
   if ((typeof styleName === 'undefined' ? 'undefined' : _typeof(styleName)) === 'object') {

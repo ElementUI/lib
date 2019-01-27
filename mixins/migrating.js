@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 /**
  * Show migrating guide in browser console.
  *
@@ -19,7 +24,7 @@
  *    };
  *  },
  */
-export default {
+exports.default = {
   mounted: function mounted() {
     if (process.env.NODE_ENV === 'production') return;
     if (!this.$vnode) return;

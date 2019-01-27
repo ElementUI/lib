@@ -1,4 +1,9 @@
-export default {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
   el: {
     colorpicker: {
       confirm: 'យល់ព្រម',

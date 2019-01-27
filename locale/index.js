@@ -1,23 +1,43 @@
-import defaultLang from 'element-ui/lib/locale/lang/zh-CN';
-import Vue from 'vue';
-import deepmerge from 'deepmerge';
-import Format from './format';
+'use strict';
 
-var format = Format(Vue);
-var lang = defaultLang;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.i18n = exports.use = exports.t = undefined;
+
+var _zhCN = require('element-ui/lib/locale/lang/zh-CN');
+
+var _zhCN2 = _interopRequireDefault(_zhCN);
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _deepmerge = require('deepmerge');
+
+var _deepmerge2 = _interopRequireDefault(_deepmerge);
+
+var _format = require('./format');
+
+var _format2 = _interopRequireDefault(_format);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var format = (0, _format2.default)(_vue2.default);
+var lang = _zhCN2.default;
 var merged = false;
 var i18nHandler = function i18nHandler() {
-  var vuei18n = Object.getPrototypeOf(this || Vue).$t;
-  if (typeof vuei18n === 'function' && !!Vue.locale) {
+  var vuei18n = Object.getPrototypeOf(this || _vue2.default).$t;
+  if (typeof vuei18n === 'function' && !!_vue2.default.locale) {
     if (!merged) {
       merged = true;
-      Vue.locale(Vue.config.lang, deepmerge(lang, Vue.locale(Vue.config.lang) || {}, { clone: true }));
+      _vue2.default.locale(_vue2.default.config.lang, (0, _deepmerge2.default)(lang, _vue2.default.locale(_vue2.default.config.lang) || {}, { clone: true }));
     }
     return vuei18n.apply(this, arguments);
   }
 };
 
-export var t = function t(path, options) {
+var t = exports.t = function t(path, options) {
   var value = i18nHandler.apply(this, arguments);
   if (value !== null && value !== undefined) return value;
 
@@ -34,12 +54,12 @@ export var t = function t(path, options) {
   return '';
 };
 
-export var use = function use(l) {
+var use = exports.use = function use(l) {
   lang = l || lang;
 };
 
-export var i18n = function i18n(fn) {
+var i18n = exports.i18n = function i18n(fn) {
   i18nHandler = fn || i18nHandler;
 };
 
-export default { use: use, t: t, i18n: i18n };
+exports.default = { use: use, t: t, i18n: i18n };

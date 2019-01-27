@@ -1,8 +1,29 @@
-import Vue from 'vue';
-import merge from 'element-ui/lib/utils/merge';
-import PopupManager from 'element-ui/lib/utils/popup/popup-manager';
-import getScrollBarWidth from '../scrollbar-width';
-import { getStyle, addClass, removeClass, hasClass } from '../dom';
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PopupManager = undefined;
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _merge = require('element-ui/lib/utils/merge');
+
+var _merge2 = _interopRequireDefault(_merge);
+
+var _popupManager = require('element-ui/lib/utils/popup/popup-manager');
+
+var _popupManager2 = _interopRequireDefault(_popupManager);
+
+var _scrollbarWidth = require('../scrollbar-width');
+
+var _scrollbarWidth2 = _interopRequireDefault(_scrollbarWidth);
+
+var _dom = require('../dom');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var idSeed = 1;
 
@@ -16,7 +37,7 @@ var getDOM = function getDOM(dom) {
   return dom;
 };
 
-export default {
+exports.default = {
   props: {
     visible: {
       type: Boolean,
@@ -54,11 +75,11 @@ export default {
 
   beforeMount: function beforeMount() {
     this._popupId = 'popup-' + idSeed++;
-    PopupManager.register(this._popupId, this);
+    _popupManager2.default.register(this._popupId, this);
   },
   beforeDestroy: function beforeDestroy() {
-    PopupManager.deregister(this._popupId);
-    PopupManager.closeModal(this._popupId);
+    _popupManager2.default.deregister(this._popupId);
+    _popupManager2.default.closeModal(this._popupId);
 
     this.restoreBodyStyle();
   },
@@ -81,7 +102,7 @@ export default {
         if (this._opening) return;
         if (!this.rendered) {
           this.rendered = true;
-          Vue.nextTick(function () {
+          _vue2.default.nextTick(function () {
             _this.open();
           });
         } else {
@@ -101,7 +122,7 @@ export default {
         this.rendered = true;
       }
 
-      var props = merge({}, this.$props || this, options);
+      var props = (0, _merge2.default)({}, this.$props || this, options);
 
       if (this._closeTimer) {
         clearTimeout(this._closeTimer);
@@ -132,28 +153,28 @@ export default {
 
       var zIndex = props.zIndex;
       if (zIndex) {
-        PopupManager.zIndex = zIndex;
+        _popupManager2.default.zIndex = zIndex;
       }
 
       if (modal) {
         if (this._closing) {
-          PopupManager.closeModal(this._popupId);
+          _popupManager2.default.closeModal(this._popupId);
           this._closing = false;
         }
-        PopupManager.openModal(this._popupId, PopupManager.nextZIndex(), this.modalAppendToBody ? undefined : dom, props.modalClass, props.modalFade);
+        _popupManager2.default.openModal(this._popupId, _popupManager2.default.nextZIndex(), this.modalAppendToBody ? undefined : dom, props.modalClass, props.modalFade);
         if (props.lockScroll) {
-          this.withoutHiddenClass = !hasClass(document.body, 'el-popup-parent--hidden');
+          this.withoutHiddenClass = !(0, _dom.hasClass)(document.body, 'el-popup-parent--hidden');
           if (this.withoutHiddenClass) {
             this.bodyPaddingRight = document.body.style.paddingRight;
-            this.computedBodyPaddingRight = parseInt(getStyle(document.body, 'paddingRight'), 10);
+            this.computedBodyPaddingRight = parseInt((0, _dom.getStyle)(document.body, 'paddingRight'), 10);
           }
-          scrollBarWidth = getScrollBarWidth();
+          scrollBarWidth = (0, _scrollbarWidth2.default)();
           var bodyHasOverflow = document.documentElement.clientHeight < document.body.scrollHeight;
-          var bodyOverflowY = getStyle(document.body, 'overflowY');
+          var bodyOverflowY = (0, _dom.getStyle)(document.body, 'overflowY');
           if (scrollBarWidth > 0 && (bodyHasOverflow || bodyOverflowY === 'scroll') && this.withoutHiddenClass) {
             document.body.style.paddingRight = this.computedBodyPaddingRight + scrollBarWidth + 'px';
           }
-          addClass(document.body, 'el-popup-parent--hidden');
+          (0, _dom.addClass)(document.body, 'el-popup-parent--hidden');
         }
       }
 
@@ -161,7 +182,7 @@ export default {
         dom.style.position = 'absolute';
       }
 
-      dom.style.zIndex = PopupManager.nextZIndex();
+      dom.style.zIndex = _popupManager2.default.nextZIndex();
       this.opened = true;
 
       this.onOpen && this.onOpen();
@@ -207,17 +228,16 @@ export default {
       this.doAfterClose();
     },
     doAfterClose: function doAfterClose() {
-      PopupManager.closeModal(this._popupId);
+      _popupManager2.default.closeModal(this._popupId);
       this._closing = false;
     },
     restoreBodyStyle: function restoreBodyStyle() {
       if (this.modal && this.withoutHiddenClass) {
         document.body.style.paddingRight = this.bodyPaddingRight;
-        removeClass(document.body, 'el-popup-parent--hidden');
+        (0, _dom.removeClass)(document.body, 'el-popup-parent--hidden');
       }
       this.withoutHiddenClass = true;
     }
   }
 };
-
-export { PopupManager };
+exports.PopupManager = _popupManager2.default;

@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var aria = aria || {};
 
 aria.Utils = aria.Utils || {};
@@ -119,4 +124,4 @@ aria.Utils.keys = {
   down: 40
 };
 
-export default aria.Utils;
+exports.default = aria.Utils;

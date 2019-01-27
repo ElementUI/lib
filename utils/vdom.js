@@ -1,12 +1,21 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-import { hasOwn } from 'element-ui/lib/utils/util';
+exports.isVNode = isVNode;
+exports.getFirstComponentChild = getFirstComponentChild;
 
-export function isVNode(node) {
-  return node !== null && (typeof node === 'undefined' ? 'undefined' : _typeof(node)) === 'object' && hasOwn(node, 'componentOptions');
+var _util = require('element-ui/lib/utils/util');
+
+function isVNode(node) {
+  return node !== null && (typeof node === 'undefined' ? 'undefined' : _typeof(node)) === 'object' && (0, _util.hasOwn)(node, 'componentOptions');
 };
 
-export function getFirstComponentChild(children) {
+function getFirstComponentChild(children) {
   return children && children.filter(function (c) {
     return c && c.tag;
   })[0];

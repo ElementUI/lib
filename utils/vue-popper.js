@@ -1,7 +1,18 @@
-import Vue from 'vue';
-import { PopupManager } from 'element-ui/lib/utils/popup';
+'use strict';
 
-var PopperJS = Vue.prototype.$isServer ? function () {} : require('./popper');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _popup = require('element-ui/lib/utils/popup');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PopperJS = _vue2.default.prototype.$isServer ? function () {} : require('./popper');
 var stop = function stop(e) {
   return e.stopPropagation();
 };
@@ -14,7 +25,7 @@ var stop = function stop(e) {
  * @param {Boolean} [visible=false] Visibility of the popup element.
  * @param {Boolean} [visible-arrow=false] Visibility of the arrow, no style.
  */
-export default {
+exports.default = {
   props: {
     transformOrigin: {
       type: [Boolean, String],
@@ -116,7 +127,7 @@ export default {
       if (typeof options.onUpdate === 'function') {
         this.popperJS.onUpdate(options.onUpdate);
       }
-      this.popperJS._popper.style.zIndex = PopupManager.nextZIndex();
+      this.popperJS._popper.style.zIndex = _popup.PopupManager.nextZIndex();
       this.popperElm.addEventListener('click', stop);
     },
     updatePopper: function updatePopper() {
@@ -124,7 +135,7 @@ export default {
       if (popperJS) {
         popperJS.update();
         if (popperJS._popper) {
-          popperJS._popper.style.zIndex = PopupManager.nextZIndex();
+          popperJS._popper.style.zIndex = _popup.PopupManager.nextZIndex();
         }
       } else {
         this.createPopper();

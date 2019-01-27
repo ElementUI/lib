@@ -1,5 +1,16 @@
-import Vue from 'vue';
-import { on } from 'element-ui/lib/utils/dom';
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _dom = require('element-ui/lib/utils/dom');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var nodeList = [];
 var ctx = '@@clickoutsideContext';
@@ -7,11 +18,11 @@ var ctx = '@@clickoutsideContext';
 var startClick = void 0;
 var seed = 0;
 
-!Vue.prototype.$isServer && on(document, 'mousedown', function (e) {
+!_vue2.default.prototype.$isServer && (0, _dom.on)(document, 'mousedown', function (e) {
   return startClick = e;
 });
 
-!Vue.prototype.$isServer && on(document, 'mouseup', function (e) {
+!_vue2.default.prototype.$isServer && (0, _dom.on)(document, 'mouseup', function (e) {
   nodeList.forEach(function (node) {
     return node[ctx].documentHandler(e, startClick);
   });
@@ -40,7 +51,7 @@ function createDocumentHandler(el, binding, vnode) {
  * <div v-element-clickoutside="handleClose">
  * ```
  */
-export default {
+exports.default = {
   bind: function bind(el, binding, vnode) {
     nodeList.push(el);
     var id = seed++;

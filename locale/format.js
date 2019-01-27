@@ -1,14 +1,12 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-import { hasOwn } from 'element-ui/lib/utils/util';
-
-var RE_NARGS = /(%|)\{([0-9a-zA-Z_]+)\}/g;
-/**
- *  String format template
- *  - Inspired:
- *    https://github.com/Matt-Esch/string-template/index.js
- */
-export default function (Vue) {
+exports.default = function (Vue) {
 
   /**
    * template
@@ -37,7 +35,7 @@ export default function (Vue) {
       if (string[index - 1] === '{' && string[index + match.length] === '}') {
         return i;
       } else {
-        result = hasOwn(args, i) ? args[i] : null;
+        result = (0, _util.hasOwn)(args, i) ? args[i] : null;
         if (result === null || result === undefined) {
           return '';
         }
@@ -48,4 +46,13 @@ export default function (Vue) {
   }
 
   return template;
-}
+};
+
+var _util = require('element-ui/lib/utils/util');
+
+var RE_NARGS = /(%|)\{([0-9a-zA-Z_]+)\}/g;
+/**
+ *  String format template
+ *  - Inspired:
+ *    https://github.com/Matt-Esch/string-template/index.js
+ */
