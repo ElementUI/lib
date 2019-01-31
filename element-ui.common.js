@@ -22177,7 +22177,6 @@ tab_barvue_type_template_id_2031f33a_render._withStripped = true
       get: function get() {
         var _this = this;
 
-        if (!this.$parent.$refs.tabs) return {};
         var style = {};
         var offset = 0;
         var tabSize = 0;
@@ -22189,7 +22188,7 @@ tab_barvue_type_template_id_2031f33a_render._withStripped = true
           });
         };
         this.tabs.every(function (tab, index) {
-          var $el = Object(util_["arrayFind"])(_this.$parent.$refs.tabs, function (t) {
+          var $el = Object(util_["arrayFind"])(_this.$parent.$refs.tabs || [], function (t) {
             return t.id.replace('tab-', '') === tab.paneName;
           });
           if (!$el) {
@@ -28548,52 +28547,59 @@ var mainvue_type_template_id_455b9f60_render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("transition", { attrs: { name: "el-message-fade" } }, [
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.visible,
-            expression: "visible"
-          }
-        ],
-        class: [
-          "el-message",
-          _vm.type && !_vm.iconClass ? "el-message--" + _vm.type : "",
-          _vm.center ? "is-center" : "",
-          _vm.showClose ? "is-closable" : "",
-          _vm.customClass
-        ],
-        attrs: { role: "alert" },
-        on: { mouseenter: _vm.clearTimer, mouseleave: _vm.startTimer }
-      },
-      [
-        _vm.iconClass
-          ? _c("i", { class: _vm.iconClass })
-          : _c("i", { class: _vm.typeClass }),
-        _vm._t("default", [
-          !_vm.dangerouslyUseHTMLString
-            ? _c("p", { staticClass: "el-message__content" }, [
-                _vm._v(_vm._s(_vm.message))
-              ])
-            : _c("p", {
-                staticClass: "el-message__content",
-                domProps: { innerHTML: _vm._s(_vm.message) }
+  return _c(
+    "transition",
+    {
+      attrs: { name: "el-message-fade" },
+      on: { "after-leave": _vm.handleAfterLeave }
+    },
+    [
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.visible,
+              expression: "visible"
+            }
+          ],
+          class: [
+            "el-message",
+            _vm.type && !_vm.iconClass ? "el-message--" + _vm.type : "",
+            _vm.center ? "is-center" : "",
+            _vm.showClose ? "is-closable" : "",
+            _vm.customClass
+          ],
+          attrs: { role: "alert" },
+          on: { mouseenter: _vm.clearTimer, mouseleave: _vm.startTimer }
+        },
+        [
+          _vm.iconClass
+            ? _c("i", { class: _vm.iconClass })
+            : _c("i", { class: _vm.typeClass }),
+          _vm._t("default", [
+            !_vm.dangerouslyUseHTMLString
+              ? _c("p", { staticClass: "el-message__content" }, [
+                  _vm._v(_vm._s(_vm.message))
+                ])
+              : _c("p", {
+                  staticClass: "el-message__content",
+                  domProps: { innerHTML: _vm._s(_vm.message) }
+                })
+          ]),
+          _vm.showClose
+            ? _c("i", {
+                staticClass: "el-message__closeBtn el-icon-close",
+                on: { click: _vm.close }
               })
-        ]),
-        _vm.showClose
-          ? _c("i", {
-              staticClass: "el-message__closeBtn el-icon-close",
-              on: { click: _vm.close }
-            })
-          : _vm._e()
-      ],
-      2
-    )
-  ])
+            : _vm._e()
+        ],
+        2
+      )
+    ]
+  )
 }
 var mainvue_type_template_id_455b9f60_staticRenderFns = []
 mainvue_type_template_id_455b9f60_render._withStripped = true
@@ -28664,14 +28670,12 @@ var src_mainvue_type_script_lang_js_typeMap = {
     closed: function closed(newVal) {
       if (newVal) {
         this.visible = false;
-        this.$el.addEventListener('transitionend', this.destroyElement);
       }
     }
   },
 
   methods: {
-    destroyElement: function destroyElement() {
-      this.$el.removeEventListener('transitionend', this.destroyElement);
+    handleAfterLeave: function handleAfterLeave() {
       this.$destroy(true);
       this.$el.parentNode.removeChild(this.$el);
     },
@@ -35286,7 +35290,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.5.2',
+  version: '2.5.3',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,
