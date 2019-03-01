@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 69);
+/******/ 	return __webpack_require__(__webpack_require__.s = 102);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,56 +189,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 2:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/dom");
-
-/***/ }),
-
-/***/ 21:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/mixins/focus");
-
-/***/ }),
-
-/***/ 25:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var element_ui_src_utils_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var element_ui_src_utils_dom__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(element_ui_src_utils_dom__WEBPACK_IMPORTED_MODULE_0__);
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-  bind: function bind(el, binding, vnode) {
-    var interval = null;
-    var startTime = void 0;
-    var handler = function handler() {
-      return vnode.context[binding.expression].apply();
-    };
-    var clear = function clear() {
-      if (new Date() - startTime < 100) {
-        handler();
-      }
-      clearInterval(interval);
-      interval = null;
-    };
-
-    Object(element_ui_src_utils_dom__WEBPACK_IMPORTED_MODULE_0__["on"])(el, 'mousedown', function (e) {
-      if (e.button !== 0) return;
-      startTime = new Date();
-      Object(element_ui_src_utils_dom__WEBPACK_IMPORTED_MODULE_0__["once"])(document, 'mouseup', clear);
-      clearInterval(interval);
-      interval = setInterval(handler, 100);
-    });
-  }
-});
-
-/***/ }),
-
-/***/ 69:
+/***/ 102:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -584,7 +535,7 @@ var repeat_click = __webpack_require__(25);
   methods: {
     toPrecision: function toPrecision(num, precision) {
       if (precision === undefined) precision = this.numPrecision;
-      return parseFloat(parseFloat(Number(num).toFixed(precision)));
+      return parseFloat(Number(num).toFixed(precision));
     },
     getPrecision: function getPrecision(value) {
       if (value === undefined) return 0;
@@ -706,6 +657,55 @@ input_number.install = function (Vue) {
 };
 
 /* harmony default export */ var packages_input_number = __webpack_exports__["default"] = (input_number);
+
+/***/ }),
+
+/***/ 2:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/dom");
+
+/***/ }),
+
+/***/ 21:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/focus");
+
+/***/ }),
+
+/***/ 25:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var element_ui_src_utils_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var element_ui_src_utils_dom__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(element_ui_src_utils_dom__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  bind: function bind(el, binding, vnode) {
+    var interval = null;
+    var startTime = void 0;
+    var handler = function handler() {
+      return vnode.context[binding.expression].apply();
+    };
+    var clear = function clear() {
+      if (new Date() - startTime < 100) {
+        handler();
+      }
+      clearInterval(interval);
+      interval = null;
+    };
+
+    Object(element_ui_src_utils_dom__WEBPACK_IMPORTED_MODULE_0__["on"])(el, 'mousedown', function (e) {
+      if (e.button !== 0) return;
+      startTime = new Date();
+      Object(element_ui_src_utils_dom__WEBPACK_IMPORTED_MODULE_0__["once"])(document, 'mouseup', clear);
+      clearInterval(interval);
+      interval = setInterval(handler, 100);
+    });
+  }
+});
 
 /***/ }),
 

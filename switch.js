@@ -302,6 +302,10 @@ render._withStripped = true
 
 // CONCATENATED MODULE: ./packages/switch/src/component.vue?vue&type=template&id=2dcd8fbb&
 
+// EXTERNAL MODULE: external "element-ui/lib/mixins/emitter"
+var emitter_ = __webpack_require__(3);
+var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
+
 // EXTERNAL MODULE: external "element-ui/lib/mixins/focus"
 var focus_ = __webpack_require__(21);
 var focus_default = /*#__PURE__*/__webpack_require__.n(focus_);
@@ -352,9 +356,10 @@ var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
 
 
 
+
 /* harmony default export */ var componentvue_type_script_lang_js_ = ({
   name: 'ElSwitch',
-  mixins: [focus_default()('input'), migrating_default.a],
+  mixins: [focus_default()('input'), migrating_default.a, emitter_default.a],
   inject: {
     elForm: {
       default: ''
@@ -403,6 +408,10 @@ var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
       type: String,
       default: ''
     },
+    validateEvent: {
+      type: Boolean,
+      default: true
+    },
     id: String
   },
   data: function data() {
@@ -430,14 +439,18 @@ var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
       if (this.activeColor || this.inactiveColor) {
         this.setBackgroundColor();
       }
+      if (this.validateEvent) {
+        this.dispatch('ElFormItem', 'el.form.change', [this.value]);
+      }
     }
   },
   methods: {
     handleChange: function handleChange(event) {
       var _this = this;
 
-      this.$emit('input', !this.checked ? this.activeValue : this.inactiveValue);
-      this.$emit('change', !this.checked ? this.activeValue : this.inactiveValue);
+      var val = this.checked ? this.inactiveValue : this.activeValue;
+      this.$emit('input', val);
+      this.$emit('change', val);
       this.$nextTick(function () {
         // set input's checked property
         // in case parent refuses to change component's value
@@ -520,6 +533,13 @@ src_component.install = function (Vue) {
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/focus");
+
+/***/ }),
+
+/***/ 3:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ })
 

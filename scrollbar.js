@@ -82,12 +82,12 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 109);
+/******/ 	return __webpack_require__(__webpack_require__.s = 111);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 109:
+/***/ 111:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -196,6 +196,10 @@ function renderThumbStyle(_ref) {
 
   methods: {
     clickThumbHandler: function clickThumbHandler(e) {
+      // prevent click event of right button
+      if (e.ctrlKey || e.button === 2) {
+        return;
+      }
       this.startDrag(e);
       this[this.bar.axis] = e.currentTarget[this.bar.offset] - (e[this.bar.client] - e.currentTarget.getBoundingClientRect()[this.bar.direction]);
     },

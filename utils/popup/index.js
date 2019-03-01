@@ -27,14 +27,6 @@ var idSeed = 1;
 
 var scrollBarWidth = void 0;
 
-var getDOM = function getDOM(dom) {
-  if (dom.nodeType === 3) {
-    dom = dom.nextElementSibling || dom.nextSibling;
-    getDOM(dom);
-  }
-  return dom;
-};
-
 exports.default = {
   props: {
     visible: {
@@ -145,7 +137,7 @@ exports.default = {
 
       this._opening = true;
 
-      var dom = getDOM(this.$el);
+      var dom = this.$el;
 
       var modal = props.modal;
 

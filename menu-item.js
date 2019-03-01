@@ -382,8 +382,10 @@ var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
 
   props: {
     index: {
-      type: String,
-      required: true
+      default: null,
+      validator: function validator(val) {
+        return typeof val === 'string' || val === null;
+      }
     },
     route: [String, Object],
     disabled: Boolean

@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 71);
+/******/ 	return __webpack_require__(__webpack_require__.s = 79);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,45 +189,26 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 71:
+/***/ 79:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/badge/src/main.vue?vue&type=template&id=7ccb6598&
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/timeline/src/main.vue?vue&type=template&id=ef070f04&
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
-    { staticClass: "el-badge" },
-    [
-      _vm._t("default"),
-      _c("transition", { attrs: { name: "el-zoom-in-center" } }, [
-        _c("sup", {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value:
-                !_vm.hidden && (_vm.content || _vm.content === 0 || _vm.isDot),
-              expression: "!hidden && (content || content === 0 || isDot)"
-            }
-          ],
-          staticClass: "el-badge__content",
-          class: [
-            "el-badge__content--" + _vm.type,
-            {
-              "is-fixed": _vm.$slots.default,
-              "is-dot": _vm.isDot
-            }
-          ],
-          domProps: { textContent: _vm._s(_vm.content) }
-        })
-      ])
-    ],
+    "ul",
+    {
+      staticClass: "el-timeline",
+      class: {
+        "is-reverse": _vm.reverse
+      }
+    },
+    [_vm._t("default")],
     2
   )
 }
@@ -235,20 +216,9 @@ var staticRenderFns = []
 render._withStripped = true
 
 
-// CONCATENATED MODULE: ./packages/badge/src/main.vue?vue&type=template&id=7ccb6598&
+// CONCATENATED MODULE: ./packages/timeline/src/main.vue?vue&type=template&id=ef070f04&
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/badge/src/main.vue?vue&type=script&lang=js&
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/timeline/src/main.vue?vue&type=script&lang=js&
 //
 //
 //
@@ -260,42 +230,40 @@ render._withStripped = true
 //
 
 /* harmony default export */ var mainvue_type_script_lang_js_ = ({
-  name: 'ElBadge',
+  name: 'ElTimeline',
 
   props: {
-    value: {},
-    max: Number,
-    isDot: Boolean,
-    hidden: Boolean,
-    type: {
-      type: String,
-      validator: function validator(val) {
-        return ['primary', 'success', 'warning', 'info', 'danger'].indexOf(val) > -1;
-      }
+    reverse: {
+      type: Boolean,
+      default: false
     }
   },
 
-  computed: {
-    content: function content() {
-      if (this.isDot) return;
+  provide: function provide() {
+    return {
+      timeline: this
+    };
+  },
 
-      var value = this.value;
-      var max = this.max;
 
-      if (typeof value === 'number' && typeof max === 'number') {
-        return max < value ? max + '+' : value;
-      }
+  watch: {
+    reverse: {
+      handler: function handler(newVal) {
+        if (newVal) {
+          this.$slots.default = [].concat(this.$slots.default).reverse();
+        }
+      },
 
-      return value;
+      immediate: true
     }
   }
 });
-// CONCATENATED MODULE: ./packages/badge/src/main.vue?vue&type=script&lang=js&
+// CONCATENATED MODULE: ./packages/timeline/src/main.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_mainvue_type_script_lang_js_ = (mainvue_type_script_lang_js_); 
 // EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 var componentNormalizer = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./packages/badge/src/main.vue
+// CONCATENATED MODULE: ./packages/timeline/src/main.vue
 
 
 
@@ -316,9 +284,9 @@ var component = Object(componentNormalizer["a" /* default */])(
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "packages/badge/src/main.vue"
+component.options.__file = "packages/timeline/src/main.vue"
 /* harmony default export */ var main = (component.exports);
-// CONCATENATED MODULE: ./packages/badge/index.js
+// CONCATENATED MODULE: ./packages/timeline/index.js
 
 
 /* istanbul ignore next */
@@ -326,7 +294,7 @@ main.install = function (Vue) {
   Vue.component(main.name, main);
 };
 
-/* harmony default export */ var badge = __webpack_exports__["default"] = (main);
+/* harmony default export */ var timeline = __webpack_exports__["default"] = (main);
 
 /***/ })
 
