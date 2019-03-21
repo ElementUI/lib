@@ -5591,17 +5591,13 @@ date_rangevue_type_template_id_2652849a_render._withStripped = true
 
 
 
-var advanceDate = function advanceDate(date, amount) {
-  return new Date(new Date(date).getTime() + amount);
-};
-
 var date_rangevue_type_script_lang_js_calcDefaultValue = function calcDefaultValue(defaultValue) {
   if (Array.isArray(defaultValue)) {
     return [new Date(defaultValue[0]), new Date(defaultValue[1])];
   } else if (defaultValue) {
-    return [new Date(defaultValue), advanceDate(defaultValue, 24 * 60 * 60 * 1000)];
+    return [new Date(defaultValue), Object(util["t" /* nextDate */])(new Date(defaultValue), 1)];
   } else {
-    return [new Date(), advanceDate(Date.now(), 24 * 60 * 60 * 1000)];
+    return [new Date(), Object(util["t" /* nextDate */])(new Date(), 1)];
   }
 };
 

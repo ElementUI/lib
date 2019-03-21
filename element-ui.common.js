@@ -18665,17 +18665,13 @@ date_rangevue_type_template_id_2652849a_render._withStripped = true
 
 
 
-var advanceDate = function advanceDate(date, amount) {
-  return new Date(new Date(date).getTime() + amount);
-};
-
 var date_rangevue_type_script_lang_js_calcDefaultValue = function calcDefaultValue(defaultValue) {
   if (Array.isArray(defaultValue)) {
     return [new Date(defaultValue[0]), new Date(defaultValue[1])];
   } else if (defaultValue) {
-    return [new Date(defaultValue), advanceDate(defaultValue, 24 * 60 * 60 * 1000)];
+    return [new Date(defaultValue), nextDate(new Date(defaultValue), 1)];
   } else {
-    return [new Date(), advanceDate(Date.now(), 24 * 60 * 60 * 1000)];
+    return [new Date(), nextDate(new Date(), 1)];
   }
 };
 
@@ -32660,10 +32656,6 @@ var popperMixin = {
     currentValue: function currentValue(value) {
       this.dispatch('ElFormItem', 'el.form.change', [value]);
     },
-    currentLabels: function currentLabels(value) {
-      var inputLabel = this.showAllLevels ? value.join('/') : value[value.length - 1];
-      this.$refs.input.$refs.input.setAttribute('value', inputLabel);
-    },
 
     options: {
       deep: true,
@@ -36164,7 +36156,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.6.2',
+  version: '2.6.3',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,
