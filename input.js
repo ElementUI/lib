@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 60);
+/******/ 	return __webpack_require__(__webpack_require__.s = 67);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -203,7 +203,7 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 60:
+/***/ 67:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -272,11 +272,9 @@ var render = function() {
                         autocomplete: _vm.autoComplete || _vm.autocomplete,
                         "aria-label": _vm.label
                       },
-                      domProps: { value: _vm.nativeInputValue },
                       on: {
-                        compositionstart: _vm.handleComposition,
-                        compositionupdate: _vm.handleComposition,
-                        compositionend: _vm.handleComposition,
+                        compositionstart: _vm.handleCompositionStart,
+                        compositionend: _vm.handleCompositionEnd,
                         input: _vm.handleInput,
                         focus: _vm.handleFocus,
                         blur: _vm.handleBlur,
@@ -374,11 +372,9 @@ var render = function() {
                   autocomplete: _vm.autoComplete || _vm.autocomplete,
                   "aria-label": _vm.label
                 },
-                domProps: { value: _vm.nativeInputValue },
                 on: {
-                  compositionstart: _vm.handleComposition,
-                  compositionupdate: _vm.handleComposition,
-                  compositionend: _vm.handleComposition,
+                  compositionstart: _vm.handleCompositionStart,
+                  compositionend: _vm.handleCompositionEnd,
                   input: _vm.handleInput,
                   focus: _vm.handleFocus,
                   blur: _vm.handleBlur,
@@ -585,10 +581,6 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -618,7 +610,7 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
       textareaCalcStyle: {},
       hovering: false,
       focused: false,
-      isOnComposition: false,
+      isComposing: false,
       passwordVisible: false
     };
   },
@@ -696,7 +688,7 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
       return this.disabled || (this.elForm || {}).disabled;
     },
     nativeInputValue: function nativeInputValue() {
-      return this.value === null || this.value === undefined ? '' : this.value;
+      return this.value === null || this.value === undefined ? '' : String(this.value);
     },
     showClear: function showClear() {
       return this.clearable && !this.inputDisabled && !this.readonly && this.nativeInputValue && (this.focused || this.hovering);
@@ -712,6 +704,13 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
       if (this.validateEvent) {
         this.dispatch('ElFormItem', 'el.form.change', [val]);
       }
+    },
+
+    // native input value is set explicitly
+    // do not use v-model / :value in template
+    // see: https://github.com/ElemeFE/element/issues/14521
+    nativeInputValue: function nativeInputValue() {
+      this.setNativeInputValue();
     }
   },
 
@@ -760,23 +759,27 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
 
       this.textareaCalcStyle = calcTextareaHeight(this.$refs.textarea, minRows, maxRows);
     },
+    setNativeInputValue: function setNativeInputValue() {
+      var input = this.getInput();
+      if (!input) return;
+      if (input.value === this.nativeInputValue) return;
+      input.value = this.nativeInputValue;
+    },
     handleFocus: function handleFocus(event) {
       this.focused = true;
       this.$emit('focus', event);
     },
-    handleComposition: function handleComposition(event) {
-      if (event.type === 'compositionstart') {
-        this.isOnComposition = true;
-      }
-      if (event.type === 'compositionend') {
-        this.isOnComposition = false;
-        this.handleInput(event);
-      }
+    handleCompositionStart: function handleCompositionStart() {
+      this.isComposing = true;
+    },
+    handleCompositionEnd: function handleCompositionEnd(event) {
+      this.isComposing = false;
+      this.handleInput(event);
     },
     handleInput: function handleInput(event) {
-      var _this = this;
-
-      if (this.isOnComposition) return;
+      // should not emit input during composition
+      // see: https://github.com/ElemeFE/element/issues/10516
+      if (this.isComposing) return;
 
       // hack for https://github.com/ElemeFE/element/issues/8548
       // should remove the following line when we don't support IE
@@ -784,12 +787,9 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
 
       this.$emit('input', event.target.value);
 
-      // set input's value, in case parent refuses the change
+      // ensure native input value is controlled
       // see: https://github.com/ElemeFE/element/issues/12850
-      this.$nextTick(function () {
-        var input = _this.getInput();
-        input.value = _this.value;
-      });
+      this.$nextTick(this.setNativeInputValue);
     },
     handleChange: function handleChange(event) {
       this.$emit('change', event.target.value);
@@ -839,6 +839,7 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
     this.$on('inputSelect', this.select);
   },
   mounted: function mounted() {
+    this.setNativeInputValue();
     this.resizeTextarea();
     this.updateIconOffset();
   },

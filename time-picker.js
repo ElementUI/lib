@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 65);
+/******/ 	return __webpack_require__(__webpack_require__.s = 62);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -222,7 +222,7 @@ function normalizeComponent (
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return nextYear; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return extractDateFormat; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return extractTimeFormat; });
-/* harmony import */ var element_ui_src_utils_date__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var element_ui_src_utils_date__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
 /* harmony import */ var element_ui_src_utils_date__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(element_ui_src_utils_date__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var element_ui_src_locale__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
 /* harmony import */ var element_ui_src_locale__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(element_ui_src_locale__WEBPACK_IMPORTED_MODULE_1__);
@@ -530,7 +530,7 @@ module.exports = require("element-ui/lib/locale");
 
 /***/ }),
 
-/***/ 17:
+/***/ 18:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/date");
@@ -941,7 +941,11 @@ var render = function() {
             staticClass: "el-date-editor",
             class: "el-date-editor--" + _vm.type,
             attrs: {
-              readonly: !_vm.editable || _vm.readonly || _vm.type === "dates",
+              readonly:
+                !_vm.editable ||
+                _vm.readonly ||
+                _vm.type === "dates" ||
+                _vm.type === "week",
               disabled: _vm.pickerDisabled,
               size: _vm.pickerSize,
               name: _vm.name,
@@ -1238,10 +1242,11 @@ var DEFAULT_FORMATS = {
   week: 'yyyywWW',
   timerange: 'HH:mm:ss',
   daterange: 'yyyy-MM-dd',
+  monthrange: 'yyyy-MM',
   datetimerange: 'yyyy-MM-dd HH:mm:ss',
   year: 'yyyy'
 };
-var HAVE_TRIGGER_TYPES = ['date', 'datetime', 'time', 'time-select', 'week', 'month', 'year', 'daterange', 'timerange', 'datetimerange', 'dates'];
+var HAVE_TRIGGER_TYPES = ['date', 'datetime', 'time', 'time-select', 'week', 'month', 'year', 'daterange', 'monthrange', 'timerange', 'datetimerange', 'dates'];
 var pickervue_type_script_lang_js_DATE_FORMATTER = function DATE_FORMATTER(value, format) {
   if (format === 'timestamp') return value.getTime();
   return Object(util["f" /* formatDate */])(value, format);
@@ -1298,17 +1303,9 @@ var TYPE_VALUE_RESOLVER_MAP = {
       date = /WW/.test(date) ? date.replace(/WW/, week < 10 ? '0' + week : week) : date.replace(/W/, week);
       return date;
     },
-    parser: function parser(text) {
-      var array = (text || '').split('w');
-      if (array.length === 2) {
-        var year = Number(array[0]);
-        var month = Number(array[1]);
-
-        if (!isNaN(year) && !isNaN(month) && month < 54) {
-          return text;
-        }
-      }
-      return null;
+    parser: function parser(text, format) {
+      // parse as if a normal date
+      return TYPE_VALUE_RESOLVER_MAP.date.parser(text, format);
     }
   },
   date: {
@@ -1320,6 +1317,10 @@ var TYPE_VALUE_RESOLVER_MAP = {
     parser: pickervue_type_script_lang_js_DATE_PARSER
   },
   daterange: {
+    formatter: RANGE_FORMATTER,
+    parser: RANGE_PARSER
+  },
+  monthrange: {
     formatter: RANGE_FORMATTER,
     parser: RANGE_PARSER
   },
@@ -2764,7 +2765,7 @@ module.exports = require("vue");
 
 /***/ }),
 
-/***/ 65:
+/***/ 62:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

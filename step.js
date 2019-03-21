@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 104);
+/******/ 	return __webpack_require__(__webpack_require__.s = 97);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,7 +189,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 104:
+/***/ 97:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -458,7 +458,7 @@ render._withStripped = true
         style.transitionDelay = -150 * this.index + 'ms';
       }
 
-      style.borderWidth = step ? '1px' : 0;
+      style.borderWidth = step && !this.isSimple ? '1px' : 0;
       this.$parent.direction === 'vertical' ? style.height = step + '%' : style.width = step + '%';
 
       this.lineStyle = style;
@@ -470,6 +470,10 @@ render._withStripped = true
 
     var unwatch = this.$watch('index', function (val) {
       _this.$watch('$parent.active', _this.updateStatus, { immediate: true });
+      _this.$watch('$parent.processStatus', function () {
+        var activeIndex = _this.$parent.active;
+        _this.updateStatus(activeIndex);
+      }, { immediate: true });
       unwatch();
     });
   }
