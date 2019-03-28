@@ -957,7 +957,41 @@ var table_store_sortData = function sortData(data, states) {
   if (!sortingColumn || typeof sortingColumn.sortable === 'string') {
     return data;
   }
-  return util_orderBy(data, states.sortProp, states.sortOrder, sortingColumn.sortMethod, sortingColumn.sortBy);
+  if (Object.keys(states.treeData).length === 0) {
+    return util_orderBy(data, states.sortProp, states.sortOrder, sortingColumn.sortMethod, sortingColumn.sortBy);
+  }
+  // 存在嵌套类型的数据
+  var rowKey = states.rowKey;
+  var filteredData = [];
+  var treeDataMap = {};
+  var index = 0;
+  while (index < data.length) {
+    var cur = data[index];
+    var key = cur[rowKey];
+    var treeNode = states.treeData[key];
+    filteredData.push(cur);
+    index++;
+    if (!treeNode) {
+      continue;
+    }
+    treeDataMap[key] = [];
+    while (index < data.length) {
+      cur = data[index];
+      treeNode = states.treeData[cur[rowKey]];
+      index++;
+      if (treeNode && treeNode.level !== 0) {
+        treeDataMap[key].push(cur);
+      } else {
+        filteredData.push(cur);
+        break;
+      }
+    }
+  }
+  var sortedData = util_orderBy(filteredData, states.sortProp, states.sortOrder, sortingColumn.sortMethod, sortingColumn.sortBy);
+  return sortedData.reduce(function (prev, current) {
+    var treeNodes = treeDataMap[current[rowKey]] || [];
+    return prev.concat(current, treeNodes);
+  }, []);
 };
 
 var table_store_getKeysMap = function getKeysMap(array, rowKey) {
@@ -1059,7 +1093,11 @@ var table_store_TableStore = function TableStore(table) {
     filters: {},
     expandRows: [],
     defaultExpandAll: false,
-    selectOnIndeterminate: false
+    selectOnIndeterminate: false,
+    treeData: {},
+    indent: 16,
+    lazy: false,
+    lazyTreeNodeMap: {}
   };
 
   this._toggleAllSelection = debounce_default()(10, function (states) {
@@ -1647,6 +1685,75 @@ table_store_TableStore.prototype.commit = function (name) {
   }
 };
 
+table_store_TableStore.prototype.toggleTreeExpansion = function (rowKey) {
+  var treeData = this.states.treeData;
+
+  var node = treeData[rowKey];
+  if (!node) return;
+  if (typeof node.expanded !== 'boolean') {
+    throw new Error('a leaf must have expanded property');
+  }
+  node.expanded = !node.expanded;
+
+  var _traverse = null;
+  if (node.expanded) {
+    _traverse = function traverse(children, parent) {
+      if (children && parent.expanded) {
+        children.forEach(function (key) {
+          treeData[key].display = true;
+          _traverse(treeData[key].children, treeData[key]);
+        });
+      }
+    };
+    node.children.forEach(function (key) {
+      treeData[key].display = true;
+      _traverse(treeData[key].children, treeData[key]);
+    });
+  } else {
+    var traverse = function traverse(children) {
+      if (!children) return;
+      children.forEach(function (key) {
+        treeData[key].display = false;
+        traverse(treeData[key].children);
+      });
+    };
+    traverse(node.children);
+  }
+};
+
+table_store_TableStore.prototype.loadData = function (row, treeNode) {
+  var _this5 = this;
+
+  var table = this.table;
+  var parentRowKey = treeNode.rowKey;
+  if (table.lazy && table.load) {
+    table.load(row, treeNode, function (data) {
+      if (!Array.isArray(data)) {
+        throw new Error('data must be an array');
+      }
+      var treeData = _this5.states.treeData;
+      data.forEach(function (item) {
+        var rowKey = table.getRowKey(item);
+        var parent = treeData[parentRowKey];
+        parent.loaded = true;
+        parent.children.push(rowKey);
+        var child = {
+          display: true,
+          level: parent.level + 1
+        };
+        if (item.hasChildren) {
+          child.expanded = false;
+          child.hasChildren = true;
+          child.children = [];
+        }
+        external_vue_default.a.set(treeData, rowKey, child);
+        external_vue_default.a.set(_this5.states.lazyTreeNodeMap, rowKey, item);
+      });
+      _this5.toggleTreeExpansion(parentRowKey);
+    });
+  }
+};
+
 /* harmony default export */ var table_store = (table_store_TableStore);
 // EXTERNAL MODULE: external "element-ui/lib/utils/scrollbar-width"
 var scrollbar_width_ = __webpack_require__(34);
@@ -2028,6 +2135,29 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
     var columnsHidden = this.columns.map(function (column, index) {
       return _this.isColumnHidden(index);
     });
+    var rows = this.data;
+    if (this.store.states.lazy && Object.keys(this.store.states.lazyTreeNodeMap).length) {
+      rows = rows.reduce(function (prev, item) {
+        prev.push(item);
+        var rowKey = _this.store.table.getRowKey(item);
+        var parent = _this.store.states.treeData[rowKey];
+        if (parent && parent.children) {
+          var tmp = [];
+          var traverse = function traverse(children) {
+            if (!children) return;
+            children.forEach(function (key) {
+              tmp.push(_this.store.states.lazyTreeNodeMap[key]);
+              if (_this.store.states.treeData[key]) {
+                traverse(_this.store.states.treeData[key].children);
+              }
+            });
+          };
+          traverse(parent.children);
+          prev = prev.concat(tmp);
+        }
+        return prev;
+      }, []);
+    }
     return h(
       'table',
       {
@@ -2040,12 +2170,23 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
         return h('col', {
           attrs: { name: column.id }
         });
-      })]), h('tbody', [this._l(this.data, function (row, $index) {
-        return [h(
+      })]), h('tbody', [this._l(rows, function (row, $index) {
+        var rowKey = _this.table.rowKey ? _this.getKeyOfRow(row, $index) : $index;
+        var treeNode = _this.treeData[rowKey];
+        var rowClasses = _this.getRowClass(row, $index);
+        if (treeNode) {
+          rowClasses.push('el-table__row--level-' + treeNode.level);
+        }
+        var tr = h(
           'tr',
           {
+            directives: [{
+              name: 'show',
+              value: treeNode ? treeNode.display : true
+            }],
+
             style: _this.rowStyle ? _this.getRowStyle(row, $index) : null,
-            key: _this.table.rowKey ? _this.getKeyOfRow(row, $index) : $index,
+            key: rowKey,
             on: {
               'dblclick': function dblclick($event) {
                 return _this.handleDoubleClick($event, row);
@@ -2064,7 +2205,7 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
               }
             },
 
-            'class': [_this.getRowClass(row, $index)] },
+            'class': rowClasses },
           [_this._l(_this.columns, function (column, cellIndex) {
             var _getSpan = _this.getSpan(row, column, $index, cellIndex),
                 rowspan = _getSpan.rowspan,
@@ -2073,6 +2214,23 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
             if (!rowspan || !colspan) {
               return '';
             } else {
+              var data = {
+                store: _this.store,
+                _self: _this.context || _this.table.$vnode.context,
+                row: row,
+                column: column,
+                $index: $index
+              };
+              if (cellIndex === _this.firstDefaultColumnIndex && treeNode) {
+                data.treeNode = {
+                  hasChildren: treeNode.hasChildren || treeNode.children && treeNode.children.length,
+                  expanded: treeNode.expanded,
+                  indent: treeNode.level * _this.treeIndent,
+                  level: treeNode.level,
+                  loaded: treeNode.loaded,
+                  rowKey: rowKey
+                };
+              }
               return h(
                 'td',
                 {
@@ -2088,23 +2246,22 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
                     'mouseleave': _this.handleCellMouseLeave
                   }
                 },
-                [column.renderCell.call(_this._renderProxy, h, {
-                  row: row,
-                  column: column,
-                  $index: $index,
-                  store: _this.store,
-                  _self: _this.context || _this.table.$vnode.context
-                }, columnsHidden[cellIndex])]
+                [column.renderCell.call(_this._renderProxy, h, data, columnsHidden[cellIndex])]
               );
             }
           })]
-        ), _this.store.isRowExpanded(row) ? h('tr', [h(
-          'td',
-          {
-            attrs: { colspan: _this.columns.length },
-            'class': 'el-table__expanded-cell' },
-          [_this.table.renderExpanded ? _this.table.renderExpanded(h, { row: row, $index: $index, store: _this.store }) : '']
-        )]) : ''];
+        );
+        if (_this.store.isRowExpanded(row)) {
+          return [tr, h('tr', [h(
+            'td',
+            {
+              attrs: { colspan: _this.columns.length },
+              'class': 'el-table__expanded-cell' },
+            [_this.table.renderExpanded ? _this.table.renderExpanded(h, { row: row, $index: $index, store: _this.store }) : '']
+          )])];
+        } else {
+          return tr;
+        }
       }).concat(h('el-tooltip', {
         attrs: { effect: this.table.tooltipEffect, placement: 'top', content: this.tooltipContent },
         ref: 'tooltip' }))])]
@@ -2118,6 +2275,9 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
     },
     data: function data() {
       return this.store.states.data;
+    },
+    treeData: function treeData() {
+      return this.store.states.treeData;
     },
     columnsCount: function columnsCount() {
       return this.store.states.columns.length;
@@ -2136,6 +2296,17 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
     },
     columns: function columns() {
       return this.store.states.columns;
+    },
+    firstDefaultColumnIndex: function firstDefaultColumnIndex() {
+      for (var index = 0; index < this.columns.length; index++) {
+        if (this.columns[index].type === 'default') {
+          return index;
+        }
+      }
+      return 0;
+    },
+    treeIndent: function treeIndent() {
+      return this.store.states.indent;
     }
   },
 
@@ -2232,7 +2403,7 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
         classes.push('expanded');
       }
 
-      return classes.join(' ');
+      return classes;
     },
     getCellStyle: function getCellStyle(rowIndex, columnIndex, row, column) {
       var cellStyle = this.table.cellStyle;
@@ -3404,7 +3575,7 @@ var convertToRows = function convertToRows(originColumns) {
                 colspan: column.colSpan,
                 rowspan: column.rowSpan
               },
-              'class': [column.id, column.headerAlign, column.className || '', _this.isCellHidden(cellIndex, _this.columns, column) ? 'is-hidden' : '', !column.children ? 'is-leaf' : '', column.labelClassName] },
+              'class': _this.getRowClasses(column, cellIndex) },
             [h(
               'div',
               { 'class': ['cell', column.labelClassName] },
@@ -3482,6 +3653,19 @@ var convertToRows = function convertToRows(originColumns) {
       } else {
         return index < this.leftFixedCount || index >= this.columnsCount - this.rightFixedCount;
       }
+    },
+    getRowClasses: function getRowClasses(column, cellIndex) {
+      var classes = [column.id, column.align, column.labelClassName];
+      if (column.className) {
+        classes.push(column.className);
+      }
+      if (this.isCellHidden(cellIndex, this.columns, column)) {
+        classes.push('is-hidden');
+      }
+      if (!column.children) {
+        classes.push('is-leaf');
+      }
+      return classes;
     }
   }
 });
@@ -3713,6 +3897,26 @@ var convertToRows = function convertToRows(originColumns) {
 
 
 
+
+var flattenData = function flattenData(data) {
+  if (!data) return data;
+  var newData = [];
+  var flatten = function flatten(arr) {
+    arr.forEach(function (item) {
+      newData.push(item);
+      if (Array.isArray(item.children)) {
+        flatten(item.children);
+      }
+    });
+  };
+  flatten(data);
+  if (data.length === newData.length) {
+    return data;
+  } else {
+    return newData;
+  }
+};
+
 var tableIdSeed = 1;
 
 /* harmony default export */ var tablevue_type_script_lang_js_ = ({
@@ -3799,7 +4003,16 @@ var tableIdSeed = 1;
     selectOnIndeterminate: {
       type: Boolean,
       default: true
-    }
+    },
+
+    indent: {
+      type: Number,
+      default: 16
+    },
+
+    lazy: Boolean,
+
+    load: Function
   },
 
   components: {
@@ -3932,15 +4145,64 @@ var tableIdSeed = 1;
     },
     toggleAllSelection: function toggleAllSelection() {
       this.store.commit('toggleAllSelection');
+    },
+    getRowKey: function getRowKey(row) {
+      var rowKey = getRowIdentity(row, this.store.states.rowKey);
+      if (!rowKey) {
+        throw new Error('if there\'s nested data, rowKey is required.');
+      }
+      return rowKey;
+    },
+    getTableTreeData: function getTableTreeData(data) {
+      var _this = this;
+
+      var treeData = {};
+      var traverse = function traverse(children, parentData, level) {
+        children.forEach(function (item) {
+          var rowKey = _this.getRowKey(item);
+          treeData[rowKey] = {
+            display: false,
+            level: level
+          };
+          parentData.children.push(rowKey);
+          if (Array.isArray(item.children) && item.children.length) {
+            treeData[rowKey].children = [];
+            treeData[rowKey].expanded = false;
+            traverse(item.children, treeData[rowKey], level + 1);
+          }
+        });
+      };
+      if (data) {
+        data.forEach(function (item) {
+          var containChildren = Array.isArray(item.children) && item.children.length;
+          if (!(containChildren || item.hasChildren)) return;
+          var rowKey = _this.getRowKey(item);
+          var treeNode = {
+            level: 0,
+            expanded: false,
+            display: true,
+            children: []
+          };
+          if (containChildren) {
+            treeData[rowKey] = treeNode;
+            traverse(item.children, treeData[rowKey], 1);
+          } else if (item.hasChildren && _this.lazy) {
+            treeNode.hasChildren = true;
+            treeNode.loaded = false;
+            treeData[rowKey] = treeNode;
+          }
+        });
+      }
+      return treeData;
     }
   },
 
   created: function created() {
-    var _this = this;
+    var _this2 = this;
 
     this.tableId = 'el-table_' + tableIdSeed++;
     this.debouncedUpdateLayout = debounce_default()(50, function () {
-      return _this.doLayout();
+      return _this2.doLayout();
     });
   },
 
@@ -4057,12 +4319,14 @@ var tableIdSeed = 1;
     data: {
       immediate: true,
       handler: function handler(value) {
-        var _this2 = this;
+        var _this3 = this;
 
+        this.store.states.treeData = this.getTableTreeData(value);
+        value = flattenData(value);
         this.store.commit('setData', value);
         if (this.$ready) {
           this.$nextTick(function () {
-            _this2.doLayout();
+            _this3.doLayout();
           });
         }
       }
@@ -4082,7 +4346,7 @@ var tableIdSeed = 1;
     if (this.resizeListener) Object(resize_event_["removeResizeListener"])(this.$el, this.resizeListener);
   },
   mounted: function mounted() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.bindEvents();
     this.store.updateColumns();
@@ -4096,7 +4360,7 @@ var tableIdSeed = 1;
     // init filters
     this.store.states.columns.forEach(function (column) {
       if (column.filteredValue && column.filteredValue.length) {
-        _this3.store.commit('filterChange', {
+        _this4.store.commit('filterChange', {
           column: column,
           values: column.filteredValue,
           silent: true
@@ -4110,7 +4374,9 @@ var tableIdSeed = 1;
     var store = new table_store(this, {
       rowKey: this.rowKey,
       defaultExpandAll: this.defaultExpandAll,
-      selectOnIndeterminate: this.selectOnIndeterminate
+      selectOnIndeterminate: this.selectOnIndeterminate,
+      indent: this.indent,
+      lazy: this.lazy
     });
     var layout = new table_layout({
       store: store,

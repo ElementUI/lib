@@ -286,7 +286,7 @@ render._withStripped = true
 
   watch: {
     label: function label() {
-      this.$parent.$forceUpdate();
+      this.$parent.$emit('tabLabelChanged');
     }
   }
 });

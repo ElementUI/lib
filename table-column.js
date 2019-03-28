@@ -493,15 +493,16 @@ var parseMinWidth = function parseMinWidth(minWidth) {
       if (!renderCell) {
         renderCell = table_column_DEFAULT_RENDER_CELL;
       }
+      var children = [_self.renderTreeCell(data), renderCell(h, data)];
 
       return _self.showOverflowTooltip || _self.showTooltipWhenOverflow ? h(
         'div',
         { 'class': 'cell el-tooltip', style: { width: (data.column.realWidth || data.column.width) - 1 + 'px' } },
-        [renderCell(h, data)]
+        [children]
       ) : h(
         'div',
         { 'class': 'cell' },
-        [renderCell(h, data)]
+        [children]
       );
     };
   },
@@ -593,6 +594,38 @@ var parseMinWidth = function parseMinWidth(minWidth) {
     labelClassName: function labelClassName(newVal) {
       if (this.columnConfig) {
         this.columnConfig.labelClassName = newVal;
+      }
+    }
+  },
+
+  methods: {
+    renderTreeCell: function renderTreeCell(data) {
+      var h = this.$createElement;
+
+      if (!data.treeNode) return null;
+      var ele = [];
+      ele.push(h('span', { 'class': 'el-table__indent', style: { 'padding-left': data.treeNode.indent + 'px' } }));
+      if (data.treeNode.hasChildren) {
+        ele.push(h(
+          'div',
+          { 'class': ['el-table__expand-icon', data.treeNode.expanded ? 'el-table__expand-icon--expanded' : ''],
+            on: {
+              'click': this.handleTreeExpandIconClick.bind(this, data)
+            }
+          },
+          [h('i', { 'class': 'el-icon el-icon-arrow-right' })]
+        ));
+      } else {
+        ele.push(h('span', { 'class': 'el-table__placeholder' }));
+      }
+      return ele;
+    },
+    handleTreeExpandIconClick: function handleTreeExpandIconClick(data, e) {
+      e.stopPropagation();
+      if (data.store.states.lazy && !data.treeNode.loaded) {
+        data.store.loadData(data.row, data.treeNode);
+      } else {
+        data.store.toggleTreeExpansion(data.treeNode.rowKey);
       }
     }
   },

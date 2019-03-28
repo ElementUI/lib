@@ -217,7 +217,7 @@ module.exports = require("element-ui/lib/utils/dom");
 
 /***/ }),
 
-/***/ 20:
+/***/ 21:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/vdom");
@@ -931,7 +931,7 @@ var merge_ = __webpack_require__(8);
 var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/vdom"
-var vdom_ = __webpack_require__(20);
+var vdom_ = __webpack_require__(21);
 
 // CONCATENATED MODULE: ./packages/message-box/src/main.js
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };

@@ -316,8 +316,6 @@ var util_ = __webpack_require__(4);
 
   mounted: function mounted() {
     this.$on('menu-item-click', this.handleMenuItemClick);
-    this.initEvent();
-    this.initAria();
   },
 
 
@@ -391,7 +389,6 @@ var util_ = __webpack_require__(4);
         // tab || esc
         this.hide();
       }
-      return;
     },
     handleItemKeyDown: function handleItemKeyDown(ev) {
       var keyCode = ev.keyCode;
@@ -426,7 +423,6 @@ var util_ = __webpack_require__(4);
         this.hide();
         this.triggerElm.focus();
       }
-      return;
     },
     resetTabindex: function resetTabindex(ele) {
       // 下次tab时组件聚焦元素
@@ -443,8 +439,6 @@ var util_ = __webpack_require__(4);
       this.dropdownElm.setAttribute('id', this.listId);
       this.triggerElm.setAttribute('aria-haspopup', 'list');
       this.triggerElm.setAttribute('aria-controls', this.listId);
-      this.menuItems = this.dropdownElm.querySelectorAll("[tabindex='-1']");
-      this.menuItemsArray = Array.prototype.slice.call(this.menuItems);
 
       if (!this.splitButton) {
         // 自定义
@@ -466,7 +460,7 @@ var util_ = __webpack_require__(4);
 
       this.triggerElm = splitButton ? this.$refs.trigger.$el : this.$slots.default[0].elm;
 
-      var dropdownElm = this.dropdownElm = this.$slots.dropdown[0].elm;
+      var dropdownElm = this.dropdownElm;
 
       this.triggerElm.addEventListener('keydown', handleTriggerKeyDown); // triggerElm keydown
       dropdownElm.addEventListener('keydown', handleItemKeyDown, true); // item keydown
@@ -499,6 +493,14 @@ var util_ = __webpack_require__(4);
     },
     focus: function focus() {
       this.triggerElm.focus && this.triggerElm.focus();
+    },
+    initDomOperation: function initDomOperation() {
+      this.dropdownElm = this.popperElm;
+      this.menuItems = this.dropdownElm.querySelectorAll("[tabindex='-1']");
+      this.menuItemsArray = [].slice.call(this.menuItems);
+
+      this.initEvent();
+      this.initAria();
     }
   },
 

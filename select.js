@@ -256,13 +256,13 @@ module.exports = require("element-ui/lib/utils/resize-event");
 module.exports = require("element-ui/lib/scrollbar");
 
 /***/ }),
-/* 20 */,
-/* 21 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/focus");
 
 /***/ }),
+/* 21 */,
 /* 22 */,
 /* 23 */,
 /* 24 */,
@@ -1024,7 +1024,7 @@ var emitter_ = __webpack_require__(3);
 var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/focus"
-var focus_ = __webpack_require__(21);
+var focus_ = __webpack_require__(20);
 var focus_default = /*#__PURE__*/__webpack_require__.n(focus_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/locale"

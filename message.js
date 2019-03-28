@@ -196,7 +196,7 @@ module.exports = require("element-ui/lib/utils/popup");
 
 /***/ }),
 
-/***/ 20:
+/***/ 21:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/vdom");
@@ -426,7 +426,7 @@ component.options.__file = "packages/message/src/main.vue"
 var popup_ = __webpack_require__(13);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/vdom"
-var vdom_ = __webpack_require__(20);
+var vdom_ = __webpack_require__(21);
 
 // CONCATENATED MODULE: ./packages/message/src/main.js
 

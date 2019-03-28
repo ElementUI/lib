@@ -733,6 +733,8 @@ tab_nav_component.options.__file = "packages/tabs/src/tab-nav.vue"
     calcPaneInstances: function calcPaneInstances() {
       var _this2 = this;
 
+      var isLabelUpdated = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
       if (this.$slots.default) {
         var paneSlots = this.$slots.default.filter(function (vnode) {
           return vnode.tag && vnode.componentOptions && vnode.componentOptions.Ctor.options.name === 'ElTabPane';
@@ -742,9 +744,10 @@ tab_nav_component.options.__file = "packages/tabs/src/tab-nav.vue"
           var componentInstance = _ref.componentInstance;
           return componentInstance;
         });
-        if (!(panes.length === this.panes.length && panes.every(function (pane, index) {
+        var panesChanged = !(panes.length === this.panes.length && panes.every(function (pane, index) {
           return pane === _this2.panes[index];
-        }))) {
+        }));
+        if (isLabelUpdated || panesChanged) {
           this.panes = panes;
         }
       } else if (this.panes.length !== 0) {
@@ -860,6 +863,8 @@ tab_nav_component.options.__file = "packages/tabs/src/tab-nav.vue"
     if (!this.currentName) {
       this.setCurrentName('0');
     }
+
+    this.$on('tabLabelChanged', this.calcPaneInstances.bind(null, true));
   },
   mounted: function mounted() {
     this.calcPaneInstances();

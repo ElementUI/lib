@@ -587,6 +587,7 @@ var Color = function () {
       }
     } else if (value.indexOf('#') !== -1) {
       var hex = value.replace('#', '').trim();
+      if (!/^(?:[0-9a-fA-F]{3}){1,2}$/.test(hex)) return;
       var r = void 0,
           g = void 0,
           b = void 0;

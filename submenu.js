@@ -389,6 +389,9 @@ var poperMixins = {
     handleMouseenter: function handleMouseenter(event) {
       var _this2 = this;
 
+      var showTimeout = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.showTimeout;
+
+
       if (!('ActiveXObject' in window) && event.type === 'focus' && !event.relatedTarget) {
         return;
       }
@@ -402,7 +405,7 @@ var poperMixins = {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
         _this2.rootMenu.openMenu(_this2.index, _this2.indexPath);
-      }, this.showTimeout);
+      }, showTimeout);
     },
     handleMouseleave: function handleMouseleave() {
       var _this3 = this;
@@ -460,6 +463,8 @@ var poperMixins = {
     this.rootMenu.removeSubmenu(this);
   },
   render: function render(h) {
+    var _this5 = this;
+
     var active = this.active,
         opened = this.opened,
         paddingStyle = this.paddingStyle,
@@ -491,9 +496,13 @@ var poperMixins = {
 
           'class': ['el-menu--' + mode, popperClass],
           on: {
-            'mouseenter': this.handleMouseenter,
+            'mouseenter': function mouseenter($event) {
+              return _this5.handleMouseenter($event, 100);
+            },
             'mouseleave': this.handleMouseleave,
-            'focus': this.handleMouseenter
+            'focus': function focus($event) {
+              return _this5.handleMouseenter($event, 100);
+            }
           }
         },
         [h(

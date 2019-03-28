@@ -283,8 +283,11 @@ var vue_popper_default = /*#__PURE__*/__webpack_require__.n(vue_popper_);
     });
   },
   mounted: function mounted() {
-    this.$parent.popperElm = this.popperElm = this.$el;
-    this.referenceElm = this.$parent.$el;
+    this.dropdown.popperElm = this.popperElm = this.$el;
+    this.referenceElm = this.dropdown.$el;
+    // compatible with 2.6 new v-slot syntax
+    // issue link https://github.com/ElemeFE/element/issues/14345
+    this.dropdown.initDomOperation();
   },
 
 

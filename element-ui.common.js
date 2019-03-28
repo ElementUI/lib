@@ -185,25 +185,25 @@ module.exports = require("element-ui/lib/checkbox");
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/vdom");
+module.exports = require("element-ui/lib/transitions/collapse-transition");
 
 /***/ }),
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/transitions/collapse-transition");
+module.exports = require("element-ui/lib/scrollbar");
 
 /***/ }),
 /* 18 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/scrollbar");
+module.exports = require("element-ui/lib/mixins/focus");
 
 /***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/mixins/focus");
+module.exports = require("element-ui/lib/utils/vdom");
 
 /***/ }),
 /* 20 */
@@ -1718,7 +1718,7 @@ var vue_popper_ = __webpack_require__(4);
 var vue_popper_default = /*#__PURE__*/__webpack_require__.n(vue_popper_);
 
 // EXTERNAL MODULE: external "element-ui/lib/scrollbar"
-var scrollbar_ = __webpack_require__(18);
+var scrollbar_ = __webpack_require__(17);
 var scrollbar_default = /*#__PURE__*/__webpack_require__.n(scrollbar_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/autocomplete/src/autocomplete-suggestions.vue?vue&type=script&lang=js&
@@ -1826,7 +1826,7 @@ if (false) { var autocomplete_suggestions_api; }
 autocomplete_suggestions_component.options.__file = "packages/autocomplete/src/autocomplete-suggestions.vue"
 /* harmony default export */ var autocomplete_suggestions = (autocomplete_suggestions_component.exports);
 // EXTERNAL MODULE: external "element-ui/lib/mixins/focus"
-var focus_ = __webpack_require__(19);
+var focus_ = __webpack_require__(18);
 var focus_default = /*#__PURE__*/__webpack_require__.n(focus_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/autocomplete/src/autocomplete.vue?vue&type=script&lang=js&
@@ -2247,8 +2247,6 @@ var button_group_default = /*#__PURE__*/__webpack_require__.n(button_group_);
 
   mounted: function mounted() {
     this.$on('menu-item-click', this.handleMenuItemClick);
-    this.initEvent();
-    this.initAria();
   },
 
 
@@ -2322,7 +2320,6 @@ var button_group_default = /*#__PURE__*/__webpack_require__.n(button_group_);
         // tab || esc
         this.hide();
       }
-      return;
     },
     handleItemKeyDown: function handleItemKeyDown(ev) {
       var keyCode = ev.keyCode;
@@ -2357,7 +2354,6 @@ var button_group_default = /*#__PURE__*/__webpack_require__.n(button_group_);
         this.hide();
         this.triggerElm.focus();
       }
-      return;
     },
     resetTabindex: function resetTabindex(ele) {
       // 下次tab时组件聚焦元素
@@ -2374,8 +2370,6 @@ var button_group_default = /*#__PURE__*/__webpack_require__.n(button_group_);
       this.dropdownElm.setAttribute('id', this.listId);
       this.triggerElm.setAttribute('aria-haspopup', 'list');
       this.triggerElm.setAttribute('aria-controls', this.listId);
-      this.menuItems = this.dropdownElm.querySelectorAll("[tabindex='-1']");
-      this.menuItemsArray = Array.prototype.slice.call(this.menuItems);
 
       if (!this.splitButton) {
         // 自定义
@@ -2397,7 +2391,7 @@ var button_group_default = /*#__PURE__*/__webpack_require__.n(button_group_);
 
       this.triggerElm = splitButton ? this.$refs.trigger.$el : this.$slots.default[0].elm;
 
-      var dropdownElm = this.dropdownElm = this.$slots.dropdown[0].elm;
+      var dropdownElm = this.dropdownElm;
 
       this.triggerElm.addEventListener('keydown', handleTriggerKeyDown); // triggerElm keydown
       dropdownElm.addEventListener('keydown', handleItemKeyDown, true); // item keydown
@@ -2430,6 +2424,14 @@ var button_group_default = /*#__PURE__*/__webpack_require__.n(button_group_);
     },
     focus: function focus() {
       this.triggerElm.focus && this.triggerElm.focus();
+    },
+    initDomOperation: function initDomOperation() {
+      this.dropdownElm = this.popperElm;
+      this.menuItems = this.dropdownElm.querySelectorAll("[tabindex='-1']");
+      this.menuItemsArray = [].slice.call(this.menuItems);
+
+      this.initEvent();
+      this.initAria();
     }
   },
 
@@ -2592,8 +2594,11 @@ dropdown_menuvue_type_template_id_0da6b714_render._withStripped = true
     });
   },
   mounted: function mounted() {
-    this.$parent.popperElm = this.popperElm = this.$el;
-    this.referenceElm = this.$parent.$el;
+    this.dropdown.popperElm = this.popperElm = this.$el;
+    this.referenceElm = this.dropdown.$el;
+    // compatible with 2.6 new v-slot syntax
+    // issue link https://github.com/ElemeFE/element/issues/14345
+    this.dropdown.initDomOperation();
   },
 
 
@@ -3362,7 +3367,7 @@ src_menu.install = function (Vue) {
 
 /* harmony default export */ var packages_menu = (src_menu);
 // EXTERNAL MODULE: external "element-ui/lib/transitions/collapse-transition"
-var collapse_transition_ = __webpack_require__(17);
+var collapse_transition_ = __webpack_require__(16);
 var collapse_transition_default = /*#__PURE__*/__webpack_require__.n(collapse_transition_);
 
 // CONCATENATED MODULE: ./packages/menu/src/menu-mixin.js
@@ -3586,6 +3591,9 @@ var poperMixins = {
     handleMouseenter: function handleMouseenter(event) {
       var _this2 = this;
 
+      var showTimeout = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.showTimeout;
+
+
       if (!('ActiveXObject' in window) && event.type === 'focus' && !event.relatedTarget) {
         return;
       }
@@ -3599,7 +3607,7 @@ var poperMixins = {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
         _this2.rootMenu.openMenu(_this2.index, _this2.indexPath);
-      }, this.showTimeout);
+      }, showTimeout);
     },
     handleMouseleave: function handleMouseleave() {
       var _this3 = this;
@@ -3657,6 +3665,8 @@ var poperMixins = {
     this.rootMenu.removeSubmenu(this);
   },
   render: function render(h) {
+    var _this5 = this;
+
     var active = this.active,
         opened = this.opened,
         paddingStyle = this.paddingStyle,
@@ -3688,9 +3698,13 @@ var poperMixins = {
 
           'class': ['el-menu--' + mode, popperClass],
           on: {
-            'mouseenter': this.handleMouseenter,
+            'mouseenter': function mouseenter($event) {
+              return _this5.handleMouseenter($event, 100);
+            },
             'mouseleave': this.handleMouseleave,
-            'focus': this.handleMouseenter
+            'focus': function focus($event) {
+              return _this5.handleMouseenter($event, 100);
+            }
           }
         },
         [h(
@@ -9843,7 +9857,41 @@ var table_store_sortData = function sortData(data, states) {
   if (!sortingColumn || typeof sortingColumn.sortable === 'string') {
     return data;
   }
-  return util_orderBy(data, states.sortProp, states.sortOrder, sortingColumn.sortMethod, sortingColumn.sortBy);
+  if (Object.keys(states.treeData).length === 0) {
+    return util_orderBy(data, states.sortProp, states.sortOrder, sortingColumn.sortMethod, sortingColumn.sortBy);
+  }
+  // 存在嵌套类型的数据
+  var rowKey = states.rowKey;
+  var filteredData = [];
+  var treeDataMap = {};
+  var index = 0;
+  while (index < data.length) {
+    var cur = data[index];
+    var key = cur[rowKey];
+    var treeNode = states.treeData[key];
+    filteredData.push(cur);
+    index++;
+    if (!treeNode) {
+      continue;
+    }
+    treeDataMap[key] = [];
+    while (index < data.length) {
+      cur = data[index];
+      treeNode = states.treeData[cur[rowKey]];
+      index++;
+      if (treeNode && treeNode.level !== 0) {
+        treeDataMap[key].push(cur);
+      } else {
+        filteredData.push(cur);
+        break;
+      }
+    }
+  }
+  var sortedData = util_orderBy(filteredData, states.sortProp, states.sortOrder, sortingColumn.sortMethod, sortingColumn.sortBy);
+  return sortedData.reduce(function (prev, current) {
+    var treeNodes = treeDataMap[current[rowKey]] || [];
+    return prev.concat(current, treeNodes);
+  }, []);
 };
 
 var table_store_getKeysMap = function getKeysMap(array, rowKey) {
@@ -9945,7 +9993,11 @@ var table_store_TableStore = function TableStore(table) {
     filters: {},
     expandRows: [],
     defaultExpandAll: false,
-    selectOnIndeterminate: false
+    selectOnIndeterminate: false,
+    treeData: {},
+    indent: 16,
+    lazy: false,
+    lazyTreeNodeMap: {}
   };
 
   this._toggleAllSelection = debounce_default()(10, function (states) {
@@ -10533,6 +10585,75 @@ table_store_TableStore.prototype.commit = function (name) {
   }
 };
 
+table_store_TableStore.prototype.toggleTreeExpansion = function (rowKey) {
+  var treeData = this.states.treeData;
+
+  var node = treeData[rowKey];
+  if (!node) return;
+  if (typeof node.expanded !== 'boolean') {
+    throw new Error('a leaf must have expanded property');
+  }
+  node.expanded = !node.expanded;
+
+  var _traverse = null;
+  if (node.expanded) {
+    _traverse = function traverse(children, parent) {
+      if (children && parent.expanded) {
+        children.forEach(function (key) {
+          treeData[key].display = true;
+          _traverse(treeData[key].children, treeData[key]);
+        });
+      }
+    };
+    node.children.forEach(function (key) {
+      treeData[key].display = true;
+      _traverse(treeData[key].children, treeData[key]);
+    });
+  } else {
+    var traverse = function traverse(children) {
+      if (!children) return;
+      children.forEach(function (key) {
+        treeData[key].display = false;
+        traverse(treeData[key].children);
+      });
+    };
+    traverse(node.children);
+  }
+};
+
+table_store_TableStore.prototype.loadData = function (row, treeNode) {
+  var _this5 = this;
+
+  var table = this.table;
+  var parentRowKey = treeNode.rowKey;
+  if (table.lazy && table.load) {
+    table.load(row, treeNode, function (data) {
+      if (!Array.isArray(data)) {
+        throw new Error('data must be an array');
+      }
+      var treeData = _this5.states.treeData;
+      data.forEach(function (item) {
+        var rowKey = table.getRowKey(item);
+        var parent = treeData[parentRowKey];
+        parent.loaded = true;
+        parent.children.push(rowKey);
+        var child = {
+          display: true,
+          level: parent.level + 1
+        };
+        if (item.hasChildren) {
+          child.expanded = false;
+          child.hasChildren = true;
+          child.children = [];
+        }
+        external_vue_default.a.set(treeData, rowKey, child);
+        external_vue_default.a.set(_this5.states.lazyTreeNodeMap, rowKey, item);
+      });
+      _this5.toggleTreeExpansion(parentRowKey);
+    });
+  }
+};
+
 /* harmony default export */ var table_store = (table_store_TableStore);
 // EXTERNAL MODULE: external "element-ui/lib/utils/scrollbar-width"
 var scrollbar_width_ = __webpack_require__(26);
@@ -10907,6 +11028,29 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
     var columnsHidden = this.columns.map(function (column, index) {
       return _this.isColumnHidden(index);
     });
+    var rows = this.data;
+    if (this.store.states.lazy && Object.keys(this.store.states.lazyTreeNodeMap).length) {
+      rows = rows.reduce(function (prev, item) {
+        prev.push(item);
+        var rowKey = _this.store.table.getRowKey(item);
+        var parent = _this.store.states.treeData[rowKey];
+        if (parent && parent.children) {
+          var tmp = [];
+          var traverse = function traverse(children) {
+            if (!children) return;
+            children.forEach(function (key) {
+              tmp.push(_this.store.states.lazyTreeNodeMap[key]);
+              if (_this.store.states.treeData[key]) {
+                traverse(_this.store.states.treeData[key].children);
+              }
+            });
+          };
+          traverse(parent.children);
+          prev = prev.concat(tmp);
+        }
+        return prev;
+      }, []);
+    }
     return h(
       'table',
       {
@@ -10919,12 +11063,23 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
         return h('col', {
           attrs: { name: column.id }
         });
-      })]), h('tbody', [this._l(this.data, function (row, $index) {
-        return [h(
+      })]), h('tbody', [this._l(rows, function (row, $index) {
+        var rowKey = _this.table.rowKey ? _this.getKeyOfRow(row, $index) : $index;
+        var treeNode = _this.treeData[rowKey];
+        var rowClasses = _this.getRowClass(row, $index);
+        if (treeNode) {
+          rowClasses.push('el-table__row--level-' + treeNode.level);
+        }
+        var tr = h(
           'tr',
           {
+            directives: [{
+              name: 'show',
+              value: treeNode ? treeNode.display : true
+            }],
+
             style: _this.rowStyle ? _this.getRowStyle(row, $index) : null,
-            key: _this.table.rowKey ? _this.getKeyOfRow(row, $index) : $index,
+            key: rowKey,
             on: {
               'dblclick': function dblclick($event) {
                 return _this.handleDoubleClick($event, row);
@@ -10943,7 +11098,7 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
               }
             },
 
-            'class': [_this.getRowClass(row, $index)] },
+            'class': rowClasses },
           [_this._l(_this.columns, function (column, cellIndex) {
             var _getSpan = _this.getSpan(row, column, $index, cellIndex),
                 rowspan = _getSpan.rowspan,
@@ -10952,6 +11107,23 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
             if (!rowspan || !colspan) {
               return '';
             } else {
+              var data = {
+                store: _this.store,
+                _self: _this.context || _this.table.$vnode.context,
+                row: row,
+                column: column,
+                $index: $index
+              };
+              if (cellIndex === _this.firstDefaultColumnIndex && treeNode) {
+                data.treeNode = {
+                  hasChildren: treeNode.hasChildren || treeNode.children && treeNode.children.length,
+                  expanded: treeNode.expanded,
+                  indent: treeNode.level * _this.treeIndent,
+                  level: treeNode.level,
+                  loaded: treeNode.loaded,
+                  rowKey: rowKey
+                };
+              }
               return h(
                 'td',
                 {
@@ -10967,23 +11139,22 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
                     'mouseleave': _this.handleCellMouseLeave
                   }
                 },
-                [column.renderCell.call(_this._renderProxy, h, {
-                  row: row,
-                  column: column,
-                  $index: $index,
-                  store: _this.store,
-                  _self: _this.context || _this.table.$vnode.context
-                }, columnsHidden[cellIndex])]
+                [column.renderCell.call(_this._renderProxy, h, data, columnsHidden[cellIndex])]
               );
             }
           })]
-        ), _this.store.isRowExpanded(row) ? h('tr', [h(
-          'td',
-          {
-            attrs: { colspan: _this.columns.length },
-            'class': 'el-table__expanded-cell' },
-          [_this.table.renderExpanded ? _this.table.renderExpanded(h, { row: row, $index: $index, store: _this.store }) : '']
-        )]) : ''];
+        );
+        if (_this.store.isRowExpanded(row)) {
+          return [tr, h('tr', [h(
+            'td',
+            {
+              attrs: { colspan: _this.columns.length },
+              'class': 'el-table__expanded-cell' },
+            [_this.table.renderExpanded ? _this.table.renderExpanded(h, { row: row, $index: $index, store: _this.store }) : '']
+          )])];
+        } else {
+          return tr;
+        }
       }).concat(h('el-tooltip', {
         attrs: { effect: this.table.tooltipEffect, placement: 'top', content: this.tooltipContent },
         ref: 'tooltip' }))])]
@@ -10997,6 +11168,9 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
     },
     data: function data() {
       return this.store.states.data;
+    },
+    treeData: function treeData() {
+      return this.store.states.treeData;
     },
     columnsCount: function columnsCount() {
       return this.store.states.columns.length;
@@ -11015,6 +11189,17 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
     },
     columns: function columns() {
       return this.store.states.columns;
+    },
+    firstDefaultColumnIndex: function firstDefaultColumnIndex() {
+      for (var index = 0; index < this.columns.length; index++) {
+        if (this.columns[index].type === 'default') {
+          return index;
+        }
+      }
+      return 0;
+    },
+    treeIndent: function treeIndent() {
+      return this.store.states.indent;
     }
   },
 
@@ -11111,7 +11296,7 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
         classes.push('expanded');
       }
 
-      return classes.join(' ');
+      return classes;
     },
     getCellStyle: function getCellStyle(rowIndex, columnIndex, row, column) {
       var cellStyle = this.table.cellStyle;
@@ -12265,7 +12450,7 @@ var convertToRows = function convertToRows(originColumns) {
                 colspan: column.colSpan,
                 rowspan: column.rowSpan
               },
-              'class': [column.id, column.headerAlign, column.className || '', _this.isCellHidden(cellIndex, _this.columns, column) ? 'is-hidden' : '', !column.children ? 'is-leaf' : '', column.labelClassName] },
+              'class': _this.getRowClasses(column, cellIndex) },
             [h(
               'div',
               { 'class': ['cell', column.labelClassName] },
@@ -12343,6 +12528,19 @@ var convertToRows = function convertToRows(originColumns) {
       } else {
         return index < this.leftFixedCount || index >= this.columnsCount - this.rightFixedCount;
       }
+    },
+    getRowClasses: function getRowClasses(column, cellIndex) {
+      var classes = [column.id, column.align, column.labelClassName];
+      if (column.className) {
+        classes.push(column.className);
+      }
+      if (this.isCellHidden(cellIndex, this.columns, column)) {
+        classes.push('is-hidden');
+      }
+      if (!column.children) {
+        classes.push('is-leaf');
+      }
+      return classes;
     }
   }
 });
@@ -12574,6 +12772,26 @@ var convertToRows = function convertToRows(originColumns) {
 
 
 
+
+var flattenData = function flattenData(data) {
+  if (!data) return data;
+  var newData = [];
+  var flatten = function flatten(arr) {
+    arr.forEach(function (item) {
+      newData.push(item);
+      if (Array.isArray(item.children)) {
+        flatten(item.children);
+      }
+    });
+  };
+  flatten(data);
+  if (data.length === newData.length) {
+    return data;
+  } else {
+    return newData;
+  }
+};
+
 var tableIdSeed = 1;
 
 /* harmony default export */ var tablevue_type_script_lang_js_ = ({
@@ -12660,7 +12878,16 @@ var tableIdSeed = 1;
     selectOnIndeterminate: {
       type: Boolean,
       default: true
-    }
+    },
+
+    indent: {
+      type: Number,
+      default: 16
+    },
+
+    lazy: Boolean,
+
+    load: Function
   },
 
   components: {
@@ -12793,15 +13020,64 @@ var tableIdSeed = 1;
     },
     toggleAllSelection: function toggleAllSelection() {
       this.store.commit('toggleAllSelection');
+    },
+    getRowKey: function getRowKey(row) {
+      var rowKey = getRowIdentity(row, this.store.states.rowKey);
+      if (!rowKey) {
+        throw new Error('if there\'s nested data, rowKey is required.');
+      }
+      return rowKey;
+    },
+    getTableTreeData: function getTableTreeData(data) {
+      var _this = this;
+
+      var treeData = {};
+      var traverse = function traverse(children, parentData, level) {
+        children.forEach(function (item) {
+          var rowKey = _this.getRowKey(item);
+          treeData[rowKey] = {
+            display: false,
+            level: level
+          };
+          parentData.children.push(rowKey);
+          if (Array.isArray(item.children) && item.children.length) {
+            treeData[rowKey].children = [];
+            treeData[rowKey].expanded = false;
+            traverse(item.children, treeData[rowKey], level + 1);
+          }
+        });
+      };
+      if (data) {
+        data.forEach(function (item) {
+          var containChildren = Array.isArray(item.children) && item.children.length;
+          if (!(containChildren || item.hasChildren)) return;
+          var rowKey = _this.getRowKey(item);
+          var treeNode = {
+            level: 0,
+            expanded: false,
+            display: true,
+            children: []
+          };
+          if (containChildren) {
+            treeData[rowKey] = treeNode;
+            traverse(item.children, treeData[rowKey], 1);
+          } else if (item.hasChildren && _this.lazy) {
+            treeNode.hasChildren = true;
+            treeNode.loaded = false;
+            treeData[rowKey] = treeNode;
+          }
+        });
+      }
+      return treeData;
     }
   },
 
   created: function created() {
-    var _this = this;
+    var _this2 = this;
 
     this.tableId = 'el-table_' + tableIdSeed++;
     this.debouncedUpdateLayout = debounce_default()(50, function () {
-      return _this.doLayout();
+      return _this2.doLayout();
     });
   },
 
@@ -12918,12 +13194,14 @@ var tableIdSeed = 1;
     data: {
       immediate: true,
       handler: function handler(value) {
-        var _this2 = this;
+        var _this3 = this;
 
+        this.store.states.treeData = this.getTableTreeData(value);
+        value = flattenData(value);
         this.store.commit('setData', value);
         if (this.$ready) {
           this.$nextTick(function () {
-            _this2.doLayout();
+            _this3.doLayout();
           });
         }
       }
@@ -12943,7 +13221,7 @@ var tableIdSeed = 1;
     if (this.resizeListener) Object(resize_event_["removeResizeListener"])(this.$el, this.resizeListener);
   },
   mounted: function mounted() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.bindEvents();
     this.store.updateColumns();
@@ -12957,7 +13235,7 @@ var tableIdSeed = 1;
     // init filters
     this.store.states.columns.forEach(function (column) {
       if (column.filteredValue && column.filteredValue.length) {
-        _this3.store.commit('filterChange', {
+        _this4.store.commit('filterChange', {
           column: column,
           values: column.filteredValue,
           silent: true
@@ -12971,7 +13249,9 @@ var tableIdSeed = 1;
     var store = new table_store(this, {
       rowKey: this.rowKey,
       defaultExpandAll: this.defaultExpandAll,
-      selectOnIndeterminate: this.selectOnIndeterminate
+      selectOnIndeterminate: this.selectOnIndeterminate,
+      indent: this.indent,
+      lazy: this.lazy
     });
     var layout = new table_layout({
       store: store,
@@ -13414,15 +13694,16 @@ var parseMinWidth = function parseMinWidth(minWidth) {
       if (!renderCell) {
         renderCell = table_column_DEFAULT_RENDER_CELL;
       }
+      var children = [_self.renderTreeCell(data), renderCell(h, data)];
 
       return _self.showOverflowTooltip || _self.showTooltipWhenOverflow ? h(
         'div',
         { 'class': 'cell el-tooltip', style: { width: (data.column.realWidth || data.column.width) - 1 + 'px' } },
-        [renderCell(h, data)]
+        [children]
       ) : h(
         'div',
         { 'class': 'cell' },
-        [renderCell(h, data)]
+        [children]
       );
     };
   },
@@ -13514,6 +13795,38 @@ var parseMinWidth = function parseMinWidth(minWidth) {
     labelClassName: function labelClassName(newVal) {
       if (this.columnConfig) {
         this.columnConfig.labelClassName = newVal;
+      }
+    }
+  },
+
+  methods: {
+    renderTreeCell: function renderTreeCell(data) {
+      var h = this.$createElement;
+
+      if (!data.treeNode) return null;
+      var ele = [];
+      ele.push(h('span', { 'class': 'el-table__indent', style: { 'padding-left': data.treeNode.indent + 'px' } }));
+      if (data.treeNode.hasChildren) {
+        ele.push(h(
+          'div',
+          { 'class': ['el-table__expand-icon', data.treeNode.expanded ? 'el-table__expand-icon--expanded' : ''],
+            on: {
+              'click': this.handleTreeExpandIconClick.bind(this, data)
+            }
+          },
+          [h('i', { 'class': 'el-icon el-icon-arrow-right' })]
+        ));
+      } else {
+        ele.push(h('span', { 'class': 'el-table__placeholder' }));
+      }
+      return ele;
+    },
+    handleTreeExpandIconClick: function handleTreeExpandIconClick(data, e) {
+      e.stopPropagation();
+      if (data.store.states.lazy && !data.treeNode.loaded) {
+        data.store.loadData(data.row, data.treeNode);
+      } else {
+        data.store.toggleTreeExpansion(data.treeNode.rowKey);
       }
     }
   },
@@ -20754,11 +21067,7 @@ main.install = function (Vue) {
 main.directive = directive;
 
 /* harmony default export */ var popover = (main);
-// EXTERNAL MODULE: external "element-ui/lib/utils/vdom"
-var vdom_ = __webpack_require__(16);
-
 // CONCATENATED MODULE: ./packages/tooltip/src/main.js
-
 
 
 
@@ -20814,15 +21123,10 @@ var vdom_ = __webpack_require__(16);
 
   data: function data() {
     return {
+      tooltipId: 'el-tooltip-' + Object(util_["generateId"])(),
       timeoutPending: null,
       focusing: false
     };
-  },
-
-  computed: {
-    tooltipId: function tooltipId() {
-      return 'el-tooltip-' + Object(util_["generateId"])();
-    }
   },
   beforeCreate: function beforeCreate() {
     var _this = this;
@@ -20882,16 +21186,13 @@ var vdom_ = __webpack_require__(16);
       );
     }
 
-    if (!this.$slots.default || !this.$slots.default.length) return this.$slots.default;
+    var firstElement = this.getFirstElement();
+    if (!firstElement) return null;
 
-    var vnode = Object(vdom_["getFirstComponentChild"])(this.$slots.default);
+    var data = firstElement.data = firstElement.data || {};
+    data.staticClass = this.addTooltipClass(data.staticClass);
 
-    if (!vnode) return vnode;
-
-    var data = vnode.data = vnode.data || {};
-    data.staticClass = this.concatClass(data.staticClass, 'el-tooltip');
-
-    return vnode;
+    return firstElement;
   },
   mounted: function mounted() {
     var _this3 = this;
@@ -20916,6 +21217,14 @@ var vdom_ = __webpack_require__(16);
       });
       Object(dom_["on"])(this.referenceElm, 'blur', this.handleBlur);
       Object(dom_["on"])(this.referenceElm, 'click', this.removeFocusing);
+    }
+    // fix issue https://github.com/ElemeFE/element/issues/14424
+    if (this.value && this.popperVM) {
+      this.popperVM.$nextTick(function () {
+        if (_this3.value) {
+          _this3.updatePopper();
+        }
+      });
     }
   },
 
@@ -20948,9 +21257,12 @@ var vdom_ = __webpack_require__(16);
     removeFocusing: function removeFocusing() {
       this.focusing = false;
     },
-    concatClass: function concatClass(a, b) {
-      if (a && a.indexOf(b) > -1) return a;
-      return a ? b ? a + ' ' + b : a : b || '';
+    addTooltipClass: function addTooltipClass(prev) {
+      if (!prev) {
+        return 'el-tooltip';
+      } else {
+        return 'el-tooltip ' + prev.replace('el-tooltip', '');
+      }
     },
     handleShowPopper: function handleShowPopper() {
       var _this4 = this;
@@ -20985,6 +21297,17 @@ var vdom_ = __webpack_require__(16);
         clearTimeout(this.timeoutPending);
       }
       this.expectedState = expectedState;
+    },
+    getFirstElement: function getFirstElement() {
+      var slots = this.$slots.default;
+      if (!Array.isArray(slots)) return null;
+      var element = null;
+      for (var index = 0; index < slots.length; index++) {
+        if (slots[index] && slots[index].tag) {
+          element = slots[index];
+        };
+      }
+      return element;
     }
   },
 
@@ -21662,6 +21985,9 @@ var src_main_component = normalizeComponent(
 if (false) { var src_main_api; }
 src_main_component.options.__file = "packages/message-box/src/main.vue"
 /* harmony default export */ var message_box_src_main = (src_main_component.exports);
+// EXTERNAL MODULE: external "element-ui/lib/utils/vdom"
+var vdom_ = __webpack_require__(19);
+
 // CONCATENATED MODULE: ./packages/message-box/src/main.js
 var main_typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -23252,6 +23578,8 @@ tab_nav_component.options.__file = "packages/tabs/src/tab-nav.vue"
     calcPaneInstances: function calcPaneInstances() {
       var _this2 = this;
 
+      var isLabelUpdated = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
       if (this.$slots.default) {
         var paneSlots = this.$slots.default.filter(function (vnode) {
           return vnode.tag && vnode.componentOptions && vnode.componentOptions.Ctor.options.name === 'ElTabPane';
@@ -23261,9 +23589,10 @@ tab_nav_component.options.__file = "packages/tabs/src/tab-nav.vue"
           var componentInstance = _ref.componentInstance;
           return componentInstance;
         });
-        if (!(panes.length === this.panes.length && panes.every(function (pane, index) {
+        var panesChanged = !(panes.length === this.panes.length && panes.every(function (pane, index) {
           return pane === _this2.panes[index];
-        }))) {
+        }));
+        if (isLabelUpdated || panesChanged) {
           this.panes = panes;
         }
       } else if (this.panes.length !== 0) {
@@ -23379,6 +23708,8 @@ tab_nav_component.options.__file = "packages/tabs/src/tab-nav.vue"
     if (!this.currentName) {
       this.setCurrentName('0');
     }
+
+    this.$on('tabLabelChanged', this.calcPaneInstances.bind(null, true));
   },
   mounted: function mounted() {
     this.calcPaneInstances();
@@ -23512,7 +23843,7 @@ tab_panevue_type_template_id_9145a070_render._withStripped = true
 
   watch: {
     label: function label() {
-      this.$parent.$forceUpdate();
+      this.$parent.$emit('tabLabelChanged');
     }
   }
 });
@@ -24194,7 +24525,6 @@ var node_Node = function () {
         _this5.doCreateChildren(children, defaultProps);
 
         _this5.updateLeafState();
-        reInitChecked(_this5);
         if (callback) {
           callback.call(_this5, children);
         }
@@ -33297,6 +33627,7 @@ var Color = function () {
       }
     } else if (value.indexOf('#') !== -1) {
       var hex = value.replace('#', '').trim();
+      if (!/^(?:[0-9a-fA-F]{3}){1,2}$/.test(hex)) return;
       var r = void 0,
           g = void 0,
           b = void 0;
@@ -36156,7 +36487,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.6.3',
+  version: '2.7.0',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,

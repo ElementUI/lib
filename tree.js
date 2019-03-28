@@ -793,7 +793,6 @@ var node_Node = function () {
         _this5.doCreateChildren(children, defaultProps);
 
         _this5.updateLeafState();
-        reInitChecked(_this5);
         if (callback) {
           callback.call(_this5, children);
         }
