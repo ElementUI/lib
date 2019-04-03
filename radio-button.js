@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 108);
+/******/ 	return __webpack_require__(__webpack_require__.s = 78);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,7 +189,14 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 108:
+/***/ 3:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ }),
+
+/***/ 78:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -447,13 +454,6 @@ radio_button.install = function (Vue) {
 };
 
 /* harmony default export */ var packages_radio_button = __webpack_exports__["default"] = (radio_button);
-
-/***/ }),
-
-/***/ 3:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ })
 

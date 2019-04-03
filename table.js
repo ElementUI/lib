@@ -2251,7 +2251,7 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
             }
           })]
         );
-        if (_this.store.isRowExpanded(row)) {
+        if (_this.hasExpandColumn && _this.store.isRowExpanded(row)) {
           return [tr, h('tr', [h(
             'td',
             {
@@ -2296,6 +2296,12 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
     },
     columns: function columns() {
       return this.store.states.columns;
+    },
+    hasExpandColumn: function hasExpandColumn() {
+      return this.columns.some(function (_ref) {
+        var type = _ref.type;
+        return type === 'expand';
+      });
     },
     firstDefaultColumnIndex: function firstDefaultColumnIndex() {
       for (var index = 0; index < this.columns.length; index++) {

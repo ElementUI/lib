@@ -1988,7 +1988,7 @@ var shared_ = __webpack_require__(33);
     },
     deleteSelected: function deleteSelected(event) {
       event.stopPropagation();
-      var value = this.multiple ? [] : '';
+      var value = this.multiple ? [] : null;
       this.$emit('input', value);
       this.emitChange(value);
       this.visible = false;

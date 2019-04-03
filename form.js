@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 82);
+/******/ 	return __webpack_require__(__webpack_require__.s = 90);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -196,7 +196,7 @@ module.exports = require("element-ui/lib/utils/merge");
 
 /***/ }),
 
-/***/ 82:
+/***/ 90:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -288,9 +288,16 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
       }
     }
   },
+  computed: {
+    autoLabelWidth: function autoLabelWidth() {
+      var max = Math.max.apply(Math, this.potentialLabelWidthArr);
+      return max ? max + 'px' : '';
+    }
+  },
   data: function data() {
     return {
-      fields: []
+      fields: [],
+      potentialLabelWidthArr: [] // use this array to calculate auto width
     };
   },
   created: function created() {
@@ -385,6 +392,26 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
       fields.forEach(function (field) {
         field.validate('', cb);
       });
+    },
+    getLabelWidthIndex: function getLabelWidthIndex(width) {
+      var index = this.potentialLabelWidthArr.indexOf(width);
+      // it's impossible
+      if (index === -1) {
+        throw new Error('[ElementForm]unpected width ', width);
+      }
+      return index;
+    },
+    registerLabelWidth: function registerLabelWidth(val, oldVal) {
+      if (val && oldVal) {
+        var index = this.getLabelWidthIndex(oldVal);
+        this.potentialLabelWidthArr.splice(index, 1, val);
+      } else if (val) {
+        this.potentialLabelWidthArr.push(val);
+      }
+    },
+    deregisterLabelWidth: function deregisterLabelWidth(val) {
+      var index = this.getLabelWidthIndex(val);
+      this.potentialLabelWidthArr.splice(index, 1);
     }
   }
 });

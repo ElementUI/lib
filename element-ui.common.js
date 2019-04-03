@@ -4623,6 +4623,19 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
     // see: https://github.com/ElemeFE/element/issues/14521
     nativeInputValue: function nativeInputValue() {
       this.setNativeInputValue();
+    },
+
+    // when change between <input> and <textarea>,
+    // update DOM dependent value and styles
+    // https://github.com/ElemeFE/element/issues/14857
+    type: function type() {
+      var _this = this;
+
+      this.$nextTick(function () {
+        _this.setNativeInputValue();
+        _this.resizeTextarea();
+        _this.updateIconOffset();
+      });
     }
   },
 
@@ -8740,7 +8753,7 @@ var shared_ = __webpack_require__(25);
     },
     deleteSelected: function deleteSelected(event) {
       event.stopPropagation();
-      var value = this.multiple ? [] : '';
+      var value = this.multiple ? [] : null;
       this.$emit('input', value);
       this.emitChange(value);
       this.visible = false;
@@ -11144,7 +11157,7 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
             }
           })]
         );
-        if (_this.store.isRowExpanded(row)) {
+        if (_this.hasExpandColumn && _this.store.isRowExpanded(row)) {
           return [tr, h('tr', [h(
             'td',
             {
@@ -11189,6 +11202,12 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
     },
     columns: function columns() {
       return this.store.states.columns;
+    },
+    hasExpandColumn: function hasExpandColumn() {
+      return this.columns.some(function (_ref) {
+        var type = _ref.type;
+        return type === 'expand';
+      });
     },
     firstDefaultColumnIndex: function firstDefaultColumnIndex() {
       for (var index = 0; index < this.columns.length; index++) {
@@ -22499,9 +22518,16 @@ formvue_type_template_id_a1b5ff34_render._withStripped = true
       }
     }
   },
+  computed: {
+    autoLabelWidth: function autoLabelWidth() {
+      var max = Math.max.apply(Math, this.potentialLabelWidthArr);
+      return max ? max + 'px' : '';
+    }
+  },
   data: function data() {
     return {
-      fields: []
+      fields: [],
+      potentialLabelWidthArr: [] // use this array to calculate auto width
     };
   },
   created: function created() {
@@ -22596,6 +22622,26 @@ formvue_type_template_id_a1b5ff34_render._withStripped = true
       fields.forEach(function (field) {
         field.validate('', cb);
       });
+    },
+    getLabelWidthIndex: function getLabelWidthIndex(width) {
+      var index = this.potentialLabelWidthArr.indexOf(width);
+      // it's impossible
+      if (index === -1) {
+        throw new Error('[ElementForm]unpected width ', width);
+      }
+      return index;
+    },
+    registerLabelWidth: function registerLabelWidth(val, oldVal) {
+      if (val && oldVal) {
+        var index = this.getLabelWidthIndex(oldVal);
+        this.potentialLabelWidthArr.splice(index, 1, val);
+      } else if (val) {
+        this.potentialLabelWidthArr.push(val);
+      }
+    },
+    deregisterLabelWidth: function deregisterLabelWidth(val) {
+      var index = this.getLabelWidthIndex(val);
+      this.potentialLabelWidthArr.splice(index, 1);
     }
   }
 });
@@ -22655,22 +22701,33 @@ var form_itemvue_type_template_id_b6f3db6c_render = function() {
       ]
     },
     [
-      _vm.label || _vm.$slots.label
-        ? _c(
-            "label",
-            {
-              staticClass: "el-form-item__label",
-              style: _vm.labelStyle,
-              attrs: { for: _vm.labelFor }
-            },
-            [
-              _vm._t("label", [
-                _vm._v(_vm._s(_vm.label + _vm.form.labelSuffix))
-              ])
-            ],
-            2
-          )
-        : _vm._e(),
+      _c(
+        "label-wrap",
+        {
+          attrs: {
+            "is-auto-width": _vm.labelStyle && _vm.labelStyle.width === "auto",
+            "update-all": _vm.form.labelWidth === "auto"
+          }
+        },
+        [
+          _vm.label || _vm.$slots.label
+            ? _c(
+                "label",
+                {
+                  staticClass: "el-form-item__label",
+                  style: _vm.labelStyle,
+                  attrs: { for: _vm.labelFor }
+                },
+                [
+                  _vm._t("label", [
+                    _vm._v(_vm._s(_vm.label + _vm.form.labelSuffix))
+                  ])
+                ],
+                2
+              )
+            : _vm._e()
+        ]
+      ),
       _c(
         "div",
         { staticClass: "el-form-item__content", style: _vm.contentStyle },
@@ -22716,7 +22773,8 @@ var form_itemvue_type_template_id_b6f3db6c_render = function() {
         ],
         2
       )
-    ]
+    ],
+    1
   )
 }
 var form_itemvue_type_template_id_b6f3db6c_staticRenderFns = []
@@ -22729,7 +22787,114 @@ form_itemvue_type_template_id_b6f3db6c_render._withStripped = true
 var external_async_validator_ = __webpack_require__(36);
 var external_async_validator_default = /*#__PURE__*/__webpack_require__.n(external_async_validator_);
 
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/form/src/label-wrap.vue?vue&type=script&lang=js&
+
+
+/* harmony default export */ var label_wrapvue_type_script_lang_js_ = ({
+  props: {
+    isAutoWidth: Boolean,
+    updateAll: Boolean
+  },
+
+  inject: ['elForm', 'elFormItem'],
+
+  render: function render() {
+    var h = arguments[0];
+
+    var slots = this.$slots.default;
+    if (!slots) return null;
+    if (this.isAutoWidth) {
+      return h(
+        'div',
+        { 'class': 'el-form-item__label-wrap' },
+        [slots]
+      );
+    } else {
+      return slots[0];
+    }
+  },
+
+
+  methods: {
+    getLabelWidth: function getLabelWidth() {
+      if (this.$el && this.$el.firstElementChild) {
+        var computedWidth = window.getComputedStyle(this.$el.firstElementChild).width;
+        return Math.ceil(parseFloat(computedWidth));
+      } else {
+        return 0;
+      }
+    },
+    updateLabelWidth: function updateLabelWidth() {
+      var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'update';
+
+      if (this.$slots.default && this.isAutoWidth && this.$el.firstElementChild) {
+        if (action === 'update') {
+          this.computedWidth = this.getLabelWidth();
+        } else if (action === 'remove') {
+          this.elForm.deregisterLabelWidth(this.computedWidth);
+        }
+      }
+    }
+  },
+
+  watch: {
+    computedWidth: function computedWidth(val, oldVal) {
+      if (this.updateAll) {
+        this.elForm.registerLabelWidth(val, oldVal);
+        this.elFormItem.updateComputedLabelWidth(val);
+      }
+    }
+  },
+
+  data: function data() {
+    return {
+      computedWidth: 0
+    };
+  },
+  mounted: function mounted() {
+    this.updateLabelWidth('update');
+  },
+
+
+  // Is this necessary?
+  // updated() {
+  //   this.updateLabelWidth('update');
+  // },
+
+  beforeDestroy: function beforeDestroy() {
+    this.updateLabelWidth('remove');
+  }
+});
+// CONCATENATED MODULE: ./packages/form/src/label-wrap.vue?vue&type=script&lang=js&
+ /* harmony default export */ var src_label_wrapvue_type_script_lang_js_ = (label_wrapvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./packages/form/src/label-wrap.vue
+var label_wrap_render, label_wrap_staticRenderFns
+
+
+
+
+/* normalize component */
+
+var label_wrap_component = normalizeComponent(
+  src_label_wrapvue_type_script_lang_js_,
+  label_wrap_render,
+  label_wrap_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var label_wrap_api; }
+label_wrap_component.options.__file = "packages/form/src/label-wrap.vue"
+/* harmony default export */ var label_wrap = (label_wrap_component.exports);
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/form/src/form-item.vue?vue&type=script&lang=js&
+//
+//
+//
+//
 //
 //
 //
@@ -22810,6 +22975,10 @@ var external_async_validator_default = /*#__PURE__*/__webpack_require__.n(extern
     },
     size: String
   },
+  components: {
+    // use this component to calculate auto width
+    LabelWrap: label_wrap
+  },
   watch: {
     error: {
       immediate: true,
@@ -22841,7 +23010,13 @@ var external_async_validator_default = /*#__PURE__*/__webpack_require__.n(extern
       if (this.form.labelPosition === 'top' || this.form.inline) return ret;
       if (!label && !this.labelWidth && this.isNested) return ret;
       var labelWidth = this.labelWidth || this.form.labelWidth;
-      if (labelWidth) {
+      if (labelWidth === 'auto') {
+        if (this.labelWidth === 'auto') {
+          ret.marginLeft = this.computedLabelWidth;
+        } else if (this.form.labelWidth === 'auto') {
+          ret.marginLeft = this.elForm.autoLabelWidth;
+        }
+      } else {
         ret.marginLeft = labelWidth;
       }
       return ret;
@@ -22902,7 +23077,8 @@ var external_async_validator_default = /*#__PURE__*/__webpack_require__.n(extern
       validateMessage: '',
       validateDisabled: false,
       validator: {},
-      isNested: false
+      isNested: false,
+      computedLabelWidth: ''
     };
   },
 
@@ -23003,6 +23179,9 @@ var external_async_validator_default = /*#__PURE__*/__webpack_require__.n(extern
       }
 
       this.validate('change');
+    },
+    updateComputedLabelWidth: function updateComputedLabelWidth(width) {
+      this.computedLabelWidth = width ? width + 'px' : '';
     }
   },
   mounted: function mounted() {
@@ -36487,7 +36666,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.7.0',
+  version: '2.7.1',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,

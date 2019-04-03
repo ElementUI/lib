@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 81);
+/******/ 	return __webpack_require__(__webpack_require__.s = 57);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -210,14 +210,7 @@ module.exports = require("async-validator");
 
 /***/ }),
 
-/***/ 8:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
-
-/***/ }),
-
-/***/ 81:
+/***/ 57:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -245,22 +238,33 @@ var render = function() {
       ]
     },
     [
-      _vm.label || _vm.$slots.label
-        ? _c(
-            "label",
-            {
-              staticClass: "el-form-item__label",
-              style: _vm.labelStyle,
-              attrs: { for: _vm.labelFor }
-            },
-            [
-              _vm._t("label", [
-                _vm._v(_vm._s(_vm.label + _vm.form.labelSuffix))
-              ])
-            ],
-            2
-          )
-        : _vm._e(),
+      _c(
+        "label-wrap",
+        {
+          attrs: {
+            "is-auto-width": _vm.labelStyle && _vm.labelStyle.width === "auto",
+            "update-all": _vm.form.labelWidth === "auto"
+          }
+        },
+        [
+          _vm.label || _vm.$slots.label
+            ? _c(
+                "label",
+                {
+                  staticClass: "el-form-item__label",
+                  style: _vm.labelStyle,
+                  attrs: { for: _vm.labelFor }
+                },
+                [
+                  _vm._t("label", [
+                    _vm._v(_vm._s(_vm.label + _vm.form.labelSuffix))
+                  ])
+                ],
+                2
+              )
+            : _vm._e()
+        ]
+      ),
       _c(
         "div",
         { staticClass: "el-form-item__content", style: _vm.contentStyle },
@@ -306,7 +310,8 @@ var render = function() {
         ],
         2
       )
-    ]
+    ],
+    1
   )
 }
 var staticRenderFns = []
@@ -330,7 +335,117 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
 // EXTERNAL MODULE: external "element-ui/lib/utils/util"
 var util_ = __webpack_require__(4);
 
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/form/src/label-wrap.vue?vue&type=script&lang=js&
+
+
+/* harmony default export */ var label_wrapvue_type_script_lang_js_ = ({
+  props: {
+    isAutoWidth: Boolean,
+    updateAll: Boolean
+  },
+
+  inject: ['elForm', 'elFormItem'],
+
+  render: function render() {
+    var h = arguments[0];
+
+    var slots = this.$slots.default;
+    if (!slots) return null;
+    if (this.isAutoWidth) {
+      return h(
+        'div',
+        { 'class': 'el-form-item__label-wrap' },
+        [slots]
+      );
+    } else {
+      return slots[0];
+    }
+  },
+
+
+  methods: {
+    getLabelWidth: function getLabelWidth() {
+      if (this.$el && this.$el.firstElementChild) {
+        var computedWidth = window.getComputedStyle(this.$el.firstElementChild).width;
+        return Math.ceil(parseFloat(computedWidth));
+      } else {
+        return 0;
+      }
+    },
+    updateLabelWidth: function updateLabelWidth() {
+      var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'update';
+
+      if (this.$slots.default && this.isAutoWidth && this.$el.firstElementChild) {
+        if (action === 'update') {
+          this.computedWidth = this.getLabelWidth();
+        } else if (action === 'remove') {
+          this.elForm.deregisterLabelWidth(this.computedWidth);
+        }
+      }
+    }
+  },
+
+  watch: {
+    computedWidth: function computedWidth(val, oldVal) {
+      if (this.updateAll) {
+        this.elForm.registerLabelWidth(val, oldVal);
+        this.elFormItem.updateComputedLabelWidth(val);
+      }
+    }
+  },
+
+  data: function data() {
+    return {
+      computedWidth: 0
+    };
+  },
+  mounted: function mounted() {
+    this.updateLabelWidth('update');
+  },
+
+
+  // Is this necessary?
+  // updated() {
+  //   this.updateLabelWidth('update');
+  // },
+
+  beforeDestroy: function beforeDestroy() {
+    this.updateLabelWidth('remove');
+  }
+});
+// CONCATENATED MODULE: ./packages/form/src/label-wrap.vue?vue&type=script&lang=js&
+ /* harmony default export */ var src_label_wrapvue_type_script_lang_js_ = (label_wrapvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
+var componentNormalizer = __webpack_require__(0);
+
+// CONCATENATED MODULE: ./packages/form/src/label-wrap.vue
+var label_wrap_render, label_wrap_staticRenderFns
+
+
+
+
+/* normalize component */
+
+var component = Object(componentNormalizer["a" /* default */])(
+  src_label_wrapvue_type_script_lang_js_,
+  label_wrap_render,
+  label_wrap_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "packages/form/src/label-wrap.vue"
+/* harmony default export */ var label_wrap = (component.exports);
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/form/src/form-item.vue?vue&type=script&lang=js&
+//
+//
+//
+//
 //
 //
 //
@@ -411,6 +526,10 @@ var util_ = __webpack_require__(4);
     },
     size: String
   },
+  components: {
+    // use this component to calculate auto width
+    LabelWrap: label_wrap
+  },
   watch: {
     error: {
       immediate: true,
@@ -442,7 +561,13 @@ var util_ = __webpack_require__(4);
       if (this.form.labelPosition === 'top' || this.form.inline) return ret;
       if (!label && !this.labelWidth && this.isNested) return ret;
       var labelWidth = this.labelWidth || this.form.labelWidth;
-      if (labelWidth) {
+      if (labelWidth === 'auto') {
+        if (this.labelWidth === 'auto') {
+          ret.marginLeft = this.computedLabelWidth;
+        } else if (this.form.labelWidth === 'auto') {
+          ret.marginLeft = this.elForm.autoLabelWidth;
+        }
+      } else {
         ret.marginLeft = labelWidth;
       }
       return ret;
@@ -503,7 +628,8 @@ var util_ = __webpack_require__(4);
       validateMessage: '',
       validateDisabled: false,
       validator: {},
-      isNested: false
+      isNested: false,
+      computedLabelWidth: ''
     };
   },
 
@@ -604,6 +730,9 @@ var util_ = __webpack_require__(4);
       }
 
       this.validate('change');
+    },
+    updateComputedLabelWidth: function updateComputedLabelWidth(width) {
+      this.computedLabelWidth = width ? width + 'px' : '';
     }
   },
   mounted: function mounted() {
@@ -632,9 +761,6 @@ var util_ = __webpack_require__(4);
 });
 // CONCATENATED MODULE: ./packages/form/src/form-item.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_form_itemvue_type_script_lang_js_ = (form_itemvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
-var componentNormalizer = __webpack_require__(0);
-
 // CONCATENATED MODULE: ./packages/form/src/form-item.vue
 
 
@@ -643,7 +769,7 @@ var componentNormalizer = __webpack_require__(0);
 
 /* normalize component */
 
-var component = Object(componentNormalizer["a" /* default */])(
+var form_item_component = Object(componentNormalizer["a" /* default */])(
   src_form_itemvue_type_script_lang_js_,
   render,
   staticRenderFns,
@@ -655,9 +781,9 @@ var component = Object(componentNormalizer["a" /* default */])(
 )
 
 /* hot reload */
-if (false) { var api; }
-component.options.__file = "packages/form/src/form-item.vue"
-/* harmony default export */ var form_item = (component.exports);
+if (false) { var form_item_api; }
+form_item_component.options.__file = "packages/form/src/form-item.vue"
+/* harmony default export */ var form_item = (form_item_component.exports);
 // CONCATENATED MODULE: ./packages/form-item/index.js
 
 
@@ -667,6 +793,13 @@ form_item.install = function (Vue) {
 };
 
 /* harmony default export */ var packages_form_item = __webpack_exports__["default"] = (form_item);
+
+/***/ }),
+
+/***/ 8:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

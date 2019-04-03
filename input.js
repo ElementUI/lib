@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 67);
+/******/ 	return __webpack_require__(__webpack_require__.s = 61);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -203,7 +203,7 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 67:
+/***/ 61:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -711,6 +711,19 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
     // see: https://github.com/ElemeFE/element/issues/14521
     nativeInputValue: function nativeInputValue() {
       this.setNativeInputValue();
+    },
+
+    // when change between <input> and <textarea>,
+    // update DOM dependent value and styles
+    // https://github.com/ElemeFE/element/issues/14857
+    type: function type() {
+      var _this = this;
+
+      this.$nextTick(function () {
+        _this.setNativeInputValue();
+        _this.resizeTextarea();
+        _this.updateIconOffset();
+      });
     }
   },
 
