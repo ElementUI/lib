@@ -22804,9 +22804,14 @@ var external_async_validator_default = /*#__PURE__*/__webpack_require__.n(extern
     var slots = this.$slots.default;
     if (!slots) return null;
     if (this.isAutoWidth) {
+      var autoLabelWidth = this.elForm.autoLabelWidth;
+      var style = {};
+      if (autoLabelWidth && autoLabelWidth !== 'auto') {
+        style.width = autoLabelWidth;
+      }
       return h(
         'div',
-        { 'class': 'el-form-item__label-wrap' },
+        { 'class': 'el-form-item__label-wrap', style: style },
         [slots]
       );
     } else {
@@ -36666,7 +36671,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.7.1',
+  version: '2.7.2',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,

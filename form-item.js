@@ -352,9 +352,14 @@ var util_ = __webpack_require__(4);
     var slots = this.$slots.default;
     if (!slots) return null;
     if (this.isAutoWidth) {
+      var autoLabelWidth = this.elForm.autoLabelWidth;
+      var style = {};
+      if (autoLabelWidth && autoLabelWidth !== 'auto') {
+        style.width = autoLabelWidth;
+      }
       return h(
         'div',
-        { 'class': 'el-form-item__label-wrap' },
+        { 'class': 'el-form-item__label-wrap', style: style },
         [slots]
       );
     } else {
