@@ -1,7 +1,7 @@
 'use strict';
 
 exports.__esModule = true;
-exports.autoprefixer = exports.isEdge = exports.isIE = exports.coerceTruthyValueToArray = exports.arrayFind = exports.arrayFindIndex = exports.escapeRegexpString = exports.valueEquals = exports.generateId = exports.getValueByPath = undefined;
+exports.kebabCase = exports.autoprefixer = exports.isEdge = exports.isIE = exports.coerceTruthyValueToArray = exports.arrayFind = exports.arrayFindIndex = exports.escapeRegexpString = exports.valueEquals = exports.generateId = exports.getValueByPath = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -153,4 +153,9 @@ var autoprefixer = exports.autoprefixer = function autoprefixer(style) {
     }
   });
   return style;
+};
+
+var kebabCase = exports.kebabCase = function kebabCase(str) {
+  var hyphenateRE = /([^-])([A-Z])/g;
+  return str.replace(hyphenateRE, '$1-$2').replace(hyphenateRE, '$1-$2').toLowerCase();
 };
