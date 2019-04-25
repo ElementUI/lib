@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 107);
+/******/ 	return __webpack_require__(__webpack_require__.s = 106);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -196,7 +196,7 @@ module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }),
 
-/***/ 107:
+/***/ 106:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -283,6 +283,9 @@ render._withStripped = true
 // EXTERNAL MODULE: external "element-ui/lib/utils/dom"
 var dom_ = __webpack_require__(2);
 
+// EXTERNAL MODULE: external "element-ui/lib/utils/types"
+var types_ = __webpack_require__(31);
+
 // EXTERNAL MODULE: external "element-ui/lib/mixins/migrating"
 var migrating_ = __webpack_require__(10);
 var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
@@ -326,6 +329,7 @@ var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
 
 
 
+
 /* harmony default export */ var mainvue_type_script_lang_js_ = ({
   name: 'ElRate',
 
@@ -364,7 +368,7 @@ var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
       default: 5
     },
     colors: {
-      type: Array,
+      type: [Array, Object],
       default: function _default() {
         return ['#F7BA2A', '#F7BA2A', '#F7BA2A'];
       }
@@ -378,7 +382,7 @@ var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
       default: '#EFF2F7'
     },
     iconClasses: {
-      type: Array,
+      type: [Array, Object],
       default: function _default() {
         return ['el-icon-star-on', 'el-icon-star-on', 'el-icon-star-on'];
       }
@@ -436,9 +440,8 @@ var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
     decimalStyle: function decimalStyle() {
       var width = '';
       if (this.rateDisabled) {
-        width = (this.valueDecimal < 50 ? 0 : 50) + '%';
-      }
-      if (this.allowHalf) {
+        width = this.valueDecimal + '%';
+      } else if (this.allowHalf) {
         width = '50%';
       }
       return {
@@ -449,23 +452,24 @@ var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
     valueDecimal: function valueDecimal() {
       return this.value * 100 - Math.floor(this.value) * 100;
     },
+    classMap: function classMap() {
+      var _ref;
+
+      return Array.isArray(this.iconClasses) ? (_ref = {}, _ref[this.lowThreshold] = this.iconClasses[0], _ref[this.highThreshold] = { value: this.iconClasses[1], excluded: true }, _ref[this.max] = this.iconClasses[2], _ref) : this.iconClasses;
+    },
     decimalIconClass: function decimalIconClass() {
       return this.getValueFromMap(this.value, this.classMap);
     },
     voidClass: function voidClass() {
-      return this.rateDisabled ? this.classMap.disabledVoidClass : this.classMap.voidClass;
+      return this.rateDisabled ? this.disabledVoidIconClass : this.voidIconClass;
     },
     activeClass: function activeClass() {
       return this.getValueFromMap(this.currentValue, this.classMap);
     },
     colorMap: function colorMap() {
-      return {
-        lowColor: this.colors[0],
-        mediumColor: this.colors[1],
-        highColor: this.colors[2],
-        voidColor: this.voidColor,
-        disabledVoidColor: this.disabledVoidColor
-      };
+      var _ref2;
+
+      return Array.isArray(this.colors) ? (_ref2 = {}, _ref2[this.lowThreshold] = this.colors[0], _ref2[this.highThreshold] = { value: this.colors[1], excluded: true }, _ref2[this.max] = this.colors[2], _ref2) : this.colors;
     },
     activeColor: function activeColor() {
       return this.getValueFromMap(this.currentValue, this.colorMap);
@@ -484,15 +488,6 @@ var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
         result.push(this.voidClass);
       }
       return result;
-    },
-    classMap: function classMap() {
-      return {
-        lowClass: this.iconClasses[0],
-        mediumClass: this.iconClasses[1],
-        highClass: this.iconClasses[2],
-        voidClass: this.voidIconClass,
-        disabledVoidClass: this.disabledVoidIconClass
-      };
     },
     rateDisabled: function rateDisabled() {
       return this.disabled || (this.elForm || {}).disabled;
@@ -515,15 +510,15 @@ var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
       };
     },
     getValueFromMap: function getValueFromMap(value, map) {
-      var result = '';
-      if (value <= this.lowThreshold) {
-        result = map.lowColor || map.lowClass;
-      } else if (value >= this.highThreshold) {
-        result = map.highColor || map.highClass;
-      } else {
-        result = map.mediumColor || map.mediumClass;
-      }
-      return result;
+      var matchedKeys = Object.keys(map).filter(function (key) {
+        var val = map[key];
+        var excluded = Object(types_["isObject"])(val) ? val.excluded : false;
+        return excluded ? value < key : value <= key;
+      }).sort(function (a, b) {
+        return a - b;
+      });
+      var matchedValue = map[matchedKeys[0]];
+      return Object(types_["isObject"])(matchedValue) ? matchedValue.value : matchedValue || '';
     },
     showDecimalIcon: function showDecimalIcon(item) {
       var showWhenDisabled = this.rateDisabled && this.valueDecimal > 0 && item - 1 < this.value && item > this.value;
@@ -532,7 +527,7 @@ var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
       return showWhenDisabled || showWhenAllowHalf;
     },
     getIconStyle: function getIconStyle(item) {
-      var voidColor = this.rateDisabled ? this.colorMap.disabledVoidColor : this.colorMap.voidColor;
+      var voidColor = this.rateDisabled ? this.disabledVoidColor : this.voidColor;
       return {
         color: item <= this.currentValue ? this.activeColor : voidColor
       };
@@ -661,6 +656,13 @@ main.install = function (Vue) {
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/dom");
+
+/***/ }),
+
+/***/ 31:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/types");
 
 /***/ })
 

@@ -121,6 +121,9 @@
         filterPlaceholder: 'Введіть ключове слово',
         noCheckedFormat: '{total} пунктів',
         hasCheckedFormat: '{checked}/{total} вибрано'
+      },
+      image: {
+        error: 'FAILED' // to be translated
       }
     }
   };

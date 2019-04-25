@@ -121,6 +121,9 @@
         filterPlaceholder: 'Sartu gako-hitza', // to be translated
         noCheckedFormat: '{total} elementu', // to be translated
         hasCheckedFormat: '{checked}/{total} hautatuta' // to be translated
+      },
+      image: {
+        error: 'FAILED' // to be translated
       }
     }
   };

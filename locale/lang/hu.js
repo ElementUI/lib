@@ -106,6 +106,9 @@ exports.default = {
       filterPlaceholder: 'Kulcsszó',
       noCheckedFormat: '{total} elem',
       hasCheckedFormat: '{checked}/{total} kiválasztva'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

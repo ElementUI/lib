@@ -106,6 +106,9 @@ exports.default = {
       filterPlaceholder: 'சொல்லை உள்ளீடு செய்',
       noCheckedFormat: '{total} items', // to be translated
       hasCheckedFormat: '{checked}/{total} தேர்வு செய்யப்பட்டவைகள்'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

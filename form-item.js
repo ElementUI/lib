@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 57);
+/******/ 	return __webpack_require__(__webpack_require__.s = 60);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -203,14 +203,14 @@ module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
-/***/ 44:
+/***/ 45:
 /***/ (function(module, exports) {
 
 module.exports = require("async-validator");
 
 /***/ }),
 
-/***/ 57:
+/***/ 60:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -321,7 +321,7 @@ render._withStripped = true
 // CONCATENATED MODULE: ./packages/form/src/form-item.vue?vue&type=template&id=b6f3db6c&
 
 // EXTERNAL MODULE: external "async-validator"
-var external_async_validator_ = __webpack_require__(44);
+var external_async_validator_ = __webpack_require__(45);
 var external_async_validator_default = /*#__PURE__*/__webpack_require__.n(external_async_validator_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/emitter"
@@ -355,7 +355,10 @@ var util_ = __webpack_require__(4);
       var autoLabelWidth = this.elForm.autoLabelWidth;
       var style = {};
       if (autoLabelWidth && autoLabelWidth !== 'auto') {
-        style.width = autoLabelWidth;
+        var marginLeft = parseInt(autoLabelWidth, 10) - this.computedWidth;
+        if (marginLeft) {
+          style.marginLeft = marginLeft + 'px';
+        }
       }
       return h(
         'div',
@@ -407,13 +410,9 @@ var util_ = __webpack_require__(4);
   mounted: function mounted() {
     this.updateLabelWidth('update');
   },
-
-
-  // Is this necessary?
-  // updated() {
-  //   this.updateLabelWidth('update');
-  // },
-
+  updated: function updated() {
+    this.updateLabelWidth('update');
+  },
   beforeDestroy: function beforeDestroy() {
     this.updateLabelWidth('remove');
   }
@@ -738,6 +737,17 @@ component.options.__file = "packages/form/src/label-wrap.vue"
     },
     updateComputedLabelWidth: function updateComputedLabelWidth(width) {
       this.computedLabelWidth = width ? width + 'px' : '';
+    },
+    addValidateEvents: function addValidateEvents() {
+      var rules = this.getRules();
+
+      if (rules.length || this.required !== undefined) {
+        this.$on('el.form.blur', this.onFieldBlur);
+        this.$on('el.form.change', this.onFieldChange);
+      }
+    },
+    removeValidateEvents: function removeValidateEvents() {
+      this.$off();
     }
   },
   mounted: function mounted() {
@@ -752,12 +762,7 @@ component.options.__file = "packages/form/src/label-wrap.vue"
         value: initialValue
       });
 
-      var rules = this.getRules();
-
-      if (rules.length || this.required !== undefined) {
-        this.$on('el.form.blur', this.onFieldBlur);
-        this.$on('el.form.change', this.onFieldChange);
-      }
+      this.addValidateEvents();
     }
   },
   beforeDestroy: function beforeDestroy() {

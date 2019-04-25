@@ -107,6 +107,9 @@ exports.default = {
       filterPlaceholder: 'បញ្ចូលពាក្យ',
       noCheckedFormat: '{total} ធាតុ',
       hasCheckedFormat: '{checked}/{total} បានគូសធីក'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

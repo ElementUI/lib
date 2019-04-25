@@ -107,6 +107,9 @@ exports.default = {
       filterPlaceholder: 'کلید واژه هارو وارد کن',
       noCheckedFormat: '{total} مورد',
       hasCheckedFormat: '{checked} مورد از {total} مورد انتخاب شده است'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

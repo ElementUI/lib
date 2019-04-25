@@ -107,6 +107,9 @@ exports.default = {
       filterPlaceholder: 'Унеси кључну реч', // to be translated
       noCheckedFormat: '{total} ставки', // to be translated
       hasCheckedFormat: '{checked}/{total} обележених' // to be translated
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

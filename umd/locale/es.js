@@ -120,6 +120,9 @@
         filterPlaceholder: 'Ingresar palabra clave',
         noCheckedFormat: '{total} artículos',
         hasCheckedFormat: '{checked}/{total} revisados'
+      },
+      image: {
+        error: 'FAILED' // to be translated
       }
     }
   };

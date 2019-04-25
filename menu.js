@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 60);
+/******/ 	return __webpack_require__(__webpack_require__.s = 62);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -210,7 +210,7 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 60:
+/***/ 62:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -620,8 +620,12 @@ var dom_ = __webpack_require__(2);
     }
   },
   watch: {
-    defaultActive: 'updateActiveIndex',
-
+    defaultActive: function defaultActive(value) {
+      if (!this.items[value]) {
+        this.activeIndex = null;
+      }
+      this.updateActiveIndex(value);
+    },
     defaultOpeneds: function defaultOpeneds(value) {
       if (!this.collapse) {
         this.openedMenus = value;

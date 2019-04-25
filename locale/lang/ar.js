@@ -106,6 +106,9 @@ exports.default = {
       filterPlaceholder: 'ادخل كلمة',
       noCheckedFormat: '{total} عناصر',
       hasCheckedFormat: '{checked}/{total} مختار'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

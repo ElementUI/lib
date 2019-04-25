@@ -107,6 +107,9 @@ exports.default = {
       filterPlaceholder: 'Wpisz szukaną frazę',
       noCheckedFormat: 'razem: {total}',
       hasCheckedFormat: 'wybranych: {checked}/{total}'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

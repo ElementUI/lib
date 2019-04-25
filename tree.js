@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 51);
+/******/ 	return __webpack_require__(__webpack_require__.s = 52);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,17 +189,17 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 12:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/locale");
-
-/***/ }),
-
-/***/ 17:
+/***/ 16:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/checkbox");
+
+/***/ }),
+
+/***/ 18:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/locale");
 
 /***/ }),
 
@@ -224,7 +224,7 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 51:
+/***/ 52:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -406,6 +406,7 @@ var node_Node = function () {
     this.expanded = false;
     this.parent = null;
     this.visible = true;
+    this.isCurrent = false;
 
     for (var name in options) {
       if (options.hasOwnProperty(name)) {
@@ -458,6 +459,7 @@ var node_Node = function () {
 
     if (key && store.currentNodeKey !== undefined && this.key === store.currentNodeKey) {
       store.currentNode = this;
+      store.currentNode.isCurrent = true;
     }
 
     if (store.lazy) {
@@ -955,7 +957,11 @@ var tree_store_TreeStore = function () {
 
   TreeStore.prototype.remove = function remove(data) {
     var node = this.getNode(data);
+
     if (node && node.parent) {
+      if (node === this.currentNode) {
+        this.currentNode = null;
+      }
       node.parent.removeChild(node);
     }
   };
@@ -1206,8 +1212,13 @@ var tree_store_TreeStore = function () {
     return this.currentNode;
   };
 
-  TreeStore.prototype.setCurrentNode = function setCurrentNode(node) {
-    this.currentNode = node;
+  TreeStore.prototype.setCurrentNode = function setCurrentNode(currentNode) {
+    var prevCurrentNode = this.currentNode;
+    if (prevCurrentNode) {
+      prevCurrentNode.isCurrent = false;
+    }
+    this.currentNode = currentNode;
+    this.currentNode.isCurrent = true;
   };
 
   TreeStore.prototype.setUserCurrentNode = function setUserCurrentNode(node) {
@@ -1223,7 +1234,7 @@ var tree_store_TreeStore = function () {
     }
     var node = this.getNode(key);
     if (node) {
-      this.currentNode = node;
+      this.setCurrentNode(node);
     }
   };
 
@@ -1253,7 +1264,7 @@ var tree_nodevue_type_template_id_3ba3ef0e_render = function() {
       staticClass: "el-tree-node",
       class: {
         "is-expanded": _vm.expanded,
-        "is-current": _vm.tree.store.currentNode === _vm.node,
+        "is-current": _vm.node.isCurrent,
         "is-hidden": !_vm.node.visible,
         "is-focusable": !_vm.node.disabled,
         "is-checked": !_vm.node.disabled && _vm.node.checked
@@ -1395,7 +1406,7 @@ var collapse_transition_ = __webpack_require__(23);
 var collapse_transition_default = /*#__PURE__*/__webpack_require__.n(collapse_transition_);
 
 // EXTERNAL MODULE: external "element-ui/lib/checkbox"
-var checkbox_ = __webpack_require__(17);
+var checkbox_ = __webpack_require__(16);
 var checkbox_default = /*#__PURE__*/__webpack_require__.n(checkbox_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/emitter"
@@ -1707,7 +1718,7 @@ if (false) { var api; }
 component.options.__file = "packages/tree/src/tree-node.vue"
 /* harmony default export */ var tree_node = (component.exports);
 // EXTERNAL MODULE: external "element-ui/lib/locale"
-var locale_ = __webpack_require__(12);
+var locale_ = __webpack_require__(18);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/dom"
 var dom_ = __webpack_require__(2);

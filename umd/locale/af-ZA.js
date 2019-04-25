@@ -121,6 +121,9 @@
         filterPlaceholder: 'Voer sleutelwoord in',
         noCheckedFormat: '{total} items',
         hasCheckedFormat: '{checked}/{total} gekies'
+      },
+      image: {
+        error: 'FAILED' // to be translated
       }
     }
   };

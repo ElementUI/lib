@@ -107,6 +107,9 @@ exports.default = {
       filterPlaceholder: 'Nhập từ khóa',
       noCheckedFormat: '{total} mục',
       hasCheckedFormat: '{checked}/{total} đã chọn '
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

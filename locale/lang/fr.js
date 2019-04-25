@@ -106,6 +106,9 @@ exports.default = {
       filterPlaceholder: 'Entrer un mot clef',
       noCheckedFormat: '{total} elements',
       hasCheckedFormat: '{checked}/{total} coché(s)'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

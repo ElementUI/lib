@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 109);
+/******/ 	return __webpack_require__(__webpack_require__.s = 115);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -196,7 +196,14 @@ module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }),
 
-/***/ 109:
+/***/ 11:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/clickoutside");
+
+/***/ }),
+
+/***/ 115:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -215,11 +222,11 @@ var migrating_ = __webpack_require__(10);
 var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
 
 // EXTERNAL MODULE: external "element-ui/lib/button"
-var button_ = __webpack_require__(16);
+var button_ = __webpack_require__(15);
 var button_default = /*#__PURE__*/__webpack_require__.n(button_);
 
 // EXTERNAL MODULE: external "element-ui/lib/button-group"
-var button_group_ = __webpack_require__(41);
+var button_group_ = __webpack_require__(42);
 var button_group_default = /*#__PURE__*/__webpack_require__.n(button_group_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/util"
@@ -284,6 +291,10 @@ var util_ = __webpack_require__(4);
     hideTimeout: {
       type: Number,
       default: 150
+    },
+    tabindex: {
+      type: Number,
+      default: 0
     }
   },
 
@@ -352,7 +363,9 @@ var util_ = __webpack_require__(4);
 
       if (this.triggerElm.disabled) return;
       this.removeTabindex();
-      this.resetTabindex(this.triggerElm);
+      if (this.tabindex >= 0) {
+        this.resetTabindex(this.triggerElm);
+      }
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
         _this2.visible = false;
@@ -405,7 +418,7 @@ var util_ = __webpack_require__(4);
         ev.stopPropagation();
       } else if (keyCode === 13) {
         // enter选中
-        this.triggerElm.focus();
+        this.triggerElmFocus();
         target.click();
         if (this.hideOnClick) {
           // click关闭
@@ -414,7 +427,7 @@ var util_ = __webpack_require__(4);
       } else if ([9, 27].indexOf(keyCode) > -1) {
         // tab // esc
         this.hide();
-        this.triggerElm.focus();
+        this.triggerElmFocus();
       }
     },
     resetTabindex: function resetTabindex(ele) {
@@ -436,7 +449,7 @@ var util_ = __webpack_require__(4);
       if (!this.splitButton) {
         // 自定义
         this.triggerElm.setAttribute('role', 'button');
-        this.triggerElm.setAttribute('tabindex', '0');
+        this.triggerElm.setAttribute('tabindex', this.tabindex);
         this.triggerElm.setAttribute('class', (this.triggerElm.getAttribute('class') || '') + ' el-dropdown-selfdefine'); // 控制
       }
     },
@@ -484,7 +497,7 @@ var util_ = __webpack_require__(4);
       }
       this.$emit('command', command, instance);
     },
-    focus: function focus() {
+    triggerElmFocus: function triggerElmFocus() {
       this.triggerElm.focus && this.triggerElm.focus();
     },
     initDomOperation: function initDomOperation() {
@@ -578,14 +591,7 @@ dropdown.install = function (Vue) {
 
 /***/ }),
 
-/***/ 11:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/clickoutside");
-
-/***/ }),
-
-/***/ 16:
+/***/ 15:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/button");
@@ -606,7 +612,7 @@ module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
-/***/ 41:
+/***/ 42:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/button-group");

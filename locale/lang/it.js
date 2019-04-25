@@ -106,6 +106,9 @@ exports.default = {
       filterPlaceholder: 'Inserisci filtro',
       noCheckedFormat: '{total} elementi',
       hasCheckedFormat: '{checked}/{total} selezionati'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

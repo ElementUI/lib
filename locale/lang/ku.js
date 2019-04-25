@@ -107,6 +107,9 @@ exports.default = {
       filterPlaceholder: 'Binivîse',
       noCheckedFormat: '{total} lib',
       hasCheckedFormat: '{checked}/{total} bijartin'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

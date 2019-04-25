@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 56);
+/******/ 	return __webpack_require__(__webpack_require__.s = 55);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -203,14 +203,14 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 45:
+/***/ 46:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/input-number");
 
 /***/ }),
 
-/***/ 56:
+/***/ 55:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -311,12 +311,37 @@ var render = function() {
               ? _c("div", {
                   key: key,
                   staticClass: "el-slider__stop",
-                  style: _vm.vertical
-                    ? { bottom: item + "%" }
-                    : { left: item + "%" }
+                  style: _vm.getStopStyle(item)
                 })
               : _vm._e()
-          })
+          }),
+          _vm.markList.length > 0
+            ? [
+                _c(
+                  "div",
+                  _vm._l(_vm.markList, function(item, key) {
+                    return _c("div", {
+                      key: key,
+                      staticClass: "el-slider__stop el-slider__marks-stop",
+                      style: _vm.getStopStyle(item.position)
+                    })
+                  }),
+                  0
+                ),
+                _c(
+                  "div",
+                  { staticClass: "el-slider__marks" },
+                  _vm._l(_vm.markList, function(item, key) {
+                    return _c("slider-marker", {
+                      key: key,
+                      style: _vm.getStopStyle(item.position),
+                      attrs: { mark: item.mark }
+                    })
+                  }),
+                  1
+                )
+              ]
+            : _vm._e()
         ],
         2
       )
@@ -331,7 +356,7 @@ render._withStripped = true
 // CONCATENATED MODULE: ./packages/slider/src/main.vue?vue&type=template&id=32708644&
 
 // EXTERNAL MODULE: external "element-ui/lib/input-number"
-var input_number_ = __webpack_require__(45);
+var input_number_ = __webpack_require__(46);
 var input_number_default = /*#__PURE__*/__webpack_require__.n(input_number_);
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/slider/src/button.vue?vue&type=template&id=e72d2ad2&
@@ -582,11 +607,13 @@ var tooltip_default = /*#__PURE__*/__webpack_require__.n(tooltip_);
       if (this.disabled) return;
       this.newPosition = parseFloat(this.currentPosition) - this.step / (this.max - this.min) * 100;
       this.setPosition(this.newPosition);
+      this.$parent.emitChange();
     },
     onRightKeyDown: function onRightKeyDown() {
       if (this.disabled) return;
       this.newPosition = parseFloat(this.currentPosition) + this.step / (this.max - this.min) * 100;
       this.setPosition(this.newPosition);
+      this.$parent.emitChange();
     },
     onDragStart: function onDragStart(event) {
       this.dragging = true;
@@ -698,6 +725,27 @@ var component = Object(componentNormalizer["a" /* default */])(
 if (false) { var api; }
 component.options.__file = "packages/slider/src/button.vue"
 /* harmony default export */ var src_button = (component.exports);
+// CONCATENATED MODULE: ./packages/slider/src/marker.js
+/* harmony default export */ var marker = ({
+  name: 'ElMarker',
+
+  props: {
+    mark: {
+      type: [String, Object]
+    }
+  },
+  render: function render() {
+    var h = arguments[0];
+
+    var label = typeof this.mark === 'string' ? this.mark : this.mark.label;
+
+    return h(
+      'div',
+      { 'class': 'el-slider__marks-text', style: this.mark.style || {} },
+      [label]
+    );
+  }
+});
 // EXTERNAL MODULE: external "element-ui/lib/mixins/emitter"
 var emitter_ = __webpack_require__(3);
 var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
@@ -761,6 +809,24 @@ var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -837,12 +903,14 @@ var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
     label: {
       type: String
     },
-    tooltipClass: String
+    tooltipClass: String,
+    marks: Object
   },
 
   components: {
     ElInputNumber: input_number_default.a,
-    SliderButton: src_button
+    SliderButton: src_button,
+    SliderMarker: marker
   },
 
   data: function data() {
@@ -976,6 +1044,9 @@ var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
       this.$nextTick(function () {
         _this2.$emit('change', _this2.range ? [_this2.minValue, _this2.maxValue] : _this2.value);
       });
+    },
+    getStopStyle: function getStopStyle(position) {
+      return this.vertical ? { 'bottom': position + '%' } : { 'left': position + '%' };
     }
   },
 
@@ -1003,6 +1074,26 @@ var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
           return step > 100 * (_this3.firstValue - _this3.min) / (_this3.max - _this3.min);
         });
       }
+    },
+    markList: function markList() {
+      var _this4 = this;
+
+      if (!this.marks) {
+        return [];
+      }
+
+      var marksKeys = Object.keys(this.marks);
+      return marksKeys.map(parseFloat).sort(function (a, b) {
+        return a - b;
+      }).filter(function (point) {
+        return point <= _this4.max && point >= _this4.min;
+      }).map(function (point) {
+        return {
+          point: point,
+          position: (point - _this4.min) * 100 / (_this4.max - _this4.min),
+          mark: _this4.marks[point]
+        };
+      });
     },
     minValue: function minValue() {
       return Math.min(this.firstValue, this.secondValue);

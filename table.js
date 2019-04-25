@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 49);
+/******/ 	return __webpack_require__(__webpack_require__.s = 50);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -238,32 +238,32 @@ module.exports = require("element-ui/lib/mixins/migrating");
 module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ }),
-/* 12 */,
-/* 13 */
+/* 12 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/popup");
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = require("throttle-debounce/debounce");
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ }),
-/* 16 */,
-/* 17 */
+/* 15 */,
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/checkbox");
 
 /***/ }),
+/* 17 */,
 /* 18 */,
 /* 19 */,
 /* 20 */,
@@ -290,37 +290,38 @@ module.exports = require("element-ui/lib/tag");
 /* 31 */,
 /* 32 */,
 /* 33 */,
-/* 34 */
+/* 34 */,
+/* 35 */,
+/* 36 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/scrollbar-width");
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/checkbox-group");
 
 /***/ }),
-/* 36 */,
-/* 37 */,
 /* 38 */,
 /* 39 */,
 /* 40 */,
 /* 41 */,
-/* 42 */
+/* 42 */,
+/* 43 */
 /***/ (function(module, exports) {
 
 module.exports = require("normalize-wheel");
 
 /***/ }),
-/* 43 */,
 /* 44 */,
 /* 45 */,
 /* 46 */,
 /* 47 */,
 /* 48 */,
-/* 49 */
+/* 49 */,
+/* 50 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -767,18 +768,18 @@ render._withStripped = true
 // CONCATENATED MODULE: ./packages/table/src/table.vue?vue&type=template&id=493fe34e&
 
 // EXTERNAL MODULE: external "element-ui/lib/checkbox"
-var checkbox_ = __webpack_require__(17);
+var checkbox_ = __webpack_require__(16);
 var checkbox_default = /*#__PURE__*/__webpack_require__.n(checkbox_);
 
 // EXTERNAL MODULE: external "throttle-debounce/debounce"
-var debounce_ = __webpack_require__(14);
+var debounce_ = __webpack_require__(13);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/resize-event"
-var resize_event_ = __webpack_require__(15);
+var resize_event_ = __webpack_require__(14);
 
 // EXTERNAL MODULE: external "normalize-wheel"
-var external_normalize_wheel_ = __webpack_require__(42);
+var external_normalize_wheel_ = __webpack_require__(43);
 var external_normalize_wheel_default = /*#__PURE__*/__webpack_require__.n(external_normalize_wheel_);
 
 // CONCATENATED MODULE: ./src/directives/mousewheel.js
@@ -1228,7 +1229,7 @@ table_store_TableStore.prototype.mutations = {
 
     states.data = table_store_sortData(states.filteredData || states._data || [], states);
 
-    if (!options || !options.silent) {
+    if (!options || !(options.silent || options.init)) {
       this.table.$emit('sort-change', {
         column: this.states.sortingColumn,
         prop: this.states.sortProp,
@@ -1244,7 +1245,8 @@ table_store_TableStore.prototype.mutations = {
     var _this3 = this;
 
     var prop = options.prop,
-        order = options.order;
+        order = options.order,
+        init = options.init;
 
     if (prop) {
       states.sortProp = prop;
@@ -1260,7 +1262,9 @@ table_store_TableStore.prototype.mutations = {
         }
 
         if (states.sortingColumn) {
-          _this3.commit('changeSortCondition');
+          _this3.commit('changeSortCondition', {
+            init: init
+          });
         }
       });
     }
@@ -1756,7 +1760,7 @@ table_store_TableStore.prototype.loadData = function (row, treeNode) {
 
 /* harmony default export */ var table_store = (table_store_TableStore);
 // EXTERNAL MODULE: external "element-ui/lib/utils/scrollbar-width"
-var scrollbar_width_ = __webpack_require__(34);
+var scrollbar_width_ = __webpack_require__(36);
 var scrollbar_width_default = /*#__PURE__*/__webpack_require__.n(scrollbar_width_);
 
 // CONCATENATED MODULE: ./packages/table/src/table-layout.js
@@ -2100,6 +2104,8 @@ var tooltip_default = /*#__PURE__*/__webpack_require__.n(tooltip_);
 // CONCATENATED MODULE: ./packages/table/src/table-body.js
 var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 
 
 
@@ -2141,7 +2147,7 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
         prev.push(item);
         var rowKey = _this.store.table.getRowKey(item);
         var parent = _this.store.states.treeData[rowKey];
-        if (parent && parent.children) {
+        if (parent && parent.children && parent.hasChildren) {
           var tmp = [];
           var traverse = function traverse(children) {
             if (!children) return;
@@ -2214,11 +2220,15 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
             if (!rowspan || !colspan) {
               return '';
             } else {
+              var columnData = _extends({}, column);
+              if (colspan !== 1) {
+                columnData.realWidth = columnData.realWidth * colspan;
+              }
               var data = {
                 store: _this.store,
                 _self: _this.context || _this.table.$vnode.context,
+                column: columnData,
                 row: row,
-                column: column,
                 $index: $index
               };
               if (cellIndex === _this.firstDefaultColumnIndex && treeNode) {
@@ -2316,6 +2326,23 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
     }
   },
 
+  watch: {
+    // don't trigger getter of currentRow in getCellClass. see https://jsfiddle.net/oe2b4hqt/
+    // update DOM manually. see https://github.com/ElemeFE/element/pull/13954/files#diff-9b450c00d0a9dec0ffad5a3176972e40
+    'store.states.hoverRow': function storeStatesHoverRow(newVal, oldVal) {
+      if (!this.store.states.isComplex) return;
+      var rows = this.$el.querySelectorAll('.el-table__row');
+      var oldRow = rows[oldVal];
+      var newRow = rows[newVal];
+      if (oldRow) {
+        Object(dom_["removeClass"])(oldRow, 'hover-row');
+      }
+      if (newRow) {
+        Object(dom_["addClass"])(newRow, 'hover-row');
+      }
+    }
+  },
+
   data: function data() {
     return {
       tooltipContent: ''
@@ -2386,10 +2413,6 @@ var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator =
       var classes = ['el-table__row'];
       if (this.table.highlightCurrentRow && row === this.store.states.currentRow) {
         classes.push('current-row');
-      }
-
-      if (rowIndex === this.store.states.hoverRow) {
-        classes.push('hover-row');
       }
 
       if (this.stripe && rowIndex % 2 === 1) {
@@ -2681,7 +2704,7 @@ var vue_popper_ = __webpack_require__(5);
 var vue_popper_default = /*#__PURE__*/__webpack_require__.n(vue_popper_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/popup"
-var popup_ = __webpack_require__(13);
+var popup_ = __webpack_require__(12);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/clickoutside"
 var clickoutside_ = __webpack_require__(11);
@@ -2716,7 +2739,7 @@ var dropdowns = [];
   }
 });
 // EXTERNAL MODULE: external "element-ui/lib/checkbox-group"
-var checkbox_group_ = __webpack_require__(35);
+var checkbox_group_ = __webpack_require__(37);
 var checkbox_group_default = /*#__PURE__*/__webpack_require__.n(checkbox_group_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/table/src/filter-panel.vue?vue&type=script&lang=js&
@@ -3202,7 +3225,8 @@ var convertToRows = function convertToRows(originColumns) {
         prop = _defaultSort.prop,
         order = _defaultSort.order;
 
-    this.store.commit('sort', { prop: prop, order: order });
+    var init = true;
+    this.store.commit('sort', { prop: prop, order: order, init: init });
   },
   beforeDestroy: function beforeDestroy() {
     var panels = this.filterPanels;
@@ -4253,7 +4277,7 @@ var tableIdSeed = 1;
         };
       } else if (this.maxHeight) {
         return {
-          'max-height': (this.showHeader ? this.maxHeight - this.layout.headerHeight - this.layout.footerHeight : this.maxHeight - this.layout.footerHeight) + 'px'
+          'max-height': this.layout.bodyHeight ? this.layout.bodyHeight + 'px' : ''
         };
       }
       return {};

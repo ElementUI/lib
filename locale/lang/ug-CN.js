@@ -107,6 +107,9 @@ exports.default = {
       filterPlaceholder: 'ئىزدىمەكچى بولغان مەزمۇننى كىرگۈزۈڭ',
       noCheckedFormat: 'جەمئىي {total} تۈر',
       hasCheckedFormat: 'تاللانغىنى {checked}/{total} تۈر'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 46);
+/******/ 	return __webpack_require__(__webpack_require__.s = 47);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -355,10 +355,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       var target = arguments[1];
 
       if (!this.isObject) {
-        return arr.indexOf(target) > -1;
+        return arr && arr.indexOf(target) > -1;
       } else {
         var valueKey = this.select.valueKey;
-        return arr.some(function (item) {
+        return arr && arr.some(function (item) {
           return Object(util_["getValueByPath"])(item, valueKey) === Object(util_["getValueByPath"])(target, valueKey);
         });
       }
@@ -442,7 +442,7 @@ module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
-/***/ 46:
+/***/ 47:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

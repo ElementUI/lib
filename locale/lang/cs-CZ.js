@@ -109,6 +109,9 @@ exports.default = {
       filterPlaceholder: 'Klíčové slovo',
       noCheckedFormat: '{total} položek',
       hasCheckedFormat: '{checked}/{total} vybráno'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 90);
+/******/ 	return __webpack_require__(__webpack_require__.s = 103);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,14 +189,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 8:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
-
-/***/ }),
-
-/***/ 90:
+/***/ 103:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -283,6 +276,12 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
   },
   watch: {
     rules: function rules() {
+      // remove then add event listeners on form-item after form rules change
+      this.fields.forEach(function (field) {
+        field.removeValidateEvents();
+        field.addValidateEvents();
+      });
+
       if (this.validateOnRuleChange) {
         this.validate(function () {});
       }
@@ -290,6 +289,7 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
   },
   computed: {
     autoLabelWidth: function autoLabelWidth() {
+      if (!this.potentialLabelWidthArr.length) return 0;
       var max = Math.max.apply(Math, this.potentialLabelWidthArr);
       return max ? max + 'px' : '';
     }
@@ -452,6 +452,13 @@ src_form.install = function (Vue) {
 };
 
 /* harmony default export */ var packages_form = __webpack_exports__["default"] = (src_form);
+
+/***/ }),
+
+/***/ 8:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ })
 

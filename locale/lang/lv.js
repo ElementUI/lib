@@ -107,6 +107,9 @@ exports.default = {
       filterPlaceholder: 'Ievadīt atslēgvārdu',
       noCheckedFormat: '{total} vienības',
       hasCheckedFormat: '{checked}/{total} atzīmēti'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

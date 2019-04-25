@@ -107,6 +107,9 @@ exports.default = {
       filterPlaceholder: 'Anahtar kelimeleri gir',
       noCheckedFormat: '{total} adet',
       hasCheckedFormat: '{checked}/{total} seçildi'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

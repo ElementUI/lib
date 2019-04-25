@@ -108,6 +108,9 @@ exports.default = {
       filterPlaceholder: 'Einträge filtern',
       noCheckedFormat: '{total} Einträge',
       hasCheckedFormat: '{checked}/{total} ausgewählt'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

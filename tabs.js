@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 52);
+/******/ 	return __webpack_require__(__webpack_require__.s = 54);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,7 +189,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 15:
+/***/ 14:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/resize-event");
@@ -203,7 +203,7 @@ module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
-/***/ 52:
+/***/ 54:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -322,7 +322,7 @@ if (false) { var api; }
 component.options.__file = "packages/tabs/src/tab-bar.vue"
 /* harmony default export */ var tab_bar = (component.exports);
 // EXTERNAL MODULE: external "element-ui/lib/utils/resize-event"
-var resize_event_ = __webpack_require__(15);
+var resize_event_ = __webpack_require__(14);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/tabs/src/tab-nav.vue?vue&type=script&lang=js&
 
@@ -733,7 +733,7 @@ tab_nav_component.options.__file = "packages/tabs/src/tab-nav.vue"
     calcPaneInstances: function calcPaneInstances() {
       var _this2 = this;
 
-      var isLabelUpdated = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      var isForceUpdate = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
       if (this.$slots.default) {
         var paneSlots = this.$slots.default.filter(function (vnode) {
@@ -747,7 +747,7 @@ tab_nav_component.options.__file = "packages/tabs/src/tab-nav.vue"
         var panesChanged = !(panes.length === this.panes.length && panes.every(function (pane, index) {
           return pane === _this2.panes[index];
         }));
-        if (isLabelUpdated || panesChanged) {
+        if (isForceUpdate || panesChanged) {
           this.panes = panes;
         }
       } else if (this.panes.length !== 0) {
@@ -781,8 +781,10 @@ tab_nav_component.options.__file = "packages/tabs/src/tab-nav.vue"
         if (before && before.then) {
           before.then(function () {
             changeCurrentName();
-
             _this3.$refs.nav && _this3.$refs.nav.removeFocus();
+          }, function () {
+            // https://github.com/ElemeFE/element/pull/14816
+            // ignore promise rejection in `before-leave` hook
           });
         } else if (before !== false) {
           changeCurrentName();
@@ -864,7 +866,7 @@ tab_nav_component.options.__file = "packages/tabs/src/tab-nav.vue"
       this.setCurrentName('0');
     }
 
-    this.$on('tabLabelChanged', this.calcPaneInstances.bind(null, true));
+    this.$on('tab-nav-update', this.calcPaneInstances.bind(null, true));
   },
   mounted: function mounted() {
     this.calcPaneInstances();

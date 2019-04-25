@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 63);
+/******/ 	return __webpack_require__(__webpack_require__.s = 64);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -217,7 +217,7 @@ module.exports = require("vue");
 
 /***/ }),
 
-/***/ 63:
+/***/ 64:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -360,6 +360,10 @@ var util_ = __webpack_require__(4);
     transition: {
       type: String,
       default: 'fade-in-linear'
+    },
+    tabindex: {
+      type: Number,
+      default: 0
     }
   },
 
@@ -390,7 +394,7 @@ var util_ = __webpack_require__(4);
     if (reference) {
       Object(dom_["addClass"])(reference, 'el-popover__reference');
       reference.setAttribute('aria-describedby', this.tooltipId);
-      reference.setAttribute('tabindex', 0); // tab序列
+      reference.setAttribute('tabindex', this.tabindex); // tab序列
       popper.setAttribute('tabindex', 0);
 
       if (this.trigger !== 'click') {
@@ -417,6 +421,9 @@ var util_ = __webpack_require__(4);
       Object(dom_["on"])(reference, 'mouseleave', this.handleMouseLeave);
       Object(dom_["on"])(popper, 'mouseleave', this.handleMouseLeave);
     } else if (this.trigger === 'focus') {
+      if (this.tabindex < 0) {
+        console.warn('[Element Warn][Popover]a negative taindex means that the element cannot be focused by tab key');
+      }
       if (reference.querySelector('input, textarea')) {
         Object(dom_["on"])(reference, 'focusin', this.doShow);
         Object(dom_["on"])(reference, 'focusout', this.doClose);

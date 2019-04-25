@@ -107,6 +107,9 @@ exports.default = {
       filterPlaceholder: 'Gözleg sözlerini giriziň',
       noCheckedFormat: '{total} sany',
       hasCheckedFormat: '{checked}/{total} saýlanan'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

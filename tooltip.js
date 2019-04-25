@@ -82,12 +82,12 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 115);
+/******/ 	return __webpack_require__(__webpack_require__.s = 120);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 115:
+/***/ 120:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98,7 +98,7 @@ var vue_popper_ = __webpack_require__(5);
 var vue_popper_default = /*#__PURE__*/__webpack_require__.n(vue_popper_);
 
 // EXTERNAL MODULE: external "throttle-debounce/debounce"
-var debounce_ = __webpack_require__(14);
+var debounce_ = __webpack_require__(13);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/dom"
@@ -160,6 +160,10 @@ var external_vue_default = /*#__PURE__*/__webpack_require__.n(external_vue_);
       default: true
     },
     hideAfter: {
+      type: Number,
+      default: 0
+    },
+    tabindex: {
       type: Number,
       default: 0
     }
@@ -360,11 +364,13 @@ var external_vue_default = /*#__PURE__*/__webpack_require__.n(external_vue_);
   },
   destroyed: function destroyed() {
     var reference = this.referenceElm;
-    Object(dom_["off"])(reference, 'mouseenter', this.show);
-    Object(dom_["off"])(reference, 'mouseleave', this.hide);
-    Object(dom_["off"])(reference, 'focus', this.handleFocus);
-    Object(dom_["off"])(reference, 'blur', this.handleBlur);
-    Object(dom_["off"])(reference, 'click', this.removeFocusing);
+    if (reference.nodeType === 1) {
+      Object(dom_["off"])(reference, 'mouseenter', this.show);
+      Object(dom_["off"])(reference, 'mouseleave', this.hide);
+      Object(dom_["off"])(reference, 'focus', this.handleFocus);
+      Object(dom_["off"])(reference, 'blur', this.handleBlur);
+      Object(dom_["off"])(reference, 'click', this.removeFocusing);
+    }
   }
 });
 // CONCATENATED MODULE: ./packages/tooltip/index.js
@@ -379,7 +385,7 @@ main.install = function (Vue) {
 
 /***/ }),
 
-/***/ 14:
+/***/ 13:
 /***/ (function(module, exports) {
 
 module.exports = require("throttle-debounce/debounce");

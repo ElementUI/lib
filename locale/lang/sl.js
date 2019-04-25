@@ -107,6 +107,9 @@ exports.default = {
       filterPlaceholder: 'Vnesi ključno besedo',
       noCheckedFormat: '{total} elementov',
       hasCheckedFormat: '{checked}/{total} izbranih'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

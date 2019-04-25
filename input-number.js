@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 97);
+/******/ 	return __webpack_require__(__webpack_require__.s = 78);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,17 +189,17 @@ function normalizeComponent (
 
 /***/ }),
 
+/***/ 19:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/focus");
+
+/***/ }),
+
 /***/ 2:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/dom");
-
-/***/ }),
-
-/***/ 20:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/mixins/focus");
 
 /***/ }),
 
@@ -219,7 +219,7 @@ module.exports = require("element-ui/lib/mixins/focus");
       return vnode.context[binding.expression].apply();
     };
     var clear = function clear() {
-      if (new Date() - startTime < 100) {
+      if (Date.now() - startTime < 100) {
         handler();
       }
       clearInterval(interval);
@@ -228,7 +228,7 @@ module.exports = require("element-ui/lib/mixins/focus");
 
     Object(element_ui_src_utils_dom__WEBPACK_IMPORTED_MODULE_0__["on"])(el, 'mousedown', function (e) {
       if (e.button !== 0) return;
-      startTime = new Date();
+      startTime = Date.now();
       Object(element_ui_src_utils_dom__WEBPACK_IMPORTED_MODULE_0__["once"])(document, 'mouseup', clear);
       clearInterval(interval);
       interval = setInterval(handler, 100);
@@ -238,14 +238,7 @@ module.exports = require("element-ui/lib/mixins/focus");
 
 /***/ }),
 
-/***/ 9:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/input");
-
-/***/ }),
-
-/***/ 97:
+/***/ 78:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -403,7 +396,7 @@ var input_ = __webpack_require__(9);
 var input_default = /*#__PURE__*/__webpack_require__.n(input_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/focus"
-var focus_ = __webpack_require__(20);
+var focus_ = __webpack_require__(19);
 var focus_default = /*#__PURE__*/__webpack_require__.n(focus_);
 
 // EXTERNAL MODULE: ./src/directives/repeat-click.js
@@ -484,6 +477,10 @@ var repeat_click = __webpack_require__(25);
       type: Number,
       default: 1
     },
+    stepStrictly: {
+      type: Boolean,
+      default: false
+    },
     max: {
       type: Number,
       default: Infinity
@@ -529,6 +526,13 @@ var repeat_click = __webpack_require__(25);
           if (isNaN(newVal)) {
             return;
           }
+
+          if (this.stepStrictly) {
+            var stepPrecision = this.getPrecision(this.step);
+            var precisionFactor = Math.pow(10, stepPrecision);
+            newVal = Math.round(newVal / this.step) * precisionFactor * this.step / precisionFactor;
+          }
+
           if (this.precision !== undefined) {
             newVal = this.toPrecision(newVal, this.precision);
           }
@@ -580,12 +584,22 @@ var repeat_click = __webpack_require__(25);
       if (this.userInput !== null) {
         return this.userInput;
       }
+
       var currentValue = this.currentValue;
-      if (typeof currentValue === 'number' && this.precision !== undefined) {
-        return currentValue.toFixed(this.precision);
-      } else {
-        return currentValue;
+
+      if (typeof currentValue === 'number') {
+        if (this.stepStrictly) {
+          var stepPrecision = this.getPrecision(this.step);
+          var precisionFactor = Math.pow(10, stepPrecision);
+          currentValue = Math.round(currentValue / this.step) * precisionFactor * this.step / precisionFactor;
+        }
+
+        if (this.precision !== undefined) {
+          currentValue = currentValue.toFixed(this.precision);
+        }
       }
+
+      return currentValue;
     }
   },
   methods: {
@@ -713,6 +727,13 @@ input_number.install = function (Vue) {
 };
 
 /* harmony default export */ var packages_input_number = __webpack_exports__["default"] = (input_number);
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/input");
 
 /***/ })
 

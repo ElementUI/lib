@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 88);
+/******/ 	return __webpack_require__(__webpack_require__.s = 86);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -210,7 +210,7 @@ module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
-/***/ 88:
+/***/ 86:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -223,7 +223,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "el-collapse-item", class: { "is-active": _vm.isActive } },
+    {
+      staticClass: "el-collapse-item",
+      class: { "is-active": _vm.isActive, "is-disabled": _vm.disabled }
+    },
     [
       _c(
         "div",
@@ -247,7 +250,7 @@ var render = function() {
               attrs: {
                 role: "button",
                 id: "el-collapse-head-" + _vm.id,
-                tabindex: "0"
+                tabindex: _vm.disabled ? undefined : 0
               },
               on: {
                 click: _vm.handleHeaderClick,
@@ -379,6 +382,7 @@ var util_ = __webpack_require__(4);
 //
 //
 //
+//
 
 
 
@@ -401,7 +405,8 @@ var util_ = __webpack_require__(4);
       },
       contentHeight: 0,
       focusing: false,
-      isClick: false
+      isClick: false,
+      id: Object(util_["generateId"])()
     };
   },
 
@@ -415,15 +420,13 @@ var util_ = __webpack_require__(4);
       default: function _default() {
         return this._uid;
       }
-    }
+    },
+    disabled: Boolean
   },
 
   computed: {
     isActive: function isActive() {
       return this.collapse.activeNames.indexOf(this.name) > -1;
-    },
-    id: function id() {
-      return Object(util_["generateId"])();
     }
   },
 
@@ -440,6 +443,7 @@ var util_ = __webpack_require__(4);
       }, 50);
     },
     handleHeaderClick: function handleHeaderClick() {
+      if (this.disabled) return;
       this.dispatch('ElCollapse', 'item-click', this);
       this.focusing = false;
       this.isClick = true;

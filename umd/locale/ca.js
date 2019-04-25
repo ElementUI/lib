@@ -120,6 +120,9 @@
         filterPlaceholder: 'Introdueix la paraula clau',
         noCheckedFormat: '{total} ítems',
         hasCheckedFormat: '{checked}/{total} seleccionats'
+      },
+      image: {
+        error: 'FAILED' // to be translated
       }
     }
   };

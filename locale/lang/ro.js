@@ -107,6 +107,9 @@ exports.default = {
       filterPlaceholder: 'Introduceți cuvântul cheie',
       noCheckedFormat: '{total} elemente',
       hasCheckedFormat: '{checked}/{total} verificate'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };
