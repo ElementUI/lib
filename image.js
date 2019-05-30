@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 110);
+/******/ 	return __webpack_require__(__webpack_require__.s = 108);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,7 +189,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 110:
+/***/ 108:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -209,16 +209,28 @@ var render = function() {
             _c("div", { staticClass: "el-image__placeholder" })
           ])
         : _vm.error
-          ? _vm._t("error", [
-              _c("div", { staticClass: "el-image__error" }, [
-                _vm._v(_vm._s(_vm.t("el.image.error")))
-              ])
+        ? _vm._t("error", [
+            _c("div", { staticClass: "el-image__error" }, [
+              _vm._v(_vm._s(_vm.t("el.image.error")))
             ])
-          : _c("img", {
-              staticClass: "el-image__inner",
-              style: { "object-fit": _vm.fit },
-              attrs: { src: _vm.src, alt: _vm.alt }
-            })
+          ])
+        : _c(
+            "img",
+            _vm._g(
+              _vm._b(
+                {
+                  staticClass: "el-image__inner",
+                  class: { "el-image__inner--center": _vm.alignCenter },
+                  style: _vm.imageStyle,
+                  attrs: { src: _vm.src }
+                },
+                "img",
+                _vm.$attrs,
+                false
+              ),
+              _vm.$listeners
+            )
+          )
     ],
     2
   )
@@ -230,17 +242,17 @@ render._withStripped = true
 // CONCATENATED MODULE: ./packages/image/src/main.vue?vue&type=template&id=44d84a7c&
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/locale"
-var locale_ = __webpack_require__(7);
+var locale_ = __webpack_require__(6);
 var locale_default = /*#__PURE__*/__webpack_require__.n(locale_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/dom"
 var dom_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/types"
-var types_ = __webpack_require__(31);
+var types_ = __webpack_require__(18);
 
 // EXTERNAL MODULE: external "throttle-debounce/throttle"
-var throttle_ = __webpack_require__(33);
+var throttle_ = __webpack_require__(25);
 var throttle_default = /*#__PURE__*/__webpack_require__.n(throttle_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/image/src/main.vue?vue&type=script&lang=js&
@@ -261,49 +273,79 @@ var throttle_default = /*#__PURE__*/__webpack_require__.n(throttle_);
 //
 //
 //
+//
+//
 
 
 
 
 
+
+var isSupportObjectFit = function isSupportObjectFit() {
+  return document.documentElement.style.objectFit !== undefined;
+};
+
+var ObjectFit = {
+  NONE: 'none',
+  CONTAIN: 'contain',
+  COVER: 'cover',
+  FILL: 'fill',
+  SCALE_DOWN: 'scale-down'
+};
 
 /* harmony default export */ var mainvue_type_script_lang_js_ = ({
   name: 'ElImage',
 
   mixins: [locale_default.a],
+  inheritAttrs: false,
 
   props: {
     src: String,
     fit: String,
     lazy: Boolean,
-    scrollContainer: [String, HTMLElement],
-    alt: String
+    scrollContainer: {}
   },
 
   data: function data() {
     return {
       loading: true,
       error: false,
-      show: !this.lazy
+      show: !this.lazy,
+      imageWidth: 0,
+      imageHeight: 0
     };
   },
 
 
-  watch: {
-    src: {
-      handler: function handler(val) {
-        this.show && this.loadImage(val);
-      },
+  computed: {
+    imageStyle: function imageStyle() {
+      var fit = this.fit;
 
-      immediate: true
+      if (!this.$isServer && fit) {
+        return isSupportObjectFit() ? { 'object-fit': fit } : this.getImageStyle(fit);
+      }
+      return {};
+    },
+    alignCenter: function alignCenter() {
+      return !this.$isServer && !isSupportObjectFit() && this.fit !== ObjectFit.FILL;
+    }
+  },
+
+  watch: {
+    src: function src(val) {
+      this.show && this.loadImage();
     },
     show: function show(val) {
-      val && this.loadImage(this.src);
+      val && this.loadImage();
     }
   },
 
   mounted: function mounted() {
-    this.lazy && this.addLazyLoadListener();
+    if (this.lazy) {
+      this.addLazyLoadListener();
+    } else {
+      this.loadImage();
+    }
   },
   beforeDestroy: function beforeDestroy() {
     this.lazy && this.removeLazyLoadListener();
@@ -311,19 +353,33 @@ var throttle_default = /*#__PURE__*/__webpack_require__.n(throttle_);
 
 
   methods: {
-    loadImage: function loadImage(val) {
+    loadImage: function loadImage() {
+      var _this = this;
+
+      if (this.$isServer) return;
+
       // reset status
       this.loading = true;
       this.error = false;
 
       var img = new Image();
-      img.onload = this.handleLoad.bind(this);
+      img.onload = function (e) {
+        return _this.handleLoad(e, img);
+      };
       img.onerror = this.handleError.bind(this);
-      img.src = val;
+
+      // bind html attrs
+      // so it can behave consistently
+      Object.keys(this.$attrs).forEach(function (key) {
+        var value = _this.$attrs[key];
+        img.setAttribute(key, value);
+      });
+      img.src = this.src;
     },
-    handleLoad: function handleLoad(e) {
+    handleLoad: function handleLoad(e, img) {
+      this.imageWidth = img.width;
+      this.imageHeight = img.height;
       this.loading = false;
-      this.$emit('load', e);
     },
     handleError: function handleError(e) {
       this.loading = false;
@@ -368,6 +424,38 @@ var throttle_default = /*#__PURE__*/__webpack_require__.n(throttle_);
       Object(dom_["off"])(_scrollContainer, 'scroll', _lazyLoadHandler);
       this._scrollContainer = null;
       this._lazyLoadHandler = null;
+    },
+
+    /**
+     * simulate object-fit behavior to compatible with IE11 and other browsers which not support object-fit
+     */
+    getImageStyle: function getImageStyle(fit) {
+      var imageWidth = this.imageWidth,
+          imageHeight = this.imageHeight;
+      var _$el = this.$el,
+          containerWidth = _$el.clientWidth,
+          containerHeight = _$el.clientHeight;
+
+
+      if (!imageWidth || !imageHeight || !containerWidth || !containerHeight) return {};
+
+      var vertical = imageWidth / imageHeight < 1;
+
+      if (fit === ObjectFit.SCALE_DOWN) {
+        var isSmaller = imageWidth < containerWidth && imageHeight < containerHeight;
+        fit = isSmaller ? ObjectFit.NONE : ObjectFit.CONTAIN;
+      }
+
+      switch (fit) {
+        case ObjectFit.NONE:
+          return { width: 'auto', height: 'auto' };
+        case ObjectFit.CONTAIN:
+          return vertical ? { width: 'auto' } : { height: 'auto' };
+        case ObjectFit.COVER:
+          return vertical ? { height: 'auto' } : { width: 'auto' };
+        default:
+          return {};
+      }
     }
   }
 });
@@ -411,6 +499,13 @@ main.install = function (Vue) {
 
 /***/ }),
 
+/***/ 18:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/types");
+
+/***/ }),
+
 /***/ 2:
 /***/ (function(module, exports) {
 
@@ -418,21 +513,14 @@ module.exports = require("element-ui/lib/utils/dom");
 
 /***/ }),
 
-/***/ 31:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/types");
-
-/***/ }),
-
-/***/ 33:
+/***/ 25:
 /***/ (function(module, exports) {
 
 module.exports = require("throttle-debounce/throttle");
 
 /***/ }),
 
-/***/ 7:
+/***/ 6:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/locale");

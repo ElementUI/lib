@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 58);
+/******/ 	return __webpack_require__(__webpack_require__.s = 63);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -196,14 +196,21 @@ module.exports = require("element-ui/lib/utils/date-util");
 
 /***/ }),
 
-/***/ 21:
+/***/ 24:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/date");
 
 /***/ }),
 
-/***/ 58:
+/***/ 6:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/locale");
+
+/***/ }),
+
+/***/ 63:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -327,11 +334,11 @@ render._withStripped = true
 // CONCATENATED MODULE: ./packages/calendar/src/main.vue?vue&type=template&id=6d9756be&
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/locale"
-var locale_ = __webpack_require__(7);
+var locale_ = __webpack_require__(6);
 var locale_default = /*#__PURE__*/__webpack_require__.n(locale_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/date"
-var date_ = __webpack_require__(21);
+var date_ = __webpack_require__(24);
 var date_default = /*#__PURE__*/__webpack_require__.n(date_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/date-util"
@@ -468,6 +475,7 @@ var date_util_ = __webpack_require__(1);
       } else {
         var date = this.date;
         var firstDay = Object(date_util_["getFirstDayOfMonth"])(date);
+        firstDay = firstDay === 0 ? 7 : firstDay;
         var prevMonthDays = Object(date_util_["getPrevMonthLastDays"])(date, firstDay - 1).map(function (day) {
           return {
             text: day,
@@ -722,8 +730,8 @@ var oneDay = 86400000;
       return date_default.a.format(this.date, 'yyyy-MM-dd');
     },
     i18nDate: function i18nDate() {
-      var year = this.formatedDate.slice(0, 4);
-      var month = this.formatedDate.slice(5, 7).replace('0', '');
+      var year = this.date.getFullYear();
+      var month = this.date.getMonth() + 1;
       return year + ' ' + this.t('el.datepicker.year') + ' ' + this.t('el.datepicker.month' + month);
     },
     formatedToday: function formatedToday() {
@@ -856,13 +864,6 @@ main.install = function (Vue) {
 };
 
 /* harmony default export */ var calendar = __webpack_exports__["default"] = (main);
-
-/***/ }),
-
-/***/ 7:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ })
 

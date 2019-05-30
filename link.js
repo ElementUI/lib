@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 101);
+/******/ 	return __webpack_require__(__webpack_require__.s = 81);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,7 +189,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 101:
+/***/ 81:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -210,7 +210,7 @@ var render = function() {
           _vm.disabled && "is-disabled",
           _vm.underline && !_vm.disabled && "is-underline"
         ],
-        attrs: { href: _vm.href },
+        attrs: { href: _vm.disabled ? null : _vm.href },
         on: { click: _vm.handleClick }
       },
       "a",
@@ -218,7 +218,7 @@ var render = function() {
       false
     ),
     [
-      _vm.icon ? _c("el-icon", { class: _vm.icon }) : _vm._e(),
+      _vm.icon ? _c("i", { class: _vm.icon }) : _vm._e(),
       _vm.$slots.default
         ? _c("span", { staticClass: "el-link--inner" }, [_vm._t("default")], 2)
         : _vm._e(),

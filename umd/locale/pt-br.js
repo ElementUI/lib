@@ -84,7 +84,8 @@
       cascader: {
         noMatch: 'Sem resultados',
         loading: 'Carregando',
-        placeholder: 'Selecione'
+        placeholder: 'Selecione',
+        noData: 'Sem dados'
       },
       pagination: {
         goto: 'Ir para',
@@ -124,6 +125,9 @@
       },
       image: {
         error: 'FAILED' // to be translated
+      },
+      pageHeader: {
+        title: 'Back' // to be translated
       }
     }
   };
