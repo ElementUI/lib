@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 51);
+/******/ 	return __webpack_require__(__webpack_require__.s = 53);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,14 +189,21 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 11:
+/***/ 10:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/input");
+
+/***/ }),
+
+/***/ 12:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ }),
 
-/***/ 17:
+/***/ 18:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/button");
@@ -217,7 +224,7 @@ module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ }),
 
-/***/ 51:
+/***/ 53:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1537,11 +1544,11 @@ var locale_ = __webpack_require__(6);
 var locale_default = /*#__PURE__*/__webpack_require__.n(locale_);
 
 // EXTERNAL MODULE: external "element-ui/lib/input"
-var input_ = __webpack_require__(9);
+var input_ = __webpack_require__(10);
 var input_default = /*#__PURE__*/__webpack_require__.n(input_);
 
 // EXTERNAL MODULE: external "element-ui/lib/button"
-var button_ = __webpack_require__(17);
+var button_ = __webpack_require__(18);
 var button_default = /*#__PURE__*/__webpack_require__.n(button_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/color-picker/src/components/picker-dropdown.vue?vue&type=script&lang=js&
@@ -1699,7 +1706,7 @@ if (false) { var picker_dropdown_api; }
 picker_dropdown_component.options.__file = "packages/color-picker/src/components/picker-dropdown.vue"
 /* harmony default export */ var picker_dropdown = (picker_dropdown_component.exports);
 // EXTERNAL MODULE: external "element-ui/lib/utils/clickoutside"
-var clickoutside_ = __webpack_require__(11);
+var clickoutside_ = __webpack_require__(12);
 var clickoutside_default = /*#__PURE__*/__webpack_require__.n(clickoutside_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/emitter"
@@ -1944,13 +1951,6 @@ module.exports = require("element-ui/lib/mixins/locale");
 /***/ (function(module, exports) {
 
 module.exports = require("vue");
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/input");
 
 /***/ })
 
