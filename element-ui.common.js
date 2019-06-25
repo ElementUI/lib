@@ -119,13 +119,13 @@ module.exports = require("element-ui/lib/mixins/locale");
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("vue");
+module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/vue-popper");
+module.exports = require("vue");
 
 /***/ }),
 /* 7 */
@@ -1749,7 +1749,7 @@ autocomplete_suggestionsvue_type_template_id_cd10dcf0_render._withStripped = tru
 // CONCATENATED MODULE: ./packages/autocomplete/src/autocomplete-suggestions.vue?vue&type=template&id=cd10dcf0&
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/vue-popper"
-var vue_popper_ = __webpack_require__(6);
+var vue_popper_ = __webpack_require__(5);
 var vue_popper_default = /*#__PURE__*/__webpack_require__.n(vue_popper_);
 
 // EXTERNAL MODULE: external "element-ui/lib/scrollbar"
@@ -3666,6 +3666,9 @@ var poperMixins = {
       this.dispatch('ElSubmenu', 'mouse-leave-child');
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
+        if (_this3.appendToBody) {
+          _this3.rootMenu.openedMenus = [];
+        }
         !_this3.mouseInChild && _this3.rootMenu.closeMenu(_this3.index);
       }, this.hideTimeout);
     },
@@ -8330,7 +8333,6 @@ var shared_ = __webpack_require__(22);
 
 
 
-
 /* harmony default export */ var selectvue_type_script_lang_js_ = ({
   mixins: [emitter_default.a, locale_default.a, focus_default()('reference'), navigation_mixin],
 
@@ -8611,17 +8613,21 @@ var shared_ = __webpack_require__(22);
 
   methods: {
     handleComposition: function handleComposition(event) {
+      var _this5 = this;
+
       var text = event.target.value;
       if (event.type === 'compositionend') {
         this.isOnComposition = false;
-        this.handleQueryChange(text);
+        this.$nextTick(function (_) {
+          return _this5.handleQueryChange(text);
+        });
       } else {
         var lastCharacter = text[text.length - 1] || '';
         this.isOnComposition = !Object(shared_["isKorean"])(lastCharacter);
       }
     },
     handleQueryChange: function handleQueryChange(val) {
-      var _this5 = this;
+      var _this6 = this;
 
       if (this.previousQuery === val || this.isOnComposition) return;
       if (this.previousQuery === null && (typeof this.filterMethod === 'function' || typeof this.remoteMethod === 'function')) {
@@ -8630,15 +8636,15 @@ var shared_ = __webpack_require__(22);
       }
       this.previousQuery = val;
       this.$nextTick(function () {
-        if (_this5.visible) _this5.broadcast('ElSelectDropdown', 'updatePopper');
+        if (_this6.visible) _this6.broadcast('ElSelectDropdown', 'updatePopper');
       });
       this.hoverIndex = -1;
       if (this.multiple && this.filterable) {
         this.$nextTick(function () {
-          var length = _this5.$refs.input.value.length * 15 + 20;
-          _this5.inputLength = _this5.collapseTags ? Math.min(50, length) : length;
-          _this5.managePlaceholder();
-          _this5.resetInputHeight();
+          var length = _this6.$refs.input.value.length * 15 + 20;
+          _this6.inputLength = _this6.collapseTags ? Math.min(50, length) : length;
+          _this6.managePlaceholder();
+          _this6.resetInputHeight();
         });
       }
       if (this.remote && typeof this.remoteMethod === 'function') {
@@ -8665,10 +8671,10 @@ var shared_ = __webpack_require__(22);
       this.$refs.scrollbar && this.$refs.scrollbar.handleScroll();
     },
     handleMenuEnter: function handleMenuEnter() {
-      var _this6 = this;
+      var _this7 = this;
 
       this.$nextTick(function () {
-        return _this6.scrollToOption(_this6.selected);
+        return _this7.scrollToOption(_this7.selected);
       });
     },
     emitChange: function emitChange(val) {
@@ -8702,7 +8708,7 @@ var shared_ = __webpack_require__(22);
       return newOption;
     },
     setSelected: function setSelected() {
-      var _this7 = this;
+      var _this8 = this;
 
       if (!this.multiple) {
         var option = this.getOption(this.value);
@@ -8720,12 +8726,12 @@ var shared_ = __webpack_require__(22);
       var result = [];
       if (Array.isArray(this.value)) {
         this.value.forEach(function (value) {
-          result.push(_this7.getOption(value));
+          result.push(_this8.getOption(value));
         });
       }
       this.selected = result;
       this.$nextTick(function () {
-        _this7.resetInputHeight();
+        _this8.resetInputHeight();
       });
     },
     handleFocus: function handleFocus(event) {
@@ -8744,13 +8750,13 @@ var shared_ = __webpack_require__(22);
       this.$refs.reference.blur();
     },
     handleBlur: function handleBlur(event) {
-      var _this8 = this;
+      var _this9 = this;
 
       setTimeout(function () {
-        if (_this8.isSilentBlur) {
-          _this8.isSilentBlur = false;
+        if (_this9.isSilentBlur) {
+          _this9.isSilentBlur = false;
         } else {
-          _this8.$emit('blur', event);
+          _this9.$emit('blur', event);
         }
       }, 50);
       this.softFocus = false;
@@ -8796,42 +8802,42 @@ var shared_ = __webpack_require__(22);
       this.resetInputHeight();
     },
     resetInputHeight: function resetInputHeight() {
-      var _this9 = this;
+      var _this10 = this;
 
       if (this.collapseTags && !this.filterable) return;
       this.$nextTick(function () {
-        if (!_this9.$refs.reference) return;
-        var inputChildNodes = _this9.$refs.reference.$el.childNodes;
+        if (!_this10.$refs.reference) return;
+        var inputChildNodes = _this10.$refs.reference.$el.childNodes;
         var input = [].filter.call(inputChildNodes, function (item) {
           return item.tagName === 'INPUT';
         })[0];
-        var tags = _this9.$refs.tags;
-        var sizeInMap = _this9.initialInputHeight || 40;
-        input.style.height = _this9.selected.length === 0 ? sizeInMap + 'px' : Math.max(tags ? tags.clientHeight + (tags.clientHeight > sizeInMap ? 6 : 0) : 0, sizeInMap) + 'px';
-        if (_this9.visible && _this9.emptyText !== false) {
-          _this9.broadcast('ElSelectDropdown', 'updatePopper');
+        var tags = _this10.$refs.tags;
+        var sizeInMap = _this10.initialInputHeight || 40;
+        input.style.height = _this10.selected.length === 0 ? sizeInMap + 'px' : Math.max(tags ? tags.clientHeight + (tags.clientHeight > sizeInMap ? 6 : 0) : 0, sizeInMap) + 'px';
+        if (_this10.visible && _this10.emptyText !== false) {
+          _this10.broadcast('ElSelectDropdown', 'updatePopper');
         }
       });
     },
     resetHoverIndex: function resetHoverIndex() {
-      var _this10 = this;
+      var _this11 = this;
 
       setTimeout(function () {
-        if (!_this10.multiple) {
-          _this10.hoverIndex = _this10.options.indexOf(_this10.selected);
+        if (!_this11.multiple) {
+          _this11.hoverIndex = _this11.options.indexOf(_this11.selected);
         } else {
-          if (_this10.selected.length > 0) {
-            _this10.hoverIndex = Math.min.apply(null, _this10.selected.map(function (item) {
-              return _this10.options.indexOf(item);
+          if (_this11.selected.length > 0) {
+            _this11.hoverIndex = Math.min.apply(null, _this11.selected.map(function (item) {
+              return _this11.options.indexOf(item);
             }));
           } else {
-            _this10.hoverIndex = -1;
+            _this11.hoverIndex = -1;
           }
         }
       }, 300);
     },
     handleOptionSelect: function handleOptionSelect(option, byClick) {
-      var _this11 = this;
+      var _this12 = this;
 
       if (this.multiple) {
         var value = (this.value || []).slice();
@@ -8858,7 +8864,7 @@ var shared_ = __webpack_require__(22);
       this.setSoftFocus();
       if (this.visible) return;
       this.$nextTick(function () {
-        _this11.scrollToOption(option);
+        _this12.scrollToOption(option);
       });
     },
     setSoftFocus: function setSoftFocus() {
@@ -8987,7 +8993,7 @@ var shared_ = __webpack_require__(22);
   },
 
   created: function created() {
-    var _this12 = this;
+    var _this13 = this;
 
     this.cachedPlaceHolder = this.currentPlaceholder = this.placeholder;
     if (this.multiple && !Array.isArray(this.value)) {
@@ -8998,18 +9004,18 @@ var shared_ = __webpack_require__(22);
     }
 
     this.debouncedOnInputChange = debounce_default()(this.debounce, function () {
-      _this12.onInputChange();
+      _this13.onInputChange();
     });
 
     this.debouncedQueryChange = debounce_default()(this.debounce, function (e) {
-      _this12.handleQueryChange(e.target.value);
+      _this13.handleQueryChange(e.target.value);
     });
 
     this.$on('handleOptionClick', this.handleOptionSelect);
     this.$on('setSelected', this.setSelected);
   },
   mounted: function mounted() {
-    var _this13 = this;
+    var _this14 = this;
 
     if (this.multiple && Array.isArray(this.value) && this.value.length > 0) {
       this.currentPlaceholder = '';
@@ -9023,14 +9029,15 @@ var shared_ = __webpack_require__(22);
         small: 32,
         mini: 28
       };
-      this.initialInputHeight = reference.$el.getBoundingClientRect().height || sizeMap[this.selectSize];
+      var input = reference.$el.querySelector('input');
+      this.initialInputHeight = input.getBoundingClientRect().height || sizeMap[this.selectSize];
     }
     if (this.remote && this.multiple) {
       this.resetInputHeight();
     }
     this.$nextTick(function () {
       if (reference && reference.$el) {
-        _this13.inputWidth = reference.$el.getBoundingClientRect().width;
+        _this14.inputWidth = reference.$el.getBoundingClientRect().width;
       }
     });
     this.setSelected();
@@ -9890,7 +9897,7 @@ var mousewheel_mousewheel = function mousewheel(element, callback) {
   }
 });
 // EXTERNAL MODULE: external "vue"
-var external_vue_ = __webpack_require__(5);
+var external_vue_ = __webpack_require__(6);
 var external_vue_default = /*#__PURE__*/__webpack_require__.n(external_vue_);
 
 // CONCATENATED MODULE: ./packages/table/src/util.js
@@ -10075,10 +10082,11 @@ function parseHeight(height) {
     return height;
   }
   if (typeof height === 'string') {
-    if (/^\d+(?:px)?/.test(height)) {
+    if (/^\d+(?:px)?$/.test(height)) {
       return parseInt(height, 10);
+    } else {
+      return height;
     }
-    console.warn('[Element Warn][ElTable]invalid height and it will be ignored.');
   }
   return null;
 }
@@ -10252,7 +10260,10 @@ function walkTreeNode(root, cb) {
   data: function data() {
     return {
       states: {
-        current: null
+        // 不可响应的，设置 currentRowKey 时，data 不一定存在，也许无法算出正确的 currentRow
+        // 把该值缓存一下，当用户点击修改 currentRow 时，把该值重置为 null
+        _currentRowKey: null,
+        currentRow: null
       }
     };
   },
@@ -10261,37 +10272,57 @@ function walkTreeNode(root, cb) {
   methods: {
     setCurrentRowKey: function setCurrentRowKey(key) {
       this.assertRowKey();
-
+      this.states._currentRowKey = key;
+      this.setCurrentRowByKey(key);
+    },
+    restoreCurrentRowKey: function restoreCurrentRowKey() {
+      this.states._currentRowKey = null;
+    },
+    setCurrentRowByKey: function setCurrentRowByKey(key) {
       var states = this.states;
       var _states$data = states.data,
           data = _states$data === undefined ? [] : _states$data,
           rowKey = states.rowKey;
 
-      var currentRow = Object(util_["arrayFind"])(data, function (item) {
-        return getRowIdentity(item, rowKey) === key;
-      });
-      states.currentRow = currentRow ? currentRow : null;
+      var currentRow = null;
+      if (rowKey) {
+        currentRow = Object(util_["arrayFind"])(data, function (item) {
+          return getRowIdentity(item, rowKey) === key;
+        });
+      }
+      states.currentRow = currentRow;
     },
-    updateCurrentRow: function updateCurrentRow() {
+    updateCurrentRow: function updateCurrentRow(currentRow) {
       var states = this.states,
           table = this.table;
-      var rowKey = states.rowKey;
+      var rowKey = states.rowKey,
+          _currentRowKey = states._currentRowKey;
       // data 为 null 时，结构时的默认值会被忽略
 
       var data = states.data || [];
       var oldCurrentRow = states.currentRow;
 
-      // 当 currentRow 不在 data 中时尝试更新数据
-      if (data.indexOf(oldCurrentRow) === -1 && oldCurrentRow) {
-        var newCurrentRow = null;
-        if (rowKey) {
-          newCurrentRow = Object(util_["arrayFind"])(data, function (item) {
-            return getRowIdentity(item, rowKey) === getRowIdentity(oldCurrentRow, rowKey);
-          });
+      if (currentRow) {
+        this.restoreCurrentRowKey();
+        states.currentRow = currentRow;
+        if (oldCurrentRow !== currentRow) {
+          this.table.$emit('current-change', currentRow, oldCurrentRow);
         }
-        states.currentRow = newCurrentRow;
-        if (newCurrentRow !== oldCurrentRow) {
-          table.$emit('current-change', null, oldCurrentRow);
+      } else {
+        // 当 currentRow 不在 data 中时尝试更新数据
+        if (data.indexOf(oldCurrentRow) === -1 && oldCurrentRow) {
+          this.restoreCurrentRowKey();
+          if (rowKey) {
+            var currentRowKey = getRowIdentity(oldCurrentRow, rowKey);
+            this.setCurrentRowByKey(currentRowKey);
+          } else {
+            states.currentRow = null;
+          }
+          if (states.currentRow !== oldCurrentRow) {
+            table.$emit('current-change', null, oldCurrentRow);
+          }
+        } else if (_currentRowKey) {
+          this.setCurrentRowByKey(_currentRowKey);
         }
       }
     }
@@ -10449,6 +10480,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 loading = _ref2$loading === undefined ? false : _ref2$loading;
 
             newTreeData[key] = {
+              lazy: true,
               loaded: !!loaded,
               loading: !!loading,
               expanded: getExpanded(oldValue, key),
@@ -10599,8 +10631,7 @@ var doFlattenColumns = function doFlattenColumns(columns) {
         sortProp: null,
         sortOrder: null,
 
-        hoverRow: null,
-        currentRow: null
+        hoverRow: null
       }
     };
   },
@@ -10670,17 +10701,17 @@ var doFlattenColumns = function doFlattenColumns(columns) {
       var states = this.states;
       states.isAllSelected = false;
       var oldSelection = states.selection;
-      if (states.selection.length) {
+      if (oldSelection.length) {
         states.selection = [];
-      }
-      if (oldSelection.length > 0) {
-        this.table.$emit('selection-change', states.selection ? states.selection.slice() : []);
+        this.table.$emit('selection-change', []);
       }
     },
     cleanSelection: function cleanSelection() {
-      var selection = this.states.selection || [];
-      var data = this.states.data;
-      var rowKey = this.states.rowKey;
+      var states = this.states;
+      var data = states.data,
+          rowKey = states.rowKey,
+          selection = states.selection;
+
       var deleted = void 0;
       if (rowKey) {
         deleted = [];
@@ -10696,20 +10727,24 @@ var doFlattenColumns = function doFlattenColumns(columns) {
           return data.indexOf(item) === -1;
         });
       }
-
-      deleted.forEach(function (deletedItem) {
-        selection.splice(selection.indexOf(deletedItem), 1);
-      });
-
       if (deleted.length) {
-        this.table.$emit('selection-change', selection ? selection.slice() : []);
+        var newSelection = selection.filter(function (item) {
+          return deleted.indexOf(item) === -1;
+        });
+        states.selection = newSelection;
+        this.table.$emit('selection-change', newSelection.slice());
       }
     },
     toggleRowSelection: function toggleRowSelection(row, selected) {
+      var emitChange = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
       var changed = toggleRowStatus(this.states.selection, row, selected);
       if (changed) {
-        var newSelection = this.states.selection ? this.states.selection.slice() : [];
-        this.table.$emit('select', newSelection, row);
+        var newSelection = (this.states.selection || []).slice();
+        // 调用 API 修改选中值，不触发 select 事件
+        if (emitChange) {
+          this.table.$emit('select', newSelection, row);
+        }
         this.table.$emit('selection-change', newSelection);
       }
     },
@@ -10749,19 +10784,16 @@ var doFlattenColumns = function doFlattenColumns(columns) {
       var states = this.states;
       var selection = states.selection,
           rowKey = states.rowKey,
-          _states$data2 = states.data,
-          data = _states$data2 === undefined ? [] : _states$data2;
+          data = states.data;
 
       var selectedMap = getKeysMap(selection, rowKey);
-      // TODO：这里的代码可以优化
-      states.selection = data.reduce(function (prev, row) {
+      data.forEach(function (row) {
         var rowId = getRowIdentity(row, rowKey);
         var rowInfo = selectedMap[rowId];
         if (rowInfo) {
-          prev.push(row);
+          selection[rowInfo.index] = row;
         }
-        return prev;
-      }, []);
+      });
     },
     updateAllSelected: function updateAllSelected() {
       var states = this.states;
@@ -10849,7 +10881,6 @@ var doFlattenColumns = function doFlattenColumns(columns) {
       });
 
       states.filteredData = data;
-      // states.data = data;
     },
     execSort: function execSort() {
       var states = this.states;
@@ -10965,15 +10996,15 @@ watcher.prototype.mutations = {
     // 没有使用 computed，而是手动更新部分数据 https://github.com/vuejs/vue/issues/6660#issuecomment-331417140
     this.updateCurrentRow();
     this.updateExpandRows();
-    if (!states.reserveSelection) {
+    if (states.reserveSelection) {
+      this.assertRowKey();
+      this.updateSelectionByRowKey();
+    } else {
       if (dataInstanceChanged) {
         this.clearSelection();
       } else {
         this.cleanSelection();
       }
-    } else {
-      this.assertRowKey();
-      this.updateSelectionByRowKey();
     }
     this.updateAllSelected();
 
@@ -11018,23 +11049,18 @@ watcher.prototype.mutations = {
     }
   },
   sort: function sort(states, options) {
-    var _this = this;
-
     var prop = options.prop,
         order = options.order;
 
     if (prop) {
-      // TODO：nextTick 是否有必要？
-      external_vue_default.a.nextTick(function () {
-        var column = Object(util_["arrayFind"])(states.columns, function (column) {
-          return column.property === prop;
-        });
-        if (column) {
-          column.order = order;
-          _this.updateSort(column, prop, order);
-          _this.commit('changeSortCondition');
-        }
+      var column = Object(util_["arrayFind"])(states.columns, function (column) {
+        return column.property === prop;
       });
+      if (column) {
+        column.order = order;
+        this.updateSort(column, prop, order);
+        this.commit('changeSortCondition');
+      }
     }
   },
   changeSortCondition: function changeSortCondition(states, options) {
@@ -11086,12 +11112,7 @@ watcher.prototype.mutations = {
     states.hoverRow = row;
   },
   setCurrentRow: function setCurrentRow(states, row) {
-    var oldCurrentRow = states.currentRow;
-    states.currentRow = row;
-
-    if (oldCurrentRow !== row) {
-      this.table.$emit('current-change', row, oldCurrentRow);
-    }
+    this.updateCurrentRow(row);
   }
 };
 
@@ -11206,12 +11227,16 @@ var table_layout_TableLayout = function () {
 
   TableLayout.prototype.updateScrollY = function updateScrollY() {
     var height = this.height;
-    if (height === null) return;
+    if (height === null) return false;
     var bodyWrapper = this.table.bodyWrapper;
     if (this.table.$el && bodyWrapper) {
       var body = bodyWrapper.querySelector('.el-table__body');
-      this.scrollY = body.offsetHeight > this.bodyHeight;
+      var prevScrollY = this.scrollY;
+      var scrollY = body.offsetHeight > this.bodyHeight;
+      this.scrollY = scrollY;
+      return prevScrollY !== scrollY;
     }
+    return false;
   };
 
   TableLayout.prototype.setHeight = function setHeight(value) {
@@ -11228,8 +11253,11 @@ var table_layout_TableLayout = function () {
       return _this.setHeight(value, prop);
     });
 
-    if (value) {
+    if (typeof value === 'number') {
       el.style[prop] = value + 'px';
+      this.updateElsHeight();
+    } else if (typeof value === 'string') {
+      el.style[prop] = value;
       this.updateElsHeight();
     }
   };
@@ -11878,7 +11906,6 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
               indent: treeRowData.level * treeIndent,
               level: treeRowData.level
             };
-            // TODO: 优化这里的逻辑
             if (typeof treeRowData.expanded === 'boolean') {
               data.treeNode.expanded = treeRowData.expanded;
               // 表明是懒加载
@@ -11956,10 +11983,10 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
             level: cur.level,
             display: true
           };
-          if (typeof cur.loaded === 'boolean' && cur.loaded) {
-            treeRowData.noLazyChildren = !(cur.children && cur.children.length);
-          }
-          if (typeof cur.loading === 'boolean') {
+          if (typeof cur.lazy === 'boolean') {
+            if (typeof cur.loaded === 'boolean' && cur.loaded) {
+              treeRowData.noLazyChildren = !(cur.children && cur.children.length);
+            }
             treeRowData.loading = cur.loading;
           }
         }
@@ -11989,10 +12016,10 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
                 // 懒加载的某些节点，level 未知
                 cur.level = cur.level || innerTreeRowData.level;
                 cur.display = !!(cur.expanded && innerTreeRowData.display);
-                if (typeof cur.loaded === 'boolean' && cur.loaded) {
-                  innerTreeRowData.noLazyChildren = !(cur.children && cur.children.length);
-                }
                 if (typeof cur.lazy === 'boolean') {
+                  if (typeof cur.loaded === 'boolean' && cur.loaded) {
+                    innerTreeRowData.noLazyChildren = !(cur.children && cur.children.length);
+                  }
                   innerTreeRowData.loading = cur.loading;
                 }
               }
@@ -12644,12 +12671,17 @@ var convertToRows = function convertToRows(originColumns) {
     this.filterPanels = {};
   },
   mounted: function mounted() {
-    var _defaultSort = this.defaultSort,
-        prop = _defaultSort.prop,
-        order = _defaultSort.order;
+    var _this2 = this;
 
-    var init = true;
-    this.store.commit('sort', { prop: prop, order: order, init: init });
+    // nextTick 是有必要的 https://github.com/ElemeFE/element/pull/11311
+    this.$nextTick(function () {
+      var _defaultSort = _this2.defaultSort,
+          prop = _defaultSort.prop,
+          order = _defaultSort.order;
+
+      var init = true;
+      _this2.store.commit('sort', { prop: prop, order: order, init: init });
+    });
   },
   beforeDestroy: function beforeDestroy() {
     var panels = this.filterPanels;
@@ -12783,7 +12815,7 @@ var convertToRows = function convertToRows(originColumns) {
       this.$parent.$emit('header-contextmenu', column, event);
     },
     handleMouseDown: function handleMouseDown(event, column) {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.$isServer) return;
       if (column.children && column.children.length > 0) return;
@@ -12820,15 +12852,15 @@ var convertToRows = function convertToRows(originColumns) {
         };
 
         var handleMouseMove = function handleMouseMove(event) {
-          var deltaLeft = event.clientX - _this2.dragState.startMouseLeft;
-          var proxyLeft = _this2.dragState.startLeft + deltaLeft;
+          var deltaLeft = event.clientX - _this3.dragState.startMouseLeft;
+          var proxyLeft = _this3.dragState.startLeft + deltaLeft;
 
           resizeProxy.style.left = Math.max(minLeft, proxyLeft) + 'px';
         };
 
         var handleMouseUp = function handleMouseUp() {
-          if (_this2.dragging) {
-            var _dragState = _this2.dragState,
+          if (_this3.dragging) {
+            var _dragState = _this3.dragState,
                 startColumnLeft = _dragState.startColumnLeft,
                 startLeft = _dragState.startLeft;
 
@@ -12837,12 +12869,12 @@ var convertToRows = function convertToRows(originColumns) {
             column.width = column.realWidth = columnWidth;
             table.$emit('header-dragend', column.width, startLeft - startColumnLeft, column, event);
 
-            _this2.store.scheduleLayout();
+            _this3.store.scheduleLayout();
 
             document.body.style.cursor = '';
-            _this2.dragging = false;
-            _this2.draggingColumn = null;
-            _this2.dragState = {};
+            _this3.dragging = false;
+            _this3.draggingColumn = null;
+            _this3.dragState = {};
 
             table.resizeProxyVisible = false;
           }
@@ -13474,7 +13506,7 @@ var tableIdSeed = 1;
       this.store.commit('setCurrentRow', row);
     },
     toggleRowSelection: function toggleRowSelection(row, selected) {
-      this.store.toggleRowSelection(row, selected);
+      this.store.toggleRowSelection(row, selected, false);
       this.store.updateAllSelected();
     },
     toggleRowExpansion: function toggleRowExpansion(row, expanded) {
@@ -13494,8 +13526,10 @@ var tableIdSeed = 1;
       if (this.hoverState) this.hoverState = null;
     },
     updateScrollY: function updateScrollY() {
-      this.layout.updateScrollY();
-      this.layout.updateColumnsWidth();
+      var changed = this.layout.updateScrollY();
+      if (changed) {
+        this.layout.updateColumnsWidth();
+      }
     },
     handleFixedMousewheel: function handleFixedMousewheel(event, data) {
       var bodyWrapper = this.bodyWrapper;
@@ -13522,7 +13556,7 @@ var tableIdSeed = 1;
     },
 
 
-    // TODO 性能优化
+    // TODO 使用 CSS transform
     syncPostion: Object(external_throttle_debounce_["throttle"])(20, function () {
       var _bodyWrapper = this.bodyWrapper,
           scrollLeft = _bodyWrapper.scrollLeft,
@@ -13587,10 +13621,10 @@ var tableIdSeed = 1;
       }
     },
     doLayout: function doLayout() {
-      this.layout.updateColumnsWidth();
       if (this.shouldUpdateHeight) {
         this.layout.updateElsHeight();
       }
+      this.layout.updateColumnsWidth();
     },
     sort: function sort(prop, order) {
       this.store.commit('sort', { prop: prop, order: order });
@@ -13632,7 +13666,7 @@ var tableIdSeed = 1;
         };
       } else if (this.maxHeight) {
         var maxHeight = parseHeight(this.maxHeight);
-        if (maxHeight) {
+        if (typeof maxHeight === 'number') {
           return {
             'max-height': maxHeight - footerHeight - (this.showHeader ? headerHeight : 0) + 'px'
           };
@@ -13647,7 +13681,7 @@ var tableIdSeed = 1;
         };
       } else if (this.maxHeight) {
         var maxHeight = parseHeight(this.maxHeight);
-        if (maxHeight) {
+        if (typeof maxHeight === 'number') {
           maxHeight = this.layout.scrollX ? maxHeight - this.layout.gutterWidth : maxHeight;
           if (this.showHeader) {
             maxHeight -= this.layout.headerHeight;
@@ -13704,22 +13738,18 @@ var tableIdSeed = 1;
       }
     },
 
-    currentRowKey: function currentRowKey(newVal) {
-      this.store.setCurrentRowKey(newVal);
+    currentRowKey: {
+      immediate: true,
+      handler: function handler(value) {
+        if (!this.rowKey) return;
+        this.store.setCurrentRowKey(value);
+      }
     },
-
 
     data: {
       immediate: true,
       handler: function handler(value) {
-        var _this = this;
-
         this.store.commit('setData', value);
-        if (this.$ready) {
-          this.$nextTick(function () {
-            _this.doLayout();
-          });
-        }
       }
     },
 
@@ -13734,15 +13764,15 @@ var tableIdSeed = 1;
   },
 
   created: function created() {
-    var _this2 = this;
+    var _this = this;
 
     this.tableId = 'el-table_' + tableIdSeed++;
     this.debouncedUpdateLayout = Object(external_throttle_debounce_["debounce"])(50, function () {
-      return _this2.doLayout();
+      return _this.doLayout();
     });
   },
   mounted: function mounted() {
-    var _this3 = this;
+    var _this2 = this;
 
     this.bindEvents();
     this.store.updateColumns();
@@ -13756,7 +13786,7 @@ var tableIdSeed = 1;
     // init filters
     this.store.states.columns.forEach(function (column) {
       if (column.filteredValue && column.filteredValue.length) {
-        _this3.store.commit('filterChange', {
+        _this2.store.commit('filterChange', {
           column: column,
           values: column.filteredValue,
           silent: true
@@ -22073,6 +22103,9 @@ var typeMap = {
     getInputElement: function getInputElement() {
       var inputRefs = this.$refs.input.$refs;
       return inputRefs.input || inputRefs.textarea;
+    },
+    handleClose: function handleClose() {
+      this.handleAction('close');
     }
   },
 
@@ -24470,6 +24503,7 @@ function node_classCallCheck(instance, Constructor) { if (!(instance instanceof 
 
 
 
+
 var getChildState = function getChildState(node) {
   var all = true;
   var none = true;
@@ -24896,8 +24930,12 @@ var node_Node = function () {
     var newNodes = [];
 
     newData.forEach(function (item, index) {
-      if (item[NODE_KEY]) {
-        newDataMap[item[NODE_KEY]] = { index: index, data: item };
+      var key = item[NODE_KEY];
+      var isNodeExists = !!key && Object(util_["arrayFindIndex"])(oldData, function (data) {
+        return data[NODE_KEY] === key;
+      }) >= 0;
+      if (isNodeExists) {
+        newDataMap[key] = { index: index, data: item };
       } else {
         newNodes.push({ index: index, data: item });
       }
@@ -25050,9 +25088,8 @@ var tree_store_TreeStore = function () {
 
       if (!node.visible && childNodes.length) {
         var allHidden = true;
-
-        childNodes.forEach(function (child) {
-          if (child.visible) allHidden = false;
+        allHidden = !childNodes.some(function (child) {
+          return child.visible;
         });
 
         if (node.root) {
@@ -25369,6 +25406,7 @@ var tree_store_TreeStore = function () {
 
   TreeStore.prototype.setCurrentNodeKey = function setCurrentNodeKey(key) {
     if (key === null) {
+      this.currentNode.isCurrent = false;
       this.currentNode = null;
       return;
     }
@@ -26974,11 +27012,7 @@ var mainvue_type_template_id_32708644_render = function() {
               debounce: _vm.debounce,
               size: _vm.inputSize
             },
-            on: {
-              change: function($event) {
-                _vm.$nextTick(_vm.emitChange)
-              }
-            },
+            on: { change: _vm.emitChange },
             model: {
               value: _vm.firstValue,
               callback: function($$v) {
@@ -28529,96 +28563,106 @@ var upload_listvue_type_template_id_173fedf5_render = function() {
           }
         },
         [
-          file.status !== "uploading" &&
-          ["picture-card", "picture"].indexOf(_vm.listType) > -1
-            ? _c("img", {
-                staticClass: "el-upload-list__item-thumbnail",
-                attrs: { src: file.url, alt: "" }
-              })
-            : _vm._e(),
-          _c(
-            "a",
-            {
-              staticClass: "el-upload-list__item-name",
-              on: {
-                click: function($event) {
-                  _vm.handleClick(file)
-                }
-              }
-            },
+          _vm._t(
+            "default",
             [
-              _c("i", { staticClass: "el-icon-document" }),
-              _vm._v(_vm._s(file.name) + "\n    ")
-            ]
-          ),
-          _c("label", { staticClass: "el-upload-list__item-status-label" }, [
-            _c("i", {
-              class: {
-                "el-icon-upload-success": true,
-                "el-icon-circle-check": _vm.listType === "text",
-                "el-icon-check":
-                  ["picture-card", "picture"].indexOf(_vm.listType) > -1
-              }
-            })
-          ]),
-          !_vm.disabled
-            ? _c("i", {
-                staticClass: "el-icon-close",
-                on: {
-                  click: function($event) {
-                    _vm.$emit("remove", file)
+              file.status !== "uploading" &&
+              ["picture-card", "picture"].indexOf(_vm.listType) > -1
+                ? _c("img", {
+                    staticClass: "el-upload-list__item-thumbnail",
+                    attrs: { src: file.url, alt: "" }
+                  })
+                : _vm._e(),
+              _c(
+                "a",
+                {
+                  staticClass: "el-upload-list__item-name",
+                  on: {
+                    click: function($event) {
+                      _vm.handleClick(file)
+                    }
                   }
-                }
-              })
-            : _vm._e(),
-          !_vm.disabled
-            ? _c("i", { staticClass: "el-icon-close-tip" }, [
-                _vm._v(_vm._s(_vm.t("el.upload.deleteTip")))
-              ])
-            : _vm._e(),
-          file.status === "uploading"
-            ? _c("el-progress", {
-                attrs: {
-                  type: _vm.listType === "picture-card" ? "circle" : "line",
-                  "stroke-width": _vm.listType === "picture-card" ? 6 : 2,
-                  percentage: _vm.parsePercentage(file.percentage)
-                }
-              })
-            : _vm._e(),
-          _vm.listType === "picture-card"
-            ? _c("span", { staticClass: "el-upload-list__item-actions" }, [
-                _vm.handlePreview && _vm.listType === "picture-card"
-                  ? _c(
-                      "span",
-                      {
-                        staticClass: "el-upload-list__item-preview",
-                        on: {
-                          click: function($event) {
-                            _vm.handlePreview(file)
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "el-icon-zoom-in" })]
-                    )
-                  : _vm._e(),
-                !_vm.disabled
-                  ? _c(
-                      "span",
-                      {
-                        staticClass: "el-upload-list__item-delete",
-                        on: {
-                          click: function($event) {
-                            _vm.$emit("remove", file)
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "el-icon-delete" })]
-                    )
-                  : _vm._e()
-              ])
-            : _vm._e()
+                },
+                [
+                  _c("i", { staticClass: "el-icon-document" }),
+                  _vm._v(_vm._s(file.name) + "\n      ")
+                ]
+              ),
+              _c(
+                "label",
+                { staticClass: "el-upload-list__item-status-label" },
+                [
+                  _c("i", {
+                    class: {
+                      "el-icon-upload-success": true,
+                      "el-icon-circle-check": _vm.listType === "text",
+                      "el-icon-check":
+                        ["picture-card", "picture"].indexOf(_vm.listType) > -1
+                    }
+                  })
+                ]
+              ),
+              !_vm.disabled
+                ? _c("i", {
+                    staticClass: "el-icon-close",
+                    on: {
+                      click: function($event) {
+                        _vm.$emit("remove", file)
+                      }
+                    }
+                  })
+                : _vm._e(),
+              !_vm.disabled
+                ? _c("i", { staticClass: "el-icon-close-tip" }, [
+                    _vm._v(_vm._s(_vm.t("el.upload.deleteTip")))
+                  ])
+                : _vm._e(),
+              file.status === "uploading"
+                ? _c("el-progress", {
+                    attrs: {
+                      type: _vm.listType === "picture-card" ? "circle" : "line",
+                      "stroke-width": _vm.listType === "picture-card" ? 6 : 2,
+                      percentage: _vm.parsePercentage(file.percentage)
+                    }
+                  })
+                : _vm._e(),
+              _vm.listType === "picture-card"
+                ? _c("span", { staticClass: "el-upload-list__item-actions" }, [
+                    _vm.handlePreview && _vm.listType === "picture-card"
+                      ? _c(
+                          "span",
+                          {
+                            staticClass: "el-upload-list__item-preview",
+                            on: {
+                              click: function($event) {
+                                _vm.handlePreview(file)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "el-icon-zoom-in" })]
+                        )
+                      : _vm._e(),
+                    !_vm.disabled
+                      ? _c(
+                          "span",
+                          {
+                            staticClass: "el-upload-list__item-delete",
+                            on: {
+                              click: function($event) {
+                                _vm.$emit("remove", file)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "el-icon-delete" })]
+                        )
+                      : _vm._e()
+                  ])
+                : _vm._e()
+            ],
+            { file: file }
+          )
         ],
-        1
+        2
       )
     }),
     0
@@ -28635,6 +28679,8 @@ var progress_ = __webpack_require__(32);
 var progress_default = /*#__PURE__*/__webpack_require__.n(progress_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/upload/src/upload-list.vue?vue&type=script&lang=js&
+//
+//
 //
 //
 //
@@ -29522,20 +29568,32 @@ function srcvue_type_script_lang_js_noop() {}
     });
   },
   render: function render(h) {
+    var _this4 = this;
+
     var uploadList = void 0;
 
     if (this.showFileList) {
-      uploadList = h(upload_list, {
-        attrs: {
-          disabled: this.uploadDisabled,
-          listType: this.listType,
-          files: this.uploadFiles,
+      uploadList = h(
+        upload_list,
+        {
+          attrs: {
+            disabled: this.uploadDisabled,
+            listType: this.listType,
+            files: this.uploadFiles,
 
-          handlePreview: this.onPreview },
-        on: {
-          'remove': this.handleRemove
-        }
-      });
+            handlePreview: this.onPreview },
+          on: {
+            'remove': this.handleRemove
+          }
+        },
+        [function (props) {
+          if (_this4.$scopedSlots.file) {
+            return _this4.$scopedSlots.file({
+              file: props.file
+            });
+          }
+        }]
+      );
     }
 
     var uploadData = {
@@ -30438,7 +30496,7 @@ mainvue_type_template_id_7ccb6598_render._withStripped = true
   name: 'ElBadge',
 
   props: {
-    value: {},
+    value: [String, Number],
     max: Number,
     isDot: Boolean,
     hidden: Boolean,
@@ -36728,39 +36786,7 @@ footer_src_main.install = function (Vue) {
 };
 
 /* harmony default export */ var footer = (footer_src_main);
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/timeline/src/main.vue?vue&type=template&id=ef070f04&
-var mainvue_type_template_id_ef070f04_render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "ul",
-    {
-      staticClass: "el-timeline",
-      class: {
-        "is-reverse": _vm.reverse
-      }
-    },
-    [_vm._t("default")],
-    2
-  )
-}
-var mainvue_type_template_id_ef070f04_staticRenderFns = []
-mainvue_type_template_id_ef070f04_render._withStripped = true
-
-
-// CONCATENATED MODULE: ./packages/timeline/src/main.vue?vue&type=template&id=ef070f04&
-
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/timeline/src/main.vue?vue&type=script&lang=js&
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ var timeline_src_mainvue_type_script_lang_js_ = ({
   name: 'ElTimeline',
@@ -36777,24 +36803,29 @@ mainvue_type_template_id_ef070f04_render._withStripped = true
       timeline: this
     };
   },
+  render: function render() {
+    var h = arguments[0];
 
-
-  watch: {
-    reverse: {
-      handler: function handler(newVal) {
-        if (newVal) {
-          this.$slots.default = [].concat(this.$slots.default).reverse();
-        }
-      },
-
-      immediate: true
+    var reverse = this.reverse;
+    var classes = {
+      'el-timeline': true,
+      'is-reverse': reverse
+    };
+    var slots = this.$slots.default || [];
+    if (reverse) {
+      slots = slots.reverse();
     }
+    return h(
+      'ul',
+      { 'class': classes },
+      [slots]
+    );
   }
 });
 // CONCATENATED MODULE: ./packages/timeline/src/main.vue?vue&type=script&lang=js&
  /* harmony default export */ var packages_timeline_src_mainvue_type_script_lang_js_ = (timeline_src_mainvue_type_script_lang_js_); 
 // CONCATENATED MODULE: ./packages/timeline/src/main.vue
-
+var main_render, main_staticRenderFns
 
 
 
@@ -36803,8 +36834,8 @@ mainvue_type_template_id_ef070f04_render._withStripped = true
 
 var timeline_src_main_component = normalizeComponent(
   packages_timeline_src_mainvue_type_script_lang_js_,
-  mainvue_type_template_id_ef070f04_render,
-  mainvue_type_template_id_ef070f04_staticRenderFns,
+  main_render,
+  main_staticRenderFns,
   false,
   null,
   null,
@@ -37536,7 +37567,11 @@ var mainvue_type_template_id_6d9756be_render = function() {
           { key: "no-range", staticClass: "el-calendar__body" },
           [
             _c("date-table", {
-              attrs: { date: _vm.date, "selected-day": _vm.realSelectedDay },
+              attrs: {
+                date: _vm.date,
+                "selected-day": _vm.realSelectedDay,
+                "first-day-of-week": _vm.realFirstDayOfWeek
+              },
               on: { pick: _vm.pickDay }
             })
           ],
@@ -37575,8 +37610,9 @@ var date_default = /*#__PURE__*/__webpack_require__.n(date_);
 
 
 
-/* harmony default export */ var src_date_tablevue_type_script_lang_js_ = ({
 
+var WEEK_DAYS = Object(date_util_["getI18nSettings"])().dayNames;
+/* harmony default export */ var src_date_tablevue_type_script_lang_js_ = ({
   props: {
     selectedDay: String, // formated date yyyy-MM-dd
     range: {
@@ -37590,7 +37626,8 @@ var date_default = /*#__PURE__*/__webpack_require__.n(date_);
       }
     },
     date: Date,
-    hideHeader: Boolean
+    hideHeader: Boolean,
+    firstDayOfWeek: Number
   },
 
   inject: ['elCalendar'],
@@ -37703,7 +37740,8 @@ var date_default = /*#__PURE__*/__webpack_require__.n(date_);
         var date = this.date;
         var firstDay = Object(date_util_["getFirstDayOfMonth"])(date);
         firstDay = firstDay === 0 ? 7 : firstDay;
-        var prevMonthDays = Object(date_util_["getPrevMonthLastDays"])(date, firstDay - 1).map(function (day) {
+        var firstDayOfWeek = typeof this.firstDayOfWeek === 'number' ? this.firstDayOfWeek : 1;
+        var prevMonthDays = Object(date_util_["getPrevMonthLastDays"])(date, firstDay - firstDayOfWeek).map(function (day) {
           return {
             text: day,
             type: 'prev'
@@ -37725,21 +37763,23 @@ var date_default = /*#__PURE__*/__webpack_require__.n(date_);
         days = days.concat(nextMonthDays);
       }
       return this.toNestedArr(days);
+    },
+    weekDays: function weekDays() {
+      var start = this.firstDayOfWeek;
+      if (typeof start !== 'number' || start === 0) {
+        return WEEK_DAYS.slice();
+      } else {
+        return WEEK_DAYS.slice(start).concat(WEEK_DAYS.slice(0, start));
+      }
     }
   },
 
-  data: function data() {
-    var dayNames = Object(date_util_["getI18nSettings"])().dayNames;
-    return {
-      DAYS: dayNames.slice(1).concat(dayNames[0])
-    };
-  },
   render: function render() {
     var _this = this;
 
     var h = arguments[0];
 
-    var thead = this.hideHeader ? null : h('thead', [this.DAYS.map(function (day) {
+    var thead = this.hideHeader ? null : h('thead', [this.weekDays.map(function (day) {
       return h(
         'th',
         { key: day },
@@ -37868,6 +37908,7 @@ src_date_table_component.options.__file = "packages/calendar/src/date-table.vue"
 //
 //
 //
+//
 
 
 
@@ -37899,6 +37940,10 @@ var oneDay = 86400000;
           return true;
         }
       }
+    },
+    firstDayOfWeek: {
+      type: Number,
+      default: 1
     }
   },
 
@@ -38044,6 +38089,12 @@ var oneDay = 86400000;
         return data;
       }
       return [];
+    },
+    realFirstDayOfWeek: function realFirstDayOfWeek() {
+      if (this.firstDayOfWeek < 1 || this.firstDayOfWeek > 6) {
+        return 0;
+      }
+      return Math.floor(this.firstDayOfWeek);
     }
   },
 
@@ -38261,7 +38312,7 @@ backtop_src_main.install = function (Vue) {
 };
 
 /* harmony default export */ var backtop = (backtop_src_main);
-// CONCATENATED MODULE: ./packages/infiniteScroll/src/main.js
+// CONCATENATED MODULE: ./packages/infinite-scroll/src/main.js
 
 
 
@@ -38382,7 +38433,7 @@ var main_handleScroll = function handleScroll(cb) {
   }
 };
 
-/* harmony default export */ var infiniteScroll_src_main = ({
+/* harmony default export */ var infinite_scroll_src_main = ({
   name: 'InfiniteScroll',
   inserted: function inserted(el, binding, vnode) {
     var cb = binding.value;
@@ -38419,15 +38470,15 @@ var main_handleScroll = function handleScroll(cb) {
     }
   }
 });
-// CONCATENATED MODULE: ./packages/infiniteScroll/index.js
+// CONCATENATED MODULE: ./packages/infinite-scroll/index.js
 
 
 /* istanbul ignore next */
-infiniteScroll_src_main.install = function (Vue) {
-  Vue.directive(infiniteScroll_src_main.name, infiniteScroll_src_main);
+infinite_scroll_src_main.install = function (Vue) {
+  Vue.directive(infinite_scroll_src_main.name, infinite_scroll_src_main);
 };
 
-/* harmony default export */ var infiniteScroll = (infiniteScroll_src_main);
+/* harmony default export */ var infinite_scroll = (infinite_scroll_src_main);
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/page-header/src/main.vue?vue&type=template&id=5070954c&
 var mainvue_type_template_id_5070954c_render = function() {
   var _vm = this
@@ -39742,6 +39793,164 @@ cascader_panel.install = function (Vue) {
 };
 
 /* harmony default export */ var packages_cascader_panel = (cascader_panel);
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/avatar/src/main.vue?vue&type=script&lang=js&
+
+/* harmony default export */ var avatar_src_mainvue_type_script_lang_js_ = ({
+  name: 'ElAvatar',
+
+  props: {
+    size: {
+      type: [Number, String],
+      validator: function validator(val) {
+        if (typeof val === 'string') {
+          return ['large', 'medium', 'small'].includes(val);
+        }
+        return typeof val === 'number';
+      }
+    },
+    shape: {
+      type: String,
+      default: 'circle',
+      validator: function validator(val) {
+        return ['circle', 'square'].includes(val);
+      }
+    },
+    icon: String,
+    src: String,
+    alt: String,
+    srcSet: String,
+    error: Function,
+    fit: {
+      type: String,
+      default: 'cover'
+    }
+  },
+
+  data: function data() {
+    return {
+      isImageExist: true
+    };
+  },
+
+
+  computed: {
+    avatarClass: function avatarClass() {
+      var size = this.size,
+          icon = this.icon,
+          shape = this.shape;
+
+      var classList = ['el-avatar'];
+
+      if (size && typeof size === 'string') {
+        classList.push('el-avatar--' + size);
+      }
+
+      if (icon) {
+        classList.push('el-avatar--icon');
+      }
+
+      if (shape) {
+        classList.push('el-avatar--' + shape);
+      }
+
+      return classList.join(' ');
+    }
+  },
+
+  methods: {
+    handleError: function handleError() {
+      var error = this.error;
+
+      var errorFlag = error ? error() : undefined;
+      if (errorFlag !== false) {
+        this.isImageExist = false;
+      }
+    },
+    renderAvatar: function renderAvatar() {
+      var h = this.$createElement;
+      var icon = this.icon,
+          src = this.src,
+          alt = this.alt,
+          isImageExist = this.isImageExist,
+          srcSet = this.srcSet,
+          fit = this.fit;
+
+
+      if (isImageExist && src) {
+        return h('img', {
+          attrs: {
+            src: src,
+
+            alt: alt,
+            srcSet: srcSet
+          },
+          on: {
+            'error': this.handleError
+          },
+          style: { 'object-fit': fit } });
+      }
+
+      if (icon) {
+        return h('i', { 'class': icon });
+      }
+
+      return this.$slots.default;
+    }
+  },
+
+  render: function render() {
+    var h = arguments[0];
+    var avatarClass = this.avatarClass,
+        size = this.size;
+
+
+    var sizeStyle = typeof size === 'number' ? {
+      height: size + 'px',
+      width: size + 'px',
+      lineHeight: size + 'px'
+    } : {};
+
+    return h(
+      'span',
+      { 'class': avatarClass, style: sizeStyle },
+      [this.renderAvatar()]
+    );
+  }
+});
+// CONCATENATED MODULE: ./packages/avatar/src/main.vue?vue&type=script&lang=js&
+ /* harmony default export */ var packages_avatar_src_mainvue_type_script_lang_js_ = (avatar_src_mainvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./packages/avatar/src/main.vue
+var src_main_render, src_main_staticRenderFns
+
+
+
+
+/* normalize component */
+
+var avatar_src_main_component = normalizeComponent(
+  packages_avatar_src_mainvue_type_script_lang_js_,
+  src_main_render,
+  src_main_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var avatar_src_main_api; }
+avatar_src_main_component.options.__file = "packages/avatar/src/main.vue"
+/* harmony default export */ var avatar_src_main = (avatar_src_main_component.exports);
+// CONCATENATED MODULE: ./packages/avatar/index.js
+
+
+/* istanbul ignore next */
+avatar_src_main.install = function (Vue) {
+  Vue.component(avatar_src_main.name, avatar_src_main);
+};
+
+/* harmony default export */ var avatar = (avatar_src_main);
 // CONCATENATED MODULE: ./src/index.js
 /* Automatically generated by './build/bin/build-entry.js' */
 
@@ -39827,7 +40036,8 @@ cascader_panel.install = function (Vue) {
 
 
 
-var components = [packages_pagination, dialog, packages_autocomplete, packages_dropdown, packages_dropdown_menu, packages_dropdown_item, packages_menu, packages_submenu, packages_menu_item, packages_menu_item_group, packages_input, packages_input_number, packages_radio, packages_radio_group, packages_radio_button, packages_checkbox, packages_checkbox_button, packages_checkbox_group, packages_switch, packages_select, packages_option, packages_option_group, packages_button, packages_button_group, packages_table, packages_table_column, packages_date_picker, packages_time_select, packages_time_picker, popover, packages_tooltip, packages_breadcrumb, packages_breadcrumb_item, packages_form, packages_form_item, packages_tabs, packages_tab_pane, packages_tag, packages_tree, packages_alert, slider, packages_icon, packages_row, packages_col, packages_upload, packages_progress, packages_spinner, badge, card, rate, packages_steps, packages_step, carousel, scrollbar, carousel_item, packages_collapse, packages_collapse_item, packages_cascader, color_picker, transfer, packages_container, header, aside, packages_main, footer, timeline, timeline_item, packages_link, divider, packages_image, calendar, backtop, page_header, packages_cascader_panel, collapse_transition_default.a];
+
+var components = [packages_pagination, dialog, packages_autocomplete, packages_dropdown, packages_dropdown_menu, packages_dropdown_item, packages_menu, packages_submenu, packages_menu_item, packages_menu_item_group, packages_input, packages_input_number, packages_radio, packages_radio_group, packages_radio_button, packages_checkbox, packages_checkbox_button, packages_checkbox_group, packages_switch, packages_select, packages_option, packages_option_group, packages_button, packages_button_group, packages_table, packages_table_column, packages_date_picker, packages_time_select, packages_time_picker, popover, packages_tooltip, packages_breadcrumb, packages_breadcrumb_item, packages_form, packages_form_item, packages_tabs, packages_tab_pane, packages_tag, packages_tree, packages_alert, slider, packages_icon, packages_row, packages_col, packages_upload, packages_progress, packages_spinner, badge, card, rate, packages_steps, packages_step, carousel, scrollbar, carousel_item, packages_collapse, packages_collapse_item, packages_cascader, color_picker, transfer, packages_container, header, aside, packages_main, footer, timeline, timeline_item, packages_link, divider, packages_image, calendar, backtop, page_header, packages_cascader_panel, avatar, collapse_transition_default.a];
 
 var src_install = function install(Vue) {
   var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -39839,7 +40049,7 @@ var src_install = function install(Vue) {
     Vue.component(component.name, component);
   });
 
-  Vue.use(infiniteScroll);
+  Vue.use(infinite_scroll);
   Vue.use(packages_loading.directive);
 
   Vue.prototype.$ELEMENT = {
@@ -39862,7 +40072,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.9.2',
+  version: '2.10.0',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,
@@ -39943,9 +40153,10 @@ if (typeof window !== 'undefined' && window.Vue) {
   Image: packages_image,
   Calendar: calendar,
   Backtop: backtop,
-  InfiniteScroll: infiniteScroll,
+  InfiniteScroll: infinite_scroll,
   PageHeader: page_header,
-  CascaderPanel: packages_cascader_panel
+  CascaderPanel: packages_cascader_panel,
+  Avatar: avatar
 });
 
 /***/ })

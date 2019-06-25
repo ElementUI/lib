@@ -420,10 +420,11 @@ function parseHeight(height) {
     return height;
   }
   if (typeof height === 'string') {
-    if (/^\d+(?:px)?/.test(height)) {
+    if (/^\d+(?:px)?$/.test(height)) {
       return parseInt(height, 10);
+    } else {
+      return height;
     }
-    console.warn('[Element Warn][ElTable]invalid height and it will be ignored.');
   }
   return null;
 }
@@ -1210,7 +1211,10 @@ var util_ = __webpack_require__(3);
   data: function data() {
     return {
       states: {
-        current: null
+        // 不可响应的，设置 currentRowKey 时，data 不一定存在，也许无法算出正确的 currentRow
+        // 把该值缓存一下，当用户点击修改 currentRow 时，把该值重置为 null
+        _currentRowKey: null,
+        currentRow: null
       }
     };
   },
@@ -1219,37 +1223,57 @@ var util_ = __webpack_require__(3);
   methods: {
     setCurrentRowKey: function setCurrentRowKey(key) {
       this.assertRowKey();
-
+      this.states._currentRowKey = key;
+      this.setCurrentRowByKey(key);
+    },
+    restoreCurrentRowKey: function restoreCurrentRowKey() {
+      this.states._currentRowKey = null;
+    },
+    setCurrentRowByKey: function setCurrentRowByKey(key) {
       var states = this.states;
       var _states$data = states.data,
           data = _states$data === undefined ? [] : _states$data,
           rowKey = states.rowKey;
 
-      var currentRow = Object(util_["arrayFind"])(data, function (item) {
-        return Object(util["g" /* getRowIdentity */])(item, rowKey) === key;
-      });
-      states.currentRow = currentRow ? currentRow : null;
+      var currentRow = null;
+      if (rowKey) {
+        currentRow = Object(util_["arrayFind"])(data, function (item) {
+          return Object(util["g" /* getRowIdentity */])(item, rowKey) === key;
+        });
+      }
+      states.currentRow = currentRow;
     },
-    updateCurrentRow: function updateCurrentRow() {
+    updateCurrentRow: function updateCurrentRow(currentRow) {
       var states = this.states,
           table = this.table;
-      var rowKey = states.rowKey;
+      var rowKey = states.rowKey,
+          _currentRowKey = states._currentRowKey;
       // data 为 null 时，结构时的默认值会被忽略
 
       var data = states.data || [];
       var oldCurrentRow = states.currentRow;
 
-      // 当 currentRow 不在 data 中时尝试更新数据
-      if (data.indexOf(oldCurrentRow) === -1 && oldCurrentRow) {
-        var newCurrentRow = null;
-        if (rowKey) {
-          newCurrentRow = Object(util_["arrayFind"])(data, function (item) {
-            return Object(util["g" /* getRowIdentity */])(item, rowKey) === Object(util["g" /* getRowIdentity */])(oldCurrentRow, rowKey);
-          });
+      if (currentRow) {
+        this.restoreCurrentRowKey();
+        states.currentRow = currentRow;
+        if (oldCurrentRow !== currentRow) {
+          this.table.$emit('current-change', currentRow, oldCurrentRow);
         }
-        states.currentRow = newCurrentRow;
-        if (newCurrentRow !== oldCurrentRow) {
-          table.$emit('current-change', null, oldCurrentRow);
+      } else {
+        // 当 currentRow 不在 data 中时尝试更新数据
+        if (data.indexOf(oldCurrentRow) === -1 && oldCurrentRow) {
+          this.restoreCurrentRowKey();
+          if (rowKey) {
+            var currentRowKey = Object(util["g" /* getRowIdentity */])(oldCurrentRow, rowKey);
+            this.setCurrentRowByKey(currentRowKey);
+          } else {
+            states.currentRow = null;
+          }
+          if (states.currentRow !== oldCurrentRow) {
+            table.$emit('current-change', null, oldCurrentRow);
+          }
+        } else if (_currentRowKey) {
+          this.setCurrentRowByKey(_currentRowKey);
         }
       }
     }
@@ -1407,6 +1431,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 loading = _ref2$loading === undefined ? false : _ref2$loading;
 
             newTreeData[key] = {
+              lazy: true,
               loaded: !!loaded,
               loading: !!loading,
               expanded: getExpanded(oldValue, key),
@@ -1557,8 +1582,7 @@ var doFlattenColumns = function doFlattenColumns(columns) {
         sortProp: null,
         sortOrder: null,
 
-        hoverRow: null,
-        currentRow: null
+        hoverRow: null
       }
     };
   },
@@ -1628,17 +1652,17 @@ var doFlattenColumns = function doFlattenColumns(columns) {
       var states = this.states;
       states.isAllSelected = false;
       var oldSelection = states.selection;
-      if (states.selection.length) {
+      if (oldSelection.length) {
         states.selection = [];
-      }
-      if (oldSelection.length > 0) {
-        this.table.$emit('selection-change', states.selection ? states.selection.slice() : []);
+        this.table.$emit('selection-change', []);
       }
     },
     cleanSelection: function cleanSelection() {
-      var selection = this.states.selection || [];
-      var data = this.states.data;
-      var rowKey = this.states.rowKey;
+      var states = this.states;
+      var data = states.data,
+          rowKey = states.rowKey,
+          selection = states.selection;
+
       var deleted = void 0;
       if (rowKey) {
         deleted = [];
@@ -1654,20 +1678,24 @@ var doFlattenColumns = function doFlattenColumns(columns) {
           return data.indexOf(item) === -1;
         });
       }
-
-      deleted.forEach(function (deletedItem) {
-        selection.splice(selection.indexOf(deletedItem), 1);
-      });
-
       if (deleted.length) {
-        this.table.$emit('selection-change', selection ? selection.slice() : []);
+        var newSelection = selection.filter(function (item) {
+          return deleted.indexOf(item) === -1;
+        });
+        states.selection = newSelection;
+        this.table.$emit('selection-change', newSelection.slice());
       }
     },
     toggleRowSelection: function toggleRowSelection(row, selected) {
+      var emitChange = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
       var changed = Object(util["m" /* toggleRowStatus */])(this.states.selection, row, selected);
       if (changed) {
-        var newSelection = this.states.selection ? this.states.selection.slice() : [];
-        this.table.$emit('select', newSelection, row);
+        var newSelection = (this.states.selection || []).slice();
+        // 调用 API 修改选中值，不触发 select 事件
+        if (emitChange) {
+          this.table.$emit('select', newSelection, row);
+        }
         this.table.$emit('selection-change', newSelection);
       }
     },
@@ -1707,19 +1735,16 @@ var doFlattenColumns = function doFlattenColumns(columns) {
       var states = this.states;
       var selection = states.selection,
           rowKey = states.rowKey,
-          _states$data2 = states.data,
-          data = _states$data2 === undefined ? [] : _states$data2;
+          data = states.data;
 
       var selectedMap = Object(util["f" /* getKeysMap */])(selection, rowKey);
-      // TODO：这里的代码可以优化
-      states.selection = data.reduce(function (prev, row) {
+      data.forEach(function (row) {
         var rowId = Object(util["g" /* getRowIdentity */])(row, rowKey);
         var rowInfo = selectedMap[rowId];
         if (rowInfo) {
-          prev.push(row);
+          selection[rowInfo.index] = row;
         }
-        return prev;
-      }, []);
+      });
     },
     updateAllSelected: function updateAllSelected() {
       var states = this.states;
@@ -1807,7 +1832,6 @@ var doFlattenColumns = function doFlattenColumns(columns) {
       });
 
       states.filteredData = data;
-      // states.data = data;
     },
     execSort: function execSort() {
       var states = this.states;
@@ -1923,15 +1947,15 @@ watcher.prototype.mutations = {
     // 没有使用 computed，而是手动更新部分数据 https://github.com/vuejs/vue/issues/6660#issuecomment-331417140
     this.updateCurrentRow();
     this.updateExpandRows();
-    if (!states.reserveSelection) {
+    if (states.reserveSelection) {
+      this.assertRowKey();
+      this.updateSelectionByRowKey();
+    } else {
       if (dataInstanceChanged) {
         this.clearSelection();
       } else {
         this.cleanSelection();
       }
-    } else {
-      this.assertRowKey();
-      this.updateSelectionByRowKey();
     }
     this.updateAllSelected();
 
@@ -1976,23 +2000,18 @@ watcher.prototype.mutations = {
     }
   },
   sort: function sort(states, options) {
-    var _this = this;
-
     var prop = options.prop,
         order = options.order;
 
     if (prop) {
-      // TODO：nextTick 是否有必要？
-      external_vue_default.a.nextTick(function () {
-        var column = Object(util_["arrayFind"])(states.columns, function (column) {
-          return column.property === prop;
-        });
-        if (column) {
-          column.order = order;
-          _this.updateSort(column, prop, order);
-          _this.commit('changeSortCondition');
-        }
+      var column = Object(util_["arrayFind"])(states.columns, function (column) {
+        return column.property === prop;
       });
+      if (column) {
+        column.order = order;
+        this.updateSort(column, prop, order);
+        this.commit('changeSortCondition');
+      }
     }
   },
   changeSortCondition: function changeSortCondition(states, options) {
@@ -2044,12 +2063,7 @@ watcher.prototype.mutations = {
     states.hoverRow = row;
   },
   setCurrentRow: function setCurrentRow(states, row) {
-    var oldCurrentRow = states.currentRow;
-    states.currentRow = row;
-
-    if (oldCurrentRow !== row) {
-      this.table.$emit('current-change', row, oldCurrentRow);
-    }
+    this.updateCurrentRow(row);
   }
 };
 
@@ -2164,12 +2178,16 @@ var table_layout_TableLayout = function () {
 
   TableLayout.prototype.updateScrollY = function updateScrollY() {
     var height = this.height;
-    if (height === null) return;
+    if (height === null) return false;
     var bodyWrapper = this.table.bodyWrapper;
     if (this.table.$el && bodyWrapper) {
       var body = bodyWrapper.querySelector('.el-table__body');
-      this.scrollY = body.offsetHeight > this.bodyHeight;
+      var prevScrollY = this.scrollY;
+      var scrollY = body.offsetHeight > this.bodyHeight;
+      this.scrollY = scrollY;
+      return prevScrollY !== scrollY;
     }
+    return false;
   };
 
   TableLayout.prototype.setHeight = function setHeight(value) {
@@ -2186,8 +2204,11 @@ var table_layout_TableLayout = function () {
       return _this.setHeight(value, prop);
     });
 
-    if (value) {
+    if (typeof value === 'number') {
       el.style[prop] = value + 'px';
+      this.updateElsHeight();
+    } else if (typeof value === 'string') {
+      el.style[prop] = value;
       this.updateElsHeight();
     }
   };
@@ -2843,7 +2864,6 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
               indent: treeRowData.level * treeIndent,
               level: treeRowData.level
             };
-            // TODO: 优化这里的逻辑
             if (typeof treeRowData.expanded === 'boolean') {
               data.treeNode.expanded = treeRowData.expanded;
               // 表明是懒加载
@@ -2921,10 +2941,10 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
             level: cur.level,
             display: true
           };
-          if (typeof cur.loaded === 'boolean' && cur.loaded) {
-            treeRowData.noLazyChildren = !(cur.children && cur.children.length);
-          }
-          if (typeof cur.loading === 'boolean') {
+          if (typeof cur.lazy === 'boolean') {
+            if (typeof cur.loaded === 'boolean' && cur.loaded) {
+              treeRowData.noLazyChildren = !(cur.children && cur.children.length);
+            }
             treeRowData.loading = cur.loading;
           }
         }
@@ -2954,10 +2974,10 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
                 // 懒加载的某些节点，level 未知
                 cur.level = cur.level || innerTreeRowData.level;
                 cur.display = !!(cur.expanded && innerTreeRowData.display);
-                if (typeof cur.loaded === 'boolean' && cur.loaded) {
-                  innerTreeRowData.noLazyChildren = !(cur.children && cur.children.length);
-                }
                 if (typeof cur.lazy === 'boolean') {
+                  if (typeof cur.loaded === 'boolean' && cur.loaded) {
+                    innerTreeRowData.noLazyChildren = !(cur.children && cur.children.length);
+                  }
                   innerTreeRowData.loading = cur.loading;
                 }
               }
@@ -3623,12 +3643,17 @@ var convertToRows = function convertToRows(originColumns) {
     this.filterPanels = {};
   },
   mounted: function mounted() {
-    var _defaultSort = this.defaultSort,
-        prop = _defaultSort.prop,
-        order = _defaultSort.order;
+    var _this2 = this;
 
-    var init = true;
-    this.store.commit('sort', { prop: prop, order: order, init: init });
+    // nextTick 是有必要的 https://github.com/ElemeFE/element/pull/11311
+    this.$nextTick(function () {
+      var _defaultSort = _this2.defaultSort,
+          prop = _defaultSort.prop,
+          order = _defaultSort.order;
+
+      var init = true;
+      _this2.store.commit('sort', { prop: prop, order: order, init: init });
+    });
   },
   beforeDestroy: function beforeDestroy() {
     var panels = this.filterPanels;
@@ -3762,7 +3787,7 @@ var convertToRows = function convertToRows(originColumns) {
       this.$parent.$emit('header-contextmenu', column, event);
     },
     handleMouseDown: function handleMouseDown(event, column) {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.$isServer) return;
       if (column.children && column.children.length > 0) return;
@@ -3799,15 +3824,15 @@ var convertToRows = function convertToRows(originColumns) {
         };
 
         var handleMouseMove = function handleMouseMove(event) {
-          var deltaLeft = event.clientX - _this2.dragState.startMouseLeft;
-          var proxyLeft = _this2.dragState.startLeft + deltaLeft;
+          var deltaLeft = event.clientX - _this3.dragState.startMouseLeft;
+          var proxyLeft = _this3.dragState.startLeft + deltaLeft;
 
           resizeProxy.style.left = Math.max(minLeft, proxyLeft) + 'px';
         };
 
         var handleMouseUp = function handleMouseUp() {
-          if (_this2.dragging) {
-            var _dragState = _this2.dragState,
+          if (_this3.dragging) {
+            var _dragState = _this3.dragState,
                 startColumnLeft = _dragState.startColumnLeft,
                 startLeft = _dragState.startLeft;
 
@@ -3816,12 +3841,12 @@ var convertToRows = function convertToRows(originColumns) {
             column.width = column.realWidth = columnWidth;
             table.$emit('header-dragend', column.width, startLeft - startColumnLeft, column, event);
 
-            _this2.store.scheduleLayout();
+            _this3.store.scheduleLayout();
 
             document.body.style.cursor = '';
-            _this2.dragging = false;
-            _this2.draggingColumn = null;
-            _this2.dragState = {};
+            _this3.dragging = false;
+            _this3.draggingColumn = null;
+            _this3.dragState = {};
 
             table.resizeProxyVisible = false;
           }
@@ -4453,7 +4478,7 @@ var tableIdSeed = 1;
       this.store.commit('setCurrentRow', row);
     },
     toggleRowSelection: function toggleRowSelection(row, selected) {
-      this.store.toggleRowSelection(row, selected);
+      this.store.toggleRowSelection(row, selected, false);
       this.store.updateAllSelected();
     },
     toggleRowExpansion: function toggleRowExpansion(row, expanded) {
@@ -4473,8 +4498,10 @@ var tableIdSeed = 1;
       if (this.hoverState) this.hoverState = null;
     },
     updateScrollY: function updateScrollY() {
-      this.layout.updateScrollY();
-      this.layout.updateColumnsWidth();
+      var changed = this.layout.updateScrollY();
+      if (changed) {
+        this.layout.updateColumnsWidth();
+      }
     },
     handleFixedMousewheel: function handleFixedMousewheel(event, data) {
       var bodyWrapper = this.bodyWrapper;
@@ -4501,7 +4528,7 @@ var tableIdSeed = 1;
     },
 
 
-    // TODO 性能优化
+    // TODO 使用 CSS transform
     syncPostion: Object(external_throttle_debounce_["throttle"])(20, function () {
       var _bodyWrapper = this.bodyWrapper,
           scrollLeft = _bodyWrapper.scrollLeft,
@@ -4566,10 +4593,10 @@ var tableIdSeed = 1;
       }
     },
     doLayout: function doLayout() {
-      this.layout.updateColumnsWidth();
       if (this.shouldUpdateHeight) {
         this.layout.updateElsHeight();
       }
+      this.layout.updateColumnsWidth();
     },
     sort: function sort(prop, order) {
       this.store.commit('sort', { prop: prop, order: order });
@@ -4611,7 +4638,7 @@ var tableIdSeed = 1;
         };
       } else if (this.maxHeight) {
         var maxHeight = Object(util["j" /* parseHeight */])(this.maxHeight);
-        if (maxHeight) {
+        if (typeof maxHeight === 'number') {
           return {
             'max-height': maxHeight - footerHeight - (this.showHeader ? headerHeight : 0) + 'px'
           };
@@ -4626,7 +4653,7 @@ var tableIdSeed = 1;
         };
       } else if (this.maxHeight) {
         var maxHeight = Object(util["j" /* parseHeight */])(this.maxHeight);
-        if (maxHeight) {
+        if (typeof maxHeight === 'number') {
           maxHeight = this.layout.scrollX ? maxHeight - this.layout.gutterWidth : maxHeight;
           if (this.showHeader) {
             maxHeight -= this.layout.headerHeight;
@@ -4683,22 +4710,18 @@ var tableIdSeed = 1;
       }
     },
 
-    currentRowKey: function currentRowKey(newVal) {
-      this.store.setCurrentRowKey(newVal);
+    currentRowKey: {
+      immediate: true,
+      handler: function handler(value) {
+        if (!this.rowKey) return;
+        this.store.setCurrentRowKey(value);
+      }
     },
-
 
     data: {
       immediate: true,
       handler: function handler(value) {
-        var _this = this;
-
         this.store.commit('setData', value);
-        if (this.$ready) {
-          this.$nextTick(function () {
-            _this.doLayout();
-          });
-        }
       }
     },
 
@@ -4713,15 +4736,15 @@ var tableIdSeed = 1;
   },
 
   created: function created() {
-    var _this2 = this;
+    var _this = this;
 
     this.tableId = 'el-table_' + tableIdSeed++;
     this.debouncedUpdateLayout = Object(external_throttle_debounce_["debounce"])(50, function () {
-      return _this2.doLayout();
+      return _this.doLayout();
     });
   },
   mounted: function mounted() {
-    var _this3 = this;
+    var _this2 = this;
 
     this.bindEvents();
     this.store.updateColumns();
@@ -4735,7 +4758,7 @@ var tableIdSeed = 1;
     // init filters
     this.store.states.columns.forEach(function (column) {
       if (column.filteredValue && column.filteredValue.length) {
-        _this3.store.commit('filterChange', {
+        _this2.store.commit('filterChange', {
           column: column,
           values: column.filteredValue,
           silent: true

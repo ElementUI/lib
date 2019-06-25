@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 64);
+/******/ 	return __webpack_require__(__webpack_require__.s = 65);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -210,7 +210,7 @@ module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ }),
 
-/***/ 64:
+/***/ 65:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -302,7 +302,11 @@ var render = function() {
           { key: "no-range", staticClass: "el-calendar__body" },
           [
             _c("date-table", {
-              attrs: { date: _vm.date, "selected-day": _vm.realSelectedDay },
+              attrs: {
+                date: _vm.date,
+                "selected-day": _vm.realSelectedDay,
+                "first-day-of-week": _vm.realFirstDayOfWeek
+              },
               on: { pick: _vm.pickDay }
             })
           ],
@@ -348,8 +352,9 @@ var date_util_ = __webpack_require__(1);
 
 
 
-/* harmony default export */ var date_tablevue_type_script_lang_js_ = ({
 
+var WEEK_DAYS = Object(date_util_["getI18nSettings"])().dayNames;
+/* harmony default export */ var date_tablevue_type_script_lang_js_ = ({
   props: {
     selectedDay: String, // formated date yyyy-MM-dd
     range: {
@@ -363,7 +368,8 @@ var date_util_ = __webpack_require__(1);
       }
     },
     date: Date,
-    hideHeader: Boolean
+    hideHeader: Boolean,
+    firstDayOfWeek: Number
   },
 
   inject: ['elCalendar'],
@@ -476,7 +482,8 @@ var date_util_ = __webpack_require__(1);
         var date = this.date;
         var firstDay = Object(date_util_["getFirstDayOfMonth"])(date);
         firstDay = firstDay === 0 ? 7 : firstDay;
-        var prevMonthDays = Object(date_util_["getPrevMonthLastDays"])(date, firstDay - 1).map(function (day) {
+        var firstDayOfWeek = typeof this.firstDayOfWeek === 'number' ? this.firstDayOfWeek : 1;
+        var prevMonthDays = Object(date_util_["getPrevMonthLastDays"])(date, firstDay - firstDayOfWeek).map(function (day) {
           return {
             text: day,
             type: 'prev'
@@ -498,21 +505,23 @@ var date_util_ = __webpack_require__(1);
         days = days.concat(nextMonthDays);
       }
       return this.toNestedArr(days);
+    },
+    weekDays: function weekDays() {
+      var start = this.firstDayOfWeek;
+      if (typeof start !== 'number' || start === 0) {
+        return WEEK_DAYS.slice();
+      } else {
+        return WEEK_DAYS.slice(start).concat(WEEK_DAYS.slice(0, start));
+      }
     }
   },
 
-  data: function data() {
-    var dayNames = Object(date_util_["getI18nSettings"])().dayNames;
-    return {
-      DAYS: dayNames.slice(1).concat(dayNames[0])
-    };
-  },
   render: function render() {
     var _this = this;
 
     var h = arguments[0];
 
-    var thead = this.hideHeader ? null : h('thead', [this.DAYS.map(function (day) {
+    var thead = this.hideHeader ? null : h('thead', [this.weekDays.map(function (day) {
       return h(
         'th',
         { key: day },
@@ -644,6 +653,7 @@ component.options.__file = "packages/calendar/src/date-table.vue"
 //
 //
 //
+//
 
 
 
@@ -675,6 +685,10 @@ var oneDay = 86400000;
           return true;
         }
       }
+    },
+    firstDayOfWeek: {
+      type: Number,
+      default: 1
     }
   },
 
@@ -820,6 +834,12 @@ var oneDay = 86400000;
         return data;
       }
       return [];
+    },
+    realFirstDayOfWeek: function realFirstDayOfWeek() {
+      if (this.firstDayOfWeek < 1 || this.firstDayOfWeek > 6) {
+        return 0;
+      }
+      return Math.floor(this.firstDayOfWeek);
     }
   },
 

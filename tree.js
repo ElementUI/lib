@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 57);
+/******/ 	return __webpack_require__(__webpack_require__.s = 58);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -217,6 +217,13 @@ module.exports = require("element-ui/lib/transitions/collapse-transition");
 
 /***/ }),
 
+/***/ 3:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/util");
+
+/***/ }),
+
 /***/ 4:
 /***/ (function(module, exports) {
 
@@ -224,7 +231,7 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 57:
+/***/ 58:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -322,10 +329,14 @@ var findNearestComponent = function findNearestComponent(element, componentName)
   }
   return null;
 };
+// EXTERNAL MODULE: external "element-ui/lib/utils/util"
+var util_ = __webpack_require__(3);
+
 // CONCATENATED MODULE: ./packages/tree/src/model/node.js
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 
 
 
@@ -756,8 +767,12 @@ var node_Node = function () {
     var newNodes = [];
 
     newData.forEach(function (item, index) {
-      if (item[NODE_KEY]) {
-        newDataMap[item[NODE_KEY]] = { index: index, data: item };
+      var key = item[NODE_KEY];
+      var isNodeExists = !!key && Object(util_["arrayFindIndex"])(oldData, function (data) {
+        return data[NODE_KEY] === key;
+      }) >= 0;
+      if (isNodeExists) {
+        newDataMap[key] = { index: index, data: item };
       } else {
         newNodes.push({ index: index, data: item });
       }
@@ -910,9 +925,8 @@ var tree_store_TreeStore = function () {
 
       if (!node.visible && childNodes.length) {
         var allHidden = true;
-
-        childNodes.forEach(function (child) {
-          if (child.visible) allHidden = false;
+        allHidden = !childNodes.some(function (child) {
+          return child.visible;
         });
 
         if (node.root) {
@@ -1229,6 +1243,7 @@ var tree_store_TreeStore = function () {
 
   TreeStore.prototype.setCurrentNodeKey = function setCurrentNodeKey(key) {
     if (key === null) {
+      this.currentNode.isCurrent = false;
       this.currentNode = null;
       return;
     }

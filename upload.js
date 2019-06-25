@@ -268,96 +268,106 @@ var upload_listvue_type_template_id_173fedf5_render = function() {
           }
         },
         [
-          file.status !== "uploading" &&
-          ["picture-card", "picture"].indexOf(_vm.listType) > -1
-            ? _c("img", {
-                staticClass: "el-upload-list__item-thumbnail",
-                attrs: { src: file.url, alt: "" }
-              })
-            : _vm._e(),
-          _c(
-            "a",
-            {
-              staticClass: "el-upload-list__item-name",
-              on: {
-                click: function($event) {
-                  _vm.handleClick(file)
-                }
-              }
-            },
+          _vm._t(
+            "default",
             [
-              _c("i", { staticClass: "el-icon-document" }),
-              _vm._v(_vm._s(file.name) + "\n    ")
-            ]
-          ),
-          _c("label", { staticClass: "el-upload-list__item-status-label" }, [
-            _c("i", {
-              class: {
-                "el-icon-upload-success": true,
-                "el-icon-circle-check": _vm.listType === "text",
-                "el-icon-check":
-                  ["picture-card", "picture"].indexOf(_vm.listType) > -1
-              }
-            })
-          ]),
-          !_vm.disabled
-            ? _c("i", {
-                staticClass: "el-icon-close",
-                on: {
-                  click: function($event) {
-                    _vm.$emit("remove", file)
+              file.status !== "uploading" &&
+              ["picture-card", "picture"].indexOf(_vm.listType) > -1
+                ? _c("img", {
+                    staticClass: "el-upload-list__item-thumbnail",
+                    attrs: { src: file.url, alt: "" }
+                  })
+                : _vm._e(),
+              _c(
+                "a",
+                {
+                  staticClass: "el-upload-list__item-name",
+                  on: {
+                    click: function($event) {
+                      _vm.handleClick(file)
+                    }
                   }
-                }
-              })
-            : _vm._e(),
-          !_vm.disabled
-            ? _c("i", { staticClass: "el-icon-close-tip" }, [
-                _vm._v(_vm._s(_vm.t("el.upload.deleteTip")))
-              ])
-            : _vm._e(),
-          file.status === "uploading"
-            ? _c("el-progress", {
-                attrs: {
-                  type: _vm.listType === "picture-card" ? "circle" : "line",
-                  "stroke-width": _vm.listType === "picture-card" ? 6 : 2,
-                  percentage: _vm.parsePercentage(file.percentage)
-                }
-              })
-            : _vm._e(),
-          _vm.listType === "picture-card"
-            ? _c("span", { staticClass: "el-upload-list__item-actions" }, [
-                _vm.handlePreview && _vm.listType === "picture-card"
-                  ? _c(
-                      "span",
-                      {
-                        staticClass: "el-upload-list__item-preview",
-                        on: {
-                          click: function($event) {
-                            _vm.handlePreview(file)
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "el-icon-zoom-in" })]
-                    )
-                  : _vm._e(),
-                !_vm.disabled
-                  ? _c(
-                      "span",
-                      {
-                        staticClass: "el-upload-list__item-delete",
-                        on: {
-                          click: function($event) {
-                            _vm.$emit("remove", file)
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "el-icon-delete" })]
-                    )
-                  : _vm._e()
-              ])
-            : _vm._e()
+                },
+                [
+                  _c("i", { staticClass: "el-icon-document" }),
+                  _vm._v(_vm._s(file.name) + "\n      ")
+                ]
+              ),
+              _c(
+                "label",
+                { staticClass: "el-upload-list__item-status-label" },
+                [
+                  _c("i", {
+                    class: {
+                      "el-icon-upload-success": true,
+                      "el-icon-circle-check": _vm.listType === "text",
+                      "el-icon-check":
+                        ["picture-card", "picture"].indexOf(_vm.listType) > -1
+                    }
+                  })
+                ]
+              ),
+              !_vm.disabled
+                ? _c("i", {
+                    staticClass: "el-icon-close",
+                    on: {
+                      click: function($event) {
+                        _vm.$emit("remove", file)
+                      }
+                    }
+                  })
+                : _vm._e(),
+              !_vm.disabled
+                ? _c("i", { staticClass: "el-icon-close-tip" }, [
+                    _vm._v(_vm._s(_vm.t("el.upload.deleteTip")))
+                  ])
+                : _vm._e(),
+              file.status === "uploading"
+                ? _c("el-progress", {
+                    attrs: {
+                      type: _vm.listType === "picture-card" ? "circle" : "line",
+                      "stroke-width": _vm.listType === "picture-card" ? 6 : 2,
+                      percentage: _vm.parsePercentage(file.percentage)
+                    }
+                  })
+                : _vm._e(),
+              _vm.listType === "picture-card"
+                ? _c("span", { staticClass: "el-upload-list__item-actions" }, [
+                    _vm.handlePreview && _vm.listType === "picture-card"
+                      ? _c(
+                          "span",
+                          {
+                            staticClass: "el-upload-list__item-preview",
+                            on: {
+                              click: function($event) {
+                                _vm.handlePreview(file)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "el-icon-zoom-in" })]
+                        )
+                      : _vm._e(),
+                    !_vm.disabled
+                      ? _c(
+                          "span",
+                          {
+                            staticClass: "el-upload-list__item-delete",
+                            on: {
+                              click: function($event) {
+                                _vm.$emit("remove", file)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "el-icon-delete" })]
+                        )
+                      : _vm._e()
+                  ])
+                : _vm._e()
+            ],
+            { file: file }
+          )
         ],
-        1
+        2
       )
     }),
     0
@@ -378,6 +388,8 @@ var progress_ = __webpack_require__(41);
 var progress_default = /*#__PURE__*/__webpack_require__.n(progress_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/upload/src/upload-list.vue?vue&type=script&lang=js&
+//
+//
 //
 //
 //
@@ -1272,20 +1284,32 @@ function noop() {}
     });
   },
   render: function render(h) {
+    var _this4 = this;
+
     var uploadList = void 0;
 
     if (this.showFileList) {
-      uploadList = h(upload_list, {
-        attrs: {
-          disabled: this.uploadDisabled,
-          listType: this.listType,
-          files: this.uploadFiles,
+      uploadList = h(
+        upload_list,
+        {
+          attrs: {
+            disabled: this.uploadDisabled,
+            listType: this.listType,
+            files: this.uploadFiles,
 
-          handlePreview: this.onPreview },
-        on: {
-          'remove': this.handleRemove
-        }
-      });
+            handlePreview: this.onPreview },
+          on: {
+            'remove': this.handleRemove
+          }
+        },
+        [function (props) {
+          if (_this4.$scopedSlots.file) {
+            return _this4.$scopedSlots.file({
+              file: props.file
+            });
+          }
+        }]
+      );
     }
 
     var uploadData = {

@@ -82,12 +82,12 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 125);
+/******/ 	return __webpack_require__(__webpack_require__.s = 126);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 125:
+/***/ 126:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -832,10 +832,11 @@ function parseHeight(height) {
     return height;
   }
   if (typeof height === 'string') {
-    if (/^\d+(?:px)?/.test(height)) {
+    if (/^\d+(?:px)?$/.test(height)) {
       return parseInt(height, 10);
+    } else {
+      return height;
     }
-    console.warn('[Element Warn][ElTable]invalid height and it will be ignored.');
   }
   return null;
 }

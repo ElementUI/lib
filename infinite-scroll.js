@@ -82,12 +82,12 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 126);
+/******/ 	return __webpack_require__(__webpack_require__.s = 130);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 126:
+/***/ 130:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -103,7 +103,7 @@ var types_ = __webpack_require__(19);
 // EXTERNAL MODULE: external "element-ui/lib/utils/dom"
 var dom_ = __webpack_require__(2);
 
-// CONCATENATED MODULE: ./packages/infiniteScroll/src/main.js
+// CONCATENATED MODULE: ./packages/infinite-scroll/src/main.js
 
 
 
@@ -261,7 +261,7 @@ var main_handleScroll = function handleScroll(cb) {
     }
   }
 });
-// CONCATENATED MODULE: ./packages/infiniteScroll/index.js
+// CONCATENATED MODULE: ./packages/infinite-scroll/index.js
 
 
 /* istanbul ignore next */
@@ -269,7 +269,7 @@ main.install = function (Vue) {
   Vue.directive(main.name, main);
 };
 
-/* harmony default export */ var infiniteScroll = __webpack_exports__["default"] = (main);
+/* harmony default export */ var infinite_scroll = __webpack_exports__["default"] = (main);
 
 /***/ }),
 

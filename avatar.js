@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 123);
+/******/ 	return __webpack_require__(__webpack_require__.s = 125);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,83 +189,142 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 123:
+/***/ 125:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/tag/src/tag.vue?vue&type=script&lang=js&
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/avatar/src/main.vue?vue&type=script&lang=js&
 
-/* harmony default export */ var tagvue_type_script_lang_js_ = ({
-  name: 'ElTag',
+/* harmony default export */ var mainvue_type_script_lang_js_ = ({
+  name: 'ElAvatar',
+
   props: {
-    text: String,
-    closable: Boolean,
-    type: String,
-    hit: Boolean,
-    disableTransitions: Boolean,
-    color: String,
-    size: String,
-    effect: {
-      type: String,
-      default: 'light',
+    size: {
+      type: [Number, String],
       validator: function validator(val) {
-        return ['dark', 'light', 'plain'].includes(val);
+        if (typeof val === 'string') {
+          return ['large', 'medium', 'small'].includes(val);
+        }
+        return typeof val === 'number';
       }
-    }
-  },
-  methods: {
-    handleClose: function handleClose(event) {
-      event.stopPropagation();
-      this.$emit('close', event);
     },
-    handleClick: function handleClick(event) {
-      this.$emit('click', event);
+    shape: {
+      type: String,
+      default: 'circle',
+      validator: function validator(val) {
+        return ['circle', 'square'].includes(val);
+      }
+    },
+    icon: String,
+    src: String,
+    alt: String,
+    srcSet: String,
+    error: Function,
+    fit: {
+      type: String,
+      default: 'cover'
     }
   },
+
+  data: function data() {
+    return {
+      isImageExist: true
+    };
+  },
+
+
   computed: {
-    tagSize: function tagSize() {
-      return this.size || (this.$ELEMENT || {}).size;
+    avatarClass: function avatarClass() {
+      var size = this.size,
+          icon = this.icon,
+          shape = this.shape;
+
+      var classList = ['el-avatar'];
+
+      if (size && typeof size === 'string') {
+        classList.push('el-avatar--' + size);
+      }
+
+      if (icon) {
+        classList.push('el-avatar--icon');
+      }
+
+      if (shape) {
+        classList.push('el-avatar--' + shape);
+      }
+
+      return classList.join(' ');
     }
   },
-  render: function render(h) {
-    var type = this.type,
-        tagSize = this.tagSize,
-        hit = this.hit,
-        effect = this.effect;
 
-    var classes = ['el-tag', type ? 'el-tag--' + type : '', tagSize ? 'el-tag--' + tagSize : '', effect ? 'el-tag--' + effect : '', hit && 'is-hit'];
-    var tagEl = h(
+  methods: {
+    handleError: function handleError() {
+      var error = this.error;
+
+      var errorFlag = error ? error() : undefined;
+      if (errorFlag !== false) {
+        this.isImageExist = false;
+      }
+    },
+    renderAvatar: function renderAvatar() {
+      var h = this.$createElement;
+      var icon = this.icon,
+          src = this.src,
+          alt = this.alt,
+          isImageExist = this.isImageExist,
+          srcSet = this.srcSet,
+          fit = this.fit;
+
+
+      if (isImageExist && src) {
+        return h('img', {
+          attrs: {
+            src: src,
+
+            alt: alt,
+            srcSet: srcSet
+          },
+          on: {
+            'error': this.handleError
+          },
+          style: { 'object-fit': fit } });
+      }
+
+      if (icon) {
+        return h('i', { 'class': icon });
+      }
+
+      return this.$slots.default;
+    }
+  },
+
+  render: function render() {
+    var h = arguments[0];
+    var avatarClass = this.avatarClass,
+        size = this.size;
+
+
+    var sizeStyle = typeof size === 'number' ? {
+      height: size + 'px',
+      width: size + 'px',
+      lineHeight: size + 'px'
+    } : {};
+
+    return h(
       'span',
-      {
-        'class': classes,
-        style: { backgroundColor: this.color },
-        on: {
-          'click': this.handleClick
-        }
-      },
-      [this.$slots.default, this.closable && h('i', { 'class': 'el-tag__close el-icon-close', on: {
-          'click': this.handleClose
-        }
-      })]
-    );
-
-    return this.disableTransitions ? tagEl : h(
-      'transition',
-      {
-        attrs: { name: 'el-zoom-in-center' }
-      },
-      [tagEl]
+      { 'class': avatarClass, style: sizeStyle },
+      [this.renderAvatar()]
     );
   }
 });
-// CONCATENATED MODULE: ./packages/tag/src/tag.vue?vue&type=script&lang=js&
- /* harmony default export */ var src_tagvue_type_script_lang_js_ = (tagvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./packages/avatar/src/main.vue?vue&type=script&lang=js&
+ /* harmony default export */ var src_mainvue_type_script_lang_js_ = (mainvue_type_script_lang_js_); 
 // EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 var componentNormalizer = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./packages/tag/src/tag.vue
+// CONCATENATED MODULE: ./packages/avatar/src/main.vue
 var render, staticRenderFns
 
 
@@ -274,7 +333,7 @@ var render, staticRenderFns
 /* normalize component */
 
 var component = Object(componentNormalizer["a" /* default */])(
-  src_tagvue_type_script_lang_js_,
+  src_mainvue_type_script_lang_js_,
   render,
   staticRenderFns,
   false,
@@ -286,17 +345,17 @@ var component = Object(componentNormalizer["a" /* default */])(
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "packages/tag/src/tag.vue"
-/* harmony default export */ var tag = (component.exports);
-// CONCATENATED MODULE: ./packages/tag/index.js
+component.options.__file = "packages/avatar/src/main.vue"
+/* harmony default export */ var main = (component.exports);
+// CONCATENATED MODULE: ./packages/avatar/index.js
 
 
 /* istanbul ignore next */
-tag.install = function (Vue) {
-  Vue.component(tag.name, tag);
+main.install = function (Vue) {
+  Vue.component(main.name, main);
 };
 
-/* harmony default export */ var packages_tag = __webpack_exports__["default"] = (tag);
+/* harmony default export */ var avatar = __webpack_exports__["default"] = (main);
 
 /***/ })
 

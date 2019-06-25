@@ -110,10 +110,10 @@ exports.default = {
       hasCheckedFormat: '{checked} مورد از {total} مورد انتخاب شده است'
     },
     image: {
-      error: 'FAILED' // to be translated
+      error: 'خطا در بارگیری تصویر'
     },
     pageHeader: {
-      title: 'Back' // to be translated
+      title: 'بازگشت'
     }
   }
 };

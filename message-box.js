@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 75);
+/******/ 	return __webpack_require__(__webpack_require__.s = 73);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -252,7 +252,7 @@ module.exports = require("vue");
 
 /***/ }),
 
-/***/ 75:
+/***/ 73:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -815,6 +815,9 @@ var typeMap = {
     getInputElement: function getInputElement() {
       var inputRefs = this.$refs.input.$refs;
       return inputRefs.input || inputRefs.textarea;
+    },
+    handleClose: function handleClose() {
+      this.handleAction('close');
     }
   },
 

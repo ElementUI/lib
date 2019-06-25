@@ -110,10 +110,10 @@ exports.default = {
       hasCheckedFormat: '{checked}/{total} selecionados'
     },
     image: {
-      error: 'FAILED' // to be translated
+      error: 'Erro ao carregar imagem'
     },
     pageHeader: {
-      title: 'Back' // to be translated
+      title: 'Voltar'
     }
   }
 };

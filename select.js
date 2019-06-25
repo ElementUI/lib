@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 60);
+/******/ 	return __webpack_require__(__webpack_require__.s = 59);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -552,8 +552,7 @@ module.exports = require("element-ui/lib/tag");
 /* 56 */,
 /* 57 */,
 /* 58 */,
-/* 59 */,
-/* 60 */
+/* 59 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1425,7 +1424,6 @@ var shared_ = __webpack_require__(22);
 
 
 
-
 /* harmony default export */ var selectvue_type_script_lang_js_ = ({
   mixins: [emitter_default.a, locale_default.a, focus_default()('reference'), navigation_mixin],
 
@@ -1706,17 +1704,21 @@ var shared_ = __webpack_require__(22);
 
   methods: {
     handleComposition: function handleComposition(event) {
+      var _this5 = this;
+
       var text = event.target.value;
       if (event.type === 'compositionend') {
         this.isOnComposition = false;
-        this.handleQueryChange(text);
+        this.$nextTick(function (_) {
+          return _this5.handleQueryChange(text);
+        });
       } else {
         var lastCharacter = text[text.length - 1] || '';
         this.isOnComposition = !Object(shared_["isKorean"])(lastCharacter);
       }
     },
     handleQueryChange: function handleQueryChange(val) {
-      var _this5 = this;
+      var _this6 = this;
 
       if (this.previousQuery === val || this.isOnComposition) return;
       if (this.previousQuery === null && (typeof this.filterMethod === 'function' || typeof this.remoteMethod === 'function')) {
@@ -1725,15 +1727,15 @@ var shared_ = __webpack_require__(22);
       }
       this.previousQuery = val;
       this.$nextTick(function () {
-        if (_this5.visible) _this5.broadcast('ElSelectDropdown', 'updatePopper');
+        if (_this6.visible) _this6.broadcast('ElSelectDropdown', 'updatePopper');
       });
       this.hoverIndex = -1;
       if (this.multiple && this.filterable) {
         this.$nextTick(function () {
-          var length = _this5.$refs.input.value.length * 15 + 20;
-          _this5.inputLength = _this5.collapseTags ? Math.min(50, length) : length;
-          _this5.managePlaceholder();
-          _this5.resetInputHeight();
+          var length = _this6.$refs.input.value.length * 15 + 20;
+          _this6.inputLength = _this6.collapseTags ? Math.min(50, length) : length;
+          _this6.managePlaceholder();
+          _this6.resetInputHeight();
         });
       }
       if (this.remote && typeof this.remoteMethod === 'function') {
@@ -1760,10 +1762,10 @@ var shared_ = __webpack_require__(22);
       this.$refs.scrollbar && this.$refs.scrollbar.handleScroll();
     },
     handleMenuEnter: function handleMenuEnter() {
-      var _this6 = this;
+      var _this7 = this;
 
       this.$nextTick(function () {
-        return _this6.scrollToOption(_this6.selected);
+        return _this7.scrollToOption(_this7.selected);
       });
     },
     emitChange: function emitChange(val) {
@@ -1797,7 +1799,7 @@ var shared_ = __webpack_require__(22);
       return newOption;
     },
     setSelected: function setSelected() {
-      var _this7 = this;
+      var _this8 = this;
 
       if (!this.multiple) {
         var option = this.getOption(this.value);
@@ -1815,12 +1817,12 @@ var shared_ = __webpack_require__(22);
       var result = [];
       if (Array.isArray(this.value)) {
         this.value.forEach(function (value) {
-          result.push(_this7.getOption(value));
+          result.push(_this8.getOption(value));
         });
       }
       this.selected = result;
       this.$nextTick(function () {
-        _this7.resetInputHeight();
+        _this8.resetInputHeight();
       });
     },
     handleFocus: function handleFocus(event) {
@@ -1839,13 +1841,13 @@ var shared_ = __webpack_require__(22);
       this.$refs.reference.blur();
     },
     handleBlur: function handleBlur(event) {
-      var _this8 = this;
+      var _this9 = this;
 
       setTimeout(function () {
-        if (_this8.isSilentBlur) {
-          _this8.isSilentBlur = false;
+        if (_this9.isSilentBlur) {
+          _this9.isSilentBlur = false;
         } else {
-          _this8.$emit('blur', event);
+          _this9.$emit('blur', event);
         }
       }, 50);
       this.softFocus = false;
@@ -1891,42 +1893,42 @@ var shared_ = __webpack_require__(22);
       this.resetInputHeight();
     },
     resetInputHeight: function resetInputHeight() {
-      var _this9 = this;
+      var _this10 = this;
 
       if (this.collapseTags && !this.filterable) return;
       this.$nextTick(function () {
-        if (!_this9.$refs.reference) return;
-        var inputChildNodes = _this9.$refs.reference.$el.childNodes;
+        if (!_this10.$refs.reference) return;
+        var inputChildNodes = _this10.$refs.reference.$el.childNodes;
         var input = [].filter.call(inputChildNodes, function (item) {
           return item.tagName === 'INPUT';
         })[0];
-        var tags = _this9.$refs.tags;
-        var sizeInMap = _this9.initialInputHeight || 40;
-        input.style.height = _this9.selected.length === 0 ? sizeInMap + 'px' : Math.max(tags ? tags.clientHeight + (tags.clientHeight > sizeInMap ? 6 : 0) : 0, sizeInMap) + 'px';
-        if (_this9.visible && _this9.emptyText !== false) {
-          _this9.broadcast('ElSelectDropdown', 'updatePopper');
+        var tags = _this10.$refs.tags;
+        var sizeInMap = _this10.initialInputHeight || 40;
+        input.style.height = _this10.selected.length === 0 ? sizeInMap + 'px' : Math.max(tags ? tags.clientHeight + (tags.clientHeight > sizeInMap ? 6 : 0) : 0, sizeInMap) + 'px';
+        if (_this10.visible && _this10.emptyText !== false) {
+          _this10.broadcast('ElSelectDropdown', 'updatePopper');
         }
       });
     },
     resetHoverIndex: function resetHoverIndex() {
-      var _this10 = this;
+      var _this11 = this;
 
       setTimeout(function () {
-        if (!_this10.multiple) {
-          _this10.hoverIndex = _this10.options.indexOf(_this10.selected);
+        if (!_this11.multiple) {
+          _this11.hoverIndex = _this11.options.indexOf(_this11.selected);
         } else {
-          if (_this10.selected.length > 0) {
-            _this10.hoverIndex = Math.min.apply(null, _this10.selected.map(function (item) {
-              return _this10.options.indexOf(item);
+          if (_this11.selected.length > 0) {
+            _this11.hoverIndex = Math.min.apply(null, _this11.selected.map(function (item) {
+              return _this11.options.indexOf(item);
             }));
           } else {
-            _this10.hoverIndex = -1;
+            _this11.hoverIndex = -1;
           }
         }
       }, 300);
     },
     handleOptionSelect: function handleOptionSelect(option, byClick) {
-      var _this11 = this;
+      var _this12 = this;
 
       if (this.multiple) {
         var value = (this.value || []).slice();
@@ -1953,7 +1955,7 @@ var shared_ = __webpack_require__(22);
       this.setSoftFocus();
       if (this.visible) return;
       this.$nextTick(function () {
-        _this11.scrollToOption(option);
+        _this12.scrollToOption(option);
       });
     },
     setSoftFocus: function setSoftFocus() {
@@ -2082,7 +2084,7 @@ var shared_ = __webpack_require__(22);
   },
 
   created: function created() {
-    var _this12 = this;
+    var _this13 = this;
 
     this.cachedPlaceHolder = this.currentPlaceholder = this.placeholder;
     if (this.multiple && !Array.isArray(this.value)) {
@@ -2093,18 +2095,18 @@ var shared_ = __webpack_require__(22);
     }
 
     this.debouncedOnInputChange = debounce_default()(this.debounce, function () {
-      _this12.onInputChange();
+      _this13.onInputChange();
     });
 
     this.debouncedQueryChange = debounce_default()(this.debounce, function (e) {
-      _this12.handleQueryChange(e.target.value);
+      _this13.handleQueryChange(e.target.value);
     });
 
     this.$on('handleOptionClick', this.handleOptionSelect);
     this.$on('setSelected', this.setSelected);
   },
   mounted: function mounted() {
-    var _this13 = this;
+    var _this14 = this;
 
     if (this.multiple && Array.isArray(this.value) && this.value.length > 0) {
       this.currentPlaceholder = '';
@@ -2118,14 +2120,15 @@ var shared_ = __webpack_require__(22);
         small: 32,
         mini: 28
       };
-      this.initialInputHeight = reference.$el.getBoundingClientRect().height || sizeMap[this.selectSize];
+      var input = reference.$el.querySelector('input');
+      this.initialInputHeight = input.getBoundingClientRect().height || sizeMap[this.selectSize];
     }
     if (this.remote && this.multiple) {
       this.resetInputHeight();
     }
     this.$nextTick(function () {
       if (reference && reference.$el) {
-        _this13.inputWidth = reference.$el.getBoundingClientRect().width;
+        _this14.inputWidth = reference.$el.getBoundingClientRect().width;
       }
     });
     this.setSelected();

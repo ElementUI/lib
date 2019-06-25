@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 59);
+/******/ 	return __webpack_require__(__webpack_require__.s = 61);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -210,7 +210,7 @@ module.exports = require("element-ui/lib/input-number");
 
 /***/ }),
 
-/***/ 59:
+/***/ 61:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -251,11 +251,7 @@ var render = function() {
               debounce: _vm.debounce,
               size: _vm.inputSize
             },
-            on: {
-              change: function($event) {
-                _vm.$nextTick(_vm.emitChange)
-              }
-            },
+            on: { change: _vm.emitChange },
             model: {
               value: _vm.firstValue,
               callback: function($$v) {
