@@ -94,7 +94,7 @@ module.exports =
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/resize-event"
-var resize_event_ = __webpack_require__(13);
+var resize_event_ = __webpack_require__(14);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/scrollbar-width"
 var scrollbar_width_ = __webpack_require__(37);
@@ -391,7 +391,7 @@ main.install = function (Vue) {
 
 /***/ }),
 
-/***/ 13:
+/***/ 14:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/resize-event");

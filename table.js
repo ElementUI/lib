@@ -537,16 +537,21 @@ module.exports = require("element-ui/lib/utils/clickoutside");
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/resize-event");
+module.exports = require("element-ui/lib/scrollbar");
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
+module.exports = require("element-ui/lib/utils/resize-event");
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports) {
+
 module.exports = require("throttle-debounce/debounce");
 
 /***/ }),
-/* 15 */,
 /* 16 */
 /***/ (function(module, exports) {
 
@@ -877,9 +882,7 @@ var render = function() {
                   _vm.$slots.append
                     ? _c("div", {
                         staticClass: "el-table__append-gutter",
-                        style: {
-                          height: _vm.layout.appendHeight + "px"
-                        }
+                        style: { height: _vm.layout.appendHeight + "px" }
                       })
                     : _vm._e()
                 ],
@@ -997,7 +1000,13 @@ var render = function() {
                       "row-style": _vm.rowStyle,
                       highlight: _vm.highlightCurrentRow
                     }
-                  })
+                  }),
+                  _vm.$slots.append
+                    ? _c("div", {
+                        staticClass: "el-table__append-gutter",
+                        style: { height: _vm.layout.appendHeight + "px" }
+                      })
+                    : _vm._e()
                 ],
                 1
               ),
@@ -1075,7 +1084,7 @@ var checkbox_default = /*#__PURE__*/__webpack_require__.n(checkbox_);
 var external_throttle_debounce_ = __webpack_require__(42);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/resize-event"
-var resize_event_ = __webpack_require__(13);
+var resize_event_ = __webpack_require__(14);
 
 // EXTERNAL MODULE: external "normalize-wheel"
 var external_normalize_wheel_ = __webpack_require__(46);
@@ -1113,7 +1122,7 @@ var external_vue_ = __webpack_require__(7);
 var external_vue_default = /*#__PURE__*/__webpack_require__.n(external_vue_);
 
 // EXTERNAL MODULE: external "throttle-debounce/debounce"
-var debounce_ = __webpack_require__(14);
+var debounce_ = __webpack_require__(15);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/merge"
@@ -1805,6 +1814,9 @@ var doFlattenColumns = function doFlattenColumns(columns) {
       return filters;
     },
     updateSort: function updateSort(column, prop, order) {
+      if (this.states.sortingColumn && this.states.sortingColumn !== column) {
+        this.states.sortingColumn.order = null;
+      }
       this.states.sortingColumn = column;
       this.states.sortProp = prop;
       this.states.sortOrder = order;
@@ -3193,6 +3205,10 @@ var dropdowns = [];
 var checkbox_group_ = __webpack_require__(38);
 var checkbox_group_default = /*#__PURE__*/__webpack_require__.n(checkbox_group_);
 
+// EXTERNAL MODULE: external "element-ui/lib/scrollbar"
+var scrollbar_ = __webpack_require__(13);
+var scrollbar_default = /*#__PURE__*/__webpack_require__.n(scrollbar_);
+
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/table/src/filter-panel.vue?vue&type=script&lang=js&
 //
 //
@@ -3247,6 +3263,7 @@ var checkbox_group_default = /*#__PURE__*/__webpack_require__.n(checkbox_group_)
 
 
 
+
 /* harmony default export */ var filter_panelvue_type_script_lang_js_ = ({
   name: 'ElTableFilterPanel',
 
@@ -3258,7 +3275,8 @@ var checkbox_group_default = /*#__PURE__*/__webpack_require__.n(checkbox_group_)
 
   components: {
     ElCheckbox: checkbox_default.a,
-    ElCheckboxGroup: checkbox_group_default.a
+    ElCheckboxGroup: checkbox_group_default.a,
+    ElScrollbar: scrollbar_default.a
   },
 
   props: {
@@ -4123,6 +4141,8 @@ var table_footer_extends = Object.assign || function (target) { for (var i = 1; 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/table/src/table.vue?vue&type=script&lang=js&
 var tablevue_type_script_lang_js_extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
+//
 //
 //
 //

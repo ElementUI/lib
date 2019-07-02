@@ -189,7 +189,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 13:
+/***/ 14:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/resize-event");
@@ -322,7 +322,7 @@ if (false) { var api; }
 component.options.__file = "packages/tabs/src/tab-bar.vue"
 /* harmony default export */ var tab_bar = (component.exports);
 // EXTERNAL MODULE: external "element-ui/lib/utils/resize-event"
-var resize_event_ = __webpack_require__(13);
+var resize_event_ = __webpack_require__(14);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/tabs/src/tab-nav.vue?vue&type=script&lang=js&
 

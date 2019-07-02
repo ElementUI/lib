@@ -211,7 +211,7 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       default: 'light',
       validator: function validator(val) {
-        return ['dark', 'light', 'plain'].includes(val);
+        return ['dark', 'light', 'plain'].indexOf(val) !== -1;
       }
     }
   },

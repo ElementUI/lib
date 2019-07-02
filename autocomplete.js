@@ -210,17 +210,17 @@ module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ }),
 
-/***/ 14:
+/***/ 13:
 /***/ (function(module, exports) {
 
-module.exports = require("throttle-debounce/debounce");
+module.exports = require("element-ui/lib/scrollbar");
 
 /***/ }),
 
 /***/ 15:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/scrollbar");
+module.exports = require("throttle-debounce/debounce");
 
 /***/ }),
 
@@ -418,7 +418,7 @@ render._withStripped = true
 // CONCATENATED MODULE: ./packages/autocomplete/src/autocomplete.vue?vue&type=template&id=152f2ee6&
 
 // EXTERNAL MODULE: external "throttle-debounce/debounce"
-var debounce_ = __webpack_require__(14);
+var debounce_ = __webpack_require__(15);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 // EXTERNAL MODULE: external "element-ui/lib/input"
@@ -494,7 +494,7 @@ var emitter_ = __webpack_require__(4);
 var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
 
 // EXTERNAL MODULE: external "element-ui/lib/scrollbar"
-var scrollbar_ = __webpack_require__(15);
+var scrollbar_ = __webpack_require__(13);
 var scrollbar_default = /*#__PURE__*/__webpack_require__.n(scrollbar_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/autocomplete/src/autocomplete-suggestions.vue?vue&type=script&lang=js&

@@ -487,7 +487,7 @@ var columnIdSeed = 1;
     registerNormalWatchers: function registerNormalWatchers() {
       var _this3 = this;
 
-      var props = ['label', 'property', 'filters', 'filterMultiple', 'sortable', 'index', 'formatter', 'className', 'labelClassName'];
+      var props = ['label', 'property', 'filters', 'filterMultiple', 'sortable', 'index', 'formatter', 'className', 'labelClassName', 'showOverflowTooltip'];
       // 一些属性具有别名
       var aliases = {
         prop: 'property',
@@ -569,7 +569,7 @@ var columnIdSeed = 1;
       index: this.index
     });
 
-    var basicProps = ['columnKey', 'label', 'className', 'labelClassName', 'type', 'renderHeader', 'resizable', 'formatter', 'fixed', 'resizable'];
+    var basicProps = ['columnKey', 'label', 'className', 'labelClassName', 'type', 'renderHeader', 'formatter', 'fixed', 'resizable'];
     var sortProps = ['sortMethod', 'sortBy', 'sortOrders'];
     var selectProps = ['selectable', 'reserveSelection'];
     var filterProps = ['filterMethod', 'filters', 'filterMultiple', 'filterOpened', 'filteredValue', 'filterPlacement'];

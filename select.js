@@ -232,19 +232,19 @@ module.exports = require("element-ui/lib/utils/clickoutside");
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/resize-event");
+module.exports = require("element-ui/lib/scrollbar");
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("throttle-debounce/debounce");
+module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/scrollbar");
+module.exports = require("throttle-debounce/debounce");
 
 /***/ }),
 /* 16 */,
@@ -1180,11 +1180,11 @@ var tag_ = __webpack_require__(36);
 var tag_default = /*#__PURE__*/__webpack_require__.n(tag_);
 
 // EXTERNAL MODULE: external "element-ui/lib/scrollbar"
-var scrollbar_ = __webpack_require__(15);
+var scrollbar_ = __webpack_require__(13);
 var scrollbar_default = /*#__PURE__*/__webpack_require__.n(scrollbar_);
 
 // EXTERNAL MODULE: external "throttle-debounce/debounce"
-var debounce_ = __webpack_require__(14);
+var debounce_ = __webpack_require__(15);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/clickoutside"
@@ -1192,7 +1192,7 @@ var clickoutside_ = __webpack_require__(12);
 var clickoutside_default = /*#__PURE__*/__webpack_require__.n(clickoutside_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/resize-event"
-var resize_event_ = __webpack_require__(13);
+var resize_event_ = __webpack_require__(14);
 
 // EXTERNAL MODULE: external "element-ui/lib/locale"
 var lib_locale_ = __webpack_require__(20);

@@ -185,19 +185,19 @@ module.exports = require("element-ui/lib/utils/popup");
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/button");
+module.exports = require("element-ui/lib/scrollbar");
 
 /***/ }),
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/types");
+module.exports = require("element-ui/lib/button");
 
 /***/ }),
 /* 18 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/scrollbar");
+module.exports = require("element-ui/lib/utils/types");
 
 /***/ }),
 /* 19 */
@@ -1753,7 +1753,7 @@ var vue_popper_ = __webpack_require__(5);
 var vue_popper_default = /*#__PURE__*/__webpack_require__.n(vue_popper_);
 
 // EXTERNAL MODULE: external "element-ui/lib/scrollbar"
-var scrollbar_ = __webpack_require__(18);
+var scrollbar_ = __webpack_require__(16);
 var scrollbar_default = /*#__PURE__*/__webpack_require__.n(scrollbar_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/autocomplete/src/autocomplete-suggestions.vue?vue&type=script&lang=js&
@@ -2191,7 +2191,7 @@ autocomplete.install = function (Vue) {
 
 /* harmony default export */ var packages_autocomplete = (autocomplete);
 // EXTERNAL MODULE: external "element-ui/lib/button"
-var button_ = __webpack_require__(16);
+var button_ = __webpack_require__(17);
 var button_default = /*#__PURE__*/__webpack_require__.n(button_);
 
 // EXTERNAL MODULE: external "element-ui/lib/button-group"
@@ -9676,9 +9676,7 @@ var tablevue_type_template_id_493fe34e_render = function() {
                   _vm.$slots.append
                     ? _c("div", {
                         staticClass: "el-table__append-gutter",
-                        style: {
-                          height: _vm.layout.appendHeight + "px"
-                        }
+                        style: { height: _vm.layout.appendHeight + "px" }
                       })
                     : _vm._e()
                 ],
@@ -9796,7 +9794,13 @@ var tablevue_type_template_id_493fe34e_render = function() {
                       "row-style": _vm.rowStyle,
                       highlight: _vm.highlightCurrentRow
                     }
-                  })
+                  }),
+                  _vm.$slots.append
+                    ? _c("div", {
+                        staticClass: "el-table__append-gutter",
+                        style: { height: _vm.layout.appendHeight + "px" }
+                      })
+                    : _vm._e()
                 ],
                 1
               ),
@@ -10854,6 +10858,9 @@ var doFlattenColumns = function doFlattenColumns(columns) {
       return filters;
     },
     updateSort: function updateSort(column, prop, order) {
+      if (this.states.sortingColumn && this.states.sortingColumn !== column) {
+        this.states.sortingColumn.order = null;
+      }
       this.states.sortingColumn = column;
       this.states.sortProp = prop;
       this.states.sortOrder = order;
@@ -12278,6 +12285,7 @@ var checkbox_group_default = /*#__PURE__*/__webpack_require__.n(checkbox_group_)
 
 
 
+
 /* harmony default export */ var filter_panelvue_type_script_lang_js_ = ({
   name: 'ElTableFilterPanel',
 
@@ -12289,7 +12297,8 @@ var checkbox_group_default = /*#__PURE__*/__webpack_require__.n(checkbox_group_)
 
   components: {
     ElCheckbox: checkbox_default.a,
-    ElCheckboxGroup: checkbox_group_default.a
+    ElCheckboxGroup: checkbox_group_default.a,
+    ElScrollbar: scrollbar_default.a
   },
 
   props: {
@@ -13151,6 +13160,8 @@ var table_footer_extends = Object.assign || function (target) { for (var i = 1; 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/table/src/table.vue?vue&type=script&lang=js&
 var tablevue_type_script_lang_js_extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
+//
 //
 //
 //
@@ -14255,7 +14266,7 @@ var columnIdSeed = 1;
     registerNormalWatchers: function registerNormalWatchers() {
       var _this3 = this;
 
-      var props = ['label', 'property', 'filters', 'filterMultiple', 'sortable', 'index', 'formatter', 'className', 'labelClassName'];
+      var props = ['label', 'property', 'filters', 'filterMultiple', 'sortable', 'index', 'formatter', 'className', 'labelClassName', 'showOverflowTooltip'];
       // 一些属性具有别名
       var aliases = {
         prop: 'property',
@@ -14337,7 +14348,7 @@ var columnIdSeed = 1;
       index: this.index
     });
 
-    var basicProps = ['columnKey', 'label', 'className', 'labelClassName', 'type', 'renderHeader', 'resizable', 'formatter', 'fixed', 'resizable'];
+    var basicProps = ['columnKey', 'label', 'className', 'labelClassName', 'type', 'renderHeader', 'formatter', 'fixed', 'resizable'];
     var sortProps = ['sortMethod', 'sortBy', 'sortOrders'];
     var selectProps = ['selectable', 'reserveSelection'];
     var filterProps = ['filterMethod', 'filters', 'filterMultiple', 'filterOpened', 'filteredValue', 'filterPlacement'];
@@ -24324,7 +24335,7 @@ tab_pane.install = function (Vue) {
       type: String,
       default: 'light',
       validator: function validator(val) {
-        return ['dark', 'light', 'plain'].includes(val);
+        return ['dark', 'light', 'plain'].indexOf(val) !== -1;
       }
     }
   },
@@ -30728,7 +30739,7 @@ mainvue_type_template_id_ada57782_render._withStripped = true
 // CONCATENATED MODULE: ./packages/rate/src/main.vue?vue&type=template&id=ada57782&
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/types"
-var types_ = __webpack_require__(17);
+var types_ = __webpack_require__(18);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/rate/src/main.vue?vue&type=script&lang=js&
 //
@@ -40072,7 +40083,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.10.0',
+  version: '2.10.1',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,
