@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 57);
+/******/ 	return __webpack_require__(__webpack_require__.s = 58);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -245,7 +245,7 @@ module.exports = require("element-ui/lib/radio");
 
 /***/ }),
 
-/***/ 57:
+/***/ 58:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -390,9 +390,11 @@ var stopPropagation = function stopPropagation(e) {
     },
     handleCheckChange: function handleCheckChange() {
       var panel = this.panel,
-          value = this.value;
+          value = this.value,
+          node = this.node;
 
       panel.handleCheckChange(value);
+      panel.handleExpand(node);
     },
     handleMultiCheckChange: function handleMultiCheckChange(checked) {
       this.node.doCheck(checked);
@@ -1050,9 +1052,8 @@ var store_Store = function () {
 
   Store.prototype.getNodeByValue = function getNodeByValue(value) {
     if (value) {
-      value = Array.isArray(value) ? value[value.length - 1] : value;
       var nodes = this.getFlattedNodes(false, !this.config.lazy).filter(function (node) {
-        return node.value === value;
+        return Object(util_["valueEquals"])(node.path, value) || node.value === value;
       });
       return nodes && nodes.length ? nodes[0] : null;
     }
@@ -1186,7 +1187,8 @@ var checkNode = function checkNode(el) {
       checkedNodePaths: [],
       store: [],
       menus: [],
-      activePath: []
+      activePath: [],
+      loadCount: 0
     };
   },
 
@@ -1283,37 +1285,43 @@ var checkNode = function checkNode(el) {
     syncActivePath: function syncActivePath() {
       var _this2 = this;
 
-      var checkedValue = this.checkedValue,
-          store = this.store,
-          multiple = this.multiple;
+      var store = this.store,
+          multiple = this.multiple,
+          activePath = this.activePath,
+          checkedValue = this.checkedValue;
 
-      if (Object(util_["isEmpty"])(checkedValue)) {
+
+      if (!Object(util_["isEmpty"])(activePath)) {
+        var nodes = activePath.map(function (node) {
+          return _this2.getNodeByValue(node.getValue());
+        });
+        this.expandNodes(nodes);
+      } else if (!Object(util_["isEmpty"])(checkedValue)) {
+        var value = multiple ? checkedValue[0] : checkedValue;
+        var checkedNode = this.getNodeByValue(value) || {};
+        var _nodes = (checkedNode.pathNodes || []).slice(0, -1);
+        this.expandNodes(_nodes);
+      } else {
         this.activePath = [];
         this.menus = [store.getNodes()];
-      } else {
-        checkedValue = multiple ? checkedValue[0] : checkedValue;
-        var checkedNode = this.getNodeByValue(checkedValue) || {};
-        var nodes = [];
-        var parent = checkedNode.parent;
-
-        while (parent) {
-          nodes.unshift(parent);
-          parent = parent.parent;
-        }
-        nodes.forEach(function (node) {
-          return _this2.handleExpand(node, true /* silent */);
-        });
       }
     },
-    calculateCheckedNodePaths: function calculateCheckedNodePaths() {
+    expandNodes: function expandNodes(nodes) {
       var _this3 = this;
+
+      nodes.forEach(function (node) {
+        return _this3.handleExpand(node, true /* silent */);
+      });
+    },
+    calculateCheckedNodePaths: function calculateCheckedNodePaths() {
+      var _this4 = this;
 
       var checkedValue = this.checkedValue,
           multiple = this.multiple;
 
       var checkedValues = multiple ? Object(util_["coerceTruthyValueToArray"])(checkedValue) : [checkedValue];
       this.checkedNodePaths = checkedValues.map(function (v) {
-        var checkedNode = _this3.getNodeByValue(v);
+        var checkedNode = _this4.getNodeByValue(v);
         return checkedNode ? checkedNode.pathNodes : [];
       });
     },
@@ -1357,17 +1365,16 @@ var checkNode = function checkNode(el) {
       }
     },
     handleExpand: function handleExpand(node, silent) {
+      var activePath = this.activePath;
       var level = node.level;
 
-      var path = this.activePath.slice(0, level - 1);
+      var path = activePath.slice(0, level - 1);
       var menus = this.menus.slice(0, level);
 
       if (!node.isLeaf) {
         path.push(node);
         menus.push(node.children);
       }
-
-      if (Object(util_["valueEquals"])(path, this.activePath)) return;
 
       this.activePath = path;
       this.menus = menus;
@@ -1376,15 +1383,20 @@ var checkNode = function checkNode(el) {
         var pathValues = path.map(function (node) {
           return node.getValue();
         });
-        this.$emit('active-item-change', pathValues); // Deprecated
-        this.$emit('expand-change', pathValues);
+        var activePathValues = activePath.map(function (node) {
+          return node.getValue();
+        });
+        if (!Object(util_["valueEquals"])(pathValues, activePathValues)) {
+          this.$emit('active-item-change', pathValues); // Deprecated
+          this.$emit('expand-change', pathValues);
+        }
       }
     },
     handleCheckChange: function handleCheckChange(value) {
       this.checkedValue = value;
     },
     lazyLoad: function lazyLoad(node, onFullfiled) {
-      var _this4 = this;
+      var _this5 = this;
 
       var config = this.config;
 
@@ -1396,13 +1408,38 @@ var checkNode = function checkNode(el) {
       node.loading = true;
       var resolve = function resolve(dataList) {
         var parent = node.root ? null : node;
-        dataList && dataList.length && _this4.store.appendNodes(dataList, parent);
+        dataList && dataList.length && _this5.store.appendNodes(dataList, parent);
         node.loading = false;
         node.loaded = true;
+
+        // dispose default value on lazy load mode
+        if (Array.isArray(_this5.checkedValue)) {
+          var nodeValue = _this5.checkedValue[_this5.loadCount++];
+          var valueKey = _this5.config.value;
+          var leafKey = _this5.config.leaf;
+
+          if (Array.isArray(dataList) && dataList.filter(function (item) {
+            return item[valueKey] === nodeValue;
+          }).length > 0) {
+            var checkedNode = _this5.store.getNodeByValue(nodeValue);
+
+            if (!checkedNode.data[leafKey]) {
+              _this5.lazyLoad(checkedNode, function () {
+                _this5.handleExpand(checkedNode);
+              });
+            }
+
+            if (_this5.loadCount === _this5.checkedValue.length) {
+              _this5.$parent.computePresentText();
+            }
+          }
+        }
+
         onFullfiled && onFullfiled(dataList);
       };
       config.lazyLoad(node, resolve);
     },
+
 
     /**
      * public methods

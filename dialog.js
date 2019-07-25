@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 79);
+/******/ 	return __webpack_require__(__webpack_require__.s = 87);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,14 +189,14 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 11:
+/***/ 10:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }),
 
-/***/ 16:
+/***/ 14:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/popup");
@@ -210,7 +210,7 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 79:
+/***/ 87:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -253,9 +253,10 @@ var render = function() {
           _c(
             "div",
             {
+              key: _vm.key,
               ref: "dialog",
-              staticClass: "el-dialog",
               class: [
+                "el-dialog",
                 {
                   "is-fullscreen": _vm.fullscreen,
                   "el-dialog--center": _vm.center
@@ -328,11 +329,11 @@ render._withStripped = true
 // CONCATENATED MODULE: ./packages/dialog/src/component.vue?vue&type=template&id=60140e62&
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/popup"
-var popup_ = __webpack_require__(16);
+var popup_ = __webpack_require__(14);
 var popup_default = /*#__PURE__*/__webpack_require__.n(popup_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/migrating"
-var migrating_ = __webpack_require__(11);
+var migrating_ = __webpack_require__(10);
 var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/emitter"
@@ -340,6 +341,9 @@ var emitter_ = __webpack_require__(4);
 var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/dialog/src/component.vue?vue&type=script&lang=js&
+//
+//
+//
 //
 //
 //
@@ -444,12 +448,15 @@ var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
     center: {
       type: Boolean,
       default: false
-    }
+    },
+
+    destroyOnClose: Boolean
   },
 
   data: function data() {
     return {
-      closed: false
+      closed: false,
+      key: 0
     };
   },
 
@@ -471,6 +478,11 @@ var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
       } else {
         this.$el.removeEventListener('scroll', this.updatePopper);
         if (!this.closed) this.$emit('close');
+        if (this.destroyOnClose) {
+          this.$nextTick(function () {
+            _this.key++;
+          });
+        }
       }
     }
   },

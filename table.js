@@ -521,13 +521,13 @@ function walkTreeNode(root, cb) {
 module.exports = require("element-ui/lib/utils/merge");
 
 /***/ }),
-/* 10 */,
-/* 11 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }),
+/* 11 */,
 /* 12 */
 /***/ (function(module, exports) {
 
@@ -543,19 +543,19 @@ module.exports = require("element-ui/lib/scrollbar");
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/resize-event");
+module.exports = require("element-ui/lib/utils/popup");
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("throttle-debounce/debounce");
+module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/popup");
+module.exports = require("throttle-debounce/debounce");
 
 /***/ }),
 /* 17 */
@@ -1084,7 +1084,7 @@ var checkbox_default = /*#__PURE__*/__webpack_require__.n(checkbox_);
 var external_throttle_debounce_ = __webpack_require__(42);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/resize-event"
-var resize_event_ = __webpack_require__(14);
+var resize_event_ = __webpack_require__(15);
 
 // EXTERNAL MODULE: external "normalize-wheel"
 var external_normalize_wheel_ = __webpack_require__(46);
@@ -1114,7 +1114,7 @@ var locale_ = __webpack_require__(6);
 var locale_default = /*#__PURE__*/__webpack_require__.n(locale_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/migrating"
-var migrating_ = __webpack_require__(11);
+var migrating_ = __webpack_require__(10);
 var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
 
 // EXTERNAL MODULE: external "vue"
@@ -1122,7 +1122,7 @@ var external_vue_ = __webpack_require__(7);
 var external_vue_default = /*#__PURE__*/__webpack_require__.n(external_vue_);
 
 // EXTERNAL MODULE: external "throttle-debounce/debounce"
-var debounce_ = __webpack_require__(15);
+var debounce_ = __webpack_require__(16);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/merge"
@@ -1389,66 +1389,67 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       var nested = this.normalizedData;
       var normalizedLazyNode = this.normalizedLazyNode;
       var keys = Object.keys(nested);
-      if (!keys.length) return;
-      var _states3 = this.states,
-          oldTreeData = _states3.treeData,
-          defaultExpandAll = _states3.defaultExpandAll,
-          expandRowKeys = _states3.expandRowKeys,
-          lazy = _states3.lazy;
-
       var newTreeData = {};
-      var rootLazyRowKeys = [];
-      var getExpanded = function getExpanded(oldValue, key) {
-        var included = defaultExpandAll || expandRowKeys && expandRowKeys.indexOf(key) !== -1;
-        return !!(oldValue && oldValue.expanded || included);
-      };
-      // 合并 expanded 与 display，确保数据刷新后，状态不变
-      keys.forEach(function (key) {
-        var oldValue = oldTreeData[key];
-        var newValue = _extends({}, nested[key]);
-        newValue.expanded = getExpanded(oldValue, key);
-        if (newValue.lazy) {
-          var _ref = oldValue || {},
-              _ref$loaded = _ref.loaded,
-              loaded = _ref$loaded === undefined ? false : _ref$loaded,
-              _ref$loading = _ref.loading,
-              loading = _ref$loading === undefined ? false : _ref$loading;
+      if (keys.length) {
+        var _states3 = this.states,
+            oldTreeData = _states3.treeData,
+            defaultExpandAll = _states3.defaultExpandAll,
+            expandRowKeys = _states3.expandRowKeys,
+            lazy = _states3.lazy;
 
-          newValue.loaded = !!loaded;
-          newValue.loading = !!loading;
-          rootLazyRowKeys.push(key);
-        }
-        newTreeData[key] = newValue;
-      });
-      // 根据懒加载数据更新 treeData
-      var lazyKeys = Object.keys(normalizedLazyNode);
-      if (lazy && lazyKeys.length && rootLazyRowKeys.length) {
-        lazyKeys.forEach(function (key) {
+        var rootLazyRowKeys = [];
+        var getExpanded = function getExpanded(oldValue, key) {
+          var included = defaultExpandAll || expandRowKeys && expandRowKeys.indexOf(key) !== -1;
+          return !!(oldValue && oldValue.expanded || included);
+        };
+        // 合并 expanded 与 display，确保数据刷新后，状态不变
+        keys.forEach(function (key) {
           var oldValue = oldTreeData[key];
-          var lazyNodeChildren = normalizedLazyNode[key].children;
-          if (rootLazyRowKeys.indexOf(key) !== -1) {
-            // 懒加载的 root 节点，更新一下原有的数据，原来的 children 一定是空数组
-            if (newTreeData[key].children.length !== 0) {
-              throw new Error('[ElTable]children must be an empty array.');
-            }
-            newTreeData[key].children = lazyNodeChildren;
-          } else {
-            var _ref2 = oldValue || {},
-                _ref2$loaded = _ref2.loaded,
-                loaded = _ref2$loaded === undefined ? false : _ref2$loaded,
-                _ref2$loading = _ref2.loading,
-                loading = _ref2$loading === undefined ? false : _ref2$loading;
+          var newValue = _extends({}, nested[key]);
+          newValue.expanded = getExpanded(oldValue, key);
+          if (newValue.lazy) {
+            var _ref = oldValue || {},
+                _ref$loaded = _ref.loaded,
+                loaded = _ref$loaded === undefined ? false : _ref$loaded,
+                _ref$loading = _ref.loading,
+                loading = _ref$loading === undefined ? false : _ref$loading;
 
-            newTreeData[key] = {
-              lazy: true,
-              loaded: !!loaded,
-              loading: !!loading,
-              expanded: getExpanded(oldValue, key),
-              children: lazyNodeChildren,
-              level: ''
-            };
+            newValue.loaded = !!loaded;
+            newValue.loading = !!loading;
+            rootLazyRowKeys.push(key);
           }
+          newTreeData[key] = newValue;
         });
+        // 根据懒加载数据更新 treeData
+        var lazyKeys = Object.keys(normalizedLazyNode);
+        if (lazy && lazyKeys.length && rootLazyRowKeys.length) {
+          lazyKeys.forEach(function (key) {
+            var oldValue = oldTreeData[key];
+            var lazyNodeChildren = normalizedLazyNode[key].children;
+            if (rootLazyRowKeys.indexOf(key) !== -1) {
+              // 懒加载的 root 节点，更新一下原有的数据，原来的 children 一定是空数组
+              if (newTreeData[key].children.length !== 0) {
+                throw new Error('[ElTable]children must be an empty array.');
+              }
+              newTreeData[key].children = lazyNodeChildren;
+            } else {
+              var _ref2 = oldValue || {},
+                  _ref2$loaded = _ref2.loaded,
+                  loaded = _ref2$loaded === undefined ? false : _ref2$loaded,
+                  _ref2$loading = _ref2.loading,
+                  loading = _ref2$loading === undefined ? false : _ref2$loading;
+
+              newTreeData[key] = {
+                lazy: true,
+                loaded: !!loaded,
+                loading: !!loading,
+                expanded: getExpanded(oldValue, key),
+                children: lazyNodeChildren,
+                level: ''
+              };
+            }
+          });
+        }
       }
       this.states.treeData = newTreeData;
       this.updateTableScrollY();
@@ -3167,7 +3168,7 @@ var vue_popper_ = __webpack_require__(5);
 var vue_popper_default = /*#__PURE__*/__webpack_require__.n(vue_popper_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/popup"
-var popup_ = __webpack_require__(16);
+var popup_ = __webpack_require__(14);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/clickoutside"
 var clickoutside_ = __webpack_require__(12);

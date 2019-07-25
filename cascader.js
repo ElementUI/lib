@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 89);
+/******/ 	return __webpack_require__(__webpack_require__.s = 83);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -192,14 +192,14 @@ function normalizeComponent (
 /***/ 10:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/input");
+module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }),
 
 /***/ 11:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/mixins/migrating");
+module.exports = require("element-ui/lib/input");
 
 /***/ }),
 
@@ -217,14 +217,14 @@ module.exports = require("element-ui/lib/scrollbar");
 
 /***/ }),
 
-/***/ 14:
+/***/ 15:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ }),
 
-/***/ 15:
+/***/ 16:
 /***/ (function(module, exports) {
 
 module.exports = require("throttle-debounce/debounce");
@@ -301,7 +301,7 @@ module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ }),
 
-/***/ 89:
+/***/ 83:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -630,11 +630,11 @@ var locale_ = __webpack_require__(6);
 var locale_default = /*#__PURE__*/__webpack_require__.n(locale_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/migrating"
-var migrating_ = __webpack_require__(11);
+var migrating_ = __webpack_require__(10);
 var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
 
 // EXTERNAL MODULE: external "element-ui/lib/input"
-var input_ = __webpack_require__(10);
+var input_ = __webpack_require__(11);
 var input_default = /*#__PURE__*/__webpack_require__.n(input_);
 
 // EXTERNAL MODULE: external "element-ui/lib/tag"
@@ -666,10 +666,10 @@ var types_ = __webpack_require__(19);
 var shared_ = __webpack_require__(22);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/resize-event"
-var resize_event_ = __webpack_require__(14);
+var resize_event_ = __webpack_require__(15);
 
 // EXTERNAL MODULE: external "throttle-debounce/debounce"
-var debounce_ = __webpack_require__(15);
+var debounce_ = __webpack_require__(16);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/cascader/src/cascader.vue?vue&type=script&lang=js&
@@ -988,13 +988,23 @@ var InputSizeMap = {
       }
     },
     checkedValue: function checkedValue(val) {
-      var value = this.value;
+      var value = this.value,
+          dropDownVisible = this.dropDownVisible;
+      var _config = this.config,
+          checkStrictly = _config.checkStrictly,
+          multiple = _config.multiple;
+
 
       if (!Object(util_["isEqual"])(val, value) || Object(types_["isUndefined"])(value)) {
+        this.computePresentContent();
+        // hide dropdown when single mode
+        if (!multiple && !checkStrictly && dropDownVisible) {
+          this.toggleDropDownVisible(false);
+        }
+
         this.$emit('input', val);
         this.$emit('change', val);
         this.dispatch('ElFormItem', 'el.form.change', [val]);
-        this.computePresentContent();
       }
     },
 
@@ -1162,19 +1172,13 @@ var InputSizeMap = {
     computePresentContent: function computePresentContent() {
       var _this4 = this;
 
+      // nextTick is required, because checked nodes may not change right now
       this.$nextTick(function () {
-        var _config = _this4.config,
-            multiple = _config.multiple,
-            checkStrictly = _config.checkStrictly;
-
-        if (multiple) {
+        if (_this4.config.multiple) {
           _this4.computePresentTags();
           _this4.presentText = _this4.presentTags.length ? ' ' : null;
         } else {
           _this4.computePresentText();
-          if (!checkStrictly && _this4.dropDownVisible) {
-            _this4.toggleDropDownVisible(false);
-          }
         }
       });
     },
@@ -1361,6 +1365,11 @@ var InputSizeMap = {
         this.updatePopper();
       }
     },
+
+
+    /**
+     * public methods
+    */
     getCheckedNodes: function getCheckedNodes(leafOnly) {
       return this.panel.getCheckedNodes(leafOnly);
     }

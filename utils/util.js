@@ -9,6 +9,8 @@ exports.noop = noop;
 exports.hasOwn = hasOwn;
 exports.toObject = toObject;
 exports.getPropByPath = getPropByPath;
+exports.rafThrottle = rafThrottle;
+exports.objToArray = objToArray;
 
 var _vue = require('vue');
 
@@ -235,3 +237,28 @@ var isEmpty = exports.isEmpty = function isEmpty(val) {
 
   return false;
 };
+
+function rafThrottle(fn) {
+  var locked = false;
+  return function () {
+    var _this = this;
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    if (locked) return;
+    locked = true;
+    window.requestAnimationFrame(function (_) {
+      fn.apply(_this, args);
+      locked = false;
+    });
+  };
+}
+
+function objToArray(obj) {
+  if (Array.isArray(obj)) {
+    return obj;
+  }
+  return isEmpty(obj) ? [] : [obj];
+}

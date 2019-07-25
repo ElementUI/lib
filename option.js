@@ -401,6 +401,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     this.$on('handleGroupDisabled', this.handleGroupDisabled);
   },
   beforeDestroy: function beforeDestroy() {
+    var index = this.select.cachedOptions.indexOf(this);
+    if (index > -1) {
+      this.select.cachedOptions.splice(index, 1);
+    }
     this.select.onOptionDestroy(this.select.options.indexOf(this));
   }
 });

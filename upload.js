@@ -189,7 +189,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 11:
+/***/ 10:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/migrating");
@@ -1004,7 +1004,7 @@ if (false) { var upload_api; }
 upload_component.options.__file = "packages/upload/src/upload.vue"
 /* harmony default export */ var src_upload = (upload_component.exports);
 // EXTERNAL MODULE: external "element-ui/lib/mixins/migrating"
-var migrating_ = __webpack_require__(11);
+var migrating_ = __webpack_require__(10);
 var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/upload/src/index.vue?vue&type=script&lang=js&

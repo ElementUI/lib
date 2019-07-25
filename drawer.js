@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 86);
+/******/ 	return __webpack_require__(__webpack_require__.s = 81);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,44 +189,140 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 5:
+/***/ 10:
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/vue-popper");
+module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }),
 
-/***/ 86:
+/***/ 14:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/popup");
+
+/***/ }),
+
+/***/ 4:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ }),
+
+/***/ 81:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/dropdown/src/dropdown-menu.vue?vue&type=template&id=0da6b714&
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/drawer/src/main.vue?vue&type=template&id=a4885264&
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
     "transition",
-    { attrs: { name: "el-zoom-in-top" }, on: { "after-leave": _vm.doDestroy } },
+    {
+      attrs: { name: "el-drawer-fade" },
+      on: { "after-enter": _vm.afterEnter, "after-leave": _vm.afterLeave }
+    },
     [
       _c(
-        "ul",
+        "div",
         {
           directives: [
             {
               name: "show",
               rawName: "v-show",
-              value: _vm.showPopper,
-              expression: "showPopper"
+              value: _vm.visible,
+              expression: "visible"
             }
           ],
-          staticClass: "el-dropdown-menu el-popper",
-          class: [_vm.size && "el-dropdown-menu--" + _vm.size]
+          staticClass: "el-dialog__wrapper",
+          attrs: { role: "presentation" }
         },
-        [_vm._t("default")],
-        2
+        [
+          _c(
+            "div",
+            {
+              staticClass: "el-drawer__container",
+              class: _vm.visible && "el-drawer__open",
+              attrs: { role: "document", tabindex: "-1" },
+              on: {
+                click: function($event) {
+                  if ($event.target !== $event.currentTarget) {
+                    return null
+                  }
+                  return _vm.handleWrapperClick($event)
+                }
+              }
+            },
+            [
+              _c(
+                "div",
+                {
+                  ref: "drawer",
+                  staticClass: "el-drawer",
+                  class: [_vm.direction, _vm.customClass],
+                  style: _vm.isHorizontal
+                    ? "width: " + _vm.size
+                    : "height: " + _vm.size,
+                  attrs: {
+                    "aria-modal": "true",
+                    "aria-labelledby": "el-drawer__title",
+                    role: "presentation"
+                  }
+                },
+                [
+                  _c(
+                    "header",
+                    {
+                      staticClass: "el-drawer__header",
+                      attrs: { id: "el-drawer__title" }
+                    },
+                    [
+                      _vm._t("title", [
+                        _c("span", { attrs: { role: "heading" } }, [
+                          _vm._v(_vm._s(_vm.title))
+                        ])
+                      ]),
+                      _vm.showClose
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "el-drawer__close-btn",
+                              attrs: {
+                                "aria-label":
+                                  "close " + (_vm.title || "drawer"),
+                                type: "button"
+                              },
+                              on: { click: _vm.closeDrawer }
+                            },
+                            [
+                              _c("i", {
+                                staticClass:
+                                  "el-dialog__close el-icon el-icon-close"
+                              })
+                            ]
+                          )
+                        : _vm._e()
+                    ],
+                    2
+                  ),
+                  _vm.rendered
+                    ? _c(
+                        "section",
+                        { staticClass: "el-drawer__body" },
+                        [_vm._t("default")],
+                        2
+                      )
+                    : _vm._e()
+                ]
+              )
+            ]
+          )
+        ]
       )
     ]
   )
@@ -235,13 +331,21 @@ var staticRenderFns = []
 render._withStripped = true
 
 
-// CONCATENATED MODULE: ./packages/dropdown/src/dropdown-menu.vue?vue&type=template&id=0da6b714&
+// CONCATENATED MODULE: ./packages/drawer/src/main.vue?vue&type=template&id=a4885264&
 
-// EXTERNAL MODULE: external "element-ui/lib/utils/vue-popper"
-var vue_popper_ = __webpack_require__(5);
-var vue_popper_default = /*#__PURE__*/__webpack_require__.n(vue_popper_);
+// EXTERNAL MODULE: external "element-ui/lib/utils/popup"
+var popup_ = __webpack_require__(14);
+var popup_default = /*#__PURE__*/__webpack_require__.n(popup_);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/dropdown/src/dropdown-menu.vue?vue&type=script&lang=js&
+// EXTERNAL MODULE: external "element-ui/lib/mixins/migrating"
+var migrating_ = __webpack_require__(10);
+var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
+
+// EXTERNAL MODULE: external "element-ui/lib/mixins/emitter"
+var emitter_ = __webpack_require__(4);
+var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/drawer/src/main.vue?vue&type=script&lang=js&
 //
 //
 //
@@ -249,70 +353,172 @@ var vue_popper_default = /*#__PURE__*/__webpack_require__.n(vue_popper_);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
-/* harmony default export */ var dropdown_menuvue_type_script_lang_js_ = ({
-  name: 'ElDropdownMenu',
 
-  componentName: 'ElDropdownMenu',
 
-  mixins: [vue_popper_default.a],
-
+/* harmony default export */ var mainvue_type_script_lang_js_ = ({
+  name: 'ElDrawer',
+  mixins: [popup_default.a, emitter_default.a, migrating_default.a],
   props: {
-    visibleArrow: {
+    appendToBody: {
       type: Boolean,
       default: true
     },
-    arrowOffset: {
-      type: Number,
-      default: 0
+    beforeClose: {
+      type: Function
+    },
+    customClass: {
+      type: String,
+      default: ''
+    },
+    destroyOnClose: {
+      type: Boolean,
+      default: false
+    },
+    modal: {
+      type: Boolean,
+      default: true
+    },
+    direction: {
+      type: String,
+      default: 'rtl',
+      validator: function validator(val) {
+        return ['ltr', 'rtl', 'ttb', 'btt'].indexOf(val) !== -1;
+      }
+    },
+    showClose: {
+      type: Boolean,
+      default: true
+    },
+    size: {
+      type: String,
+      default: '30%'
+    },
+    title: {
+      type: String,
+      default: ''
+    },
+    visible: {
+      type: Boolean
+    },
+    wrapperClosable: {
+      type: Boolean,
+      default: true
     }
   },
-
+  computed: {
+    isHorizontal: function isHorizontal() {
+      return this.direction === 'rtl' || this.direction === 'ltr';
+    }
+  },
   data: function data() {
     return {
-      size: this.dropdown.dropdownSize
+      closed: false
     };
   },
 
-
-  inject: ['dropdown'],
-
-  created: function created() {
-    var _this = this;
-
-    this.$on('updatePopper', function () {
-      if (_this.showPopper) _this.updatePopper();
-    });
-    this.$on('visible', function (val) {
-      _this.showPopper = val;
-    });
+  watch: {
+    visible: function visible(val) {
+      if (val) {
+        this.closed = false;
+        this.$emit('open');
+        if (this.appendToBody) {
+          document.body.appendChild(this.$el);
+        }
+      } else {
+        if (!this.closed) this.$emit('close');
+      }
+    }
+  },
+  methods: {
+    afterEnter: function afterEnter() {
+      this.$emit('opened');
+    },
+    afterLeave: function afterLeave() {
+      this.$emit('closed');
+    },
+    hide: function hide(cancel) {
+      if (cancel !== false) {
+        this.$emit('update:visible', false);
+        this.$emit('close');
+        if (this.destroyOnClose === true) {
+          this.rendered = false;
+        }
+        this.closed = true;
+      }
+    },
+    handleWrapperClick: function handleWrapperClick() {
+      if (this.wrapperClosable) {
+        this.closeDrawer();
+      }
+    },
+    closeDrawer: function closeDrawer() {
+      if (typeof this.beforeClose === 'function') {
+        this.beforeClose(this.hide);
+      } else {
+        this.hide();
+      }
+    }
   },
   mounted: function mounted() {
-    this.dropdown.popperElm = this.popperElm = this.$el;
-    this.referenceElm = this.dropdown.$el;
-    // compatible with 2.6 new v-slot syntax
-    // issue link https://github.com/ElemeFE/element/issues/14345
-    this.dropdown.initDomOperation();
+    if (this.visible) {
+      this.rendered = true;
+      this.open();
+    }
   },
-
-
-  watch: {
-    'dropdown.placement': {
-      immediate: true,
-      handler: function handler(val) {
-        this.currentPlacement = val;
-      }
+  destroyed: function destroyed() {
+    // if appendToBody is true, remove DOM node after destroy
+    if (this.appendToBody && this.$el && this.$el.parentNode) {
+      this.$el.parentNode.removeChild(this.$el);
     }
   }
 });
-// CONCATENATED MODULE: ./packages/dropdown/src/dropdown-menu.vue?vue&type=script&lang=js&
- /* harmony default export */ var src_dropdown_menuvue_type_script_lang_js_ = (dropdown_menuvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./packages/drawer/src/main.vue?vue&type=script&lang=js&
+ /* harmony default export */ var src_mainvue_type_script_lang_js_ = (mainvue_type_script_lang_js_); 
 // EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 var componentNormalizer = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./packages/dropdown/src/dropdown-menu.vue
+// CONCATENATED MODULE: ./packages/drawer/src/main.vue
 
 
 
@@ -321,7 +527,7 @@ var componentNormalizer = __webpack_require__(0);
 /* normalize component */
 
 var component = Object(componentNormalizer["a" /* default */])(
-  src_dropdown_menuvue_type_script_lang_js_,
+  src_mainvue_type_script_lang_js_,
   render,
   staticRenderFns,
   false,
@@ -333,17 +539,17 @@ var component = Object(componentNormalizer["a" /* default */])(
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "packages/dropdown/src/dropdown-menu.vue"
-/* harmony default export */ var dropdown_menu = (component.exports);
-// CONCATENATED MODULE: ./packages/dropdown-menu/index.js
+component.options.__file = "packages/drawer/src/main.vue"
+/* harmony default export */ var main = (component.exports);
+// CONCATENATED MODULE: ./packages/drawer/index.js
 
 
 /* istanbul ignore next */
-dropdown_menu.install = function (Vue) {
-  Vue.component(dropdown_menu.name, dropdown_menu);
+main.install = function (Vue) {
+  Vue.component(main.name, main);
 };
 
-/* harmony default export */ var packages_dropdown_menu = __webpack_exports__["default"] = (dropdown_menu);
+/* harmony default export */ var drawer = __webpack_exports__["default"] = (main);
 
 /***/ })
 

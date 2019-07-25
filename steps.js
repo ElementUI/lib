@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 109);
+/******/ 	return __webpack_require__(__webpack_require__.s = 110);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,7 +189,14 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 109:
+/***/ 10:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/migrating");
+
+/***/ }),
+
+/***/ 110:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -220,7 +227,7 @@ render._withStripped = true
 // CONCATENATED MODULE: ./packages/steps/src/steps.vue?vue&type=template&id=3c6b6dc0&
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/migrating"
-var migrating_ = __webpack_require__(11);
+var migrating_ = __webpack_require__(10);
 var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/steps/src/steps.vue?vue&type=script&lang=js&
@@ -328,13 +335,6 @@ steps.install = function (Vue) {
 };
 
 /* harmony default export */ var packages_steps = __webpack_exports__["default"] = (steps);
-
-/***/ }),
-
-/***/ 11:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ })
 

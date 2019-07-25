@@ -406,10 +406,15 @@ var poperMixins = {
       this.timeout = setTimeout(function () {
         _this2.rootMenu.openMenu(_this2.index, _this2.indexPath);
       }, showTimeout);
+
+      if (this.appendToBody) {
+        this.$parent.$el.dispatchEvent(new MouseEvent('mouseenter'));
+      }
     },
     handleMouseleave: function handleMouseleave() {
       var _this3 = this;
 
+      var deepDispatch = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
       var rootMenu = this.rootMenu;
 
       if (rootMenu.menuTrigger === 'click' && rootMenu.mode === 'horizontal' || !rootMenu.collapse && rootMenu.mode === 'vertical') {
@@ -418,11 +423,14 @@ var poperMixins = {
       this.dispatch('ElSubmenu', 'mouse-leave-child');
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
-        if (_this3.appendToBody) {
-          _this3.rootMenu.openedMenus = [];
-        }
         !_this3.mouseInChild && _this3.rootMenu.closeMenu(_this3.index);
       }, this.hideTimeout);
+
+      if (this.appendToBody && deepDispatch) {
+        if (this.$parent.$options.name === 'ElSubmenu') {
+          this.$parent.handleMouseleave(true);
+        }
+      }
     },
     handleTitleMouseenter: function handleTitleMouseenter() {
       if (this.mode === 'horizontal' && !this.rootMenu.backgroundColor) return;
@@ -502,7 +510,9 @@ var poperMixins = {
             'mouseenter': function mouseenter($event) {
               return _this5.handleMouseenter($event, 100);
             },
-            'mouseleave': this.handleMouseleave,
+            'mouseleave': function mouseleave() {
+              return _this5.handleMouseleave(true);
+            },
             'focus': function focus($event) {
               return _this5.handleMouseenter($event, 100);
             }
@@ -554,7 +564,9 @@ var poperMixins = {
         },
         on: {
           'mouseenter': this.handleMouseenter,
-          'mouseleave': this.handleMouseleave,
+          'mouseleave': function mouseleave() {
+            return _this5.handleMouseleave(false);
+          },
           'focus': this.handleMouseenter
         }
       },

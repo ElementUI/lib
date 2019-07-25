@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 58);
+/******/ 	return __webpack_require__(__webpack_require__.s = 57);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -231,7 +231,7 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 58:
+/***/ 57:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1242,8 +1242,8 @@ var tree_store_TreeStore = function () {
   };
 
   TreeStore.prototype.setCurrentNodeKey = function setCurrentNodeKey(key) {
-    if (key === null) {
-      this.currentNode.isCurrent = false;
+    if (key === null || key === undefined) {
+      this.currentNode && (this.currentNode.isCurrent = false);
       this.currentNode = null;
       return;
     }
