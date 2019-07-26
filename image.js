@@ -486,8 +486,7 @@ var Mode = {
   }
 };
 
-var isFirefox = !!window.navigator.userAgent.match(/firefox/i);
-var mousewheelEventName = isFirefox ? 'DOMMouseScroll' : 'mousewheel';
+var mousewheelEventName = Object(util_["isFirefox"])() ? 'DOMMouseScroll' : 'mousewheel';
 
 /* harmony default export */ var image_viewervue_type_script_lang_js_ = ({
   name: 'elImageViewer',

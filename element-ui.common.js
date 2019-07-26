@@ -37496,8 +37496,7 @@ var Mode = {
   }
 };
 
-var image_viewervue_type_script_lang_js_isFirefox = !!window.navigator.userAgent.match(/firefox/i);
-var mousewheelEventName = image_viewervue_type_script_lang_js_isFirefox ? 'DOMMouseScroll' : 'mousewheel';
+var mousewheelEventName = Object(util_["isFirefox"])() ? 'DOMMouseScroll' : 'mousewheel';
 
 /* harmony default export */ var image_viewervue_type_script_lang_js_ = ({
   name: 'elImageViewer',
@@ -41000,7 +40999,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.11.0',
+  version: '2.11.1',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,
