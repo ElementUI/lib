@@ -27,17 +27,17 @@
         cancel: 'إلغاء',
         clear: 'إزالة',
         confirm: 'موافق',
-        selectDate: 'أختر التاريخ',
-        selectTime: 'أختر الوقت',
+        selectDate: 'إختر التاريخ',
+        selectTime: 'إختر الوقت',
         startDate: 'تاريخ البدء',
         startTime: 'وقت البدء',
-        endDate: 'تاريخ الانتهاء',
-        endTime: 'وقت الانتهاء',
-        prevYear: 'Previous Year', // to be translated
-        nextYear: 'Next Year', // to be translated
-        prevMonth: 'Previous Month', // to be translated
-        nextMonth: 'Next Month', // to be translated
-        year: '',
+        endDate: 'تاريخ الإنتهاء',
+        endTime: 'وقت الإنتهاء',
+        prevYear: 'السنة السابقة',
+        nextYear: 'السنة التالية',
+        prevMonth: 'الشهر السابق',
+        nextMonth: 'الشهر التالي',
+        year: 'سنة',
         month1: 'يناير',
         month2: 'فبراير',
         month3: 'مارس',
@@ -79,12 +79,12 @@
         loading: 'جار التحميل',
         noMatch: 'لايوجد بيانات مطابقة',
         noData: 'لايوجد بيانات',
-        placeholder: 'أختر'
+        placeholder: 'إختر'
       },
       cascader: {
         noMatch: 'لايوجد بيانات مطابقة',
         loading: 'جار التحميل',
-        placeholder: 'أختر',
+        placeholder: 'إختر',
         noData: 'لايوجد بيانات'
       },
       pagination: {
@@ -94,7 +94,7 @@
         pageClassifier: ''
       },
       messagebox: {
-        title: 'الرسالة',
+        title: 'العنوان',
         confirm: 'موافق',
         cancel: 'إلغاء',
         error: 'مدخل غير صحيح'
@@ -123,10 +123,10 @@
         hasCheckedFormat: '{checked}/{total} مختار'
       },
       image: {
-        error: 'FAILED' // to be translated
+        error: 'فشل'
       },
       pageHeader: {
-        title: 'Back' // to be translated
+        title: 'عودة'
       }
     }
   };

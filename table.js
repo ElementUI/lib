@@ -734,9 +734,7 @@ var render = function() {
                 {
                   ref: "emptyBlock",
                   staticClass: "el-table__empty-block",
-                  style: {
-                    width: _vm.bodyWidth
-                  }
+                  style: _vm.emptyBlockStyle
                 },
                 [
                   _c(
@@ -1121,10 +1119,6 @@ var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
 var external_vue_ = __webpack_require__(7);
 var external_vue_default = /*#__PURE__*/__webpack_require__.n(external_vue_);
 
-// EXTERNAL MODULE: external "throttle-debounce/debounce"
-var debounce_ = __webpack_require__(16);
-var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
-
 // EXTERNAL MODULE: external "element-ui/lib/utils/merge"
 var merge_ = __webpack_require__(9);
 var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
@@ -1255,6 +1249,21 @@ var util_ = __webpack_require__(3);
     updateCurrentRow: function updateCurrentRow(currentRow) {
       var states = this.states,
           table = this.table;
+
+      var oldCurrentRow = states.currentRow;
+      if (currentRow && currentRow !== oldCurrentRow) {
+        states.currentRow = currentRow;
+        table.$emit('current-change', currentRow, oldCurrentRow);
+        return;
+      }
+      if (!currentRow && oldCurrentRow) {
+        states.currentRow = null;
+        table.$emit('current-change', null, oldCurrentRow);
+      }
+    },
+    updateCurrentRowData: function updateCurrentRowData() {
+      var states = this.states,
+          table = this.table;
       var rowKey = states.rowKey,
           _currentRowKey = states._currentRowKey;
       // data 为 null 时，结构时的默认值会被忽略
@@ -1262,28 +1271,21 @@ var util_ = __webpack_require__(3);
       var data = states.data || [];
       var oldCurrentRow = states.currentRow;
 
-      if (currentRow) {
+      // 当 currentRow 不在 data 中时尝试更新数据
+      if (data.indexOf(oldCurrentRow) === -1 && oldCurrentRow) {
+        if (rowKey) {
+          var currentRowKey = Object(util["g" /* getRowIdentity */])(oldCurrentRow, rowKey);
+          this.setCurrentRowByKey(currentRowKey);
+        } else {
+          states.currentRow = null;
+        }
+        if (states.currentRow === null) {
+          table.$emit('current-change', null, oldCurrentRow);
+        }
+      } else if (_currentRowKey) {
+        // 把初始时下设置的 rowKey 转化成 rowData
+        this.setCurrentRowByKey(_currentRowKey);
         this.restoreCurrentRowKey();
-        states.currentRow = currentRow;
-        if (oldCurrentRow !== currentRow) {
-          this.table.$emit('current-change', currentRow, oldCurrentRow);
-        }
-      } else {
-        // 当 currentRow 不在 data 中时尝试更新数据
-        if (data.indexOf(oldCurrentRow) === -1 && oldCurrentRow) {
-          this.restoreCurrentRowKey();
-          if (rowKey) {
-            var currentRowKey = Object(util["g" /* getRowIdentity */])(oldCurrentRow, rowKey);
-            this.setCurrentRowByKey(currentRowKey);
-          } else {
-            states.currentRow = null;
-          }
-          if (states.currentRow !== oldCurrentRow) {
-            table.$emit('current-change', null, oldCurrentRow);
-          }
-        } else if (_currentRowKey) {
-          this.setCurrentRowByKey(_currentRowKey);
-        }
       }
     }
   }
@@ -1298,7 +1300,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     return {
       states: {
         // defaultExpandAll 存在于 expand.js 中，这里不重复添加
-        // TODO: 拆分为独立的 TreeTale，在 expand 中，展开行的记录是放在 expandRows 中，统一用法
+        // 在展开行中，expandRowKeys 会被转化成 expandRows，expandRowKeys 这个属性只是记录了 TreeTable 行的展开
+        // TODO: 拆分为独立的 TreeTable，统一用法
         expandRowKeys: [],
         treeData: {},
         indent: 16,
@@ -1351,8 +1354,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
   watch: {
     normalizedData: 'updateTreeData',
-    // expandRowKeys 在 TreeTable 中也有使用
-    expandRowKeys: 'updateTreeData',
     normalizedLazyNode: 'updateTreeData'
   },
 
@@ -1455,11 +1456,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       this.updateTableScrollY();
     },
     updateTreeExpandKeys: function updateTreeExpandKeys(value) {
-      // 仅仅在包含嵌套数据时才去更新
-      if (Object.keys(this.normalizedData).length) {
-        this.states.expandRowKeys = value;
-        this.updateTreeData();
-      }
+      this.states.expandRowKeys = value;
+      this.updateTreeData();
     },
     toggleTreeExpansion: function toggleTreeExpansion(row, expanded) {
       this.assertRowKey();
@@ -1470,8 +1468,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
       var id = Object(util["g" /* getRowIdentity */])(row, rowKey);
       var data = id && treeData[id];
-      var oldExpanded = treeData[id].expanded;
       if (id && data && 'expanded' in data) {
+        var oldExpanded = data.expanded;
         expanded = typeof expanded === 'undefined' ? !data.expanded : expanded;
         treeData[id].expanded = expanded;
         if (oldExpanded !== expanded) {
@@ -1522,7 +1520,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   }
 });
 // CONCATENATED MODULE: ./packages/table/src/store/watcher.js
-
 
 
 
@@ -1709,9 +1706,7 @@ var doFlattenColumns = function doFlattenColumns(columns) {
         this.table.$emit('selection-change', newSelection);
       }
     },
-
-
-    toggleAllSelection: debounce_default()(10, function () {
+    _toggleAllSelection: function _toggleAllSelection() {
       var states = this.states;
       var _states$data = states.data,
           data = _states$data === undefined ? [] : _states$data,
@@ -1739,8 +1734,7 @@ var doFlattenColumns = function doFlattenColumns(columns) {
         this.table.$emit('selection-change', selection ? selection.slice() : []);
       }
       this.table.$emit('select-all', selection);
-    }),
-
+    },
     updateSelectionByRowKey: function updateSelectionByRowKey() {
       var states = this.states;
       var selection = states.selection,
@@ -1958,7 +1952,7 @@ watcher.prototype.mutations = {
     this.execQuery();
     // 数据变化，更新部分数据。
     // 没有使用 computed，而是手动更新部分数据 https://github.com/vuejs/vue/issues/6660#issuecomment-331417140
-    this.updateCurrentRow();
+    this.updateCurrentRowData();
     this.updateExpandRows();
     if (states.reserveSelection) {
       this.assertRowKey();
@@ -2014,7 +2008,8 @@ watcher.prototype.mutations = {
   },
   sort: function sort(states, options) {
     var prop = options.prop,
-        order = options.order;
+        order = options.order,
+        init = options.init;
 
     if (prop) {
       var column = Object(util_["arrayFind"])(states.columns, function (column) {
@@ -2023,7 +2018,7 @@ watcher.prototype.mutations = {
       if (column) {
         column.order = order;
         this.updateSort(column, prop, order);
-        this.commit('changeSortCondition');
+        this.commit('changeSortCondition', { init: init });
       }
     }
   },
@@ -2040,7 +2035,7 @@ watcher.prototype.mutations = {
     var ingore = { filter: true };
     this.execQuery(ingore);
 
-    if (!options || !options.silent) {
+    if (!options || !(options.silent || options.init)) {
       this.table.$emit('sort-change', {
         column: column,
         prop: prop,
@@ -2098,7 +2093,12 @@ watcher.prototype.updateTableScrollY = function () {
 };
 
 /* harmony default export */ var src_store = (watcher);
+// EXTERNAL MODULE: external "throttle-debounce/debounce"
+var debounce_ = __webpack_require__(16);
+var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
+
 // CONCATENATED MODULE: ./packages/table/src/store/helper.js
+
 
 
 function createStore(table) {
@@ -2110,6 +2110,9 @@ function createStore(table) {
 
   var store = new src_store();
   store.table = table;
+  // fix https://github.com/ElemeFE/element/issues/14075
+  // related pr https://github.com/ElemeFE/element/pull/14146
+  store.toggleAllSelection = debounce_default()(10, store._toggleAllSelection);
   Object.keys(initialState).forEach(function (key) {
     store.states[key] = initialState[key];
   });
@@ -2258,8 +2261,13 @@ var table_layout_TableLayout = function () {
     this.appendHeight = appendWrapper ? appendWrapper.offsetHeight : 0;
 
     if (this.showHeader && !headerWrapper) return;
+
+    // fix issue (https://github.com/ElemeFE/element/pull/16956)
+    var headerTrElm = headerWrapper.querySelector('.el-table__header tr');
+    var noneHeader = this.headerDisplayNone(headerTrElm);
+
     var headerHeight = this.headerHeight = !this.showHeader ? 0 : headerWrapper.offsetHeight;
-    if (this.showHeader && headerWrapper.offsetWidth > 0 && (this.table.columns || []).length > 0 && headerHeight < 2) {
+    if (this.showHeader && !noneHeader && headerWrapper.offsetWidth > 0 && (this.table.columns || []).length > 0 && headerHeight < 2) {
       return external_vue_default.a.nextTick(function () {
         return _this2.updateElsHeight();
       });
@@ -2276,6 +2284,17 @@ var table_layout_TableLayout = function () {
 
     this.updateScrollY();
     this.notifyObservers('scrollable');
+  };
+
+  TableLayout.prototype.headerDisplayNone = function headerDisplayNone(elm) {
+    var headerChild = elm;
+    while (headerChild.tagName !== 'DIV') {
+      if (getComputedStyle(headerChild).display === 'none') {
+        return true;
+      }
+      headerChild = headerChild.parentElement;
+    }
+    return false;
   };
 
   TableLayout.prototype.updateColumnsWidth = function updateColumnsWidth() {
@@ -3767,6 +3786,7 @@ var convertToRows = function convertToRows(originColumns) {
       event.stopPropagation();
       var target = event.target;
       var cell = target.tagName === 'TH' ? target : target.parentNode;
+      if (Object(dom_["hasClass"])(cell, 'noclick')) return;
       cell = cell.querySelector('.el-table__column-filter-trigger') || cell;
       var table = this.$parent;
 
@@ -4356,8 +4376,6 @@ var tablevue_type_script_lang_js_extends = Object.assign || function (target) { 
 //
 //
 //
-//
-//
 
 
 
@@ -4707,6 +4725,17 @@ var tableIdSeed = 1;
           height: this.layout.viewportHeight ? this.layout.viewportHeight + 'px' : ''
         };
       }
+    },
+    emptyBlockStyle: function emptyBlockStyle() {
+      if (this.data && this.data.length) return null;
+      var height = '100%';
+      if (this.layout.appendHeight) {
+        height = 'calc(100% - ' + this.layout.appendHeight + 'px)';
+      }
+      return {
+        width: this.bodyWidth,
+        height: height
+      };
     }
   }, mapStates({
     selection: 'selection',

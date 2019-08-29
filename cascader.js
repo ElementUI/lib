@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 83);
+/******/ 	return __webpack_require__(__webpack_require__.s = 112);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -203,105 +203,7 @@ module.exports = require("element-ui/lib/input");
 
 /***/ }),
 
-/***/ 12:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/clickoutside");
-
-/***/ }),
-
-/***/ 13:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/scrollbar");
-
-/***/ }),
-
-/***/ 15:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/resize-event");
-
-/***/ }),
-
-/***/ 16:
-/***/ (function(module, exports) {
-
-module.exports = require("throttle-debounce/debounce");
-
-/***/ }),
-
-/***/ 19:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/types");
-
-/***/ }),
-
-/***/ 20:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/locale");
-
-/***/ }),
-
-/***/ 22:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/shared");
-
-/***/ }),
-
-/***/ 3:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/util");
-
-/***/ }),
-
-/***/ 36:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/tag");
-
-/***/ }),
-
-/***/ 39:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/aria-utils");
-
-/***/ }),
-
-/***/ 4:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/mixins/emitter");
-
-/***/ }),
-
-/***/ 5:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/vue-popper");
-
-/***/ }),
-
-/***/ 50:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/cascader-panel");
-
-/***/ }),
-
-/***/ 6:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/mixins/locale");
-
-/***/ }),
-
-/***/ 83:
+/***/ 112:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -663,7 +565,7 @@ var util_ = __webpack_require__(3);
 var types_ = __webpack_require__(19);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/shared"
-var shared_ = __webpack_require__(22);
+var shared_ = __webpack_require__(21);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/resize-event"
 var resize_event_ = __webpack_require__(15);
@@ -981,6 +883,9 @@ var InputSizeMap = {
   },
 
   watch: {
+    disabled: function disabled() {
+      this.computePresentContent();
+    },
     value: function value(val) {
       if (!Object(util_["isEqual"])(val, this.checkedValue)) {
         this.checkedValue = val;
@@ -1412,6 +1317,104 @@ cascader.install = function (Vue) {
 };
 
 /* harmony default export */ var packages_cascader = __webpack_exports__["default"] = (cascader);
+
+/***/ }),
+
+/***/ 12:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/clickoutside");
+
+/***/ }),
+
+/***/ 13:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/scrollbar");
+
+/***/ }),
+
+/***/ 15:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/resize-event");
+
+/***/ }),
+
+/***/ 16:
+/***/ (function(module, exports) {
+
+module.exports = require("throttle-debounce/debounce");
+
+/***/ }),
+
+/***/ 19:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/types");
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/locale");
+
+/***/ }),
+
+/***/ 21:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/shared");
+
+/***/ }),
+
+/***/ 3:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/util");
+
+/***/ }),
+
+/***/ 36:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/tag");
+
+/***/ }),
+
+/***/ 39:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/aria-utils");
+
+/***/ }),
+
+/***/ 4:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ }),
+
+/***/ 5:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/vue-popper");
+
+/***/ }),
+
+/***/ 50:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/cascader-panel");
+
+/***/ }),
+
+/***/ 6:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ })
 

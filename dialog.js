@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 87);
+/******/ 	return __webpack_require__(__webpack_require__.s = 110);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -196,21 +196,7 @@ module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }),
 
-/***/ 14:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/popup");
-
-/***/ }),
-
-/***/ 4:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/mixins/emitter");
-
-/***/ }),
-
-/***/ 87:
+/***/ 110:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -591,6 +577,20 @@ src_component.install = function (Vue) {
 };
 
 /* harmony default export */ var dialog = __webpack_exports__["default"] = (src_component);
+
+/***/ }),
+
+/***/ 14:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/popup");
+
+/***/ }),
+
+/***/ 4:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ })
 

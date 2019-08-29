@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 69);
+/******/ 	return __webpack_require__(__webpack_require__.s = 70);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -210,7 +210,14 @@ module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ }),
 
-/***/ 69:
+/***/ 7:
+/***/ (function(module, exports) {
+
+module.exports = require("vue");
+
+/***/ }),
+
+/***/ 70:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -336,6 +343,10 @@ var util_ = __webpack_require__(3);
     openDelay: {
       type: Number,
       default: 0
+    },
+    closeDelay: {
+      type: Number,
+      default: 200
     },
     title: String,
     disabled: Boolean,
@@ -477,9 +488,13 @@ var util_ = __webpack_require__(3);
       var _this3 = this;
 
       clearTimeout(this._timer);
-      this._timer = setTimeout(function () {
-        _this3.showPopper = false;
-      }, 200);
+      if (this.closeDelay) {
+        this._timer = setTimeout(function () {
+          _this3.showPopper = false;
+        }, this.closeDelay);
+      } else {
+        this.showPopper = false;
+      }
     },
     handleDocumentClick: function handleDocumentClick(e) {
       var reference = this.reference || this.$refs.reference;
@@ -499,7 +514,7 @@ var util_ = __webpack_require__(3);
       this.doDestroy();
     },
     cleanup: function cleanup() {
-      if (this.openDelay) {
+      if (this.openDelay || this.closeDelay) {
         clearTimeout(this._timer);
       }
     }
@@ -588,13 +603,6 @@ main.install = function (Vue) {
 main.directive = directive;
 
 /* harmony default export */ var popover = __webpack_exports__["default"] = (main);
-
-/***/ }),
-
-/***/ 7:
-/***/ (function(module, exports) {
-
-module.exports = require("vue");
 
 /***/ })
 

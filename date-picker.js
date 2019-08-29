@@ -2369,7 +2369,7 @@ var repeat_click = __webpack_require__(30);
       bindFuntion('seconds');
     },
     handleScroll: function handleScroll(type) {
-      var value = Math.min(Math.floor((this.$refs[type].wrap.scrollTop - (this.scrollBarHeight(type) * 0.5 - 10) / this.typeItemHeight(type) + 3) / this.typeItemHeight(type)), type === 'hours' ? 23 : 59);
+      var value = Math.min(Math.round((this.$refs[type].wrap.scrollTop - (this.scrollBarHeight(type) * 0.5 - 10) / this.typeItemHeight(type) + 3) / this.typeItemHeight(type)), type === 'hours' ? 23 : 59);
       this.modifyDateField(type, value);
     },
 
@@ -2750,6 +2750,7 @@ var render = function() {
                           ? new Date(_vm.defaultValue)
                           : null,
                         date: _vm.date,
+                        "cell-class-name": _vm.cellClassName,
                         "disabled-date": _vm.disabledDate
                       },
                       on: { pick: _vm.handleDatePick }
@@ -3663,6 +3664,8 @@ var date_tablevue_type_script_lang_js_removeFromArray = function removeFromArray
 
     disabledDate: {},
 
+    cellClassName: {},
+
     minDate: {},
 
     maxDate: {},
@@ -3713,6 +3716,7 @@ var date_tablevue_type_script_lang_js_removeFromArray = function removeFromArray
 
       var startDate = this.startDate;
       var disabledDate = this.disabledDate;
+      var cellClassName = this.cellClassName;
       var selectedDate = this.selectionMode === 'dates' ? Object(util_["coerceTruthyValueToArray"])(this.value) : [];
       var now = date_tablevue_type_script_lang_js_getDateTimestamp(new Date());
 
@@ -3767,7 +3771,7 @@ var date_tablevue_type_script_lang_js_removeFromArray = function removeFromArray
           cell.selected = Object(util_["arrayFind"])(selectedDate, function (date) {
             return date.getTime() === cellDate.getTime();
           });
-
+          cell.customClass = typeof cellClassName === 'function' && cellClassName(cellDate);
           _this.$set(row, _this.showWeekNumber ? j + 1 : j, cell);
         };
 
@@ -3865,6 +3869,10 @@ var date_tablevue_type_script_lang_js_removeFromArray = function removeFromArray
 
       if (cell.selected) {
         classes.push('selected');
+      }
+
+      if (cell.customClass) {
+        classes.push(cell.customClass);
       }
 
       return classes.join(' ');
@@ -4034,6 +4042,7 @@ if (false) { var date_table_api; }
 date_table_component.options.__file = "packages/date-picker/src/basic/date-table.vue"
 /* harmony default export */ var date_table = (date_table_component.exports);
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/date-picker/src/panel/date.vue?vue&type=script&lang=js&
+//
 //
 //
 //
@@ -4528,6 +4537,7 @@ date_table_component.options.__file = "packages/date-picker/src/basic/date-table
       visible: false,
       currentView: 'date',
       disabledDate: '',
+      cellClassName: '',
       selectableRange: [],
       firstDayOfWeek: 7,
       showWeekNumber: false,
@@ -4933,6 +4943,7 @@ var date_rangevue_type_template_id_2652849a_render = function() {
                         "max-date": _vm.maxDate,
                         "range-state": _vm.rangeState,
                         "disabled-date": _vm.disabledDate,
+                        "cell-class-name": _vm.cellClassName,
                         "first-day-of-week": _vm.firstDayOfWeek
                       },
                       on: {
@@ -4998,6 +5009,7 @@ var date_rangevue_type_template_id_2652849a_render = function() {
                         "max-date": _vm.maxDate,
                         "range-state": _vm.rangeState,
                         "disabled-date": _vm.disabledDate,
+                        "cell-class-name": _vm.cellClassName,
                         "first-day-of-week": _vm.firstDayOfWeek
                       },
                       on: {
@@ -5071,6 +5083,8 @@ date_rangevue_type_template_id_2652849a_render._withStripped = true
 // CONCATENATED MODULE: ./packages/date-picker/src/panel/date-range.vue?vue&type=template&id=2652849a&
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/date-picker/src/panel/date-range.vue?vue&type=script&lang=js&
+//
+//
 //
 //
 //
@@ -5374,6 +5388,7 @@ var date_rangevue_type_script_lang_js_calcDefaultValue = function calcDefaultVal
       shortcuts: '',
       visible: '',
       disabledDate: '',
+      cellClassName: '',
       firstDayOfWeek: 7,
       minTimePickerVisible: false,
       maxTimePickerVisible: false,

@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 115);
+/******/ 	return __webpack_require__(__webpack_require__.s = 79);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,7 +189,21 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 115:
+/***/ 15:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/resize-event");
+
+/***/ }),
+
+/***/ 25:
+/***/ (function(module, exports) {
+
+module.exports = require("throttle-debounce/throttle");
+
+/***/ }),
+
+/***/ 79:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -495,7 +509,9 @@ var resize_event_ = __webpack_require__(15);
     },
     activeIndex: function activeIndex(val, oldVal) {
       this.resetItemPosition(oldVal);
-      this.$emit('change', val, oldVal);
+      if (oldVal > -1) {
+        this.$emit('change', val, oldVal);
+      }
     },
     autoplay: function autoplay(val) {
       val ? this.startTimer() : this.pauseTimer();
@@ -675,20 +691,6 @@ main.install = function (Vue) {
 };
 
 /* harmony default export */ var carousel = __webpack_exports__["default"] = (main);
-
-/***/ }),
-
-/***/ 15:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/resize-event");
-
-/***/ }),
-
-/***/ 25:
-/***/ (function(module, exports) {
-
-module.exports = require("throttle-debounce/throttle");
 
 /***/ })
 

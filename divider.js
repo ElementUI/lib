@@ -82,23 +82,176 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 130);
+/******/ 	return __webpack_require__(__webpack_require__.s = 89);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 130:
+/***/ 0:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode /* vue-cli only */
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ 89:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./packages/divider/src/main.js
-/* harmony default export */ var main = ({
-  functional: true,
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/divider/src/main.vue?vue&type=template&id=7fa02a7e&functional=true&
+var render = function(_h, _vm) {
+  var _c = _vm._c
+  return _c(
+    "div",
+    _vm._g(
+      _vm._b(
+        {
+          class: [
+            _vm.data.staticClass,
+            "el-divider",
+            "el-divider--" + _vm.props.direction
+          ]
+        },
+        "div",
+        _vm.data.attrs,
+        false
+      ),
+      _vm.listeners
+    ),
+    [
+      _vm.slots().default && _vm.props.direction !== "vertical"
+        ? _c(
+            "div",
+            { class: ["el-divider__text", "is-" + _vm.props.contentPosition] },
+            [_vm._t("default")],
+            2
+          )
+        : _vm._e()
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
 
+
+// CONCATENATED MODULE: ./packages/divider/src/main.vue?vue&type=template&id=7fa02a7e&functional=true&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/divider/src/main.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ var mainvue_type_script_lang_js_ = ({
   name: 'ElDivider',
-
   props: {
     direction: {
       type: String,
@@ -107,7 +260,6 @@ __webpack_require__.r(__webpack_exports__);
         return ['horizontal', 'vertical'].indexOf(val) !== -1;
       }
     },
-
     contentPosition: {
       type: String,
       default: 'center',
@@ -115,25 +267,36 @@ __webpack_require__.r(__webpack_exports__);
         return ['left', 'center', 'right'].indexOf(val) !== -1;
       }
     }
-  },
-
-  render: function render(h, context) {
-    var $slots = context.slots();
-    var _context$props = context.props,
-        direction = _context$props.direction,
-        contentPosition = _context$props.contentPosition;
-
-    return h(
-      'div',
-      { 'class': ['el-divider', 'el-divider--' + direction] },
-      [$slots.default && direction !== 'vertical' ? h(
-        'div',
-        { 'class': ['el-divider__text', 'is-' + contentPosition] },
-        [$slots.default]
-      ) : null]
-    );
   }
 });
+// CONCATENATED MODULE: ./packages/divider/src/main.vue?vue&type=script&lang=js&
+ /* harmony default export */ var src_mainvue_type_script_lang_js_ = (mainvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
+var componentNormalizer = __webpack_require__(0);
+
+// CONCATENATED MODULE: ./packages/divider/src/main.vue
+
+
+
+
+
+/* normalize component */
+
+var component = Object(componentNormalizer["a" /* default */])(
+  src_mainvue_type_script_lang_js_,
+  render,
+  staticRenderFns,
+  true,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "packages/divider/src/main.vue"
+/* harmony default export */ var main = (component.exports);
 // CONCATENATED MODULE: ./packages/divider/index.js
 
 

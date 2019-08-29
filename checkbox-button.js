@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 108);
+/******/ 	return __webpack_require__(__webpack_require__.s = 99);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,7 +189,14 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 108:
+/***/ 4:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ }),
+
+/***/ 99:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -569,13 +576,6 @@ checkbox_button.install = function (Vue) {
 };
 
 /* harmony default export */ var packages_checkbox_button = __webpack_exports__["default"] = (checkbox_button);
-
-/***/ }),
-
-/***/ 4:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ })
 

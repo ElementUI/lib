@@ -2319,7 +2319,7 @@ var repeat_click = __webpack_require__(30);
       bindFuntion('seconds');
     },
     handleScroll: function handleScroll(type) {
-      var value = Math.min(Math.floor((this.$refs[type].wrap.scrollTop - (this.scrollBarHeight(type) * 0.5 - 10) / this.typeItemHeight(type) + 3) / this.typeItemHeight(type)), type === 'hours' ? 23 : 59);
+      var value = Math.min(Math.round((this.$refs[type].wrap.scrollTop - (this.scrollBarHeight(type) * 0.5 - 10) / this.typeItemHeight(type) + 3) / this.typeItemHeight(type)), type === 'hours' ? 23 : 59);
       this.modifyDateField(type, value);
     },
 

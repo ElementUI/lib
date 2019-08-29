@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 98);
+/******/ 	return __webpack_require__(__webpack_require__.s = 77);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -196,7 +196,7 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 98:
+/***/ 77:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -208,8 +208,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    _vm._elTag,
     {
+      tag: "component",
       staticClass: "el-radio-group",
       attrs: { role: "radiogroup" },
       on: { keydown: _vm.handleKeydown }
@@ -229,6 +230,7 @@ var emitter_ = __webpack_require__(4);
 var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/radio/src/radio-group.vue?vue&type=script&lang=js&
+//
 //
 //
 //
@@ -271,6 +273,9 @@ var keyCode = Object.freeze({
   computed: {
     _elFormItemSize: function _elFormItemSize() {
       return (this.elFormItem || {}).elFormItemSize;
+    },
+    _elTag: function _elTag() {
+      return (this.$vnode.data || {}).tag || 'div';
     },
     radioGroupSize: function radioGroupSize() {
       return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;

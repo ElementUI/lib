@@ -203,7 +203,7 @@ module.exports = require("element-ui/lib/checkbox");
 
 /***/ }),
 
-/***/ 22:
+/***/ 21:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/shared");
@@ -530,20 +530,19 @@ var stopPropagation = function stopPropagation(e) {
     var disabled = !checkStrictly && isDisabled;
     var events = { on: {} };
 
-    if (!isLeaf) {
-      if (expandTrigger === 'click') {
-        events.on.click = this.handleExpand;
-      } else {
-        events.on.mouseenter = function (e) {
-          _this3.handleExpand();
-          _this3.$emit('expand', e);
-        };
-        events.on.focus = function (e) {
-          _this3.handleExpand();
-          _this3.$emit('expand', e);
-        };
-      }
-    } else if (!isDisabled && !checkStrictly && !multiple) {
+    if (expandTrigger === 'click') {
+      events.on.click = this.handleExpand;
+    } else {
+      events.on.mouseenter = function (e) {
+        _this3.handleExpand();
+        _this3.$emit('expand', e);
+      };
+      events.on.focus = function (e) {
+        _this3.handleExpand();
+        _this3.$emit('expand', e);
+      };
+    }
+    if (isLeaf && !isDisabled && !checkStrictly && !multiple) {
       events.on.click = this.handleCheckChange;
     }
 
@@ -775,7 +774,7 @@ if (false) { var cascader_menu_api; }
 cascader_menu_component.options.__file = "packages/cascader-panel/src/cascader-menu.vue"
 /* harmony default export */ var cascader_menu = (cascader_menu_component.exports);
 // EXTERNAL MODULE: external "element-ui/lib/utils/shared"
-var shared_ = __webpack_require__(22);
+var shared_ = __webpack_require__(21);
 
 // CONCATENATED MODULE: ./packages/cascader-panel/src/node.js
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();

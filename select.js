@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 59);
+/******/ 	return __webpack_require__(__webpack_require__.s = 60);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -260,13 +260,13 @@ module.exports = require("element-ui/lib/locale");
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/mixins/focus");
+module.exports = require("element-ui/lib/utils/shared");
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/shared");
+module.exports = require("element-ui/lib/mixins/focus");
 
 /***/ }),
 /* 23 */,
@@ -556,7 +556,8 @@ module.exports = require("element-ui/lib/tag");
 /* 56 */,
 /* 57 */,
 /* 58 */,
-/* 59 */
+/* 59 */,
+/* 60 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -708,9 +709,6 @@ var render = function() {
                       blur: function($event) {
                         _vm.softFocus = false
                       },
-                      click: function($event) {
-                        $event.stopPropagation()
-                      },
                       keyup: _vm.managePlaceholder,
                       keydown: [
                         _vm.resetInputState,
@@ -784,6 +782,15 @@ var render = function() {
                             return null
                           }
                           return _vm.deletePrevTag($event)
+                        },
+                        function($event) {
+                          if (
+                            !("button" in $event) &&
+                            _vm._k($event.keyCode, "tab", 9, $event.key, "Tab")
+                          ) {
+                            return null
+                          }
+                          _vm.visible = false
                         }
                       ],
                       compositionstart: _vm.handleComposition,
@@ -819,7 +826,8 @@ var render = function() {
             size: _vm.selectSize,
             disabled: _vm.selectDisabled,
             readonly: _vm.readonly,
-            "validate-event": false
+            "validate-event": false,
+            tabindex: _vm.multiple && _vm.filterable ? "-1" : null
           },
           on: { focus: _vm.handleFocus, blur: _vm.handleBlur },
           nativeOn: {
@@ -1034,7 +1042,7 @@ var emitter_ = __webpack_require__(4);
 var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/focus"
-var focus_ = __webpack_require__(21);
+var focus_ = __webpack_require__(22);
 var focus_default = /*#__PURE__*/__webpack_require__.n(focus_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/locale"
@@ -1273,9 +1281,10 @@ var util_ = __webpack_require__(3);
   }
 });
 // EXTERNAL MODULE: external "element-ui/lib/utils/shared"
-var shared_ = __webpack_require__(22);
+var shared_ = __webpack_require__(21);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/select/src/select.vue?vue&type=script&lang=js&
+//
 //
 //
 //
@@ -1833,7 +1842,9 @@ var shared_ = __webpack_require__(22);
       if (!this.softFocus) {
         if (this.automaticDropdown || this.filterable) {
           this.visible = true;
-          this.menuVisibleOnFocus = true;
+          if (this.filterable) {
+            this.menuVisibleOnFocus = true;
+          }
         }
         this.$emit('focus', event);
       } else {

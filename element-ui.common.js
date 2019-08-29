@@ -131,13 +131,13 @@ module.exports = require("vue");
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/mixins/migrating");
+module.exports = require("element-ui/lib/utils/merge");
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/merge");
+module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }),
 /* 9 */
@@ -203,25 +203,25 @@ module.exports = require("element-ui/lib/utils/types");
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/date");
+module.exports = require("element-ui/lib/utils/shared");
 
 /***/ }),
 /* 20 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/transitions/collapse-transition");
+module.exports = require("element-ui/lib/utils/date");
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/mixins/focus");
+module.exports = require("element-ui/lib/transitions/collapse-transition");
 
 /***/ }),
 /* 22 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/shared");
+module.exports = require("element-ui/lib/mixins/focus");
 
 /***/ }),
 /* 23 */
@@ -1282,7 +1282,7 @@ var popup_ = __webpack_require__(12);
 var popup_default = /*#__PURE__*/__webpack_require__.n(popup_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/migrating"
-var migrating_ = __webpack_require__(7);
+var migrating_ = __webpack_require__(8);
 var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/emitter"
@@ -1873,7 +1873,7 @@ if (false) { var autocomplete_suggestions_api; }
 autocomplete_suggestions_component.options.__file = "packages/autocomplete/src/autocomplete-suggestions.vue"
 /* harmony default export */ var autocomplete_suggestions = (autocomplete_suggestions_component.exports);
 // EXTERNAL MODULE: external "element-ui/lib/mixins/focus"
-var focus_ = __webpack_require__(21);
+var focus_ = __webpack_require__(22);
 var focus_default = /*#__PURE__*/__webpack_require__.n(focus_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/autocomplete/src/autocomplete.vue?vue&type=script&lang=js&
@@ -3425,7 +3425,7 @@ src_menu.install = function (Vue) {
 
 /* harmony default export */ var packages_menu = (src_menu);
 // EXTERNAL MODULE: external "element-ui/lib/transitions/collapse-transition"
-var collapse_transition_ = __webpack_require__(20);
+var collapse_transition_ = __webpack_require__(21);
 var collapse_transition_default = /*#__PURE__*/__webpack_require__.n(collapse_transition_);
 
 // CONCATENATED MODULE: ./packages/menu/src/menu-mixin.js
@@ -4268,6 +4268,7 @@ var inputvue_type_template_id_343dd774_render = function() {
                       },
                       on: {
                         compositionstart: _vm.handleCompositionStart,
+                        compositionupdate: _vm.handleCompositionUpdate,
                         compositionend: _vm.handleCompositionEnd,
                         input: _vm.handleInput,
                         focus: _vm.handleFocus,
@@ -4320,7 +4321,12 @@ var inputvue_type_template_id_343dd774_render = function() {
                         ? _c("i", {
                             staticClass:
                               "el-input__icon el-icon-circle-close el-input__clear",
-                            on: { click: _vm.clear }
+                            on: {
+                              mousedown: function($event) {
+                                $event.preventDefault()
+                              },
+                              click: _vm.clear
+                            }
                           })
                         : _vm._e(),
                       _vm.showPwdVisible
@@ -4383,6 +4389,7 @@ var inputvue_type_template_id_343dd774_render = function() {
                 },
                 on: {
                   compositionstart: _vm.handleCompositionStart,
+                  compositionupdate: _vm.handleCompositionUpdate,
                   compositionend: _vm.handleCompositionEnd,
                   input: _vm.handleInput,
                   focus: _vm.handleFocus,
@@ -4484,8 +4491,11 @@ function calcTextareaHeight(targetElement) {
   return result;
 };
 // EXTERNAL MODULE: external "element-ui/lib/utils/merge"
-var merge_ = __webpack_require__(8);
+var merge_ = __webpack_require__(7);
 var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
+
+// EXTERNAL MODULE: external "element-ui/lib/utils/shared"
+var shared_ = __webpack_require__(19);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/input/src/input.vue?vue&type=script&lang=js&
 //
@@ -4594,6 +4604,10 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -4819,9 +4833,16 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
     handleCompositionStart: function handleCompositionStart() {
       this.isComposing = true;
     },
+    handleCompositionUpdate: function handleCompositionUpdate(event) {
+      var text = event.target.value;
+      var lastCharacter = text[text.length - 1] || '';
+      this.isComposing = !Object(shared_["isKorean"])(lastCharacter);
+    },
     handleCompositionEnd: function handleCompositionEnd(event) {
-      this.isComposing = false;
-      this.handleInput(event);
+      if (this.isComposing) {
+        this.isComposing = false;
+        this.handleInput(event);
+      }
     },
     handleInput: function handleInput(event) {
       // should not emit input during composition
@@ -5712,8 +5733,9 @@ var radio_groupvue_type_template_id_818a704c_render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    _vm._elTag,
     {
+      tag: "component",
       staticClass: "el-radio-group",
       attrs: { role: "radiogroup" },
       on: { keydown: _vm.handleKeydown }
@@ -5729,6 +5751,7 @@ radio_groupvue_type_template_id_818a704c_render._withStripped = true
 // CONCATENATED MODULE: ./packages/radio/src/radio-group.vue?vue&type=template&id=818a704c&
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/radio/src/radio-group.vue?vue&type=script&lang=js&
+//
 //
 //
 //
@@ -5771,6 +5794,9 @@ var keyCode = Object.freeze({
   computed: {
     _elFormItemSize: function _elFormItemSize() {
       return (this.elFormItem || {}).elFormItemSize;
+    },
+    _elTag: function _elTag() {
+      return (this.$vnode.data || {}).tag || 'div';
     },
     radioGroupSize: function radioGroupSize() {
       return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
@@ -6136,12 +6162,7 @@ var checkboxvue_type_template_id_d0387074_render = function() {
         { "is-bordered": _vm.border },
         { "is-checked": _vm.isChecked }
       ],
-      attrs: {
-        role: "checkbox",
-        "aria-checked": _vm.indeterminate ? "mixed" : _vm.isChecked,
-        "aria-disabled": _vm.isDisabled,
-        id: _vm.id
-      }
+      attrs: { id: _vm.id }
     },
     [
       _c(
@@ -6154,7 +6175,11 @@ var checkboxvue_type_template_id_d0387074_render = function() {
             "is-indeterminate": _vm.indeterminate,
             "is-focus": _vm.focus
           },
-          attrs: { "aria-checked": "mixed" }
+          attrs: {
+            tabindex: _vm.indeterminate ? 0 : false,
+            role: _vm.indeterminate ? "checkbox" : false,
+            "aria-checked": _vm.indeterminate ? "mixed" : false
+          }
         },
         [
           _c("span", { staticClass: "el-checkbox__inner" }),
@@ -6171,7 +6196,7 @@ var checkboxvue_type_template_id_d0387074_render = function() {
                 staticClass: "el-checkbox__original",
                 attrs: {
                   type: "checkbox",
-                  "aria-hidden": "true",
+                  "aria-hidden": _vm.indeterminate ? "true" : "false",
                   name: _vm.name,
                   disabled: _vm.isDisabled,
                   "true-value": _vm.trueLabel,
@@ -6225,7 +6250,7 @@ var checkboxvue_type_template_id_d0387074_render = function() {
                 staticClass: "el-checkbox__original",
                 attrs: {
                   type: "checkbox",
-                  "aria-hidden": "true",
+                  "aria-hidden": _vm.indeterminate ? "true" : "false",
                   disabled: _vm.isDisabled,
                   name: _vm.name
                 },
@@ -6289,7 +6314,6 @@ checkboxvue_type_template_id_d0387074_render._withStripped = true
 // CONCATENATED MODULE: ./packages/checkbox/src/checkbox.vue?vue&type=template&id=d0387074&
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/checkbox/src/checkbox.vue?vue&type=script&lang=js&
-//
 //
 //
 //
@@ -7456,9 +7480,6 @@ var selectvue_type_template_id_0e4aade6_render = function() {
                       blur: function($event) {
                         _vm.softFocus = false
                       },
-                      click: function($event) {
-                        $event.stopPropagation()
-                      },
                       keyup: _vm.managePlaceholder,
                       keydown: [
                         _vm.resetInputState,
@@ -7532,6 +7553,15 @@ var selectvue_type_template_id_0e4aade6_render = function() {
                             return null
                           }
                           return _vm.deletePrevTag($event)
+                        },
+                        function($event) {
+                          if (
+                            !("button" in $event) &&
+                            _vm._k($event.keyCode, "tab", 9, $event.key, "Tab")
+                          ) {
+                            return null
+                          }
+                          _vm.visible = false
                         }
                       ],
                       compositionstart: _vm.handleComposition,
@@ -7567,7 +7597,8 @@ var selectvue_type_template_id_0e4aade6_render = function() {
             size: _vm.selectSize,
             disabled: _vm.selectDisabled,
             readonly: _vm.readonly,
-            "validate-event": false
+            "validate-event": false,
+            tabindex: _vm.multiple && _vm.filterable ? "-1" : null
           },
           on: { focus: _vm.handleFocus, blur: _vm.handleBlur },
           nativeOn: {
@@ -8205,10 +8236,8 @@ var scroll_into_view_default = /*#__PURE__*/__webpack_require__.n(scroll_into_vi
     }
   }
 });
-// EXTERNAL MODULE: external "element-ui/lib/utils/shared"
-var shared_ = __webpack_require__(22);
-
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/select/src/select.vue?vue&type=script&lang=js&
+//
 //
 //
 //
@@ -8766,7 +8795,9 @@ var shared_ = __webpack_require__(22);
       if (!this.softFocus) {
         if (this.automaticDropdown || this.filterable) {
           this.visible = true;
-          this.menuVisibleOnFocus = true;
+          if (this.filterable) {
+            this.menuVisibleOnFocus = true;
+          }
         }
         this.$emit('focus', event);
       } else {
@@ -9556,9 +9587,7 @@ var tablevue_type_template_id_493fe34e_render = function() {
                 {
                   ref: "emptyBlock",
                   staticClass: "el-table__empty-block",
-                  style: {
-                    width: _vm.bodyWidth
-                  }
+                  style: _vm.emptyBlockStyle
                 },
                 [
                   _c(
@@ -10327,6 +10356,21 @@ function walkTreeNode(root, cb) {
     updateCurrentRow: function updateCurrentRow(currentRow) {
       var states = this.states,
           table = this.table;
+
+      var oldCurrentRow = states.currentRow;
+      if (currentRow && currentRow !== oldCurrentRow) {
+        states.currentRow = currentRow;
+        table.$emit('current-change', currentRow, oldCurrentRow);
+        return;
+      }
+      if (!currentRow && oldCurrentRow) {
+        states.currentRow = null;
+        table.$emit('current-change', null, oldCurrentRow);
+      }
+    },
+    updateCurrentRowData: function updateCurrentRowData() {
+      var states = this.states,
+          table = this.table;
       var rowKey = states.rowKey,
           _currentRowKey = states._currentRowKey;
       // data 为 null 时，结构时的默认值会被忽略
@@ -10334,28 +10378,21 @@ function walkTreeNode(root, cb) {
       var data = states.data || [];
       var oldCurrentRow = states.currentRow;
 
-      if (currentRow) {
+      // 当 currentRow 不在 data 中时尝试更新数据
+      if (data.indexOf(oldCurrentRow) === -1 && oldCurrentRow) {
+        if (rowKey) {
+          var currentRowKey = getRowIdentity(oldCurrentRow, rowKey);
+          this.setCurrentRowByKey(currentRowKey);
+        } else {
+          states.currentRow = null;
+        }
+        if (states.currentRow === null) {
+          table.$emit('current-change', null, oldCurrentRow);
+        }
+      } else if (_currentRowKey) {
+        // 把初始时下设置的 rowKey 转化成 rowData
+        this.setCurrentRowByKey(_currentRowKey);
         this.restoreCurrentRowKey();
-        states.currentRow = currentRow;
-        if (oldCurrentRow !== currentRow) {
-          this.table.$emit('current-change', currentRow, oldCurrentRow);
-        }
-      } else {
-        // 当 currentRow 不在 data 中时尝试更新数据
-        if (data.indexOf(oldCurrentRow) === -1 && oldCurrentRow) {
-          this.restoreCurrentRowKey();
-          if (rowKey) {
-            var currentRowKey = getRowIdentity(oldCurrentRow, rowKey);
-            this.setCurrentRowByKey(currentRowKey);
-          } else {
-            states.currentRow = null;
-          }
-          if (states.currentRow !== oldCurrentRow) {
-            table.$emit('current-change', null, oldCurrentRow);
-          }
-        } else if (_currentRowKey) {
-          this.setCurrentRowByKey(_currentRowKey);
-        }
       }
     }
   }
@@ -10370,7 +10407,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     return {
       states: {
         // defaultExpandAll 存在于 expand.js 中，这里不重复添加
-        // TODO: 拆分为独立的 TreeTale，在 expand 中，展开行的记录是放在 expandRows 中，统一用法
+        // 在展开行中，expandRowKeys 会被转化成 expandRows，expandRowKeys 这个属性只是记录了 TreeTable 行的展开
+        // TODO: 拆分为独立的 TreeTable，统一用法
         expandRowKeys: [],
         treeData: {},
         indent: 16,
@@ -10423,8 +10461,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
   watch: {
     normalizedData: 'updateTreeData',
-    // expandRowKeys 在 TreeTable 中也有使用
-    expandRowKeys: 'updateTreeData',
     normalizedLazyNode: 'updateTreeData'
   },
 
@@ -10527,11 +10563,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       this.updateTableScrollY();
     },
     updateTreeExpandKeys: function updateTreeExpandKeys(value) {
-      // 仅仅在包含嵌套数据时才去更新
-      if (Object.keys(this.normalizedData).length) {
-        this.states.expandRowKeys = value;
-        this.updateTreeData();
-      }
+      this.states.expandRowKeys = value;
+      this.updateTreeData();
     },
     toggleTreeExpansion: function toggleTreeExpansion(row, expanded) {
       this.assertRowKey();
@@ -10542,8 +10575,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
       var id = getRowIdentity(row, rowKey);
       var data = id && treeData[id];
-      var oldExpanded = treeData[id].expanded;
       if (id && data && 'expanded' in data) {
+        var oldExpanded = data.expanded;
         expanded = typeof expanded === 'undefined' ? !data.expanded : expanded;
         treeData[id].expanded = expanded;
         if (oldExpanded !== expanded) {
@@ -10594,7 +10627,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   }
 });
 // CONCATENATED MODULE: ./packages/table/src/store/watcher.js
-
 
 
 
@@ -10781,9 +10813,7 @@ var doFlattenColumns = function doFlattenColumns(columns) {
         this.table.$emit('selection-change', newSelection);
       }
     },
-
-
-    toggleAllSelection: debounce_default()(10, function () {
+    _toggleAllSelection: function _toggleAllSelection() {
       var states = this.states;
       var _states$data = states.data,
           data = _states$data === undefined ? [] : _states$data,
@@ -10811,8 +10841,7 @@ var doFlattenColumns = function doFlattenColumns(columns) {
         this.table.$emit('selection-change', selection ? selection.slice() : []);
       }
       this.table.$emit('select-all', selection);
-    }),
-
+    },
     updateSelectionByRowKey: function updateSelectionByRowKey() {
       var states = this.states;
       var selection = states.selection,
@@ -11030,7 +11059,7 @@ watcher.prototype.mutations = {
     this.execQuery();
     // 数据变化，更新部分数据。
     // 没有使用 computed，而是手动更新部分数据 https://github.com/vuejs/vue/issues/6660#issuecomment-331417140
-    this.updateCurrentRow();
+    this.updateCurrentRowData();
     this.updateExpandRows();
     if (states.reserveSelection) {
       this.assertRowKey();
@@ -11086,7 +11115,8 @@ watcher.prototype.mutations = {
   },
   sort: function sort(states, options) {
     var prop = options.prop,
-        order = options.order;
+        order = options.order,
+        init = options.init;
 
     if (prop) {
       var column = Object(util_["arrayFind"])(states.columns, function (column) {
@@ -11095,7 +11125,7 @@ watcher.prototype.mutations = {
       if (column) {
         column.order = order;
         this.updateSort(column, prop, order);
-        this.commit('changeSortCondition');
+        this.commit('changeSortCondition', { init: init });
       }
     }
   },
@@ -11112,7 +11142,7 @@ watcher.prototype.mutations = {
     var ingore = { filter: true };
     this.execQuery(ingore);
 
-    if (!options || !options.silent) {
+    if (!options || !(options.silent || options.init)) {
       this.table.$emit('sort-change', {
         column: column,
         prop: prop,
@@ -11173,6 +11203,7 @@ watcher.prototype.updateTableScrollY = function () {
 // CONCATENATED MODULE: ./packages/table/src/store/helper.js
 
 
+
 function createStore(table) {
   var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -11182,6 +11213,9 @@ function createStore(table) {
 
   var store = new src_store();
   store.table = table;
+  // fix https://github.com/ElemeFE/element/issues/14075
+  // related pr https://github.com/ElemeFE/element/pull/14146
+  store.toggleAllSelection = debounce_default()(10, store._toggleAllSelection);
   Object.keys(initialState).forEach(function (key) {
     store.states[key] = initialState[key];
   });
@@ -11330,8 +11364,13 @@ var table_layout_TableLayout = function () {
     this.appendHeight = appendWrapper ? appendWrapper.offsetHeight : 0;
 
     if (this.showHeader && !headerWrapper) return;
+
+    // fix issue (https://github.com/ElemeFE/element/pull/16956)
+    var headerTrElm = headerWrapper.querySelector('.el-table__header tr');
+    var noneHeader = this.headerDisplayNone(headerTrElm);
+
     var headerHeight = this.headerHeight = !this.showHeader ? 0 : headerWrapper.offsetHeight;
-    if (this.showHeader && headerWrapper.offsetWidth > 0 && (this.table.columns || []).length > 0 && headerHeight < 2) {
+    if (this.showHeader && !noneHeader && headerWrapper.offsetWidth > 0 && (this.table.columns || []).length > 0 && headerHeight < 2) {
       return external_vue_default.a.nextTick(function () {
         return _this2.updateElsHeight();
       });
@@ -11348,6 +11387,17 @@ var table_layout_TableLayout = function () {
 
     this.updateScrollY();
     this.notifyObservers('scrollable');
+  };
+
+  TableLayout.prototype.headerDisplayNone = function headerDisplayNone(elm) {
+    var headerChild = elm;
+    while (headerChild.tagName !== 'DIV') {
+      if (getComputedStyle(headerChild).display === 'none') {
+        return true;
+      }
+      headerChild = headerChild.parentElement;
+    }
+    return false;
   };
 
   TableLayout.prototype.updateColumnsWidth = function updateColumnsWidth() {
@@ -12814,6 +12864,7 @@ var convertToRows = function convertToRows(originColumns) {
       event.stopPropagation();
       var target = event.target;
       var cell = target.tagName === 'TH' ? target : target.parentNode;
+      if (Object(dom_["hasClass"])(cell, 'noclick')) return;
       cell = cell.querySelector('.el-table__column-filter-trigger') || cell;
       var table = this.$parent;
 
@@ -13403,8 +13454,6 @@ var tablevue_type_script_lang_js_extends = Object.assign || function (target) { 
 //
 //
 //
-//
-//
 
 
 
@@ -13754,6 +13803,17 @@ var tableIdSeed = 1;
           height: this.layout.viewportHeight ? this.layout.viewportHeight + 'px' : ''
         };
       }
+    },
+    emptyBlockStyle: function emptyBlockStyle() {
+      if (this.data && this.data.length) return null;
+      var height = '100%';
+      if (this.layout.appendHeight) {
+        height = 'calc(100% - ' + this.layout.appendHeight + 'px)';
+      }
+      return {
+        width: this.bodyWidth,
+        height: height
+      };
     }
   }, mapStates({
     selection: 'selection',
@@ -15777,6 +15837,7 @@ var datevue_type_template_id_2440d4ea_render = function() {
                           ? new Date(_vm.defaultValue)
                           : null,
                         date: _vm.date,
+                        "cell-class-name": _vm.cellClassName,
                         "disabled-date": _vm.disabledDate
                       },
                       on: { pick: _vm.handleDatePick }
@@ -16565,7 +16626,7 @@ time_spinnervue_type_template_id_1facadeb_render._withStripped = true
       bindFuntion('seconds');
     },
     handleScroll: function handleScroll(type) {
-      var value = Math.min(Math.floor((this.$refs[type].wrap.scrollTop - (this.scrollBarHeight(type) * 0.5 - 10) / this.typeItemHeight(type) + 3) / this.typeItemHeight(type)), type === 'hours' ? 23 : 59);
+      var value = Math.min(Math.round((this.$refs[type].wrap.scrollTop - (this.scrollBarHeight(type) * 0.5 - 10) / this.typeItemHeight(type) + 3) / this.typeItemHeight(type)), type === 'hours' ? 23 : 59);
       this.modifyDateField(type, value);
     },
 
@@ -17641,6 +17702,8 @@ var date_tablevue_type_script_lang_js_removeFromArray = function removeFromArray
 
     disabledDate: {},
 
+    cellClassName: {},
+
     minDate: {},
 
     maxDate: {},
@@ -17691,6 +17754,7 @@ var date_tablevue_type_script_lang_js_removeFromArray = function removeFromArray
 
       var startDate = this.startDate;
       var disabledDate = this.disabledDate;
+      var cellClassName = this.cellClassName;
       var selectedDate = this.selectionMode === 'dates' ? Object(util_["coerceTruthyValueToArray"])(this.value) : [];
       var now = date_tablevue_type_script_lang_js_getDateTimestamp(new Date());
 
@@ -17745,7 +17809,7 @@ var date_tablevue_type_script_lang_js_removeFromArray = function removeFromArray
           cell.selected = Object(util_["arrayFind"])(selectedDate, function (date) {
             return date.getTime() === cellDate.getTime();
           });
-
+          cell.customClass = typeof cellClassName === 'function' && cellClassName(cellDate);
           _this.$set(row, _this.showWeekNumber ? j + 1 : j, cell);
         };
 
@@ -17843,6 +17907,10 @@ var date_tablevue_type_script_lang_js_removeFromArray = function removeFromArray
 
       if (cell.selected) {
         classes.push('selected');
+      }
+
+      if (cell.customClass) {
+        classes.push(cell.customClass);
       }
 
       return classes.join(' ');
@@ -18012,6 +18080,7 @@ if (false) { var date_table_api; }
 date_table_component.options.__file = "packages/date-picker/src/basic/date-table.vue"
 /* harmony default export */ var date_table = (date_table_component.exports);
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/date-picker/src/panel/date.vue?vue&type=script&lang=js&
+//
 //
 //
 //
@@ -18506,6 +18575,7 @@ date_table_component.options.__file = "packages/date-picker/src/basic/date-table
       visible: false,
       currentView: 'date',
       disabledDate: '',
+      cellClassName: '',
       selectableRange: [],
       firstDayOfWeek: 7,
       showWeekNumber: false,
@@ -18911,6 +18981,7 @@ var date_rangevue_type_template_id_2652849a_render = function() {
                         "max-date": _vm.maxDate,
                         "range-state": _vm.rangeState,
                         "disabled-date": _vm.disabledDate,
+                        "cell-class-name": _vm.cellClassName,
                         "first-day-of-week": _vm.firstDayOfWeek
                       },
                       on: {
@@ -18976,6 +19047,7 @@ var date_rangevue_type_template_id_2652849a_render = function() {
                         "max-date": _vm.maxDate,
                         "range-state": _vm.rangeState,
                         "disabled-date": _vm.disabledDate,
+                        "cell-class-name": _vm.cellClassName,
                         "first-day-of-week": _vm.firstDayOfWeek
                       },
                       on: {
@@ -19049,6 +19121,8 @@ date_rangevue_type_template_id_2652849a_render._withStripped = true
 // CONCATENATED MODULE: ./packages/date-picker/src/panel/date-range.vue?vue&type=template&id=2652849a&
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/date-picker/src/panel/date-range.vue?vue&type=script&lang=js&
+//
+//
 //
 //
 //
@@ -19352,6 +19426,7 @@ var date_rangevue_type_script_lang_js_calcDefaultValue = function calcDefaultVal
       shortcuts: '',
       visible: '',
       disabledDate: '',
+      cellClassName: '',
       firstDayOfWeek: 7,
       minTimePickerVisible: false,
       maxTimePickerVisible: false,
@@ -21097,6 +21172,10 @@ mainvue_type_template_id_52060272_render._withStripped = true
       type: Number,
       default: 0
     },
+    closeDelay: {
+      type: Number,
+      default: 200
+    },
     title: String,
     disabled: Boolean,
     content: String,
@@ -21237,9 +21316,13 @@ mainvue_type_template_id_52060272_render._withStripped = true
       var _this3 = this;
 
       clearTimeout(this._timer);
-      this._timer = setTimeout(function () {
-        _this3.showPopper = false;
-      }, 200);
+      if (this.closeDelay) {
+        this._timer = setTimeout(function () {
+          _this3.showPopper = false;
+        }, this.closeDelay);
+      } else {
+        this.showPopper = false;
+      }
     },
     handleDocumentClick: function handleDocumentClick(e) {
       var reference = this.reference || this.$refs.reference;
@@ -21259,7 +21342,7 @@ mainvue_type_template_id_52060272_render._withStripped = true
       this.doDestroy();
     },
     cleanup: function cleanup() {
-      if (this.openDelay) {
+      if (this.openDelay || this.closeDelay) {
         clearTimeout(this._timer);
       }
     }
@@ -23590,16 +23673,17 @@ tab_barvue_type_template_id_2031f33a_render._withStripped = true
             return true;
           } else {
             tabSize = $el['client' + firstUpperCase(sizeName)];
+            var tabStyles = window.getComputedStyle($el);
             if (sizeName === 'width' && _this.tabs.length > 1) {
-              tabSize -= index === 0 || index === _this.tabs.length - 1 ? 20 : 40;
+              tabSize -= parseFloat(tabStyles.paddingLeft) + parseFloat(tabStyles.paddingRight);
+            }
+            if (sizeName === 'width') {
+              offset += parseFloat(tabStyles.paddingLeft);
             }
             return false;
           }
         });
 
-        if (sizeName === 'width' && offset !== 0) {
-          offset += 20;
-        }
         var transform = 'translate' + firstUpperCase(sizeDir) + '(' + offset + 'px)';
         style[sizeName] = tabSize + 'px';
         style.transform = transform;
@@ -23723,19 +23807,28 @@ var tab_navvue_type_script_lang_js_firstUpperCase = function firstUpperCase(str)
       var activeTab = this.$el.querySelector('.is-active');
       if (!activeTab) return;
       var navScroll = this.$refs.navScroll;
+      var isHorizontal = ['top', 'bottom'].indexOf(this.rootTabs.tabPosition) !== -1;
       var activeTabBounding = activeTab.getBoundingClientRect();
       var navScrollBounding = navScroll.getBoundingClientRect();
-      var maxOffset = nav.offsetWidth - navScrollBounding.width;
+      var maxOffset = isHorizontal ? nav.offsetWidth - navScrollBounding.width : nav.offsetHeight - navScrollBounding.height;
       var currentOffset = this.navOffset;
       var newOffset = currentOffset;
 
-      if (activeTabBounding.left < navScrollBounding.left) {
-        newOffset = currentOffset - (navScrollBounding.left - activeTabBounding.left);
+      if (isHorizontal) {
+        if (activeTabBounding.left < navScrollBounding.left) {
+          newOffset = currentOffset - (navScrollBounding.left - activeTabBounding.left);
+        }
+        if (activeTabBounding.right > navScrollBounding.right) {
+          newOffset = currentOffset + activeTabBounding.right - navScrollBounding.right;
+        }
+      } else {
+        if (activeTabBounding.top < navScrollBounding.top) {
+          newOffset = currentOffset - (navScrollBounding.top - activeTabBounding.top);
+        }
+        if (activeTabBounding.bottom > navScrollBounding.bottom) {
+          newOffset = currentOffset + (activeTabBounding.bottom - navScrollBounding.bottom);
+        }
       }
-      if (activeTabBounding.right > navScrollBounding.right) {
-        newOffset = currentOffset + activeTabBounding.right - navScrollBounding.right;
-      }
-
       newOffset = Math.max(newOffset, 0);
       this.navOffset = Math.min(newOffset, maxOffset);
     },
@@ -26924,6 +27017,7 @@ notification_src_main_component.options.__file = "packages/notification/src/main
 
 
 
+
 var NotificationConstructor = external_vue_default.a.extend(notification_src_main);
 
 var src_main_instance = void 0;
@@ -26932,7 +27026,7 @@ var seed = 1;
 
 var main_Notification = function Notification(options) {
   if (external_vue_default.a.prototype.$isServer) return;
-  options = options || {};
+  options = merge_default()({}, options);
   var userOnClose = options.onClose;
   var id = 'notification_' + seed++;
   var position = options.position || 'top-right';
@@ -31866,7 +31960,9 @@ var throttle_default = /*#__PURE__*/__webpack_require__.n(throttle_);
     },
     activeIndex: function activeIndex(val, oldVal) {
       this.resetItemPosition(oldVal);
-      this.$emit('change', val, oldVal);
+      if (oldVal > -1) {
+        this.$emit('change', val, oldVal);
+      }
     },
     autoplay: function autoplay(val) {
       val ? this.startTimer() : this.pauseTimer();
@@ -33550,6 +33646,9 @@ var InputSizeMap = {
   },
 
   watch: {
+    disabled: function disabled() {
+      this.computePresentContent();
+    },
     value: function value(val) {
       if (!Object(util_["isEqual"])(val, this.checkedValue)) {
         this.checkedValue = val;
@@ -37196,12 +37295,63 @@ link_src_main.install = function (Vue) {
 };
 
 /* harmony default export */ var packages_link = (link_src_main);
-// CONCATENATED MODULE: ./packages/divider/src/main.js
-/* harmony default export */ var divider_src_main = ({
-  functional: true,
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/divider/src/main.vue?vue&type=template&id=7fa02a7e&functional=true&
+var mainvue_type_template_id_7fa02a7e_functional_true_render = function(_h, _vm) {
+  var _c = _vm._c
+  return _c(
+    "div",
+    _vm._g(
+      _vm._b(
+        {
+          class: [
+            _vm.data.staticClass,
+            "el-divider",
+            "el-divider--" + _vm.props.direction
+          ]
+        },
+        "div",
+        _vm.data.attrs,
+        false
+      ),
+      _vm.listeners
+    ),
+    [
+      _vm.slots().default && _vm.props.direction !== "vertical"
+        ? _c(
+            "div",
+            { class: ["el-divider__text", "is-" + _vm.props.contentPosition] },
+            [_vm._t("default")],
+            2
+          )
+        : _vm._e()
+    ]
+  )
+}
+var mainvue_type_template_id_7fa02a7e_functional_true_staticRenderFns = []
+mainvue_type_template_id_7fa02a7e_functional_true_render._withStripped = true
 
+
+// CONCATENATED MODULE: ./packages/divider/src/main.vue?vue&type=template&id=7fa02a7e&functional=true&
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/divider/src/main.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ var divider_src_mainvue_type_script_lang_js_ = ({
   name: 'ElDivider',
-
   props: {
     direction: {
       type: String,
@@ -37210,7 +37360,6 @@ link_src_main.install = function (Vue) {
         return ['horizontal', 'vertical'].indexOf(val) !== -1;
       }
     },
-
     contentPosition: {
       type: String,
       default: 'center',
@@ -37218,25 +37367,33 @@ link_src_main.install = function (Vue) {
         return ['left', 'center', 'right'].indexOf(val) !== -1;
       }
     }
-  },
-
-  render: function render(h, context) {
-    var $slots = context.slots();
-    var _context$props = context.props,
-        direction = _context$props.direction,
-        contentPosition = _context$props.contentPosition;
-
-    return h(
-      'div',
-      { 'class': ['el-divider', 'el-divider--' + direction] },
-      [$slots.default && direction !== 'vertical' ? h(
-        'div',
-        { 'class': ['el-divider__text', 'is-' + contentPosition] },
-        [$slots.default]
-      ) : null]
-    );
   }
 });
+// CONCATENATED MODULE: ./packages/divider/src/main.vue?vue&type=script&lang=js&
+ /* harmony default export */ var packages_divider_src_mainvue_type_script_lang_js_ = (divider_src_mainvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./packages/divider/src/main.vue
+
+
+
+
+
+/* normalize component */
+
+var divider_src_main_component = normalizeComponent(
+  packages_divider_src_mainvue_type_script_lang_js_,
+  mainvue_type_template_id_7fa02a7e_functional_true_render,
+  mainvue_type_template_id_7fa02a7e_functional_true_staticRenderFns,
+  true,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var divider_src_main_api; }
+divider_src_main_component.options.__file = "packages/divider/src/main.vue"
+/* harmony default export */ var divider_src_main = (divider_src_main_component.exports);
 // CONCATENATED MODULE: ./packages/divider/index.js
 
 
@@ -38162,7 +38319,7 @@ mainvue_type_template_id_6d9756be_render._withStripped = true
 // CONCATENATED MODULE: ./packages/calendar/src/main.vue?vue&type=template&id=6d9756be&
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/date"
-var date_ = __webpack_require__(19);
+var date_ = __webpack_require__(20);
 var date_default = /*#__PURE__*/__webpack_require__.n(date_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/calendar/src/date-table.vue?vue&type=script&lang=js&
@@ -38170,7 +38327,6 @@ var date_default = /*#__PURE__*/__webpack_require__.n(date_);
 
 
 
-var WEEK_DAYS = Object(date_util_["getI18nSettings"])().dayNames;
 /* harmony default export */ var src_date_tablevue_type_script_lang_js_ = ({
   props: {
     selectedDay: String, // formated date yyyy-MM-dd
@@ -38190,6 +38346,13 @@ var WEEK_DAYS = Object(date_util_["getI18nSettings"])().dayNames;
   },
 
   inject: ['elCalendar'],
+
+  data: function data() {
+    return {
+      WEEK_DAYS: Object(date_util_["getI18nSettings"])().dayNames
+    };
+  },
+
 
   methods: {
     toNestedArr: function toNestedArr(days) {
@@ -38325,6 +38488,9 @@ var WEEK_DAYS = Object(date_util_["getI18nSettings"])().dayNames;
     },
     weekDays: function weekDays() {
       var start = this.firstDayOfWeek;
+      var WEEK_DAYS = this.WEEK_DAYS;
+
+
       if (typeof start !== 'number' || start === 0) {
         return WEEK_DAYS.slice();
       } else {
@@ -38594,7 +38760,8 @@ var oneDay = 86400000;
     date: function date() {
       if (!this.value) {
         if (this.realSelectedDay) {
-          return new Date(this.selectedDay);
+          var d = this.selectedDay.split('-');
+          return new Date(d[0], d[1] - 1, d[2]);
         } else if (this.validatedRange.length) {
           return this.validatedRange[0][0];
         }
@@ -39417,20 +39584,19 @@ var stopPropagation = function stopPropagation(e) {
     var disabled = !checkStrictly && isDisabled;
     var events = { on: {} };
 
-    if (!isLeaf) {
-      if (expandTrigger === 'click') {
-        events.on.click = this.handleExpand;
-      } else {
-        events.on.mouseenter = function (e) {
-          _this3.handleExpand();
-          _this3.$emit('expand', e);
-        };
-        events.on.focus = function (e) {
-          _this3.handleExpand();
-          _this3.$emit('expand', e);
-        };
-      }
-    } else if (!isDisabled && !checkStrictly && !multiple) {
+    if (expandTrigger === 'click') {
+      events.on.click = this.handleExpand;
+    } else {
+      events.on.mouseenter = function (e) {
+        _this3.handleExpand();
+        _this3.$emit('expand', e);
+      };
+      events.on.focus = function (e) {
+        _this3.handleExpand();
+        _this3.$emit('expand', e);
+      };
+    }
+    if (isLeaf && !isDisabled && !checkStrictly && !multiple) {
       events.on.click = this.handleCheckChange;
     }
 
@@ -40999,7 +41165,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.11.1',
+  version: '2.12.0',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,

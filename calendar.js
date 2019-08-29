@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 65);
+/******/ 	return __webpack_require__(__webpack_require__.s = 66);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -210,7 +210,7 @@ module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ }),
 
-/***/ 65:
+/***/ 66:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -354,7 +354,6 @@ var date_util_ = __webpack_require__(1);
 
 
 
-var WEEK_DAYS = Object(date_util_["getI18nSettings"])().dayNames;
 /* harmony default export */ var date_tablevue_type_script_lang_js_ = ({
   props: {
     selectedDay: String, // formated date yyyy-MM-dd
@@ -374,6 +373,13 @@ var WEEK_DAYS = Object(date_util_["getI18nSettings"])().dayNames;
   },
 
   inject: ['elCalendar'],
+
+  data: function data() {
+    return {
+      WEEK_DAYS: Object(date_util_["getI18nSettings"])().dayNames
+    };
+  },
+
 
   methods: {
     toNestedArr: function toNestedArr(days) {
@@ -509,6 +515,9 @@ var WEEK_DAYS = Object(date_util_["getI18nSettings"])().dayNames;
     },
     weekDays: function weekDays() {
       var start = this.firstDayOfWeek;
+      var WEEK_DAYS = this.WEEK_DAYS;
+
+
       if (typeof start !== 'number' || start === 0) {
         return WEEK_DAYS.slice();
       } else {
@@ -781,7 +790,8 @@ var oneDay = 86400000;
     date: function date() {
       if (!this.value) {
         if (this.realSelectedDay) {
-          return new Date(this.selectedDay);
+          var d = this.selectedDay.split('-');
+          return new Date(d[0], d[1] - 1, d[2]);
         } else if (this.validatedRange.length) {
           return this.validatedRange[0][0];
         }

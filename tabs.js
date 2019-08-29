@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 61);
+/******/ 	return __webpack_require__(__webpack_require__.s = 59);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -203,7 +203,7 @@ module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
-/***/ 61:
+/***/ 59:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -272,16 +272,17 @@ var util_ = __webpack_require__(3);
             return true;
           } else {
             tabSize = $el['client' + firstUpperCase(sizeName)];
+            var tabStyles = window.getComputedStyle($el);
             if (sizeName === 'width' && _this.tabs.length > 1) {
-              tabSize -= index === 0 || index === _this.tabs.length - 1 ? 20 : 40;
+              tabSize -= parseFloat(tabStyles.paddingLeft) + parseFloat(tabStyles.paddingRight);
+            }
+            if (sizeName === 'width') {
+              offset += parseFloat(tabStyles.paddingLeft);
             }
             return false;
           }
         });
 
-        if (sizeName === 'width' && offset !== 0) {
-          offset += 20;
-        }
         var transform = 'translate' + firstUpperCase(sizeDir) + '(' + offset + 'px)';
         style[sizeName] = tabSize + 'px';
         style.transform = transform;
@@ -411,19 +412,28 @@ var tab_navvue_type_script_lang_js_firstUpperCase = function firstUpperCase(str)
       var activeTab = this.$el.querySelector('.is-active');
       if (!activeTab) return;
       var navScroll = this.$refs.navScroll;
+      var isHorizontal = ['top', 'bottom'].indexOf(this.rootTabs.tabPosition) !== -1;
       var activeTabBounding = activeTab.getBoundingClientRect();
       var navScrollBounding = navScroll.getBoundingClientRect();
-      var maxOffset = nav.offsetWidth - navScrollBounding.width;
+      var maxOffset = isHorizontal ? nav.offsetWidth - navScrollBounding.width : nav.offsetHeight - navScrollBounding.height;
       var currentOffset = this.navOffset;
       var newOffset = currentOffset;
 
-      if (activeTabBounding.left < navScrollBounding.left) {
-        newOffset = currentOffset - (navScrollBounding.left - activeTabBounding.left);
+      if (isHorizontal) {
+        if (activeTabBounding.left < navScrollBounding.left) {
+          newOffset = currentOffset - (navScrollBounding.left - activeTabBounding.left);
+        }
+        if (activeTabBounding.right > navScrollBounding.right) {
+          newOffset = currentOffset + activeTabBounding.right - navScrollBounding.right;
+        }
+      } else {
+        if (activeTabBounding.top < navScrollBounding.top) {
+          newOffset = currentOffset - (navScrollBounding.top - activeTabBounding.top);
+        }
+        if (activeTabBounding.bottom > navScrollBounding.bottom) {
+          newOffset = currentOffset + (activeTabBounding.bottom - navScrollBounding.bottom);
+        }
       }
-      if (activeTabBounding.right > navScrollBounding.right) {
-        newOffset = currentOffset + activeTabBounding.right - navScrollBounding.right;
-      }
-
       newOffset = Math.max(newOffset, 0);
       this.navOffset = Math.min(newOffset, maxOffset);
     },
