@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 121);
+/******/ 	return __webpack_require__(__webpack_require__.s = 80);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,27 +189,97 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 121:
+/***/ 13:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/button");
+
+/***/ }),
+
+/***/ 19:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/locale");
+
+/***/ }),
+
+/***/ 52:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/popover");
+
+/***/ }),
+
+/***/ 80:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/form/src/form.vue?vue&type=template&id=a1b5ff34&
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/popconfirm/src/main.vue?vue&type=template&id=048de730&
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "form",
-    {
-      staticClass: "el-form",
-      class: [
-        _vm.labelPosition ? "el-form--label-" + _vm.labelPosition : "",
-        { "el-form--inline": _vm.inline }
-      ]
-    },
-    [_vm._t("default")],
+    "el-popover",
+    _vm._b(
+      {
+        attrs: { trigger: "click" },
+        model: {
+          value: _vm.visible,
+          callback: function($$v) {
+            _vm.visible = $$v
+          },
+          expression: "visible"
+        }
+      },
+      "el-popover",
+      _vm.$attrs,
+      false
+    ),
+    [
+      _c("div", { staticClass: "el-popconfirm" }, [
+        _c("p", { staticClass: "el-popconfirm__main" }, [
+          !_vm.hideIcon
+            ? _c("i", {
+                staticClass: "el-popconfirm__icon",
+                class: _vm.icon,
+                style: { color: _vm.iconColor }
+              })
+            : _vm._e(),
+          _vm._v("\n      " + _vm._s(_vm.title) + "\n    ")
+        ]),
+        _c(
+          "div",
+          { staticClass: "el-popconfirm__action" },
+          [
+            _c(
+              "el-button",
+              {
+                attrs: { size: "mini", type: _vm.cancelButtonType },
+                on: { click: _vm.cancel }
+              },
+              [_vm._v("\n        " + _vm._s(_vm.cancelButtonText) + "\n      ")]
+            ),
+            _c(
+              "el-button",
+              {
+                attrs: { size: "mini", type: _vm.confirmButtonType },
+                on: { click: _vm.confirm }
+              },
+              [
+                _vm._v(
+                  "\n        " + _vm._s(_vm.confirmButtonText) + "\n      "
+                )
+              ]
+            )
+          ],
+          1
+        )
+      ]),
+      _vm._t("reference", null, { slot: "reference" })
+    ],
     2
   )
 }
@@ -217,13 +287,20 @@ var staticRenderFns = []
 render._withStripped = true
 
 
-// CONCATENATED MODULE: ./packages/form/src/form.vue?vue&type=template&id=a1b5ff34&
+// CONCATENATED MODULE: ./packages/popconfirm/src/main.vue?vue&type=template&id=048de730&
 
-// EXTERNAL MODULE: external "element-ui/lib/utils/merge"
-var merge_ = __webpack_require__(9);
-var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
+// EXTERNAL MODULE: external "element-ui/lib/popover"
+var popover_ = __webpack_require__(52);
+var popover_default = /*#__PURE__*/__webpack_require__.n(popover_);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/form/src/form.vue?vue&type=script&lang=js&
+// EXTERNAL MODULE: external "element-ui/lib/button"
+var button_ = __webpack_require__(13);
+var button_default = /*#__PURE__*/__webpack_require__.n(button_);
+
+// EXTERNAL MODULE: external "element-ui/lib/locale"
+var locale_ = __webpack_require__(19);
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/popconfirm/src/main.vue?vue&type=script&lang=js&
 //
 //
 //
@@ -232,195 +309,102 @@ var merge_default = /*#__PURE__*/__webpack_require__.n(merge_);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
-/* harmony default export */ var formvue_type_script_lang_js_ = ({
-  name: 'ElForm',
-
-  componentName: 'ElForm',
-
-  provide: function provide() {
-    return {
-      elForm: this
-    };
-  },
 
 
+/* harmony default export */ var mainvue_type_script_lang_js_ = ({
+  name: 'ElPopconfirm',
   props: {
-    model: Object,
-    rules: Object,
-    labelPosition: String,
-    labelWidth: String,
-    labelSuffix: {
+    title: {
+      type: String
+    },
+    confirmButtonText: {
       type: String,
-      default: ''
+      default: Object(locale_["t"])('el.popconfirm.confirmButtonText')
     },
-    inline: Boolean,
-    inlineMessage: Boolean,
-    statusIcon: Boolean,
-    showMessage: {
-      type: Boolean,
-      default: true
+    cancelButtonText: {
+      type: String,
+      default: Object(locale_["t"])('el.popconfirm.cancelButtonText')
     },
-    size: String,
-    disabled: Boolean,
-    validateOnRuleChange: {
-      type: Boolean,
-      default: true
+    confirmButtonType: {
+      type: String,
+      default: 'primary'
     },
-    hideRequiredAsterisk: {
+    cancelButtonType: {
+      type: String,
+      default: 'text'
+    },
+    icon: {
+      type: String,
+      default: 'el-icon-question'
+    },
+    iconColor: {
+      type: String,
+      default: '#f90'
+    },
+    hideIcon: {
       type: Boolean,
       default: false
     }
   },
-  watch: {
-    rules: function rules() {
-      // remove then add event listeners on form-item after form rules change
-      this.fields.forEach(function (field) {
-        field.removeValidateEvents();
-        field.addValidateEvents();
-      });
-
-      if (this.validateOnRuleChange) {
-        this.validate(function () {});
-      }
-    }
-  },
-  computed: {
-    autoLabelWidth: function autoLabelWidth() {
-      if (!this.potentialLabelWidthArr.length) return 0;
-      var max = Math.max.apply(Math, this.potentialLabelWidthArr);
-      return max ? max + 'px' : '';
-    }
+  components: {
+    ElPopover: popover_default.a,
+    ElButton: button_default.a
   },
   data: function data() {
     return {
-      fields: [],
-      potentialLabelWidthArr: [] // use this array to calculate auto width
+      visible: false
     };
-  },
-  created: function created() {
-    var _this = this;
-
-    this.$on('el.form.addField', function (field) {
-      if (field) {
-        _this.fields.push(field);
-      }
-    });
-    /* istanbul ignore next */
-    this.$on('el.form.removeField', function (field) {
-      if (field.prop) {
-        _this.fields.splice(_this.fields.indexOf(field), 1);
-      }
-    });
   },
 
   methods: {
-    resetFields: function resetFields() {
-      if (!this.model) {
-        console.warn('[Element Warn][Form]model is required for resetFields to work.');
-        return;
-      }
-      this.fields.forEach(function (field) {
-        field.resetField();
-      });
+    confirm: function confirm() {
+      this.visible = false;
+      this.$emit('onConfirm');
     },
-    clearValidate: function clearValidate() {
-      var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-      var fields = props.length ? typeof props === 'string' ? this.fields.filter(function (field) {
-        return props === field.prop;
-      }) : this.fields.filter(function (field) {
-        return props.indexOf(field.prop) > -1;
-      }) : this.fields;
-      fields.forEach(function (field) {
-        field.clearValidate();
-      });
-    },
-    validate: function validate(callback) {
-      var _this2 = this;
-
-      if (!this.model) {
-        console.warn('[Element Warn][Form]model is required for validate to work!');
-        return;
-      }
-
-      var promise = void 0;
-      // if no callback, return promise
-      if (typeof callback !== 'function' && window.Promise) {
-        promise = new window.Promise(function (resolve, reject) {
-          callback = function callback(valid) {
-            valid ? resolve(valid) : reject(valid);
-          };
-        });
-      }
-
-      var valid = true;
-      var count = 0;
-      // 如果需要验证的fields为空，调用验证时立刻返回callback
-      if (this.fields.length === 0 && callback) {
-        callback(true);
-      }
-      var invalidFields = {};
-      this.fields.forEach(function (field) {
-        field.validate('', function (message, field) {
-          if (message) {
-            valid = false;
-          }
-          invalidFields = merge_default()({}, invalidFields, field);
-          if (typeof callback === 'function' && ++count === _this2.fields.length) {
-            callback(valid, invalidFields);
-          }
-        });
-      });
-
-      if (promise) {
-        return promise;
-      }
-    },
-    validateField: function validateField(props, cb) {
-      props = [].concat(props);
-      var fields = this.fields.filter(function (field) {
-        return props.indexOf(field.prop) !== -1;
-      });
-      if (!fields.length) {
-        console.warn('[Element Warn]please pass correct props!');
-        return;
-      }
-
-      fields.forEach(function (field) {
-        field.validate('', cb);
-      });
-    },
-    getLabelWidthIndex: function getLabelWidthIndex(width) {
-      var index = this.potentialLabelWidthArr.indexOf(width);
-      // it's impossible
-      if (index === -1) {
-        throw new Error('[ElementForm]unpected width ', width);
-      }
-      return index;
-    },
-    registerLabelWidth: function registerLabelWidth(val, oldVal) {
-      if (val && oldVal) {
-        var index = this.getLabelWidthIndex(oldVal);
-        this.potentialLabelWidthArr.splice(index, 1, val);
-      } else if (val) {
-        this.potentialLabelWidthArr.push(val);
-      }
-    },
-    deregisterLabelWidth: function deregisterLabelWidth(val) {
-      var index = this.getLabelWidthIndex(val);
-      this.potentialLabelWidthArr.splice(index, 1);
+    cancel: function cancel() {
+      this.visible = false;
+      this.$emit('onCancel');
     }
   }
 });
-// CONCATENATED MODULE: ./packages/form/src/form.vue?vue&type=script&lang=js&
- /* harmony default export */ var src_formvue_type_script_lang_js_ = (formvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./packages/popconfirm/src/main.vue?vue&type=script&lang=js&
+ /* harmony default export */ var src_mainvue_type_script_lang_js_ = (mainvue_type_script_lang_js_); 
 // EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 var componentNormalizer = __webpack_require__(0);
 
-// CONCATENATED MODULE: ./packages/form/src/form.vue
+// CONCATENATED MODULE: ./packages/popconfirm/src/main.vue
 
 
 
@@ -429,7 +413,7 @@ var componentNormalizer = __webpack_require__(0);
 /* normalize component */
 
 var component = Object(componentNormalizer["a" /* default */])(
-  src_formvue_type_script_lang_js_,
+  src_mainvue_type_script_lang_js_,
   render,
   staticRenderFns,
   false,
@@ -441,24 +425,17 @@ var component = Object(componentNormalizer["a" /* default */])(
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "packages/form/src/form.vue"
-/* harmony default export */ var src_form = (component.exports);
-// CONCATENATED MODULE: ./packages/form/index.js
+component.options.__file = "packages/popconfirm/src/main.vue"
+/* harmony default export */ var main = (component.exports);
+// CONCATENATED MODULE: ./packages/popconfirm/index.js
 
 
 /* istanbul ignore next */
-src_form.install = function (Vue) {
-  Vue.component(src_form.name, src_form);
+main.install = function (Vue) {
+  Vue.component(main.name, main);
 };
 
-/* harmony default export */ var packages_form = __webpack_exports__["default"] = (src_form);
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/merge");
+/* harmony default export */ var popconfirm = __webpack_exports__["default"] = (main);
 
 /***/ })
 

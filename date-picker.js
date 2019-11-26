@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 54);
+/******/ 	return __webpack_require__(__webpack_require__.s = 55);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -236,13 +236,13 @@ module.exports = require("vue");
 module.exports = require("element-ui/lib/utils/merge");
 
 /***/ }),
-/* 10 */,
-/* 11 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/input");
 
 /***/ }),
+/* 11 */,
 /* 12 */
 /***/ (function(module, exports) {
 
@@ -252,19 +252,19 @@ module.exports = require("element-ui/lib/utils/clickoutside");
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/scrollbar");
-
-/***/ }),
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */
-/***/ (function(module, exports) {
-
 module.exports = require("element-ui/lib/button");
 
 /***/ }),
+/* 14 */
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/scrollbar");
+
+/***/ }),
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
 /* 19 */,
 /* 20 */,
 /* 21 */,
@@ -376,7 +376,7 @@ var locale_ = __webpack_require__(6);
 var locale_default = /*#__PURE__*/__webpack_require__.n(locale_);
 
 // EXTERNAL MODULE: ./packages/date-picker/src/basic/time-spinner.vue + 4 modules
-var time_spinner = __webpack_require__(34);
+var time_spinner = __webpack_require__(35);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/date-picker/src/panel/time.vue?vue&type=script&lang=js&
 //
@@ -637,7 +637,8 @@ component.options.__file = "packages/date-picker/src/panel/time.vue"
 
 /***/ }),
 /* 31 */,
-/* 32 */
+/* 32 */,
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -840,7 +841,7 @@ var emitter_ = __webpack_require__(4);
 var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
 
 // EXTERNAL MODULE: external "element-ui/lib/input"
-var input_ = __webpack_require__(11);
+var input_ = __webpack_require__(10);
 var input_default = /*#__PURE__*/__webpack_require__.n(input_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/merge"
@@ -1770,8 +1771,8 @@ component.options.__file = "packages/date-picker/src/picker.vue"
 /* harmony default export */ var picker = __webpack_exports__["a"] = (component.exports);
 
 /***/ }),
-/* 33 */,
-/* 34 */
+/* 34 */,
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2137,7 +2138,7 @@ render._withStripped = true
 var date_util_ = __webpack_require__(1);
 
 // EXTERNAL MODULE: external "element-ui/lib/scrollbar"
-var scrollbar_ = __webpack_require__(13);
+var scrollbar_ = __webpack_require__(14);
 var scrollbar_default = /*#__PURE__*/__webpack_require__.n(scrollbar_);
 
 // EXTERNAL MODULE: ./src/directives/repeat-click.js
@@ -2393,6 +2394,8 @@ var repeat_click = __webpack_require__(30);
       }
     },
     scrollDown: function scrollDown(step) {
+      var _this3 = this;
+
       if (!this.currentScrollbar) {
         this.emitSelectRange('hours');
       }
@@ -2419,6 +2422,9 @@ var repeat_click = __webpack_require__(30);
 
       this.modifyDateField(label, now);
       this.adjustSpinner(label, now);
+      this.$nextTick(function () {
+        return _this3.emitSelectRange(_this3.currentScrollbar);
+      });
     },
     amPm: function amPm(hour) {
       var shouldShowAmPm = this.amPmMode.toLowerCase() === 'a';
@@ -2466,7 +2472,6 @@ component.options.__file = "packages/date-picker/src/basic/time-spinner.vue"
 /* harmony default export */ var time_spinner = __webpack_exports__["a"] = (component.exports);
 
 /***/ }),
-/* 35 */,
 /* 36 */,
 /* 37 */,
 /* 38 */,
@@ -2485,14 +2490,15 @@ component.options.__file = "packages/date-picker/src/basic/time-spinner.vue"
 /* 51 */,
 /* 52 */,
 /* 53 */,
-/* 54 */
+/* 54 */,
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./packages/date-picker/src/picker.vue + 4 modules
-var picker = __webpack_require__(32);
+var picker = __webpack_require__(33);
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/date-picker/src/panel/date.vue?vue&type=template&id=2440d4ea&
 var render = function() {
@@ -2878,11 +2884,11 @@ var locale_ = __webpack_require__(6);
 var locale_default = /*#__PURE__*/__webpack_require__.n(locale_);
 
 // EXTERNAL MODULE: external "element-ui/lib/input"
-var input_ = __webpack_require__(11);
+var input_ = __webpack_require__(10);
 var input_default = /*#__PURE__*/__webpack_require__.n(input_);
 
 // EXTERNAL MODULE: external "element-ui/lib/button"
-var button_ = __webpack_require__(18);
+var button_ = __webpack_require__(13);
 var button_default = /*#__PURE__*/__webpack_require__.n(button_);
 
 // EXTERNAL MODULE: ./packages/date-picker/src/panel/time.vue + 4 modules
@@ -5706,6 +5712,7 @@ var date_rangevue_type_script_lang_js_calcDefaultValue = function calcDefaultVal
       // NOTE: this is a hack to reset {min, max}Date on picker open.
       // TODO: correct way of doing so is to refactor {min, max}Date to be dependent on value and internal selection state
       //       an alternative would be resetView whenever picker becomes visible, should also investigate date-panel's resetView
+      if (this.minDate && this.maxDate == null) this.rangeState.selecting = false;
       this.minDate = this.value && Object(date_util_["isDate"])(this.value[0]) ? new Date(this.value[0]) : null;
       this.maxDate = this.value && Object(date_util_["isDate"])(this.value[0]) ? new Date(this.value[1]) : null;
     }

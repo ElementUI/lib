@@ -19,11 +19,11 @@ exports.default = {
       startTime: 'Starttid',
       endDate: 'Slutdatum',
       endTime: 'Sluttid',
-      prevYear: 'Previous Year', // to be translated
-      nextYear: 'Next Year', // to be translated
-      prevMonth: 'Previous Month', // to be translated
-      nextMonth: 'Next Month', // to be translated
-      year: 'År',
+      prevYear: 'Föregående år',
+      nextYear: 'Nästa år',
+      prevMonth: 'Föregående månad',
+      nextMonth: 'Nästa månad',
+      year: '',
       month1: 'Januari',
       month2: 'Februari',
       month3: 'Mars',
@@ -76,7 +76,7 @@ exports.default = {
     pagination: {
       goto: 'Gå till',
       pagesize: '/sida',
-      total: 'Total {total}',
+      total: 'Totalt {total}',
       pageClassifier: ''
     },
     messagebox: {
@@ -96,10 +96,10 @@ exports.default = {
       confirmFilter: 'Bekräfta',
       resetFilter: 'Återställ',
       clearFilter: 'Alla',
-      sumText: 'Sum' // to be translated
+      sumText: 'Summa'
     },
     tree: {
-      emptyText: 'Inga Data'
+      emptyText: 'Ingen data'
     },
     transfer: {
       noMatch: 'Hittade inget',
@@ -113,7 +113,11 @@ exports.default = {
       error: 'FAILED' // to be translated
     },
     pageHeader: {
-      title: 'Back' // to be translated
+      title: 'Bakåt' // to be translated
+    },
+    popconfirm: {
+      confirmButtonText: 'Ja',
+      cancelButtonText: 'Nej'
     }
   }
 };

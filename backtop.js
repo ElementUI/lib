@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 94);
+/******/ 	return __webpack_require__(__webpack_require__.s = 108);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,14 +189,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 25:
-/***/ (function(module, exports) {
-
-module.exports = require("throttle-debounce/throttle");
-
-/***/ }),
-
-/***/ 94:
+/***/ 108:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -262,6 +255,13 @@ var throttle_default = /*#__PURE__*/__webpack_require__.n(throttle_);
 //
 
 
+
+var cubic = function cubic(value) {
+  return Math.pow(value, 3);
+};
+var easeInOutCubic = function easeInOutCubic(value) {
+  return value < 0.5 ? cubic(value * 2) / 2 : 1 - cubic((1 - value) * 2) / 2;
+};
 
 /* harmony default export */ var mainvue_type_script_lang_js_ = ({
   name: 'ElBacktop',
@@ -329,15 +329,21 @@ var throttle_default = /*#__PURE__*/__webpack_require__.n(throttle_);
     },
     scrollToTop: function scrollToTop() {
       var el = this.el;
-      var step = 0;
-      var interval = setInterval(function () {
-        if (el.scrollTop <= 0) {
-          clearInterval(interval);
-          return;
+      var beginTime = Date.now();
+      var beginValue = el.scrollTop;
+      var rAF = window.requestAnimationFrame || function (func) {
+        return setTimeout(func, 16);
+      };
+      var frameFunc = function frameFunc() {
+        var progress = (Date.now() - beginTime) / 500;
+        if (progress < 1) {
+          el.scrollTop = beginValue * (1 - easeInOutCubic(progress));
+          rAF(frameFunc);
+        } else {
+          el.scrollTop = 0;
         }
-        step += 10;
-        el.scrollTop -= step;
-      }, 20);
+      };
+      rAF(frameFunc);
     }
   },
 
@@ -382,6 +388,13 @@ main.install = function (Vue) {
 };
 
 /* harmony default export */ var backtop = __webpack_exports__["default"] = (main);
+
+/***/ }),
+
+/***/ 25:
+/***/ (function(module, exports) {
+
+module.exports = require("throttle-debounce/throttle");
 
 /***/ })
 

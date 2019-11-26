@@ -189,17 +189,17 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 19:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/types");
-
-/***/ }),
-
 /***/ 2:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/dom");
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/types");
 
 /***/ }),
 
@@ -270,14 +270,25 @@ var render = function() {
               _vm.$listeners
             )
           ),
-      _vm.preview && _vm.showViewer
-        ? _c("image-viewer", {
-            attrs: {
-              "z-index": _vm.zIndex,
-              "on-close": _vm.closeViewer,
-              "url-list": _vm.previewSrcList
-            }
-          })
+      _vm.preview
+        ? [
+            _c("image-viewer", {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.showViewer,
+                  expression: "showViewer"
+                }
+              ],
+              attrs: {
+                "z-index": _vm.zIndex,
+                "initial-index": _vm.imageIndex,
+                "on-close": _vm.closeViewer,
+                "url-list": _vm.previewSrcList
+              }
+            })
+          ]
         : _vm._e()
     ],
     2
@@ -298,8 +309,10 @@ var image_viewervue_type_template_id_5e73b307_render = function() {
     _c(
       "div",
       {
+        ref: "el-image-viewer__wrapper",
         staticClass: "el-image-viewer__wrapper",
-        style: { "z-index": _vm.zIndex }
+        style: { "z-index": _vm.zIndex },
+        attrs: { tabindex: "-1" }
       },
       [
         _c("div", { staticClass: "el-image-viewer__mask" }),
@@ -509,12 +522,16 @@ var mousewheelEventName = Object(util_["isFirefox"])() ? 'DOMMouseScroll' : 'mou
     onClose: {
       type: Function,
       default: function _default() {}
+    },
+    initialIndex: {
+      type: Number,
+      default: 0
     }
   },
 
   data: function data() {
     return {
-      index: 0,
+      index: this.initialIndex,
       isShow: false,
       infinite: true,
       loading: false,
@@ -735,6 +752,9 @@ var mousewheelEventName = Object(util_["isFirefox"])() ? 'DOMMouseScroll' : 'mou
   },
   mounted: function mounted() {
     this.deviceSupportInstall();
+    // add tabindex then wrapper can be focusable via Javascript
+    // focus wrapper so arrow key can't cause inner scroll behavior underneath
+    this.$refs['el-image-viewer__wrapper'].focus();
   }
 });
 // CONCATENATED MODULE: ./packages/image/src/image-viewer.vue?vue&type=script&lang=js&
@@ -770,13 +790,15 @@ var locale_ = __webpack_require__(6);
 var locale_default = /*#__PURE__*/__webpack_require__.n(locale_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/types"
-var types_ = __webpack_require__(19);
+var types_ = __webpack_require__(20);
 
 // EXTERNAL MODULE: external "throttle-debounce/throttle"
 var throttle_ = __webpack_require__(25);
 var throttle_default = /*#__PURE__*/__webpack_require__.n(throttle_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/image/src/main.vue?vue&type=script&lang=js&
+//
+//
 //
 //
 //
@@ -816,6 +838,8 @@ var ObjectFit = {
   FILL: 'fill',
   SCALE_DOWN: 'scale-down'
 };
+
+var prevOverflow = '';
 
 /* harmony default export */ var mainvue_type_script_lang_js_ = ({
   name: 'ElImage',
@@ -872,6 +896,9 @@ var ObjectFit = {
       var previewSrcList = this.previewSrcList;
 
       return Array.isArray(previewSrcList) && previewSrcList.length > 0;
+    },
+    imageIndex: function imageIndex() {
+      return this.previewSrcList.indexOf(this.src);
     }
   },
 
@@ -1002,9 +1029,13 @@ var ObjectFit = {
       }
     },
     clickHandler: function clickHandler() {
+      // prevent body scroll
+      prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
       this.showViewer = true;
     },
     closeViewer: function closeViewer() {
+      document.body.style.overflow = prevOverflow;
       this.showViewer = false;
     }
   }

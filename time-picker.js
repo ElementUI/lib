@@ -196,7 +196,7 @@ module.exports = require("element-ui/lib/utils/date-util");
 
 /***/ }),
 
-/***/ 11:
+/***/ 10:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/input");
@@ -210,7 +210,7 @@ module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ }),
 
-/***/ 13:
+/***/ 14:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/scrollbar");
@@ -327,7 +327,7 @@ var locale_ = __webpack_require__(6);
 var locale_default = /*#__PURE__*/__webpack_require__.n(locale_);
 
 // EXTERNAL MODULE: ./packages/date-picker/src/basic/time-spinner.vue + 4 modules
-var time_spinner = __webpack_require__(34);
+var time_spinner = __webpack_require__(35);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/date-picker/src/panel/time.vue?vue&type=script&lang=js&
 //
@@ -587,7 +587,7 @@ component.options.__file = "packages/date-picker/src/panel/time.vue"
 
 /***/ }),
 
-/***/ 32:
+/***/ 33:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -790,7 +790,7 @@ var emitter_ = __webpack_require__(4);
 var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
 
 // EXTERNAL MODULE: external "element-ui/lib/input"
-var input_ = __webpack_require__(11);
+var input_ = __webpack_require__(10);
 var input_default = /*#__PURE__*/__webpack_require__.n(input_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/merge"
@@ -1721,7 +1721,7 @@ component.options.__file = "packages/date-picker/src/picker.vue"
 
 /***/ }),
 
-/***/ 34:
+/***/ 35:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2087,7 +2087,7 @@ render._withStripped = true
 var date_util_ = __webpack_require__(1);
 
 // EXTERNAL MODULE: external "element-ui/lib/scrollbar"
-var scrollbar_ = __webpack_require__(13);
+var scrollbar_ = __webpack_require__(14);
 var scrollbar_default = /*#__PURE__*/__webpack_require__.n(scrollbar_);
 
 // EXTERNAL MODULE: ./src/directives/repeat-click.js
@@ -2343,6 +2343,8 @@ var repeat_click = __webpack_require__(30);
       }
     },
     scrollDown: function scrollDown(step) {
+      var _this3 = this;
+
       if (!this.currentScrollbar) {
         this.emitSelectRange('hours');
       }
@@ -2369,6 +2371,9 @@ var repeat_click = __webpack_require__(30);
 
       this.modifyDateField(label, now);
       this.adjustSpinner(label, now);
+      this.$nextTick(function () {
+        return _this3.emitSelectRange(_this3.currentScrollbar);
+      });
     },
     amPm: function amPm(hour) {
       var shouldShowAmPm = this.amPmMode.toLowerCase() === 'a';
@@ -2452,7 +2457,7 @@ module.exports = require("vue");
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./packages/date-picker/src/picker.vue + 4 modules
-var picker = __webpack_require__(32);
+var picker = __webpack_require__(33);
 
 // EXTERNAL MODULE: ./packages/date-picker/src/panel/time.vue + 4 modules
 var time = __webpack_require__(27);
@@ -2601,7 +2606,7 @@ var locale_ = __webpack_require__(6);
 var locale_default = /*#__PURE__*/__webpack_require__.n(locale_);
 
 // EXTERNAL MODULE: ./packages/date-picker/src/basic/time-spinner.vue + 4 modules
-var time_spinner = __webpack_require__(34);
+var time_spinner = __webpack_require__(35);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/date-picker/src/panel/time-range.vue?vue&type=script&lang=js&
 //

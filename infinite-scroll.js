@@ -82,23 +82,23 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 130);
+/******/ 	return __webpack_require__(__webpack_require__.s = 133);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 130:
+/***/ 133:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: external "throttle-debounce/debounce"
-var debounce_ = __webpack_require__(16);
+var debounce_ = __webpack_require__(17);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/types"
-var types_ = __webpack_require__(19);
+var types_ = __webpack_require__(20);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/dom"
 var dom_ = __webpack_require__(2);
@@ -203,6 +203,9 @@ var main_handleScroll = function handleScroll(cb) {
 
   if (disabled) return;
 
+  var containerInfo = container.getBoundingClientRect();
+  if (!containerInfo.width && !containerInfo.height) return;
+
   var shouldTrigger = false;
 
   if (container === el) {
@@ -273,17 +276,10 @@ main.install = function (Vue) {
 
 /***/ }),
 
-/***/ 16:
+/***/ 17:
 /***/ (function(module, exports) {
 
 module.exports = require("throttle-debounce/debounce");
-
-/***/ }),
-
-/***/ 19:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/types");
 
 /***/ }),
 
@@ -291,6 +287,13 @@ module.exports = require("element-ui/lib/utils/types");
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/dom");
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/types");
 
 /***/ })
 

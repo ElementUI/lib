@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 52);
+/******/ 	return __webpack_require__(__webpack_require__.s = 53);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -196,7 +196,7 @@ module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
-/***/ 33:
+/***/ 34:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -401,8 +401,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     this.$on('handleGroupDisabled', this.handleGroupDisabled);
   },
   beforeDestroy: function beforeDestroy() {
+    var _select2 = this.select,
+        selected = _select2.selected,
+        multiple = _select2.multiple;
+
+    var selectedOptions = multiple ? selected : [selected];
     var index = this.select.cachedOptions.indexOf(this);
-    if (index > -1) {
+    var selectedIndex = selectedOptions.indexOf(this);
+
+    // if option is not selected, remove it from cache
+    if (index > -1 && selectedIndex < 0) {
       this.select.cachedOptions.splice(index, 1);
     }
     this.select.onOptionDestroy(this.select.options.indexOf(this));
@@ -446,12 +454,12 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 52:
+/***/ 53:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _select_src_option__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(33);
+/* harmony import */ var _select_src_option__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(34);
 
 
 /* istanbul ignore next */

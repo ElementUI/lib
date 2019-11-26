@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 73);
+/******/ 	return __webpack_require__(__webpack_require__.s = 75);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,7 +189,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 14:
+/***/ 15:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/popup");
@@ -210,7 +210,7 @@ module.exports = require("vue");
 
 /***/ }),
 
-/***/ 73:
+/***/ 75:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -431,7 +431,7 @@ if (false) { var api; }
 component.options.__file = "packages/message/src/main.vue"
 /* harmony default export */ var main = (component.exports);
 // EXTERNAL MODULE: external "element-ui/lib/utils/popup"
-var popup_ = __webpack_require__(14);
+var popup_ = __webpack_require__(15);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/vdom"
 var vdom_ = __webpack_require__(23);
@@ -497,8 +497,10 @@ var main_Message = function Message(options) {
 main_Message.close = function (id, userOnClose) {
   var len = instances.length;
   var index = -1;
+  var removedHeight = void 0;
   for (var i = 0; i < len; i++) {
     if (id === instances[i].id) {
+      removedHeight = instances[i].$el.offsetHeight;
       index = i;
       if (typeof userOnClose === 'function') {
         userOnClose(instances[i]);
@@ -508,7 +510,6 @@ main_Message.close = function (id, userOnClose) {
     }
   }
   if (len <= 1 || index === -1 || index > instances.length - 1) return;
-  var removedHeight = instances[index].$el.offsetHeight;
   for (var _i = index; _i < len - 1; _i++) {
     var dom = instances[_i].$el;
     dom.style['top'] = parseInt(dom.style['top'], 10) - removedHeight - 16 + 'px';

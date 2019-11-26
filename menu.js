@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 68);
+/******/ 	return __webpack_require__(__webpack_require__.s = 69);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,7 +189,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 10:
+/***/ 11:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/migrating");
@@ -210,7 +210,7 @@ module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 
-/***/ 68:
+/***/ 69:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -221,7 +221,7 @@ var emitter_ = __webpack_require__(4);
 var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/migrating"
-var migrating_ = __webpack_require__(10);
+var migrating_ = __webpack_require__(11);
 var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
 
 // CONCATENATED MODULE: ./src/utils/aria-utils.js
@@ -762,7 +762,12 @@ var dom_ = __webpack_require__(2);
       if (this.router && hasIndex) {
         this.routeToItem(item, function (error) {
           _this.activeIndex = oldActiveIndex;
-          if (error) console.error(error);
+          if (error) {
+            // vue-router 3.1.0+ push/replace cause NavigationDuplicated error 
+            // https://github.com/ElemeFE/element/issues/17044
+            if (error.name === 'NavigationDuplicated') return;
+            console.error(error);
+          }
         });
       }
     },

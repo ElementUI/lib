@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 60);
+/******/ 	return __webpack_require__(__webpack_require__.s = 61);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -216,47 +216,47 @@ module.exports = require("element-ui/lib/mixins/locale");
 /* 7 */,
 /* 8 */,
 /* 9 */,
-/* 10 */,
-/* 11 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/input");
 
 /***/ }),
+/* 11 */,
 /* 12 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ }),
-/* 13 */
+/* 13 */,
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/scrollbar");
 
 /***/ }),
-/* 14 */,
-/* 15 */
+/* 15 */,
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = require("throttle-debounce/debounce");
 
 /***/ }),
-/* 17 */,
 /* 18 */,
-/* 19 */,
-/* 20 */
+/* 19 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/locale");
 
 /***/ }),
+/* 20 */,
 /* 21 */
 /***/ (function(module, exports) {
 
@@ -284,7 +284,8 @@ module.exports = require("element-ui/lib/utils/scroll-into-view");
 
 /***/ }),
 /* 32 */,
-/* 33 */
+/* 33 */,
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -489,8 +490,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     this.$on('handleGroupDisabled', this.handleGroupDisabled);
   },
   beforeDestroy: function beforeDestroy() {
+    var _select2 = this.select,
+        selected = _select2.selected,
+        multiple = _select2.multiple;
+
+    var selectedOptions = multiple ? selected : [selected];
     var index = this.select.cachedOptions.indexOf(this);
-    if (index > -1) {
+    var selectedIndex = selectedOptions.indexOf(this);
+
+    // if option is not selected, remove it from cache
+    if (index > -1 && selectedIndex < 0) {
       this.select.cachedOptions.splice(index, 1);
     }
     this.select.onOptionDestroy(this.select.options.indexOf(this));
@@ -526,16 +535,15 @@ component.options.__file = "packages/select/src/option.vue"
 /* harmony default export */ var src_option = __webpack_exports__["a"] = (component.exports);
 
 /***/ }),
-/* 34 */,
 /* 35 */,
-/* 36 */
+/* 36 */,
+/* 37 */,
+/* 38 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/tag");
 
 /***/ }),
-/* 37 */,
-/* 38 */,
 /* 39 */,
 /* 40 */,
 /* 41 */,
@@ -557,7 +565,8 @@ module.exports = require("element-ui/lib/tag");
 /* 57 */,
 /* 58 */,
 /* 59 */,
-/* 60 */
+/* 60 */,
+/* 61 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1050,7 +1059,7 @@ var locale_ = __webpack_require__(6);
 var locale_default = /*#__PURE__*/__webpack_require__.n(locale_);
 
 // EXTERNAL MODULE: external "element-ui/lib/input"
-var input_ = __webpack_require__(11);
+var input_ = __webpack_require__(10);
 var input_default = /*#__PURE__*/__webpack_require__.n(input_);
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/select/src/select-dropdown.vue?vue&type=template&id=06828748&
@@ -1185,18 +1194,18 @@ if (false) { var api; }
 component.options.__file = "packages/select/src/select-dropdown.vue"
 /* harmony default export */ var select_dropdown = (component.exports);
 // EXTERNAL MODULE: ./packages/select/src/option.vue + 4 modules
-var src_option = __webpack_require__(33);
+var src_option = __webpack_require__(34);
 
 // EXTERNAL MODULE: external "element-ui/lib/tag"
-var tag_ = __webpack_require__(36);
+var tag_ = __webpack_require__(38);
 var tag_default = /*#__PURE__*/__webpack_require__.n(tag_);
 
 // EXTERNAL MODULE: external "element-ui/lib/scrollbar"
-var scrollbar_ = __webpack_require__(13);
+var scrollbar_ = __webpack_require__(14);
 var scrollbar_default = /*#__PURE__*/__webpack_require__.n(scrollbar_);
 
 // EXTERNAL MODULE: external "throttle-debounce/debounce"
-var debounce_ = __webpack_require__(16);
+var debounce_ = __webpack_require__(17);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/clickoutside"
@@ -1204,10 +1213,10 @@ var clickoutside_ = __webpack_require__(12);
 var clickoutside_default = /*#__PURE__*/__webpack_require__.n(clickoutside_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/resize-event"
-var resize_event_ = __webpack_require__(15);
+var resize_event_ = __webpack_require__(16);
 
 // EXTERNAL MODULE: external "element-ui/lib/locale"
-var lib_locale_ = __webpack_require__(20);
+var lib_locale_ = __webpack_require__(19);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/scroll-into-view"
 var scroll_into_view_ = __webpack_require__(31);

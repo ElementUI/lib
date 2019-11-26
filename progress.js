@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 88);
+/******/ 	return __webpack_require__(__webpack_require__.s = 119);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,7 +189,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 88:
+/***/ 119:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -273,7 +273,7 @@ var render = function() {
                     d: _vm.trackPath,
                     stroke: _vm.stroke,
                     fill: "none",
-                    "stroke-linecap": "round",
+                    "stroke-linecap": _vm.strokeLinecap,
                     "stroke-width": _vm.percentage ? _vm.relativeStrokeWidth : 0
                   }
                 })
@@ -385,6 +385,10 @@ render._withStripped = true
     strokeWidth: {
       type: Number,
       default: 6
+    },
+    strokeLinecap: {
+      type: String,
+      default: 'round'
     },
     textInside: {
       type: Boolean,

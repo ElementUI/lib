@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 44);
+/******/ 	return __webpack_require__(__webpack_require__.s = 45);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -137,13 +137,13 @@ module.exports = require("element-ui/lib/utils/merge");
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/mixins/migrating");
+module.exports = require("element-ui/lib/input");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/input");
+module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }),
 /* 10 */
@@ -155,43 +155,43 @@ module.exports = require("element-ui/lib/utils/clickoutside");
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/resize-event");
+module.exports = require("element-ui/lib/locale");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/popup");
+module.exports = require("element-ui/lib/button");
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("throttle-debounce/debounce");
+module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/checkbox");
+module.exports = require("element-ui/lib/utils/popup");
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/locale");
+module.exports = require("throttle-debounce/debounce");
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/scrollbar");
+module.exports = require("element-ui/lib/checkbox");
 
 /***/ }),
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/button");
+module.exports = require("element-ui/lib/scrollbar");
 
 /***/ }),
 /* 18 */
@@ -257,61 +257,61 @@ module.exports = require("element-ui/lib/utils/scroll-into-view");
 /* 28 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/tag");
+module.exports = require("element-ui/lib/utils/aria-utils");
 
 /***/ }),
 /* 29 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/scrollbar-width");
+module.exports = require("element-ui/lib/button-group");
 
 /***/ }),
 /* 30 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/checkbox-group");
+module.exports = require("element-ui/lib/tag");
 
 /***/ }),
 /* 31 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/after-leave");
+module.exports = require("element-ui/lib/utils/scrollbar-width");
 
 /***/ }),
 /* 32 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/progress");
+module.exports = require("element-ui/lib/checkbox-group");
 
 /***/ }),
 /* 33 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/aria-utils");
+module.exports = require("element-ui/lib/utils/after-leave");
 
 /***/ }),
 /* 34 */
 /***/ (function(module, exports) {
 
-module.exports = require("throttle-debounce");
+module.exports = require("element-ui/lib/progress");
 
 /***/ }),
 /* 35 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/select");
+module.exports = require("throttle-debounce");
 
 /***/ }),
 /* 36 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/option");
+module.exports = require("element-ui/lib/select");
 
 /***/ }),
 /* 37 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/button-group");
+module.exports = require("element-ui/lib/option");
 
 /***/ }),
 /* 38 */
@@ -351,13 +351,19 @@ module.exports = require("element-ui/lib/radio");
 
 /***/ }),
 /* 44 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-module.exports = __webpack_require__(45);
-
+module.exports = require("element-ui/lib/popover");
 
 /***/ }),
 /* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(46);
+
+
+/***/ }),
+/* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -726,15 +732,15 @@ if (false) { var api; }
 component.options.__file = "packages/pagination/src/pager.vue"
 /* harmony default export */ var pager = (component.exports);
 // EXTERNAL MODULE: external "element-ui/lib/select"
-var select_ = __webpack_require__(35);
+var select_ = __webpack_require__(36);
 var select_default = /*#__PURE__*/__webpack_require__.n(select_);
 
 // EXTERNAL MODULE: external "element-ui/lib/option"
-var option_ = __webpack_require__(36);
+var option_ = __webpack_require__(37);
 var option_default = /*#__PURE__*/__webpack_require__.n(option_);
 
 // EXTERNAL MODULE: external "element-ui/lib/input"
-var input_ = __webpack_require__(9);
+var input_ = __webpack_require__(8);
 var input_default = /*#__PURE__*/__webpack_require__.n(input_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/locale"
@@ -1278,11 +1284,11 @@ componentvue_type_template_id_60140e62_render._withStripped = true
 // CONCATENATED MODULE: ./packages/dialog/src/component.vue?vue&type=template&id=60140e62&
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/popup"
-var popup_ = __webpack_require__(12);
+var popup_ = __webpack_require__(14);
 var popup_default = /*#__PURE__*/__webpack_require__.n(popup_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/migrating"
-var migrating_ = __webpack_require__(8);
+var migrating_ = __webpack_require__(9);
 var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/emitter"
@@ -1697,7 +1703,7 @@ autocompletevue_type_template_id_152f2ee6_render._withStripped = true
 // CONCATENATED MODULE: ./packages/autocomplete/src/autocomplete.vue?vue&type=template&id=152f2ee6&
 
 // EXTERNAL MODULE: external "throttle-debounce/debounce"
-var debounce_ = __webpack_require__(13);
+var debounce_ = __webpack_require__(15);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/clickoutside"
@@ -1765,7 +1771,7 @@ var vue_popper_ = __webpack_require__(5);
 var vue_popper_default = /*#__PURE__*/__webpack_require__.n(vue_popper_);
 
 // EXTERNAL MODULE: external "element-ui/lib/scrollbar"
-var scrollbar_ = __webpack_require__(16);
+var scrollbar_ = __webpack_require__(17);
 var scrollbar_default = /*#__PURE__*/__webpack_require__.n(scrollbar_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/autocomplete/src/autocomplete-suggestions.vue?vue&type=script&lang=js&
@@ -2203,11 +2209,11 @@ autocomplete.install = function (Vue) {
 
 /* harmony default export */ var packages_autocomplete = (autocomplete);
 // EXTERNAL MODULE: external "element-ui/lib/button"
-var button_ = __webpack_require__(17);
+var button_ = __webpack_require__(12);
 var button_default = /*#__PURE__*/__webpack_require__.n(button_);
 
 // EXTERNAL MODULE: external "element-ui/lib/button-group"
-var button_group_ = __webpack_require__(37);
+var button_group_ = __webpack_require__(29);
 var button_group_default = /*#__PURE__*/__webpack_require__.n(button_group_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/dropdown/src/dropdown.vue?vue&type=script&lang=js&
@@ -3336,7 +3342,12 @@ var dom_ = __webpack_require__(1);
       if (this.router && hasIndex) {
         this.routeToItem(item, function (error) {
           _this.activeIndex = oldActiveIndex;
-          if (error) console.error(error);
+          if (error) {
+            // vue-router 3.1.0+ push/replace cause NavigationDuplicated error 
+            // https://github.com/ElemeFE/element/issues/17044
+            if (error.name === 'NavigationDuplicated') return;
+            console.error(error);
+          }
         });
       }
     },
@@ -8125,8 +8136,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     this.$on('handleGroupDisabled', this.handleGroupDisabled);
   },
   beforeDestroy: function beforeDestroy() {
+    var _select2 = this.select,
+        selected = _select2.selected,
+        multiple = _select2.multiple;
+
+    var selectedOptions = multiple ? selected : [selected];
     var index = this.select.cachedOptions.indexOf(this);
-    if (index > -1) {
+    var selectedIndex = selectedOptions.indexOf(this);
+
+    // if option is not selected, remove it from cache
+    if (index > -1 && selectedIndex < 0) {
       this.select.cachedOptions.splice(index, 1);
     }
     this.select.onOptionDestroy(this.select.options.indexOf(this));
@@ -8158,14 +8177,14 @@ if (false) { var option_api; }
 option_component.options.__file = "packages/select/src/option.vue"
 /* harmony default export */ var src_option = (option_component.exports);
 // EXTERNAL MODULE: external "element-ui/lib/tag"
-var tag_ = __webpack_require__(28);
+var tag_ = __webpack_require__(30);
 var tag_default = /*#__PURE__*/__webpack_require__.n(tag_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/resize-event"
-var resize_event_ = __webpack_require__(11);
+var resize_event_ = __webpack_require__(13);
 
 // EXTERNAL MODULE: external "element-ui/lib/locale"
-var lib_locale_ = __webpack_require__(15);
+var lib_locale_ = __webpack_require__(11);
 var lib_locale_default = /*#__PURE__*/__webpack_require__.n(lib_locale_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/scroll-into-view"
@@ -9928,11 +9947,11 @@ tablevue_type_template_id_493fe34e_render._withStripped = true
 // CONCATENATED MODULE: ./packages/table/src/table.vue?vue&type=template&id=493fe34e&
 
 // EXTERNAL MODULE: external "element-ui/lib/checkbox"
-var checkbox_ = __webpack_require__(14);
+var checkbox_ = __webpack_require__(16);
 var checkbox_default = /*#__PURE__*/__webpack_require__.n(checkbox_);
 
 // EXTERNAL MODULE: external "throttle-debounce"
-var external_throttle_debounce_ = __webpack_require__(34);
+var external_throttle_debounce_ = __webpack_require__(35);
 
 // EXTERNAL MODULE: external "normalize-wheel"
 var external_normalize_wheel_ = __webpack_require__(38);
@@ -10373,7 +10392,7 @@ function walkTreeNode(root, cb) {
           table = this.table;
       var rowKey = states.rowKey,
           _currentRowKey = states._currentRowKey;
-      // data 为 null 时，结构时的默认值会被忽略
+      // data 为 null 时，解构时的默认值会被忽略
 
       var data = states.data || [];
       var oldCurrentRow = states.currentRow;
@@ -10862,7 +10881,7 @@ var doFlattenColumns = function doFlattenColumns(columns) {
       var selection = states.selection,
           rowKey = states.rowKey,
           selectable = states.selectable;
-      // data 为 null 时，结构时的默认值会被忽略
+      // data 为 null 时，解构时的默认值会被忽略
 
       var data = states.data || [];
       if (data.length === 0) {
@@ -11245,7 +11264,7 @@ function mapStates(mapper) {
   return res;
 };
 // EXTERNAL MODULE: external "element-ui/lib/utils/scrollbar-width"
-var scrollbar_width_ = __webpack_require__(29);
+var scrollbar_width_ = __webpack_require__(31);
 var scrollbar_width_default = /*#__PURE__*/__webpack_require__.n(scrollbar_width_);
 
 // CONCATENATED MODULE: ./packages/table/src/table-layout.js
@@ -11366,7 +11385,7 @@ var table_layout_TableLayout = function () {
     if (this.showHeader && !headerWrapper) return;
 
     // fix issue (https://github.com/ElemeFE/element/pull/16956)
-    var headerTrElm = headerWrapper.querySelector('.el-table__header tr');
+    var headerTrElm = headerWrapper ? headerWrapper.querySelector('.el-table__header tr') : null;
     var noneHeader = this.headerDisplayNone(headerTrElm);
 
     var headerHeight = this.headerHeight = !this.showHeader ? 0 : headerWrapper.offsetHeight;
@@ -11382,7 +11401,7 @@ var table_layout_TableLayout = function () {
     }
     this.fixedBodyHeight = this.scrollX ? this.bodyHeight - this.gutterWidth : this.bodyHeight;
 
-    var noData = !this.table.data || this.table.data.length === 0;
+    var noData = !(this.store.states.data && this.store.states.data.length);
     this.viewportHeight = this.scrollX ? tableHeight - (noData ? 0 : this.gutterWidth) : tableHeight;
 
     this.updateScrollY();
@@ -11390,6 +11409,7 @@ var table_layout_TableLayout = function () {
   };
 
   TableLayout.prototype.headerDisplayNone = function headerDisplayNone(elm) {
+    if (!elm) return true;
     var headerChild = elm;
     while (headerChild.tagName !== 'DIV') {
       if (getComputedStyle(headerChild).display === 'none') {
@@ -11565,10 +11585,10 @@ var table_layout_TableLayout = function () {
 
 
   methods: {
-    onColumnsChange: function onColumnsChange() {
+    onColumnsChange: function onColumnsChange(layout) {
       var cols = this.$el.querySelectorAll('colgroup > col');
       if (!cols.length) return;
-      var flattenColumns = this.tableLayout.getFlattenColumns();
+      var flattenColumns = layout.getFlattenColumns();
       var columnsMap = {};
       flattenColumns.forEach(function (column) {
         columnsMap[column.id] = column;
@@ -11943,15 +11963,15 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
         rowClasses.push('el-table__row--level-' + treeRowData.level);
         display = treeRowData.display;
       }
+      // 指令 v-show 会覆盖 row-style 中 display
+      // 使用 :style 代替 v-show https://github.com/ElemeFE/element/issues/16995
+      var displayStyle = display ? null : {
+        display: 'none'
+      };
       return h(
         'tr',
         {
-          directives: [{
-            name: 'show',
-            value: display
-          }],
-
-          style: this.getRowStyle(row, $index),
+          style: [displayStyle, this.getRowStyle(row, $index)],
           'class': rowClasses,
           key: this.getKeyOfRow(row, $index),
           on: {
@@ -12307,7 +12327,7 @@ var dropdowns = [];
   }
 });
 // EXTERNAL MODULE: external "element-ui/lib/checkbox-group"
-var checkbox_group_ = __webpack_require__(30);
+var checkbox_group_ = __webpack_require__(32);
 var checkbox_group_default = /*#__PURE__*/__webpack_require__.n(checkbox_group_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/table/src/filter-panel.vue?vue&type=script&lang=js&
@@ -13617,6 +13637,7 @@ var tableIdSeed = 1;
     updateScrollY: function updateScrollY() {
       var changed = this.layout.updateScrollY();
       if (changed) {
+        this.layout.notifyObservers('scrollable');
         this.layout.updateColumnsWidth();
       }
     },
@@ -14299,11 +14320,10 @@ var columnIdSeed = 1;
 
       var h = this.$createElement;
 
-      var specialTypes = Object.keys(cellForced);
       // renderHeader 属性不推荐使用。
       if (this.renderHeader) {
         console.warn('[Element Warn][TableColumn]Comparing to render-header, scoped-slot header is easier to use. We recommend users to use scoped-slot header.');
-      } else if (specialTypes.indexOf(column.type) === -1) {
+      } else if (column.type !== 'selection') {
         column.renderHeader = function (h, scope) {
           var renderHeader = _this2.$scopedSlots.header;
           return renderHeader ? renderHeader(scope) : column.label;
@@ -16650,6 +16670,8 @@ time_spinnervue_type_template_id_1facadeb_render._withStripped = true
       }
     },
     scrollDown: function scrollDown(step) {
+      var _this3 = this;
+
       if (!this.currentScrollbar) {
         this.emitSelectRange('hours');
       }
@@ -16676,6 +16698,9 @@ time_spinnervue_type_template_id_1facadeb_render._withStripped = true
 
       this.modifyDateField(label, now);
       this.adjustSpinner(label, now);
+      this.$nextTick(function () {
+        return _this3.emitSelectRange(_this3.currentScrollbar);
+      });
     },
     amPm: function amPm(hour) {
       var shouldShowAmPm = this.amPmMode.toLowerCase() === 'a';
@@ -19744,6 +19769,7 @@ var date_rangevue_type_script_lang_js_calcDefaultValue = function calcDefaultVal
       // NOTE: this is a hack to reset {min, max}Date on picker open.
       // TODO: correct way of doing so is to refactor {min, max}Date to be dependent on value and internal selection state
       //       an alternative would be resetView whenever picker becomes visible, should also investigate date-panel's resetView
+      if (this.minDate && this.maxDate == null) this.rangeState.selecting = false;
       this.minDate = this.value && Object(date_util_["isDate"])(this.value[0]) ? new Date(this.value[0]) : null;
       this.maxDate = this.value && Object(date_util_["isDate"])(this.value[0]) ? new Date(this.value[1]) : null;
     }
@@ -21791,25 +21817,27 @@ var mainvue_type_template_id_6b29b012_render = function() {
                 ])
               : _vm._e(),
             _c("div", { staticClass: "el-message-box__content" }, [
-              _vm.icon && !_vm.center && _vm.message !== ""
-                ? _c("div", { class: ["el-message-box__status", _vm.icon] })
-                : _vm._e(),
-              _vm.message !== ""
-                ? _c(
-                    "div",
-                    { staticClass: "el-message-box__message" },
-                    [
-                      _vm._t("default", [
-                        !_vm.dangerouslyUseHTMLString
-                          ? _c("p", [_vm._v(_vm._s(_vm.message))])
-                          : _c("p", {
-                              domProps: { innerHTML: _vm._s(_vm.message) }
-                            })
-                      ])
-                    ],
-                    2
-                  )
-                : _vm._e(),
+              _c("div", { staticClass: "el-message-box__container" }, [
+                _vm.icon && !_vm.center && _vm.message !== ""
+                  ? _c("div", { class: ["el-message-box__status", _vm.icon] })
+                  : _vm._e(),
+                _vm.message !== ""
+                  ? _c(
+                      "div",
+                      { staticClass: "el-message-box__message" },
+                      [
+                        _vm._t("default", [
+                          !_vm.dangerouslyUseHTMLString
+                            ? _c("p", [_vm._v(_vm._s(_vm.message))])
+                            : _c("p", {
+                                domProps: { innerHTML: _vm._s(_vm.message) }
+                              })
+                        ])
+                      ],
+                      2
+                    )
+                  : _vm._e()
+              ]),
               _c(
                 "div",
                 {
@@ -21992,6 +22020,8 @@ var aria_dialog_ = __webpack_require__(39);
 var aria_dialog_default = /*#__PURE__*/__webpack_require__.n(aria_dialog_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/message-box/src/main.vue?vue&type=script&lang=js&
+//
+//
 //
 //
 //
@@ -28208,7 +28238,7 @@ if (false) { var loading_api; }
 loading_component.options.__file = "packages/loading/src/loading.vue"
 /* harmony default export */ var loading = (loading_component.exports);
 // EXTERNAL MODULE: external "element-ui/lib/utils/after-leave"
-var after_leave_ = __webpack_require__(31);
+var after_leave_ = __webpack_require__(33);
 var after_leave_default = /*#__PURE__*/__webpack_require__.n(after_leave_);
 
 // CONCATENATED MODULE: ./packages/loading/src/directive.js
@@ -28809,7 +28839,7 @@ upload_listvue_type_template_id_173fedf5_render._withStripped = true
 // CONCATENATED MODULE: ./packages/upload/src/upload-list.vue?vue&type=template&id=173fedf5&
 
 // EXTERNAL MODULE: external "element-ui/lib/progress"
-var progress_ = __webpack_require__(32);
+var progress_ = __webpack_require__(34);
 var progress_default = /*#__PURE__*/__webpack_require__.n(progress_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/upload/src/upload-list.vue?vue&type=script&lang=js&
@@ -29881,7 +29911,7 @@ var progressvue_type_template_id_229ee406_render = function() {
                     d: _vm.trackPath,
                     stroke: _vm.stroke,
                     fill: "none",
-                    "stroke-linecap": "round",
+                    "stroke-linecap": _vm.strokeLinecap,
                     "stroke-width": _vm.percentage ? _vm.relativeStrokeWidth : 0
                   }
                 })
@@ -29993,6 +30023,10 @@ progressvue_type_template_id_229ee406_render._withStripped = true
     strokeWidth: {
       type: Number,
       default: 6
+    },
+    strokeLinecap: {
+      type: String,
+      default: 'round'
     },
     textInside: {
       type: Boolean,
@@ -30534,8 +30568,10 @@ var main_Message = function Message(options) {
 main_Message.close = function (id, userOnClose) {
   var len = main_instances.length;
   var index = -1;
+  var removedHeight = void 0;
   for (var i = 0; i < len; i++) {
     if (id === main_instances[i].id) {
+      removedHeight = main_instances[i].$el.offsetHeight;
       index = i;
       if (typeof userOnClose === 'function') {
         userOnClose(main_instances[i]);
@@ -30545,7 +30581,6 @@ main_Message.close = function (id, userOnClose) {
     }
   }
   if (len <= 1 || index === -1 || index > main_instances.length - 1) return;
-  var removedHeight = main_instances[index].$el.offsetHeight;
   for (var _i = index; _i < len - 1; _i++) {
     var dom = main_instances[_i].$el;
     dom.style['top'] = parseInt(dom.style['top'], 10) - removedHeight - 16 + 'px';
@@ -33334,7 +33369,7 @@ var cascader_panel_ = __webpack_require__(42);
 var cascader_panel_default = /*#__PURE__*/__webpack_require__.n(cascader_panel_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/aria-utils"
-var aria_utils_ = __webpack_require__(33);
+var aria_utils_ = __webpack_require__(28);
 var aria_utils_default = /*#__PURE__*/__webpack_require__.n(aria_utils_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/cascader/src/cascader.vue?vue&type=script&lang=js&
@@ -37443,14 +37478,25 @@ var mainvue_type_template_id_44d84a7c_render = function() {
               _vm.$listeners
             )
           ),
-      _vm.preview && _vm.showViewer
-        ? _c("image-viewer", {
-            attrs: {
-              "z-index": _vm.zIndex,
-              "on-close": _vm.closeViewer,
-              "url-list": _vm.previewSrcList
-            }
-          })
+      _vm.preview
+        ? [
+            _c("image-viewer", {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.showViewer,
+                  expression: "showViewer"
+                }
+              ],
+              attrs: {
+                "z-index": _vm.zIndex,
+                "initial-index": _vm.imageIndex,
+                "on-close": _vm.closeViewer,
+                "url-list": _vm.previewSrcList
+              }
+            })
+          ]
         : _vm._e()
     ],
     2
@@ -37471,8 +37517,10 @@ var image_viewervue_type_template_id_5e73b307_render = function() {
     _c(
       "div",
       {
+        ref: "el-image-viewer__wrapper",
         staticClass: "el-image-viewer__wrapper",
-        style: { "z-index": _vm.zIndex }
+        style: { "z-index": _vm.zIndex },
+        attrs: { tabindex: "-1" }
       },
       [
         _c("div", { staticClass: "el-image-viewer__mask" }),
@@ -37676,12 +37724,16 @@ var mousewheelEventName = Object(util_["isFirefox"])() ? 'DOMMouseScroll' : 'mou
     onClose: {
       type: Function,
       default: function _default() {}
+    },
+    initialIndex: {
+      type: Number,
+      default: 0
     }
   },
 
   data: function data() {
     return {
-      index: 0,
+      index: this.initialIndex,
       isShow: false,
       infinite: true,
       loading: false,
@@ -37902,6 +37954,9 @@ var mousewheelEventName = Object(util_["isFirefox"])() ? 'DOMMouseScroll' : 'mou
   },
   mounted: function mounted() {
     this.deviceSupportInstall();
+    // add tabindex then wrapper can be focusable via Javascript
+    // focus wrapper so arrow key can't cause inner scroll behavior underneath
+    this.$refs['el-image-viewer__wrapper'].focus();
   }
 });
 // CONCATENATED MODULE: ./packages/image/src/image-viewer.vue?vue&type=script&lang=js&
@@ -37951,6 +38006,8 @@ image_viewer_component.options.__file = "packages/image/src/image-viewer.vue"
 //
 //
 //
+//
+//
 
 
 
@@ -37969,6 +38026,8 @@ var ObjectFit = {
   FILL: 'fill',
   SCALE_DOWN: 'scale-down'
 };
+
+var prevOverflow = '';
 
 /* harmony default export */ var image_src_mainvue_type_script_lang_js_ = ({
   name: 'ElImage',
@@ -38025,6 +38084,9 @@ var ObjectFit = {
       var previewSrcList = this.previewSrcList;
 
       return Array.isArray(previewSrcList) && previewSrcList.length > 0;
+    },
+    imageIndex: function imageIndex() {
+      return this.previewSrcList.indexOf(this.src);
     }
   },
 
@@ -38155,9 +38217,13 @@ var ObjectFit = {
       }
     },
     clickHandler: function clickHandler() {
+      // prevent body scroll
+      prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
       this.showViewer = true;
     },
     closeViewer: function closeViewer() {
+      document.body.style.overflow = prevOverflow;
       this.showViewer = false;
     }
   }
@@ -38641,6 +38707,8 @@ src_date_table_component.options.__file = "packages/calendar/src/date-table.vue"
 
 
 
+
+
 var validTypes = ['prev-month', 'today', 'next-month'];
 var weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 var oneDay = 86400000;
@@ -38651,7 +38719,9 @@ var oneDay = 86400000;
   mixins: [locale_default.a],
 
   components: {
-    DateTable: src_date_table
+    DateTable: src_date_table,
+    ElButton: button_default.a,
+    ElButtonGroup: button_group_default.a
   },
 
   props: {
@@ -38933,6 +39003,13 @@ mainvue_type_template_id_257dd4a9_render._withStripped = true
 
 
 
+var cubic = function cubic(value) {
+  return Math.pow(value, 3);
+};
+var easeInOutCubic = function easeInOutCubic(value) {
+  return value < 0.5 ? cubic(value * 2) / 2 : 1 - cubic((1 - value) * 2) / 2;
+};
+
 /* harmony default export */ var backtop_src_mainvue_type_script_lang_js_ = ({
   name: 'ElBacktop',
 
@@ -38999,15 +39076,21 @@ mainvue_type_template_id_257dd4a9_render._withStripped = true
     },
     scrollToTop: function scrollToTop() {
       var el = this.el;
-      var step = 0;
-      var interval = setInterval(function () {
-        if (el.scrollTop <= 0) {
-          clearInterval(interval);
-          return;
+      var beginTime = Date.now();
+      var beginValue = el.scrollTop;
+      var rAF = window.requestAnimationFrame || function (func) {
+        return setTimeout(func, 16);
+      };
+      var frameFunc = function frameFunc() {
+        var progress = (Date.now() - beginTime) / 500;
+        if (progress < 1) {
+          el.scrollTop = beginValue * (1 - easeInOutCubic(progress));
+          rAF(frameFunc);
+        } else {
+          el.scrollTop = 0;
         }
-        step += 10;
-        el.scrollTop -= step;
-      }, 20);
+      };
+      rAF(frameFunc);
     }
   },
 
@@ -39148,6 +39231,9 @@ var main_handleScroll = function handleScroll(cb) {
       disabled = _getScrollOptions.disabled;
 
   if (disabled) return;
+
+  var containerInfo = container.getBoundingClientRect();
+  if (!containerInfo.width && !containerInfo.height) return;
 
   var shouldTrigger = false;
 
@@ -40747,8 +40833,8 @@ var mainvue_type_template_id_a4885264_render = function() {
               expression: "visible"
             }
           ],
-          staticClass: "el-dialog__wrapper",
-          attrs: { role: "presentation" }
+          staticClass: "el-drawer__wrapper",
+          attrs: { tabindex: "-1" }
         },
         [
           _c(
@@ -40779,45 +40865,57 @@ var mainvue_type_template_id_a4885264_render = function() {
                   attrs: {
                     "aria-modal": "true",
                     "aria-labelledby": "el-drawer__title",
-                    role: "presentation"
+                    "aria-label": _vm.title,
+                    role: "dialog",
+                    tabindex: "-1"
                   }
                 },
                 [
-                  _c(
-                    "header",
-                    {
-                      staticClass: "el-drawer__header",
-                      attrs: { id: "el-drawer__title" }
-                    },
-                    [
-                      _vm._t("title", [
-                        _c("span", { attrs: { role: "heading" } }, [
-                          _vm._v(_vm._s(_vm.title))
-                        ])
-                      ]),
-                      _vm.showClose
-                        ? _c(
-                            "button",
-                            {
-                              staticClass: "el-drawer__close-btn",
-                              attrs: {
-                                "aria-label":
-                                  "close " + (_vm.title || "drawer"),
-                                type: "button"
+                  _vm.withHeader
+                    ? _c(
+                        "header",
+                        {
+                          staticClass: "el-drawer__header",
+                          attrs: { id: "el-drawer__title" }
+                        },
+                        [
+                          _vm._t("title", [
+                            _c(
+                              "span",
+                              {
+                                attrs: {
+                                  role: "heading",
+                                  tabindex: "0",
+                                  title: _vm.title
+                                }
                               },
-                              on: { click: _vm.closeDrawer }
-                            },
-                            [
-                              _c("i", {
-                                staticClass:
-                                  "el-dialog__close el-icon el-icon-close"
-                              })
-                            ]
-                          )
-                        : _vm._e()
-                    ],
-                    2
-                  ),
+                              [_vm._v(_vm._s(_vm.title))]
+                            )
+                          ]),
+                          _vm.showClose
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass: "el-drawer__close-btn",
+                                  attrs: {
+                                    "aria-label":
+                                      "close " + (_vm.title || "drawer"),
+                                    type: "button"
+                                  },
+                                  on: { click: _vm.closeDrawer }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass:
+                                      "el-dialog__close el-icon el-icon-close"
+                                  })
+                                ]
+                              )
+                            : _vm._e()
+                        ],
+                        2
+                      )
+                    : _vm._e(),
                   _vm.rendered
                     ? _c(
                         "section",
@@ -40887,6 +40985,9 @@ mainvue_type_template_id_a4885264_render._withStripped = true
 //
 //
 //
+//
+//
+//
 
 
 
@@ -40894,11 +40995,11 @@ mainvue_type_template_id_a4885264_render._withStripped = true
 
 /* harmony default export */ var drawer_src_mainvue_type_script_lang_js_ = ({
   name: 'ElDrawer',
-  mixins: [popup_default.a, emitter_default.a, migrating_default.a],
+  mixins: [popup_default.a, emitter_default.a],
   props: {
     appendToBody: {
       type: Boolean,
-      default: true
+      default: false
     },
     beforeClose: {
       type: Function
@@ -40906,6 +41007,10 @@ mainvue_type_template_id_a4885264_render._withStripped = true
     customClass: {
       type: String,
       default: ''
+    },
+    closeOnPressEscape: {
+      type: Boolean,
+      default: true
     },
     destroyOnClose: {
       type: Boolean,
@@ -40921,6 +41026,10 @@ mainvue_type_template_id_a4885264_render._withStripped = true
       validator: function validator(val) {
         return ['ltr', 'rtl', 'ttb', 'btt'].indexOf(val) !== -1;
       }
+    },
+    modalAppendToBody: {
+      type: Boolean,
+      default: true
     },
     showClose: {
       type: Boolean,
@@ -40940,6 +41049,10 @@ mainvue_type_template_id_a4885264_render._withStripped = true
     wrapperClosable: {
       type: Boolean,
       default: true
+    },
+    withHeader: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
@@ -40949,20 +41062,32 @@ mainvue_type_template_id_a4885264_render._withStripped = true
   },
   data: function data() {
     return {
-      closed: false
+      closed: false,
+      prevActiveElement: null
     };
   },
 
   watch: {
     visible: function visible(val) {
+      var _this = this;
+
       if (val) {
         this.closed = false;
         this.$emit('open');
         if (this.appendToBody) {
           document.body.appendChild(this.$el);
         }
+        this.prevActiveElement = document.activeElement;
+        this.$nextTick(function () {
+          aria_utils_default.a.focusFirstDescendant(_this.$refs.drawer);
+        });
       } else {
         if (!this.closed) this.$emit('close');
+        this.$nextTick(function () {
+          if (_this.prevActiveElement) {
+            _this.prevActiveElement.focus();
+          }
+        });
       }
     }
   },
@@ -40994,6 +41119,12 @@ mainvue_type_template_id_a4885264_render._withStripped = true
       } else {
         this.hide();
       }
+    },
+    handleClose: function handleClose() {
+      // This method here will be called by PopupManger, when the `closeOnPressEscape` was set to true
+      // pressing `ESC` will call this method, and also close the drawer.
+      // This method also calls `beforeClose` if there was one.
+      this.closeDrawer();
     }
   },
   mounted: function mounted() {
@@ -41043,6 +41174,216 @@ drawer_src_main.install = function (Vue) {
 };
 
 /* harmony default export */ var drawer = (drawer_src_main);
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/popconfirm/src/main.vue?vue&type=template&id=048de730&
+var mainvue_type_template_id_048de730_render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "el-popover",
+    _vm._b(
+      {
+        attrs: { trigger: "click" },
+        model: {
+          value: _vm.visible,
+          callback: function($$v) {
+            _vm.visible = $$v
+          },
+          expression: "visible"
+        }
+      },
+      "el-popover",
+      _vm.$attrs,
+      false
+    ),
+    [
+      _c("div", { staticClass: "el-popconfirm" }, [
+        _c("p", { staticClass: "el-popconfirm__main" }, [
+          !_vm.hideIcon
+            ? _c("i", {
+                staticClass: "el-popconfirm__icon",
+                class: _vm.icon,
+                style: { color: _vm.iconColor }
+              })
+            : _vm._e(),
+          _vm._v("\n      " + _vm._s(_vm.title) + "\n    ")
+        ]),
+        _c(
+          "div",
+          { staticClass: "el-popconfirm__action" },
+          [
+            _c(
+              "el-button",
+              {
+                attrs: { size: "mini", type: _vm.cancelButtonType },
+                on: { click: _vm.cancel }
+              },
+              [_vm._v("\n        " + _vm._s(_vm.cancelButtonText) + "\n      ")]
+            ),
+            _c(
+              "el-button",
+              {
+                attrs: { size: "mini", type: _vm.confirmButtonType },
+                on: { click: _vm.confirm }
+              },
+              [
+                _vm._v(
+                  "\n        " + _vm._s(_vm.confirmButtonText) + "\n      "
+                )
+              ]
+            )
+          ],
+          1
+        )
+      ]),
+      _vm._t("reference", null, { slot: "reference" })
+    ],
+    2
+  )
+}
+var mainvue_type_template_id_048de730_staticRenderFns = []
+mainvue_type_template_id_048de730_render._withStripped = true
+
+
+// CONCATENATED MODULE: ./packages/popconfirm/src/main.vue?vue&type=template&id=048de730&
+
+// EXTERNAL MODULE: external "element-ui/lib/popover"
+var popover_ = __webpack_require__(44);
+var popover_default = /*#__PURE__*/__webpack_require__.n(popover_);
+
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/popconfirm/src/main.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ var popconfirm_src_mainvue_type_script_lang_js_ = ({
+  name: 'ElPopconfirm',
+  props: {
+    title: {
+      type: String
+    },
+    confirmButtonText: {
+      type: String,
+      default: Object(lib_locale_["t"])('el.popconfirm.confirmButtonText')
+    },
+    cancelButtonText: {
+      type: String,
+      default: Object(lib_locale_["t"])('el.popconfirm.cancelButtonText')
+    },
+    confirmButtonType: {
+      type: String,
+      default: 'primary'
+    },
+    cancelButtonType: {
+      type: String,
+      default: 'text'
+    },
+    icon: {
+      type: String,
+      default: 'el-icon-question'
+    },
+    iconColor: {
+      type: String,
+      default: '#f90'
+    },
+    hideIcon: {
+      type: Boolean,
+      default: false
+    }
+  },
+  components: {
+    ElPopover: popover_default.a,
+    ElButton: button_default.a
+  },
+  data: function data() {
+    return {
+      visible: false
+    };
+  },
+
+  methods: {
+    confirm: function confirm() {
+      this.visible = false;
+      this.$emit('onConfirm');
+    },
+    cancel: function cancel() {
+      this.visible = false;
+      this.$emit('onCancel');
+    }
+  }
+});
+// CONCATENATED MODULE: ./packages/popconfirm/src/main.vue?vue&type=script&lang=js&
+ /* harmony default export */ var packages_popconfirm_src_mainvue_type_script_lang_js_ = (popconfirm_src_mainvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./packages/popconfirm/src/main.vue
+
+
+
+
+
+/* normalize component */
+
+var popconfirm_src_main_component = normalizeComponent(
+  packages_popconfirm_src_mainvue_type_script_lang_js_,
+  mainvue_type_template_id_048de730_render,
+  mainvue_type_template_id_048de730_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var popconfirm_src_main_api; }
+popconfirm_src_main_component.options.__file = "packages/popconfirm/src/main.vue"
+/* harmony default export */ var popconfirm_src_main = (popconfirm_src_main_component.exports);
+// CONCATENATED MODULE: ./packages/popconfirm/index.js
+
+
+/* istanbul ignore next */
+popconfirm_src_main.install = function (Vue) {
+  Vue.component(popconfirm_src_main.name, popconfirm_src_main);
+};
+
+/* harmony default export */ var popconfirm = (popconfirm_src_main);
 // CONCATENATED MODULE: ./src/index.js
 /* Automatically generated by './build/bin/build-entry.js' */
 
@@ -41130,7 +41471,8 @@ drawer_src_main.install = function (Vue) {
 
 
 
-var components = [packages_pagination, dialog, packages_autocomplete, packages_dropdown, packages_dropdown_menu, packages_dropdown_item, packages_menu, packages_submenu, packages_menu_item, packages_menu_item_group, packages_input, packages_input_number, packages_radio, packages_radio_group, packages_radio_button, packages_checkbox, packages_checkbox_button, packages_checkbox_group, packages_switch, packages_select, packages_option, packages_option_group, packages_button, packages_button_group, packages_table, packages_table_column, packages_date_picker, packages_time_select, packages_time_picker, popover, packages_tooltip, packages_breadcrumb, packages_breadcrumb_item, packages_form, packages_form_item, packages_tabs, packages_tab_pane, packages_tag, packages_tree, packages_alert, slider, packages_icon, packages_row, packages_col, packages_upload, packages_progress, packages_spinner, badge, card, rate, packages_steps, packages_step, carousel, scrollbar, carousel_item, packages_collapse, packages_collapse_item, packages_cascader, color_picker, transfer, packages_container, header, aside, packages_main, footer, timeline, timeline_item, packages_link, divider, packages_image, calendar, backtop, page_header, packages_cascader_panel, avatar, drawer, collapse_transition_default.a];
+
+var components = [packages_pagination, dialog, packages_autocomplete, packages_dropdown, packages_dropdown_menu, packages_dropdown_item, packages_menu, packages_submenu, packages_menu_item, packages_menu_item_group, packages_input, packages_input_number, packages_radio, packages_radio_group, packages_radio_button, packages_checkbox, packages_checkbox_button, packages_checkbox_group, packages_switch, packages_select, packages_option, packages_option_group, packages_button, packages_button_group, packages_table, packages_table_column, packages_date_picker, packages_time_select, packages_time_picker, popover, packages_tooltip, packages_breadcrumb, packages_breadcrumb_item, packages_form, packages_form_item, packages_tabs, packages_tab_pane, packages_tag, packages_tree, packages_alert, slider, packages_icon, packages_row, packages_col, packages_upload, packages_progress, packages_spinner, badge, card, rate, packages_steps, packages_step, carousel, scrollbar, carousel_item, packages_collapse, packages_collapse_item, packages_cascader, color_picker, transfer, packages_container, header, aside, packages_main, footer, timeline, timeline_item, packages_link, divider, packages_image, calendar, backtop, page_header, packages_cascader_panel, avatar, drawer, popconfirm, collapse_transition_default.a];
 
 var src_install = function install(Vue) {
   var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -41165,7 +41507,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.12.0',
+  version: '2.13.0',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,
@@ -41250,7 +41592,8 @@ if (typeof window !== 'undefined' && window.Vue) {
   PageHeader: page_header,
   CascaderPanel: packages_cascader_panel,
   Avatar: avatar,
-  Drawer: drawer
+  Drawer: drawer,
+  Popconfirm: popconfirm
 });
 
 /***/ })

@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 103);
+/******/ 	return __webpack_require__(__webpack_require__.s = 101);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,7 +189,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 103:
+/***/ 101:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -263,7 +263,7 @@ render._withStripped = true
 // CONCATENATED MODULE: ./packages/menu/src/menu-item.vue?vue&type=template&id=2a5dbfea&
 
 // EXTERNAL MODULE: ./packages/menu/src/menu-mixin.js
-var menu_mixin = __webpack_require__(35);
+var menu_mixin = __webpack_require__(37);
 
 // EXTERNAL MODULE: external "element-ui/lib/tooltip"
 var tooltip_ = __webpack_require__(29);
@@ -432,7 +432,7 @@ module.exports = require("element-ui/lib/tooltip");
 
 /***/ }),
 
-/***/ 35:
+/***/ 37:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

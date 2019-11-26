@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 55);
+/******/ 	return __webpack_require__(__webpack_require__.s = 56);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -521,50 +521,50 @@ function walkTreeNode(root, cb) {
 module.exports = require("element-ui/lib/utils/merge");
 
 /***/ }),
-/* 10 */
+/* 10 */,
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/migrating");
 
 /***/ }),
-/* 11 */,
 /* 12 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ }),
-/* 13 */
+/* 13 */,
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/scrollbar");
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/popup");
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = require("throttle-debounce/debounce");
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/checkbox");
 
 /***/ }),
-/* 18 */,
 /* 19 */,
 /* 20 */,
 /* 21 */,
@@ -588,28 +588,28 @@ module.exports = require("element-ui/lib/tooltip");
 /* 34 */,
 /* 35 */,
 /* 36 */,
-/* 37 */
+/* 37 */,
+/* 38 */,
+/* 39 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/scrollbar-width");
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/checkbox-group");
 
 /***/ }),
-/* 39 */,
-/* 40 */,
 /* 41 */,
-/* 42 */
+/* 42 */,
+/* 43 */
 /***/ (function(module, exports) {
 
 module.exports = require("throttle-debounce");
 
 /***/ }),
-/* 43 */,
 /* 44 */,
 /* 45 */,
 /* 46 */
@@ -626,7 +626,8 @@ module.exports = require("normalize-wheel");
 /* 52 */,
 /* 53 */,
 /* 54 */,
-/* 55 */
+/* 55 */,
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1075,14 +1076,14 @@ render._withStripped = true
 // CONCATENATED MODULE: ./packages/table/src/table.vue?vue&type=template&id=493fe34e&
 
 // EXTERNAL MODULE: external "element-ui/lib/checkbox"
-var checkbox_ = __webpack_require__(17);
+var checkbox_ = __webpack_require__(18);
 var checkbox_default = /*#__PURE__*/__webpack_require__.n(checkbox_);
 
 // EXTERNAL MODULE: external "throttle-debounce"
-var external_throttle_debounce_ = __webpack_require__(42);
+var external_throttle_debounce_ = __webpack_require__(43);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/resize-event"
-var resize_event_ = __webpack_require__(15);
+var resize_event_ = __webpack_require__(16);
 
 // EXTERNAL MODULE: external "normalize-wheel"
 var external_normalize_wheel_ = __webpack_require__(46);
@@ -1112,7 +1113,7 @@ var locale_ = __webpack_require__(6);
 var locale_default = /*#__PURE__*/__webpack_require__.n(locale_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/migrating"
-var migrating_ = __webpack_require__(10);
+var migrating_ = __webpack_require__(11);
 var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
 
 // EXTERNAL MODULE: external "vue"
@@ -1266,7 +1267,7 @@ var util_ = __webpack_require__(3);
           table = this.table;
       var rowKey = states.rowKey,
           _currentRowKey = states._currentRowKey;
-      // data 为 null 时，结构时的默认值会被忽略
+      // data 为 null 时，解构时的默认值会被忽略
 
       var data = states.data || [];
       var oldCurrentRow = states.currentRow;
@@ -1755,7 +1756,7 @@ var doFlattenColumns = function doFlattenColumns(columns) {
       var selection = states.selection,
           rowKey = states.rowKey,
           selectable = states.selectable;
-      // data 为 null 时，结构时的默认值会被忽略
+      // data 为 null 时，解构时的默认值会被忽略
 
       var data = states.data || [];
       if (data.length === 0) {
@@ -2094,7 +2095,7 @@ watcher.prototype.updateTableScrollY = function () {
 
 /* harmony default export */ var src_store = (watcher);
 // EXTERNAL MODULE: external "throttle-debounce/debounce"
-var debounce_ = __webpack_require__(16);
+var debounce_ = __webpack_require__(17);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 // CONCATENATED MODULE: ./packages/table/src/store/helper.js
@@ -2142,7 +2143,7 @@ function mapStates(mapper) {
   return res;
 };
 // EXTERNAL MODULE: external "element-ui/lib/utils/scrollbar-width"
-var scrollbar_width_ = __webpack_require__(37);
+var scrollbar_width_ = __webpack_require__(39);
 var scrollbar_width_default = /*#__PURE__*/__webpack_require__.n(scrollbar_width_);
 
 // CONCATENATED MODULE: ./packages/table/src/table-layout.js
@@ -2263,7 +2264,7 @@ var table_layout_TableLayout = function () {
     if (this.showHeader && !headerWrapper) return;
 
     // fix issue (https://github.com/ElemeFE/element/pull/16956)
-    var headerTrElm = headerWrapper.querySelector('.el-table__header tr');
+    var headerTrElm = headerWrapper ? headerWrapper.querySelector('.el-table__header tr') : null;
     var noneHeader = this.headerDisplayNone(headerTrElm);
 
     var headerHeight = this.headerHeight = !this.showHeader ? 0 : headerWrapper.offsetHeight;
@@ -2279,7 +2280,7 @@ var table_layout_TableLayout = function () {
     }
     this.fixedBodyHeight = this.scrollX ? this.bodyHeight - this.gutterWidth : this.bodyHeight;
 
-    var noData = !this.table.data || this.table.data.length === 0;
+    var noData = !(this.store.states.data && this.store.states.data.length);
     this.viewportHeight = this.scrollX ? tableHeight - (noData ? 0 : this.gutterWidth) : tableHeight;
 
     this.updateScrollY();
@@ -2287,6 +2288,7 @@ var table_layout_TableLayout = function () {
   };
 
   TableLayout.prototype.headerDisplayNone = function headerDisplayNone(elm) {
+    if (!elm) return true;
     var headerChild = elm;
     while (headerChild.tagName !== 'DIV') {
       if (getComputedStyle(headerChild).display === 'none') {
@@ -2469,10 +2471,10 @@ var tooltip_default = /*#__PURE__*/__webpack_require__.n(tooltip_);
 
 
   methods: {
-    onColumnsChange: function onColumnsChange() {
+    onColumnsChange: function onColumnsChange(layout) {
       var cols = this.$el.querySelectorAll('colgroup > col');
       if (!cols.length) return;
-      var flattenColumns = this.tableLayout.getFlattenColumns();
+      var flattenColumns = layout.getFlattenColumns();
       var columnsMap = {};
       flattenColumns.forEach(function (column) {
         columnsMap[column.id] = column;
@@ -2847,15 +2849,15 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
         rowClasses.push('el-table__row--level-' + treeRowData.level);
         display = treeRowData.display;
       }
+      // 指令 v-show 会覆盖 row-style 中 display
+      // 使用 :style 代替 v-show https://github.com/ElemeFE/element/issues/16995
+      var displayStyle = display ? null : {
+        display: 'none'
+      };
       return h(
         'tr',
         {
-          directives: [{
-            name: 'show',
-            value: display
-          }],
-
-          style: this.getRowStyle(row, $index),
+          style: [displayStyle, this.getRowStyle(row, $index)],
           'class': rowClasses,
           key: this.getKeyOfRow(row, $index),
           on: {
@@ -3187,7 +3189,7 @@ var vue_popper_ = __webpack_require__(5);
 var vue_popper_default = /*#__PURE__*/__webpack_require__.n(vue_popper_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/popup"
-var popup_ = __webpack_require__(14);
+var popup_ = __webpack_require__(15);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/clickoutside"
 var clickoutside_ = __webpack_require__(12);
@@ -3222,11 +3224,11 @@ var dropdowns = [];
   }
 });
 // EXTERNAL MODULE: external "element-ui/lib/checkbox-group"
-var checkbox_group_ = __webpack_require__(38);
+var checkbox_group_ = __webpack_require__(40);
 var checkbox_group_default = /*#__PURE__*/__webpack_require__.n(checkbox_group_);
 
 // EXTERNAL MODULE: external "element-ui/lib/scrollbar"
-var scrollbar_ = __webpack_require__(13);
+var scrollbar_ = __webpack_require__(14);
 var scrollbar_default = /*#__PURE__*/__webpack_require__.n(scrollbar_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/table/src/filter-panel.vue?vue&type=script&lang=js&
@@ -4539,6 +4541,7 @@ var tableIdSeed = 1;
     updateScrollY: function updateScrollY() {
       var changed = this.layout.updateScrollY();
       if (changed) {
+        this.layout.notifyObservers('scrollable');
         this.layout.updateColumnsWidth();
       }
     },

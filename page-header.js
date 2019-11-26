@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 86);
+/******/ 	return __webpack_require__(__webpack_require__.s = 105);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,14 +189,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 20:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/locale");
-
-/***/ }),
-
-/***/ 86:
+/***/ 105:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -243,7 +236,7 @@ render._withStripped = true
 // CONCATENATED MODULE: ./packages/page-header/src/main.vue?vue&type=template&id=5070954c&
 
 // EXTERNAL MODULE: external "element-ui/lib/locale"
-var locale_ = __webpack_require__(20);
+var locale_ = __webpack_require__(19);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/page-header/src/main.vue?vue&type=script&lang=js&
 //
@@ -312,6 +305,13 @@ main.install = function (Vue) {
 };
 
 /* harmony default export */ var page_header = __webpack_exports__["default"] = (main);
+
+/***/ }),
+
+/***/ 19:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/locale");
 
 /***/ })
 

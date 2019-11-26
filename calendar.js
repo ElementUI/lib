@@ -196,10 +196,24 @@ module.exports = require("element-ui/lib/utils/date-util");
 
 /***/ }),
 
+/***/ 13:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/button");
+
+/***/ }),
+
 /***/ 24:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/date");
+
+/***/ }),
+
+/***/ 36:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/button-group");
 
 /***/ }),
 
@@ -345,6 +359,14 @@ var locale_default = /*#__PURE__*/__webpack_require__.n(locale_);
 // EXTERNAL MODULE: external "element-ui/lib/utils/date"
 var date_ = __webpack_require__(24);
 var date_default = /*#__PURE__*/__webpack_require__.n(date_);
+
+// EXTERNAL MODULE: external "element-ui/lib/button"
+var button_ = __webpack_require__(13);
+var button_default = /*#__PURE__*/__webpack_require__.n(button_);
+
+// EXTERNAL MODULE: external "element-ui/lib/button-group"
+var button_group_ = __webpack_require__(36);
+var button_group_default = /*#__PURE__*/__webpack_require__.n(button_group_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/date-util"
 var date_util_ = __webpack_require__(1);
@@ -671,6 +693,8 @@ component.options.__file = "packages/calendar/src/date-table.vue"
 
 
 
+
+
 var validTypes = ['prev-month', 'today', 'next-month'];
 var weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 var oneDay = 86400000;
@@ -681,7 +705,9 @@ var oneDay = 86400000;
   mixins: [locale_default.a],
 
   components: {
-    DateTable: date_table
+    DateTable: date_table,
+    ElButton: button_default.a,
+    ElButtonGroup: button_group_default.a
   },
 
   props: {
