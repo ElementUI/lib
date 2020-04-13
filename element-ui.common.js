@@ -1574,7 +1574,8 @@ var autocompletevue_type_template_id_152f2ee6_render = function() {
           {
             ref: "input",
             on: {
-              input: _vm.handleChange,
+              input: _vm.handleInput,
+              change: _vm.handleChange,
               focus: _vm.handleFocus,
               blur: _vm.handleBlur,
               clear: _vm.handleClear
@@ -1839,7 +1840,7 @@ var scrollbar_default = /*#__PURE__*/__webpack_require__.n(scrollbar_);
   },
   mounted: function mounted() {
     this.$parent.popperElm = this.popperElm = this.$el;
-    this.referenceElm = this.$parent.$refs.input.$refs.input;
+    this.referenceElm = this.$parent.$refs.input.$refs.input || this.$parent.$refs.input.$refs.textarea;
     this.referenceList = this.$el.querySelector('.el-autocomplete-suggestion__list');
     this.referenceList.setAttribute('role', 'listbox');
     this.referenceList.setAttribute('id', this.id);
@@ -1883,6 +1884,7 @@ var focus_ = __webpack_require__(22);
 var focus_default = /*#__PURE__*/__webpack_require__.n(focus_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/autocomplete/src/autocomplete.vue?vue&type=script&lang=js&
+//
 //
 //
 //
@@ -2074,7 +2076,7 @@ var focus_default = /*#__PURE__*/__webpack_require__.n(focus_);
         }
       });
     },
-    handleChange: function handleChange(value) {
+    handleInput: function handleInput(value) {
       this.$emit('input', value);
       this.suggestionDisabled = false;
       if (!this.triggerOnFocus && !value) {
@@ -2083,6 +2085,9 @@ var focus_default = /*#__PURE__*/__webpack_require__.n(focus_);
         return;
       }
       this.debouncedGetData(value);
+    },
+    handleChange: function handleChange(event) {
+      this.$emit('change', event.target.value);
     },
     handleFocus: function handleFocus(event) {
       this.activated = true;
@@ -5313,7 +5318,7 @@ input_numbervue_type_template_id_42f8cf66_render._withStripped = true
       return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
     },
     inputNumberDisabled: function inputNumberDisabled() {
-      return this.disabled || (this.elForm || {}).disabled;
+      return this.disabled || !!(this.elForm || {}).disabled;
     },
     displayValue: function displayValue() {
       if (this.userInput !== null) {
@@ -32597,7 +32602,7 @@ var CARD_SCALE = 0.83;
       }
       if (parentType === 'card') {
         if (parentDirection === 'vertical') {
-          console.warn('[Element Warn][Carousel]vertical directionis not supported in card mode');
+          console.warn('[Element Warn][Carousel]vertical direction is not supported in card mode');
         }
         this.inStage = Math.round(Math.abs(index - activeIndex)) <= 1;
         this.active = index === activeIndex;
@@ -37480,22 +37485,16 @@ var mainvue_type_template_id_44d84a7c_render = function() {
           ),
       _vm.preview
         ? [
-            _c("image-viewer", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.showViewer,
-                  expression: "showViewer"
-                }
-              ],
-              attrs: {
-                "z-index": _vm.zIndex,
-                "initial-index": _vm.imageIndex,
-                "on-close": _vm.closeViewer,
-                "url-list": _vm.previewSrcList
-              }
-            })
+            _vm.showViewer
+              ? _c("image-viewer", {
+                  attrs: {
+                    "z-index": _vm.zIndex,
+                    "initial-index": _vm.imageIndex,
+                    "on-close": _vm.closeViewer,
+                    "url-list": _vm.previewSrcList
+                  }
+                })
+              : _vm._e()
           ]
         : _vm._e()
     ],
@@ -38086,7 +38085,12 @@ var prevOverflow = '';
       return Array.isArray(previewSrcList) && previewSrcList.length > 0;
     },
     imageIndex: function imageIndex() {
-      return this.previewSrcList.indexOf(this.src);
+      var previewIndex = 0;
+      var srcIndex = this.previewSrcList.indexOf(this.src);
+      if (srcIndex >= 0) {
+        previewIndex = srcIndex;
+      }
+      return previewIndex;
     }
   },
 
@@ -38217,6 +38221,10 @@ var prevOverflow = '';
       }
     },
     clickHandler: function clickHandler() {
+      // don't show viewer when preview is false
+      if (!this.preview) {
+        return;
+      }
       // prevent body scroll
       prevOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
@@ -41507,7 +41515,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.13.0',
+  version: '2.13.1',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,

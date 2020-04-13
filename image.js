@@ -272,22 +272,16 @@ var render = function() {
           ),
       _vm.preview
         ? [
-            _c("image-viewer", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.showViewer,
-                  expression: "showViewer"
-                }
-              ],
-              attrs: {
-                "z-index": _vm.zIndex,
-                "initial-index": _vm.imageIndex,
-                "on-close": _vm.closeViewer,
-                "url-list": _vm.previewSrcList
-              }
-            })
+            _vm.showViewer
+              ? _c("image-viewer", {
+                  attrs: {
+                    "z-index": _vm.zIndex,
+                    "initial-index": _vm.imageIndex,
+                    "on-close": _vm.closeViewer,
+                    "url-list": _vm.previewSrcList
+                  }
+                })
+              : _vm._e()
           ]
         : _vm._e()
     ],
@@ -898,7 +892,12 @@ var prevOverflow = '';
       return Array.isArray(previewSrcList) && previewSrcList.length > 0;
     },
     imageIndex: function imageIndex() {
-      return this.previewSrcList.indexOf(this.src);
+      var previewIndex = 0;
+      var srcIndex = this.previewSrcList.indexOf(this.src);
+      if (srcIndex >= 0) {
+        previewIndex = srcIndex;
+      }
+      return previewIndex;
     }
   },
 
@@ -1029,6 +1028,10 @@ var prevOverflow = '';
       }
     },
     clickHandler: function clickHandler() {
+      // don't show viewer when preview is false
+      if (!this.preview) {
+        return;
+      }
       // prevent body scroll
       prevOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';

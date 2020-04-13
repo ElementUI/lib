@@ -289,7 +289,8 @@ var render = function() {
           {
             ref: "input",
             on: {
-              input: _vm.handleChange,
+              input: _vm.handleInput,
+              change: _vm.handleChange,
               focus: _vm.handleFocus,
               blur: _vm.handleBlur,
               clear: _vm.handleClear
@@ -562,7 +563,7 @@ var scrollbar_default = /*#__PURE__*/__webpack_require__.n(scrollbar_);
   },
   mounted: function mounted() {
     this.$parent.popperElm = this.popperElm = this.$el;
-    this.referenceElm = this.$parent.$refs.input.$refs.input;
+    this.referenceElm = this.$parent.$refs.input.$refs.input || this.$parent.$refs.input.$refs.textarea;
     this.referenceList = this.$el.querySelector('.el-autocomplete-suggestion__list');
     this.referenceList.setAttribute('role', 'listbox');
     this.referenceList.setAttribute('id', this.id);
@@ -616,6 +617,7 @@ var focus_ = __webpack_require__(22);
 var focus_default = /*#__PURE__*/__webpack_require__.n(focus_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/autocomplete/src/autocomplete.vue?vue&type=script&lang=js&
+//
 //
 //
 //
@@ -807,7 +809,7 @@ var focus_default = /*#__PURE__*/__webpack_require__.n(focus_);
         }
       });
     },
-    handleChange: function handleChange(value) {
+    handleInput: function handleInput(value) {
       this.$emit('input', value);
       this.suggestionDisabled = false;
       if (!this.triggerOnFocus && !value) {
@@ -816,6 +818,9 @@ var focus_default = /*#__PURE__*/__webpack_require__.n(focus_);
         return;
       }
       this.debouncedGetData(value);
+    },
+    handleChange: function handleChange(event) {
+      this.$emit('change', event.target.value);
     },
     handleFocus: function handleFocus(event) {
       this.activated = true;
