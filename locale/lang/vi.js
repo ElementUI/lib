@@ -110,14 +110,14 @@ exports.default = {
       hasCheckedFormat: '{checked}/{total} đã chọn '
     },
     image: {
-      error: 'FAILED' // to be translated
+      error: 'LỖI'
     },
     pageHeader: {
-      title: 'Back' // to be translated
+      title: 'Quay lại'
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No' // to be translated
+      confirmButtonText: 'Ok',
+      cancelButtonText: 'Huỷ'
     }
   }
 };

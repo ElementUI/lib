@@ -130,8 +130,8 @@
         title: 'Voltar'
       },
       popconfirm: {
-        confirmButtonText: 'Yes', // to be translated
-        cancelButtonText: 'No' // to be translated
+        confirmButtonText: 'Sim',
+        cancelButtonText: 'Não'
       }
     }
   };

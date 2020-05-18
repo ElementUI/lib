@@ -2086,8 +2086,8 @@ var focus_default = /*#__PURE__*/__webpack_require__.n(focus_);
       }
       this.debouncedGetData(value);
     },
-    handleChange: function handleChange(event) {
-      this.$emit('change', event.target.value);
+    handleChange: function handleChange(value) {
+      this.$emit('change', value);
     },
     handleFocus: function handleFocus(event) {
       this.activated = true;
@@ -38143,6 +38143,7 @@ var prevOverflow = '';
       this.imageWidth = img.width;
       this.imageHeight = img.height;
       this.loading = false;
+      this.error = false;
     },
     handleError: function handleError(e) {
       this.loading = false;
@@ -41515,7 +41516,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.13.1',
+  version: '2.13.2',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,

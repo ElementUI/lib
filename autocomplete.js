@@ -819,8 +819,8 @@ var focus_default = /*#__PURE__*/__webpack_require__.n(focus_);
       }
       this.debouncedGetData(value);
     },
-    handleChange: function handleChange(event) {
-      this.$emit('change', event.target.value);
+    handleChange: function handleChange(value) {
+      this.$emit('change', value);
     },
     handleFocus: function handleFocus(event) {
       this.activated = true;

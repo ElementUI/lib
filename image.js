@@ -950,6 +950,7 @@ var prevOverflow = '';
       this.imageWidth = img.width;
       this.imageHeight = img.height;
       this.loading = false;
+      this.error = false;
     },
     handleError: function handleError(e) {
       this.loading = false;
