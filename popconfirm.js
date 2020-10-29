@@ -391,11 +391,11 @@ var locale_ = __webpack_require__(19);
   methods: {
     confirm: function confirm() {
       this.visible = false;
-      this.$emit('onConfirm');
+      this.$emit('confirm');
     },
     cancel: function cancel() {
       this.visible = false;
-      this.$emit('onCancel');
+      this.$emit('cancel');
     }
   }
 });

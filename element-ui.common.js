@@ -30167,7 +30167,7 @@ progressvue_type_template_id_229ee406_render._withStripped = true
         if (typeof seriesColor === 'string') {
           return {
             color: seriesColor,
-            progress: (index + 1) * span
+            percentage: (index + 1) * span
           };
         }
         return seriesColor;
@@ -41351,11 +41351,11 @@ var popover_default = /*#__PURE__*/__webpack_require__.n(popover_);
   methods: {
     confirm: function confirm() {
       this.visible = false;
-      this.$emit('onConfirm');
+      this.$emit('confirm');
     },
     cancel: function cancel() {
       this.visible = false;
-      this.$emit('onCancel');
+      this.$emit('cancel');
     }
   }
 });
@@ -41516,7 +41516,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.13.2',
+  version: '2.14.0',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,
