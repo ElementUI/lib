@@ -21145,9 +21145,14 @@ var mainvue_type_template_id_52060272_render = function() {
           )
         ]
       ),
-      _vm._t("reference")
+      _c(
+        "span",
+        { ref: "wrapper", staticClass: "el-popover__reference-wrapper" },
+        [_vm._t("reference")],
+        2
+      )
     ],
-    2
+    1
   )
 }
 var mainvue_type_template_id_52060272_staticRenderFns = []
@@ -21157,6 +21162,8 @@ mainvue_type_template_id_52060272_render._withStripped = true
 // CONCATENATED MODULE: ./packages/popover/src/main.vue?vue&type=template&id=52060272&
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/popover/src/main.vue?vue&type=script&lang=js&
+//
+//
 //
 //
 //
@@ -21250,8 +21257,8 @@ mainvue_type_template_id_52060272_render._withStripped = true
     var reference = this.referenceElm = this.reference || this.$refs.reference;
     var popper = this.popper || this.$refs.popper;
 
-    if (!reference && this.$slots.reference && this.$slots.reference[0]) {
-      reference = this.referenceElm = this.$slots.reference[0].elm;
+    if (!reference && this.$refs.wrapper.children) {
+      reference = this.referenceElm = this.$refs.wrapper.children[0];
     }
     // 可访问性
     if (reference) {
@@ -21359,8 +21366,8 @@ mainvue_type_template_id_52060272_render._withStripped = true
       var reference = this.reference || this.$refs.reference;
       var popper = this.popper || this.$refs.popper;
 
-      if (!reference && this.$slots.reference && this.$slots.reference[0]) {
-        reference = this.referenceElm = this.$slots.reference[0].elm;
+      if (!reference && this.$refs.wrapper.children) {
+        reference = this.referenceElm = this.$refs.wrapper.children[0];
       }
       if (!this.$el || !reference || this.$el.contains(e.target) || reference.contains(e.target) || !popper || popper.contains(e.target)) return;
       this.showPopper = false;
@@ -41516,7 +41523,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.14.0',
+  version: '2.14.1',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,
