@@ -189,17 +189,17 @@ function normalizeComponent (
 
 /***/ }),
 
+/***/ 19:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/types");
+
+/***/ }),
+
 /***/ 2:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/dom");
-
-/***/ }),
-
-/***/ 20:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/types");
 
 /***/ }),
 
@@ -309,14 +309,24 @@ var image_viewervue_type_template_id_5e73b307_render = function() {
         attrs: { tabindex: "-1" }
       },
       [
-        _c("div", { staticClass: "el-image-viewer__mask" }),
+        _c("div", {
+          staticClass: "el-image-viewer__mask",
+          on: {
+            click: function($event) {
+              if ($event.target !== $event.currentTarget) {
+                return null
+              }
+              return _vm.handleMaskClick($event)
+            }
+          }
+        }),
         _c(
           "span",
           {
             staticClass: "el-image-viewer__btn el-image-viewer__close",
             on: { click: _vm.hide }
           },
-          [_c("i", { staticClass: "el-icon-circle-close" })]
+          [_c("i", { staticClass: "el-icon-close" })]
         ),
         !_vm.isSingle
           ? [
@@ -520,6 +530,14 @@ var mousewheelEventName = Object(util_["isFirefox"])() ? 'DOMMouseScroll' : 'mou
     initialIndex: {
       type: Number,
       default: 0
+    },
+    appendToBody: {
+      type: Boolean,
+      default: true
+    },
+    maskClosable: {
+      type: Boolean,
+      default: true
     }
   },
 
@@ -680,6 +698,11 @@ var mousewheelEventName = Object(util_["isFirefox"])() ? 'DOMMouseScroll' : 'mou
 
       e.preventDefault();
     },
+    handleMaskClick: function handleMaskClick() {
+      if (this.maskClosable) {
+        this.hide();
+      }
+    },
     reset: function reset() {
       this.transform = {
         scale: 1,
@@ -746,9 +769,18 @@ var mousewheelEventName = Object(util_["isFirefox"])() ? 'DOMMouseScroll' : 'mou
   },
   mounted: function mounted() {
     this.deviceSupportInstall();
+    if (this.appendToBody) {
+      document.body.appendChild(this.$el);
+    }
     // add tabindex then wrapper can be focusable via Javascript
     // focus wrapper so arrow key can't cause inner scroll behavior underneath
     this.$refs['el-image-viewer__wrapper'].focus();
+  },
+  destroyed: function destroyed() {
+    // if appendToBody is true, remove DOM node after destroy
+    if (this.appendToBody && this.$el && this.$el.parentNode) {
+      this.$el.parentNode.removeChild(this.$el);
+    }
   }
 });
 // CONCATENATED MODULE: ./packages/image/src/image-viewer.vue?vue&type=script&lang=js&
@@ -784,7 +816,7 @@ var locale_ = __webpack_require__(6);
 var locale_default = /*#__PURE__*/__webpack_require__.n(locale_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/types"
-var types_ = __webpack_require__(20);
+var types_ = __webpack_require__(19);
 
 // EXTERNAL MODULE: external "throttle-debounce/throttle"
 var throttle_ = __webpack_require__(25);

@@ -236,7 +236,7 @@ render._withStripped = true
 // CONCATENATED MODULE: ./packages/page-header/src/main.vue?vue&type=template&id=5070954c&
 
 // EXTERNAL MODULE: external "element-ui/lib/locale"
-var locale_ = __webpack_require__(19);
+var locale_ = __webpack_require__(20);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/page-header/src/main.vue?vue&type=script&lang=js&
 //
@@ -308,7 +308,7 @@ main.install = function (Vue) {
 
 /***/ }),
 
-/***/ 19:
+/***/ 20:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/locale");

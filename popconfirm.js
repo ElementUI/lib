@@ -196,7 +196,7 @@ module.exports = require("element-ui/lib/button");
 
 /***/ }),
 
-/***/ 19:
+/***/ 20:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/locale");
@@ -260,7 +260,13 @@ var render = function() {
                 attrs: { size: "mini", type: _vm.cancelButtonType },
                 on: { click: _vm.cancel }
               },
-              [_vm._v("\n        " + _vm._s(_vm.cancelButtonText) + "\n      ")]
+              [
+                _vm._v(
+                  "\n        " +
+                    _vm._s(_vm.displayCancelButtonText) +
+                    "\n      "
+                )
+              ]
             ),
             _c(
               "el-button",
@@ -270,7 +276,9 @@ var render = function() {
               },
               [
                 _vm._v(
-                  "\n        " + _vm._s(_vm.confirmButtonText) + "\n      "
+                  "\n        " +
+                    _vm._s(_vm.displayConfirmButtonText) +
+                    "\n      "
                 )
               ]
             )
@@ -298,7 +306,7 @@ var button_ = __webpack_require__(13);
 var button_default = /*#__PURE__*/__webpack_require__.n(button_);
 
 // EXTERNAL MODULE: external "element-ui/lib/locale"
-var locale_ = __webpack_require__(19);
+var locale_ = __webpack_require__(20);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/popconfirm/src/main.vue?vue&type=script&lang=js&
 //
@@ -350,12 +358,10 @@ var locale_ = __webpack_require__(19);
       type: String
     },
     confirmButtonText: {
-      type: String,
-      default: Object(locale_["t"])('el.popconfirm.confirmButtonText')
+      type: String
     },
     cancelButtonText: {
-      type: String,
-      default: Object(locale_["t"])('el.popconfirm.cancelButtonText')
+      type: String
     },
     confirmButtonType: {
       type: String,
@@ -388,6 +394,14 @@ var locale_ = __webpack_require__(19);
     };
   },
 
+  computed: {
+    displayConfirmButtonText: function displayConfirmButtonText() {
+      return this.confirmButtonText || Object(locale_["t"])('el.popconfirm.confirmButtonText');
+    },
+    displayCancelButtonText: function displayCancelButtonText() {
+      return this.cancelButtonText || Object(locale_["t"])('el.popconfirm.cancelButtonText');
+    }
+  },
   methods: {
     confirm: function confirm() {
       this.visible = false;

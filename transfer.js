@@ -217,17 +217,17 @@ module.exports = require("element-ui/lib/checkbox");
 
 /***/ }),
 
+/***/ 39:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/checkbox-group");
+
+/***/ }),
+
 /***/ 4:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/emitter");
-
-/***/ }),
-
-/***/ 40:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/checkbox-group");
 
 /***/ }),
 
@@ -532,7 +532,7 @@ transfer_panelvue_type_template_id_2ddab8bd_render._withStripped = true
 // CONCATENATED MODULE: ./packages/transfer/src/transfer-panel.vue?vue&type=template&id=2ddab8bd&
 
 // EXTERNAL MODULE: external "element-ui/lib/checkbox-group"
-var checkbox_group_ = __webpack_require__(40);
+var checkbox_group_ = __webpack_require__(39);
 var checkbox_group_default = /*#__PURE__*/__webpack_require__.n(checkbox_group_);
 
 // EXTERNAL MODULE: external "element-ui/lib/checkbox"

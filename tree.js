@@ -196,17 +196,17 @@ module.exports = require("element-ui/lib/checkbox");
 
 /***/ }),
 
-/***/ 19:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/locale");
-
-/***/ }),
-
 /***/ 2:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/dom");
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/locale");
 
 /***/ }),
 
@@ -1733,7 +1733,7 @@ if (false) { var api; }
 component.options.__file = "packages/tree/src/tree-node.vue"
 /* harmony default export */ var tree_node = (component.exports);
 // EXTERNAL MODULE: external "element-ui/lib/locale"
-var locale_ = __webpack_require__(19);
+var locale_ = __webpack_require__(20);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/dom"
 var dom_ = __webpack_require__(2);

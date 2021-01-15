@@ -85,8 +85,9 @@ module.exports =
 /******/ 	return __webpack_require__(__webpack_require__.s = 61);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -187,105 +188,71 @@ function normalizeComponent (
 
 
 /***/ }),
-/* 1 */,
-/* 2 */,
-/* 3 */
-/***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/util");
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/mixins/emitter");
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/vue-popper");
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/mixins/locale");
-
-/***/ }),
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */
+/***/ 10:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/input");
 
 /***/ }),
-/* 11 */,
-/* 12 */
+
+/***/ 12:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ }),
-/* 13 */,
-/* 14 */
+
+/***/ 14:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/scrollbar");
 
 /***/ }),
-/* 15 */,
-/* 16 */
+
+/***/ 16:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ }),
-/* 17 */
+
+/***/ 17:
 /***/ (function(module, exports) {
 
 module.exports = require("throttle-debounce/debounce");
 
 /***/ }),
-/* 18 */,
-/* 19 */
-/***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/locale");
-
-/***/ }),
-/* 20 */,
-/* 21 */
+/***/ 21:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/shared");
 
 /***/ }),
-/* 22 */
+
+/***/ 22:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/mixins/focus");
 
 /***/ }),
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */
+
+/***/ 3:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/util");
+
+/***/ }),
+
+/***/ 31:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/scroll-into-view");
 
 /***/ }),
-/* 32 */,
-/* 33 */,
-/* 34 */
+
+/***/ 33:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -535,38 +502,36 @@ component.options.__file = "packages/select/src/option.vue"
 /* harmony default export */ var src_option = __webpack_exports__["a"] = (component.exports);
 
 /***/ }),
-/* 35 */,
-/* 36 */,
-/* 37 */,
-/* 38 */
+
+/***/ 37:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/tag");
 
 /***/ }),
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */
+
+/***/ 4:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ }),
+
+/***/ 5:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/vue-popper");
+
+/***/ }),
+
+/***/ 6:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/locale");
+
+/***/ }),
+
+/***/ 61:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1194,10 +1159,10 @@ if (false) { var api; }
 component.options.__file = "packages/select/src/select-dropdown.vue"
 /* harmony default export */ var select_dropdown = (component.exports);
 // EXTERNAL MODULE: ./packages/select/src/option.vue + 4 modules
-var src_option = __webpack_require__(34);
+var src_option = __webpack_require__(33);
 
 // EXTERNAL MODULE: external "element-ui/lib/tag"
-var tag_ = __webpack_require__(38);
+var tag_ = __webpack_require__(37);
 var tag_default = /*#__PURE__*/__webpack_require__.n(tag_);
 
 // EXTERNAL MODULE: external "element-ui/lib/scrollbar"
@@ -1214,9 +1179,6 @@ var clickoutside_default = /*#__PURE__*/__webpack_require__.n(clickoutside_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/resize-event"
 var resize_event_ = __webpack_require__(16);
-
-// EXTERNAL MODULE: external "element-ui/lib/locale"
-var lib_locale_ = __webpack_require__(19);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/scroll-into-view"
 var scroll_into_view_ = __webpack_require__(31);
@@ -1445,7 +1407,6 @@ var shared_ = __webpack_require__(21);
 
 
 
-
 /* harmony default export */ var selectvue_type_script_lang_js_ = ({
   mixins: [emitter_default.a, locale_default.a, focus_default()('reference'), navigation_mixin],
 
@@ -1520,6 +1481,9 @@ var shared_ = __webpack_require__(21);
     },
     collapseTagSize: function collapseTagSize() {
       return ['small', 'mini'].indexOf(this.selectSize) > -1 ? 'mini' : 'small';
+    },
+    propPlaceholder: function propPlaceholder() {
+      return typeof this.placeholder !== 'undefined' ? this.placeholder : this.t('el.select.placeholder');
     }
   },
 
@@ -1572,9 +1536,7 @@ var shared_ = __webpack_require__(21);
     },
     placeholder: {
       type: String,
-      default: function _default() {
-        return Object(lib_locale_["t"])('el.select.placeholder');
-      }
+      required: false
     },
     defaultFirstOption: Boolean,
     reserveKeyword: Boolean,
@@ -1625,7 +1587,7 @@ var shared_ = __webpack_require__(21);
         _this2.resetInputHeight();
       });
     },
-    placeholder: function placeholder(val) {
+    propPlaceholder: function propPlaceholder(val) {
       this.cachedPlaceHolder = this.currentPlaceholder = val;
     },
     value: function value(val, oldVal) {
@@ -2110,7 +2072,7 @@ var shared_ = __webpack_require__(21);
   created: function created() {
     var _this13 = this;
 
-    this.cachedPlaceHolder = this.currentPlaceholder = this.placeholder;
+    this.cachedPlaceHolder = this.currentPlaceholder = this.propPlaceholder;
     if (this.multiple && !Array.isArray(this.value)) {
       this.$emit('input', []);
     }
@@ -2197,4 +2159,5 @@ src_select.install = function (Vue) {
 /* harmony default export */ var packages_select = __webpack_exports__["default"] = (src_select);
 
 /***/ })
-/******/ ]);
+
+/******/ });

@@ -196,13 +196,6 @@ module.exports = require("element-ui/lib/utils/popup");
 
 /***/ }),
 
-/***/ 32:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/aria-utils");
-
-/***/ }),
-
 /***/ 4:
 /***/ (function(module, exports) {
 
@@ -288,13 +281,7 @@ var render = function() {
                           _vm._t("title", [
                             _c(
                               "span",
-                              {
-                                attrs: {
-                                  role: "heading",
-                                  tabindex: "0",
-                                  title: _vm.title
-                                }
-                              },
+                              { attrs: { role: "heading", title: _vm.title } },
                               [_vm._v(_vm._s(_vm.title))]
                             )
                           ]),
@@ -353,10 +340,6 @@ var popup_default = /*#__PURE__*/__webpack_require__.n(popup_);
 var emitter_ = __webpack_require__(4);
 var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
 
-// EXTERNAL MODULE: external "element-ui/lib/utils/aria-utils"
-var aria_utils_ = __webpack_require__(32);
-var aria_utils_default = /*#__PURE__*/__webpack_require__.n(aria_utils_);
-
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/drawer/src/main.vue?vue&type=script&lang=js&
 //
 //
@@ -406,7 +389,6 @@ var aria_utils_default = /*#__PURE__*/__webpack_require__.n(aria_utils_);
 //
 //
 //
-
 
 
 
@@ -496,9 +478,6 @@ var aria_utils_default = /*#__PURE__*/__webpack_require__.n(aria_utils_);
           document.body.appendChild(this.$el);
         }
         this.prevActiveElement = document.activeElement;
-        this.$nextTick(function () {
-          aria_utils_default.a.focusFirstDescendant(_this.$refs.drawer);
-        });
       } else {
         if (!this.closed) this.$emit('close');
         this.$nextTick(function () {
