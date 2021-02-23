@@ -1042,7 +1042,8 @@ var prevOverflow = '';
 
       if (!imageWidth || !imageHeight || !containerWidth || !containerHeight) return {};
 
-      var vertical = imageWidth / imageHeight < 1;
+      var imageAspectRatio = imageWidth / imageHeight;
+      var containerAspectRatio = containerWidth / containerHeight;
 
       if (fit === ObjectFit.SCALE_DOWN) {
         var isSmaller = imageWidth < containerWidth && imageHeight < containerHeight;
@@ -1053,9 +1054,9 @@ var prevOverflow = '';
         case ObjectFit.NONE:
           return { width: 'auto', height: 'auto' };
         case ObjectFit.CONTAIN:
-          return vertical ? { width: 'auto' } : { height: 'auto' };
+          return imageAspectRatio < containerAspectRatio ? { width: 'auto' } : { height: 'auto' };
         case ObjectFit.COVER:
-          return vertical ? { height: 'auto' } : { width: 'auto' };
+          return imageAspectRatio < containerAspectRatio ? { height: 'auto' } : { width: 'auto' };
         default:
           return {};
       }

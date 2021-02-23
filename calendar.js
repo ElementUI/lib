@@ -396,13 +396,6 @@ var date_util_ = __webpack_require__(1);
 
   inject: ['elCalendar'],
 
-  data: function data() {
-    return {
-      WEEK_DAYS: Object(date_util_["getI18nSettings"])().dayNames
-    };
-  },
-
-
   methods: {
     toNestedArr: function toNestedArr(days) {
       return Object(date_util_["range"])(days.length / 7).map(function (_, index) {
@@ -466,6 +459,9 @@ var date_util_ = __webpack_require__(1);
   },
 
   computed: {
+    WEEK_DAYS: function WEEK_DAYS() {
+      return Object(date_util_["getI18nSettings"])().dayNames;
+    },
     prevMonthDatePrefix: function prevMonthDatePrefix() {
       var temp = new Date(this.date.getTime());
       temp.setDate(0);

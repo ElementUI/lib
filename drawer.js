@@ -259,8 +259,8 @@ var render = function() {
                   staticClass: "el-drawer",
                   class: [_vm.direction, _vm.customClass],
                   style: _vm.isHorizontal
-                    ? "width: " + _vm.size
-                    : "height: " + _vm.size,
+                    ? "width: " + _vm.drawerSize
+                    : "height: " + _vm.drawerSize,
                   attrs: {
                     "aria-modal": "true",
                     "aria-labelledby": "el-drawer__title",
@@ -436,7 +436,7 @@ var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
       default: true
     },
     size: {
-      type: String,
+      type: [Number, String],
       default: '30%'
     },
     title: {
@@ -458,6 +458,9 @@ var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
   computed: {
     isHorizontal: function isHorizontal() {
       return this.direction === 'rtl' || this.direction === 'ltr';
+    },
+    drawerSize: function drawerSize() {
+      return typeof this.size === 'number' ? this.size + 'px' : this.size;
     }
   },
   data: function data() {

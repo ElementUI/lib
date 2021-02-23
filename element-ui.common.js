@@ -34495,7 +34495,7 @@ var Color = function () {
       }
     } else if (value.indexOf('#') !== -1) {
       var hex = value.replace('#', '').trim();
-      if (!/^(?:[0-9a-fA-F]{3}){1,2}$/.test(hex)) return;
+      if (!/^(?:[0-9a-fA-F]{3}){1,2}|[0-9a-fA-F]{8}$/.test(hex)) return;
       var r = void 0,
           g = void 0,
           b = void 0;
@@ -38242,7 +38242,8 @@ var prevOverflow = '';
 
       if (!imageWidth || !imageHeight || !containerWidth || !containerHeight) return {};
 
-      var vertical = imageWidth / imageHeight < 1;
+      var imageAspectRatio = imageWidth / imageHeight;
+      var containerAspectRatio = containerWidth / containerHeight;
 
       if (fit === ObjectFit.SCALE_DOWN) {
         var isSmaller = imageWidth < containerWidth && imageHeight < containerHeight;
@@ -38253,9 +38254,9 @@ var prevOverflow = '';
         case ObjectFit.NONE:
           return { width: 'auto', height: 'auto' };
         case ObjectFit.CONTAIN:
-          return vertical ? { width: 'auto' } : { height: 'auto' };
+          return imageAspectRatio < containerAspectRatio ? { width: 'auto' } : { height: 'auto' };
         case ObjectFit.COVER:
-          return vertical ? { height: 'auto' } : { width: 'auto' };
+          return imageAspectRatio < containerAspectRatio ? { height: 'auto' } : { width: 'auto' };
         default:
           return {};
       }
@@ -38461,13 +38462,6 @@ var date_default = /*#__PURE__*/__webpack_require__.n(date_);
 
   inject: ['elCalendar'],
 
-  data: function data() {
-    return {
-      WEEK_DAYS: Object(date_util_["getI18nSettings"])().dayNames
-    };
-  },
-
-
   methods: {
     toNestedArr: function toNestedArr(days) {
       return Object(date_util_["range"])(days.length / 7).map(function (_, index) {
@@ -38531,6 +38525,9 @@ var date_default = /*#__PURE__*/__webpack_require__.n(date_);
   },
 
   computed: {
+    WEEK_DAYS: function WEEK_DAYS() {
+      return Object(date_util_["getI18nSettings"])().dayNames;
+    },
     prevMonthDatePrefix: function prevMonthDatePrefix() {
       var temp = new Date(this.date.getTime());
       temp.setDate(0);
@@ -40425,6 +40422,7 @@ var checkNode = function checkNode(el) {
           checkedValue = this.checkedValue;
 
       if (!Object(util_["isEqual"])(value, checkedValue)) {
+        this.activePath = [];
         this.checkedValue = value;
         this.syncMenuState();
       }
@@ -40908,8 +40906,8 @@ var mainvue_type_template_id_a4885264_render = function() {
                   staticClass: "el-drawer",
                   class: [_vm.direction, _vm.customClass],
                   style: _vm.isHorizontal
-                    ? "width: " + _vm.size
-                    : "height: " + _vm.size,
+                    ? "width: " + _vm.drawerSize
+                    : "height: " + _vm.drawerSize,
                   attrs: {
                     "aria-modal": "true",
                     "aria-labelledby": "el-drawer__title",
@@ -41077,7 +41075,7 @@ mainvue_type_template_id_a4885264_render._withStripped = true
       default: true
     },
     size: {
-      type: String,
+      type: [Number, String],
       default: '30%'
     },
     title: {
@@ -41099,6 +41097,9 @@ mainvue_type_template_id_a4885264_render._withStripped = true
   computed: {
     isHorizontal: function isHorizontal() {
       return this.direction === 'rtl' || this.direction === 'ltr';
+    },
+    drawerSize: function drawerSize() {
+      return typeof this.size === 'number' ? this.size + 'px' : this.size;
     }
   },
   data: function data() {
@@ -41559,7 +41560,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.15.0',
+  version: '2.15.1',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,

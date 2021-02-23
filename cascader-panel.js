@@ -1259,6 +1259,7 @@ var checkNode = function checkNode(el) {
           checkedValue = this.checkedValue;
 
       if (!Object(util_["isEqual"])(value, checkedValue)) {
+        this.activePath = [];
         this.checkedValue = value;
         this.syncMenuState();
       }
