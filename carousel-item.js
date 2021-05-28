@@ -349,6 +349,7 @@ var CARD_SCALE = 0.83;
         this.active = index === activeIndex;
         var isVertical = parentDirection === 'vertical';
         this.translate = this.calcTranslate(index, activeIndex, isVertical);
+        this.scale = 1;
       }
       this.ready = true;
     },

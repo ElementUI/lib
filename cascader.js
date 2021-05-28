@@ -210,7 +210,7 @@ module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ }),
 
-/***/ 14:
+/***/ 15:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/scrollbar");
@@ -406,7 +406,7 @@ var render = function() {
             "div",
             { staticClass: "el-cascader__tags" },
             [
-              _vm._l(_vm.presentTags, function(tag, index) {
+              _vm._l(_vm.presentTags, function(tag) {
                 return _c(
                   "el-tag",
                   {
@@ -420,7 +420,7 @@ var render = function() {
                     },
                     on: {
                       close: function($event) {
-                        _vm.deleteTag(index)
+                        _vm.deleteTag(tag)
                       }
                     }
                   },
@@ -642,7 +642,7 @@ var tag_ = __webpack_require__(37);
 var tag_default = /*#__PURE__*/__webpack_require__.n(tag_);
 
 // EXTERNAL MODULE: external "element-ui/lib/scrollbar"
-var scrollbar_ = __webpack_require__(14);
+var scrollbar_ = __webpack_require__(15);
 var scrollbar_default = /*#__PURE__*/__webpack_require__.n(scrollbar_);
 
 // EXTERNAL MODULE: external "element-ui/lib/cascader-panel"
@@ -1310,7 +1310,7 @@ var InputSizeMap = {
 
       if (this.pressDeleteCount) {
         if (lastTag.hitState) {
-          this.deleteTag(lastIndex);
+          this.deleteTag(lastTag);
         } else {
           lastTag.hitState = true;
         }
@@ -1331,12 +1331,15 @@ var InputSizeMap = {
         this.toggleDropDownVisible(false);
       }
     },
-    deleteTag: function deleteTag(index) {
+    deleteTag: function deleteTag(tag) {
       var checkedValue = this.checkedValue;
 
-      var val = checkedValue[index];
-      this.checkedValue = checkedValue.filter(function (n, i) {
-        return i !== index;
+      var current = tag.node.getValueByOption();
+      var val = checkedValue.find(function (n) {
+        return Object(util_["isEqual"])(n, current);
+      });
+      this.checkedValue = checkedValue.filter(function (n) {
+        return !Object(util_["isEqual"])(n, current);
       });
       this.$emit('remove-tag', val);
     },

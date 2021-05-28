@@ -518,6 +518,10 @@ var resize_event_ = __webpack_require__(16);
     },
     loop: function loop() {
       this.setActiveItem(this.activeIndex);
+    },
+    interval: function interval() {
+      this.pauseTimer();
+      this.startTimer();
     }
   },
 

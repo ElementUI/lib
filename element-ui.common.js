@@ -155,19 +155,19 @@ module.exports = require("element-ui/lib/utils/clickoutside");
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/button");
+module.exports = require("element-ui/lib/utils/popup");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/resize-event");
+module.exports = require("element-ui/lib/button");
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/popup");
+module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ }),
 /* 14 */
@@ -1284,7 +1284,7 @@ componentvue_type_template_id_60140e62_render._withStripped = true
 // CONCATENATED MODULE: ./packages/dialog/src/component.vue?vue&type=template&id=60140e62&
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/popup"
-var popup_ = __webpack_require__(13);
+var popup_ = __webpack_require__(11);
 var popup_default = /*#__PURE__*/__webpack_require__.n(popup_);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/migrating"
@@ -2214,7 +2214,7 @@ autocomplete.install = function (Vue) {
 
 /* harmony default export */ var packages_autocomplete = (autocomplete);
 // EXTERNAL MODULE: external "element-ui/lib/button"
-var button_ = __webpack_require__(11);
+var button_ = __webpack_require__(12);
 var button_default = /*#__PURE__*/__webpack_require__.n(button_);
 
 // EXTERNAL MODULE: external "element-ui/lib/button-group"
@@ -4911,8 +4911,12 @@ var shared_ = __webpack_require__(19);
       this.$emit('clear');
     },
     handlePasswordVisible: function handlePasswordVisible() {
+      var _this2 = this;
+
       this.passwordVisible = !this.passwordVisible;
-      this.focus();
+      this.$nextTick(function () {
+        _this2.focus();
+      });
     },
     getInput: function getInput() {
       return this.$refs.input || this.$refs.textarea;
@@ -8186,7 +8190,7 @@ var tag_ = __webpack_require__(29);
 var tag_default = /*#__PURE__*/__webpack_require__.n(tag_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/resize-event"
-var resize_event_ = __webpack_require__(12);
+var resize_event_ = __webpack_require__(13);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/scroll-into-view"
 var scroll_into_view_ = __webpack_require__(27);
@@ -10337,7 +10341,7 @@ function walkTreeNode(root, cb) {
 
 
 
-/* harmony default export */ var current = ({
+/* harmony default export */ var store_current = ({
   data: function data() {
     return {
       states: {
@@ -10722,7 +10726,7 @@ var doFlattenColumns = function doFlattenColumns(columns) {
   },
 
 
-  mixins: [expand, current, tree],
+  mixins: [expand, store_current, tree],
 
   methods: {
     // 检查 rowKey 是否存在
@@ -24572,16 +24576,16 @@ var tag_component = normalizeComponent(
 /* hot reload */
 if (false) { var tag_api; }
 tag_component.options.__file = "packages/tag/src/tag.vue"
-/* harmony default export */ var tag = (tag_component.exports);
+/* harmony default export */ var src_tag = (tag_component.exports);
 // CONCATENATED MODULE: ./packages/tag/index.js
 
 
 /* istanbul ignore next */
-tag.install = function (Vue) {
-  Vue.component(tag.name, tag);
+src_tag.install = function (Vue) {
+  Vue.component(src_tag.name, src_tag);
 };
 
-/* harmony default export */ var packages_tag = (tag);
+/* harmony default export */ var packages_tag = (src_tag);
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/tree/src/tree.vue?vue&type=template&id=547575a6&
 var treevue_type_template_id_547575a6_render = function() {
   var _vm = this
@@ -32016,6 +32020,10 @@ var throttle_default = /*#__PURE__*/__webpack_require__.n(throttle_);
     },
     loop: function loop() {
       this.setActiveItem(this.activeIndex);
+    },
+    interval: function interval() {
+      this.pauseTimer();
+      this.startTimer();
     }
   },
 
@@ -32619,6 +32627,7 @@ var CARD_SCALE = 0.83;
         this.active = index === activeIndex;
         var isVertical = parentDirection === 'vertical';
         this.translate = this.calcTranslate(index, activeIndex, isVertical);
+        this.scale = 1;
       }
       this.ready = true;
     },
@@ -33169,7 +33178,7 @@ var cascadervue_type_template_id_032537a6_render = function() {
             "div",
             { staticClass: "el-cascader__tags" },
             [
-              _vm._l(_vm.presentTags, function(tag, index) {
+              _vm._l(_vm.presentTags, function(tag) {
                 return _c(
                   "el-tag",
                   {
@@ -33183,7 +33192,7 @@ var cascadervue_type_template_id_032537a6_render = function() {
                     },
                     on: {
                       close: function($event) {
-                        _vm.deleteTag(index)
+                        _vm.deleteTag(tag)
                       }
                     }
                   },
@@ -34022,7 +34031,7 @@ var InputSizeMap = {
 
       if (this.pressDeleteCount) {
         if (lastTag.hitState) {
-          this.deleteTag(lastIndex);
+          this.deleteTag(lastTag);
         } else {
           lastTag.hitState = true;
         }
@@ -34043,12 +34052,15 @@ var InputSizeMap = {
         this.toggleDropDownVisible(false);
       }
     },
-    deleteTag: function deleteTag(index) {
+    deleteTag: function deleteTag(tag) {
       var checkedValue = this.checkedValue;
 
-      var val = checkedValue[index];
-      this.checkedValue = checkedValue.filter(function (n, i) {
-        return i !== index;
+      var current = tag.node.getValueByOption();
+      var val = checkedValue.find(function (n) {
+        return Object(util_["isEqual"])(n, current);
+      });
+      this.checkedValue = checkedValue.filter(function (n) {
+        return !Object(util_["isEqual"])(n, current);
       });
       this.$emit('remove-tag', val);
     },
@@ -37525,7 +37537,7 @@ var image_viewervue_type_template_id_5e73b307_render = function() {
       {
         ref: "el-image-viewer__wrapper",
         staticClass: "el-image-viewer__wrapper",
-        style: { "z-index": _vm.zIndex },
+        style: { "z-index": _vm.viewerZIndex },
         attrs: { tabindex: "-1" }
       },
       [
@@ -37706,6 +37718,7 @@ var image_viewervue_type_script_lang_js_extends = Object.assign || function (tar
 
 
 
+
 var Mode = {
   CONTAIN: {
     name: 'contain',
@@ -37803,6 +37816,10 @@ var mousewheelEventName = Object(util_["isFirefox"])() ? 'DOMMouseScroll' : 'mou
         style.maxWidth = style.maxHeight = '100%';
       }
       return style;
+    },
+    viewerZIndex: function viewerZIndex() {
+      var nextZIndex = popup_["PopupManager"].nextZIndex();
+      return this.zIndex > nextZIndex ? this.zIndex : nextZIndex;
     }
   },
   watch: {
@@ -37831,7 +37848,8 @@ var mousewheelEventName = Object(util_["isFirefox"])() ? 'DOMMouseScroll' : 'mou
     deviceSupportInstall: function deviceSupportInstall() {
       var _this2 = this;
 
-      this._keyDownHandler = Object(util_["rafThrottle"])(function (e) {
+      this._keyDownHandler = function (e) {
+        e.stopPropagation();
         var keyCode = e.keyCode;
         switch (keyCode) {
           // ESC
@@ -37859,7 +37877,7 @@ var mousewheelEventName = Object(util_["isFirefox"])() ? 'DOMMouseScroll' : 'mou
             _this2.handleActions('zoomOut');
             break;
         }
-      });
+      };
       this._mouseWheelHandler = Object(util_["rafThrottle"])(function (e) {
         var delta = e.wheelDelta ? e.wheelDelta : -e.detail;
         if (delta > 0) {
@@ -41560,7 +41578,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.15.1',
+  version: '2.15.2',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,

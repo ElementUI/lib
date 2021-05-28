@@ -917,8 +917,12 @@ var shared_ = __webpack_require__(21);
       this.$emit('clear');
     },
     handlePasswordVisible: function handlePasswordVisible() {
+      var _this2 = this;
+
       this.passwordVisible = !this.passwordVisible;
-      this.focus();
+      this.$nextTick(function () {
+        _this2.focus();
+      });
     },
     getInput: function getInput() {
       return this.$refs.input || this.$refs.textarea;

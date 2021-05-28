@@ -534,17 +534,17 @@ module.exports = require("element-ui/lib/mixins/migrating");
 module.exports = require("element-ui/lib/utils/clickoutside");
 
 /***/ }),
-/* 13 */,
-/* 14 */
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/scrollbar");
-
-/***/ }),
-/* 15 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/popup");
+
+/***/ }),
+/* 14 */,
+/* 15 */
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/scrollbar");
 
 /***/ }),
 /* 16 */
@@ -3189,7 +3189,7 @@ var vue_popper_ = __webpack_require__(5);
 var vue_popper_default = /*#__PURE__*/__webpack_require__.n(vue_popper_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/popup"
-var popup_ = __webpack_require__(15);
+var popup_ = __webpack_require__(13);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/clickoutside"
 var clickoutside_ = __webpack_require__(12);
@@ -3228,7 +3228,7 @@ var checkbox_group_ = __webpack_require__(39);
 var checkbox_group_default = /*#__PURE__*/__webpack_require__.n(checkbox_group_);
 
 // EXTERNAL MODULE: external "element-ui/lib/scrollbar"
-var scrollbar_ = __webpack_require__(14);
+var scrollbar_ = __webpack_require__(15);
 var scrollbar_default = /*#__PURE__*/__webpack_require__.n(scrollbar_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/table/src/filter-panel.vue?vue&type=script&lang=js&
