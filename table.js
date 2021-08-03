@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 56);
+/******/ 	return __webpack_require__(__webpack_require__.s = 57);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -553,19 +553,19 @@ module.exports = require("element-ui/lib/scrollbar");
 module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ }),
-/* 17 */
+/* 17 */,
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = require("throttle-debounce/debounce");
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/checkbox");
 
 /***/ }),
-/* 19 */,
 /* 20 */,
 /* 21 */,
 /* 22 */,
@@ -627,7 +627,8 @@ module.exports = require("normalize-wheel");
 /* 53 */,
 /* 54 */,
 /* 55 */,
-/* 56 */
+/* 56 */,
+/* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1076,7 +1077,7 @@ render._withStripped = true
 // CONCATENATED MODULE: ./packages/table/src/table.vue?vue&type=template&id=493fe34e&
 
 // EXTERNAL MODULE: external "element-ui/lib/checkbox"
-var checkbox_ = __webpack_require__(18);
+var checkbox_ = __webpack_require__(19);
 var checkbox_default = /*#__PURE__*/__webpack_require__.n(checkbox_);
 
 // EXTERNAL MODULE: external "throttle-debounce"
@@ -1498,16 +1499,18 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       var _this = this;
 
       var load = this.table.load;
-      var _states6 = this.states,
-          lazyTreeNodeMap = _states6.lazyTreeNodeMap,
-          treeData = _states6.treeData;
+      var rawTreeData = this.states.treeData;
 
-      if (load && !treeData[key].loaded) {
-        treeData[key].loading = true;
+      if (load && !rawTreeData[key].loaded) {
+        rawTreeData[key].loading = true;
         load(row, treeNode, function (data) {
           if (!Array.isArray(data)) {
             throw new Error('[ElTable] data must be an array');
           }
+          var _states6 = _this.states,
+              lazyTreeNodeMap = _states6.lazyTreeNodeMap,
+              treeData = _states6.treeData;
+
           treeData[key].loading = false;
           treeData[key].loaded = true;
           treeData[key].expanded = true;
@@ -2095,7 +2098,7 @@ watcher.prototype.updateTableScrollY = function () {
 
 /* harmony default export */ var src_store = (watcher);
 // EXTERNAL MODULE: external "throttle-debounce/debounce"
-var debounce_ = __webpack_require__(17);
+var debounce_ = __webpack_require__(18);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 // CONCATENATED MODULE: ./packages/table/src/store/helper.js

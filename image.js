@@ -196,7 +196,7 @@ module.exports = require("element-ui/lib/utils/popup");
 
 /***/ }),
 
-/***/ 19:
+/***/ 17:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/types");
@@ -832,7 +832,7 @@ var locale_ = __webpack_require__(6);
 var locale_default = /*#__PURE__*/__webpack_require__.n(locale_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/types"
-var types_ = __webpack_require__(19);
+var types_ = __webpack_require__(17);
 
 // EXTERNAL MODULE: external "throttle-debounce/throttle"
 var throttle_ = __webpack_require__(25);

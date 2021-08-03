@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 78);
+/******/ 	return __webpack_require__(__webpack_require__.s = 101);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -196,112 +196,7 @@ module.exports = require("element-ui/lib/input");
 
 /***/ }),
 
-/***/ 11:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/mixins/migrating");
-
-/***/ }),
-
-/***/ 12:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/clickoutside");
-
-/***/ }),
-
-/***/ 15:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/scrollbar");
-
-/***/ }),
-
-/***/ 16:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/resize-event");
-
-/***/ }),
-
-/***/ 17:
-/***/ (function(module, exports) {
-
-module.exports = require("throttle-debounce/debounce");
-
-/***/ }),
-
-/***/ 19:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/types");
-
-/***/ }),
-
-/***/ 20:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/locale");
-
-/***/ }),
-
-/***/ 21:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/shared");
-
-/***/ }),
-
-/***/ 3:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/util");
-
-/***/ }),
-
-/***/ 37:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/tag");
-
-/***/ }),
-
-/***/ 4:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/mixins/emitter");
-
-/***/ }),
-
-/***/ 40:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/aria-utils");
-
-/***/ }),
-
-/***/ 5:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/vue-popper");
-
-/***/ }),
-
-/***/ 50:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/cascader-panel");
-
-/***/ }),
-
-/***/ 6:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/mixins/locale");
-
-/***/ }),
-
-/***/ 78:
+/***/ 101:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -660,7 +555,7 @@ var lib_locale_ = __webpack_require__(20);
 var util_ = __webpack_require__(3);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/types"
-var types_ = __webpack_require__(19);
+var types_ = __webpack_require__(17);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/shared"
 var shared_ = __webpack_require__(21);
@@ -669,7 +564,7 @@ var shared_ = __webpack_require__(21);
 var resize_event_ = __webpack_require__(16);
 
 // EXTERNAL MODULE: external "throttle-debounce/debounce"
-var debounce_ = __webpack_require__(17);
+var debounce_ = __webpack_require__(18);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/cascader/src/cascader.vue?vue&type=script&lang=js&
@@ -911,7 +806,7 @@ var InputSizeMap = {
   data: function data() {
     return {
       dropDownVisible: false,
-      checkedValue: this.value || null,
+      checkedValue: this.value,
       inputHover: false,
       inputValue: null,
       presentText: null,
@@ -1039,7 +934,7 @@ var InputSizeMap = {
       this.inputInitialHeight = input.$el.offsetHeight || InputSizeMap[this.realSize] || 40;
     }
 
-    if (!Object(util_["isEmpty"])(this.value)) {
+    if (!this.isEmptyValue(this.value)) {
       this.computePresentContent();
     }
 
@@ -1185,11 +1080,20 @@ var InputSizeMap = {
         }
       });
     },
+    isEmptyValue: function isEmptyValue(val) {
+      var multiple = this.multiple;
+      var emitPath = this.panel.config.emitPath;
+
+      if (multiple || emitPath) {
+        return Object(util_["isEmpty"])(val);
+      }
+      return false;
+    },
     computePresentText: function computePresentText() {
       var checkedValue = this.checkedValue,
           config = this.config;
 
-      if (!Object(util_["isEmpty"])(checkedValue)) {
+      if (!this.isEmptyValue(checkedValue)) {
         var node = this.panel.getNodeByValue(checkedValue);
         if (node && (config.checkStrictly || node.isLeaf)) {
           this.presentText = node.getText(this.showAllLevels, this.separator);
@@ -1418,6 +1322,111 @@ cascader.install = function (Vue) {
 };
 
 /* harmony default export */ var packages_cascader = __webpack_exports__["default"] = (cascader);
+
+/***/ }),
+
+/***/ 11:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/migrating");
+
+/***/ }),
+
+/***/ 12:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/clickoutside");
+
+/***/ }),
+
+/***/ 15:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/scrollbar");
+
+/***/ }),
+
+/***/ 16:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/resize-event");
+
+/***/ }),
+
+/***/ 17:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/types");
+
+/***/ }),
+
+/***/ 18:
+/***/ (function(module, exports) {
+
+module.exports = require("throttle-debounce/debounce");
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/locale");
+
+/***/ }),
+
+/***/ 21:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/shared");
+
+/***/ }),
+
+/***/ 3:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/util");
+
+/***/ }),
+
+/***/ 37:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/tag");
+
+/***/ }),
+
+/***/ 4:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/emitter");
+
+/***/ }),
+
+/***/ 40:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/aria-utils");
+
+/***/ }),
+
+/***/ 5:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/vue-popper");
+
+/***/ }),
+
+/***/ 50:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/cascader-panel");
+
+/***/ }),
+
+/***/ 6:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/locale");
 
 /***/ })
 
