@@ -1886,7 +1886,7 @@ var shared_ = __webpack_require__(21);
           return item.tagName === 'INPUT';
         })[0];
         var tags = _this10.$refs.tags;
-        var tagsHeight = Math.round(tags.getBoundingClientRect().height);
+        var tagsHeight = tags ? Math.round(tags.getBoundingClientRect().height) : 0;
         var sizeInMap = _this10.initialInputHeight || 40;
         input.style.height = _this10.selected.length === 0 ? sizeInMap + 'px' : Math.max(tags ? tagsHeight + (tagsHeight > sizeInMap ? 6 : 0) : 0, sizeInMap) + 'px';
         if (_this10.visible && _this10.emptyText !== false) {

@@ -8894,7 +8894,7 @@ var scroll_into_view_default = /*#__PURE__*/__webpack_require__.n(scroll_into_vi
           return item.tagName === 'INPUT';
         })[0];
         var tags = _this10.$refs.tags;
-        var tagsHeight = Math.round(tags.getBoundingClientRect().height);
+        var tagsHeight = tags ? Math.round(tags.getBoundingClientRect().height) : 0;
         var sizeInMap = _this10.initialInputHeight || 40;
         input.style.height = _this10.selected.length === 0 ? sizeInMap + 'px' : Math.max(tags ? tagsHeight + (tagsHeight > sizeInMap ? 6 : 0) : 0, sizeInMap) + 'px';
         if (_this10.visible && _this10.emptyText !== false) {
@@ -43213,7 +43213,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.15.4',
+  version: '2.15.5',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,
