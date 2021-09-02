@@ -259,7 +259,8 @@ var render = function() {
               "aria-hidden": "true",
               name: _vm.name,
               disabled: _vm.isDisabled,
-              tabindex: "-1"
+              tabindex: "-1",
+              autocomplete: "off"
             },
             domProps: {
               value: _vm.label,
@@ -312,6 +313,7 @@ var emitter_ = __webpack_require__(4);
 var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/radio/src/radio.vue?vue&type=script&lang=js&
+//
 //
 //
 //

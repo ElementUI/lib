@@ -2284,6 +2284,10 @@ var button_group_default = /*#__PURE__*/__webpack_require__.n(button_group_);
     tabindex: {
       type: Number,
       default: 0
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -2341,7 +2345,7 @@ var button_group_default = /*#__PURE__*/__webpack_require__.n(button_group_);
     show: function show() {
       var _this = this;
 
-      if (this.triggerElm.disabled) return;
+      if (this.disabled) return;
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
         _this.visible = true;
@@ -2350,7 +2354,7 @@ var button_group_default = /*#__PURE__*/__webpack_require__.n(button_group_);
     hide: function hide() {
       var _this2 = this;
 
-      if (this.triggerElm.disabled) return;
+      if (this.disabled) return;
       this.removeTabindex();
       if (this.tabindex >= 0) {
         this.resetTabindex(this.triggerElm);
@@ -2361,7 +2365,7 @@ var button_group_default = /*#__PURE__*/__webpack_require__.n(button_group_);
       }, this.trigger === 'click' ? 0 : this.hideTimeout);
     },
     handleClick: function handleClick() {
-      if (this.triggerElm.disabled) return;
+      if (this.disabled) return;
       if (this.visible) {
         this.hide();
       } else {
@@ -2505,7 +2509,8 @@ var button_group_default = /*#__PURE__*/__webpack_require__.n(button_group_);
     var hide = this.hide,
         splitButton = this.splitButton,
         type = this.type,
-        dropdownSize = this.dropdownSize;
+        dropdownSize = this.dropdownSize,
+        disabled = this.disabled;
 
 
     var handleMainButtonClick = function handleMainButtonClick(event) {
@@ -2513,30 +2518,45 @@ var button_group_default = /*#__PURE__*/__webpack_require__.n(button_group_);
       hide();
     };
 
-    var triggerElm = !splitButton ? this.$slots.default : h('el-button-group', [h(
-      'el-button',
-      {
-        attrs: { type: type, size: dropdownSize },
-        nativeOn: {
-          'click': handleMainButtonClick
-        }
-      },
-      [this.$slots.default]
-    ), h(
-      'el-button',
-      { ref: 'trigger', attrs: { type: type, size: dropdownSize },
-        'class': 'el-dropdown__caret-button' },
-      [h('i', { 'class': 'el-dropdown__icon el-icon-arrow-down' })]
-    )]);
+    var triggerElm = null;
+    if (splitButton) {
+      triggerElm = h('el-button-group', [h(
+        'el-button',
+        {
+          attrs: { type: type, size: dropdownSize, disabled: disabled },
+          nativeOn: {
+            'click': handleMainButtonClick
+          }
+        },
+        [this.$slots.default]
+      ), h(
+        'el-button',
+        { ref: 'trigger', attrs: { type: type, size: dropdownSize, disabled: disabled },
+          'class': 'el-dropdown__caret-button' },
+        [h('i', { 'class': 'el-dropdown__icon el-icon-arrow-down' })]
+      )]);
+    } else {
+      triggerElm = this.$slots.default;
+      var vnodeData = triggerElm[0].data || {};
+      var _vnodeData$attrs = vnodeData.attrs,
+          attrs = _vnodeData$attrs === undefined ? {} : _vnodeData$attrs;
+
+      if (disabled && !attrs.disabled) {
+        attrs.disabled = true;
+        vnodeData.attrs = attrs;
+      }
+    }
+    var menuElm = disabled ? null : this.$slots.dropdown;
 
     return h(
       'div',
       { 'class': 'el-dropdown', directives: [{
           name: 'clickoutside',
           value: hide
-        }]
+        }],
+        attrs: { 'aria-disabled': disabled }
       },
-      [triggerElm, this.$slots.dropdown]
+      [triggerElm, menuElm]
     );
   }
 });
@@ -5532,7 +5552,8 @@ var radiovue_type_template_id_69cd6268_render = function() {
               "aria-hidden": "true",
               name: _vm.name,
               disabled: _vm.isDisabled,
-              tabindex: "-1"
+              tabindex: "-1",
+              autocomplete: "off"
             },
             domProps: {
               value: _vm.label,
@@ -5581,6 +5602,7 @@ radiovue_type_template_id_69cd6268_render._withStripped = true
 // CONCATENATED MODULE: ./packages/radio/src/radio.vue?vue&type=template&id=69cd6268&
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/radio/src/radio.vue?vue&type=script&lang=js&
+//
 //
 //
 //
@@ -5972,7 +5994,8 @@ var radio_buttonvue_type_template_id_18a77a32_render = function() {
           type: "radio",
           name: _vm.name,
           disabled: _vm.isDisabled,
-          tabindex: "-1"
+          tabindex: "-1",
+          autocomplete: "off"
         },
         domProps: { value: _vm.label, checked: _vm._q(_vm.value, _vm.label) },
         on: {
@@ -6017,6 +6040,7 @@ radio_buttonvue_type_template_id_18a77a32_render._withStripped = true
 // CONCATENATED MODULE: ./packages/radio/src/radio-button.vue?vue&type=template&id=18a77a32&
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/radio/src/radio-button.vue?vue&type=script&lang=js&
+//
 //
 //
 //
@@ -11862,6 +11886,8 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
         }));
       }
 
+      classes.push('el-table__cell');
+
       return classes.join(' ');
     },
     getColspanRealWidth: function getColspanRealWidth(columns, colspan, index) {
@@ -12079,7 +12105,7 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
             'td',
             {
               attrs: { colspan: this.columnsCount },
-              'class': 'el-table__expanded-cell' },
+              'class': 'el-table__cell el-table__expanded-cell' },
             [renderExpanded(this.$createElement, { row: row, $index: $index, store: this.store })]
           )]
         )]];
@@ -12730,7 +12756,7 @@ var convertToRows = function convertToRows(originColumns) {
                   ) : '']
                 )]
               );
-            }), _this.hasGutter ? h('th', { 'class': 'gutter' }) : '']
+            }), _this.hasGutter ? h('th', { 'class': 'el-table__cell gutter' }) : '']
           );
         })]
       )]
@@ -12880,6 +12906,8 @@ var convertToRows = function convertToRows(originColumns) {
           column: column
         }));
       }
+
+      classes.push('el-table__cell');
 
       return classes.join(' ');
     },
@@ -13177,14 +13205,14 @@ var table_footer_extends = Object.assign || function (target) { for (var i = 1; 
               attrs: { colspan: column.colSpan,
                 rowspan: column.rowSpan
               },
-              'class': _this.getRowClasses(column, cellIndex) },
+              'class': [].concat(_this.getRowClasses(column, cellIndex), ['el-table__cell']) },
             [h(
               'div',
               { 'class': ['cell', column.labelClassName] },
               [sums[cellIndex]]
             )]
           );
-        }), this.hasGutter ? h('th', { 'class': 'gutter' }) : ''])]
+        }), this.hasGutter ? h('th', { 'class': 'el-table__cell gutter' }) : ''])]
       )]
     );
   },
@@ -33836,6 +33864,7 @@ var InputSizeMap = {
     handleDropdownLeave: function handleDropdownLeave() {
       this.filtering = false;
       this.inputValue = this.presentText;
+      this.doDestroy();
     },
     handleKeyDown: function handleKeyDown(event) {
       switch (event.keyCode) {
@@ -34103,11 +34132,12 @@ var InputSizeMap = {
       }
 
       if (tags) {
-        var offsetHeight = tags.offsetHeight;
-
+        var offsetHeight = Math.round(tags.getBoundingClientRect().height);
         var height = Math.max(offsetHeight + 6, inputInitialHeight) + 'px';
         inputInner.style.height = height;
-        this.updatePopper();
+        if (this.dropDownVisible) {
+          this.updatePopper();
+        }
       }
     },
 
@@ -41219,6 +41249,9 @@ mainvue_type_template_id_a4885264_render._withStripped = true
     if (this.visible) {
       this.rendered = true;
       this.open();
+      if (this.appendToBody) {
+        document.body.appendChild(this.$el);
+      }
     }
   },
   destroyed: function destroyed() {
@@ -42342,6 +42375,7 @@ var descriptions_row_extends = Object.assign || function (target) { for (var i =
             'th',
             {
               'class': (_ref = {
+                'el-descriptions-item__cell': true,
                 'el-descriptions-item__label': true,
                 'has-colon': elDescriptions.border ? false : elDescriptions.colon,
                 'is-bordered-label': elDescriptions.border
@@ -42357,15 +42391,14 @@ var descriptions_row_extends = Object.assign || function (target) { for (var i =
         'tr',
         { 'class': 'el-descriptions-row' },
         [row.map(function (item) {
-          var _h;
-
           return h(
             'td',
-            (_h = {
-              'class': 'el-descriptions-item__content'
-            }, _h['class'] = ['el-descriptions-item__content', item.contentClassName], _h.style = item.contentStyle, _h.attrs = {
-              colSpan: item.props.span
-            }, _h),
+            {
+              'class': ['el-descriptions-item__cell', 'el-descriptions-item__content', item.contentClassName],
+              style: item.contentStyle,
+              attrs: { colSpan: item.props.span
+              }
+            },
             [item.slots.default]
           );
         })]
@@ -42382,6 +42415,7 @@ var descriptions_row_extends = Object.assign || function (target) { for (var i =
             'th',
             {
               'class': (_ref2 = {
+                'el-descriptions-item__cell': true,
                 'el-descriptions-item__label': true,
                 'is-bordered-label': elDescriptions.border
               }, _ref2[item.labelClassName] = true, _ref2),
@@ -42393,7 +42427,7 @@ var descriptions_row_extends = Object.assign || function (target) { for (var i =
           ), h(
             'td',
             {
-              'class': ['el-descriptions-item__content', item.contentClassName],
+              'class': ['el-descriptions-item__cell', 'el-descriptions-item__content', item.contentClassName],
               style: item.contentStyle,
               attrs: { colSpan: item.props.span * 2 - 1
               }
@@ -42411,7 +42445,7 @@ var descriptions_row_extends = Object.assign || function (target) { for (var i =
 
         return h(
           'td',
-          { 'class': 'el-descriptions-item', attrs: { colSpan: item.props.span }
+          { 'class': 'el-descriptions-item el-descriptions-item__cell', attrs: { colSpan: item.props.span }
           },
           [h(
             'div',
@@ -42635,7 +42669,7 @@ var src_components;
         { 'class': 'el-descriptions__body' },
         [h(
           'table',
-          { 'class': [{ 'is-bordered': border }, descriptionsSize ? 'el-descriptions--' + descriptionsSize : ''] },
+          { 'class': ['el-descriptions__table', { 'is-bordered': border }, descriptionsSize ? 'el-descriptions--' + descriptionsSize : ''] },
           [rows.map(function (row) {
             return h(descriptions_row, {
               attrs: { row: row }
@@ -43213,7 +43247,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.15.5',
+  version: '2.15.6',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,

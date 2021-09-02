@@ -522,6 +522,9 @@ var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
     if (this.visible) {
       this.rendered = true;
       this.open();
+      if (this.appendToBody) {
+        document.body.appendChild(this.$el);
+      }
     }
   },
   destroyed: function destroyed() {

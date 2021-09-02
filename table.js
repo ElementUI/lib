@@ -2744,6 +2744,8 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
         }));
       }
 
+      classes.push('el-table__cell');
+
       return classes.join(' ');
     },
     getColspanRealWidth: function getColspanRealWidth(columns, colspan, index) {
@@ -2961,7 +2963,7 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
             'td',
             {
               attrs: { colspan: this.columnsCount },
-              'class': 'el-table__expanded-cell' },
+              'class': 'el-table__cell el-table__expanded-cell' },
             [renderExpanded(this.$createElement, { row: row, $index: $index, store: this.store })]
           )]
         )]];
@@ -3630,7 +3632,7 @@ var convertToRows = function convertToRows(originColumns) {
                   ) : '']
                 )]
               );
-            }), _this.hasGutter ? h('th', { 'class': 'gutter' }) : '']
+            }), _this.hasGutter ? h('th', { 'class': 'el-table__cell gutter' }) : '']
           );
         })]
       )]
@@ -3780,6 +3782,8 @@ var convertToRows = function convertToRows(originColumns) {
           column: column
         }));
       }
+
+      classes.push('el-table__cell');
 
       return classes.join(' ');
     },
@@ -4077,14 +4081,14 @@ var table_footer_extends = Object.assign || function (target) { for (var i = 1; 
               attrs: { colspan: column.colSpan,
                 rowspan: column.rowSpan
               },
-              'class': _this.getRowClasses(column, cellIndex) },
+              'class': [].concat(_this.getRowClasses(column, cellIndex), ['el-table__cell']) },
             [h(
               'div',
               { 'class': ['cell', column.labelClassName] },
               [sums[cellIndex]]
             )]
           );
-        }), this.hasGutter ? h('th', { 'class': 'gutter' }) : ''])]
+        }), this.hasGutter ? h('th', { 'class': 'el-table__cell gutter' }) : ''])]
       )]
     );
   },

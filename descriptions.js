@@ -126,6 +126,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             'th',
             {
               'class': (_ref = {
+                'el-descriptions-item__cell': true,
                 'el-descriptions-item__label': true,
                 'has-colon': elDescriptions.border ? false : elDescriptions.colon,
                 'is-bordered-label': elDescriptions.border
@@ -141,15 +142,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         'tr',
         { 'class': 'el-descriptions-row' },
         [row.map(function (item) {
-          var _h;
-
           return h(
             'td',
-            (_h = {
-              'class': 'el-descriptions-item__content'
-            }, _h['class'] = ['el-descriptions-item__content', item.contentClassName], _h.style = item.contentStyle, _h.attrs = {
-              colSpan: item.props.span
-            }, _h),
+            {
+              'class': ['el-descriptions-item__cell', 'el-descriptions-item__content', item.contentClassName],
+              style: item.contentStyle,
+              attrs: { colSpan: item.props.span
+              }
+            },
             [item.slots.default]
           );
         })]
@@ -166,6 +166,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             'th',
             {
               'class': (_ref2 = {
+                'el-descriptions-item__cell': true,
                 'el-descriptions-item__label': true,
                 'is-bordered-label': elDescriptions.border
               }, _ref2[item.labelClassName] = true, _ref2),
@@ -177,7 +178,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
           ), h(
             'td',
             {
-              'class': ['el-descriptions-item__content', item.contentClassName],
+              'class': ['el-descriptions-item__cell', 'el-descriptions-item__content', item.contentClassName],
               style: item.contentStyle,
               attrs: { colSpan: item.props.span * 2 - 1
               }
@@ -195,7 +196,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
         return h(
           'td',
-          { 'class': 'el-descriptions-item', attrs: { colSpan: item.props.span }
+          { 'class': 'el-descriptions-item el-descriptions-item__cell', attrs: { colSpan: item.props.span }
           },
           [h(
             'div',
@@ -422,7 +423,7 @@ var _components;
         { 'class': 'el-descriptions__body' },
         [h(
           'table',
-          { 'class': [{ 'is-bordered': border }, descriptionsSize ? 'el-descriptions--' + descriptionsSize : ''] },
+          { 'class': ['el-descriptions__table', { 'is-bordered': border }, descriptionsSize ? 'el-descriptions--' + descriptionsSize : ''] },
           [rows.map(function (row) {
             return h(descriptions_row, {
               attrs: { row: row }

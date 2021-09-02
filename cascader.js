@@ -1001,6 +1001,7 @@ var InputSizeMap = {
     handleDropdownLeave: function handleDropdownLeave() {
       this.filtering = false;
       this.inputValue = this.presentText;
+      this.doDestroy();
     },
     handleKeyDown: function handleKeyDown(event) {
       switch (event.keyCode) {
@@ -1268,11 +1269,12 @@ var InputSizeMap = {
       }
 
       if (tags) {
-        var offsetHeight = tags.offsetHeight;
-
+        var offsetHeight = Math.round(tags.getBoundingClientRect().height);
         var height = Math.max(offsetHeight + 6, inputInitialHeight) + 'px';
         inputInner.style.height = height;
-        this.updatePopper();
+        if (this.dropDownVisible) {
+          this.updatePopper();
+        }
       }
     },
 

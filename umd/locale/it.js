@@ -95,7 +95,7 @@
       },
       messagebox: {
         confirm: 'OK',
-        cancel: 'Cancella',
+        cancel: 'Annulla',
         error: 'Input non valido'
       },
       upload: {
