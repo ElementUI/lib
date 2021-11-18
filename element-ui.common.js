@@ -119,13 +119,13 @@ module.exports = require("element-ui/lib/mixins/locale");
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("element-ui/lib/utils/vue-popper");
+module.exports = require("vue");
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("vue");
+module.exports = require("element-ui/lib/utils/vue-popper");
 
 /***/ }),
 /* 7 */
@@ -367,6 +367,7 @@ module.exports = __webpack_require__(46);
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/pagination/src/pager.vue?vue&type=template&id=7274f267&
@@ -678,7 +679,12 @@ function normalizeComponent (
     options._ssrRegister = hook
   } else if (injectStyles) {
     hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      ? function () {
+        injectStyles.call(
+          this,
+          (options.functional ? this.parent : this).$root.$options.shadowRoot
+        )
+      }
       : injectStyles
   }
 
@@ -687,7 +693,7 @@ function normalizeComponent (
       // for template-only hot-reload because in that case the render fn doesn't
       // go through the normalizer
       options._injectStyles = hook
-      // register for functioal component in vue file
+      // register for functional component in vue file
       var originalRender = options.render
       options.render = function renderWithStyleInjection (h, context) {
         hook.call(context)
@@ -1768,7 +1774,7 @@ autocomplete_suggestionsvue_type_template_id_cd10dcf0_render._withStripped = tru
 // CONCATENATED MODULE: ./packages/autocomplete/src/autocomplete-suggestions.vue?vue&type=template&id=cd10dcf0&
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/vue-popper"
-var vue_popper_ = __webpack_require__(5);
+var vue_popper_ = __webpack_require__(6);
 var vue_popper_default = /*#__PURE__*/__webpack_require__.n(vue_popper_);
 
 // EXTERNAL MODULE: external "element-ui/lib/scrollbar"
@@ -4866,15 +4872,18 @@ var shared_ = __webpack_require__(19);
       this.focused = true;
       this.$emit('focus', event);
     },
-    handleCompositionStart: function handleCompositionStart() {
+    handleCompositionStart: function handleCompositionStart(event) {
+      this.$emit('compositionstart', event);
       this.isComposing = true;
     },
     handleCompositionUpdate: function handleCompositionUpdate(event) {
+      this.$emit('compositionupdate', event);
       var text = event.target.value;
       var lastCharacter = text[text.length - 1] || '';
       this.isComposing = !Object(shared_["isKorean"])(lastCharacter);
     },
     handleCompositionEnd: function handleCompositionEnd(event) {
+      this.$emit('compositionend', event);
       if (this.isComposing) {
         this.isComposing = false;
         this.handleInput(event);
@@ -7540,7 +7549,7 @@ var selectvue_type_template_id_0e4aade6_render = function() {
                             return null
                           }
                           $event.preventDefault()
-                          _vm.navigateOptions("next")
+                          _vm.handleNavigate("next")
                         },
                         function($event) {
                           if (
@@ -7553,7 +7562,7 @@ var selectvue_type_template_id_0e4aade6_render = function() {
                             return null
                           }
                           $event.preventDefault()
-                          _vm.navigateOptions("prev")
+                          _vm.handleNavigate("prev")
                         },
                         function($event) {
                           if (
@@ -7649,7 +7658,10 @@ var selectvue_type_template_id_0e4aade6_render = function() {
           on: {
             focus: _vm.handleFocus,
             blur: _vm.handleBlur,
-            input: _vm.debouncedOnInputChange
+            input: _vm.debouncedOnInputChange,
+            compositionstart: _vm.handleComposition,
+            compositionupdate: _vm.handleComposition,
+            compositionend: _vm.handleComposition
           },
           nativeOn: {
             keydown: [
@@ -7665,7 +7677,7 @@ var selectvue_type_template_id_0e4aade6_render = function() {
                 }
                 $event.stopPropagation()
                 $event.preventDefault()
-                _vm.navigateOptions("next")
+                _vm.handleNavigate("next")
               },
               function($event) {
                 if (
@@ -7679,7 +7691,7 @@ var selectvue_type_template_id_0e4aade6_render = function() {
                 }
                 $event.stopPropagation()
                 $event.preventDefault()
-                _vm.navigateOptions("prev")
+                _vm.handleNavigate("prev")
               },
               function($event) {
                 if (
@@ -8419,6 +8431,9 @@ var scroll_into_view_default = /*#__PURE__*/__webpack_require__.n(scroll_into_vi
 //
 //
 //
+//
+//
+//
 
 
 
@@ -8716,6 +8731,11 @@ var scroll_into_view_default = /*#__PURE__*/__webpack_require__.n(scroll_into_vi
   },
 
   methods: {
+    handleNavigate: function handleNavigate(direction) {
+      if (this.isOnComposition) return;
+
+      this.navigateOptions(direction);
+    },
     handleComposition: function handleComposition(event) {
       var _this5 = this;
 
@@ -8841,10 +8861,10 @@ var scroll_into_view_default = /*#__PURE__*/__webpack_require__.n(scroll_into_vi
     handleFocus: function handleFocus(event) {
       if (!this.softFocus) {
         if (this.automaticDropdown || this.filterable) {
-          this.visible = true;
-          if (this.filterable) {
+          if (this.filterable && !this.visible) {
             this.menuVisibleOnFocus = true;
           }
+          this.visible = true;
         }
         this.$emit('focus', event);
       } else {
@@ -9432,7 +9452,7 @@ buttonvue_type_template_id_ca859fb4_render._withStripped = true
       return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
     },
     buttonDisabled: function buttonDisabled() {
-      return this.disabled || (this.elForm || {}).disabled;
+      return this.$options.propsData.hasOwnProperty('disabled') ? this.disabled : (this.elForm || {}).disabled;
     }
   },
 
@@ -9767,7 +9787,9 @@ var tablevue_type_template_id_493fe34e_render = function() {
                 [
                   _c("table-body", {
                     style: {
-                      width: _vm.bodyWidth
+                      width: _vm.layout.fixedWidth
+                        ? _vm.layout.fixedWidth + "px"
+                        : ""
                     },
                     attrs: {
                       fixed: "left",
@@ -9889,7 +9911,9 @@ var tablevue_type_template_id_493fe34e_render = function() {
                 [
                   _c("table-body", {
                     style: {
-                      width: _vm.bodyWidth
+                      width: _vm.layout.rightFixedWidth
+                        ? _vm.layout.rightFixedWidth + "px"
+                        : ""
                     },
                     attrs: {
                       fixed: "right",
@@ -10006,7 +10030,7 @@ var mousewheel_mousewheel = function mousewheel(element, callback) {
   }
 });
 // EXTERNAL MODULE: external "vue"
-var external_vue_ = __webpack_require__(6);
+var external_vue_ = __webpack_require__(5);
 var external_vue_default = /*#__PURE__*/__webpack_require__.n(external_vue_);
 
 // CONCATENATED MODULE: ./packages/table/src/util.js
@@ -11201,6 +11225,7 @@ watcher.prototype.mutations = {
     }
 
     this.updateTableScrollY();
+    this.syncFixedTableRowHeight();
   },
   filterChange: function filterChange(states, options) {
     var column = options.column,
@@ -11216,6 +11241,7 @@ watcher.prototype.mutations = {
     }
 
     this.updateTableScrollY();
+    this.syncFixedTableRowHeight();
   },
   toggleAllSelection: function toggleAllSelection() {
     this.toggleAllSelection();
@@ -11247,6 +11273,14 @@ watcher.prototype.commit = function (name) {
 
 watcher.prototype.updateTableScrollY = function () {
   external_vue_default.a.nextTick(this.table.updateScrollY);
+};
+
+watcher.prototype.syncFixedTableRowHeight = function () {
+  var _this = this;
+
+  external_vue_default.a.nextTick(function () {
+    return _this.table.layout.syncFixedTableRowHeight();
+  });
 };
 
 /* harmony default export */ var src_store = (watcher);
@@ -11330,6 +11364,7 @@ var table_layout_TableLayout = function () {
     this.bodyHeight = null; // Table Height - Table Header Height
     this.fixedBodyHeight = null; // Table Height - Table Header Height - Scroll Bar Height
     this.gutterWidth = scrollbar_width_default()();
+    this.fixedColumnsBodyRowsHeight = {};
 
     for (var name in options) {
       if (options.hasOwnProperty(name)) {
@@ -11434,9 +11469,34 @@ var table_layout_TableLayout = function () {
 
     var noData = !(this.store.states.data && this.store.states.data.length);
     this.viewportHeight = this.scrollX ? tableHeight - (noData ? 0 : this.gutterWidth) : tableHeight;
-
+    setTimeout(function () {
+      _this2.syncFixedTableRowHeight();
+    });
     this.updateScrollY();
     this.notifyObservers('scrollable');
+  };
+
+  TableLayout.prototype.syncFixedTableRowHeight = function syncFixedTableRowHeight() {
+    var fixedColumns = this.store.states.fixedColumns;
+    var rightFixedColumns = this.store.states.rightFixedColumns;
+    if (fixedColumns.length + rightFixedColumns.length === 0) {
+      return;
+    }
+    var bodyWrapper = this.table.$refs.bodyWrapper;
+
+    var tableRect = bodyWrapper.getBoundingClientRect();
+
+    if (tableRect.height !== undefined && tableRect.height <= 0) {
+      return;
+    }
+    var bodyRows = bodyWrapper.querySelectorAll('.el-table__row') || [];
+
+    var fixedColumnsBodyRowsHeight = [].reduce.call(bodyRows, function (acc, row, index) {
+      var height = row.getBoundingClientRect().height || 'auto';
+      acc[index] = height;
+      return acc;
+    }, {});
+    this.fixedColumnsBodyRowsHeight = fixedColumnsBodyRowsHeight;
   };
 
   TableLayout.prototype.headerDisplayNone = function headerDisplayNone(elm) {
@@ -11648,10 +11708,94 @@ var table_layout_TableLayout = function () {
     }
   }
 });
+// CONCATENATED MODULE: ./packages/table/src/table-row.js
+var table_row_extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+/* harmony default export */ var table_row = ({
+  name: 'ElTableRow',
+  props: ['columns', 'row', 'index', 'isSelected', 'isExpanded', 'store', 'context', 'firstDefaultColumnIndex', 'treeRowData', 'treeIndent', 'columnsHidden', 'getSpan', 'getColspanRealWidth', 'getCellStyle', 'getCellClass', 'handleCellMouseLeave', 'handleCellMouseEnter', 'fixed'],
+  render: function render() {
+    var _this = this;
+
+    var h = arguments[0];
+    var columns = this.columns,
+        row = this.row,
+        $index = this.index,
+        store = this.store,
+        context = this.context,
+        firstDefaultColumnIndex = this.firstDefaultColumnIndex,
+        treeRowData = this.treeRowData,
+        treeIndent = this.treeIndent,
+        _columnsHidden = this.columnsHidden,
+        columnsHidden = _columnsHidden === undefined ? [] : _columnsHidden,
+        isSelected = this.isSelected,
+        isExpanded = this.isExpanded;
+
+
+    return h('tr', [columns.map(function (column, cellIndex) {
+      if (columnsHidden[cellIndex] && _this.fixed) {
+        return null;
+      }
+
+      var _getSpan = _this.getSpan(row, column, $index, cellIndex),
+          rowspan = _getSpan.rowspan,
+          colspan = _getSpan.colspan;
+
+      if (!rowspan || !colspan) {
+        return null;
+      }
+      var columnData = table_row_extends({}, column);
+      columnData.realWidth = _this.getColspanRealWidth(columns, colspan, cellIndex);
+      var data = {
+        store: store,
+        isSelected: isSelected,
+        isExpanded: isExpanded,
+        _self: context,
+        column: columnData,
+        row: row,
+        $index: $index
+      };
+      if (cellIndex === firstDefaultColumnIndex && treeRowData) {
+        data.treeNode = {
+          indent: treeRowData.level * treeIndent,
+          level: treeRowData.level
+        };
+        if (typeof treeRowData.expanded === 'boolean') {
+          data.treeNode.expanded = treeRowData.expanded;
+          // 表明是懒加载
+          if ('loading' in treeRowData) {
+            data.treeNode.loading = treeRowData.loading;
+          }
+          if ('noLazyChildren' in treeRowData) {
+            data.treeNode.noLazyChildren = treeRowData.noLazyChildren;
+          }
+        }
+      }
+      return h(
+        'td',
+        {
+          style: _this.getCellStyle($index, cellIndex, row, column),
+          'class': _this.getCellClass($index, cellIndex, row, column),
+          attrs: { rowspan: rowspan,
+            colspan: colspan
+          },
+          on: {
+            'mouseenter': function mouseenter($event) {
+              return _this.handleCellMouseEnter($event, row);
+            },
+            'mouseleave': _this.handleCellMouseLeave
+          }
+        },
+        [column.renderCell.call(_this._renderProxy, _this.$createElement, data, columnsHidden[cellIndex])]
+      );
+    })]);
+  }
+});
 // CONCATENATED MODULE: ./packages/table/src/table-body.js
 var table_body_typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var table_body_extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 
 
 
@@ -11669,7 +11813,8 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
 
   components: {
     ElCheckbox: checkbox_default.a,
-    ElTooltip: tooltip_default.a
+    ElTooltip: tooltip_default.a,
+    TableRow: table_row
   },
 
   props: {
@@ -11696,12 +11841,21 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
           cellpadding: '0',
           border: '0' }
       },
-      [h('colgroup', [this.columns.map(function (column) {
+      [h('colgroup', [this.columns.filter(function (column, index) {
+        return !(_this.columnsHidden[index] && _this.fixed);
+      }).map(function (column) {
         return h('col', {
           attrs: { name: column.id },
           key: column.id });
       })]), h('tbody', [data.reduce(function (acc, row) {
-        return acc.concat(_this.wrappedRowRender(row, acc.length));
+        var isSelected = _this.store.isSelected(row);
+        var isExpanded = _this.store.states.expandRows.indexOf(row) > -1;
+        return acc.concat(_this.wrappedRowRender({
+          row: row,
+          $index: acc.length,
+          isSelected: isSelected,
+          isExpanded: isExpanded
+        }));
       }, []), h('el-tooltip', {
         attrs: { effect: this.table.tooltipEffect, placement: 'top', content: this.tooltipContent },
         ref: 'tooltip' })])]
@@ -11735,6 +11889,13 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
       });
     }
   }), {
+    columnsHidden: function columnsHidden() {
+      var _this2 = this;
+
+      return this.columns.map(function (column, index) {
+        return _this2.isColumnHidden(index);
+      });
+    },
     firstDefaultColumnIndex: function firstDefaultColumnIndex() {
       return Object(util_["arrayFindIndex"])(this.columns, function (_ref2) {
         var type = _ref2.type;
@@ -11747,7 +11908,7 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
     // don't trigger getter of currentRow in getCellClass. see https://jsfiddle.net/oe2b4hqt/
     // update DOM manually. see https://github.com/ElemeFE/element/pull/13954/files#diff-9b450c00d0a9dec0ffad5a3176972e40
     'store.states.hoverRow': function storeStatesHoverRow(newVal, oldVal) {
-      var _this2 = this;
+      var _this3 = this;
 
       if (!this.store.states.isComplex || this.$isServer) return;
       var raf = window.requestAnimationFrame;
@@ -11757,7 +11918,7 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
         };
       }
       raf(function () {
-        var rows = _this2.$el.querySelectorAll('.el-table__row');
+        var rows = _this3.$el.querySelectorAll('.el-table__row');
         var oldRow = rows[oldVal];
         var newRow = rows[newVal];
         if (oldRow) {
@@ -11979,17 +12140,29 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
       }
       table.$emit('row-' + name, row, column, event);
     },
-    rowRender: function rowRender(row, $index, treeRowData) {
-      var _this3 = this;
+    getRowHeight: function getRowHeight(rowKey) {
+      var fixed = this.fixed;
 
+      if (!fixed) {
+        return null;
+      }
+      var height = (this.tableLayout.fixedColumnsBodyRowsHeight || {})[rowKey];
+      return typeof height === 'number' ? height + 'px' : height;
+    },
+    rowRender: function rowRender(_ref4) {
+      var _this4 = this;
+
+      var row = _ref4.row,
+          $index = _ref4.$index,
+          treeRowData = _ref4.treeRowData,
+          isSelected = _ref4.isSelected,
+          isExpanded = _ref4.isExpanded;
       var h = this.$createElement;
       var treeIndent = this.treeIndent,
           columns = this.columns,
           firstDefaultColumnIndex = this.firstDefaultColumnIndex;
 
-      var columnsHidden = columns.map(function (column, index) {
-        return _this3.isColumnHidden(index);
-      });
+
       var rowClasses = this.getRowClass(row, $index);
       var display = true;
       if (treeRowData) {
@@ -12001,84 +12174,59 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
       var displayStyle = display ? null : {
         display: 'none'
       };
-      return h(
-        'tr',
-        {
-          style: [displayStyle, this.getRowStyle(row, $index)],
-          'class': rowClasses,
-          key: this.getKeyOfRow(row, $index),
-          on: {
-            'dblclick': function dblclick($event) {
-              return _this3.handleDoubleClick($event, row);
-            },
-            'click': function click($event) {
-              return _this3.handleClick($event, row);
-            },
-            'contextmenu': function contextmenu($event) {
-              return _this3.handleContextMenu($event, row);
-            },
-            'mouseenter': function mouseenter(_) {
-              return _this3.handleMouseEnter($index);
-            },
-            'mouseleave': this.handleMouseLeave
-          }
+      var height = this.getRowHeight($index);
+      var heightStyle = height ? {
+        height: height
+      } : null;
+
+      return h(table_row, {
+        style: [displayStyle, this.getRowStyle(row, $index), heightStyle],
+        'class': rowClasses,
+        key: this.getKeyOfRow(row, $index),
+        nativeOn: {
+          'dblclick': function dblclick($event) {
+            return _this4.handleDoubleClick($event, row);
+          },
+          'click': function click($event) {
+            return _this4.handleClick($event, row);
+          },
+          'contextmenu': function contextmenu($event) {
+            return _this4.handleContextMenu($event, row);
+          },
+          'mouseenter': function mouseenter(_) {
+            return _this4.handleMouseEnter($index);
+          },
+          'mouseleave': this.handleMouseLeave
         },
-        [columns.map(function (column, cellIndex) {
-          var _getSpan = _this3.getSpan(row, column, $index, cellIndex),
-              rowspan = _getSpan.rowspan,
-              colspan = _getSpan.colspan;
-
-          if (!rowspan || !colspan) {
-            return null;
-          }
-          var columnData = table_body_extends({}, column);
-          columnData.realWidth = _this3.getColspanRealWidth(columns, colspan, cellIndex);
-          var data = {
-            store: _this3.store,
-            _self: _this3.context || _this3.table.$vnode.context,
-            column: columnData,
-            row: row,
-            $index: $index
-          };
-          if (cellIndex === firstDefaultColumnIndex && treeRowData) {
-            data.treeNode = {
-              indent: treeRowData.level * treeIndent,
-              level: treeRowData.level
-            };
-            if (typeof treeRowData.expanded === 'boolean') {
-              data.treeNode.expanded = treeRowData.expanded;
-              // 表明是懒加载
-              if ('loading' in treeRowData) {
-                data.treeNode.loading = treeRowData.loading;
-              }
-              if ('noLazyChildren' in treeRowData) {
-                data.treeNode.noLazyChildren = treeRowData.noLazyChildren;
-              }
-            }
-          }
-          return h(
-            'td',
-            {
-              style: _this3.getCellStyle($index, cellIndex, row, column),
-              'class': _this3.getCellClass($index, cellIndex, row, column),
-              attrs: { rowspan: rowspan,
-                colspan: colspan
-              },
-              on: {
-                'mouseenter': function mouseenter($event) {
-                  return _this3.handleCellMouseEnter($event, row);
-                },
-                'mouseleave': _this3.handleCellMouseLeave
-              }
-            },
-            [column.renderCell.call(_this3._renderProxy, _this3.$createElement, data, columnsHidden[cellIndex])]
-          );
-        })]
-      );
+        attrs: {
+          columns: columns,
+          row: row,
+          index: $index,
+          store: this.store,
+          context: this.context || this.table.$vnode.context,
+          firstDefaultColumnIndex: firstDefaultColumnIndex,
+          treeRowData: treeRowData,
+          treeIndent: treeIndent,
+          columnsHidden: this.columnsHidden,
+          getSpan: this.getSpan,
+          getColspanRealWidth: this.getColspanRealWidth,
+          getCellStyle: this.getCellStyle,
+          getCellClass: this.getCellClass,
+          handleCellMouseEnter: this.handleCellMouseEnter,
+          handleCellMouseLeave: this.handleCellMouseLeave,
+          isSelected: isSelected,
+          isExpanded: isExpanded,
+          fixed: this.fixed
+        }
+      });
     },
-    wrappedRowRender: function wrappedRowRender(row, $index) {
-      var _this4 = this;
+    wrappedRowRender: function wrappedRowRender(_ref5) {
+      var _this5 = this;
 
+      var row = _ref5.row,
+          $index = _ref5.$index,
+          isSelected = _ref5.isSelected,
+          isExpanded = _ref5.isExpanded;
       var h = this.$createElement;
 
       var store = this.store;
@@ -12092,7 +12240,7 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
 
       if (this.hasExpandColumn && isRowExpanded(row)) {
         var renderExpanded = this.table.renderExpanded;
-        var tr = this.rowRender(row, $index);
+        var tr = this.rowRender({ row: row, $index: $index, isSelected: isSelected, isExpanded: isExpanded });
         if (!renderExpanded) {
           console.error('[Element Error]renderExpanded is required.');
           return tr;
@@ -12129,7 +12277,7 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
             treeRowData.loading = cur.loading;
           }
         }
-        var tmp = [this.rowRender(row, $index, treeRowData)];
+        var tmp = [this.rowRender({ row: row, $index: $index, treeRowData: treeRowData, isSelected: isSelected, isExpanded: isExpanded })];
         // 渲染嵌套数据
         if (cur) {
           // currentRow 记录的是 index，所以还需主动增加 TreeTable 的 index
@@ -12163,7 +12311,7 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
                 }
               }
               i++;
-              tmp.push(_this4.rowRender(node, $index + i, innerTreeRowData));
+              tmp.push(_this5.rowRender({ row: node, $index: $index + i, treeRowData: innerTreeRowData, isSelected: isSelected, isExpanded: isExpanded }));
               if (cur) {
                 var _nodes = lazyTreeNodeMap[childKey] || node[childrenColumnName];
                 traverse(_nodes, cur);
@@ -12177,7 +12325,7 @@ var table_body_extends = Object.assign || function (target) { for (var i = 1; i 
         }
         return tmp;
       } else {
-        return this.rowRender(row, $index);
+        return this.rowRender({ row: row, $index: $index, isSelected: isSelected, isExpanded: isExpanded });
       }
     }
   }
@@ -12911,8 +13059,7 @@ var convertToRows = function convertToRows(originColumns) {
 
       return classes.join(' ');
     },
-    toggleAllSelection: function toggleAllSelection(event) {
-      event.stopPropagation();
+    toggleAllSelection: function toggleAllSelection() {
       this.store.commit('toggleAllSelection');
     },
     handleFilterClick: function handleFilterClick(event, column) {
@@ -14067,14 +14214,15 @@ var cellForced = {
           indeterminate: store.states.selection.length > 0 && !this.isAllSelected,
 
           value: this.isAllSelected },
-        nativeOn: {
-          'click': this.toggleAllSelection
+        on: {
+          'input': this.toggleAllSelection
         }
       });
     },
     renderCell: function renderCell(h, _ref2) {
       var row = _ref2.row,
           column = _ref2.column,
+          isSelected = _ref2.isSelected,
           store = _ref2.store,
           $index = _ref2.$index;
 
@@ -14085,7 +14233,7 @@ var cellForced = {
           }
         },
         attrs: {
-          value: store.isSelected(row),
+          value: isSelected,
           disabled: column.selectable ? !column.selectable.call(null, row, $index) : false
         },
         on: {
@@ -14129,10 +14277,11 @@ var cellForced = {
     },
     renderCell: function renderCell(h, _ref6) {
       var row = _ref6.row,
-          store = _ref6.store;
+          store = _ref6.store,
+          isExpanded = _ref6.isExpanded;
 
       var classes = ['el-table__expand-icon'];
-      if (store.states.expandRows.indexOf(row) > -1) {
+      if (isExpanded) {
         classes.push('el-table__expand-icon--expanded');
       }
       var callback = function callback(e) {
@@ -23010,8 +23159,8 @@ formvue_type_template_id_a1b5ff34_render._withStripped = true
       // if no callback, return promise
       if (typeof callback !== 'function' && window.Promise) {
         promise = new window.Promise(function (resolve, reject) {
-          callback = function callback(valid) {
-            valid ? resolve(valid) : reject(valid);
+          callback = function callback(valid, invalidFields) {
+            valid ? resolve(valid) : reject(invalidFields);
           };
         });
       }
@@ -30671,7 +30820,7 @@ var mainvue_type_template_id_7ccb6598_render = function() {
           ],
           staticClass: "el-badge__content",
           class: [
-            "el-badge__content--" + _vm.type,
+            _vm.type ? "el-badge__content--" + _vm.type : null,
             {
               "is-fixed": _vm.$slots.default,
               "is-dot": _vm.isDot
@@ -42459,7 +42608,7 @@ var descriptions_row_extends = Object.assign || function (target) { for (var i =
                 }, _ref3[item.labelClassName] = true, _ref3),
                 style: item.labelStyle
               },
-              [item.props.label]
+              [item.label]
             ), h(
               'span',
               {
@@ -43247,7 +43396,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 /* harmony default export */ var src_0 = __webpack_exports__["default"] = ({
-  version: '2.15.6',
+  version: '2.15.7',
   locale: lib_locale_default.a.use,
   i18n: lib_locale_default.a.i18n,
   install: src_install,

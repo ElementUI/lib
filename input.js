@@ -156,7 +156,12 @@ function normalizeComponent (
     options._ssrRegister = hook
   } else if (injectStyles) {
     hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      ? function () {
+        injectStyles.call(
+          this,
+          (options.functional ? this.parent : this).$root.$options.shadowRoot
+        )
+      }
       : injectStyles
   }
 
@@ -165,7 +170,7 @@ function normalizeComponent (
       // for template-only hot-reload because in that case the render fn doesn't
       // go through the normalizer
       options._injectStyles = hook
-      // register for functioal component in vue file
+      // register for functional component in vue file
       var originalRender = options.render
       options.render = function renderWithStyleInjection (h, context) {
         hook.call(context)
@@ -214,6 +219,7 @@ module.exports = require("element-ui/lib/mixins/emitter");
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/input/src/input.vue?vue&type=template&id=343dd774&
@@ -852,15 +858,18 @@ var shared_ = __webpack_require__(21);
       this.focused = true;
       this.$emit('focus', event);
     },
-    handleCompositionStart: function handleCompositionStart() {
+    handleCompositionStart: function handleCompositionStart(event) {
+      this.$emit('compositionstart', event);
       this.isComposing = true;
     },
     handleCompositionUpdate: function handleCompositionUpdate(event) {
+      this.$emit('compositionupdate', event);
       var text = event.target.value;
       var lastCharacter = text[text.length - 1] || '';
       this.isComposing = !Object(shared_["isKorean"])(lastCharacter);
     },
     handleCompositionEnd: function handleCompositionEnd(event) {
+      this.$emit('compositionend', event);
       if (this.isComposing) {
         this.isComposing = false;
         this.handleInput(event);

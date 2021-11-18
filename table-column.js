@@ -91,6 +91,7 @@ module.exports =
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/util"
@@ -136,14 +137,15 @@ var cellForced = {
           indeterminate: store.states.selection.length > 0 && !this.isAllSelected,
 
           value: this.isAllSelected },
-        nativeOn: {
-          'click': this.toggleAllSelection
+        on: {
+          'input': this.toggleAllSelection
         }
       });
     },
     renderCell: function renderCell(h, _ref2) {
       var row = _ref2.row,
           column = _ref2.column,
+          isSelected = _ref2.isSelected,
           store = _ref2.store,
           $index = _ref2.$index;
 
@@ -154,7 +156,7 @@ var cellForced = {
           }
         },
         attrs: {
-          value: store.isSelected(row),
+          value: isSelected,
           disabled: column.selectable ? !column.selectable.call(null, row, $index) : false
         },
         on: {
@@ -198,10 +200,11 @@ var cellForced = {
     },
     renderCell: function renderCell(h, _ref6) {
       var row = _ref6.row,
-          store = _ref6.store;
+          store = _ref6.store,
+          isExpanded = _ref6.isExpanded;
 
       var classes = ['el-table__expand-icon'];
-      if (store.states.expandRows.indexOf(row) > -1) {
+      if (isExpanded) {
         classes.push('el-table__expand-icon--expanded');
       }
       var callback = function callback(e) {

@@ -91,6 +91,7 @@ module.exports =
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./packages/descriptions/src/descriptions-row.js
@@ -210,7 +211,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 }, _ref3[item.labelClassName] = true, _ref3),
                 style: item.labelStyle
               },
-              [item.props.label]
+              [item.label]
             ), h(
               'span',
               {

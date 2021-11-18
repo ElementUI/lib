@@ -156,7 +156,12 @@ function normalizeComponent (
     options._ssrRegister = hook
   } else if (injectStyles) {
     hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      ? function () {
+        injectStyles.call(
+          this,
+          (options.functional ? this.parent : this).$root.$options.shadowRoot
+        )
+      }
       : injectStyles
   }
 
@@ -165,7 +170,7 @@ function normalizeComponent (
       // for template-only hot-reload because in that case the render fn doesn't
       // go through the normalizer
       options._injectStyles = hook
-      // register for functioal component in vue file
+      // register for functional component in vue file
       var originalRender = options.render
       options.render = function renderWithStyleInjection (h, context) {
         hook.call(context)
@@ -535,6 +540,7 @@ module.exports = require("element-ui/lib/mixins/locale");
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./packages/select/src/select.vue?vue&type=template&id=0e4aade6&
@@ -697,7 +703,7 @@ var render = function() {
                             return null
                           }
                           $event.preventDefault()
-                          _vm.navigateOptions("next")
+                          _vm.handleNavigate("next")
                         },
                         function($event) {
                           if (
@@ -710,7 +716,7 @@ var render = function() {
                             return null
                           }
                           $event.preventDefault()
-                          _vm.navigateOptions("prev")
+                          _vm.handleNavigate("prev")
                         },
                         function($event) {
                           if (
@@ -806,7 +812,10 @@ var render = function() {
           on: {
             focus: _vm.handleFocus,
             blur: _vm.handleBlur,
-            input: _vm.debouncedOnInputChange
+            input: _vm.debouncedOnInputChange,
+            compositionstart: _vm.handleComposition,
+            compositionupdate: _vm.handleComposition,
+            compositionend: _vm.handleComposition
           },
           nativeOn: {
             keydown: [
@@ -822,7 +831,7 @@ var render = function() {
                 }
                 $event.stopPropagation()
                 $event.preventDefault()
-                _vm.navigateOptions("next")
+                _vm.handleNavigate("next")
               },
               function($event) {
                 if (
@@ -836,7 +845,7 @@ var render = function() {
                 }
                 $event.stopPropagation()
                 $event.preventDefault()
-                _vm.navigateOptions("prev")
+                _vm.handleNavigate("prev")
               },
               function($event) {
                 if (
@@ -1387,6 +1396,9 @@ var shared_ = __webpack_require__(21);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -1684,6 +1696,11 @@ var shared_ = __webpack_require__(21);
   },
 
   methods: {
+    handleNavigate: function handleNavigate(direction) {
+      if (this.isOnComposition) return;
+
+      this.navigateOptions(direction);
+    },
     handleComposition: function handleComposition(event) {
       var _this5 = this;
 
@@ -1809,10 +1826,10 @@ var shared_ = __webpack_require__(21);
     handleFocus: function handleFocus(event) {
       if (!this.softFocus) {
         if (this.automaticDropdown || this.filterable) {
-          this.visible = true;
-          if (this.filterable) {
+          if (this.filterable && !this.visible) {
             this.menuVisibleOnFocus = true;
           }
+          this.visible = true;
         }
         this.$emit('focus', event);
       } else {
